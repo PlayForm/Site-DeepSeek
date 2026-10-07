@@ -172,6 +172,8 @@
 	--space-md: 0.75rem;
 	--space-lg: 1rem;
 	--space-xl: 1.5rem;
+	--space-2xl: 2rem;
+	--space-3xl: 3rem;
 
 	/* ---- Layout ---- */
 	--header-height: 56px;
@@ -364,6 +366,17 @@ svg {
 
 .section {
 	margin-bottom: var(--space-xl);
+}
+
+/* ---- Hero-to-content rhythm ----
+	The page hero and the first section below it are two clearly separate
+	spaces: the old pull-up hack (the negative top margin) is gone, and the
+	first section carries the generous 2xl top margin. Adjacent-sibling
+	margins collapse, so the rendered gap is the 2xl token on every page
+	with the hero + section pattern. */
+.page-hero + .section,
+.hero + .section {
+	margin-top: var(--space-2xl);
 }
 
 /* ---- Eyebrow badges & the @-sentence / flavor chips ----
@@ -1503,10 +1516,15 @@ svg {
 	font-size: var(--text-label-sm);
 }
 
-/* ---- Tables (registry / mapping) ---- */
+/* ---- Table environment (registry / mapping) ----
+	Every table lives in its own clearly delineated space: the tray keeps
+	the 1px hairline, and the wrap carries equal top + bottom margins
+	(margin-block, equal by construction), so the space between the table
+	and the surrounding text blocks is part of one symmetric environment. */
 .table-wrap {
 	width: 100%;
 	overflow-x: auto;
+	margin-block: var(--space-xl);
 	border-radius: var(--radius-lg);
 	border: 1px solid var(--color-outline-variant);
 	background: var(--color-surface-container-lowest);
@@ -2150,17 +2168,17 @@ svg {
 /* ---- Concept blocks: the diagram-first restructure units ----
 	Each section that explains dense prose carries a .concept-list of
 	Concept blocks (one independently explainable concept per block). The
-	list separates blocks with the XL gap; .concept-values is the shared
+	list separates blocks with the 2XL gap; .concept-values is the shared
 	marker-list inside a block body. */
 .concept-list {
 	display: grid;
-	gap: var(--space-xl, 3rem);
-	margin-top: var(--space-md);
+	gap: var(--space-2xl);
+	margin-top: var(--space-lg);
 }
 
 .concept-values {
 	display: grid;
-	gap: var(--space-sm);
+	gap: var(--space-md);
 	margin: 0;
 	padding-left: 1.25rem;
 }
@@ -2320,8 +2338,8 @@ button:focus-visible,
 /* ---- The flavor label stack: the label chip + the version badge
 	underneath - the user's two-part FLAVOR structure. The stack is a
 	semantic flex column with a CSS gap (never a <br>); the version
-	badge rides the label's right edge in the black ink color, both
-	lines mono, the 13px floor held. */
+	badge is a solid chip in the black ink token with white text
+	(#FFFFFF on #0B0F19 is AAA contrast), mono, the 13px floor held. */
 .flavor-stack {
 	display: flex;
 	flex-direction: column;
@@ -2335,7 +2353,12 @@ button:focus-visible,
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
-	color: var(--color-ink);
+	display: inline-flex;
+	align-items: center;
+	padding: 2px var(--space-xs);
+	border-radius: var(--radius-default);
+	background: var(--color-ink);
+	color: var(--color-on-primary);
 }
 
 /* ---- The orange top rail: the raw/stream signature ----
