@@ -1,8 +1,11 @@
 ---
 // Eyebrow / meta badge: a mono label chip in the blue+white palette.
 // Variant "primary" carries the blue status dot on the lead badge.
+// Variant "classic" is the @-sentence tag's Classic edition (ink border
+// on the #F8FAFC tray); "effect" is the Effect-TS edition (Harness Blue
+// border on the #F0F4FF tint); "flavor" is the NORM:* metadata chip.
 interface Props {
-	Variant?: "primary" | "muted" | "outline" | "active";
+	Variant?: "primary" | "muted" | "outline" | "active" | "classic" | "effect" | "flavor";
 	Dot?: boolean;
 }
 

@@ -29,7 +29,12 @@ const { Command = "pnpm add @playform/hook-dsh-core", Label = "CLI INSTALL" } = 
 		<code>
 			<span class="prompt">$</span> {Command}
 		</code>
-		<button aria-label="Copy install command" class="terminal__copy" type="button">
+		<button
+			aria-label="Copy install command"
+			class="terminal__copy"
+			type="button"
+			data-copy={Command}
+		>
 			<svg
 				viewBox="0 0 24 24"
 				fill="none"
@@ -45,35 +50,17 @@ const { Command = "pnpm add @playform/hook-dsh-core", Label = "CLI INSTALL" } = 
 </div>
 
 <script>
-	// Copy button: write the box's data-command to the clipboard and flash the
-	// transient mono "COPIED" status.
+	// Copy button: flash the transient mono "COPIED" status. The clipboard
+	// write itself is the global [data-copy] handler in Base.astro (which
+	// also drives the toast and the is-copied button state).
 	document.querySelectorAll<HTMLElement>(".terminal").forEach((Terminal) => {
 		const Button = Terminal.querySelector(".terminal__copy");
 		const Status = Terminal.querySelector(".terminal__status");
-		const Command = Terminal.dataset["command"] ?? "";
 		if (!Button || !Status) return;
 
 		Button.addEventListener("click", () => {
-			const Done = () => {
-				Status.classList.add("is-visible");
-				setTimeout(() => Status.classList.remove("is-visible"), 1500);
-			};
-
-			if (navigator.clipboard?.writeText) {
-				navigator.clipboard.writeText(Command).then(Done);
-			} else {
-				const Textarea = document.createElement("textarea");
-				Textarea.value = Command;
-				Textarea.style.position = "fixed";
-				Textarea.style.opacity = "0";
-				document.body.appendChild(Textarea);
-				Textarea.select();
-				try {
-					document.execCommand("copy");
-					Done();
-				} catch {}
-				Textarea.remove();
-			}
+			Status.classList.add("is-visible");
+			setTimeout(() => Status.classList.remove("is-visible"), 1500);
 		});
 	});
 </script>

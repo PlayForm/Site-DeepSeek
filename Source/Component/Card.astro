@@ -1,6 +1,8 @@
 ---
 // Card: the product/version card on a hairline-bordered plane.
 // Variant "white" is the white surface; "primary" is the solid blue card.
+// Tags feeds the registry filter (data-tags); Copy arms the install row's
+// copy trigger (data-copy), handled by the global Base.astro runtime.
 interface Props {
 	Variant?: "default" | "white" | "primary";
 	Name?: string;
@@ -9,6 +11,8 @@ interface Props {
 	Desc?: string;
 	Muted?: boolean;
 	Install?: string;
+	Tags?: string;
+	Copy?: string;
 	// Optional plugin page the card's name links to (e.g. "/plugins/hook-dsh-core/").
 	Href?: string;
 }
@@ -21,13 +25,15 @@ const {
 	Desc,
 	Muted = false,
 	Install,
+	Tags,
+	Copy,
 	Href,
 } = Astro.props;
 
 const CardClass = `card${Variant === "default" ? "" : ` card--${Variant}`}`;
 ---
 
-<article class={CardClass}>
+<article class={CardClass} data-package={Name} data-tags={Tags}>
 	{Name ? (
 		<div class="card__top">
 			{Href ? (
@@ -51,7 +57,14 @@ const CardClass = `card${Variant === "default" ? "" : ` card--${Variant}`}`;
 
 	{Install && (
 		<div class="card__install">
-			<span class="prompt">$</span> {Install}
+			<span class="card__install-cmd">
+				<span class="prompt">$</span> {Install}
+			</span>
+			{Copy && (
+				<button class="copy-trigger" type="button" data-copy={Copy} aria-label={`Copy ${Install}`}>
+					<span data-copy-label>COPY</span>
+				</button>
+			)}
 		</div>
 	)}
 
