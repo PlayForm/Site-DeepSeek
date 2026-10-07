@@ -27,15 +27,15 @@ const { Id, Title, Diagram } = Astro.props;
 <style>
 	.concept {
 		display: grid;
-		gap: var(--space-sm);
+		gap: var(--space-md);
 		min-width: 0;
 	}
 
 	.concept__diagram {
 		display: grid;
-		gap: var(--space-sm);
-		padding: var(--space-md);
-		margin-bottom: var(--space-sm);
+		gap: var(--space-md);
+		padding: var(--space-lg);
+		margin-bottom: var(--space-md);
 		border: 1px dashed currentColor;
 		border-radius: var(--radius-md, 0.75rem);
 	}
@@ -52,7 +52,7 @@ const { Id, Title, Diagram } = Astro.props;
 
 	.concept__body {
 		display: grid;
-		gap: var(--space-sm);
+		gap: var(--space-md);
 	}
 
 	.concept__body :global(p) {
