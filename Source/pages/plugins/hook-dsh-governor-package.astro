@@ -9,6 +9,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
+import { Counts, Versions, Families } from "@Library/Content";
 
 // The pipeline G = U ∘ P diagram, from the package README.
 const Pipeline = [
@@ -182,7 +183,7 @@ const Related = [
 
 <Base
 	Title="hook-dsh-governor-package - @playform / DSH Family"
-	Description="Hook @ DSH @ Governor @ Package - the silent package.json governor of the DeepSeek Harness: hooks fs/observed, canonicalizes chain-governed dependency pins, and runs the update stage as a detached, contained continuation."
+	Description={`${Families.GovernorPackage} - the silent package.json governor of the DeepSeek Harness: hooks fs/observed, canonicalizes chain-governed dependency pins, and runs the update stage as a detached, contained continuation.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -200,7 +201,7 @@ const Related = [
 				hook-dsh-governor-package
 			</h1>
 			<p class="page-hero__sub">
-				Hook @ DSH @ Governor @ Package • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
+				{Families.GovernorPackage} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
 				The <strong>silent package.json governor</strong> of the DeepSeek Harness - a plugin
 				on the <code>fs/observed</code> event (the cordis event every harness file write
 				dispatches; the tool layer is the only dispatcher) that governs every
@@ -221,7 +222,7 @@ const Related = [
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-governor-package</span>
 					<span class="workbench-controls__label">Release:</span>
-					<Badge Variant="outline">v0.0.1</Badge>
+					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Archetype:</span>
@@ -244,11 +245,11 @@ const Related = [
 				<Concept
 					Id="govpkg-family-position"
 					Title="The family position"
-					Diagram="Hook @ DSH @ Governor @ Package as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - no hook children of its own - one of three governance hooks sharing the fs/observed seam, each gating on its own basename and writing its own ledger."
+					Diagram={`${Families.GovernorPackage} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - no hook children of its own - one of three governance hooks sharing the fs/observed seam, each gating on its own basename and writing its own ledger.`}
 				>
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>Hook @ DSH @ Governor @ Package</strong>): a hook child of the{" "}
+						<strong>{Families.GovernorPackage}</strong>): a hook child of the{" "}
 						<strong>plugin-dsh-factory</strong> service and the{" "}
 						<strong>hook-dsh-core</strong> helpers; it has no hook children of its own.
 					</p>
@@ -647,7 +648,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<SectionHeader Title="Related plugins" Meta={`${Counts.Packages} TOTAL`} />
 			<div class="grid grid--3">
 				{Related.map((Plugin) => (
 					<Card

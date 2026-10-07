@@ -8,6 +8,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
+import { Counts, Versions, Families } from "@Library/Content";
 
 // The pipeline P = Rewrite ∘ Pin ∘ Resolve ∘ Decode diagram, from the package README.
 const Pipeline = [
@@ -108,7 +109,7 @@ const Related = [
 
 <Base
 	Title="hook-dsh-pinner-package - @playform / DSH Family"
-	Description="Hook @ DSH @ Pinner @ Package - the silent version pinner of the DeepSeek Harness: hooks fs/observed and pins every dependency version in a written package.json to its static version."
+	Description={`${Families.PinnerPackage} - the silent version pinner of the DeepSeek Harness: hooks fs/observed and pins every dependency version in a written package.json to its static version.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -126,7 +127,7 @@ const Related = [
 				hook-dsh-pinner-package
 			</h1>
 			<p class="page-hero__sub">
-				Hook @ DSH @ Pinner @ Package • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
+				{Families.PinnerPackage} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
 				The <strong>silent version pinner</strong> of the DeepSeek Harness - a plugin on the
 				<code>fs/observed</code> event that pins every dependency version in a written
 				<code>package.json</code> to its STATIC version:{" "}
@@ -148,7 +149,7 @@ const Related = [
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-pinner-package</span>
 					<span class="workbench-controls__label">Release:</span>
-					<Badge Variant="outline">v0.0.1</Badge>
+					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Archetype:</span>
@@ -187,7 +188,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						<strong>Hook @ DSH @ Pinner @ Package</strong> is a hook child
+						<strong>{Families.PinnerPackage}</strong> is a hook child
 						of the <code>plugin-dsh-factory</code> service and the
 						<code>hook-dsh-core</code> helpers. It is a sibling of the
 						package governor on the same <code>fs/observed</code> seam.
@@ -667,7 +668,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<SectionHeader Title="Related plugins" Meta={`${Counts.Packages} TOTAL`} />
 			<div class="grid grid--3">
 				{Related.map((Plugin) => (
 					<Card

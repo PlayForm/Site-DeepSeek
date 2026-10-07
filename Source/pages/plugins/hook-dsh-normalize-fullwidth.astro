@@ -9,6 +9,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
+import { Counts, Versions, Families, FamilyPosition } from "@Library/Content";
 
 // The stream pipeline, from the package README (map flavor).
 const Pipeline = [
@@ -173,7 +174,7 @@ const LedgerStrings = [
 
 <Base
 	Title="hook-dsh-normalize-fullwidth - @playform / DSH Family"
-	Description="Hook @ DSH @ Normalize @ Fullwidth - the fullwidth normalizer for model output: hooks the llm/stream waterfall and maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterpart, live in the transcript."
+	Description={`${Families.Fullwidth} - the fullwidth normalizer for model output: hooks the llm/stream waterfall and maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterpart, live in the transcript.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -189,7 +190,7 @@ const LedgerStrings = [
 				hook-dsh-normalize-fullwidth
 			</h1>
 			<p class="page-hero__sub">
-				Hook @ DSH @ Normalize @ Fullwidth • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for
+				{Families.Fullwidth} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for
 				PlayForm._ The <strong>fullwidth normalizer for model output</strong> - a DeepSeek
 				Harness plugin that hooks the <code>llm/stream</code> waterfall (the interceptable
 				wrapper around EVERY streaming model call, bound to the LlmRuntime) and normalizes
@@ -213,7 +214,7 @@ const LedgerStrings = [
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-normalize-fullwidth</span>
 					<span class="workbench-controls__label">Release:</span>
-					<Badge Variant="outline">v0.0.1</Badge>
+					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Archetype:</span>
@@ -233,17 +234,17 @@ const LedgerStrings = [
 		<section class="section">
 			<SectionHeader
 				Title="Where It Fits"
-				Meta="FAMILY POSITION: 6TH OF 6 STREAM NORMALIZERS"
+				Meta={FamilyPosition(6)}
 			/>
 			<div class="concept-list">
 				<Concept
 					Id="fullwidth-family-position"
 					Title="The family position"
-					Diagram="Hook @ DSH @ Normalize @ Fullwidth as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the sixth of the six stream normalizer siblings."
+					Diagram={`${Families.Fullwidth} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the sixth of the six stream normalizer siblings.`}
 				>
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>Hook @ DSH @ Normalize @ Fullwidth</strong>): a hook child of the{" "}
+						<strong>{Families.Fullwidth}</strong>): a hook child of the{" "}
 						<strong>plugin-dsh-factory</strong> service and the{" "}
 						<strong>hook-dsh-core</strong> machinery; the sixth of the six stream
 						normalizer siblings.
@@ -543,7 +544,7 @@ const LedgerStrings = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<SectionHeader Title="Related plugins" Meta={`${Counts.Packages} TOTAL`} />
 			<div class="grid grid--3">
 				<Card
 					Variant="white"

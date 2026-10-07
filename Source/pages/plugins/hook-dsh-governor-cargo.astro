@@ -9,6 +9,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
+import { Counts, Versions, Families } from "@Library/Content";
 
 // The full-version normalization directive, from the package README.
 const FullVersion = [
@@ -76,7 +77,7 @@ const Related = [
 
 <Base
 	Title="hook-dsh-governor-cargo - @playform / DSH Family"
-	Description="Hook @ DSH @ Governor @ Cargo - the Cargo.toml flavor of the silent package.json governor: surgical TOML rewriting on the raw lines and cargo upgrade driven through the subprocess seam."
+	Description={`${Families.GovernorCargo} - the Cargo.toml flavor of the silent package.json governor: surgical TOML rewriting on the raw lines and cargo upgrade driven through the subprocess seam.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -94,7 +95,7 @@ const Related = [
 				hook-dsh-governor-cargo
 			</h1>
 			<p class="page-hero__sub">
-				Hook @ DSH @ Governor @ Cargo • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
+				{Families.GovernorCargo} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
 				The <strong>Cargo.toml flavor of the silent package.json governor</strong> - the
 				same architecture, the same API-awareness discipline, the same silence toward the
 				author, but for <BrandIcon Name="rust" /> RUST manifests, with the update stage driven by the RUST-SIDE CLI (
@@ -117,7 +118,7 @@ const Related = [
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-governor-cargo</span>
 					<span class="workbench-controls__label">Release:</span>
-					<Badge Variant="outline">v0.0.1</Badge>
+					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Archetype:</span>
@@ -140,11 +141,11 @@ const Related = [
 				<Concept
 					Id="govcargo-family-position"
 					Title="The family position"
-					Diagram="Hook @ DSH @ Governor @ Cargo as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - the Rust-sided sibling of the two npm governance hooks on the same fs/observed seam, one of three governance hooks, each gating on its own basename and writing its own ledger."
+					Diagram={`${Families.GovernorCargo} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - the Rust-sided sibling of the two npm governance hooks on the same fs/observed seam, one of three governance hooks, each gating on its own basename and writing its own ledger.`}
 				>
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>Hook @ DSH @ Governor @ Cargo</strong>): a hook child of the{" "}
+						<strong>{Families.GovernorCargo}</strong>): a hook child of the{" "}
 						<strong>plugin-dsh-factory</strong> service and the{" "}
 						<strong>hook-dsh-core</strong> helpers; the Rust-sided sibling of the two npm
 						governance hooks on the same <code>fs/observed</code> seam.
@@ -584,7 +585,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<SectionHeader Title="Related plugins" Meta={`${Counts.Packages} TOTAL`} />
 			<div class="grid grid--3">
 				{Related.map((Plugin) => (
 					<Card

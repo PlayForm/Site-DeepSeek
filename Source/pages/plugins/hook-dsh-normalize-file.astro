@@ -9,6 +9,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
+import { Counts, Versions, Families, Ordinal } from "@Library/Content";
 
 // The seven siblings of the normalize family, from the README (this bundle highlighted).
 const Siblings = [
@@ -154,7 +155,7 @@ const Usage = [
 
 <Base
 	Title="hook-dsh-normalize-file - @playform / DSH Family"
-	Description="Hook @ DSH @ Normalize @ File - the file-content normalizer: the normalize-family tool for files already on disk - read, count, write through all six transforms, writing only when something changed."
+	Description={`${Families.File} - the file-content normalizer: the normalize-family tool for files already on disk - read, count, write through all six transforms, writing only when something changed.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -170,7 +171,7 @@ const Usage = [
 				hook-dsh-normalize-file
 			</h1>
 			<p class="page-hero__sub">
-				Hook @ DSH @ Normalize @ File • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
+				{Families.File} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
 				The <strong>file-content normalizer</strong> - a DeepSeek Harness plugin that
 				registers the normalize family's <code>normalize-file</code> TOOL: the read{" "}
 				<ArrowIcon Direction="right" Tone="accent" /> count{" "}
@@ -197,7 +198,7 @@ const Usage = [
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-normalize-file</span>
 					<span class="workbench-controls__label">Release:</span>
-					<Badge Variant="outline">v0.0.1</Badge>
+					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Archetype:</span>
@@ -217,17 +218,17 @@ const Usage = [
 		<section class="section">
 			<SectionHeader
 				Title="Where It Fits"
-				Meta="FAMILY POSITION: 7TH SIBLING - FILES ON DISK"
+				Meta={`FAMILY POSITION: ${Ordinal(Counts.Normalizers)} SIBLING - FILES ON DISK`}
 			/>
 			<div class="concept-list">
 				<Concept
 					Id="file-family-position"
 					Title="The family position"
-					Diagram="Hook @ DSH @ Normalize @ File as a tool-child of the plugin-dsh-factory service and the hook-dsh-core machinery - the seventh sibling, the one flavor that works on files already on disk instead of model output."
+					Diagram={`${Families.File} as a tool-child of the plugin-dsh-factory service and the hook-dsh-core machinery - the seventh sibling, the one flavor that works on files already on disk instead of model output.`}
 				>
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>Hook @ DSH @ Normalize @ File</strong>): a tool-child of the{" "}
+						<strong>{Families.File}</strong>): a tool-child of the{" "}
 						<strong>plugin-dsh-factory</strong> service and the{" "}
 						<strong>hook-dsh-core</strong> machinery; the seventh sibling - the one
 						flavor that works on files already on disk instead of model output.
@@ -592,7 +593,7 @@ const Usage = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<SectionHeader Title="Related plugins" Meta={`${Counts.Packages} TOTAL`} />
 			<div class="grid grid--3">
 				<Card
 					Variant="white"
