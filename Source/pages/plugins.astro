@@ -6,6 +6,7 @@ import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import { Counts, Totals, Migration, Families } from "@Library/Content";
 
 // The twelve plugins, each with its @-sentence identity, install snippet
 // and the registry tags that drive the filter/search logic.
@@ -15,7 +16,7 @@ const Core = [
 		Tone: "primary",
 		Role: "ROLE: CORE",
 		Tags: "core factory service hook",
-		Sentence: "Hook @ DSH @ Core",
+		Sentence: Families.Core,
 		Desc: "The pure commonalities of the family (dependency-free in CLASSIC; effect-backed in EFFECT-TS): the section lists, the exclusion segments, the suppression composer, the policy loader, the refusal guard and the normalize/Stream machinery.",
 		Install: "pnpm add @playform/hook-dsh-core",
 	},
@@ -24,7 +25,7 @@ const Core = [
 		Tone: "primary",
 		Role: "ROLE: FACTORY",
 		Tags: "core factory service plugin",
-		Sentence: "Plugin @ DSH @ Factory",
+		Sentence: Families.Factory,
 		Desc: "The family's first service: the ledger, the exclusion match, the discovery, the keep-list union, the gate set, the version-guarded fenced write, the refresh, the detached contained continuation, the State builder, the wiring, the effects, the schema factory and the probe-once seam.",
 		Install: "pnpm add @playform/plugin-dsh-factory",
 	},
@@ -35,7 +36,7 @@ const Governance = [
 		Name: "hook-dsh-governor-package",
 		Role: "ROLE: GOVERNOR",
 		Tags: "governor manifest package hook",
-		Sentence: "Hook @ DSH @ Governor @ Package",
+		Sentence: Families.GovernorPackage,
 		Desc: "The silent package.json governor: hooks fs/observed, rewrites chain-governed pins to the effective registry's resolved versions, and runs the update stage as a detached, contained continuation.",
 		Install: "pnpm add @playform/hook-dsh-governor-package",
 	},
@@ -43,7 +44,7 @@ const Governance = [
 		Name: "hook-dsh-pinner-package",
 		Role: "ROLE: PINNER",
 		Tags: "pinner manifest package hook",
-		Sentence: "Hook @ DSH @ Pinner @ Package",
+		Sentence: Families.PinnerPackage,
 		Desc: "The silent package.json version pinner: hooks fs/observed and deterministically rewrites every ranged dependency version to its static version, protected by a pin-policy keep-list.",
 		Install: "pnpm add @playform/hook-dsh-pinner-package",
 	},
@@ -51,7 +52,7 @@ const Governance = [
 		Name: "hook-dsh-governor-cargo",
 		Role: "ROLE: GOVERNOR",
 		Tags: "governor cargo manifest hook",
-		Sentence: "Hook @ DSH @ Governor @ Cargo",
+		Sentence: Families.GovernorCargo,
 		Desc: "The Cargo.toml governor: the Rust-sided flavor of the package governor - surgical chain-pin rewrites on the raw TOML lines and cargo upgrade driven through the subprocess seam.",
 		Install: "pnpm add @playform/hook-dsh-governor-cargo",
 	},
@@ -62,7 +63,7 @@ const Normalize = [
 		Name: "hook-dsh-normalize-dash",
 		Role: "FLAVOR: DASH",
 		Tags: "normalize flavor dash stream hook",
-		Sentence: "Hook @ DSH @ Normalize @ Dash",
+		Sentence: Families.Dash,
 		Desc: "The dash flavor: normalizes the unicode dash family to ASCII hyphen-minus in model output streams, mirroring the hermes regex at the injection point hermes lacks.",
 		Install: "pnpm add @playform/hook-dsh-normalize-dash",
 	},
@@ -70,7 +71,7 @@ const Normalize = [
 		Name: "hook-dsh-normalize-quotes",
 		Role: "FLAVOR: QUOTES",
 		Tags: "normalize flavor quotes stream hook",
-		Sentence: "Hook @ DSH @ Normalize @ Quotes",
+		Sentence: Families.Quotes,
 		Desc: "The quotes flavor: maps the eight curly quote code points to their ASCII straight counterparts in model output streams.",
 		Install: "pnpm add @playform/hook-dsh-normalize-quotes",
 	},
@@ -78,7 +79,7 @@ const Normalize = [
 		Name: "hook-dsh-normalize-ellipsis",
 		Role: "FLAVOR: ELLIPSIS",
 		Tags: "normalize flavor ellipsis stream hook",
-		Sentence: "Hook @ DSH @ Normalize @ Ellipsis",
+		Sentence: Families.Ellipsis,
 		Desc: "The ellipsis flavor: replaces the horizontal ellipsis (U+2026) with the plain ASCII three-dot sequence in model output streams.",
 		Install: "pnpm add @playform/hook-dsh-normalize-ellipsis",
 	},
@@ -86,7 +87,7 @@ const Normalize = [
 		Name: "hook-dsh-normalize-spaces",
 		Role: "FLAVOR: SPACES",
 		Tags: "normalize flavor spaces stream hook",
-		Sentence: "Hook @ DSH @ Normalize @ Spaces",
+		Sentence: Families.Spaces,
 		Desc: "The spaces flavor: normalizes the unicode space family (Zs minus the ASCII space) to the plain space in model output streams.",
 		Install: "pnpm add @playform/hook-dsh-normalize-spaces",
 	},
@@ -94,7 +95,7 @@ const Normalize = [
 		Name: "hook-dsh-normalize-invisible",
 		Role: "FLAVOR: INVISIBLE",
 		Tags: "normalize flavor invisible stream hook",
-		Sentence: "Hook @ DSH @ Normalize @ Invisible",
+		Sentence: Families.Invisible,
 		Desc: "The invisible flavor: removes the zero-width/invisible character family (soft hyphen, zero-width spaces and joiners, bidi controls, BOM) from model output streams.",
 		Install: "pnpm add @playform/hook-dsh-normalize-invisible",
 	},
@@ -102,7 +103,7 @@ const Normalize = [
 		Name: "hook-dsh-normalize-fullwidth",
 		Role: "FLAVOR: FULLWIDTH",
 		Tags: "normalize flavor fullwidth stream hook",
-		Sentence: "Hook @ DSH @ Normalize @ Fullwidth",
+		Sentence: Families.Fullwidth,
 		Desc: "The fullwidth flavor: maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterparts in model output streams.",
 		Install: "pnpm add @playform/hook-dsh-normalize-fullwidth",
 	},
@@ -110,7 +111,7 @@ const Normalize = [
 		Name: "hook-dsh-normalize-file",
 		Role: "FLAVOR: FILE",
 		Tags: "normalize flavor file stream hook tool",
-		Sentence: "Hook @ DSH @ Normalize @ File",
+		Sentence: Families.File,
 		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing only when something changed.",
 		Install: "pnpm add @playform/hook-dsh-normalize-file",
 	},
@@ -148,7 +149,7 @@ const Registry = [
 			<Badge Variant="primary" Dot>
 				ECOSYSTEM: @PLAYFORM
 			</Badge>
-			<Badge>12 PLUGINS</Badge>
+			<Badge>{Counts.Packages} PLUGINS</Badge>
 		</div>
 
 		<PageHero
@@ -170,7 +171,7 @@ const Registry = [
 					data-filter
 				/>
 				<Badge Variant="outline" Dot>
-					<span data-count>12 RESULTS</span>
+					<span data-count>{Counts.Packages} RESULTS</span>
 				</Badge>
 			</div>
 			<div class="filter-chips" data-chips>
@@ -196,7 +197,7 @@ const Registry = [
 			<div class="registry-telemetry">
 				<span class="registry-telemetry__count">
 					<span class="live-dot"></span>
-					<span data-count-text>12 PACKAGES</span>
+					<span data-count-text>{Counts.Packages} PACKAGES</span>
 				</span>
 				<span>DSH-REGISTRY</span>
 			</div>
@@ -208,7 +209,7 @@ const Registry = [
 
 		<!-- Core & Factory -->
 		<section class="section">
-			<SectionHeader Title="Core & Factory" Meta="2 PLUGINS" />
+			<SectionHeader Title="Core & Factory" Meta={`${Counts.Groups.Core} PLUGINS`} />
 			<div class="grid grid--2">
 				{Core.map((Plugin) => (
 					<Card
@@ -232,7 +233,7 @@ const Registry = [
 
 		<!-- Governance -->
 		<section class="section">
-			<SectionHeader Title="Governance" Meta="3 PLUGINS" />
+			<SectionHeader Title="Governance" Meta={`${Counts.Groups.Governance} PLUGINS`} />
 			<div class="grid grid--3">
 				{Governance.map((Plugin) => (
 					<Card
@@ -257,7 +258,7 @@ const Registry = [
 		<section class="section">
 			<SectionHeader
 				Title="Normalize"
-				Meta="7 PLUGINS - SIX STREAM FLAVORS + THE FILE TOOL"
+				Meta={`${Counts.Groups.Normalize} PLUGINS - SIX STREAM FLAVORS + THE FILE TOOL`}
 			/>
 			<div class="grid grid--3">
 				{Normalize.map((Plugin) => (
@@ -411,7 +412,7 @@ const Registry = [
 
 		<!-- The smoke baseline (the arbiter) -->
 		<section class="section">
-			<SectionHeader Title="The smoke baseline" Meta="12 SUITES · 733 CHECKS CLASSIC · 746 EFFECT-TS · ALL PASS" />
+			<SectionHeader Title="The smoke baseline" Meta={Totals.Meta()} />
 			<div class="concept-list">
 				<Concept
 					Id="plugins-smoke-arbiter"
@@ -443,61 +444,61 @@ const Registry = [
 							<td>
 								<strong>hook-dsh-core</strong>
 							</td>
-							<td>14</td>
+							<td>{Counts.Core.Classic}</td>
 							<td>
 								<strong>hook-dsh-normalize-dash</strong>
 							</td>
-							<td>132</td>
+							<td>{Counts.Dash.Classic}</td>
 						</tr>
 						<tr>
 							<td>
 								<strong>plugin-dsh-factory</strong>
 							</td>
-							<td>34</td>
+							<td>{Counts.Factory.Classic}</td>
 							<td>
 								<strong>hook-dsh-normalize-quotes</strong>
 							</td>
-							<td>62</td>
+							<td>{Counts.Quotes.Classic}</td>
 						</tr>
 						<tr>
 							<td>
 								<strong>hook-dsh-governor-package</strong>
 							</td>
-							<td>78</td>
+							<td>{Counts.Governor.Classic}</td>
 							<td>
 								<strong>hook-dsh-normalize-ellipsis</strong>
 							</td>
-							<td>62</td>
+							<td>{Counts.Ellipsis.Classic}</td>
 						</tr>
 						<tr>
 							<td>
 								<strong>hook-dsh-pinner-package</strong>
 							</td>
-							<td>32</td>
+							<td>{Counts.Pinner.Classic}</td>
 							<td>
 								<strong>hook-dsh-normalize-spaces</strong>
 							</td>
-							<td>62</td>
+							<td>{Counts.Spaces.Classic}</td>
 						</tr>
 						<tr>
 							<td>
 								<strong>hook-dsh-governor-cargo</strong>
 							</td>
-							<td>62</td>
+							<td>{Counts.Cargo.Classic}</td>
 							<td>
 								<strong>hook-dsh-normalize-invisible</strong>
 							</td>
-							<td>62</td>
+							<td>{Counts.Invisible.Classic}</td>
 						</tr>
 						<tr>
 							<td>
 								<strong>hook-dsh-normalize-file</strong>
 							</td>
-							<td>71</td>
+							<td>{Counts.File.Classic}</td>
 							<td>
 								<strong>hook-dsh-normalize-fullwidth</strong>
 							</td>
-							<td>62</td>
+							<td>{Counts.Fullwidth.Classic}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -506,12 +507,12 @@ const Registry = [
 				<Concept
 					Id="plugins-smoke-counts"
 					Title="The checks are the CLASSIC counts"
-					Diagram="The CLASSIC totals per suite against the EFFECT-TS totals on the same contracts - core 17, factory 41, governor 81 - summing to 746 vs Classic's 733."
+					Diagram={`The CLASSIC totals per suite against the EFFECT-TS totals on the same contracts - core ${Counts.Core.EffectTS}, factory ${Counts.Factory.EffectTS}, governor ${Counts.Governor.EffectTS} - summing to ${Totals.EffectTS} vs Classic's ${Totals.Classic}.`}
 				>
 					<p>
 						The checks are the CLASSIC counts; the EFFECT-TS suites add coverage on the
-						same contracts (core 17, factory 41, governor 81 - 746 total vs Classic's
-						733).
+						same contracts (core {Counts.Core.EffectTS}, factory {Counts.Factory.EffectTS}, governor {Counts.Governor.EffectTS} - {Totals.EffectTS} total vs Classic's{" "}
+						{Totals.Classic}).
 					</p>
 				</Concept>
 				<Concept
@@ -572,7 +573,7 @@ const Registry = [
 				<Concept
 					Id="plugins-failure-storage"
 					Title="The P5 v2 storage open failure"
-					Diagram="The package_governance v2 domain open failing SILENTLY against the v1 file on the exact-equality version check - and the fix: per-record layout, compatibleVersions [1], backup-and-skip for invalid records, and a loud failure line."
+					Diagram={`The package_governance v2 domain open failing SILENTLY against the v1 file on the exact-equality version check - and the fix: per-record layout, compatibleVersions [${Migration.CompatibleVersions.join(", ")}], backup-and-skip for invalid records, and a loud failure line.`}
 				>
 					<Badge Variant="outline">LIVE-FOUND · FIXED</Badge>
 					<p>
@@ -580,9 +581,8 @@ const Registry = [
 						exact-equality version check) - the silence made it undiagnosable.
 					</p>
 					<p>
-						Solved: per-record layout + compatibleVersions [1] (76 v1 records
-						auto-migrated) + backup-and-skip for invalid records + a loud failure line -
-						live-confirmed on the next boot.
+						Solved: per-record layout + {Migration.Sentence()} + backup-and-skip for
+						invalid records + a loud failure line - live-confirmed on the next boot.
 					</p>
 				</Concept>
 				<Concept

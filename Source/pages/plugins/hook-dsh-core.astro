@@ -8,6 +8,7 @@ import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Terminal from "@Component/Terminal.astro";
+import { Counts, Totals, Versions, Families, Scheme } from "@Library/Content";
 
 // The class replacer at work, from the README's In Action block (the input
 // carries the real typographic characters the flavor tables match).
@@ -62,7 +63,7 @@ const Related = [
 
 <Base
 	Title="hook-dsh-core - @playform / DSH Family"
-	Description="Hook @ DSH @ Core - the pure machinery layer of the DeepSeek Harness plugin family: the governance helpers and the stream-normalization tables and dispatch (dependency-free in CLASSIC; effect-backed in EFFECT-TS), consumed by all eleven other packages."
+	Description={`${Families.Core} - the pure machinery layer of the DeepSeek Harness plugin family: the governance helpers and the stream-normalization tables and dispatch (dependency-free in CLASSIC; effect-backed in EFFECT-TS), consumed by all eleven other packages.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -78,7 +79,7 @@ const Related = [
 				hook-dsh-core
 			</h1>
 			<p class="page-hero__sub">
-				Hook @ DSH @ Core • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._ The pure
+				{Families.Core} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._ The pure
 				machinery layer of the DSH plugin family: the harness-free commonalities both
 				halves of the family are built from - one library, two halves, explained as
 				diagram-first concept blocks below.
@@ -95,7 +96,7 @@ const Related = [
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-core</span>
 					<span class="workbench-controls__label">Release:</span>
-					<Badge Variant="outline">v0.0.1</Badge>
+					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Archetype:</span>
@@ -114,11 +115,11 @@ const Related = [
 				<Concept
 					Id="core-family-position"
 					Title="Family position"
-					Diagram="Hook @ DSH @ Core as the base library of the whole family - parent of none, child of none - with the factory-era governance hooks consuming the governance half and the six stream normalizers consuming the normalize half."
+					Diagram={`${Families.Core} as the base library of the whole family - parent of none, child of none - with the factory-era governance hooks consuming the governance half and the six stream normalizers consuming the normalize half.`}
 				>
 					<p class="page-hero__sub">
 						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>Hook @ DSH @ Core</strong>): the base library of the whole family -
+						<strong>{Families.Core}</strong>): the base library of the whole family -
 						parent of none, child of none - consumed by all eleven other packages.
 					</p>
 
@@ -155,14 +156,14 @@ const Related = [
 				<Concept
 					Id="core-runtime-variants"
 					Title="CLASSIC versus EFFECT-TS runtime dependencies"
-					Diagram="The dual engine distribution: CLASSIC shipping dependency-free, EFFECT-TS shipping the same contracts on effect v4 as its single runtime dependency - same behavior, same smokes, different runtime plumbing."
+					Diagram={`The dual engine distribution: CLASSIC shipping dependency-free, EFFECT-TS shipping the same contracts on effect ${Versions.Effect} as its single runtime dependency - same behavior, same smokes, different runtime plumbing.`}
 				>
 					<p class="page-hero__sub">
 						CLASSIC ships dependency-free: zero runtime dependencies. The EFFECT-TS
-						variant ships the same contracts with <code>effect</code> v4 as the single
+						variant ships the same contracts with <code>effect</code> {Versions.Effect} as the single
 						runtime dependency - same behavior, same smokes, different runtime
 						plumbing. The inspect card's ZERO is the CLASSIC variant's fact; the{" "}
-						<code>effect</code> v4 dependency belongs to the EFFECT-TS variant.
+						<code>effect</code> {Versions.Effect} dependency belongs to the EFFECT-TS variant.
 					</p>
 				</Concept>
 			</div>
@@ -449,7 +450,7 @@ const Related = [
 
 					<p class="page-hero__sub">
 						The P2 registration sits under the factory's namespaced
-						key - the SCHEME's §2.16, UpdateKey(target) yields
+						key - the SCHEME's {Scheme.UpdateKey}, UpdateKey(target) yields
 						update:&lt;targetKey&gt; - distinct from the chain pass's
 						plain key.
 					</p>
@@ -824,7 +825,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<SectionHeader Title="Related plugins" Meta={`${Counts.Packages} TOTAL`} />
 			<div class="grid grid--3">
 				{Related.map((Plugin) => (
 					<Card
@@ -840,9 +841,9 @@ const Related = [
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				License: CC0-1.0. The unit smoke (core-smoke.mjs in the family's smokes/
-				directory) exercises every helper with no fake context at all - 14 checks in
-				CLASSIC, 17 in EFFECT-TS. The family's smoke baseline: 12 suites · 733 checks
-				Classic · 746 EffectTS · ALL PASS.
+				directory) exercises every helper with no fake context at all - {Counts.Core.Classic} checks in
+				CLASSIC, {Counts.Core.EffectTS} in EFFECT-TS. The family's smoke baseline: {Counts.Suites} suites · {Totals.Pair()}
+				· ALL PASS.
 			</p>
 		</section>
 	</main>

@@ -4,6 +4,7 @@ import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import PageHero from "@Component/PageHero.astro";
+import { Counts } from "@Library/Content";
 
 // The seven flavor hooks of the stream gate, each with its NORM token,
 // human name and before/after rule. The PATH hook ships disarmed by
@@ -102,7 +103,7 @@ const Spans = [
 				LIVE EMISSION
 			</Badge>
 			<Badge>STREAM GATE</Badge>
-			<Badge>7 FLAVOR HOOKS</Badge>
+			<Badge>{Counts.Normalizers} FLAVOR HOOKS</Badge>
 		</div>
 
 		<PageHero
@@ -128,7 +129,7 @@ const Spans = [
 			<div class="workbench-controls__group">
 				<span class="workbench-controls__label">Armed hooks:</span>
 				<span class="hook-tally" data-hook-tally>
-					6 of 7 Active
+					{Counts.StreamFlavors} of {Counts.Normalizers} Active
 				</span>
 			</div>
 		</section>
@@ -321,7 +322,9 @@ const Spans = [
 	// Live in the SCRIPT, not the frontmatter: Astro compiles this block into
 	// its own module, so a frontmatter constant is NOT in scope here - the
 	// pre-fix page threw `ReferenceError: Seeds is not defined` on every
-	// stream tick and the terminals never filled.
+	// stream tick and the terminals never filled. The library import below is
+	// the in-scope route: the hook tally counts come from Content.ts.
+	import { Counts } from "@Library/Content";
 	const Seeds = [
 		"Plan review \u2014 phase one: the config \u201Cdrift\u201D is real\u2026 wait for it\u2026",
 		"Balance\u00A0sheet sync \u2014 \u2018quoted\u2019 values\u00A0kept\u2026",
@@ -431,7 +434,7 @@ const Spans = [
 		RawCount.textContent = `${RawBytes.toLocaleString("en-US")} bytes`;
 		CleanCount.textContent = `${CleanBytes.toLocaleString("en-US")} bytes`;
 
-		Tally.textContent = `${Armed.size} of 7 Active`;
+		Tally.textContent = `${Armed.size} of ${Counts.Normalizers} Active`;
 		ToggleButton.textContent = Paused ? "Resume Stream" : "Pause Stream";
 		ToggleButton.classList.toggle("engine-pill--active", Paused);
 	}
@@ -490,7 +493,7 @@ const Spans = [
 
 	// Toggle all hooks.
 	document.querySelector("[data-action='toggle-all']")?.addEventListener("click", () => {
-		const All = Armed.size === 7;
+		const All = Armed.size === Counts.Normalizers;
 		document.querySelectorAll<HTMLElement>(".hook-card").forEach((Card) => {
 			const Hook = Card.dataset["hook"]!;
 			if (All) Armed.delete(Hook);
@@ -500,7 +503,7 @@ const Spans = [
 			Card.dataset["armed"] = String(!All);
 		});
 		Render();
-		Toast?.(All ? "Disarmed all 7 hooks" : "Armed all 7 normalization hooks");
+		Toast?.(All ? `Disarmed all ${Counts.Normalizers} hooks` : `Armed all ${Counts.Normalizers} normalization hooks`);
 	});
 
 	// Runtime pills.

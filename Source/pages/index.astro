@@ -5,6 +5,7 @@ import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Terminal from "@Component/Terminal.astro";
+import { Counts, Families } from "@Library/Content";
 
 // The twelve packages: grouped Core & Factory / Governance / Normalize, each
 // with its package name, @-sentence identity and one-sentence description.
@@ -13,14 +14,14 @@ const Core = [
 		Name: "hook-dsh-core",
 		Tone: "primary",
 		Role: "ROLE: CORE",
-		Sentence: "Hook @ DSH @ Core",
+		Sentence: Families.Core,
 		Desc: "The pure, dependency-free commonalities of the family: the section lists, the exclusion segments, the suppression composer, the policy loader, the refusal guard and the normalize/Stream machinery.",
 	},
 	{
 		Name: "plugin-dsh-factory",
 		Tone: "primary",
 		Role: "ROLE: FACTORY",
-		Sentence: "Plugin @ DSH @ Factory",
+		Sentence: Families.Factory,
 		Desc: "The family's first service: the ledger, the exclusion match, the discovery, the keep-list union, the gate set, the version-guarded fenced write, the wiring, the effects and the schema factory.",
 	},
 ];
@@ -30,21 +31,21 @@ const Governance = [
 		Name: "hook-dsh-governor-package",
 		Tone: "ink",
 		Role: "ROLE: GOVERNOR",
-		Sentence: "Hook @ DSH @ Governor @ Package",
+		Sentence: Families.GovernorPackage,
 		Desc: "The silent package.json governor: hooks fs/observed, rewrites chain-governed pins to the effective registry's resolved versions, and runs the update stage as a detached, contained continuation.",
 	},
 	{
 		Name: "hook-dsh-pinner-package",
 		Tone: "ink",
 		Role: "ROLE: PINNER",
-		Sentence: "Hook @ DSH @ Pinner @ Package",
+		Sentence: Families.PinnerPackage,
 		Desc: "The silent package.json version pinner: hooks fs/observed and deterministically rewrites every ranged dependency version to its static version, protected by a pin-policy keep-list.",
 	},
 	{
 		Name: "hook-dsh-governor-cargo",
 		Tone: "ink",
 		Role: "ROLE: GOVERNOR",
-		Sentence: "Hook @ DSH @ Governor @ Cargo",
+		Sentence: Families.GovernorCargo,
 		Desc: "The Cargo.toml governor: the Rust-sided flavor of the package governor - surgical chain-pin rewrites on the raw TOML lines and cargo upgrade driven through the subprocess seam.",
 	},
 ];
@@ -53,43 +54,43 @@ const Normalize = [
 	{
 		Name: "hook-dsh-normalize-dash",
 		Role: "FLAVOR: DASH",
-		Sentence: "Hook @ DSH @ Normalize @ Dash",
+		Sentence: Families.Dash,
 		Desc: "Normalizes the unicode dash family to ASCII hyphen-minus in model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-quotes",
 		Role: "FLAVOR: QUOTES",
-		Sentence: "Hook @ DSH @ Normalize @ Quotes",
+		Sentence: Families.Quotes,
 		Desc: "Maps the eight curly quote code points to their ASCII straight counterparts in model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-ellipsis",
 		Role: "FLAVOR: ELLIPSIS",
-		Sentence: "Hook @ DSH @ Normalize @ Ellipsis",
+		Sentence: Families.Ellipsis,
 		Desc: "Replaces the horizontal ellipsis (U+2026) with the plain ASCII three-dot sequence in model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-spaces",
 		Role: "FLAVOR: SPACES",
-		Sentence: "Hook @ DSH @ Normalize @ Spaces",
+		Sentence: Families.Spaces,
 		Desc: "Normalizes the unicode space family (Zs minus the ASCII space) to the plain space in model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-invisible",
 		Role: "FLAVOR: INVISIBLE",
-		Sentence: "Hook @ DSH @ Normalize @ Invisible",
+		Sentence: Families.Invisible,
 		Desc: "Removes the zero-width/invisible character family (soft hyphen, zero-width spaces and joiners, bidi controls, BOM) from model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-fullwidth",
 		Role: "FLAVOR: FULLWIDTH",
-		Sentence: "Hook @ DSH @ Normalize @ Fullwidth",
+		Sentence: Families.Fullwidth,
 		Desc: "Maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterparts in model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-file",
 		Role: "FLAVOR: FILE",
-		Sentence: "Hook @ DSH @ Normalize @ File",
+		Sentence: Families.File,
 		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing only when something changed.",
 	},
 ];
@@ -181,7 +182,7 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 
 		<!-- Plugins -->
 		<section class="section" id="plugins">
-			<SectionHeader Title="Plugins" Meta="12 PACKAGES" />
+			<SectionHeader Title="Plugins" Meta={`${Counts.Packages} PACKAGES`} />
 
 			<!-- Group 1: Core & Factory -->
 			<p class="section-kicker">Core &amp; Factory</p>
@@ -284,7 +285,7 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 
 		<!-- Flavors -->
 		<section class="section" id="flavors">
-			<SectionHeader Title="Flavors & Roles" Meta="7 FLAVORS / 2 ROLES" />
+			<SectionHeader Title="Flavors & Roles" Meta={`${Counts.Normalizers} FLAVORS / ${Counts.Roles} ROLES`} />
 			<div class="flavor-strip">
 				{Flavors.map((Flavor) => (
 					<Badge>{Flavor}</Badge>

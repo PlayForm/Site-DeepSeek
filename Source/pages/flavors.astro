@@ -6,6 +6,7 @@ import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import { Counts, Sprite } from "@Library/Content";
 
 // The seven normalize flavors: six stream flavors plus the file tool.
 const Flavors = [
@@ -56,7 +57,7 @@ const Flavors = [
 			<Badge Variant="primary" Dot>
 				ECOSYSTEM: @PLAYFORM
 			</Badge>
-			<Badge>7 FLAVORS / 2 ROLES</Badge>
+			<Badge>{Counts.Normalizers} FLAVORS / {Counts.Roles} ROLES</Badge>
 		</div>
 
 		<PageHero
@@ -116,7 +117,7 @@ const Flavors = [
 
 		<!-- The badge sprite -->
 		<section class="section">
-			<SectionHeader Title="The badge sprite" Meta="11 SHIELDS-STYLE SYMBOLS" />
+			<SectionHeader Title="The badge sprite" Meta={`${Sprite.Badges} SHIELDS-STYLE SYMBOLS`} />
 			<div class="concept-list">
 				<Concept
 					Id="flavors-sprite"

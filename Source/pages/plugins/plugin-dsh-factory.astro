@@ -9,11 +9,12 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
+import { Counts, Versions, Families, Methods } from "@Library/Content";
 
 // The furnace diagram, from the package README.
 const Furnace = [
 	"  THE CONSUMERS BRING THEIR OWN METAL         THE FACTORY POURS THE MOLD",
-	"  (model logic: a Config extension,           (19 methods on ctx.pluginFactory,",
+	`  (model logic: a Config extension,           (${Methods.Count} methods on ctx.pluginFactory,`,
 	'   a pure transform, an update engine          inject: ["fs"] - it calls ctx.fs)',
 	"   and every ledger string)",
 	"",
@@ -119,7 +120,7 @@ const Related = [
 
 <Base
 	Title="plugin-dsh-factory - @playform / DSH Family"
-	Description="Plugin @ DSH @ Factory - the furnace of the DSH governance family: the first service-provider bundle in the DeepSeek Harness plugin family, one service holding every piece of common machinery the family's hooks used to duplicate."
+	Description={`${Families.Factory} - the furnace of the DSH governance family: the first service-provider bundle in the DeepSeek Harness plugin family, one service holding every piece of common machinery the family's hooks used to duplicate.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -135,13 +136,13 @@ const Related = [
 				plugin-dsh-factory
 			</h1>
 			<p class="page-hero__sub">
-				Plugin @ DSH @ Factory • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._ The
+				{Families.Factory} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._ The
 				<strong>furnace of the DSH governance family</strong> - the first service-provider
 				bundle in the DeepSeek Harness plugin family. Loading it registers one class plugin
 				(export default class PluginFactory extends Service, super(ctx, "pluginFactory"),
 				static inject = ["fs"]) that exposes <code>ctx.pluginFactory</code>: a single
 				service holding every piece of common machinery the family's hooks used to
-				duplicate. One service. Nineteen methods (the direct-govern pair RegisterGovern +
+				duplicate. One service. {Methods.Word} methods (the direct-govern pair RegisterGovern +
 				Govern and the GovernSteps registry among them). The hooks bring their own metal;
 				the factory pours the mold.
 			</p>
@@ -157,7 +158,7 @@ const Related = [
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/plugin-dsh-factory</span>
 					<span class="workbench-controls__label">Release:</span>
-					<Badge Variant="outline">v0.0.1</Badge>
+					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Archetype:</span>
@@ -180,11 +181,11 @@ const Related = [
 				<Concept
 					Id="factory-family-position"
 					Title="The family position"
-					Diagram="Plugin @ DSH @ Factory as the family's parent service - every other package consuming it (the three governance hooks injecting the service; the six normalize flavors consuming State/Append and the Schema helper) - its own parent the filesystem service (inject: ["fs"])."
+					Diagram={`${Families.Factory} as the family's parent service - every other package consuming it (the three governance hooks injecting the service; the six normalize flavors consuming State/Append and the Schema helper) - its own parent the filesystem service (inject: ["fs"]).`}
 				>
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>Plugin @ DSH @ Factory</strong>): the family's parent service - every
+						<strong>{Families.Factory}</strong>): the family's parent service - every
 						other package consumes it (the three governance hooks inject the service; the
 						six normalize flavors consume State/Append and the Schema helper); its own
 						parent is the filesystem service (inject: ["fs"]).
@@ -380,12 +381,12 @@ const Related = [
 				<Concept
 					Id="factory-verification"
 					Title="Verification"
-					Diagram="The three gates: tsc --noEmit - zero errors; pnpm run prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs (in the family's smokes/ directory) - 34 checks, ALL PASS."
+					Diagram={`The three gates: tsc --noEmit - zero errors; pnpm run prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs (in the family's smokes/ directory) - ${Counts.Factory.Classic} checks, ALL PASS.`}
 				>
 					<p>
 						<strong>Verification.</strong> tsc --noEmit - zero errors; pnpm run
 						prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs (in
-						the family's smokes/ directory) - 34 checks, ALL PASS.
+						the family's smokes/ directory) - {Counts.Factory.Classic} checks, ALL PASS.
 					</p>
 					<p>
 						The coverage: every primitive, the Gate matrix, both GuardedWrite postures,
@@ -513,7 +514,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<SectionHeader Title="Related plugins" Meta={`${Counts.Packages} TOTAL`} />
 			<div class="grid grid--3">
 				{Related.map((Plugin) => (
 					<Card

@@ -6,6 +6,7 @@ import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import { Counts } from "@Library/Content";
 
 // The reference models: the harness sessions the family is battle-tested on.
 const Models = [
@@ -78,7 +79,7 @@ const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDT
 
 		<!-- What applies to every model -->
 		<section class="section">
-			<SectionHeader Title="What applies to every model" Meta="7 NORMALIZERS" />
+			<SectionHeader Title="What applies to every model" Meta={`${Counts.Normalizers} NORMALIZERS`} />
 			<div class="flavor-strip">
 				{Coverage.map((Flavor) => (
 					<Badge>{Flavor}</Badge>

@@ -6,6 +6,7 @@ import BrandIcon from "@Component/BrandIcon.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import { Counts, Totals } from "@Library/Content";
 
 // The flavor gate hooks of the inspector, with their before/after notes.
 const Hooks = [
@@ -43,13 +44,13 @@ const CleanPayload = `{
 // The smoke suites backing the demo rules (the real counts from the family's
 // smokes directory - each suite asserts the ledger strings byte-identically).
 const Suites = [
-	{ Flavor: "Dash", Package: "hook-dsh-normalize-dash", Checks: "132" },
-	{ Flavor: "Quotes", Package: "hook-dsh-normalize-quotes", Checks: "62" },
-	{ Flavor: "Ellipsis", Package: "hook-dsh-normalize-ellipsis", Checks: "62" },
-	{ Flavor: "Spaces", Package: "hook-dsh-normalize-spaces", Checks: "62" },
-	{ Flavor: "Invisible", Package: "hook-dsh-normalize-invisible", Checks: "62" },
-	{ Flavor: "Fullwidth", Package: "hook-dsh-normalize-fullwidth", Checks: "62" },
-	{ Flavor: "File", Package: "hook-dsh-normalize-file", Checks: "71" },
+	{ Flavor: "Dash", Package: "hook-dsh-normalize-dash", Checks: String(Counts.Dash.Classic) },
+	{ Flavor: "Quotes", Package: "hook-dsh-normalize-quotes", Checks: String(Counts.Quotes.Classic) },
+	{ Flavor: "Ellipsis", Package: "hook-dsh-normalize-ellipsis", Checks: String(Counts.Ellipsis.Classic) },
+	{ Flavor: "Spaces", Package: "hook-dsh-normalize-spaces", Checks: String(Counts.Spaces.Classic) },
+	{ Flavor: "Invisible", Package: "hook-dsh-normalize-invisible", Checks: String(Counts.Invisible.Classic) },
+	{ Flavor: "Fullwidth", Package: "hook-dsh-normalize-fullwidth", Checks: String(Counts.Fullwidth.Classic) },
+	{ Flavor: "File", Package: "hook-dsh-normalize-file", Checks: String(Counts.File.Classic) },
 ];
 
 // The pipeline chain shown in the inspection vector header.
@@ -66,7 +67,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 				INSPECTION VECTOR
 			</Badge>
 			<Badge>STREAM GATE PIPELINE</Badge>
-			<Badge>SMOKES: 12 SUITES</Badge>
+			<Badge>SMOKES: {Counts.Suites} SUITES</Badge>
 		</div>
 
 		<PageHero
@@ -101,7 +102,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 
 		<!-- Flavor gate checkboxes -->
 		<section class="section">
-			<SectionHeader Title="Active flavor gate hooks" Meta="7 OF 7 ARMED" />
+			<SectionHeader Title="Active flavor gate hooks" Meta={`${Counts.Normalizers} OF ${Counts.Normalizers} ARMED`} />
 			<div class="hook-grid">
 				{Hooks.map((Hook) => (
 					<label class="hook-card is-armed" data-hook={Hook.Id}>
@@ -198,7 +199,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 				</div>
 				<div class="workbench-controls__group">
 					<span class="bench-status hook-tally" data-benchmark-status>
-						12 suites · 733 checks Classic · 746 EffectTS · ALL PASS (the ledger strings, byte-identical)
+						{Counts.Suites} suites · {Totals.Pair()} · ALL PASS (the ledger strings, byte-identical)
 					</span>
 					<button type="button" class="engine-pill" data-action="copy">
 						Copy Normalized Output

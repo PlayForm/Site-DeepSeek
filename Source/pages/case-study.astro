@@ -8,6 +8,17 @@ import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Terminal from "@Component/Terminal.astro";
+import {
+	Counts,
+	Totals,
+	Versions,
+	Migration,
+	Methods,
+	Scheme,
+	History,
+	Decisions,
+	Families,
+} from "@Library/Content";
 
 // The in-page phase index: anchor links in a badge row under the hero.
 const Index = [
@@ -26,7 +37,7 @@ const Index = [
 const Originals = [
 	{
 		Name: "dsh-plugin-factory",
-		Desc: "The furnace: one service with 15 methods centralizing the machinery the hooks kept duplicating - the ledger, the gate, the guarded write, the wiring, the schema factory.",
+		Desc: `The furnace: one service with ${History.OriginMethods} methods centralizing the machinery the hooks kept duplicating - the ledger, the gate, the guarded write, the wiring, the schema factory.`,
 		Badge: "SERVICE",
 	},
 	{
@@ -153,8 +164,7 @@ const Decisions = [
 		Decision: "Wrapped-actor governance marker + the direct path",
 		Rationale:
 			"The raw-write's actor carries {...exec, govern}; the gate's govern reason makes direct governance the only channel - the event path skips marked actors, so no flag means no chain (the escape hatch)",
-		Technique:
-			"The gate's actor step + the factory's Govern (the fold entry, SCHEME §2.18) + the step registry (RegisterGovern, §2.17)",
+		Technique: `The gate's actor step + the factory's Govern (the fold entry, SCHEME ${Scheme.Govern}) + the step registry (RegisterGovern, ${Scheme.RegisterGovern})`,
 		Evidence: "2c8764e, 83ba8e5, e69c5d3",
 	},
 	{
@@ -169,8 +179,7 @@ const Decisions = [
 		Decision: "Per-record journal layout + the loud failure line",
 		Rationale:
 			"The v2 open failed silently against the v1 file (an exact-equality version check) and buffered every record into a never-drained buffer; silence made it undiagnosable",
-		Technique:
-			"layout: per-record, compatibleVersions: [1], invalidRecords: backup-and-skip - one ledger line on open failure",
+		Technique: `layout: per-record, compatibleVersions: [${Migration.CompatibleVersions.join(", ")}], invalidRecords: backup-and-skip - one ledger line on open failure`,
 		Evidence: "4c0e83b, 756d566",
 	},
 	{
@@ -191,7 +200,7 @@ const Decisions = [
 		Decision: "One shared write executor owned by the factory",
 		Rationale:
 			"Three executors duplicated the same five-step pipeline; the factory is the only home both tool-style and continuation-style writes already depend on",
-		Technique: "The factory's Write (the shared executor, SCHEME §2.7; the guarded write lives on as its alias)",
+		Technique: `The factory's Write (the shared executor, SCHEME ${Scheme.Write}; the guarded write lives on as its alias)`,
 		Evidence: "91293d2",
 	},
 	{
@@ -217,7 +226,7 @@ const Decisions = [
 		Evidence: "the monorepo plan; the versions page; Runtime.ts (the tracing knob)",
 	},
 	{
-		Decision: "Reversed hierarchical naming + version 0.0.1 + submodules (designed, pending register #16)",
+		Decision: `Reversed hierarchical naming + version ${Versions.Release} + submodules (designed, pending register #16)`,
 		Rationale:
 			"Kind-first ordering mirrors the consumer topology - the hooks vs the factory service - and role-contiguous grouping keeps the shared-machinery families together (governor-cargo/governor-package, the normalize-* family); the @-sentence is the release identity (the README titles, register #15). The inversion was only safe because the ledger strings are module-owned - the mdash -> normalize-dash rename (register #5) is the proof: the renamed module changed only its own prefix, its identity, by design - every other ledger string stayed",
 		Technique:
@@ -261,7 +270,7 @@ const Lessons = [
 
 <Base
 	Title="Case Study - @playform / DSH Family"
-	Description="How the twelve-package family was built: five bundles and 231 smoke checks grown to twelve packages across one commit era - the factory, the audit, the live battery, the stream family, the raw-write saga and the decision index behind them."
+	Description={`How the twelve-package family was built: five bundles and ${History.OriginChecks} smoke checks grown to twelve packages across one commit era - the factory, the audit, the live battery, the stream family, the raw-write saga and the decision index behind them.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -269,7 +278,7 @@ const Lessons = [
 				CASE STUDY
 			</Badge>
 			<Badge>ONE COMMIT ERA</Badge>
-			<Badge>12 DECISIONS + 1 FIX</Badge>
+			<Badge>{Decisions.Index} DECISIONS + 1 FIX</Badge>
 		</div>
 
 		<PageHero
@@ -296,20 +305,20 @@ const Lessons = [
 					<h2 class="section-header__title">Overview</h2>
 				</div>
 				<span class="section-header__meta">
-					5 BUNDLES / 231 CHECKS <ArrowIcon Direction="right" Tone="accent" /> 12 PACKAGES
+					{History.OriginBundles} BUNDLES / {History.OriginChecks} CHECKS <ArrowIcon Direction="right" Tone="accent" /> {Counts.Packages} PACKAGES
 				</span>
 			</div>
 			<div class="concept-list">
 				<Concept
 					Id="case-growth"
 					Title="From five bundles to twelve packages"
-					Diagram="The growth across one commit era - the Oct 3-6, 2026 stretch ending at 5982aa8 - five bundles and 231 smoke checks growing into twelve packages with 733 checks Classic · 746 Effect-TS across twelve suites as the final count."
+					Diagram={`The growth across one commit era - the Oct 3-6, 2026 stretch ending at 5982aa8 - five bundles and ${History.OriginChecks} smoke checks growing into twelve packages with ${Totals.PairHyphen()} across ${Counts.Suites} suites as the final count.`}
 				>
 					<p>
-						The family grew from <strong>five bundles and 231 smoke checks</strong> to{" "}
+						The family grew from <strong>five bundles and {History.OriginChecks} smoke checks</strong> to{" "}
 						<strong>twelve packages</strong> across one commit era - the Oct
 						3&ndash;6, 2026 stretch that ends at <code>5982aa8</code> - with{" "}
-						<strong>733 checks Classic · 746 Effect-TS</strong> across twelve suites as
+						<strong>{Totals.PairHyphen()}</strong> across twelve suites as
 						the final count.
 					</p>
 					<p>
@@ -320,15 +329,15 @@ const Lessons = [
 				<Concept
 					Id="case-arbiter"
 					Title="The smokes were the arbiter"
-					Diagram="Zero assertion rewrites across refactors, renames and a framework port - the Effect-TS port ADDING 13 checks (core +3, factory +7, governor +3), its totals running higher with every shared assertion intact."
+					Diagram={`Zero assertion rewrites across refactors, renames and a framework port - the Effect-TS port ADDING ${History.EffectDelta} checks (core +${History.Deltas.Core}, factory +${History.Deltas.Factory}, governor +${History.Deltas.Governor}), its totals running higher with every shared assertion intact.`}
 				>
 					<p>
 						Every step of the way, the smokes were the arbiter: zero assertion rewrites
 						across refactors, renames and a framework port.
 					</p>
 					<p>
-						The Effect-TS port actually <strong>adds 13 checks</strong> (core +3, factory
-						+7, governor +3), so its totals run higher than the Classic's with every
+						The Effect-TS port actually <strong>adds {History.EffectDelta} checks</strong> (core +{History.Deltas.Core}, factory
+						+{History.Deltas.Factory}, governor +{History.Deltas.Governor}), so its totals run higher than the Classic's with every
 						shared assertion intact: the port proved parity by extending coverage, not by
 						rewriting assertions.
 					</p>
@@ -370,8 +379,8 @@ const Lessons = [
 				</Concept>
 			</div>
 			<div class="flavor-strip" style="margin-top: var(--space-md)">
-				<Badge Variant="active">12 PACKAGES</Badge>
-				<Badge Variant="active">12 SMOKE SUITES</Badge>
+				<Badge Variant="active">{Counts.Packages} PACKAGES</Badge>
+				<Badge Variant="active">{Counts.Suites} SMOKE SUITES</Badge>
 				<Badge>DUAL RELEASE</Badge>
 				<Badge>CLASSIC + EFFECT-TS</Badge>
 			</div>
@@ -400,12 +409,12 @@ const Lessons = [
 				<Concept
 					Id="case-p1-decision"
 					Title="The decision: one factory service"
-					Diagram="The consolidation (49e5b3d, 859f16a, 018919c) onto one factory service - 15 methods, one transform contract, and the ledger strings owned by the modules themselves."
+					Diagram={`The consolidation (49e5b3d, 859f16a, 018919c) onto one factory service - ${History.OriginMethods} methods, one transform contract, and the ledger strings owned by the modules themselves.`}
 				>
 					<p>
 						The decision (<code>49e5b3d</code>, <code>859f16a</code>,{" "}
 						<code>018919c</code>): consolidate onto <strong>one factory service</strong>{" "}
-						- 15 methods, one transform contract, and the ledger strings owned by the
+						- {History.OriginMethods} methods, one transform contract, and the ledger strings owned by the
 						modules themselves.
 					</p>
 				</Concept>
@@ -423,26 +432,26 @@ const Lessons = [
 				<Concept
 					Id="case-p1-outcome"
 					Title="The outcome: green and byte-identical"
-					Diagram="Five bundles green, 231 checks, and every ledger string byte-identical to pre-refactor behavior, smoke-asserted."
+					Diagram={`Five bundles green, ${History.OriginChecks} checks, and every ledger string byte-identical to pre-refactor behavior, smoke-asserted.`}
 				>
 					<p>
-						The outcome: five bundles green, 231 checks, and every ledger string
+						The outcome: five bundles green, {History.OriginChecks} checks, and every ledger string
 						byte-identical to pre-refactor behavior, smoke-asserted.
 					</p>
 				</Concept>
 				<Concept
 					Id="case-p1-methods"
-					Title="The factory has since grown from 15 to 19 methods"
-					Diagram="The factory's seam table growing as later phases move machinery in - by insertion (Write landing at the SCHEME's §2.7, renumbering everything after it), by alias (GuardedWrite sharing §2.7) and by uncounted helpers (UpdateKey, §2.16)."
+					Title={`The factory has since grown from ${History.OriginMethods} to ${Methods.Count} methods`}
+					Diagram={`The factory's seam table growing as later phases move machinery in - by insertion (Write landing at the SCHEME's ${Scheme.Write}, renumbering everything after it), by alias (GuardedWrite sharing ${Scheme.Write}) and by uncounted helpers (UpdateKey, ${Scheme.UpdateKey}).`}
 				>
 					<p>
 						The factory's page shows the seam table this era produced; it has since grown
-						from 15 to 19 methods as later phases moved machinery in.
+						from {History.OriginMethods} to {Methods.Count} methods as later phases moved machinery in.
 					</p>
 					<p>
-						The growth happened by insertion (Write landed at the SCHEME's §2.7,
-						renumbering everything after it), by alias (GuardedWrite shares §2.7) and by
-						uncounted helpers (UpdateKey, §2.16).
+						The growth happened by insertion (Write landed at the SCHEME's {Scheme.Write},
+						renumbering everything after it), by alias (GuardedWrite shares {Scheme.Write}) and by
+						uncounted helpers (UpdateKey, {Scheme.UpdateKey}).
 					</p>
 				</Concept>
 			</div>
@@ -831,13 +840,13 @@ const Lessons = [
 				<Concept
 					Id="case-p5-granular"
 					Title="The fine-grained control"
-					Diagram="The control split (e69c5d3): normalize selecting the transforms, govern selecting the chain steps through the factory's Govern - the fold entry, SCHEME §2.18 - and a step registry the modules populate (RegisterGovern, §2.17)."
+					Diagram={`The control split (e69c5d3): normalize selecting the transforms, govern selecting the chain steps through the factory's Govern - the fold entry, SCHEME ${Scheme.Govern} - and a step registry the modules populate (RegisterGovern, ${Scheme.RegisterGovern}).`}
 				>
 					<p>
 						Then the fine-grained control (<code>e69c5d3</code>):{" "}
 						<code>normalize</code> selects the transforms, <code>govern</code> selects the
 						chain steps through the factory's <code>Govern</code> - the fold entry, SCHEME
-						§2.18 - and a step registry the modules populate (RegisterGovern, §2.17).
+						{Scheme.Govern} - and a step registry the modules populate (RegisterGovern, {Scheme.RegisterGovern}).
 					</p>
 				</Concept>
 				<Concept
@@ -1041,18 +1050,18 @@ const Lessons = [
 				<Concept
 					Id="case-p6-naming"
 					Title="The naming inverted (register #15)"
-					Diagram="Packages reading as @-sentences - Hook @ DSH @ Governor @ Package - and grouping alphabetically by kind, role and domain: kind-first ordering mirroring the consumer topology (the hooks vs the factory service), role-contiguous grouping keeping the shared-machinery families together (governor-cargo/governor-package, the normalize-* family), at version 0.0.1."
+					Diagram={`Packages reading as @-sentences - ${Families.GovernorPackage} - and grouping alphabetically by kind, role and domain: kind-first ordering mirroring the consumer topology (the hooks vs the factory service), role-contiguous grouping keeping the shared-machinery families together (governor-cargo/governor-package, the normalize-* family), at version ${Versions.Release}.`}
 				>
 					<p>
 						The naming inverted (<code>register #15</code>): packages read as{" "}
-						<code>@</code>-sentences - <em>Hook @ DSH @ Governor @ Package</em> - and
+						<code>@</code>-sentences - <em>{Families.GovernorPackage}</em> - and
 						group alphabetically by kind, role and domain.
 					</p>
 					<p>
 						Kind-first ordering mirrors the consumer topology - the hooks vs the factory
 						service - and role-contiguous grouping keeps the shared-machinery families
 						together (governor-cargo/governor-package, the normalize-* family), at
-						version 0.0.1.
+						version {Versions.Release}.
 					</p>
 				</Concept>
 				<Concept
@@ -1092,7 +1101,7 @@ const Lessons = [
 		<section class="section" id="decisions">
 			<SectionHeader
 				Title="The decision index"
-				Meta="13 DECISIONS, WHERE THEY LIVE, WHAT PROVED THEM"
+				Meta={`${Decisions.Count} DECISIONS, WHERE THEY LIVE, WHAT PROVED THEM`}
 			/>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				Every decision below survives in a shipped seam. The technique column names where it

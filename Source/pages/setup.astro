@@ -6,6 +6,7 @@ import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import { Steps } from "@Library/Content";
 
 // The profile wiring example, straight from the family's documented setup:
 // the profile's package.json carries the link: dependencies, and the
@@ -155,7 +156,7 @@ const Knobs = [
 			<Badge Variant="primary" Dot>
 				SETUP
 			</Badge>
-			<Badge>4 STEPS</Badge>
+			<Badge>{Steps.Count} STEPS</Badge>
 			<Badge>PROFILE: ~/.dsh</Badge>
 		</div>
 
