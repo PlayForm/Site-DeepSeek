@@ -1269,11 +1269,6 @@ svg {
 	color: var(--color-on-surface);
 }
 
-.hook-card__rule .arrow {
-	color: var(--color-primary);
-	font-weight: 600;
-}
-
 .hook-check {
 	accent-color: var(--color-primary-container);
 	width: 14px;
@@ -1558,11 +1553,6 @@ svg {
 
 .table td strong {
 	color: var(--color-on-surface);
-	font-weight: 600;
-}
-
-.table td .arrow {
-	color: var(--color-primary);
 	font-weight: 600;
 }
 
