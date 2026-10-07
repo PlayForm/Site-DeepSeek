@@ -1,10 +1,8 @@
-# [@playform / DSH Family] - Site
+# @playform / DSH Family - Site
 
 The website for the **DeepSeek Harness Plugin Family for <a href="https://PlayForm.Cloud">PlayForm</a>** - an Astro static
-site in the "Technical Minimalist Harness" design: blue + white only, Inter + JetBrains Mono, clean
+site in the "Technical Minimalist Harness" design: blue + white only, Inter + IBM Plex Mono, clean
 headers, zero elevation (1px hairlines, no shadows, no gradients).
-
-[DSH Family]: https://GitHub.Com/PlayForm/Starter#readme
 
 ## Pages
 
@@ -30,7 +28,7 @@ Source/
 	Layout/          the layout shell (Base: header, footer, fonts, meta)
 	Component/       the UI components (Badge, Card, SectionHeader, PageHero, Terminal)
 	pages/           the Astro pages (index, plugins, versions, flavors, models, workbench, matrix, plugins/<12 detail pages>)
-	Script/          the starter's client scripts
+	Script/          the client scripts
 	Stylesheet/      the design system (Base.css: Tailwind; Global.css: tokens + layout)
 Public/            static assets copied verbatim (404.html, _headers, Manifest.json, robots.txt, assets/)
 Target/            the built static site (the deployment artifact)
@@ -43,7 +41,7 @@ Target/            the built static site (the deployment artifact)
 The design tokens and component styles in `Source/Stylesheet/Global.css` are adapted from the
 Reference design system: `--color-primary` `#003ec7`, `--color-primary-container` `#0052ff`,
 white/near-white surfaces, the `--radius-*` scale, the 8pt spacing rhythm, and the exact Inter /
-JetBrains Mono type scale. Every surface boundary is a 1px `outline-variant` hairline.
+IBM Plex Mono type scale. Every surface boundary is a 1px `outline-variant` hairline.
 
 ## Build
 
@@ -62,8 +60,8 @@ Pages at this repo:
 - **Build output directory:** `Target/`
 - **Framework preset:** none - it is a static site.
 
-The repo includes `wrangler.toml` with `pages_build_output_dir = "Target"` and the build command, so
-a Git-connected Pages project (or `wrangler pages deploy`) works with no extra configuration.
+A Git-connected Pages project works with no extra configuration: the build command and the
+output directory above are all Pages needs (no `wrangler.toml` is required).
 `Public/_headers` ships cache rules for the content-hashed `_astro/` assets, and `Public/404.html`
 provides the styled not-found page that Cloudflare Pages serves automatically. Routes are emitted
 directory-style (`plugins/index.html`), which Pages serves natively.

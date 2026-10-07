@@ -1,22 +1,14 @@
 {
-	"name": "@playform/starter",
+	"name": "@playform/dsh-family-site",
 	"version": "0.0.1",
 	"private": true,
-	"description": "Starter 📄",
+	"description": "The website for the DeepSeek Harness Plugin Family for PlayForm.",
 	"keywords": [
 		"astro",
-		"starter",
-		"skeleton",
-		"playform"
+		"dsh",
+		"playform",
+		"site"
 	],
-	"homepage": "https://GitHub.Com/PlayForm/Starter#readme",
-	"bugs": {
-		"url": "https://GitHub.Com/PlayForm/Starter/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/PlayForm/Starter.git"
-	},
 	"license": "SEE LICENSE IN LICENSE",
 	"author": {
 		"name": "Source ✍🏻 Open 👐🏻",
