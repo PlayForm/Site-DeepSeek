@@ -105,6 +105,13 @@ function Current(Href: string) {
 			<slot />
 		</div>
 
+		<!-- Transient action feedback (copy, stream, filter actions) -->
+		<div class="toast" role="status" aria-live="polite" data-toast>
+			<span class="toast__rail"></span>
+			<span class="toast__msg" data-toast-msg></span>
+			<span class="toast__progress"></span>
+		</div>
+
 		<!-- Footer -->
 		<footer class="site-footer container">
 			<div class="site-footer__links">
@@ -117,6 +124,47 @@ function Current(Href: string) {
 			</p>
 			<p class="site-footer__copy">© 2025 PlayForm Systems. All rights reserved.</p>
 		</footer>
+
+		<script>
+			// The global action feedback channel: a single toast instance plus
+			// the delegated copy-trigger handler (the registry cards, the
+			// package install rows, the detail-page snippets). Page scripts
+			// reach it through window.__dshToast.
+			const Toast = document.querySelector<HTMLElement>("[data-toast]")!;
+			const ToastMsg = Toast.querySelector<HTMLElement>("[data-toast-msg]")!;
+			let ToastTimer: ReturnType<typeof setTimeout> | undefined;
+
+			(window as any).__dshToast = (Message: string) => {
+				ToastMsg.textContent = Message;
+				Toast.classList.add("is-visible");
+				// Re-arm the progress line by restarting the animation.
+				const Progress = Toast.querySelector<HTMLElement>(".toast__progress")!;
+				Progress.style.animation = "none";
+				void Progress.offsetWidth;
+				Progress.style.animation = "";
+				clearTimeout(ToastTimer);
+				ToastTimer = setTimeout(() => Toast.classList.remove("is-visible"), 2600);
+			};
+
+			document.addEventListener("click", (Event) => {
+				const Trigger = (Event.target as HTMLElement).closest<HTMLElement>("[data-copy]");
+				if (!Trigger) return;
+				Event.stopPropagation();
+				const Command = Trigger.dataset["copy"] ?? "";
+				if (navigator.clipboard?.writeText) {
+					navigator.clipboard.writeText(Command).catch(() => {});
+				}
+				Trigger.classList.add("is-copied");
+				const Label = Trigger.querySelector<HTMLElement>("[data-copy-label]");
+				const Original = Label?.textContent ?? "";
+				if (Label) Label.textContent = "COPIED";
+				(window as any).__dshToast?.(`Copied: ${Command}`);
+				setTimeout(() => {
+					Trigger.classList.remove("is-copied");
+					if (Label && Original) Label.textContent = Original;
+				}, 1400);
+			});
+		</script>
 
 		<script>
 			import "@Script/Firebase";
