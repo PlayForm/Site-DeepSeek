@@ -145,9 +145,13 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 				</a>
 			</div>
 
-			<!-- Live stream gate preview: raw tokens flow in, anomalies are
-				flagged with the Harness Blue tint, the pipe carries the stream
-				through the gate, and the clean ASCII lands under the caret. -->
+			<!-- Live stream gate preview: the gate as the left-to-right pipeline
+				it is - the RAW STREAM pane on the left feeds the flagged tokens
+				through the middle pipe, and the NORMALIZED OUTPUT pane on the
+				right lands the clean ASCII. Both panes are height-bounded (fixed
+				line budget, overflow hidden): every generation appends the next
+				response inside the panes, the oldest lines scroll out, and the
+				page below never shifts. -->
 			<section class="terminal-demo" data-demo>
 				<div class="terminal-demo__bar">
 					<span class="terminal-demo__label">
@@ -156,13 +160,21 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 					</span>
 					<span class="terminal-demo__status" data-demo-status>NORMALIZING · 0 CHARS</span>
 				</div>
-				<div class="terminal-demo__screen" data-demo-raw></div>
-				<div class="terminal-demo__flow">
-					<span class="flow-tag">RAW →</span>
-					<span class="flow-line"><span class="flow-line__pulse"></span></span>
-					<span class="flow-tag">CLEAN</span>
+				<div class="terminal-demo__stage">
+					<div class="terminal-demo__pane">
+						<span class="terminal-demo__pane-label">RAW STREAM</span>
+						<div class="terminal-demo__screen" data-demo-raw></div>
+					</div>
+					<div class="terminal-demo__flow">
+						<span class="flow-tag">RAW →</span>
+						<span class="flow-line"><span class="flow-line__pulse"></span></span>
+						<span class="flow-tag">CLEAN</span>
+					</div>
+					<div class="terminal-demo__pane">
+						<span class="terminal-demo__pane-label">NORMALIZED OUTPUT</span>
+						<div class="terminal-demo__screen" data-demo-clean></div>
+					</div>
 				</div>
-				<div class="terminal-demo__output" data-demo-clean></div>
 			</section>
 		</section>
 
@@ -330,8 +342,10 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 
 <script>
 	// The live stream gate preview: the same per-flavor rules the workbench
-	// runs, compressed into the hero. Raw tokens enter the screen flagged;
-	// the pipe pulse carries them through the gate; clean ASCII lands below.
+	// runs, compressed into the hero. Raw tokens enter the left pane flagged;
+	// the pipe pulse carries them through the gate; clean ASCII lands in the
+	// right pane. Both panes are height-bounded, so every generation appends
+	// the next response inside the panes and the page below never shifts.
 	const Seeds = [
 		"Plan review \u2014 phase one: the config \u201Cdrift\u201D is real\u2026 wait for it\u2026",
 		"Balance\u00A0sheet sync \u2014 \u2018quoted\u2019 values\u00A0kept\u2026",
@@ -370,6 +384,21 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 			.replace(/[\uFF01-\uFF5E]/g, (Mark) => `<span class="anom">${Mark}</span>`);
 	}
 
+	// The pane bound the trim guard relies on: the screen's fixed 96px height
+	// in Global.css (4 lines of 18px + 24px of padding). clientHeight stays
+	// constant, so scrollHeight exceeds it the moment the newest response no
+	// longer fits - the oldest rows scroll out until it fits again, and the
+	// pane's footprint on the page never changes.
+	function AppendResponse(Pane: HTMLElement, Line: string) {
+		Pane.insertAdjacentHTML(
+			"beforeend",
+			`<div class="terminal-demo__line">\u21B3 ${Line}<span class="stream-caret"></span></div>`,
+		);
+		while (Pane.scrollHeight > Pane.clientHeight) {
+			Pane.firstElementChild?.remove();
+		}
+	}
+
 	function Tick() {
 		const Seed = Seeds[Index % Seeds.length];
 		Index += 1;
@@ -377,14 +406,8 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 		const After = CleanUp(Seed);
 		Chars += (Before.match(/[\u2013\u2014\u2015\u2018\u2019\u201C\u201D\u2026\u00A0\u200B-\u200D\uFEFF\uFF01-\uFF5E]/g) ?? []).length;
 
-		Raw.insertAdjacentHTML("beforeend", `\u21B3 ${Highlight(Before)}\n`);
-		Raw.insertAdjacentHTML("beforeend", '<span class="stream-caret"></span>');
-		if (Raw.scrollHeight > Raw.clientHeight + 200) {
-			Raw.textContent = Raw.textContent?.split("\n").slice(-4).join("\n");
-		}
-
-		Clean.textContent = `\u21B3 ${After} `;
-		Clean.insertAdjacentHTML("beforeend", '<span class="stream-caret"></span>');
+		AppendResponse(Raw, Highlight(Before));
+		AppendResponse(Clean, After);
 
 		Status.textContent = `NORMALIZING · ${Chars.toLocaleString("en-US")} CHARS`;
 	}
