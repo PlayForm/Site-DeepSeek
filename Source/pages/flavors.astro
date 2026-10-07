@@ -4,6 +4,7 @@ import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
+import FlavorBadge from "@Component/FlavorBadge.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import { Counts, Sprite } from "@Library/Content";
@@ -11,37 +12,37 @@ import { Counts, Sprite } from "@Library/Content";
 // The seven normalize flavors: six stream flavors plus the file tool.
 const Flavors = [
 	{
-		Name: "FLAVOR: DASH",
+		Flavor: "DASH",
 		Package: "hook-dsh-normalize-dash",
 		Desc: "Normalizes the unicode dash family to ASCII hyphen-minus in model output streams.",
 	},
 	{
-		Name: "FLAVOR: QUOTES",
+		Flavor: "QUOTES",
 		Package: "hook-dsh-normalize-quotes",
 		Desc: "Maps the eight curly quote code points to their ASCII straight counterparts in model output streams.",
 	},
 	{
-		Name: "FLAVOR: ELLIPSIS",
+		Flavor: "ELLIPSIS",
 		Package: "hook-dsh-normalize-ellipsis",
 		Desc: "Replaces the horizontal ellipsis (U+2026) with the plain ASCII three-dot sequence in model output streams.",
 	},
 	{
-		Name: "FLAVOR: SPACES",
+		Flavor: "SPACES",
 		Package: "hook-dsh-normalize-spaces",
 		Desc: "Normalizes the unicode space family (Zs minus the ASCII space) to the plain space in model output streams.",
 	},
 	{
-		Name: "FLAVOR: INVISIBLE",
+		Flavor: "INVISIBLE",
 		Package: "hook-dsh-normalize-invisible",
 		Desc: "Removes the zero-width/invisible character family (soft hyphen, zero-width spaces and joiners, bidi controls, BOM) from model output streams.",
 	},
 	{
-		Name: "FLAVOR: FULLWIDTH",
+		Flavor: "FULLWIDTH",
 		Package: "hook-dsh-normalize-fullwidth",
 		Desc: "Maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterparts in model output streams.",
 	},
 	{
-		Name: "FLAVOR: FILE",
+		Flavor: "FILE",
 		Package: "hook-dsh-normalize-file",
 		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms (dash, quotes, ellipsis, spaces, invisible, fullwidth) to a file already on disk, writing only when something changed.",
 	},
@@ -77,7 +78,7 @@ const Flavors = [
 						Desc={Flavor.Desc}
 						Muted
 					>
-						<Badge slot="badge">{Flavor.Name}</Badge>
+						<FlavorBadge slot="badge" Flavor={Flavor.Flavor} />
 					</Card>
 				))}
 			</div>

@@ -3,6 +3,7 @@ import Base from "@Layout/Base.astro";
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -211,7 +212,7 @@ const Knobs = [
 					</p>
 				</Concept>
 			</div>
-			<div class="code-block">{ProfileExample.join("\n")}</div>
+			<CodeBlock Language="json" Source={{"ProfileExample".join("\n")}} />
 		</section>
 
 		<!-- Step 2 -->
@@ -246,7 +247,7 @@ const Knobs = [
 					</p>
 				</Concept>
 			</div>
-			<div class="code-block">{PatchExample.join("\n")}</div>
+			<CodeBlock Language="yaml" Source={{"PatchExample".join("\n")}} />
 		</section>
 
 		<!-- Step 3 -->

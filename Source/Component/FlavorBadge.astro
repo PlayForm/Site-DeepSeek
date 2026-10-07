@@ -1,0 +1,28 @@
+---
+// FlavorBadge: the "FLAVOR: X" label as the user's two-part stack -
+// the FLAVOR prefix in the accent-orange token, the flavor name in the
+// badge's own ink, and the release-version badge (v0.0.1 from the
+// content library) underneath in the black ink color. The stack is a
+// semantic flex column with a CSS gap - never a <br> - and both lines
+// stay mono at the 13px floor. Variant "flavor" is the plugins-page
+// NORM metadata chip; Icon adds the swap arrow before the prefix.
+import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
+import { Versions } from "@Library/Content";
+
+interface Props {
+	Flavor: string;
+	Variant?: "muted" | "flavor";
+	Icon?: boolean;
+}
+
+const { Flavor, Variant = "muted", Icon = false } = Astro.props;
+---
+
+<span class="flavor-stack">
+	<Badge Variant={Variant}>
+		{Icon && <BrandIcon Name="swap" Size="0.8em" />}
+		<span class="flavor-prefix">FLAVOR:</span> {Flavor}
+	</Badge>
+	<span class="flavor-version">v{Versions.Release}</span>
+</span>

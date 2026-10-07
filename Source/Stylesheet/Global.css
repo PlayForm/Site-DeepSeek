@@ -71,6 +71,20 @@
 	--color-on-secondary-fixed: #001452;
 	--color-on-secondary-fixed-variant: #0038b7;
 
+	/* ---- Color: accent-orange (the ONE sanctioned second hue) ----
+		The burnt "engineering" orange, from the Stitch tertiary family.
+		Chosen over the muted range (#D97706 / #EA580C - both measure
+		~3.1-3.6:1 on white, under the AA floor for the 13px mono labels
+		it colors) and over the darker #952200 (reads rust, not orange):
+		#BF3003 keeps a true orange hue at ~5.8:1 on the white canvas
+		and the #F8FAFC trays, clears the label floor on both, and sits
+		beside the Harness Blue without competing - the blue stays the
+		primary accent everywhere; the orange marks ONLY the RAW / stream
+		/ flavor surfaces (the RAW labels, the raw panes' 2px top rails
+		and the FLAVOR:/NORM: label prefixes). Zero elevation: it is
+		flat like every other color in the system. */
+	--color-accent-orange: #bf3003;
+
 	/* ---- Typography: families ----
 		Inter carries the headings and the body; IBM Plex Mono (the
 		the "Nocturnal Field Record" design reference) is reserved
@@ -1326,7 +1340,7 @@ svg {
 }
 
 .stream-pane__label .dot--raw {
-	background: var(--color-outline);
+	background: var(--color-accent-orange);
 }
 
 .stream-pane__label .dot--clean {
@@ -1576,6 +1590,32 @@ svg {
 
 .code-block .cm {
 	color: var(--color-outline);
+}
+
+/* ---- Shiki bridge (CodeBlock.astro) ---- */
+/* Shiki's codeToHtml output renders as pre.shiki > code with per-token span
+   colors from the github-light theme. The tray stays the site's own surface
+   color, the text stays IBM Plex Mono at the site's sizes: the pre/code
+   wrappers and the default text color are reset to inherit, the theme's
+   inline background and foreground are overridden, and only the token spans
+   keep their theme palette. */
+.code-block pre.shiki {
+	margin: 0;
+	padding: 0;
+	background: transparent !important;
+	color: inherit !important;
+	font: inherit;
+	line-height: inherit;
+	tab-size: 4;
+}
+
+.code-block pre.shiki code {
+	display: block;
+	background: none !important;
+	color: inherit !important;
+	font: inherit;
+	line-height: inherit;
+	tab-size: 4;
 }
 
 /* ---- Release tag (package detail spec cards) ---- */
@@ -2252,6 +2292,64 @@ button:focus-visible,
 .bench-status.is-visible {
 	opacity: 1;
 	transform: translateY(0);
+}
+
+/* ============================================================
+	The orange accent: the RAW / stream / flavor signature
+	------------------------------------------------------------
+	The accent-orange token is the ONE sanctioned second hue next to
+	the Harness Blue. It appears ONLY where this section says: the RAW
+	labels, the raw panes' 2px top rails, the flow divider's RAW tag
+	and the FLAVOR:/NORM:/STRIP: label prefixes. The blue keeps its
+	primacy everywhere else; the orange is flat (zero elevation, no
+	glows, no shadows) like the rest of the system.
+	============================================================ */
+
+/* ---- The orange text utility: any RAW-labeled element ---- */
+.is-orange {
+	color: var(--color-accent-orange);
+}
+
+/* ---- The colored prefix inside the FLAVOR: / NORM: / STRIP: labels ----
+	The prefix carries the orange token; the token/name that follows
+	keeps its own ink or state color, so the label reads as a pair. */
+.flavor-prefix {
+	color: var(--color-accent-orange);
+}
+
+/* ---- The flavor label stack: the label chip + the version badge
+	underneath - the user's two-part FLAVOR structure. The stack is a
+	semantic flex column with a CSS gap (never a <br>); the version
+	badge rides the label's right edge in the black ink color, both
+	lines mono, the 13px floor held. */
+.flavor-stack {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 2px;
+}
+
+.flavor-version {
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	color: var(--color-ink);
+}
+
+/* ---- The orange top rail: the raw/stream signature ----
+	A 2px flat top rail in the accent-orange token on the raw panes
+	and the input surfaces: the inspect-card's 2px Harness Blue rail
+	geometry, orange token, zero elevation. Declared after the
+	panes/terminal surfaces so the border-top override wins. */
+.rail-orange {
+	border-top: 2px solid var(--color-accent-orange);
+}
+
+/* ---- The flow divider's RAW side (the CLEAN tag stays Harness Blue) ---- */
+.flow-tag--raw {
+	color: var(--color-accent-orange);
 }
 
 /* ---- Reduced motion: the whole motion language collapses ---- */

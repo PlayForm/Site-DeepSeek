@@ -12,7 +12,8 @@ import { Counts } from "@Library/Content";
 const Hooks = [
 	{
 		Id: "dash",
-		Token: "NORM:DASH",
+		Prefix: "NORM",
+		Token: "DASH",
 		Name: "Hyphen Standardizer",
 		From: "\u2014 \u2013",
 		To: "-",
@@ -20,7 +21,8 @@ const Hooks = [
 	},
 	{
 		Id: "quotes",
-		Token: "NORM:QUOTES",
+		Prefix: "NORM",
+		Token: "QUOTES",
 		Name: "Curly Quotes",
 		From: "\u201C \u201D \u2018 \u2019",
 		To: "\" '",
@@ -28,7 +30,8 @@ const Hooks = [
 	},
 	{
 		Id: "ellipsis",
-		Token: "NORM:ELLIPSIS",
+		Prefix: "NORM",
+		Token: "ELLIPSIS",
 		Name: "Ellipsis Expander",
 		From: "\u2026",
 		To: "...",
@@ -36,7 +39,8 @@ const Hooks = [
 	},
 	{
 		Id: "spaces",
-		Token: "NORM:SPACES",
+		Prefix: "NORM",
+		Token: "SPACES",
 		Name: "Whitespace Purge",
 		From: "\\u00A0",
 		To: "\\x20",
@@ -44,7 +48,8 @@ const Hooks = [
 	},
 	{
 		Id: "invisible",
-		Token: "STRIP:ZWSP",
+		Prefix: "STRIP",
+		Token: "ZWSP",
 		Name: "Zero-Width Strip",
 		From: "\\u200B\\uFEFF",
 		To: "\u2205",
@@ -52,7 +57,8 @@ const Hooks = [
 	},
 	{
 		Id: "fullwidth",
-		Token: "NORM:FULLWIDTH",
+		Prefix: "NORM",
+		Token: "FULLWIDTH",
 		Name: "Width Normalizer",
 		From: "\\uFF01..\\uFF5E",
 		To: "Halfwidth",
@@ -60,7 +66,8 @@ const Hooks = [
 	},
 	{
 		Id: "file",
-		Token: "NORM:FILE",
+		Prefix: "NORM",
+		Token: "FILE",
 		Name: "File Content Normalizer",
 		From: "on disk",
 		To: "6 transforms",
@@ -231,7 +238,10 @@ const Spans = [
 						data-armed={Hook.Armed ? "true" : "false"}
 					>
 						<div class="hook-card__top">
-							<span class="hook-card__token">{Hook.Token}</span>
+							<span class="hook-card__token">
+							<span class="flavor-prefix">{Hook.Prefix}:</span>
+							{Hook.Token}
+						</span>
 							<span class="hook-card__status"></span>
 						</div>
 						<span class="hook-card__name">{Hook.Name}</span>
@@ -248,9 +258,9 @@ const Spans = [
 		<!-- Dual terminal view -->
 		<section class="section">
 			<div class="stream-grid">
-				<div class="stream-pane">
+				<div class="stream-pane rail-orange">
 					<div class="stream-pane__bar">
-						<span class="stream-pane__label">
+						<span class="stream-pane__label is-orange">
 							<span class="dot dot--raw"></span>
 							RAW LLM INGEST BUFFER
 						</span>

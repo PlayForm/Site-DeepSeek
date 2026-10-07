@@ -4,12 +4,19 @@
 interface Props {
 	Command?: string;
 	Label?: string;
+	// Optional 2px accent-orange top rail: the site's input surfaces
+	// (the index hero's install box) carry the raw/stream signature.
+	Rail?: boolean;
 }
 
-const { Command = "pnpm add @playform/hook-dsh-core", Label = "CLI INSTALL" } = Astro.props;
+const {
+	Command = "pnpm add @playform/hook-dsh-core",
+	Label = "CLI INSTALL",
+	Rail = false,
+} = Astro.props;
 ---
 
-<div class="terminal" data-command={Command}>
+<div class={`terminal${Rail ? " rail-orange" : ""}`} data-command={Command}>
 	<div class="terminal__bar">
 		<span class="terminal__label">
 			<svg

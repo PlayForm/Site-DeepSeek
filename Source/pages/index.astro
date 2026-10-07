@@ -3,6 +3,7 @@ import Base from "@Layout/Base.astro";
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import FlavorBadge from "@Component/FlavorBadge.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Families } from "@Library/Content";
@@ -53,56 +54,56 @@ const Governance = [
 const Normalize = [
 	{
 		Name: "hook-dsh-normalize-dash",
-		Role: "FLAVOR: DASH",
+		Flavor: "DASH",
 		Sentence: Families.Dash,
 		Desc: "Normalizes the unicode dash family to ASCII hyphen-minus in model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-quotes",
-		Role: "FLAVOR: QUOTES",
+		Flavor: "QUOTES",
 		Sentence: Families.Quotes,
 		Desc: "Maps the eight curly quote code points to their ASCII straight counterparts in model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-ellipsis",
-		Role: "FLAVOR: ELLIPSIS",
+		Flavor: "ELLIPSIS",
 		Sentence: Families.Ellipsis,
 		Desc: "Replaces the horizontal ellipsis (U+2026) with the plain ASCII three-dot sequence in model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-spaces",
-		Role: "FLAVOR: SPACES",
+		Flavor: "SPACES",
 		Sentence: Families.Spaces,
 		Desc: "Normalizes the unicode space family (Zs minus the ASCII space) to the plain space in model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-invisible",
-		Role: "FLAVOR: INVISIBLE",
+		Flavor: "INVISIBLE",
 		Sentence: Families.Invisible,
 		Desc: "Removes the zero-width/invisible character family (soft hyphen, zero-width spaces and joiners, bidi controls, BOM) from model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-fullwidth",
-		Role: "FLAVOR: FULLWIDTH",
+		Flavor: "FULLWIDTH",
 		Sentence: Families.Fullwidth,
 		Desc: "Maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterparts in model output streams.",
 	},
 	{
 		Name: "hook-dsh-normalize-file",
-		Role: "FLAVOR: FILE",
+		Flavor: "FILE",
 		Sentence: Families.File,
 		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing only when something changed.",
 	},
 ];
 
 const Flavors = [
-	"FLAVOR: DASH",
-	"FLAVOR: QUOTES",
-	"FLAVOR: ELLIPSIS",
-	"FLAVOR: SPACES",
-	"FLAVOR: INVISIBLE",
-	"FLAVOR: FULLWIDTH",
-	"FLAVOR: FILE",
+	"DASH",
+	"QUOTES",
+	"ELLIPSIS",
+	"SPACES",
+	"INVISIBLE",
+	"FULLWIDTH",
+	"FILE",
 ];
 
 const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
@@ -131,7 +132,7 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 				control - twelve TypeScript packages, smoke-arbitrated. Model output, clean and
 				governed.
 			</p>
-			<Terminal Command="pnpm add @playform/hook-dsh-core" />
+			<Terminal Command="pnpm add @playform/hook-dsh-core" Rail />
 			<div class="action-row" style="margin-top: var(--space-md)">
 				<a class="action" href="/plugins/">
 					Explore Plugins
@@ -164,11 +165,11 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 				</div>
 				<div class="terminal-demo__stage">
 					<div class="terminal-demo__pane">
-						<span class="terminal-demo__pane-label">RAW STREAM</span>
-						<div class="terminal-demo__screen" data-demo-raw></div>
+						<span class="terminal-demo__pane-label is-orange">RAW STREAM</span>
+						<div class="terminal-demo__screen rail-orange" data-demo-raw></div>
 					</div>
 					<div class="terminal-demo__flow">
-						<span class="flow-tag">RAW →</span>
+						<span class="flow-tag flow-tag--raw">RAW →</span>
 						<span class="flow-line"><span class="flow-line__pulse"></span></span>
 						<span class="flow-tag">CLEAN</span>
 					</div>
@@ -230,7 +231,7 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 						Desc={Package.Desc}
 						Muted
 					>
-						<Badge slot="badge">{Package.Role}</Badge>
+						<FlavorBadge slot="badge" Flavor={Package.Flavor} />
 					</Card>
 				))}
 			</div>
@@ -288,7 +289,7 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 			<SectionHeader Title="Flavors & Roles" Meta={`${Counts.Normalizers} FLAVORS / ${Counts.Roles} ROLES`} />
 			<div class="flavor-strip">
 				{Flavors.map((Flavor) => (
-					<Badge>{Flavor}</Badge>
+					<FlavorBadge Flavor={Flavor} />
 				))}
 				{Roles.map((Role) => (
 					<Badge Variant="active">{Role}</Badge>

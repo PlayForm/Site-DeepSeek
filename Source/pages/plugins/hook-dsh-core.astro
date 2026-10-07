@@ -4,6 +4,7 @@ import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -318,13 +319,11 @@ const Related = [
 						than forking the dispatch.
 					</p>
 
-					<div class="code-block">
-						{[
+					<CodeBlock Language="typescript" Source={[
 							"Replace(Text, Dashes, Replacement);",
 							"ReplaceMap(Text, Quotes);",
 							'CoreChunk(Input, (Text) => Replace(Text, Dashes, "-"), Reasoning);',
-						].join("\n")}
-					</div>
+					].join("\n")} />
 				</Concept>
 			</div>
 		</section>
@@ -663,9 +662,7 @@ const Related = [
 						of line through <code>Suppress</code>:
 					</p>
 
-					<div class="code-block">
-						{SuppressionLines.join("\n")}
-					</div>
+					<CodeBlock Language="typescript" Source={SuppressionLines.join("\n")} />
 				</Concept>
 
 				<Concept
@@ -678,9 +675,7 @@ const Related = [
 						dependency sections may differ:
 					</p>
 
-					<div class="code-block">
-						{RefusalLines.join("\n")}
-					</div>
+					<CodeBlock Language="typescript" Source={RefusalLines.join("\n")} />
 				</Concept>
 
 				<Concept
@@ -693,9 +688,7 @@ const Related = [
 						tables match:
 					</p>
 
-					<div class="code-block">
-						{ReplaceLines.join("\n")}
-					</div>
+					<CodeBlock Language="typescript" Source={ReplaceLines.join("\n")} />
 				</Concept>
 
 				<Concept
@@ -708,9 +701,7 @@ const Related = [
 						Quotes map's:
 					</p>
 
-					<div class="code-block">
-						{ReplaceMapLines.join("\n")}
-					</div>
+					<CodeBlock Language="typescript" Source={ReplaceMapLines.join("\n")} />
 				</Concept>
 
 				<Concept
@@ -762,9 +753,7 @@ const Related = [
 						Named exports only - no plugin, no loader contract:
 					</p>
 
-					<div class="code-block">
-						{Imports.join("\n")}
-					</div>
+					<CodeBlock Language="typescript" Source={Imports.join("\n")} />
 				</Concept>
 			</div>
 		</section>

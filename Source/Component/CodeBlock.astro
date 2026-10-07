@@ -1,0 +1,27 @@
+---
+// Shiki-highlighted code block. The highlighting runs at build time via
+// Shiki's codeToHtml - zero runtime JavaScript, fully offline-safe - and the
+// output renders inside the site's own .code-block tray styling (the inner
+// pre/code inherit the site's IBM Plex Mono and the tray's colors; only the
+// token spans carry the theme's palette).
+import { codeToHtml } from "shiki";
+
+interface Props {
+	Source: string;
+	// The Shiki grammar for the sample: json, yaml, toml, typescript, bash.
+	Language?: string;
+	// Optional inline style carried over from the block's former markup.
+	Style?: string;
+}
+
+const { Source, Language = "json", Style } = Astro.props;
+
+const Highlighted = await codeToHtml(Source, {
+	lang: Language,
+	// The light github theme matches the site's #F8FAFC trays; the site has
+	// no dark mode, so a single light theme needs no CSS-variable bridge.
+	theme: "github-light",
+});
+---
+
+<div class="code-block" style={Style} set:html={Highlighted} />
