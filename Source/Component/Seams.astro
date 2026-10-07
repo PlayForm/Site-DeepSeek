@@ -2,6 +2,8 @@
 // Seams: the plugin's integration points with the DeepSeek Harness
 // internals - the actual events, services and facilities the plugin
 // operates through, rendered as a seam table.
+import BrandIcon from "@Component/BrandIcon.astro";
+
 export interface Seam {
 	Seam: string;
 	What: string;
@@ -19,7 +21,9 @@ const { Seams } = Astro.props;
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Seam</th>
+				<th>
+					<BrandIcon Name="chain" Size="0.9em" /> Seam
+				</th>
 				<th>What the plugin does there</th>
 				<th>What you can observe</th>
 			</tr>

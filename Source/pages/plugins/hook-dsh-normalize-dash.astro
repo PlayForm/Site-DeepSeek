@@ -2,6 +2,7 @@
 import Base from "@Layout/Base.astro";
 import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -244,7 +245,7 @@ const Config = [
 				hook-dsh-normalize-dash
 			</h1>
 			<p class="page-hero__sub">
-				Hook @ DSH @ Normalize @ Dash • _The DeepSeek Harness Plugin Family for PlayForm._
+				Hook @ DSH @ Normalize @ Dash • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
 				The <strong>dash normalizer for model output</strong> - a DeepSeek Harness plugin
 				that hooks the <code>llm/stream</code> waterfall (the interceptable wrapper around
 				EVERY streaming model call, bound to the LlmRuntime) and normalizes the unicode dash
@@ -704,7 +705,7 @@ const Config = [
 				The model emits prose with typographic dashes; the live UI and the transcript
 				receive the ASCII forms:
 			</p>
-			<p class="section-kicker">Before - the model stream as it is born</p>
+			<p class="section-kicker"><BrandIcon Name="swap" /> Before - the model stream as it is born</p>
 			<div class="code-block">{StreamExample.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
@@ -726,7 +727,7 @@ const Config = [
 				</Concept>
 			</div>
 			<p class="section-kicker">
-				After - the stream that reaches the transcript (and the gate for sensitive calls)
+				<BrandIcon Name="swap" /> After - the stream that reaches the transcript (and the gate for sensitive calls)
 			</p>
 			<div class="code-block">{GateExample.join("\n")}</div>
 			<div class="concept-list">

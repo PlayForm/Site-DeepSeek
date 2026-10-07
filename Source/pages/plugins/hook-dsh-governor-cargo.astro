@@ -2,6 +2,7 @@
 import Base from "@Layout/Base.astro";
 import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -83,7 +84,9 @@ const Related = [
 				PLUGIN DETAIL
 			</Badge>
 			<Badge>ROLE: GOVERNOR</Badge>
-			<Badge>GATE: Cargo.toml</Badge>
+			<Badge>
+				<BrandIcon Name="rust" Size="0.8em" /> GATE: Cargo.toml
+			</Badge>
 		</div>
 
 		<section class="page-hero">
@@ -91,12 +94,12 @@ const Related = [
 				hook-dsh-governor-cargo
 			</h1>
 			<p class="page-hero__sub">
-				Hook @ DSH @ Governor @ Cargo • _The DeepSeek Harness Plugin Family for PlayForm._
+				Hook @ DSH @ Governor @ Cargo • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
 				The <strong>Cargo.toml flavor of the silent package.json governor</strong> - the
 				same architecture, the same API-awareness discipline, the same silence toward the
-				author, but for RUST manifests, with the update stage driven by the RUST-SIDE CLI (
+				author, but for <BrandIcon Name="rust" /> RUST manifests, with the update stage driven by the RUST-SIDE CLI (
 				<code>cargo upgrade</code>, from cargo-edit): Rust does not co-opt into the
-				TypeScript ecosystem, so there is no npm-library equivalent - the update stage
+				TypeScript ecosystem, so there is no <BrandIcon Name="npm" /> npm-library equivalent - the update stage
 				operates at the exclusionary level through the cargo CLI. Chain canonicalization +
 				full-version normalization + surgical TOML rewriting +{" "}
 				<code>cargo upgrade --exclude</code> - comments survive. Every claim below is
@@ -206,7 +209,7 @@ const Related = [
 				>
 					<p>
 						Besides the fs/observed event path, its two steps are registered with the
-						factory's direct-govern registry at apply (
+						factory's <BrandIcon Name="chain" /> direct-govern registry at apply (
 						Factory.RegisterGovern("Cargo.toml", "cargo" | "update", ...)).
 					</p>
 					<p>
@@ -496,7 +499,7 @@ const Related = [
 					</p>
 				</Concept>
 			</div>
-			<p class="section-kicker">Before - the Cargo.toml as the author wrote it</p>
+			<p class="section-kicker"><BrandIcon Name="swap" /> Before - the Cargo.toml as the author wrote it</p>
 			<div class="code-block">{CargoBefore.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
@@ -510,7 +513,7 @@ const Related = [
 					</p>
 				</Concept>
 			</div>
-			<p class="section-kicker">After - the same file, surgically rewritten</p>
+			<p class="section-kicker"><BrandIcon Name="swap" /> After - the same file, surgically rewritten</p>
 			<div class="code-block">{CargoAfter.join("\n")}</div>
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">
 				The transcript shows only what the author wrote; the ledger shows the pass:

@@ -1,0 +1,238 @@
+---
+// BrandIcon: one shared inline, self-contained SVG icon per name - the
+// OFFICIAL brand marks (the sanctioned color exception on the blue+white
+// site) plus the family's operative-mechanics icons (the site's own
+// Harness-Blue/currentColor stroke family). No runtime fetches, no
+// hotlinked assets: every path is inlined here, so the site builds offline.
+//
+// BRAND MARKS - OFFICIAL SOURCES (verified at activation):
+//   deepseek - the official DeepSeek whale mark; geometry verbatim from the
+//              official api-docs.deepseek.com logo-mark asset. The official
+//              light mark ships fill #3c3c43; here it carries the DeepSeek
+//              brand blue #4D6BFE (the hue across deepseek.com's branding).
+//   npm      - the official npm wordmark from the npm/logos repository
+//              (npm, Inc): npm-logo-red.svg, brand red #C12127, the wide
+//              780x250 lockup (width = 3.12 x height).
+//   rust     - the official Rust gear mark from rust-lang.org
+//              (static/images/rust-logo-blk.svg), paths verbatim.
+//   cargo    - the official Cargo logo ships only as PNG (the cargo book's
+//              Cargo-Logo-Small.png at doc.rust-lang.org), so cargo slots
+//              reuse the official Rust gear mark (the rust-lang project).
+//   effect   - the official Effect mark from effect.website
+//              (/_astro/effect-logo-black.*.svg): the E-glyph portion of
+//              the official lockup, paths verbatim, official black fill.
+//   playform - NO existing PlayForm asset in Documentation/Brand/BRANDING.md
+//              or Site/Reference (checked): a minimal geometric "P" monogram
+//              in the Harness Blue (#0052FF), the site's own stroke family.
+//   zlm      - DOCUMENTED PLACEHOLDER: no ZLM brand mark exists and the
+//              site + docs contain zero ZLM mentions (verified). Renders a
+//              dashed placeholder box and nothing else - never invents a
+//              logo. Remove the slot when ZLM ships an official mark.
+//
+// MECHANICS ICONS (relatable, NOT brand marks - currentColor, 1.5 stroke):
+//   swap      - exchange arrows: the replacement mechanics (the before/after
+//               showcases, the flavor badges, the stream-demo panes).
+//   file-json - a JSON file: package.json references.
+//   chain     - the link glyph: the governance chains (the seams, the
+//               direct-govern registry).
+//   terminal  - the prompt glyph: the ledger/terminal trays.
+//
+// Props: Name (required), Size (em-based CSS length, default 1em),
+// ClassName (extra classes), Label (when set the icon is role="img" +
+// aria-label; otherwise aria-hidden="true" - decorative placements),
+// Tone ("current" | "accent" - mechanics only, mirrors ArrowIcon).
+interface Props {
+	Name:
+		| "deepseek"
+		| "npm"
+		| "rust"
+		| "cargo"
+		| "effect"
+		| "playform"
+		| "zlm"
+		| "swap"
+		| "file-json"
+		| "chain"
+		| "terminal";
+	Size?: string;
+	ClassName?: string;
+	Label?: string;
+	Tone?: "current" | "accent";
+}
+
+const { Name, Size = "1em", ClassName = "", Label, Tone = "current" } = Astro.props;
+
+// The npm lockup is a wide 780x250 mark: explicit width keeps the aspect.
+const IsNpm = Name === "npm";
+const Style = `height: ${Size}; width: ${IsNpm ? `calc(${Size} * 3.12)` : "auto"};`;
+
+const A11y = Label
+	? { role: "img" as const, "aria-label": Label }
+	: { "aria-hidden": "true" as const };
+
+const Cls = `brand-icon brand-icon--${Name}${
+	Tone === "accent" ? " brand-icon--accent" : ""
+}${ClassName ? ` ${ClassName}` : ""}`;
+---
+
+{Name === "deepseek" && (
+	<svg class={Cls} style={Style} viewBox="0.163 1.75 26.634 19.6" {...A11y}>
+		<path
+			fill="#4D6BFE"
+			d="M26.5174 3.39471C26.235 3.2567 26.1137 3.52006 25.9487 3.65346C25.8923 3.69659 25.8446 3.75294 25.7969 3.80469C25.3846 4.24516 24.9027 4.53439 24.2737 4.49989C23.3536 4.44814 22.5682 4.73737 21.8735 5.44119C21.7258 4.57349 21.2353 4.0554 20.4889 3.72304C20.0985 3.55054 19.7034 3.37746 19.4297 3.00197C19.2388 2.73459 19.1865 2.43673 19.091 2.14289C19.0301 1.96579 18.9697 1.78466 18.7656 1.75418C18.5442 1.71968 18.4574 1.90541 18.3705 2.06067C18.0232 2.69549 17.8887 3.39471 17.9019 4.10313C17.9324 5.6965 18.6051 6.96556 19.9421 7.86834C20.0939 7.97184 20.133 8.07535 20.0852 8.22658C19.9938 8.53766 19.8857 8.83955 19.7903 9.15063C19.7293 9.34901 19.6384 9.39271 19.4257 9.30588C18.692 8.9994 18.0583 8.54571 17.4982 7.99772C16.5477 7.07827 15.6881 6.06336 14.6162 5.26869C14.3644 5.08296 14.1125 4.91045 13.8521 4.746C12.7584 3.68394 13.9952 2.81164 14.2816 2.70814C14.5812 2.60003 14.3857 2.22857 13.4179 2.23317C12.4502 2.2372 11.5646 2.56151 10.4359 2.99335C10.2708 3.05832 10.0972 3.10547 9.91951 3.14457C8.8954 2.95022 7.83162 2.90709 6.72069 3.03245C4.62877 3.26533 2.95777 4.25436 1.72954 5.94261C0.254043 7.97184 -0.0932678 10.2777 0.33167 12.6824C0.778458 15.2171 2.07225 17.3153 4.06008 18.9558C6.12152 20.6567 8.49577 21.4905 11.2047 21.3306C12.8498 21.2358 14.6812 21.0155 16.7473 19.2669C17.2682 19.5262 17.8151 19.6297 18.7219 19.7074C19.4205 19.7723 20.0933 19.6729 20.6143 19.5648C21.4302 19.3923 21.3739 18.6367 21.0789 18.4981C18.6874 17.3843 19.2124 17.8374 18.7351 17.4706C19.9501 16.033 21.8063 13.4776 22.379 9.99821C22.4353 9.61409 22.5072 9.073 22.4986 8.76192C22.494 8.57216 22.5377 8.49856 22.7545 8.47671C23.3536 8.40771 23.935 8.24383 24.4692 7.94999C26.0188 7.10357 26.6439 5.71318 26.7911 4.04678C26.8129 3.79204 26.7865 3.52869 26.5174 3.39471ZM13.0143 18.3946C10.6964 16.5724 9.5722 15.9726 9.10816 15.9985C8.67402 16.0244 8.75222 16.5212 8.84768 16.8449C8.94773 17.1646 9.07768 17.3849 9.25996 17.6655C9.38589 17.8512 9.47272 18.1272 9.13404 18.3348C8.38766 18.7965 7.08985 18.1796 7.0289 18.1491C5.51833 17.2595 4.25559 16.0853 3.36546 14.4793C2.50581 12.9337 2.0067 11.2753 1.92447 9.50542C1.90262 9.07818 2.02855 8.92695 2.45406 8.84932C3.01413 8.74582 3.59144 8.72397 4.15093 8.80619C6.51656 9.15178 8.53027 10.2092 10.2185 11.8848C11.1822 12.8388 11.9114 13.979 12.6623 15.0929C13.461 16.2757 14.3201 17.4027 15.4144 18.3268C15.8008 18.6505 16.109 18.8966 16.404 19.0783C15.5144 19.1778 14.0297 19.1991 13.0143 18.3958V18.3946ZM14.1252 11.2489C14.1252 11.0591 14.277 10.9079 14.4679 10.9079C14.511 10.9079 14.5501 10.9165 14.5852 10.9292C14.6329 10.9464 14.6766 10.9723 14.7111 11.0114C14.7721 11.0718 14.8066 11.158 14.8066 11.2489C14.8066 11.4386 14.6548 11.5899 14.4639 11.5899C14.273 11.5899 14.1252 11.4386 14.1252 11.2489ZM17.5759 13.0188C17.3545 13.1096 17.1331 13.1873 16.9203 13.1959C16.5903 13.2131 16.2303 13.0791 16.0348 12.9153C15.7312 12.6605 15.5139 12.5179 15.423 12.0734C15.3839 11.8837 15.4057 11.5899 15.4402 11.4214C15.5185 11.0585 15.4316 10.8257 15.1757 10.614C14.9676 10.4415 14.7025 10.3938 14.4115 10.3938C14.3029 10.3938 14.2034 10.3461 14.1292 10.3076C14.0079 10.2472 13.9078 10.096 14.0033 9.91023C14.0338 9.84985 14.1815 9.70322 14.216 9.67734C14.6111 9.45251 15.0665 9.52612 15.488 9.6946C15.8784 9.85445 16.174 10.1477 16.5989 10.5623C17.033 11.0631 17.1112 11.2011 17.3585 11.5772C17.554 11.871 17.7317 12.1729 17.8536 12.5185C17.9272 12.7341 17.8317 12.9107 17.5759 13.0188Z"
+		></path>
+	</svg>
+)}
+
+{Name === "npm" && (
+	<svg class={Cls} style={Style} viewBox="0 0 780 250" {...A11y}>
+		<path
+			fill="#C12127"
+			d="M240,250h100v-50h100V0H240V250z M340,50h50v100h-50V50z M480,0v200h100V50h50v150h50V50h50v150h50V0H480z M0,200h100V50h50v150h50V0H0V200z"
+		></path>
+	</svg>
+)}
+
+{(Name === "rust" || Name === "cargo") && (
+	<svg class={Cls} style={Style} viewBox="0 0 144 144" {...A11y}>
+		<path
+			d="m71.05 23.68c-26.06 0-47.27 21.22-47.27 47.27s21.22 47.27 47.27 47.27 47.27-21.22 47.27-47.27-21.22-47.27-47.27-47.27zm-.07 4.2a3.1 3.11 0 0 1 3.02 3.11 3.11 3.11 0 0 1 -6.22 0 3.11 3.11 0 0 1 3.2-3.11zm7.12 5.12a38.27 38.27 0 0 1 26.2 18.66l-3.67 8.28c-.63 1.43.02 3.11 1.44 3.75l7.06 3.13a38.27 38.27 0 0 1 .08 6.64h-3.93c-.39 0-.55.26-.55.64v1.8c0 4.24-2.39 5.17-4.49 5.4-2 .23-4.21-.84-4.49-2.06-1.18-6.63-3.14-8.04-6.24-10.49 3.85-2.44 7.85-6.05 7.85-10.87 0-5.21-3.57-8.49-6-10.1-3.42-2.25-7.2-2.7-8.22-2.7h-40.6a38.27 38.27 0 0 1 21.41-12.08l4.79 5.02c1.08 1.13 2.87 1.18 4 .09zm-44.2 23.02a3.11 3.11 0 0 1 3.02 3.11 3.11 3.11 0 0 1 -6.22 0 3.11 3.11 0 0 1 3.2-3.11zm74.15.14a3.11 3.11 0 0 1 3.02 3.11 3.11 3.11 0 0 1 -6.22 0 3.11 3.11 0 0 1 3.2-3.11zm-68.29.5h5.42v24.44h-10.94a38.27 38.27 0 0 1 -1.24-14.61l6.7-2.98c1.43-.64 2.08-2.31 1.44-3.74zm22.62.26h12.91c.67 0 4.71.77 4.71 3.8 0 2.51-3.1 3.41-5.65 3.41h-11.98zm0 17.56h9.89c.9 0 4.83.26 6.08 5.28.39 1.54 1.26 6.56 1.85 8.17.59 1.8 2.98 5.4 5.53 5.4h16.14a38.27 38.27 0 0 1 -3.54 4.1l-6.57-1.41c-1.53-.33-3.04.65-3.37 2.18l-1.56 7.28a38.27 38.27 0 0 1 -31.91-.15l-1.56-7.28c-.33-1.53-1.83-2.51-3.36-2.18l-6.43 1.38a38.27 38.27 0 0 1 -3.32-3.92h31.27c.35 0 .59-.06.59-.39v-11.06c0-.32-.24-.39-.59-.39h-9.15zm-14.43 25.33a3.11 3.11 0 0 1 3.02 3.11 3.11 3.11 0 0 1 -6.22 0 3.11 3.11 0 0 1 3.2-3.11zm46.05.14a3.11 3.11 0 0 1 3.02 3.11 3.11 3.11 0 0 1 -6.22 0 3.11 3.11 0 0 1 3.2-3.11z"
+		></path>
+		<path
+			fill-rule="evenodd"
+			stroke="#000"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			stroke-width="3"
+			d="m115.68 70.95a44.63 44.63 0 0 1 -44.63 44.63 44.63 44.63 0 0 1 -44.63-44.63 44.63 44.63 0 0 1 44.63-44.63 44.63 44.63 0 0 1 44.63 44.63zm-.84-4.31 6.96 4.31-6.96 4.31 5.98 5.59-7.66 2.87 4.78 6.65-8.09 1.32 3.4 7.46-8.19-.29 1.88 7.98-7.98-1.88.29 8.19-7.46-3.4-1.32 8.09-6.65-4.78-2.87 7.66-5.59-5.98-4.31 6.96-4.31-6.96-5.59 5.98-2.87-7.66-6.65 4.78-1.32-8.09-7.46 3.4.29-8.19-7.98 1.88 1.88-7.98-8.19.29 3.4-7.46-8.09-1.32 4.78-6.65-7.66-2.87 5.98-5.59-6.96-4.31 6.96-4.31-5.98-5.59 7.66-2.87-4.78-6.65 8.09-1.32-3.4-7.46 8.19.29-1.88-7.98 7.98 1.88-.29-8.19 7.46 3.4 1.32-8.09 6.65 4.78 2.87-7.66 5.59 5.98 4.31-6.96 4.31 6.96 5.59-5.98 2.87 7.66 6.65-4.78 1.32 8.09 7.46-3.4-.29 8.19 7.98-1.88-1.88 7.98 8.19-.29-3.4 7.46 8.09 1.32-4.78 6.65 7.66 2.87z"
+		></path>
+	</svg>
+)}
+
+{Name === "effect" && (
+	<svg class={Cls} style={Style} viewBox="0 0 161 160" {...A11y}>
+		<path
+			fill-rule="evenodd"
+			fill="#000"
+			d="M160.058 47.1308C160.128 49.3649 159.201 51.3522 157.094 52.5262L136.298 64.1042L155.187 74.7413C157.319 75.9412 158.453 78.2081 158.275 80.4716C158.44 82.8041 157.547 84.9018 155.393 86.1173L83.99 126.323C82.4992 127.163 80.8003 127.324 79.268 126.903C78.5653 126.789 77.8713 126.551 77.2195 126.183L5.81948 85.9774C3.6881 84.7775 2.55464 82.5071 2.73248 80.2437C2.56759 77.9111 3.45934 75.8169 5.61403 74.6014L24.711 63.8487L4.12232 52.3846C3.50941 52.0428 2.97937 51.618 2.53479 51.1312C2.34228 50.9464 2.16532 50.7479 2.00734 50.5355C1.84332 50.3163 1.69916 50.0849 1.5783 49.8397C1.5196 49.6861 1.46521 49.5324 1.41428 49.3788L1.30465 49.0991L1.22782 48.8746C1.19156 48.7624 1.15962 48.6484 1.13027 48.5328L1.08193 48.3256C0.978336 47.8491 0.933447 47.3587 0.948986 46.8667C0.879062 44.6326 1.80534 42.6454 3.91255 41.4713L76.9372 0.813633C77.5501 0.471783 78.1976 0.242156 78.8545 0.116121C79.8317 -0.0720692 80.8296 -0.0289064 81.7671 0.226618C82.4854 0.344021 83.195 0.584006 83.8623 0.955207L156.884 41.6129C156.994 41.6733 157.1 41.7372 157.204 41.8045C157.302 41.8667 157.398 41.9306 157.491 41.9962C157.578 42.0583 157.662 42.1222 157.744 42.1878C158.008 42.3967 158.252 42.6246 158.474 42.8681C158.645 43.0338 158.803 43.2082 158.948 43.3929C159.133 43.6312 159.295 43.8867 159.428 44.1578C159.487 44.3114 159.541 44.4634 159.592 44.617C159.924 45.4095 160.085 46.2676 160.058 47.1308ZM20.2221 80.2471L80.5033 114.89L140.785 80.4716L124.112 70.8894L84.0694 93.1839C82.5441 94.0333 80.8072 94.1974 79.2395 93.7709C78.5213 93.6535 77.8117 93.4135 77.1444 93.0423L36.9796 70.6788L20.2221 80.2471Z"
+		></path>
+		<path
+			fill="#000"
+			d="M6.15788 112.795C7.7998 110.029 11.4307 109.095 14.2682 110.675L80.5033 148.311L146.934 110.81C149.771 109.228 153.769 110.345 155.044 112.93C156.25 116.091 155.685 119.247 152.839 120.832L83.8709 159.232C82.431 160.035 80.7899 160.188 79.3094 159.786C79.1273 159.757 78.946 159.719 78.7656 159.672C78.2744 159.546 77.7918 159.354 77.3317 159.099L8.36523 120.699C5.51648 119.113 4.51251 115.575 6.15788 112.795Z"
+		></path>
+	</svg>
+)}
+
+{Name === "playform" && (
+	<svg
+		class={Cls}
+		style={Style}
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="#0052FF"
+		stroke-width="1.75"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		{...A11y}
+	>
+		<path d="M9 3 h6.5 a4.5 4.5 0 0 1 0 9 H9 M9 3 v18"></path>
+	</svg>
+)}
+
+{Name === "zlm" && (
+	<span class={Cls} title="ZLM brand mark - unreleased; slot reserved" {...A11y}></span>
+)}
+
+{Name === "swap" && (
+	<svg
+		class={Cls}
+		style={Style}
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="1.5"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		{...A11y}
+	>
+		<path d="M4 7 H16 M12 3 L16 7 L12 11"></path>
+		<path d="M20 17 H8 M12 13 L8 17 L12 21"></path>
+	</svg>
+)}
+
+{Name === "file-json" && (
+	<svg
+		class={Cls}
+		style={Style}
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="1.5"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		{...A11y}
+	>
+		<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+		<path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+		<path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1"></path>
+		<path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1"></path>
+	</svg>
+)}
+
+{Name === "chain" && (
+	<svg
+		class={Cls}
+		style={Style}
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="1.5"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		{...A11y}
+	>
+		<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+		<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+	</svg>
+)}
+
+{Name === "terminal" && (
+	<svg
+		class={Cls}
+		style={Style}
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="1.5"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		{...A11y}
+	>
+		<path d="M4 17 L9 12 L4 7"></path>
+		<path d="M12 19 H20"></path>
+	</svg>
+)}
+
+<style>
+	/* The shared icon sizing: em-based, optically baseline-aligned, so the
+		marks sit in the prose flow like the ArrowIcon glyph does. */
+	.brand-icon {
+		display: inline-block;
+		vertical-align: -0.125em;
+		flex: none;
+		line-height: 0;
+	}
+
+	.brand-icon--accent {
+		color: var(--color-primary);
+	}
+
+	/* The documented ZLM placeholder: a dashed reserved box, nothing more. */
+	.brand-icon--zlm {
+		width: 1em;
+		height: 1em;
+		border: 1px dashed var(--color-primary);
+		border-radius: 2px;
+		opacity: 0.45;
+	}
+</style>

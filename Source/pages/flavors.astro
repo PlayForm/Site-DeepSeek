@@ -1,6 +1,7 @@
 ---
 import Base from "@Layout/Base.astro";
 import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -94,8 +95,8 @@ const Flavors = [
 					</div>
 					<p class="card__desc" style="color: var(--color-on-primary-container)">
 						The governance role: silently hooks fs/observed and rewrites the project's
-						dependency pins to the governed versions - the package.json governor and the
-						Cargo.toml governor.
+						dependency pins to the governed versions - the package.json governor and the{" "}
+						<BrandIcon Name="rust" /> Cargo.toml governor.
 					</p>
 				</Card>
 				<Card Variant="primary">

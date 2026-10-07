@@ -1,6 +1,7 @@
 ---
 import Base from "@Layout/Base.astro";
 import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -46,7 +47,7 @@ const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDT
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Engine selection:</span>
 					<span class="engine-pill engine-pill--active">
-						<span class="dot"></span> DeepSeek V4 Flash (120 tps)
+						<span class="dot"></span> <BrandIcon Name="deepseek" /> DeepSeek V4 Flash (120 tps)
 					</span>
 					<span class="engine-pill">
 						<span class="dot"></span> GLM 5.3 Flash

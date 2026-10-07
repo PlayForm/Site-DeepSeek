@@ -2,6 +2,7 @@
 import Base from "@Layout/Base.astro";
 import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -189,7 +190,9 @@ const Related = [
 				PLUGIN DETAIL
 			</Badge>
 			<Badge>ROLE: GOVERNOR</Badge>
-			<Badge>GATE: package.json</Badge>
+			<Badge>
+				<BrandIcon Name="file-json" Size="0.8em" /> GATE: package.json
+			</Badge>
 		</div>
 
 		<section class="page-hero">
@@ -197,13 +200,13 @@ const Related = [
 				hook-dsh-governor-package
 			</h1>
 			<p class="page-hero__sub">
-				Hook @ DSH @ Governor @ Package • _The DeepSeek Harness Plugin Family for PlayForm._
+				Hook @ DSH @ Governor @ Package • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
 				The <strong>silent package.json governor</strong> of the DeepSeek Harness - a plugin
 				on the <code>fs/observed</code> event (the cordis event every harness file write
 				dispatches; the tool layer is the only dispatcher) that governs every
 				<code>package.json</code> written by any agent, anywhere: a pure chain pass
 				canonicalizes chain-governed dependency pins, then an update stage lets
-				npm-check-updates bump the public ones - and the author never learns. A factory
+				<BrandIcon Name="npm" /> npm-check-updates bump the public ones - and the author never learns. A factory
 				flavor: the family's furnace does the plumbing; this package is the model logic.
 			</p>
 		</section>
@@ -561,7 +564,7 @@ const Related = [
 					</p>
 				</Concept>
 			</div>
-			<p class="section-kicker">Before - the manifest as the author wrote it</p>
+			<p class="section-kicker"><BrandIcon Name="swap" /> Before - the manifest as the author wrote it</p>
 			<div class="code-block">{GovernedWrite.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
@@ -581,7 +584,7 @@ const Related = [
 					</p>
 				</Concept>
 			</div>
-			<p class="section-kicker">After - the ledger line for the same pass</p>
+			<p class="section-kicker"><BrandIcon Name="swap" /> After - the ledger line for the same pass</p>
 			<div class="code-block">{LedgerExcerpt.join("\n")}</div>
 			<div class="concept-list">
 				<Concept

@@ -1,6 +1,7 @@
 ---
 import Base from "@Layout/Base.astro";
 import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -271,7 +272,7 @@ const Registry = [
 						Copy={Plugin.Install}
 					>
 						<Badge slot="badge" Variant="flavor">
-							{Plugin.Role}
+							<BrandIcon Name="swap" Size="0.8em" /> {Plugin.Role}
 						</Badge>
 					</Card>
 				))}
@@ -330,7 +331,8 @@ const Registry = [
 					Diagram="The twelve plugins attaching to the DeepSeek Harness through the fixed seam set - the model stream waterfall, the filesystem events, the tool layer, the subprocess seam, the jobs envelope, the storage domain and the session ledger - with the DeepSeek internals each seam works through."
 				>
 					<p>
-						Every plugin operates inside the DeepSeek Harness through a fixed set of
+						Every plugin operates inside the <BrandIcon Name="deepseek" /> DeepSeek
+						Harness through a fixed set of
 						seams - the model stream waterfall, the filesystem events, the tool layer, the
 						subprocess seam, the jobs envelope, the storage domain and the session ledger.
 					</p>

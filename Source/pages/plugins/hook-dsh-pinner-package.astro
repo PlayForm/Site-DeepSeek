@@ -2,6 +2,7 @@
 import Base from "@Layout/Base.astro";
 import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -115,7 +116,9 @@ const Related = [
 				PLUGIN DETAIL
 			</Badge>
 			<Badge>ROLE: PINNER</Badge>
-			<Badge>GATE: package.json</Badge>
+			<Badge>
+				<BrandIcon Name="file-json" Size="0.8em" /> GATE: package.json
+			</Badge>
 		</div>
 
 		<section class="page-hero">
@@ -123,7 +126,7 @@ const Related = [
 				hook-dsh-pinner-package
 			</h1>
 			<p class="page-hero__sub">
-				Hook @ DSH @ Pinner @ Package • _The DeepSeek Harness Plugin Family for PlayForm._
+				Hook @ DSH @ Pinner @ Package • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
 				The <strong>silent version pinner</strong> of the DeepSeek Harness - a plugin on the
 				<code>fs/observed</code> event that pins every dependency version in a written
 				<code>package.json</code> to its STATIC version:{" "}
@@ -621,14 +624,14 @@ const Related = [
 				One pinned write. The author drops a <code>package.json</code> with two ranged
 				versions and a keep-listed package nearby:
 			</p>
-			<p class="section-kicker">Before - the manifest as the author wrote it</p>
+			<p class="section-kicker"><BrandIcon Name="swap" /> Before - the manifest as the author wrote it</p>
 			<div class="code-block">{PinnedWrite.join("\n")}</div>
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">
 				A <code>pin-policy.json</code> (<code>{'{"keep":["tailwindcss"]}'}</code>) sits
 				beside the file, so tailwindcss keeps its range; the other two dependencies are
 				pinned. The transcript shows only what the author wrote; the ledger shows the pin:
 			</p>
-			<p class="section-kicker">After - the pin in the ledger</p>
+			<p class="section-kicker"><BrandIcon Name="swap" /> After - the pin in the ledger</p>
 			<div class="code-block">{LedgerExcerpt.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				Read the file back and <code>"@playform/build"</code> is <code>"0.3.4"</code>,

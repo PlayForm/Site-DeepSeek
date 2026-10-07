@@ -2,6 +2,7 @@
 import Base from "@Layout/Base.astro";
 import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -390,7 +391,8 @@ const Lessons = [
 				>
 					<p>
 						The setup: three independent hooks - the package governor, the package
-						pinner, the cargo governor - plus the dash normalizer, each carrying its own
+						pinner, the <BrandIcon Name="rust" /> cargo governor - plus the dash
+						normalizer, each carrying its own
 						copy of the same machinery: ledgers, exclusion matching, policy loading,
 						guarded writes, wiring, schemas.
 					</p>
@@ -564,7 +566,8 @@ const Lessons = [
 					Diagram="The harness's storage domain enforcing one open per name - the shared journal domain single-winner per boot, only the pinner's records landing while the governor's and the cargo's silently never did, the human ledger files remaining the complete record."
 				>
 					<p>
-						It also surfaced the first live-only failure: the harness's storage domain
+						It also surfaced the first live-only failure: the{" "}
+						<BrandIcon Name="deepseek" /> harness's storage domain
 						enforces <strong>one open per name</strong>, so the shared journal domain was
 						single-winner per boot.
 					</p>
@@ -987,7 +990,7 @@ const Lessons = [
 					<p>
 						The triad's roles stay fixed: <strong>Boilerplate</strong> is the live truth,{" "}
 						<strong>Classic</strong> is the anonymized release,{" "}
-						<strong>Effect-TS</strong> is the port.
+						<BrandIcon Name="effect" /> <strong>Effect-TS</strong> is the port.
 					</p>
 				</Concept>
 				<Concept

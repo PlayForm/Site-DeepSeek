@@ -2,6 +2,7 @@
 import Base from "@Layout/Base.astro";
 import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -134,7 +135,7 @@ const Related = [
 				plugin-dsh-factory
 			</h1>
 			<p class="page-hero__sub">
-				Plugin @ DSH @ Factory • _The DeepSeek Harness Plugin Family for PlayForm._ The
+				Plugin @ DSH @ Factory • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._ The
 				<strong>furnace of the DSH governance family</strong> - the first service-provider
 				bundle in the DeepSeek Harness plugin family. Loading it registers one class plugin
 				(export default class PluginFactory extends Service, super(ctx, "pluginFactory"),
@@ -451,7 +452,7 @@ const Related = [
 			</p>
 			<div class="code-block">{InAction.join("\n")}</div>
 			<p class="section-kicker" style="margin-top: var(--space-md)">
-				After - the write the factory performed, as the author and the ledger see it
+				<BrandIcon Name="swap" /> After - the write the factory performed, as the author and the ledger see it
 			</p>
 			<div class="concept-list">
 				<Concept
@@ -529,7 +530,7 @@ const Related = [
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				License: CC0-1.0. The published artifact contains only the built output - files
 				whitelists Target/, cordis.patch.yml and the docs; Source/ never ships. There are no
-				build/watch npm scripts: the only npm script is prepublishOnly.
+				build/watch <BrandIcon Name="npm" /> npm scripts: the only npm script is prepublishOnly.
 			</p>
 		</section>
 	</main>

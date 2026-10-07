@@ -1,6 +1,7 @@
 ---
 import Base from "@Layout/Base.astro";
 import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -176,7 +177,8 @@ const Knobs = [
 					Diagram="The profile's package.json with the link: dependencies on the left and the dsh.profile.bundles list on the right - the list marking which entries actually activate."
 				>
 					<p>
-						A profile's package.json lists the bundles as <code>link:</code> dependencies
+						A profile's <BrandIcon Name="file-json" /> package.json lists the bundles as{" "}
+						<code>link:</code> dependencies
 						and in the <code>dsh.profile.bundles</code> list - the list is what activates
 						them.
 					</p>
@@ -201,7 +203,8 @@ const Knobs = [
 					Diagram="Two equivalent remote routes into the same bundles list: pnpm add of the package in the profile directory, or dsh plugin --profile add of a tarball."
 				>
 					<p>
-						Remote installs work the same way: <code>pnpm add @playform/&lt;pkg&gt;</code>{" "}
+						Remote installs work the same way: <BrandIcon Name="playform" />{" "}
+						<code>pnpm add @playform/&lt;pkg&gt;</code>{" "}
 						in the profile directory plus the package in the bundles list, or{" "}
 						<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code>.
 					</p>
@@ -334,7 +337,8 @@ const Knobs = [
 					<p>
 						Each plugin's full table lives on its page: the
 						<a href="/plugins/hook-dsh-governor-package/">package governor</a>, the
-						<a href="/plugins/hook-dsh-pinner-package/">pinner</a>, the
+						<a href="/plugins/hook-dsh-pinner-package/">pinner</a>, the{" "}
+						<BrandIcon Name="rust" />{" "}
 						<a href="/plugins/hook-dsh-governor-cargo/">cargo governor</a>, the
 						<a href="/plugins/hook-dsh-normalize-dash/">dash flavor</a>, the
 						<a href="/plugins/hook-dsh-normalize-file/">normalize-file tool</a> and the
@@ -490,7 +494,9 @@ const Knobs = [
 					<thead>
 						<tr>
 							<th>Plugin</th>
-							<th>Ledger</th>
+							<th>
+								<BrandIcon Name="terminal" Size="0.9em" /> Ledger
+							</th>
 							<th>First line at boot</th>
 						</tr>
 					</thead>

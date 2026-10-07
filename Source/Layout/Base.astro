@@ -3,6 +3,7 @@ import "@Stylesheet/Base.css";
 
 import { Head } from "astro-capo";
 import { ClientRouter } from "astro:transitions";
+import BrandIcon from "@Component/BrandIcon.astro";
 
 const { Title = "", Description = "" } = Astro.props;
 
@@ -120,7 +121,7 @@ function Current(Href: string) {
 				))}
 			</div>
 			<p class="site-footer__note">
-				@playform: deterministic AI engine harnesses for production workloads. CC0-1.0 licensed.
+				<BrandIcon Name="playform" /> @playform: deterministic AI engine harnesses for production workloads. CC0-1.0 licensed.
 			</p>
 			<p class="site-footer__copy">© 2025 PlayForm Systems. All rights reserved.</p>
 		</footer>
