@@ -144,6 +144,26 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 					Set It Up in a Profile
 				</a>
 			</div>
+
+			<!-- Live stream gate preview: raw tokens flow in, anomalies are
+				flagged with the Harness Blue tint, the pipe carries the stream
+				through the gate, and the clean ASCII lands under the caret. -->
+			<section class="terminal-demo" data-demo>
+				<div class="terminal-demo__bar">
+					<span class="terminal-demo__label">
+						<span class="live-dot"></span>
+						LIVE STREAM GATE PREVIEW
+					</span>
+					<span class="terminal-demo__status" data-demo-status>NORMALIZING · 0 CHARS</span>
+				</div>
+				<div class="terminal-demo__screen" data-demo-raw></div>
+				<div class="terminal-demo__flow">
+					<span class="flow-tag">RAW →</span>
+					<span class="flow-line"><span class="flow-line__pulse"></span></span>
+					<span class="flow-tag">CLEAN</span>
+				</div>
+				<div class="terminal-demo__output" data-demo-clean></div>
+			</section>
 		</section>
 
 		<!-- Plugins -->
@@ -307,3 +327,68 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 		</section>
 	</main>
 </Base>
+
+<script>
+	// The live stream gate preview: the same per-flavor rules the workbench
+	// runs, compressed into the hero. Raw tokens enter the screen flagged;
+	// the pipe pulse carries them through the gate; clean ASCII lands below.
+	const Seeds = [
+		"Plan review \u2014 phase one: the config \u201Cdrift\u201D is real\u2026 wait for it\u2026",
+		"Balance\u00A0sheet sync \u2014 \u2018quoted\u2019 values\u00A0kept\u2026",
+		"Latency\u200Bbudget\uFEFF hit \u2014 p99\u00A0holds\u2026",
+		"Batch\u2014two of three\u2013done\u2026 \u201Cclean\u201D\u00A0output only",
+	];
+
+	const Raw = document.querySelector<HTMLElement>("[data-demo-raw]")!;
+	const Clean = document.querySelector<HTMLElement>("[data-demo-clean]")!;
+	const Status = document.querySelector<HTMLElement>("[data-demo-status]")!;
+	let Chars = 0;
+	let Index = 0;
+
+	function CleanUp(Text: string) {
+		let Out = Text;
+		const Hits = (Pattern: RegExp, To: string | ((Mark: string) => string)) => {
+			Out = Out.replace(Pattern, To as (Mark: string) => string);
+		};
+		Hits(/[\u2013\u2014\u2015]/g, "-");
+		Hits(/[\u2018\u2019]/g, "'");
+		Hits(/[\u201C\u201D]/g, '"');
+		Hits(/\u2026/g, "...");
+		Hits(/\u00A0/g, " ");
+		Hits(/[\u200B-\u200D\uFEFF]/g, "");
+		Hits(/[\uFF01-\uFF5E]/g, (Mark) => String.fromCharCode(Mark.charCodeAt(0) - 0xfee0));
+		return Out;
+	}
+
+	function Highlight(Text: string) {
+		return Text
+			.replace(/[\u200B-\u200D\uFEFF]/g, '<span class="zwsp">[ZWSP]</span>')
+			.replace(/\u00A0/g, '<span class="zwsp">[NBSP]</span>')
+			.replace(/[\u2013\u2014\u2015]/g, (Mark) => `<span class="anom">${Mark}</span>`)
+			.replace(/[\u2018\u2019\u201C\u201D]/g, (Mark) => `<span class="anom">${Mark}</span>`)
+			.replace(/\u2026/g, '<span class="anom">…</span>')
+			.replace(/[\uFF01-\uFF5E]/g, (Mark) => `<span class="anom">${Mark}</span>`);
+	}
+
+	function Tick() {
+		const Seed = Seeds[Index % Seeds.length];
+		Index += 1;
+		const Before = Seed;
+		const After = CleanUp(Seed);
+		Chars += (Before.match(/[\u2013\u2014\u2015\u2018\u2019\u201C\u201D\u2026\u00A0\u200B-\u200D\uFEFF\uFF01-\uFF5E]/g) ?? []).length;
+
+		Raw.insertAdjacentHTML("beforeend", `\u21B3 ${Highlight(Before)}\n`);
+		Raw.insertAdjacentHTML("beforeend", '<span class="stream-caret"></span>');
+		if (Raw.scrollHeight > Raw.clientHeight + 200) {
+			Raw.textContent = Raw.textContent?.split("\n").slice(-4).join("\n");
+		}
+
+		Clean.textContent = `\u21B3 ${After} `;
+		Clean.insertAdjacentHTML("beforeend", '<span class="stream-caret"></span>');
+
+		Status.textContent = `NORMALIZING · ${Chars.toLocaleString("en-US")} CHARS`;
+	}
+
+	setInterval(Tick, 1600);
+	Tick();
+</script>

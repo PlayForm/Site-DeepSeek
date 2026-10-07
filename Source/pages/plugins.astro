@@ -5,12 +5,14 @@ import Card from "@Component/Card.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 
-// The twelve plugins, each with its @-sentence identity and install snippet.
+// The twelve plugins, each with its @-sentence identity, install snippet
+// and the registry tags that drive the filter/search logic.
 const Core = [
 	{
 		Name: "hook-dsh-core",
 		Tone: "primary",
 		Role: "ROLE: CORE",
+		Tags: "core factory service hook",
 		Sentence: "Hook @ DSH @ Core",
 		Desc: "The pure, dependency-free commonalities of the family: the section lists, the exclusion segments, the suppression composer, the policy loader, the refusal guard and the normalize/Stream machinery.",
 		Install: "pnpm add @playform/hook-dsh-core",
@@ -19,6 +21,7 @@ const Core = [
 		Name: "plugin-dsh-factory",
 		Tone: "primary",
 		Role: "ROLE: FACTORY",
+		Tags: "core factory service plugin",
 		Sentence: "Plugin @ DSH @ Factory",
 		Desc: "The family's first service: the ledger, the exclusion match, the discovery, the keep-list union, the gate set, the version-guarded fenced write, the refresh, the detached contained continuation, the State builder, the wiring, the effects, the schema factory and the probe-once seam.",
 		Install: "pnpm add @playform/plugin-dsh-factory",
@@ -29,6 +32,7 @@ const Governance = [
 	{
 		Name: "hook-dsh-governor-package",
 		Role: "ROLE: GOVERNOR",
+		Tags: "governor manifest package hook",
 		Sentence: "Hook @ DSH @ Governor @ Package",
 		Desc: "The silent package.json governor: hooks fs/observed, rewrites chain-governed pins to the effective registry's resolved versions, and runs the update stage as a detached, contained continuation.",
 		Install: "pnpm add @playform/hook-dsh-governor-package",
@@ -36,6 +40,7 @@ const Governance = [
 	{
 		Name: "hook-dsh-pinner-package",
 		Role: "ROLE: PINNER",
+		Tags: "pinner manifest package hook",
 		Sentence: "Hook @ DSH @ Pinner @ Package",
 		Desc: "The silent package.json version pinner: hooks fs/observed and deterministically rewrites every ranged dependency version to its static version, protected by a pin-policy keep-list.",
 		Install: "pnpm add @playform/hook-dsh-pinner-package",
@@ -43,6 +48,7 @@ const Governance = [
 	{
 		Name: "hook-dsh-governor-cargo",
 		Role: "ROLE: GOVERNOR",
+		Tags: "governor cargo manifest hook",
 		Sentence: "Hook @ DSH @ Governor @ Cargo",
 		Desc: "The Cargo.toml governor: the Rust-sided flavor of the package governor - surgical chain-pin rewrites on the raw TOML lines and cargo upgrade driven through the subprocess seam.",
 		Install: "pnpm add @playform/hook-dsh-governor-cargo",
@@ -53,6 +59,7 @@ const Normalize = [
 	{
 		Name: "hook-dsh-normalize-dash",
 		Role: "FLAVOR: DASH",
+		Tags: "normalize flavor dash stream hook",
 		Sentence: "Hook @ DSH @ Normalize @ Dash",
 		Desc: "The dash flavor: normalizes the unicode dash family to ASCII hyphen-minus in model output streams, mirroring the hermes regex at the injection point hermes lacks.",
 		Install: "pnpm add @playform/hook-dsh-normalize-dash",
@@ -60,6 +67,7 @@ const Normalize = [
 	{
 		Name: "hook-dsh-normalize-quotes",
 		Role: "FLAVOR: QUOTES",
+		Tags: "normalize flavor quotes stream hook",
 		Sentence: "Hook @ DSH @ Normalize @ Quotes",
 		Desc: "The quotes flavor: maps the eight curly quote code points to their ASCII straight counterparts in model output streams.",
 		Install: "pnpm add @playform/hook-dsh-normalize-quotes",
@@ -67,6 +75,7 @@ const Normalize = [
 	{
 		Name: "hook-dsh-normalize-ellipsis",
 		Role: "FLAVOR: ELLIPSIS",
+		Tags: "normalize flavor ellipsis stream hook",
 		Sentence: "Hook @ DSH @ Normalize @ Ellipsis",
 		Desc: "The ellipsis flavor: replaces the horizontal ellipsis (U+2026) with the plain ASCII three-dot sequence in model output streams.",
 		Install: "pnpm add @playform/hook-dsh-normalize-ellipsis",
@@ -74,6 +83,7 @@ const Normalize = [
 	{
 		Name: "hook-dsh-normalize-spaces",
 		Role: "FLAVOR: SPACES",
+		Tags: "normalize flavor spaces stream hook",
 		Sentence: "Hook @ DSH @ Normalize @ Spaces",
 		Desc: "The spaces flavor: normalizes the unicode space family (Zs minus the ASCII space) to the plain space in model output streams.",
 		Install: "pnpm add @playform/hook-dsh-normalize-spaces",
@@ -81,6 +91,7 @@ const Normalize = [
 	{
 		Name: "hook-dsh-normalize-invisible",
 		Role: "FLAVOR: INVISIBLE",
+		Tags: "normalize flavor invisible stream hook",
 		Sentence: "Hook @ DSH @ Normalize @ Invisible",
 		Desc: "The invisible flavor: removes the zero-width/invisible character family (soft hyphen, zero-width spaces and joiners, bidi controls, BOM) from model output streams.",
 		Install: "pnpm add @playform/hook-dsh-normalize-invisible",
@@ -88,6 +99,7 @@ const Normalize = [
 	{
 		Name: "hook-dsh-normalize-fullwidth",
 		Role: "FLAVOR: FULLWIDTH",
+		Tags: "normalize flavor fullwidth stream hook",
 		Sentence: "Hook @ DSH @ Normalize @ Fullwidth",
 		Desc: "The fullwidth flavor: maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterparts in model output streams.",
 		Install: "pnpm add @playform/hook-dsh-normalize-fullwidth",
@@ -95,6 +107,7 @@ const Normalize = [
 	{
 		Name: "hook-dsh-normalize-file",
 		Role: "FLAVOR: FILE",
+		Tags: "normalize flavor file stream hook tool",
 		Sentence: "Hook @ DSH @ Normalize @ File",
 		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing only when something changed.",
 		Install: "pnpm add @playform/hook-dsh-normalize-file",
@@ -143,7 +156,7 @@ const Registry = [
 			}
 		/>
 
-		<!-- Registry filter bar -->
+		<!-- Registry filter bar: search + filter chips + live count -->
 		<section class="section" style="margin-bottom: var(--space-md)">
 			<div class="filter-bar">
 				<span class="filter-bar__label">Filter registry:</span>
@@ -154,7 +167,40 @@ const Registry = [
 					aria-label="Filter plugins"
 					data-filter
 				/>
-				<Badge Variant="outline">12 RESULTS</Badge>
+				<Badge Variant="outline" Dot>
+					<span data-count>12 RESULTS</span>
+				</Badge>
+			</div>
+			<div class="filter-chips" data-chips>
+				<button type="button" class="filter-chip is-active" data-filter-chip="all">
+					ALL
+				</button>
+				<button type="button" class="filter-chip" data-filter-chip="core">
+					CORE &amp; FACTORY
+				</button>
+				<button type="button" class="filter-chip" data-filter-chip="governor">
+					GOVERNOR
+				</button>
+				<button type="button" class="filter-chip" data-filter-chip="pinner">
+					PINNER
+				</button>
+				<button type="button" class="filter-chip" data-filter-chip="normalize">
+					NORMALIZE
+				</button>
+				<button type="button" class="action--ghost" data-reset>
+					Reset filters
+				</button>
+			</div>
+			<div class="registry-telemetry">
+				<span class="registry-telemetry__count">
+					<span class="live-dot"></span>
+					<span data-count-text>12 PACKAGES</span>
+				</span>
+				<span>DSH-REGISTRY</span>
+			</div>
+			<div class="filter-empty" data-empty>
+				<span class="filter-empty__title">No packages match the active filters</span>
+				<span>Broaden the search query or reset the filter chips above.</span>
 			</div>
 		</section>
 
@@ -171,6 +217,8 @@ const Registry = [
 						Sentence={Plugin.Sentence}
 						Desc={Plugin.Desc}
 						Install={Plugin.Install}
+						Tags={Plugin.Tags}
+						Copy={Plugin.Install}
 					>
 						<Badge slot="badge" Variant="outline">
 							{Plugin.Role}
@@ -192,8 +240,12 @@ const Registry = [
 						Sentence={Plugin.Sentence}
 						Desc={Plugin.Desc}
 						Install={Plugin.Install}
+						Tags={Plugin.Tags}
+						Copy={Plugin.Install}
 					>
-						<Badge slot="badge">{Plugin.Role}</Badge>
+						<Badge slot="badge" Variant="active">
+							{Plugin.Role}
+						</Badge>
 					</Card>
 				))}
 			</div>
@@ -214,8 +266,12 @@ const Registry = [
 						Sentence={Plugin.Sentence}
 						Desc={Plugin.Desc}
 						Install={Plugin.Install}
+						Tags={Plugin.Tags}
+						Copy={Plugin.Install}
 					>
-						<Badge slot="badge">{Plugin.Role}</Badge>
+						<Badge slot="badge" Variant="flavor">
+							{Plugin.Role}
+						</Badge>
 					</Card>
 				))}
 			</div>
@@ -232,7 +288,7 @@ const Registry = [
 				runtime.
 			</p>
 			<div class="table-wrap">
-				<table class="table">
+				<table class="table" data-selectable>
 					<thead>
 						<tr>
 							<th>Seq</th>
@@ -503,14 +559,93 @@ const Registry = [
 </Base>
 
 <script>
-	// Registry filter: the search input hides the cards that do not match.
+	// Registry filter: the search input + the filter chips drive the instant
+	// grid. Matching cards stay; the rest get .is-hidden (display:none, no
+	// layout shift). The telemetry strip counts the visible set live, and a
+	// click on a registry row selects it (the #EBF2FF + 2px Harness Blue
+	// left accent per the list-state spec).
 	const Input = document.querySelector<HTMLInputElement>("[data-filter]");
+	const Count = document.querySelector<HTMLElement>("[data-count]");
+	const CountText = document.querySelector<HTMLElement>("[data-count-text]");
+	const Empty = document.querySelector<HTMLElement>("[data-empty]");
+	const Cards = Array.from(document.querySelectorAll<HTMLElement>(".card[data-package]"));
 
-	Input?.addEventListener("input", () => {
-		const Query = Input.value.trim().toLowerCase();
-		document.querySelectorAll<HTMLElement>(".card").forEach((Card) => {
-			const Match = Card.textContent?.toLowerCase().includes(Query) ?? true;
-			Card.style.display = Match ? "" : "none";
+	function Haystack(Card: HTMLElement) {
+		const Clone = Card.cloneNode(true) as HTMLElement;
+		Clone.querySelectorAll<HTMLElement>("[data-copy], .copy-trigger").forEach((Node) =>
+			Node.remove(),
+		);
+		return (Clone.textContent ?? "").toLowerCase();
+	}
+
+	function Filter() {
+		const Query = (Input?.value ?? "").trim().toLowerCase();
+		const Active = document.querySelector<HTMLElement>("[data-filter-chip].is-active");
+		const Chip = Active?.dataset["filterChip"] ?? "all";
+
+		let Visible = 0;
+		for (const Card of Cards) {
+			const Text = Haystack(Card);
+			const Tags = (Card.dataset["tags"] ?? "").toLowerCase();
+			const MatchesQuery = !Query || Text.includes(Query);
+			const MatchesChip =
+				Chip === "all" ||
+				Tags.split(/\s+/).includes(Chip) ||
+				Tags.includes(Chip) ||
+				Text.includes(Chip === "core" ? "factory" : Chip);
+
+			if (MatchesQuery && MatchesChip) {
+				Card.classList.remove("is-hidden");
+				Visible += 1;
+				// Re-arm the deterministic entrance.
+				Card.classList.remove("filter-enter");
+				void Card.offsetWidth;
+				Card.classList.add("filter-enter");
+			} else {
+				Card.classList.add("is-hidden");
+			}
+		}
+
+		const QueryPart = Query ? ` MATCHING "${Query.toUpperCase()}"` : "";
+		if (Count) Count.textContent = `${Visible} RESULT${Visible === 1 ? "" : "S"}`;
+		if (CountText) {
+			CountText.textContent = `${Visible} PACKAGE${Visible === 1 ? "" : "S"}${QueryPart}`;
+		}
+		if (Empty) Empty.classList.toggle("is-visible", Visible === 0);
+	}
+
+	Input?.addEventListener("input", Filter);
+
+	document.querySelectorAll<HTMLElement>("[data-filter-chip]").forEach((Chip) => {
+		Chip.addEventListener("click", () => {
+			document
+				.querySelectorAll<HTMLElement>("[data-filter-chip]")
+				.forEach((Item) => Item.classList.remove("is-active"));
+			Chip.classList.add("is-active");
+			Filter();
 		});
 	});
+
+	document.querySelector("[data-reset]")?.addEventListener("click", () => {
+		if (Input) {
+			Input.value = "";
+			Input.focus();
+		}
+		document
+			.querySelectorAll<HTMLElement>("[data-filter-chip]")
+			.forEach((Chip) => Chip.classList.toggle("is-active", Chip.dataset["filterChip"] === "all"));
+		Filter();
+	});
+
+	// Registry row selection: one selected row at a time.
+	document.querySelectorAll<HTMLElement>("[data-selectable] tbody tr").forEach((Row) => {
+		Row.addEventListener("click", () => {
+			Row.parentElement
+				?.querySelectorAll<HTMLElement>("tr.is-selected")
+				.forEach((Item) => Item.classList.remove("is-selected"));
+			Row.classList.add("is-selected");
+		});
+	});
+
+	Filter();
 </script>

@@ -142,7 +142,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 							// payload emit: deepseek-v4-chunk-9812
 						</span>
 					</div>
-					<div class="stream-pane__terminal">{RawPayload}</div>
+					<div class="stream-pane__terminal" data-raw>{RawPayload}</div>
 				</div>
 				<div class="stream-hub">
 					<div class="stream-hub__core">
@@ -187,7 +187,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 					</button>
 				</div>
 				<div class="workbench-controls__group">
-					<span class="hook-tally" data-benchmark-status hidden>
+					<span class="bench-status hook-tally" data-benchmark-status>
 						12 suites · 671 checks · ALL PASS (the ledger strings, byte-identical)
 					</span>
 					<button type="button" class="engine-pill" data-action="copy">
@@ -235,7 +235,9 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 
 <script>
 	// Flavor checkboxes: each checked hook applies its transform to the raw
-	// payload; unchecking one leaves its anomalies in the output pane.
+	// payload; unchecking one leaves its anomalies in the output pane. The
+	// raw pane renders with the anomalies flagged (tint spans + [ZWSP]/
+	// [NBSP] markers); the clean pane flashes once per re-normalization.
 	const Rules: Record<string, [RegExp, string | ((Match: string) => string)]> = {
 		dash: [
 			/[\u058A\u05BE\u1400\u1806\u2010-\u2015\u2E17\u2E1A\u2E3A-\u2E3B\u2E40\u2E5D\u301C\u3030\u30A0\uFE31-\uFE32\uFE58\uFE63\uFF0D]/g,
@@ -254,8 +256,20 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 		],
 	};
 
-	const RawPane = document.querySelector<HTMLElement>(".stream-pane__terminal:not([data-clean])");
+	const RawPane = document.querySelector<HTMLElement>("[data-raw]");
 	const CleanPane = document.querySelector<HTMLElement>("[data-clean]");
+
+	function Highlight(Text: string) {
+		return Text
+			.replace(/[\u200B-\u200D\uFEFF]/g, '<span class="zwsp">[ZWSP]</span>')
+			.replace(/\u00A0/g, '<span class="zwsp">[NBSP]</span>')
+			.replace(/[\u2013\u2014\u2015]/g, (Mark) => `<span class="anom">${Mark}</span>`)
+			.replace(/[\u2018\u2019\u201C\u201D]/g, (Mark) => `<span class="anom">${Mark}</span>`)
+			.replace(/\u2026/g, '<span class="anom">…</span>')
+			.replace(/[\uFF01-\uFF5E]/g, (Mark) => `<span class="anom">${Mark}</span>`);
+	}
+
+	if (RawPane) RawPane.innerHTML = Highlight(RawPane.textContent ?? "");
 
 	function Normalize() {
 		if (!RawPane || !CleanPane) return;
@@ -266,6 +280,10 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 			Text = Text.replace(Pattern, Rule as string);
 		}
 		CleanPane.textContent = Text;
+		// The calibrated diff flash: one deterministic pulse per pass.
+		CleanPane.classList.remove("is-flashing");
+		void CleanPane.offsetWidth;
+		CleanPane.classList.add("is-flashing");
 	}
 
 	document.querySelectorAll<HTMLInputElement>(".hook-check").forEach((Box) => {
@@ -287,12 +305,39 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 
 	document.querySelector("[data-action='benchmark']")?.addEventListener("click", () => {
 		const Status = document.querySelector<HTMLElement>("[data-benchmark-status]");
-		if (Status) Status.hidden = false;
+		if (Status) Status.classList.add("is-visible");
 	});
 
-	document.querySelector("[data-action='copy']")?.addEventListener("click", () => {
+	document.querySelector("[data-action='copy']")?.addEventListener("click", (Event) => {
 		if (navigator.clipboard?.writeText && CleanPane) {
 			navigator.clipboard.writeText(CleanPane.textContent ?? "");
 		}
+		const Button = Event.currentTarget as HTMLElement;
+		const Original = Button.textContent;
+		Button.textContent = "COPIED ✓";
+		setTimeout(() => {
+			if (Original) Button.textContent = Original;
+		}, 1400);
+		(window as any).__dshToast?.("Normalized output copied to clipboard");
+	});
+
+	document.querySelectorAll<HTMLElement>("[data-engine]").forEach((Pill) => {
+		Pill.addEventListener("click", () => {
+			document
+				.querySelectorAll("[data-engine]")
+				.forEach((Item) => Item.removeAttribute("data-active"));
+			Pill.setAttribute("data-active", "");
+			(window as any).__dshToast?.(`Engine: ${Pill.textContent?.trim()}`);
+		});
+	});
+
+	document.querySelectorAll<HTMLElement>("[data-mode]").forEach((Pill) => {
+		Pill.addEventListener("click", () => {
+			document
+				.querySelectorAll("[data-mode]")
+				.forEach((Item) => Item.removeAttribute("data-active"));
+			Pill.setAttribute("data-active", "");
+			(window as any).__dshToast?.(`Architecture: ${Pill.textContent?.trim()}`);
+		});
 	});
 </script>

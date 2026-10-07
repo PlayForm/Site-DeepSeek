@@ -392,6 +392,19 @@ const Spans = [
 		return [Clean, Hits] as const;
 	}
 
+	// The raw pane renders with the anomalies flagged inline (the Harness
+	// Blue tint spans + the explicit [ZWSP]/[NBSP] markers), exactly the
+	// workbench mock's highlight; the clean pane is plain ASCII text.
+	function Highlight(Text: string) {
+		return Text
+			.replace(/[\u200B-\u200D\uFEFF]/g, '<span class="zwsp">[ZWSP]</span>')
+			.replace(/\u00A0/g, '<span class="zwsp">[NBSP]</span>')
+			.replace(/[\u2013\u2014\u2015]/g, (Mark) => `<span class="anom">${Mark}</span>`)
+			.replace(/[\u2018\u2019\u201C\u201D]/g, (Mark) => `<span class="anom">${Mark}</span>`)
+			.replace(/\u2026/g, '<span class="anom">…</span>')
+			.replace(/[\uFF01-\uFF5E]/g, (Mark) => `<span class="anom">${Mark}</span>`);
+	}
+
 	function Render() {
 		let Total = 0;
 		for (const [Key, Value] of Object.entries(Metrics)) {
@@ -407,6 +420,7 @@ const Spans = [
 
 		Tally.textContent = `${Armed.size} of 7 Active`;
 		ToggleButton.textContent = Paused ? "Resume Stream" : "Pause Stream";
+		ToggleButton.classList.toggle("engine-pill--active", Paused);
 	}
 
 	function Push() {
@@ -416,8 +430,17 @@ const Spans = [
 		RawBytes += new TextEncoder().encode(Seed).length;
 		CleanBytes += new TextEncoder().encode(Clean).length;
 
-		RawTerminal.append(`\u21B3 ${Seed}\n`);
+		RawTerminal.insertAdjacentHTML("beforeend", `\u21B3 ${Highlight(Seed)}\n`);
 		CleanTerminal.append(`\u21B3 ${Clean}\n`);
+		// The live caret rides the tail of each pane.
+		RawTerminal.insertAdjacentHTML(
+			"beforeend",
+			'<span class="stream-caret"></span>',
+		);
+		CleanTerminal.insertAdjacentHTML(
+			"beforeend",
+			'<span class="stream-caret"></span>',
+		);
 
 		if (RawTerminal.scrollHeight > RawTerminal.clientHeight + 400) {
 			RawTerminal.textContent = RawTerminal.textContent?.split("\n").slice(-6).join("\n");
@@ -428,6 +451,11 @@ const Spans = [
 
 	setInterval(Push, 900);
 
+	// Prime the panes with three chunks so the gate reads live on load.
+	for (let Index = 0; Index < 3; Index += 1) Push();
+
+	const Toast = (window as any).__dshToast as ((Message: string) => void) | undefined;
+
 	// Hook toggles.
 	document.querySelectorAll<HTMLElement>(".hook-card").forEach((Card) => {
 		Card.addEventListener("click", () => {
@@ -436,10 +464,12 @@ const Spans = [
 				Armed.delete(Hook);
 				Card.classList.replace("is-armed", "is-disarmed");
 				Card.dataset["armed"] = "false";
+				Toast?.(`Disarmed hook ${Hook.toUpperCase()}`);
 			} else {
 				Armed.add(Hook);
 				Card.classList.replace("is-disarmed", "is-armed");
 				Card.dataset["armed"] = "true";
+				Toast?.(`Armed hook ${Hook.toUpperCase()}`);
 			}
 			Render();
 		});
@@ -457,6 +487,7 @@ const Spans = [
 			Card.dataset["armed"] = String(!All);
 		});
 		Render();
+		Toast?.(All ? "Disarmed all 7 hooks" : "Armed all 7 normalization hooks");
 	});
 
 	// Runtime pills.
@@ -466,6 +497,7 @@ const Spans = [
 				.querySelectorAll("[data-runtime]")
 				.forEach((Item) => Item.removeAttribute("data-active"));
 			Pill.setAttribute("data-active", "");
+			Toast?.(`Runtime: ${Pill.textContent?.trim()}`);
 		});
 	});
 
@@ -476,6 +508,7 @@ const Spans = [
 				.querySelectorAll("[data-engine]")
 				.forEach((Item) => Item.removeAttribute("data-active"));
 			Pill.setAttribute("data-active", "");
+			Toast?.(`Ingest: ${Pill.textContent?.trim()}`);
 		});
 	});
 
@@ -483,20 +516,32 @@ const Spans = [
 	ToggleButton.addEventListener("click", () => {
 		Paused = !Paused;
 		Render();
+		Toast?.(Paused ? "Stream ingest paused" : "Stream ingest resumed");
 	});
 
 	document.querySelector("[data-action='clear']")?.addEventListener("click", () => {
 		RawTerminal.textContent = "";
 		CleanTerminal.textContent = "";
+		Toast?.("Buffers cleared");
 	});
 
 	document.querySelector("[data-action='burst']")?.addEventListener("click", () => {
 		for (let Index = 0; Index < 12; Index += 1) Push();
+		Toast?.("Synthesized burst ingest");
 	});
 
-	document.querySelector("[data-action='copy']")?.addEventListener("click", () => {
+	document.querySelector("[data-action='copy']")?.addEventListener("click", (Event) => {
 		if (navigator.clipboard?.writeText) {
 			navigator.clipboard.writeText(CleanTerminal.textContent ?? "");
 		}
+		const Button = (Event.currentTarget as HTMLElement) ?? null;
+		if (Button) {
+			const Original = Button.textContent;
+			Button.textContent = "COPIED ✓";
+			setTimeout(() => {
+				if (Original) Button.textContent = Original;
+			}, 1400);
+		}
+		Toast?.("Clean canonical stream copied to clipboard");
 	});
 </script>

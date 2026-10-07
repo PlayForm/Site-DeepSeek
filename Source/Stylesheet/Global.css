@@ -12,37 +12,53 @@
 	============================================================ */
 
 :root {
-	/* ---- Color: surfaces (white / near-white family) ---- */
-	--color-surface: #faf8ff;
+	/* ---- Color: surfaces (white / near-white family) ----
+		Level 0 canvas is pure white; trays, table headers and terminal
+		readouts sit on #F8FAFC; active/selected states use the Harness Blue
+		subtle #EBF2FF. Every boundary is the 1px #E2E8F0 structural hairline. */
+	--color-surface: #ffffff;
 	--color-surface-dim: #d7d9e8;
-	--color-surface-bright: #faf8ff;
+	--color-surface-bright: #ffffff;
 	--color-surface-container-lowest: #ffffff;
-	--color-surface-container-low: #f2f3ff;
-	--color-surface-container: #ebedfc;
-	--color-surface-container-high: #e5e7f6;
-	--color-surface-container-highest: #dfe2f1;
+	--color-surface-container-low: #f8fafc;
+	--color-surface-container: #f0f4ff;
+	--color-surface-container-high: #e5edff;
+	--color-surface-container-highest: #dde9ff;
 	--color-surface-variant: #dfe2f1;
 
 	/* ---- Color: ink text (neutrals) ---- */
-	--color-on-surface: #171b26;
-	--color-on-surface-variant: #434656;
-	--color-inverse-surface: #2c303b;
+	--color-on-surface: #0b0f19;
+	--color-on-surface-variant: #475569;
+	--color-inverse-surface: #0d1117;
 	--color-inverse-on-surface: #eef0ff;
 
-	/* ---- Color: outlines ---- */
-	--color-outline: #737688;
-	--color-outline-variant: #c3c5d9;
+	/* ---- Color: outlines (structural hairlines) ---- */
+	--color-outline: #64748b;
+	--color-outline-variant: #e2e8f0;
 
-	/* ---- Color: primary (the blue family) ---- */
-	--color-primary: #003ec7;
+	/* ---- Color: Harness Blue family (the one chromatic hue) ---- */
+	--color-harness-blue: #0052ff;
+	--color-harness-blue-deep: #0038b8;
+	--color-harness-blue-pressed: #002fa6;
+	--color-harness-blue-subtle: #ebf2ff;
+	--color-harness-blue-tint: #f0f4ff;
+	--color-harness-blue-badge: #e5edff;
+	--color-harness-blue-focus: #cce0ff;
+	--color-ink: #0b0f19;
+	--color-ink-secondary: #475569;
+	--color-ink-muted: #64748b;
+	--color-border-structural: #e2e8f0;
+
+	/* ---- Color: primary (the blue family, legacy aliases) ---- */
+	--color-primary: #0052ff;
 	--color-on-primary: #ffffff;
 	--color-primary-container: #0052ff;
 	--color-on-primary-container: #dfe3ff;
-	--color-surface-tint: #004ced;
-	--color-primary-fixed: #dde1ff;
-	--color-primary-fixed-dim: #b7c4ff;
+	--color-surface-tint: #0052ff;
+	--color-primary-fixed: #ebf2ff;
+	--color-primary-fixed-dim: #cce0ff;
 	--color-on-primary-fixed: #001452;
-	--color-on-primary-fixed-variant: #0038b6;
+	--color-on-primary-fixed-variant: #0038b8;
 	--color-inverse-primary: #b7c4ff;
 
 	/* ---- Color: secondary (blue family, allowed) ---- */
@@ -146,6 +162,18 @@
 	/* ---- Layout ---- */
 	--header-height: 56px;
 	--content-max-width: 1120px;
+
+	/* ---- Motion: machine-precision language ----
+		Short durations, crisp easings, no float. The only infinite motions
+		are the live status dots, the stream caret, the anomaly flash and the
+		pipe flow - all of which die under prefers-reduced-motion. */
+	--duration-instant: 0.05s;
+	--duration-quick: 0.1s;
+	--duration-fast: 0.15s;
+	--duration-standard: 0.2s;
+	--duration-slow: 0.3s;
+	--ease-crisp: cubic-bezier(0.4, 0, 0.2, 1);
+	--ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ---- Base ---- */
@@ -254,6 +282,7 @@ svg {
 }
 
 .site-header__nav a {
+	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
@@ -323,7 +352,11 @@ svg {
 	margin-bottom: var(--space-xl);
 }
 
-/* ---- Eyebrow badges ---- */
+/* ---- Eyebrow badges & the @-sentence / flavor chips ----
+	Every badge is a mono label chip. The "Clean Headers" inventory:
+	Classic edition = ink border on the #F8FAFC tray, Effect-TS edition =
+	Harness Blue border on the #F0F4FF tint, NORM:* flavor badges = the
+	standard #F8FAFC + #E2E8F0 metadata chip. */
 .eyebrow-row {
 	display: flex;
 	align-items: center;
@@ -338,6 +371,7 @@ svg {
 	gap: 6px;
 	padding: 2px var(--space-xs);
 	border-radius: var(--radius-lg);
+	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
@@ -347,6 +381,7 @@ svg {
 .badge--primary {
 	background: var(--color-surface-container-low);
 	color: var(--color-primary);
+	border: 1px solid transparent;
 }
 
 .badge--primary .dot {
@@ -356,9 +391,18 @@ svg {
 	background: var(--color-primary-container);
 }
 
+/* A status dot on any badge variant (the live count badge, e.g.). */
+.badge .dot {
+	width: 6px;
+	height: 6px;
+	border-radius: var(--radius-full);
+	background: var(--color-primary-container);
+}
+
 .badge--muted {
 	background: var(--color-surface-container);
 	color: var(--color-on-surface-variant);
+	border: 1px solid transparent;
 }
 
 .badge--outline {
@@ -368,9 +412,30 @@ svg {
 }
 
 .badge--active {
-	background: var(--color-surface-container-low);
+	background: var(--color-harness-blue-subtle);
 	color: var(--color-primary);
 	border: 1px solid var(--color-primary-container);
+}
+
+/* @-sentence tag: Classic edition (ink border, tray fill). */
+.badge--classic {
+	background: var(--color-surface-container-low);
+	color: var(--color-ink);
+	border: 1px solid var(--color-ink);
+}
+
+/* @-sentence tag: Effect-TS edition (Harness Blue border, tint fill). */
+.badge--effect {
+	background: var(--color-harness-blue-tint);
+	color: var(--color-primary);
+	border: 1px solid var(--color-primary);
+}
+
+/* NORM:* flavor badge with the ASCII conversion indicator. */
+.badge--flavor {
+	background: var(--color-surface-container-low);
+	color: var(--color-ink-secondary);
+	border: 1px solid var(--color-outline-variant);
 }
 
 /* ---- Hero ---- */
@@ -431,6 +496,7 @@ svg {
 }
 
 .terminal__label {
+	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
@@ -449,6 +515,7 @@ svg {
 }
 
 .terminal__status {
+	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
@@ -546,6 +613,7 @@ svg {
 }
 
 .section-header__meta {
+	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
@@ -554,6 +622,7 @@ svg {
 }
 
 .section-kicker {
+	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
@@ -589,10 +658,17 @@ svg {
 	border-radius: var(--radius-lg);
 	background: var(--color-surface-container-low);
 	border: 1px solid var(--color-outline-variant);
+	transition: border-color var(--duration-fast) var(--ease-crisp);
 }
 
 .card--white {
 	background: var(--color-surface-container-lowest);
+}
+
+/* Interactive card: hover flips the hairline to Harness Blue with ZERO
+	transform / scale - the state change is the border stroke only. */
+.card--white:hover {
+	border-color: var(--color-harness-blue);
 }
 
 .card--primary {
@@ -653,6 +729,10 @@ svg {
 	margin-top: var(--space-md);
 	padding-top: var(--space-sm);
 	border-top: 1px solid var(--color-outline-variant);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-sm);
 	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
@@ -660,6 +740,13 @@ svg {
 	letter-spacing: var(--tracking-label-sm);
 	color: var(--color-on-primary-fixed-variant);
 	word-break: break-all;
+}
+
+.card__install .card__install-cmd {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .card__install .prompt {
@@ -836,6 +923,7 @@ svg {
 }
 
 .site-footer__links a {
+	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	line-height: var(--leading-body-sm);
 	font-weight: var(--weight-label-sm);
@@ -850,6 +938,7 @@ svg {
 }
 
 .site-footer__note {
+	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	line-height: var(--leading-body-sm);
 	font-weight: var(--weight-label-sm);
@@ -859,6 +948,7 @@ svg {
 }
 
 .site-footer__copy {
+	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	line-height: var(--leading-body-sm);
 	font-weight: var(--weight-label-sm);
@@ -937,25 +1027,40 @@ svg {
 	background: var(--color-primary-container);
 	color: var(--color-on-primary);
 	text-decoration: none;
+	box-shadow: none;
+	transition:
+		background-color var(--duration-fast) var(--ease-crisp),
+		border-color var(--duration-fast) var(--ease-crisp),
+		color var(--duration-fast) var(--ease-crisp);
 }
 
 .action:hover {
-	background: var(--color-on-primary-fixed-variant);
-	border-color: var(--color-on-primary-fixed-variant);
+	background: var(--color-harness-blue-deep);
+	border-color: var(--color-harness-blue-deep);
 	color: var(--color-on-primary);
 	text-decoration: none;
 }
 
+.action:active {
+	background: var(--color-harness-blue-pressed);
+	border-color: var(--color-harness-blue-pressed);
+}
+
 .action--secondary {
 	background: var(--color-surface-container-lowest);
-	color: var(--color-on-surface);
+	color: var(--color-ink);
 	border: 1px solid var(--color-outline-variant);
 }
 
 .action--secondary:hover {
 	background: var(--color-surface-container-low);
-	color: var(--color-primary);
-	border-color: var(--color-primary-container);
+	color: var(--color-ink);
+	border-color: var(--color-ink-secondary);
+}
+
+.action--secondary:active {
+	background: var(--color-surface-container-low);
+	border-color: var(--color-ink);
 }
 
 /* ---- Filter / search bar (registry) ---- */
@@ -981,14 +1086,26 @@ svg {
 	font-family: var(--font-sans);
 	font-size: var(--text-body-md);
 	padding: var(--space-sm) var(--space-md);
+	/* Focus: 1px Harness Blue border + zero-offset outline, no glow. */
 	outline: none;
+	box-shadow: none;
+	transition: border-color var(--duration-fast) var(--ease-crisp);
 }
 
-.filter-bar__input:focus {
+.filter-bar__input:focus,
+.filter-bar__input:focus-visible {
+	outline: none;
+	box-shadow: none;
 	border-color: var(--color-primary-container);
 }
 
+.filter-bar__input::placeholder {
+	color: var(--color-ink-muted);
+	opacity: 1;
+}
+
 .filter-bar__label {
+	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
@@ -996,11 +1113,12 @@ svg {
 	color: var(--color-on-surface-variant);
 }
 
-/* ---- Engine pills ---- */
+/* ---- Engine pills: crisp chip states ---- */
 .engine-pill {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
+	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
@@ -1010,6 +1128,14 @@ svg {
 	background: var(--color-surface-container-lowest);
 	color: var(--color-on-surface-variant);
 	cursor: pointer;
+	transition:
+		background-color var(--duration-fast) var(--ease-crisp),
+		border-color var(--duration-fast) var(--ease-crisp),
+		color var(--duration-fast) var(--ease-crisp);
+}
+
+.engine-pill:hover {
+	border-color: var(--color-harness-blue);
 }
 
 .engine-pill .dot {
@@ -1018,11 +1144,12 @@ svg {
 	border-radius: var(--radius-full);
 	background: var(--color-outline-variant);
 	flex-shrink: 0;
+	transition: background-color var(--duration-fast) var(--ease-crisp);
 }
 
 .engine-pill--active,
 .engine-pill[data-active] {
-	background: var(--color-primary-fixed);
+	background: var(--color-harness-blue-subtle);
 	color: var(--color-primary);
 	border-color: var(--color-primary-container);
 }
@@ -1068,17 +1195,35 @@ svg {
 	border: 1px solid var(--color-outline-variant);
 	cursor: pointer;
 	transition:
-		border-color 0.1s linear,
-		opacity 0.1s linear;
+		border-color var(--duration-quick) linear,
+		background-color var(--duration-quick) linear,
+		opacity var(--duration-quick) linear;
+}
+
+.hook-card:hover {
+	border-color: var(--color-harness-blue);
 }
 
 .hook-card.is-armed {
-	background: var(--color-primary-fixed);
+	background: var(--color-harness-blue-tint);
 	border-color: var(--color-primary-container);
 }
 
 .hook-card.is-disarmed {
 	opacity: 0.65;
+}
+
+.hook-card.is-disarmed .hook-card__token {
+	color: var(--color-outline);
+}
+
+.hook-card.is-armed .hook-card__token {
+	color: var(--color-primary);
+}
+
+.hook-card.is-armed .hook-card__status {
+	background: var(--color-primary-container);
+	animation: dsh-pulse-dot 2s var(--ease-crisp) infinite;
 }
 
 .hook-card__top {
@@ -1096,20 +1241,12 @@ svg {
 	color: var(--color-primary);
 }
 
-.hook-card.is-disarmed .hook-card__token {
-	color: var(--color-outline);
-}
-
 .hook-card__status {
 	width: 8px;
 	height: 8px;
 	border-radius: var(--radius-full);
 	background: var(--color-outline);
 	flex-shrink: 0;
-}
-
-.hook-card.is-armed .hook-card__status {
-	background: var(--color-primary-container);
 }
 
 .hook-card__name {
@@ -1179,6 +1316,7 @@ svg {
 	display: flex;
 	align-items: center;
 	gap: var(--space-xs);
+	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	font-weight: 600;
 	letter-spacing: var(--tracking-label-sm);
@@ -1201,6 +1339,7 @@ svg {
 }
 
 .stream-pane__count {
+	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	color: var(--color-outline);
 }
@@ -1294,6 +1433,7 @@ svg {
 }
 
 .metric__label {
+	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	letter-spacing: var(--tracking-label-sm);
 	text-transform: uppercase;
@@ -1332,6 +1472,7 @@ svg {
 	border-radius: var(--radius-lg);
 	background: var(--color-surface-container-lowest);
 	border: 1px solid var(--color-outline-variant);
+	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	line-height: var(--leading-body-sm);
 	color: var(--color-on-surface-variant);
@@ -1384,6 +1525,28 @@ svg {
 	text-transform: uppercase;
 	color: var(--color-on-surface-variant);
 	white-space: nowrap;
+	border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.table tbody tr {
+	transition: background-color var(--duration-quick) linear;
+}
+
+.table tbody tr:hover {
+	background: var(--color-surface-container-low);
+}
+
+/* Selected record: #EBF2FF fill + the 2px Harness Blue left accent. */
+.table[data-selectable] tbody tr {
+	cursor: pointer;
+}
+
+.table tbody tr.is-selected {
+	background: var(--color-harness-blue-subtle);
+}
+
+.table tbody tr.is-selected td:first-child {
+	border-left: 2px solid var(--color-primary-container);
 }
 
 .table td {
@@ -1430,6 +1593,7 @@ svg {
 	display: inline-flex;
 	align-items: center;
 	padding: 2px var(--space-sm);
+	font-family: var(--font-mono);
 	border-radius: var(--radius-default);
 	font-size: var(--text-label-sm);
 	font-weight: 600;
@@ -1499,9 +1663,574 @@ svg {
 }
 
 .workbench-controls__label {
+	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	letter-spacing: var(--tracking-label-sm);
 	text-transform: uppercase;
 	color: var(--color-on-surface-variant);
 	margin-right: var(--space-xs);
+}
+
+/* ============================================================
+	The motion language: deterministic, machine-precision.
+	Short durations, crisp easings, zero float. Every animation
+	dies under prefers-reduced-motion (see the global guard at
+	the end of this file).
+	============================================================ */
+
+/* ---- Live status dot (armed hooks, inspected chips, pins) ---- */
+.live-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: var(--radius-full);
+	background: var(--color-harness-blue);
+	flex-shrink: 0;
+	animation: dsh-pulse-dot 2s var(--ease-crisp) infinite;
+}
+
+@keyframes dsh-pulse-dot {
+	0%,
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+	50% {
+		transform: scale(1.35);
+		opacity: 0.65;
+	}
+}
+
+/* ---- Terminal caret (the stream is alive) ---- */
+.stream-caret {
+	display: inline-block;
+	width: 7px;
+	height: 14px;
+	background: var(--color-harness-blue);
+	margin-left: 2px;
+	vertical-align: middle;
+	animation: dsh-caret-blink 0.8s infinite step-start;
+}
+
+@keyframes dsh-caret-blink {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+}
+
+/* ---- Anomaly spans inside the raw stream terminals ----
+	Unicode anomalies are flagged with the Harness Blue tint and a
+	calibrated two-step flash; zero-width characters surface as the
+	explicit [ZWSP] / [NBSP] markers the mockup uses. */
+.anom {
+	background: var(--color-harness-blue-tint);
+	color: var(--color-primary);
+	font-weight: 600;
+	padding: 0 2px;
+	border-radius: var(--radius-sm);
+	animation: dsh-token-flash 1.2s var(--ease-crisp) infinite alternate;
+}
+
+.zwsp {
+	background: var(--color-harness-blue-subtle);
+	color: var(--color-primary);
+	font-weight: 600;
+	padding: 0 3px;
+	border-radius: var(--radius-sm);
+}
+
+@keyframes dsh-token-flash {
+	from {
+		background-color: var(--color-harness-blue-tint);
+	}
+	to {
+		background-color: var(--color-harness-blue-subtle);
+	}
+}
+
+/* ---- The flow line (raw stream entering the gate) ---- */
+.flow-line {
+	position: relative;
+	height: 2px;
+	flex: 1;
+	background: var(--color-harness-blue-badge);
+	overflow: hidden;
+	border-radius: 1px;
+}
+
+.flow-line__pulse {
+	position: absolute;
+	top: 0;
+	left: -30%;
+	width: 30%;
+	height: 100%;
+	background: var(--color-harness-blue);
+	animation: dsh-pipe-flow 1.8s var(--ease-crisp) infinite;
+}
+
+@keyframes dsh-pipe-flow {
+	0% {
+		left: -30%;
+	}
+	100% {
+		left: 110%;
+	}
+}
+
+/* ---- The dual-pane stream gate: central 1px rule ---- */
+@media (min-width: 900px) {
+	.stream-hub {
+		border-left: 1px solid var(--color-outline-variant);
+		border-right: 1px solid var(--color-outline-variant);
+	}
+}
+
+.stream-pane__terminal {
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-outline-variant) transparent;
+}
+
+/* ---- Filter chips (the registry) ---- */
+.filter-chips {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-xs);
+}
+
+.filter-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	text-transform: uppercase;
+	padding: var(--space-xs) var(--space-md);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--color-outline-variant);
+	background: var(--color-surface-container-low);
+	color: var(--color-ink-secondary);
+	cursor: pointer;
+	transition:
+		background-color var(--duration-fast) var(--ease-crisp),
+		border-color var(--duration-fast) var(--ease-crisp),
+		color var(--duration-fast) var(--ease-crisp);
+}
+
+.filter-chip:hover {
+	border-color: var(--color-harness-blue);
+}
+
+.filter-chip[data-active],
+.filter-chip.is-active {
+	background: var(--color-harness-blue-subtle);
+	color: var(--color-primary);
+	border-color: var(--color-primary-container);
+}
+
+.filter-chip .chip-x {
+	font-weight: 600;
+	opacity: 0.85;
+}
+
+.filter-chip[data-active] .chip-x,
+.filter-chip.is-active .chip-x {
+	opacity: 1;
+}
+
+/* ---- Registry telemetry strip (live count) ---- */
+.registry-telemetry {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-sm);
+	padding: var(--space-xs) var(--space-sm);
+	border-radius: var(--radius-default);
+	background: var(--color-surface-container-low);
+	border: 1px solid var(--color-outline-variant);
+	font-size: var(--text-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	text-transform: uppercase;
+	color: var(--color-on-surface);
+	margin-top: var(--space-sm);
+}
+
+.registry-telemetry__count {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xs);
+}
+
+/* ---- Empty state (zero matches) ---- */
+.filter-empty {
+	display: none;
+	padding: var(--space-xl);
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-xs);
+	text-align: center;
+	border-radius: var(--radius-lg);
+	border: 1px dashed var(--color-outline-variant);
+	background: var(--color-surface-container-low);
+	color: var(--color-ink-secondary);
+}
+
+.filter-empty.is-visible {
+	display: flex;
+}
+
+.filter-empty__title {
+	font-size: var(--text-body-md);
+	line-height: var(--leading-body-md);
+	font-weight: 600;
+	color: var(--color-on-surface);
+}
+
+/* ---- Ghost mono action (the "Clean Headers" ghost) ---- */
+.action--ghost {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xs);
+	background: transparent;
+	color: var(--color-primary);
+	font-family: var(--font-mono);
+	font-size: var(--text-label-md);
+	font-weight: var(--weight-label-md);
+	letter-spacing: var(--tracking-label-md);
+	padding: 6px var(--space-md);
+	border-radius: var(--radius-md);
+	border: 1px solid transparent;
+	text-decoration: none;
+	transition:
+		background-color var(--duration-fast) var(--ease-crisp),
+		border-color var(--duration-fast) var(--ease-crisp);
+}
+
+.action--ghost:hover {
+	background: var(--color-harness-blue-tint);
+	border-color: transparent;
+	text-decoration: none;
+}
+
+/* ---- Copy triggers (the registry + the package cards) ---- */
+.copy-trigger {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	flex-shrink: 0;
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	text-transform: uppercase;
+	padding: 3px var(--space-sm);
+	border-radius: var(--radius-default);
+	border: 1px solid var(--color-outline-variant);
+	background: var(--color-surface-container-lowest);
+	color: var(--color-ink-secondary);
+	cursor: pointer;
+	transition:
+		background-color var(--duration-fast) var(--ease-crisp),
+		border-color var(--duration-fast) var(--ease-crisp),
+		color var(--duration-fast) var(--ease-crisp);
+}
+
+.copy-trigger:hover {
+	background: var(--color-harness-blue-tint);
+	border-color: var(--color-primary-container);
+	color: var(--color-primary);
+}
+
+.copy-trigger.is-copied {
+	background: var(--color-primary-container);
+	border-color: var(--color-primary-container);
+	color: var(--color-on-primary);
+}
+
+/* ---- Terminal copy: the transient COPIED state ---- */
+.terminal__copy {
+	transition:
+		color var(--duration-fast) var(--ease-crisp),
+		background-color var(--duration-fast) var(--ease-crisp);
+}
+
+.terminal__copy.is-copied {
+	background: var(--color-harness-blue-subtle);
+	color: var(--color-primary);
+}
+
+/* ---- The inspected package card (detail pages) ----
+	White plane, 1px structural frame, 2px Harness Blue top rail,
+	"INSPECTED" chip with the live dot riding the rail. */
+.inspect-card {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-md);
+	padding: var(--space-md);
+	border-radius: var(--radius-lg);
+	background: var(--color-surface-container-lowest);
+	border: 1px solid var(--color-outline-variant);
+	border-top: 2px solid var(--color-primary-container);
+	margin-top: var(--space-md);
+}
+
+.inspect-card__meta {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-left: auto;
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	text-transform: uppercase;
+	color: var(--color-primary);
+	background: var(--color-harness-blue-subtle);
+	border: 1px solid var(--color-primary-container);
+	padding: 2px var(--space-sm);
+	border-radius: var(--radius-default);
+}
+
+/* ---- Live stream demo (index hero) ---- */
+.terminal-demo {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-sm);
+	margin-top: var(--space-md);
+	max-width: 720px;
+	padding: var(--space-md);
+	border-radius: var(--radius-lg);
+	background: var(--color-surface-container-lowest);
+	border: 1px solid var(--color-outline-variant);
+}
+
+.terminal-demo__bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-sm);
+}
+
+.terminal-demo__label {
+	display: flex;
+	align-items: center;
+	gap: var(--space-xs);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	text-transform: uppercase;
+	color: var(--color-ink-secondary);
+}
+
+.terminal-demo__status {
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	color: var(--color-primary);
+}
+
+.terminal-demo__screen {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: var(--space-md);
+	border-radius: var(--radius-md);
+	background: var(--color-surface-container-low);
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	color: var(--color-ink);
+	min-height: 96px;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.terminal-demo__flow {
+	display: flex;
+	align-items: center;
+	gap: var(--space-sm);
+	margin: 2px 0;
+}
+
+.terminal-demo__flow .flow-tag {
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	font-weight: 600;
+	letter-spacing: var(--tracking-label-sm);
+	color: var(--color-primary);
+	flex-shrink: 0;
+}
+
+.terminal-demo__flow .flow-line {
+	max-width: 220px;
+}
+
+.terminal-demo__output {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	color: var(--color-ink);
+}
+
+.terminal-demo__output .ok {
+	color: var(--color-primary);
+	font-weight: 600;
+}
+
+/* ---- Toast (transient action feedback) ---- */
+.toast {
+	position: fixed;
+	bottom: var(--space-lg);
+	right: var(--space-lg);
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	gap: var(--space-sm);
+	max-width: min(420px, calc(100vw - 2 * var(--space-lg)));
+	padding: var(--space-sm) var(--space-md);
+	padding-bottom: calc(var(--space-sm) + 2px);
+	border-radius: var(--radius-md);
+	background: var(--color-surface-container-lowest);
+	border: 1px solid var(--color-outline-variant);
+	border-left: 2px solid var(--color-primary-container);
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	color: var(--color-ink);
+	opacity: 0;
+	transform: translateY(8px);
+	pointer-events: none;
+	transition:
+		opacity var(--duration-standard) var(--ease-crisp),
+		transform var(--duration-standard) var(--ease-crisp);
+}
+
+.toast.is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.toast__rail {
+	flex-shrink: 0;
+	width: 8px;
+	height: 8px;
+	border-radius: var(--radius-full);
+	background: var(--color-primary-container);
+	animation: dsh-pulse-dot 2s var(--ease-crisp) infinite;
+}
+
+.toast__msg {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.toast__progress {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 2px;
+	width: 100%;
+	background: var(--color-primary-container);
+	transform-origin: left;
+}
+
+.toast.is-visible .toast__progress {
+	animation: dsh-progress 2.6s linear forwards;
+}
+
+@keyframes dsh-progress {
+	from {
+		transform: scaleX(1);
+	}
+	to {
+		transform: scaleX(0);
+	}
+}
+
+/* ---- Focus rings: crisp 1px Harness Blue, zero offset ---- */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+	outline: 1px solid var(--color-primary-container);
+	outline-offset: 2px;
+}
+
+/* ---- Filtered cards: instant hide + deterministic fade-in ---- */
+.is-hidden {
+	display: none !important;
+}
+
+.filter-enter {
+	animation: dsh-fade-in var(--duration-standard) var(--ease-crisp) both;
+}
+
+@keyframes dsh-fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* ---- Matrix: the normalized pane diff flash ---- */
+.stream-pane__terminal.is-flashing {
+	animation: dsh-pane-flash 0.45s var(--ease-crisp);
+}
+
+@keyframes dsh-pane-flash {
+	0% {
+		background-color: var(--color-harness-blue-subtle);
+	}
+	100% {
+		background-color: var(--color-surface-container-low);
+	}
+}
+
+.bench-status {
+	opacity: 0;
+	transform: translateY(2px);
+	transition:
+		opacity var(--duration-standard) var(--ease-crisp),
+		transform var(--duration-standard) var(--ease-crisp);
+}
+
+.bench-status.is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* ---- Reduced motion: the whole motion language collapses ---- */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 }
