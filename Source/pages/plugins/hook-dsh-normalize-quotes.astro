@@ -5,6 +5,7 @@ import Badge from "@Component/Badge.astro";
 import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -172,21 +173,20 @@ const LedgerStrings = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">
-				hook-dsh-normalize-quotes
-			</h1>
+			<h1 class="page-hero__title">hook-dsh-normalize-quotes</h1>
 			<p class="page-hero__sub">
-				{Families.Quotes} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
-				The <strong>quote normalizer for model output</strong> - a DeepSeek Harness plugin
-				that hooks the <code>llm/stream</code> waterfall (the interceptable wrapper around
-				EVERY streaming model call, bound to the LlmRuntime) and normalizes the curly quote
-				family in model output, live in the transcript: the eight typographic quote code
-				points each map to their ASCII straight counterpart - U+2018/U+2019/U+201A/U+201B to
-				the ASCII apostrophe, and U+201C/U+201D/U+201E/U+201F to the ASCII double quote. A
-				MAP flavor of the normalize family: the core's <code>Quotes</code> char-to-char
-				table owns the substitution - no <code>replacement</code> config knob. The family's
-				raw-write tool (registered by hook-dsh-normalize-dash) bypasses this flavor's
-				transforms too - the exemption is family-wide.
+				{Families.Quotes} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin
+				Family for PlayForm._ The <strong>quote normalizer for model output</strong> - a
+				DeepSeek Harness plugin that hooks the <code>llm/stream</code> waterfall (the
+				interceptable wrapper around EVERY streaming model call, bound to the LlmRuntime)
+				and normalizes the curly quote family in model output, live in the transcript: the
+				eight typographic quote code points each map to their ASCII straight counterpart -
+				U+2018/U+2019/U+201A/U+201B to the ASCII apostrophe, and U+201C/U+201D/U+201E/U+201F
+				to the ASCII double quote. A MAP flavor of the normalize family: the core's{" "}
+				<code>Quotes</code> char-to-char table owns the substitution - no{" "}
+				<code>replacement</code> config knob. The family's raw-write tool (registered by
+				hook-dsh-normalize-dash) bypasses this flavor's transforms too - the exemption is
+				family-wide.
 			</p>
 		</section>
 
@@ -195,7 +195,9 @@ const LedgerStrings = [
 				<Terminal Command="pnpm add @playform/hook-dsh-normalize-quotes" />
 			</div>
 			<div class="inspect-card">
-				<span class="inspect-card__meta"><span class="live-dot"></span>INSPECTED</span>
+				<span class="inspect-card__meta">
+					<span class="live-dot"></span>INSPECTED
+				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-normalize-quotes</span>
@@ -218,10 +220,7 @@ const LedgerStrings = [
 			is on the <a href="/setup/">setup page</a>.
 		</p>
 		<section class="section">
-			<SectionHeader
-				Title="Where It Fits"
-				Meta={FamilyPosition(2)}
-			/>
+			<SectionHeader Title="Where It Fits" Meta={FamilyPosition(2)} />
 			<div class="concept-list">
 				<Concept
 					Id="quotes-family-position"
@@ -256,7 +255,9 @@ const LedgerStrings = [
 								<td>
 									{Row.Sub.split("→").map((Part, Index) => (
 										<Fragment>
-											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+											{Index > 0 && (
+												<ArrowIcon Direction="right" Tone="accent" />
+											)}
 											{Part}
 										</Fragment>
 									))}
@@ -274,9 +275,10 @@ const LedgerStrings = [
 				>
 					<p>
 						A <strong>non-manifest factory consumer</strong>: it injects{" "}
-						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap +
-						shared Ledger/Enabled mappings + its own fields) and <code>Append</code>; the
-						config is composed by the factory's standalone <code>Schema</code> helper with
+						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap
+						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
+						the config is composed by the factory's standalone <code>Schema</code>{" "}
+						helper with
 						<code>shared: false</code> - the minimal block, no fs/observed dead fields.
 					</p>
 					<p>
@@ -339,8 +341,8 @@ const LedgerStrings = [
 					</p>
 					<p>
 						Left in model output, a curly quote is a silent correctness hazard - in code
-						blocks, commands and file paths it is simply the wrong character. This flavor
-						makes the straight form the one that reaches the transcript.
+						blocks, commands and file paths it is simply the wrong character. This
+						flavor makes the straight form the one that reaches the transcript.
 					</p>
 				</Concept>
 			</div>
@@ -442,7 +444,11 @@ const LedgerStrings = [
 					Diagram="The MAP flavor carrying no replacement field - volatile cells committing without remounting the plugin, the factory's State builder unwrapping them defensively."
 				>
 					<p>
-						There is <strong>no <code>replacement</code> field</strong> (MAP flavor).
+						There is{" "}
+						<strong>
+							no <code>replacement</code> field
+						</strong>{" "}
+						(MAP flavor).
 					</p>
 					<p>
 						Volatile cells commit without remounting the plugin; the factory's State
@@ -450,8 +456,10 @@ const LedgerStrings = [
 					</p>
 				</Concept>
 			</div>
-			<div class="code-block" style="margin-top: var(--space-sm)">
-				{[
+			<CodeBlock
+				Language="yaml"
+				Style="margin-top: var(--space-sm)"
+				Source={[
 					"- insert:",
 					"      - id: hook-dsh-normalize-quotes",
 					'        name: "@playform/hook-dsh-normalize-quotes"',
@@ -460,7 +468,7 @@ const LedgerStrings = [
 					"            logFile: ~/.dsh/hook-dsh-normalize-quotes.log",
 					"            normalizeReasoning: true",
 				].join("\n")}
-			</div>
+			/>
 		</section>
 
 		<section class="section">

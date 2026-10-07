@@ -4,6 +4,7 @@ import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -132,19 +133,18 @@ const Related = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">
-				plugin-dsh-factory
-			</h1>
+			<h1 class="page-hero__title">plugin-dsh-factory</h1>
 			<p class="page-hero__sub">
-				{Families.Factory} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._ The
+				{Families.Factory} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin
+				Family for PlayForm._ The
 				<strong>furnace of the DSH governance family</strong> - the first service-provider
 				bundle in the DeepSeek Harness plugin family. Loading it registers one class plugin
 				(export default class PluginFactory extends Service, super(ctx, "pluginFactory"),
 				static inject = ["fs"]) that exposes <code>ctx.pluginFactory</code>: a single
 				service holding every piece of common machinery the family's hooks used to
-				duplicate. One service. {Methods.Word} methods (the direct-govern pair RegisterGovern +
-				Govern and the GovernSteps registry among them). The hooks bring their own metal;
-				the factory pours the mold.
+				duplicate. One service. {Methods.Word} methods (the direct-govern pair
+				RegisterGovern + Govern and the GovernSteps registry among them). The hooks bring
+				their own metal; the factory pours the mold.
 			</p>
 		</section>
 
@@ -153,7 +153,9 @@ const Related = [
 				<Terminal Command="pnpm add @playform/plugin-dsh-factory" />
 			</div>
 			<div class="inspect-card">
-				<span class="inspect-card__meta"><span class="live-dot"></span>INSPECTED</span>
+				<span class="inspect-card__meta">
+					<span class="live-dot"></span>INSPECTED
+				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/plugin-dsh-factory</span>
@@ -186,9 +188,9 @@ const Related = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.Factory}</strong>): the family's parent service - every
-						other package consumes it (the three governance hooks inject the service; the
-						six normalize flavors consume State/Append and the Schema helper); its own
-						parent is the filesystem service (inject: ["fs"]).
+						other package consumes it (the three governance hooks inject the service;
+						the six normalize flavors consume State/Append and the Schema helper); its
+						own parent is the filesystem service (inject: ["fs"]).
 					</p>
 				</Concept>
 				<Concept
@@ -297,8 +299,8 @@ const Related = [
 				>
 					<p>
 						Three independent consumers of the <em>same</em> machinery already existed.
-						The governor, the pinner and the cargo governor each maintained their own copy
-						of:
+						The governor, the pinner and the cargo governor each maintained their own
+						copy of:
 					</p>
 					<ul class="concept-values">
 						<li>
@@ -307,9 +309,9 @@ const Related = [
 							the P3 chain-keys interlock, the g1 gate set, the version-guarded write
 							with the P4 sandbox fence, the P3/U2 observation-policy refresh, the
 							detached contained continuation scaffolding, the State construction with
-							defensive cell unwrap, the ctx.on wiring, the P1/P2/P5 lifecycle effects,
-							the Schemastery schema shape, and the probe-once optional-service
-							accessor.
+							defensive cell unwrap, the ctx.on wiring, the P1/P2/P5 lifecycle
+							effects, the Schemastery schema shape, and the probe-once
+							optional-service accessor.
 						</li>
 					</ul>
 				</Concept>
@@ -322,7 +324,9 @@ const Related = [
 						Every bug fix or hardening pass - the sandbox fence, the stale-version leak,
 						the in-flight disposal - had to be applied three times.
 					</p>
-					<p>The factory makes it apply <strong>once</strong>.</p>
+					<p>
+						The factory makes it apply <strong>once</strong>.
+					</p>
 				</Concept>
 			</div>
 		</section>
@@ -362,7 +366,7 @@ const Related = [
 				<Concept
 					Id="factory-not-owned"
 					Title="What the factory deliberately does NOT own"
-					Diagram="The three ownership boundaries: the consumer ledger strings (every message a hook logs - &quot;skipped (excluded) ...&quot;, &quot;observed non-JSON package.json ... - skipped&quot;, &quot;REFUSED rewrite ...&quot;, &quot;pinned ...&quot;, &quot;governed ... → ...&quot;, the activated (...) proof - composed and logged by the hook through the factory's Append), the transforms (the consumer supplies the pure function; the factory only drives it inside Continue), and the update engines (the factory gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with)."
+					Diagram='The three ownership boundaries: the consumer ledger strings (every message a hook logs - "skipped (excluded) ...", "observed non-JSON package.json ... - skipped", "REFUSED rewrite ...", "pinned ...", "governed ... → ...", the activated (...) proof - composed and logged by the hook through the factory&apos;s Append), the transforms (the consumer supplies the pure function; the factory only drives it inside Continue), and the update engines (the factory gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with).'
 				>
 					<p>
 						<strong>What the factory deliberately does NOT own:</strong> the consumer
@@ -385,8 +389,9 @@ const Related = [
 				>
 					<p>
 						<strong>Verification.</strong> tsc --noEmit - zero errors; pnpm run
-						prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs (in
-						the family's smokes/ directory) - {Counts.Factory.Classic} checks, ALL PASS.
+						prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs
+						(in the family's smokes/ directory) - {Counts.Factory.Classic} checks, ALL
+						PASS.
 					</p>
 					<p>
 						The coverage: every primitive, the Gate matrix, both GuardedWrite postures,
@@ -407,12 +412,12 @@ const Related = [
 					Diagram="The factory registering no Config schema of its own - its Schema(shared?, m) instance method being the Schemastery schema factory every consumer builds its schema with."
 				>
 					<p>
-						The factory registers no Config schema of its own - it{" "}
-						<strong>is</strong> the config machinery.
+						The factory registers no Config schema of its own - it <strong>is</strong>{" "}
+						the config machinery.
 					</p>
 					<p>
-						Its <code>Schema(shared?, m)</code> instance method is the Schemastery schema
-						factory every consumer builds its schema with.
+						Its <code>Schema(shared?, m)</code> instance method is the Schemastery
+						schema factory every consumer builds its schema with.
 					</p>
 				</Concept>
 				<Concept
@@ -421,9 +426,9 @@ const Related = [
 					Diagram="The standalone named Schema export making the same factory usable at module-evaluation time, before any service instance exists (the loader needs Config at load) - alongside the instance method."
 				>
 					<p>
-						The standalone named <code>Schema</code> export makes the same factory usable
-						at module-evaluation time, before any service instance exists (the loader
-						needs Config at load).
+						The standalone named <code>Schema</code> export makes the same factory
+						usable at module-evaluation time, before any service instance exists (the
+						loader needs Config at load).
 					</p>
 				</Concept>
 				<Concept
@@ -451,9 +456,10 @@ const Related = [
 			<p class="section-kicker">
 				The consumer supplies the transform - the only code in the chain it writes
 			</p>
-			<div class="code-block">{InAction.join("\n")}</div>
+			<CodeBlock Language="typescript" Source={InAction.join("\n")} />
 			<p class="section-kicker" style="margin-top: var(--space-md)">
-				<BrandIcon Name="swap" /> After - the write the factory performed, as the author and the ledger see it
+				<BrandIcon Name="swap" /> After - the write the factory performed, as the author and
+				the ledger see it
 			</p>
 			<div class="concept-list">
 				<Concept
@@ -463,10 +469,10 @@ const Related = [
 				>
 					<p>
 						The factory's part of that one pass: Gate decided the actor and the path,
-						Discover found the nearest registry.json, Continue ran the transform detached
-						and contained, GuardedWrite carried replaceIfVersion past the P4 sandbox
-						fence, Refresh re-emitted the fresh version with the same actor, and Append
-						composed the logger's line from the module's message.
+						Discover found the nearest registry.json, Continue ran the transform
+						detached and contained, GuardedWrite carried replaceIfVersion past the P4
+						sandbox fence, Refresh re-emitted the fresh version with the same actor, and
+						Append composed the logger's line from the module's message.
 					</p>
 					<p>The consumer composed the only string in the chain.</p>
 				</Concept>
@@ -482,12 +488,13 @@ const Related = [
 					Diagram="The factory registering no activation line and owning no ledger strings - its Append(state, message) being the family's one ledger mechanism, composing exactly two wrappers around the CONSUMER's message."
 				>
 					<p>
-						The factory registers no activation line and owns no ledger strings - it is a
-						service, not a module.
+						The factory registers no activation line and owns no ledger strings - it is
+						a service, not a module.
 					</p>
 					<p>
-						Its <code>Append(state, message)</code> is the family's one ledger mechanism,
-						and it composes exactly two wrappers around the CONSUMER's message:
+						Its <code>Append(state, message)</code> is the family's one ledger
+						mechanism, and it composes exactly two wrappers around the CONSUMER's
+						message:
 					</p>
 				</Concept>
 			</div>
@@ -496,7 +503,7 @@ const Related = [
 				<Concept
 					Id="factory-ledger-boundary"
 					Title="The ownership boundary"
-					Diagram="Every string a hook logs - &quot;skipped (excluded) ...&quot;, &quot;governed <path> → <version>&quot;, &quot;pinned <path> (N versions)&quot;, the activated (...) proof - composed and logged by the hook, through the factory's Append - the factory's own composed strings parameterized machinery (the unreadable-policy line taking the policy file name; the suppressed-error lines taking state.Module as the prefix), staying byte-identical when a consumer keeps its historical name."
+					Diagram='Every string a hook logs - "skipped (excluded) ...", "governed <path> → <version>", "pinned <path> (N versions)", the activated (...) proof - composed and logged by the hook, through the factory&apos;s Append - the factory&apos;s own composed strings parameterized machinery (the unreadable-policy line taking the policy file name; the suppressed-error lines taking state.Module as the prefix), staying byte-identical when a consumer keeps its historical name.'
 				>
 					<p>
 						Every string a hook logs - "skipped (excluded) ...", "governed &lt;path&gt;{" "}
@@ -505,9 +512,9 @@ const Related = [
 					</p>
 					<p>
 						The factory's own composed strings are parameterized machinery (the
-						unreadable-policy line takes the policy file name; the suppressed-error lines
-						take state.Module as the prefix) and stay byte-identical when a consumer
-						keeps its historical name.
+						unreadable-policy line takes the policy file name; the suppressed-error
+						lines take state.Module as the prefix) and stay byte-identical when a
+						consumer keeps its historical name.
 					</p>
 				</Concept>
 			</div>
@@ -531,7 +538,8 @@ const Related = [
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				License: CC0-1.0. The published artifact contains only the built output - files
 				whitelists Target/, cordis.patch.yml and the docs; Source/ never ships. There are no
-				build/watch <BrandIcon Name="npm" /> npm scripts: the only npm script is prepublishOnly.
+				build/watch <BrandIcon Name="npm" /> npm scripts: the only npm script is
+				prepublishOnly.
 			</p>
 		</section>
 	</main>

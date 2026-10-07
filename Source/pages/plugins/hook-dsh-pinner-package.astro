@@ -4,6 +4,7 @@ import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
@@ -123,12 +124,11 @@ const Related = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">
-				hook-dsh-pinner-package
-			</h1>
+			<h1 class="page-hero__title">hook-dsh-pinner-package</h1>
 			<p class="page-hero__sub">
-				{Families.PinnerPackage} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
-				The <strong>silent version pinner</strong> of the DeepSeek Harness - a plugin on the
+				{Families.PinnerPackage} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness
+				Plugin Family for PlayForm._ The <strong>silent version pinner</strong> of the
+				DeepSeek Harness - a plugin on the
 				<code>fs/observed</code> event that pins every dependency version in a written
 				<code>package.json</code> to its STATIC version:{" "}
 				<code>"@playform/build": "^0.3.4"</code> becomes <code>"0.3.4"</code>. One leading
@@ -144,7 +144,9 @@ const Related = [
 				<Terminal Command="pnpm add @playform/hook-dsh-pinner-package" />
 			</div>
 			<div class="inspect-card">
-				<span class="inspect-card__meta"><span class="live-dot"></span>INSPECTED</span>
+				<span class="inspect-card__meta">
+					<span class="live-dot"></span>INSPECTED
+				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-pinner-package</span>
@@ -171,15 +173,11 @@ const Related = [
 
 			<div class="concept-list">
 				<section class="concept-block" aria-labelledby="pinner-family-position">
-					<div
-						class="diagram-placeholder"
-						data-diagram="family-position"
-					>
+					<div class="diagram-placeholder" data-diagram="family-position">
 						<p class="section-kicker">Diagram placeholder - Family position</p>
 						<p>
-							Show the pinner's relationship to plugin-dsh-factory,
-							hook-dsh-core, and the sibling package governor.
-							Label the shared fs/observed seam.
+							Show the pinner's relationship to plugin-dsh-factory, hook-dsh-core, and
+							the sibling package governor. Label the shared fs/observed seam.
 						</p>
 					</div>
 
@@ -188,23 +186,20 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						<strong>{Families.PinnerPackage}</strong> is a hook child
-						of the <code>plugin-dsh-factory</code> service and the
-						<code>hook-dsh-core</code> helpers. It is a sibling of the
-						package governor on the same <code>fs/observed</code> seam.
+						<strong>{Families.PinnerPackage}</strong> is a hook child of the{" "}
+						<code>plugin-dsh-factory</code> service and the
+						<code>hook-dsh-core</code> helpers. It is a sibling of the package governor
+						on the same <code>fs/observed</code> seam.
 					</p>
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-composition">
-					<div
-						class="diagram-placeholder"
-						data-diagram="pin-then-bump-exact"
-					>
+					<div class="diagram-placeholder" data-diagram="pin-then-bump-exact">
 						<p class="section-kicker">Diagram placeholder - Composition</p>
 						<p>
-							Show ^0.3.4 -> pinner -> 0.3.4 -> governor update stage:
-							nothing to do. Show the governor's chain pass separately,
-							noting that it may still re-canonicalize chain pins.
+							Show ^0.3.4 -> pinner -> 0.3.4 -> governor update stage: nothing to do.
+							Show the governor's chain pass separately, noting that it may still
+							re-canonicalize chain pins.
 						</p>
 					</div>
 
@@ -213,22 +208,18 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						The pinner turns <code>^0.3.4</code> into <code>0.3.4</code>.
-						A fully pinned manifest leaves the governor's update stage
-						nothing to do. Its chain pass may still re-canonicalize
-						chain pins.
+						The pinner turns <code>^0.3.4</code> into <code>0.3.4</code>. A fully pinned
+						manifest leaves the governor's update stage nothing to do. Its chain pass
+						may still re-canonicalize chain pins.
 					</p>
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-keep-list">
-					<div
-						class="diagram-placeholder"
-						data-diagram="keep-list-precedence"
-					>
+					<div class="diagram-placeholder" data-diagram="keep-list-precedence">
 						<p class="section-kicker">Diagram placeholder - Policy precedence</p>
 						<p>
-							Show a keep-listed dependency bypassing prefix removal
-							and retaining its authored range.
+							Show a keep-listed dependency bypassing prefix removal and retaining its
+							authored range.
 						</p>
 					</div>
 
@@ -237,20 +228,17 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						The pinner's <code>pin-policy.json</code> keep-list protects
-						selected dependencies. Their ranges remain exactly as authored.
+						The pinner's <code>pin-policy.json</code> keep-list protects selected
+						dependencies. Their ranges remain exactly as authored.
 					</p>
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-ledger-independence">
-					<div
-						class="diagram-placeholder"
-						data-diagram="independent-ledgers"
-					>
+					<div class="diagram-placeholder" data-diagram="independent-ledgers">
 						<p class="section-kicker">Diagram placeholder - Independent ledgers</p>
 						<p>
-							Show pinner -> pinner.log and governor -> governor.log
-							as separate paths. Mark activation as independent.
+							Show pinner -> pinner.log and governor -> governor.log as separate
+							paths. Mark activation as independent.
 						</p>
 					</div>
 
@@ -260,21 +248,15 @@ const Related = [
 
 					<p class="page-hero__sub">
 						The pinner and governor use separate ledgers:
-						<code>pinner.log</code> and <code>governor.log</code>.
-						Activating either plugin never implies activation of the other.
+						<code>pinner.log</code> and <code>governor.log</code>. Activating either
+						plugin never implies activation of the other.
 					</p>
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-injection">
-					<div
-						class="diagram-placeholder"
-						data-diagram="injected-services"
-					>
+					<div class="diagram-placeholder" data-diagram="injected-services">
 						<p class="section-kicker">Diagram placeholder - Injected services</p>
-						<p>
-							Show fs and pluginFactory as the pinner's two injected
-							services.
-						</p>
+						<p>Show fs and pluginFactory as the pinner's two injected services.</p>
 					</div>
 
 					<h3 id="pinner-injection" class="concept-block__title">
@@ -283,21 +265,17 @@ const Related = [
 
 					<p class="page-hero__sub">
 						The pinner declares
-						<code>inject: ["fs", "pluginFactory"]</code>.
-						It composes shared machinery with its own pinning logic.
+						<code>inject: ["fs", "pluginFactory"]</code>. It composes shared machinery
+						with its own pinning logic.
 					</p>
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-factory-machinery">
-					<div
-						class="diagram-placeholder"
-						data-diagram="factory-responsibilities"
-					>
+					<div class="diagram-placeholder" data-diagram="factory-responsibilities">
 						<p class="section-kicker">Diagram placeholder - Factory machinery</p>
 						<p>
-							Group the factory-provided responsibilities:
-							gate, discovery, union keep-list, guarded write,
-							refresh, continuation, effects, and schema.
+							Group the factory-provided responsibilities: gate, discovery, union
+							keep-list, guarded write, refresh, continuation, effects, and schema.
 						</p>
 					</div>
 
@@ -306,21 +284,17 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						<code>plugin-dsh-factory</code> supplies the gate, discovery,
-						union keep-list, guarded write, refresh, continuation,
-						effects, and schema.
+						<code>plugin-dsh-factory</code> supplies the gate, discovery, union
+						keep-list, guarded write, refresh, continuation, effects, and schema.
 					</p>
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-core-helpers">
-					<div
-						class="diagram-placeholder"
-						data-diagram="core-helpers"
-					>
+					<div class="diagram-placeholder" data-diagram="core-helpers">
 						<p class="section-kicker">Diagram placeholder - Core helpers</p>
 						<p>
-							Show hook-dsh-core supplying the refusal guard and
-							suppression composer to the pinner.
+							Show hook-dsh-core supplying the refusal guard and suppression composer
+							to the pinner.
 						</p>
 					</div>
 
@@ -329,20 +303,17 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						<code>hook-dsh-core</code> supplies the refusal guard and
-						the suppression composer.
+						<code>hook-dsh-core</code> supplies the refusal guard and the suppression
+						composer.
 					</p>
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-owned-logic">
-					<div
-						class="diagram-placeholder"
-						data-diagram="pinner-owned-logic"
-					>
+					<div class="diagram-placeholder" data-diagram="pinner-owned-logic">
 						<p class="section-kicker">Diagram placeholder - Local ownership</p>
 						<p>
-							Show the pinner-owned boundary containing the range law,
-							decode logic, and ledger strings.
+							Show the pinner-owned boundary containing the range law, decode logic,
+							and ledger strings.
 						</p>
 					</div>
 
@@ -351,22 +322,17 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						This bundle owns the range law, decode logic, and every
-						ledger string.
+						This bundle owns the range law, decode logic, and every ledger string.
 					</p>
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-direct-govern">
-					<div
-						class="diagram-placeholder"
-						data-diagram="direct-govern-entry"
-					>
+					<div class="diagram-placeholder" data-diagram="direct-govern-entry">
 						<p class="section-kicker">Diagram placeholder - Direct governance</p>
 						<p>
-							Show apply-time registration with Factory.RegisterGovern.
-							Then show the raw-write tool's per-call govern selection
-							reaching the same pin pass through Factory.Govern,
-							alongside the fs/observed event path.
+							Show apply-time registration with Factory.RegisterGovern. Then show the
+							raw-write tool's per-call govern selection reaching the same pin pass
+							through Factory.Govern, alongside the fs/observed event path.
 						</p>
 					</div>
 
@@ -375,15 +341,14 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						Besides the <code>fs/observed</code> event path, the chain
-						pass registers with the factory's direct-govern registry
-						during <code>apply()</code>:
+						Besides the <code>fs/observed</code> event path, the chain pass registers
+						with the factory's direct-govern registry during <code>apply()</code>:
 						<code>Factory.RegisterGovern("package.json", "pin", ...)</code>.
 					</p>
 
 					<p class="page-hero__sub">
-						The raw-write tool's per-call govern selection can drive
-						the same pin pass directly through
+						The raw-write tool's per-call govern selection can drive the same pin pass
+						directly through
 						<code>Factory.Govern</code>.
 					</p>
 				</section>
@@ -467,15 +432,11 @@ const Related = [
 			</div>
 			<div class="concept-list">
 				<section class="concept-block" aria-labelledby="pinner-idempotence">
-					<div
-						class="diagram-placeholder"
-						data-diagram="idempotence"
-					>
+					<div class="diagram-placeholder" data-diagram="idempotence">
 						<p class="section-kicker">Diagram placeholder - Idempotence</p>
 						<p>
-							Show a second write of an already-pinned package.json
-							passing the range law untouched - the no-op rewrite
-							P(P(c)) = P(c).
+							Show a second write of an already-pinned package.json passing the range
+							law untouched - the no-op rewrite P(P(c)) = P(c).
 						</p>
 					</div>
 
@@ -484,23 +445,19 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						An already-static version has no leading prefix, so rule 2
-						passes it through - pinning a pinned file is a no-op
-						rewrite: <code>P(P(c)) = P(c)</code>.
+						An already-static version has no leading prefix, so rule 2 passes it through
+						- pinning a pinned file is a no-op rewrite: <code>P(P(c)) = P(c)</code>.
 					</p>
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-keep-list-policy">
-					<div
-						class="diagram-placeholder"
-						data-diagram="keep-list-policy"
-					>
+					<div class="diagram-placeholder" data-diagram="keep-list-policy">
 						<p class="section-kicker">Diagram placeholder - Keep-list policy</p>
 						<p>
-							Show pin-policy.json protecting a selected dependency
-							from prefix removal, the union of every readable
-							discovered policy, and the P3 chain-keys interlock
-							keeping the governor's ^resolved chain pins unstripped.
+							Show pin-policy.json protecting a selected dependency from prefix
+							removal, the union of every readable discovered policy, and the P3
+							chain-keys interlock keeping the governor's ^resolved chain pins
+							unstripped.
 						</p>
 					</div>
 
@@ -509,25 +466,21 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						A <code>pin-policy.json</code> (
-						<code>{'{"keep": ["tailwindcss"]}'}</code>) protects packages whose ranges
-						must stay EXACTLY as the author wrote them. The effective keep-list is the
-						union of every readable discovered policy, and the P3 chain-keys interlock
-						means the governor's <code>^resolved</code> chain pins are never stripped. A
-						file that exists but does not parse is logged and contributes nothing.
+						A <code>pin-policy.json</code> (<code>{'{"keep": ["tailwindcss"]}'}</code>)
+						protects packages whose ranges must stay EXACTLY as the author wrote them.
+						The effective keep-list is the union of every readable discovered policy,
+						and the P3 chain-keys interlock means the governor's <code>^resolved</code>{" "}
+						chain pins are never stripped. A file that exists but does not parse is
+						logged and contributes nothing.
 					</p>
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-wildcard-behavior">
-					<div
-						class="diagram-placeholder"
-						data-diagram="wildcard-behavior"
-					>
+					<div class="diagram-placeholder" data-diagram="wildcard-behavior">
 						<p class="section-kicker">Diagram placeholder - Wildcard behavior</p>
 						<p>
-							Show "^1.*" stripped to "1.*" - the law strips only
-							the one leading notation and leaves the content
-							untouched.
+							Show "^1.*" stripped to "1.*" - the law strips only the one leading
+							notation and leaves the content untouched.
 						</p>
 					</div>
 
@@ -537,21 +490,18 @@ const Related = [
 
 					<p class="page-hero__sub">
 						Documented edge decision: <code>"^1.*"</code> IS stripped to
-						<code>"1.*"</code> - the law strips the notation (the prefix) and leaves
-						the content untouched; protect wildcards with the keep-list if you need them
+						<code>"1.*"</code> - the law strips the notation (the prefix) and leaves the
+						content untouched; protect wildcards with the keep-list if you need them
 						preserved.
 					</p>
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-refusal-guard">
-					<div
-						class="diagram-placeholder"
-						data-diagram="refusal-guard"
-					>
+					<div class="diagram-placeholder" data-diagram="refusal-guard">
 						<p class="section-kicker">Diagram placeholder - Refusal guard</p>
 						<p>
-							Show a non-dependency section change being REFUSED and
-							logged instead of applied.
+							Show a non-dependency section change being REFUSED and logged instead of
+							applied.
 						</p>
 					</div>
 
@@ -568,16 +518,12 @@ const Related = [
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-version-coherence">
-					<div
-						class="diagram-placeholder"
-						data-diagram="version-coherence"
-					>
+					<div class="diagram-placeholder" data-diagram="version-coherence">
 						<p class="section-kicker">Diagram placeholder - Version coherence</p>
 						<p>
-							Show the guarded write carrying replaceIfVersion at
-							the observed version - a racing author write fails
-							safely (no clobber), and the re-emit re-enters this
-							listener as a Stash-gated no-op.
+							Show the guarded write carrying replaceIfVersion at the observed version
+							- a racing author write fails safely (no clobber), and the re-emit
+							re-enters this listener as a Stash-gated no-op.
 						</p>
 					</div>
 
@@ -586,10 +532,9 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						The rewrite carries <code>replaceIfVersion</code> at the
-						observed version; a racing author write makes it fail
-						safely (no clobber), and the re-emit re-enters this
-						listener where the Stash token gate makes it a no-op.
+						The rewrite carries <code>replaceIfVersion</code> at the observed version; a
+						racing author write makes it fail safely (no clobber), and the re-emit
+						re-enters this listener where the Stash token gate makes it a no-op.
 					</p>
 				</section>
 			</div>
@@ -603,8 +548,9 @@ const Related = [
 				configuration fails loudly. New patch entries are declared with
 				<code>insert:</code>. Full example:
 			</p>
-			<div class="code-block">
-				{[
+			<CodeBlock
+				Language="yaml"
+				Source={[
 					"- insert:",
 					"      - id: hook-dsh-pinner-package",
 					'        name: "@playform/hook-dsh-pinner-package"',
@@ -616,7 +562,7 @@ const Related = [
 					"            sections: [dependencies, devDependencies, peerDependencies, optionalDependencies]",
 					"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
 				].join("\n")}
-			</div>
+			/>
 		</section>
 
 		<section class="section">
@@ -625,14 +571,18 @@ const Related = [
 				One pinned write. The author drops a <code>package.json</code> with two ranged
 				versions and a keep-listed package nearby:
 			</p>
-			<p class="section-kicker"><BrandIcon Name="swap" /> Before - the manifest as the author wrote it</p>
-			<div class="code-block">{PinnedWrite.join("\n")}</div>
+			<p class="section-kicker">
+				<BrandIcon Name="swap" /> Before - the manifest as the author wrote it
+			</p>
+			<CodeBlock Language="json" Source={PinnedWrite.join("\n")} />
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">
 				A <code>pin-policy.json</code> (<code>{'{"keep":["tailwindcss"]}'}</code>) sits
 				beside the file, so tailwindcss keeps its range; the other two dependencies are
 				pinned. The transcript shows only what the author wrote; the ledger shows the pin:
 			</p>
-			<p class="section-kicker"><BrandIcon Name="swap" /> After - the pin in the ledger</p>
+			<p class="section-kicker">
+				<BrandIcon Name="swap" /> After - the pin in the ledger
+			</p>
 			<div class="code-block">{LedgerExcerpt.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				Read the file back and <code>"@playform/build"</code> is <code>"0.3.4"</code>,
@@ -683,8 +633,9 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0. Full contract: SCHEME.md. TypeScript-first, built with @playform build
-				(ESBuild + tsc type-check); the published artifact contains only the built output.
+				License: CC0-1.0. Full contract: SCHEME.md. TypeScript-first, built with @playform
+				build (ESBuild + tsc type-check); the published artifact contains only the built
+				output.
 			</p>
 		</section>
 	</main>

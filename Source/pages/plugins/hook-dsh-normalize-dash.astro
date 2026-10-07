@@ -5,6 +5,7 @@ import Badge from "@Component/Badge.astro";
 import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -243,20 +244,17 @@ const Config = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">
-				hook-dsh-normalize-dash
-			</h1>
+			<h1 class="page-hero__title">hook-dsh-normalize-dash</h1>
 			<p class="page-hero__sub">
-				{Families.Dash} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
-				The <strong>dash normalizer for model output</strong> - a DeepSeek Harness plugin
-				that hooks the <code>llm/stream</code> waterfall (the interceptable wrapper around
-				EVERY streaming model call, bound to the LlmRuntime) and normalizes the unicode dash
-				family to ASCII hyphen-minus, live in the transcript: em dashes, en dashes and
-				seventeen exotic relatives <ArrowIcon Direction="right" Tone="accent" />{" "}
-				<code>-</code>. Exactly the hermes normalize-dashes hook, at
-				the injection
-				point hermes itself does not have. A CLASS flavor of the normalize family: the
-				core's <code>Dashes</code> table plus a configurable <code>replacement</code>
+				{Families.Dash} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family
+				for PlayForm._ The <strong>dash normalizer for model output</strong> - a DeepSeek
+				Harness plugin that hooks the <code>llm/stream</code> waterfall (the interceptable
+				wrapper around EVERY streaming model call, bound to the LlmRuntime) and normalizes
+				the unicode dash family to ASCII hyphen-minus, live in the transcript: em dashes, en
+				dashes and seventeen exotic relatives <ArrowIcon Direction="right" Tone="accent" />{" "}
+				<code>-</code>. Exactly the hermes normalize-dashes hook, at the injection point
+				hermes itself does not have. A CLASS flavor of the normalize family: the core's{" "}
+				<code>Dashes</code> table plus a configurable <code>replacement</code>
 				(default <code>-</code>). It also registers the family's{" "}
 				<strong>raw-write tool</strong> - a write wrapper with an explicit{" "}
 				<code>normalize</code> parameter (default false = verbatim), exempt from the stream
@@ -270,7 +268,9 @@ const Config = [
 				<Terminal Command="pnpm add @playform/hook-dsh-normalize-dash" />
 			</div>
 			<div class="inspect-card">
-				<span class="inspect-card__meta"><span class="live-dot"></span>INSPECTED</span>
+				<span class="inspect-card__meta">
+					<span class="live-dot"></span>INSPECTED
+				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-normalize-dash</span>
@@ -293,10 +293,7 @@ const Config = [
 			is on the <a href="/setup/">setup page</a>.
 		</p>
 		<section class="section">
-			<SectionHeader
-				Title="Where It Fits"
-				Meta={FamilyPosition(1)}
-			/>
+			<SectionHeader Title="Where It Fits" Meta={FamilyPosition(1)} />
 			<div class="concept-list">
 				<Concept
 					Id="dash-family-position"
@@ -331,7 +328,9 @@ const Config = [
 								<td>
 									{Row.Sub.split("→").map((Part, Index) => (
 										<Fragment>
-											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+											{Index > 0 && (
+												<ArrowIcon Direction="right" Tone="accent" />
+											)}
 											{Part}
 										</Fragment>
 									))}
@@ -345,12 +344,12 @@ const Config = [
 				<Concept
 					Id="dash-non-manifest"
 					Title="The first NON-MANIFEST module"
-					Diagram="The flavor's factory surface: injecting [&quot;pluginFactory&quot;], using only State (cell unwrap + shared Ledger/Enabled mappings + its own fields) and Append - touching no files, so fs/write-intent and fs/observed never see it."
+					Diagram='The flavor&apos;s factory surface: injecting ["pluginFactory"], using only State (cell unwrap + shared Ledger/Enabled mappings + its own fields) and Append - touching no files, so fs/write-intent and fs/observed never see it.'
 				>
 					<p>
 						It is also the factory's <strong>first NON-MANIFEST module</strong>: it
-						injects <code>["pluginFactory"]</code> and uses only <code>State</code> (cell
-						unwrap + shared Ledger/Enabled mappings + its own fields) and{" "}
+						injects <code>["pluginFactory"]</code> and uses only <code>State</code>{" "}
+						(cell unwrap + shared Ledger/Enabled mappings + its own fields) and{" "}
 						<code>Append</code>.
 					</p>
 					<p>
@@ -365,8 +364,8 @@ const Config = [
 					Diagram="The per-chunk outcome: an untouched chunk passing through by object identity, a rewritten delta/block being a shallow copy with only the text field replaced."
 				>
 					<p>
-						Untouched chunks pass through by object identity; a rewritten delta/block is a
-						shallow copy with only the text field replaced.
+						Untouched chunks pass through by object identity; a rewritten delta/block is
+						a shallow copy with only the text field replaced.
 					</p>
 				</Concept>
 			</div>
@@ -418,15 +417,15 @@ const Config = [
 					Diagram="The hermes hook rewriting the unicode dash family to ASCII hyphen-minus in files after the fact - perl -CSD -pe over whatever was already written - while model output is born in the stream: the live UI and the durable transcript seeing the em dashes first, no matter what a file hook does later."
 				>
 					<p>
-						The user's hermes hook rewrites the unicode dash family to ASCII hyphen-minus{" "}
-						<strong>in files after the fact</strong> - <code>perl -CSD -pe</code> over
-						whatever was already written.
+						The user's hermes hook rewrites the unicode dash family to ASCII
+						hyphen-minus <strong>in files after the fact</strong> -{" "}
+						<code>perl -CSD -pe</code> over whatever was already written.
 					</p>
 					<p>
 						Model output, however, is born in the stream: the live UI and the durable
 						transcript see the em dashes first, no matter what a file hook does later. A
-						DSH plugin can go where hermes cannot: the <code>llm/stream</code> waterfall,
-						where every streaming model call passes through.
+						DSH plugin can go where hermes cannot: the <code>llm/stream</code>{" "}
+						waterfall, where every streaming model call passes through.
 					</p>
 				</Concept>
 				<Concept
@@ -488,12 +487,13 @@ const Config = [
 					Diagram="The dash family: Armenian hyphen, Hebrew maqaf, Canadian syllabics hyphen, Mongolian todo soft hyphen, the U+2010-U+2015 hyphen/dash family (including the em dash and the non-breaking hyphen), double oblique hyphen, hyphen with diaeresis, two-/three-em dash, double hyphen, U+2E5D, wave/wavy dash, katakana-hiragana double hyphen, the vertical presentation dashes, small em dash, small hyphen-minus and the fullwidth hyphen-minus - all becoming the config replacement (default -, ASCII hyphen-minus U+002D)."
 				>
 					<p>
-						Armenian hyphen, Hebrew maqaf, Canadian syllabics hyphen, Mongolian todo soft
-						hyphen, the U+2010-U+2015 hyphen/dash family (including the em dash and the
-						non-breaking hyphen), double oblique hyphen, hyphen with diaeresis, two-/three-em
-						dash, double hyphen, U+2E5D, wave/wavy dash, katakana-hiragana double hyphen, the
-						vertical presentation dashes, small em dash, small hyphen-minus and the fullwidth
-						hyphen-minus - all become the config <code>replacement</code> (default
+						Armenian hyphen, Hebrew maqaf, Canadian syllabics hyphen, Mongolian todo
+						soft hyphen, the U+2010-U+2015 hyphen/dash family (including the em dash and
+						the non-breaking hyphen), double oblique hyphen, hyphen with diaeresis,
+						two-/three-em dash, double hyphen, U+2E5D, wave/wavy dash, katakana-hiragana
+						double hyphen, the vertical presentation dashes, small em dash, small
+						hyphen-minus and the fullwidth hyphen-minus - all become the config{" "}
+						<code>replacement</code> (default
 						<code>-</code>, ASCII hyphen-minus U+002D).
 					</p>
 					<p>No context rules - hermes has none.</p>
@@ -527,8 +527,8 @@ const Config = [
 				>
 					<p>
 						Besides the stream listener, the normalize-dash registers the family's{" "}
-						<strong>raw-write tool</strong>: a plugin-registered write wrapper that wraps
-						the built-in <code>write</code> operation with an explicit{" "}
+						<strong>raw-write tool</strong>: a plugin-registered write wrapper that
+						wraps the built-in <code>write</code> operation with an explicit{" "}
 						<code>normalize</code> parameter.
 					</p>
 					<p>
@@ -556,7 +556,9 @@ const Config = [
 								<td>
 									{Row.Effect.split("→").map((Part, Index) => (
 										<Fragment>
-											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+											{Index > 0 && (
+												<ArrowIcon Direction="right" Tone="accent" />
+											)}
 											{Part}
 										</Fragment>
 									))}
@@ -574,10 +576,10 @@ const Config = [
 				>
 					<p>
 						The tool also takes a <strong>govern parameter</strong> - the per-call
-						governance selection over the factory's direct-govern registry, applied after
-						a successful write: absent or false (default) runs NO governance chain (the
-						write still emits fs/observed exactly like a built-in write); true or "all"
-						runs ALL registered governance steps for the target's basename;{" "}
+						governance selection over the factory's direct-govern registry, applied
+						after a successful write: absent or false (default) runs NO governance chain
+						(the write still emits fs/observed exactly like a built-in write); true or
+						"all" runs ALL registered governance steps for the target's basename;{" "}
 						<code>["canonicalize", ...]</code> runs ONLY the named steps.
 					</p>
 					<p>
@@ -589,13 +591,13 @@ const Config = [
 				<Concept
 					Id="dash-fs-path"
 					Title="The mirrored fs path"
-					Diagram="The exec mirroring the built-in write's fs path exactly: ctx.fs.resolve, the fs/write-intent waterfall, the standing sandbox policy, ctx.fs.writeText(...), then the fs/observed emit with the written version - with exec.signal honored end to end and the inject list [&quot;pluginFactory&quot;, &quot;fs&quot;, &quot;tools&quot;]."
+					Diagram='The exec mirroring the built-in write&apos;s fs path exactly: ctx.fs.resolve, the fs/write-intent waterfall, the standing sandbox policy, ctx.fs.writeText(...), then the fs/observed emit with the written version - with exec.signal honored end to end and the inject list ["pluginFactory", "fs", "tools"].'
 				>
 					<p>
 						The exec mirrors the built-in write's fs path exactly:{" "}
-						<code>ctx.fs.resolve</code> <ArrowIcon Direction="right" Tone="accent" /> the
-						fs/write-intent waterfall <ArrowIcon Direction="right" Tone="accent" /> the
-						standing sandbox policy <ArrowIcon Direction="right" Tone="accent" />{" "}
+						<code>ctx.fs.resolve</code> <ArrowIcon Direction="right" Tone="accent" />{" "}
+						the fs/write-intent waterfall <ArrowIcon Direction="right" Tone="accent" />{" "}
+						the standing sandbox policy <ArrowIcon Direction="right" Tone="accent" />{" "}
 						<code>ctx.fs.writeText(...)</code>{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> the fs/observed emit with the
 						written version.
@@ -687,8 +689,10 @@ const Config = [
 					<p>Example cordis.patch.yml row:</p>
 				</Concept>
 			</div>
-			<div class="code-block" style="margin-top: var(--space-sm)">
-				{[
+			<CodeBlock
+				Language="yaml"
+				Style="margin-top: var(--space-sm)"
+				Source={[
 					"- insert:",
 					"      - id: hook-dsh-normalize-dash",
 					'        name: "@playform/hook-dsh-normalize-dash"',
@@ -698,7 +702,7 @@ const Config = [
 					'            replacement: "-"',
 					"            normalizeReasoning: true",
 				].join("\n")}
-			</div>
+			/>
 		</section>
 
 		<section class="section">
@@ -707,7 +711,9 @@ const Config = [
 				The model emits prose with typographic dashes; the live UI and the transcript
 				receive the ASCII forms:
 			</p>
-			<p class="section-kicker"><BrandIcon Name="swap" /> Before - the model stream as it is born</p>
+			<p class="section-kicker">
+				<BrandIcon Name="swap" /> Before - the model stream as it is born
+			</p>
 			<div class="code-block">{StreamExample.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
@@ -729,7 +735,8 @@ const Config = [
 				</Concept>
 			</div>
 			<p class="section-kicker">
-				<BrandIcon Name="swap" /> After - the stream that reaches the transcript (and the gate for sensitive calls)
+				<BrandIcon Name="swap" /> After - the stream that reaches the transcript (and the
+				gate for sensitive calls)
 			</p>
 			<div class="code-block">{GateExample.join("\n")}</div>
 			<div class="concept-list">
@@ -739,10 +746,10 @@ const Config = [
 					Diagram="The raw-write content landing verbatim by default, or running the family's six-fold chain when called with normalize: true - the em dash surviving the default call and becoming a hyphen under normalize: true, with the selection also FINE-GRAINED."
 				>
 					<p>
-						And the <code>raw-write</code> tool in the file-writing direction: its content
-						lands verbatim by default, or runs the family's six-fold chain when called
-						with <code>normalize: true</code> - the em dash above would survive the
-						default call and become a hyphen under <code>normalize: true</code>.
+						And the <code>raw-write</code> tool in the file-writing direction: its
+						content lands verbatim by default, or runs the family's six-fold chain when
+						called with <code>normalize: true</code> - the em dash above would survive
+						the default call and become a hyphen under <code>normalize: true</code>.
 					</p>
 					<p>The selection can also be FINE-GRAINED:</p>
 				</Concept>
@@ -753,7 +760,7 @@ const Config = [
 				<Concept
 					Id="dash-fixed-order"
 					Title="The order is FIXED by the family"
-					Diagram="The family's fixed order - dashes, quotes, ellipsis, spaces, invisible, fullwidth - applying even when the selection lists the flavors out of order: normalize: [&quot;fullwidth&quot;, &quot;dash&quot;] still applying dashes first."
+					Diagram='The family&apos;s fixed order - dashes, quotes, ellipsis, spaces, invisible, fullwidth - applying even when the selection lists the flavors out of order: normalize: ["fullwidth", "dash"] still applying dashes first.'
 				>
 					<p>
 						The order is FIXED by the family: dashes{" "}
@@ -769,7 +776,7 @@ const Config = [
 				<Concept
 					Id="dash-governance-per-call"
 					Title="The governance direction, per call"
-					Diagram="A raw-write to a package.json with govern: true running the registered chain pass (canonicalize) and the update stage after the write lands - govern: [&quot;pin&quot;] running only the pinner's chain pass - and the ledger getting the count line when a stream finishes normally with replacements made."
+					Diagram='A raw-write to a package.json with govern: true running the registered chain pass (canonicalize) and the update stage after the write lands - govern: ["pin"] running only the pinner&apos;s chain pass - and the ledger getting the count line when a stream finishes normally with replacements made.'
 				>
 					<p>
 						And the governance direction, per call: a raw-write to a{" "}

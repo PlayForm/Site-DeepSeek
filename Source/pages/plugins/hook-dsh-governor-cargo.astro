@@ -4,6 +4,7 @@ import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -91,20 +92,19 @@ const Related = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">
-				hook-dsh-governor-cargo
-			</h1>
+			<h1 class="page-hero__title">hook-dsh-governor-cargo</h1>
 			<p class="page-hero__sub">
-				{Families.GovernorCargo} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
-				The <strong>Cargo.toml flavor of the silent package.json governor</strong> - the
-				same architecture, the same API-awareness discipline, the same silence toward the
-				author, but for <BrandIcon Name="rust" /> RUST manifests, with the update stage driven by the RUST-SIDE CLI (
-				<code>cargo upgrade</code>, from cargo-edit): Rust does not co-opt into the
-				TypeScript ecosystem, so there is no <BrandIcon Name="npm" /> npm-library equivalent - the update stage
-				operates at the exclusionary level through the cargo CLI. Chain canonicalization +
-				full-version normalization + surgical TOML rewriting +{" "}
-				<code>cargo upgrade --exclude</code> - comments survive. Every claim below is
-				live-verified (2026-10-03, live).
+				{Families.GovernorCargo} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness
+				Plugin Family for PlayForm._ The{" "}
+				<strong>Cargo.toml flavor of the silent package.json governor</strong> - the same
+				architecture, the same API-awareness discipline, the same silence toward the author,
+				but for <BrandIcon Name="rust" /> RUST manifests, with the update stage driven by
+				the RUST-SIDE CLI (<code>cargo upgrade</code>, from cargo-edit): Rust does not
+				co-opt into the TypeScript ecosystem, so there is no <BrandIcon Name="npm" />{" "}
+				npm-library equivalent - the update stage operates at the exclusionary level through
+				the cargo CLI. Chain canonicalization + full-version normalization + surgical TOML
+				rewriting + <code>cargo upgrade --exclude</code> - comments survive. Every claim
+				below is live-verified (2026-10-03, live).
 			</p>
 		</section>
 
@@ -113,7 +113,9 @@ const Related = [
 				<Terminal Command="pnpm add @playform/hook-dsh-governor-cargo" />
 			</div>
 			<div class="inspect-card">
-				<span class="inspect-card__meta"><span class="live-dot"></span>INSPECTED</span>
+				<span class="inspect-card__meta">
+					<span class="live-dot"></span>INSPECTED
+				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-governor-cargo</span>
@@ -147,17 +149,17 @@ const Related = [
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.GovernorCargo}</strong>): a hook child of the{" "}
 						<strong>plugin-dsh-factory</strong> service and the{" "}
-						<strong>hook-dsh-core</strong> helpers; the Rust-sided sibling of the two npm
-						governance hooks on the same <code>fs/observed</code> seam.
+						<strong>hook-dsh-core</strong> helpers; the Rust-sided sibling of the two
+						npm governance hooks on the same <code>fs/observed</code> seam.
 					</p>
 					<p>
 						One of three governance hooks, each gating on its own basename and writing
-						its own ledger: governor-package (
-						<code>package.json</code> <ArrowIcon Direction="right" Tone="accent" />{" "}
-						<code>governor.log</code>), pinner-package (
-						<code>package.json</code> <ArrowIcon Direction="right" Tone="accent" />{" "}
-						<code>pinner.log</code>), and this bundle (
-						<code>Cargo.toml</code> <ArrowIcon Direction="right" Tone="accent" />{" "}
+						its own ledger: governor-package (<code>package.json</code>{" "}
+						<ArrowIcon Direction="right" Tone="accent" /> <code>governor.log</code>),
+						pinner-package (<code>package.json</code>{" "}
+						<ArrowIcon Direction="right" Tone="accent" /> <code>pinner.log</code>), and
+						this bundle (<code>Cargo.toml</code>{" "}
+						<ArrowIcon Direction="right" Tone="accent" />{" "}
 						<code>cargo-governor.log</code>, chain pass bare caret /<code>=exact</code>{" "}
 						+ <code>cargo upgrade</code>).
 					</p>
@@ -181,9 +183,9 @@ const Related = [
 					<p>
 						Composition semantics: <strong>chain</strong>{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> <strong>strip</strong>{" "}
-						<ArrowIcon Direction="right" Tone="accent" />{" "}
-						<strong>normalize</strong> (this module's precedence),{" "}
-						<strong>keep-list wins</strong> over normalization - never over the chain.
+						<ArrowIcon Direction="right" Tone="accent" /> <strong>normalize</strong>{" "}
+						(this module's precedence), <strong>keep-list wins</strong> over
+						normalization - never over the chain.
 					</p>
 				</Concept>
 				<Concept
@@ -192,21 +194,21 @@ const Related = [
 					Diagram="gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey coming from plugin-dsh-factory; the policy loader and the suppression composer from hook-dsh-core; this bundle keeping the Cargo-specific residue: the TOML identification, the surgical pin, the full-version directive, and the cargo upgrade bridge."
 				>
 					<p>
-						Machinery-wise it is a <strong>factory flavor</strong>: gates, discovery, the
-						guarded write, the refresh, the continuation, the effects, the schema and the
-						namespaced UpdateKey come from plugin-dsh-factory; the policy loader and the
-						suppression composer come from hook-dsh-core.
+						Machinery-wise it is a <strong>factory flavor</strong>: gates, discovery,
+						the guarded write, the refresh, the continuation, the effects, the schema
+						and the namespaced UpdateKey come from plugin-dsh-factory; the policy loader
+						and the suppression composer come from hook-dsh-core.
 					</p>
 					<p>
 						This bundle keeps the Cargo-specific residue: the TOML identification, the
-						surgical pin, the full-version directive, and the{" "}
-						<code>cargo upgrade</code> bridge.
+						surgical pin, the full-version directive, and the <code>cargo upgrade</code>{" "}
+						bridge.
 					</p>
 				</Concept>
 				<Concept
 					Id="govcargo-direct-govern"
 					Title="The direct-govern registration"
-					Diagram="Besides the fs/observed event path, its two steps registered with the factory's direct-govern registry at apply (Factory.RegisterGovern(&quot;Cargo.toml&quot;, &quot;cargo&quot; | &quot;update&quot;, ...)) - so the raw-write tool's per-call govern selection can drive the same chain + normalization pass and update stage directly through Factory.Govern."
+					Diagram='Besides the fs/observed event path, its two steps registered with the factory&apos;s direct-govern registry at apply (Factory.RegisterGovern("Cargo.toml", "cargo" | "update", ...)) - so the raw-write tool&apos;s per-call govern selection can drive the same chain + normalization pass and update stage directly through Factory.Govern.'
 				>
 					<p>
 						Besides the fs/observed event path, its two steps are registered with the
@@ -214,8 +216,8 @@ const Related = [
 						Factory.RegisterGovern("Cargo.toml", "cargo" | "update", ...)).
 					</p>
 					<p>
-						That lets the raw-write tool's per-call govern selection drive the same chain
-						+ normalization pass and update stage directly through Factory.Govern.
+						That lets the raw-write tool's per-call govern selection drive the same
+						chain + normalization pass and update stage directly through Factory.Govern.
 					</p>
 				</Concept>
 			</div>
@@ -265,8 +267,9 @@ const Related = [
 				>
 					<p>
 						Rust manifests drift the same way npm manifests do - but{" "}
-						<code>Cargo.toml</code> is a TOML document people decorate with comments, and
-						there is no in-process library path: the only update tool is the cargo CLI.
+						<code>Cargo.toml</code> is a TOML document people decorate with comments,
+						and there is no in-process library path: the only update tool is the cargo
+						CLI.
 					</p>
 					<p>
 						A governor for <code>Cargo.toml</code> must therefore rewrite surgically
@@ -284,11 +287,11 @@ const Related = [
 				<Concept
 					Id="govcargo-chain-pass"
 					Title="The G3 chain pass, planned in three steps"
-					Diagram="The same G1/G2 gates and Stash seeding as the npm governor - the G3 chain pass parsing with smol-toml (IDENTIFICATION ONLY) and planning: 1. CHAIN - a dep in registry.effectiveLatest to the bare resolved version (Cargo's implicit caret) or =resolved with pinStyle &quot;exact&quot;, always the FULL form (shorthand padded); 2. STRIP - strict-mode unknown deps; 3. NORMALIZE - every other simple version (the full-version directive below; the keep-list wins to byte-identical)."
+					Diagram='The same G1/G2 gates and Stash seeding as the npm governor - the G3 chain pass parsing with smol-toml (IDENTIFICATION ONLY) and planning: 1. CHAIN - a dep in registry.effectiveLatest to the bare resolved version (Cargo&apos;s implicit caret) or =resolved with pinStyle "exact", always the FULL form (shorthand padded); 2. STRIP - strict-mode unknown deps; 3. NORMALIZE - every other simple version (the full-version directive below; the keep-list wins to byte-identical).'
 				>
 					<p>
-						The same G1/G2 gates and Stash seeding as the npm governor; the G3 chain pass
-						parses with smol-toml (IDENTIFICATION ONLY) and plans:
+						The same G1/G2 gates and Stash seeding as the npm governor; the G3 chain
+						pass parses with smol-toml (IDENTIFICATION ONLY) and plans:
 					</p>
 					<ul class="concept-values">
 						<li>
@@ -301,8 +304,8 @@ const Related = [
 							<strong>STRIP</strong> - strict-mode unknown deps;
 						</li>
 						<li>
-							<strong>NORMALIZE</strong> - every other simple version (the full-version
-							directive below; the keep-list wins{" "}
+							<strong>NORMALIZE</strong> - every other simple version (the
+							full-version directive below; the keep-list wins{" "}
 							<ArrowIcon Direction="right" Tone="accent" /> byte-identical).
 						</li>
 					</ul>
@@ -322,8 +325,9 @@ const Related = [
 					<p>The G4 update stage crosses the Rust/TS boundary:</p>
 				</Concept>
 			</div>
-			<div class="code-block">
-				{[
+			<CodeBlock
+				Language="bash"
+				Source={[
 					"cargo upgrade --manifest-path <Cargo.toml>",
 					"          --exclude <crate> ...   (ONE flag per crate - the comma",
 					"                                   form is silently IGNORED)",
@@ -332,12 +336,12 @@ const Related = [
 					"exclude = policy.reject ∪ chain deps (the cordis-trap guard:",
 					"cargo upgrade must never bump a chain-governed pin)",
 				].join("\n")}
-			</div>
+			/>
 			<div class="concept-list">
 				<Concept
 					Id="govcargo-full-version"
 					Title="The full-version normalization directive"
-					Diagram="No shorthand like &quot;1.0&quot; remaining in a governed Cargo.toml - every dependency version expanded to its MOST SPECIFIC form."
+					Diagram='No shorthand like "1.0" remaining in a governed Cargo.toml - every dependency version expanded to its MOST SPECIFIC form.'
 				>
 					<p>
 						<strong>The full-version normalization directive.</strong> No shorthand like
@@ -374,8 +378,8 @@ const Related = [
 				>
 					<p>
 						smol-toml (the ONE runtime dependency, carried by the bundle's own
-						node_modules) is used for PARSING ONLY - identification of the dep entries in{" "}
-						<code>[dependencies]</code>, <code>[dev-dependencies]</code>,{" "}
+						node_modules) is used for PARSING ONLY - identification of the dep entries
+						in <code>[dependencies]</code>, <code>[dev-dependencies]</code>,{" "}
 						<code>[build-dependencies]</code>,{" "}
 						<code>[target.'cfg(...)'.dependencies]</code> (and its dev/build variants),
 						and <code>[workspace.dependencies]</code> (handled natively).
@@ -394,7 +398,7 @@ const Related = [
 				<Concept
 					Id="govcargo-rust-side"
 					Title="The Rust side (live-verified)"
-					Diagram="cargo 1.100.0-nightly + cargo-edit 0.13.13, resolved through cargoBin - --exclude being ONE flag per crate (the comma form silently IGNORED, the exact inverse of ncu's one-comma-argument reject list) - NO --exact flag in cargo-edit 0.13.13, exact pins enforced at the manifest level by the chain pass (pinStyle: &quot;exact&quot; to =resolved) - cargo upgrade preserving comments and formatting (it edits via toml_edit)."
+					Diagram='cargo 1.100.0-nightly + cargo-edit 0.13.13, resolved through cargoBin - --exclude being ONE flag per crate (the comma form silently IGNORED, the exact inverse of ncu&apos;s one-comma-argument reject list) - NO --exact flag in cargo-edit 0.13.13, exact pins enforced at the manifest level by the chain pass (pinStyle: "exact" to =resolved) - cargo upgrade preserving comments and formatting (it edits via toml_edit).'
 				>
 					<p>
 						<strong>The Rust side (live-verified).</strong> cargo 1.100.0-nightly +
@@ -438,8 +442,9 @@ const Related = [
 					</p>
 				</Concept>
 			</div>
-			<div class="code-block">
-				{[
+			<CodeBlock
+				Language="yaml"
+				Source={[
 					"- insert:",
 					"      - id: hook-dsh-governor-cargo",
 					'        name: "@playform/hook-dsh-governor-cargo"',
@@ -456,12 +461,12 @@ const Related = [
 					'            keepFile: "" # optional global pin-policy.json (the keep-list)',
 					"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
 				].join("\n")}
-			</div>
+			/>
 			<div class="concept-list">
 				<Concept
 					Id="govcargo-policy-mapping"
 					Title="The update-stage policy mapping"
-					Diagram="The update-policy.json mapping (same discovery as the npm governor): reject to --exclude <crate> (ONE flag per crate); allow to -p <crate> (repeatable); incompatible/pinned/compatible to --incompatible/--pinned/--compatible; pinStyle with NO CLI equivalent (manifest-level via the chain pass); verifyCommand running after the upgrade via the subprocess seam, exit 127 non-fatal - the built-in default mirroring cargo upgrade's own semantics: no rejects, incompatible: &quot;ignore&quot;, pinned: &quot;ignore&quot;, pinStyle: &quot;caret&quot;, no verifyCommand (never install implicitly)."
+					Diagram='The update-policy.json mapping (same discovery as the npm governor): reject to --exclude <crate> (ONE flag per crate); allow to -p <crate> (repeatable); incompatible/pinned/compatible to --incompatible/--pinned/--compatible; pinStyle with NO CLI equivalent (manifest-level via the chain pass); verifyCommand running after the upgrade via the subprocess seam, exit 127 non-fatal - the built-in default mirroring cargo upgrade&apos;s own semantics: no rejects, incompatible: "ignore", pinned: "ignore", pinStyle: "caret", no verifyCommand (never install implicitly).'
 				>
 					<p>
 						<strong>Update-stage policy mapping</strong> (update-policy.json, same
@@ -469,13 +474,13 @@ const Related = [
 						<ArrowIcon Direction="right" Tone="accent" />{" "}
 						<code>--exclude &lt;crate&gt;</code> (ONE flag per crate);{" "}
 						<code>allow</code> <ArrowIcon Direction="right" Tone="accent" />{" "}
-						<code>-p &lt;crate&gt;</code> (repeatable);{" "}
-						<code>incompatible</code>/<code>pinned</code>/<code>compatible</code>{" "}
-						<ArrowIcon Direction="right" Tone="accent" />{" "}
-						<code>--incompatible</code>/<code>--pinned</code>/<code>--compatible</code>;
-						<code>pinStyle</code> has NO CLI equivalent (manifest-level via the chain
-						pass); <code>verifyCommand</code> runs after the upgrade via the subprocess
-						seam, exit 127 non-fatal.
+						<code>-p &lt;crate&gt;</code> (repeatable); <code>incompatible</code>/
+						<code>pinned</code>/<code>compatible</code>{" "}
+						<ArrowIcon Direction="right" Tone="accent" /> <code>--incompatible</code>/
+						<code>--pinned</code>/<code>--compatible</code>;<code>pinStyle</code> has NO
+						CLI equivalent (manifest-level via the chain pass);{" "}
+						<code>verifyCommand</code> runs after the upgrade via the subprocess seam,
+						exit 127 non-fatal.
 					</p>
 					<p>
 						The built-in default mirrors <code>cargo upgrade</code>'s own semantics: no
@@ -495,13 +500,15 @@ const Related = [
 					Diagram="The author saving a Cargo.toml with comments, a shorthand version, and a chain-governed dep."
 				>
 					<p>
-						One governed write. The author saves a <code>Cargo.toml</code> with comments,
-						a shorthand version, and a chain-governed dep:
+						One governed write. The author saves a <code>Cargo.toml</code> with
+						comments, a shorthand version, and a chain-governed dep:
 					</p>
 				</Concept>
 			</div>
-			<p class="section-kicker"><BrandIcon Name="swap" /> Before - the Cargo.toml as the author wrote it</p>
-			<div class="code-block">{CargoBefore.join("\n")}</div>
+			<p class="section-kicker">
+				<BrandIcon Name="swap" /> Before - the Cargo.toml as the author wrote it
+			</p>
+			<CodeBlock Language="toml" Source={CargoBefore.join("\n")} />
 			<div class="concept-list">
 				<Concept
 					Id="govcargo-in-action-surgical"
@@ -514,8 +521,10 @@ const Related = [
 					</p>
 				</Concept>
 			</div>
-			<p class="section-kicker"><BrandIcon Name="swap" /> After - the same file, surgically rewritten</p>
-			<div class="code-block">{CargoAfter.join("\n")}</div>
+			<p class="section-kicker">
+				<BrandIcon Name="swap" /> After - the same file, surgically rewritten
+			</p>
+			<CodeBlock Language="toml" Source={CargoAfter.join("\n")} />
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">
 				The transcript shows only what the author wrote; the ledger shows the pass:
 			</p>
@@ -539,8 +548,8 @@ const Related = [
 						<code>node_modules</code>/<code>.git</code>/<code>.dsh</code> and the ledger
 						gains <code>skipped (excluded) ...</code> while the file stays untouched.
 						Remove cargo-edit and the pass fails gracefully:{" "}
-						<code>update: cargo-edit unavailable: ...</code>, the manifest untouched, the
-						breaker counting the failure.
+						<code>update: cargo-edit unavailable: ...</code>, the manifest untouched,
+						the breaker counting the failure.
 					</p>
 				</Concept>
 			</div>
@@ -552,7 +561,7 @@ const Related = [
 				<Concept
 					Id="govcargo-ledger-log"
 					Title="One global log, SEPARATE from the npm ledgers"
-					Diagram="One global log (logFile, default ~/.dsh/hook-dsh-governor-cargo.log - SEPARATE from the npm ledgers) recording activation, exclusions, chain-pass results, refusals, and every update-stage dispatch - the activation line written by apply() so &quot;did it activate&quot; is answerable from the ledger alone."
+					Diagram='One global log (logFile, default ~/.dsh/hook-dsh-governor-cargo.log - SEPARATE from the npm ledgers) recording activation, exclusions, chain-pass results, refusals, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
 				>
 					<p>
 						One global log (<code>logFile</code>, default{" "}
@@ -600,8 +609,9 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0. Full contract: SCHEME.md. TypeScript-first, built with @playform build
-				(ESBuild + tsc type-check); the published artifact contains only the built output.
+				License: CC0-1.0. Full contract: SCHEME.md. TypeScript-first, built with @playform
+				build (ESBuild + tsc type-check); the published artifact contains only the built
+				output.
 			</p>
 		</section>
 	</main>

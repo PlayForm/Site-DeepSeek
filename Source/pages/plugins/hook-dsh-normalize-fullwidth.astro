@@ -5,6 +5,7 @@ import Badge from "@Component/Badge.astro";
 import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -187,21 +188,19 @@ const LedgerStrings = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">
-				hook-dsh-normalize-fullwidth
-			</h1>
+			<h1 class="page-hero__title">hook-dsh-normalize-fullwidth</h1>
 			<p class="page-hero__sub">
-				{Families.Fullwidth} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for
-				PlayForm._ The <strong>fullwidth normalizer for model output</strong> - a DeepSeek
-				Harness plugin that hooks the <code>llm/stream</code> waterfall (the interceptable
-				wrapper around EVERY streaming model call, bound to the LlmRuntime) and normalizes
-				the full-width family in model output, live in the transcript: the entire FULLWIDTH
-				FORMS range U+FF01-U+FF5E maps to its ASCII half-width counterpart U+0021-U+007E -
-				the whole story, letters, punctuation and digits included. A MAP flavor of the
-				normalize family: the core's <code>Fullwidth</code> char-to-char table owns the
-				substitution - no <code>replacement</code> config knob. The family's raw-write tool
-				(registered by hook-dsh-normalize-dash) bypasses this flavor's transforms too - the
-				exemption is family-wide.
+				{Families.Fullwidth} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin
+				Family for PlayForm._ The <strong>fullwidth normalizer for model output</strong> - a
+				DeepSeek Harness plugin that hooks the <code>llm/stream</code> waterfall (the
+				interceptable wrapper around EVERY streaming model call, bound to the LlmRuntime)
+				and normalizes the full-width family in model output, live in the transcript: the
+				entire FULLWIDTH FORMS range U+FF01-U+FF5E maps to its ASCII half-width counterpart
+				U+0021-U+007E - the whole story, letters, punctuation and digits included. A MAP
+				flavor of the normalize family: the core's <code>Fullwidth</code> char-to-char table
+				owns the substitution - no <code>replacement</code> config knob. The family's
+				raw-write tool (registered by hook-dsh-normalize-dash) bypasses this flavor's
+				transforms too - the exemption is family-wide.
 			</p>
 		</section>
 
@@ -210,7 +209,9 @@ const LedgerStrings = [
 				<Terminal Command="pnpm add @playform/hook-dsh-normalize-fullwidth" />
 			</div>
 			<div class="inspect-card">
-				<span class="inspect-card__meta"><span class="live-dot"></span>INSPECTED</span>
+				<span class="inspect-card__meta">
+					<span class="live-dot"></span>INSPECTED
+				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-normalize-fullwidth</span>
@@ -233,10 +234,7 @@ const LedgerStrings = [
 			is on the <a href="/setup/">setup page</a>.
 		</p>
 		<section class="section">
-			<SectionHeader
-				Title="Where It Fits"
-				Meta={FamilyPosition(6)}
-			/>
+			<SectionHeader Title="Where It Fits" Meta={FamilyPosition(6)} />
 			<div class="concept-list">
 				<Concept
 					Id="fullwidth-family-position"
@@ -271,7 +269,9 @@ const LedgerStrings = [
 								<td>
 									{Row.Sub.split("→").map((Part, Index) => (
 										<Fragment>
-											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+											{Index > 0 && (
+												<ArrowIcon Direction="right" Tone="accent" />
+											)}
 											{Part}
 										</Fragment>
 									))}
@@ -289,9 +289,10 @@ const LedgerStrings = [
 				>
 					<p>
 						A <strong>non-manifest factory consumer</strong>: it injects{" "}
-						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap +
-						shared Ledger/Enabled mappings + its own fields) and <code>Append</code>; the
-						config is composed by the factory's standalone <code>Schema</code> helper with
+						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap
+						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
+						the config is composed by the factory's standalone <code>Schema</code>{" "}
+						helper with
 						<code>shared: false</code> - the minimal block, no fs/observed dead fields.
 					</p>
 					<p>
@@ -414,9 +415,9 @@ const LedgerStrings = [
 					<p>
 						The mapping values are returned through a function replacer, so they are
 						inserted literally (no $-pattern interpretation - the table's backslash,
-						circumflex, vertical bar and tilde values are exactly the characters a string
-						replacement would corrupt). Replaced characters are counted per stream for
-						the ledger line.
+						circumflex, vertical bar and tilde values are exactly the characters a
+						string replacement would corrupt). Replaced characters are counted per
+						stream for the ledger line.
 					</p>
 				</Concept>
 			</div>
@@ -457,7 +458,11 @@ const LedgerStrings = [
 					Diagram="The MAP flavor carrying no replacement field - volatile cells committing without remounting the plugin, the factory's State builder unwrapping them defensively."
 				>
 					<p>
-						There is <strong>no <code>replacement</code> field</strong> (MAP flavor).
+						There is{" "}
+						<strong>
+							no <code>replacement</code> field
+						</strong>{" "}
+						(MAP flavor).
 					</p>
 					<p>
 						Volatile cells commit without remounting the plugin; the factory's State
@@ -465,8 +470,10 @@ const LedgerStrings = [
 					</p>
 				</Concept>
 			</div>
-			<div class="code-block" style="margin-top: var(--space-sm)">
-				{[
+			<CodeBlock
+				Language="yaml"
+				Style="margin-top: var(--space-sm)"
+				Source={[
 					"- insert:",
 					"      - id: hook-dsh-normalize-fullwidth",
 					'        name: "@playform/hook-dsh-normalize-fullwidth"',
@@ -475,7 +482,7 @@ const LedgerStrings = [
 					"            logFile: ~/.dsh/hook-dsh-normalize-fullwidth.log",
 					"            normalizeReasoning: true",
 				].join("\n")}
-			</div>
+			/>
 		</section>
 
 		<section class="section">
@@ -519,10 +526,11 @@ const LedgerStrings = [
 						count line shown below.
 					</p>
 					<p>
-						The same pass runs over reasoning deltas when <code>normalizeReasoning</code>{" "}
-						is on, and over tool-call arguments when the example patch enables{" "}
-						<code>normalizeToolArguments</code> - with the <code>edit</code> name exempt
-						and raw-marker calls passing through unnormalized.
+						The same pass runs over reasoning deltas when{" "}
+						<code>normalizeReasoning</code> is on, and over tool-call arguments when the
+						example patch enables <code>normalizeToolArguments</code> - with the{" "}
+						<code>edit</code> name exempt and raw-marker calls passing through
+						unnormalized.
 					</p>
 				</Concept>
 			</div>

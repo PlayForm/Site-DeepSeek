@@ -22,7 +22,7 @@ const ReplaceLines = [
 // covers only the eight curly quotes - the em dash is the Dashes class's job.
 const ReplaceMapLines = [
 	'ReplaceMap("he said \u2018hello\u2019 \u2014 loudly", Quotes);',
-	'// -> { text: "he said \'hello\' \u2014 loudly", count: 2 }',
+	"// -> { text: \"he said 'hello' \u2014 loudly\", count: 2 }",
 	"//    (the em dash is the Dashes class's job, not the Quotes map's)",
 ];
 
@@ -76,14 +76,12 @@ const Related = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">
-				hook-dsh-core
-			</h1>
+			<h1 class="page-hero__title">hook-dsh-core</h1>
 			<p class="page-hero__sub">
-				{Families.Core} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._ The pure
-				machinery layer of the DSH plugin family: the harness-free commonalities both
-				halves of the family are built from - one library, two halves, explained as
-				diagram-first concept blocks below.
+				{Families.Core} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family
+				for PlayForm._ The pure machinery layer of the DSH plugin family: the harness-free
+				commonalities both halves of the family are built from - one library, two halves,
+				explained as diagram-first concept blocks below.
 			</p>
 		</section>
 
@@ -92,7 +90,9 @@ const Related = [
 				<Terminal Command="pnpm add @playform/hook-dsh-core" />
 			</div>
 			<div class="inspect-card">
-				<span class="inspect-card__meta"><span class="live-dot"></span>INSPECTED</span>
+				<span class="inspect-card__meta">
+					<span class="live-dot"></span>INSPECTED
+				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-core</span>
@@ -161,10 +161,11 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						CLASSIC ships dependency-free: zero runtime dependencies. The EFFECT-TS
-						variant ships the same contracts with <code>effect</code> {Versions.Effect} as the single
-						runtime dependency - same behavior, same smokes, different runtime
-						plumbing. The inspect card's ZERO is the CLASSIC variant's fact; the{" "}
-						<code>effect</code> {Versions.Effect} dependency belongs to the EFFECT-TS variant.
+						variant ships the same contracts with <code>effect</code> {Versions.Effect}{" "}
+						as the single runtime dependency - same behavior, same smokes, different
+						runtime plumbing. The inspect card's ZERO is the CLASSIC variant's fact; the{" "}
+						<code>effect</code> {Versions.Effect} dependency belongs to the EFFECT-TS
+						variant.
 					</p>
 				</Concept>
 			</div>
@@ -208,10 +209,10 @@ const Related = [
 					Diagram="The fs/observed + fs/write-intent seams supplying the governance half, with the three governance hooks composing their passes from the section list, the exclusion fence, the policy loader, the refusal guard and the update-stage envelope."
 				>
 					<p class="page-hero__sub">
-						The <code>fs/observed</code> + <code>fs/write-intent</code> seams supply
-						the governance half the three governance hooks compose their passes from:
-						the section list, the exclusion fence, the policy loader, the refusal guard
-						and the update-stage envelope.
+						The <code>fs/observed</code> + <code>fs/write-intent</code> seams supply the
+						governance half the three governance hooks compose their passes from: the
+						section list, the exclusion fence, the policy loader, the refusal guard and
+						the update-stage envelope.
 					</p>
 
 					<p class="page-hero__sub">
@@ -226,10 +227,10 @@ const Related = [
 					Diagram="The ledger/session seam: the core supplying the byte-exact mechanics, every consumer logging through its own Append."
 				>
 					<p class="page-hero__sub">
-						The core owns no ledger file or module-specific ledger vocabulary and
-						writes nothing - every consumer logs through its own Append; the core only
-						supplies the byte-exact mechanics (the suppression composer, the
-						diagnostics, the refusal line, the <code>activated (...)</code> template).
+						The core owns no ledger file or module-specific ledger vocabulary and writes
+						nothing - every consumer logs through its own Append; the core only supplies
+						the byte-exact mechanics (the suppression composer, the diagnostics, the
+						refusal line, the <code>activated (...)</code> template).
 					</p>
 
 					<p class="page-hero__sub">
@@ -281,10 +282,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader
-				Title="Core Architecture"
-				Meta="TWO HALVES, ONE ENTRY"
-			/>
+			<SectionHeader Title="Core Architecture" Meta="TWO HALVES, ONE ENTRY" />
 
 			<div class="concept-list">
 				<Concept
@@ -293,13 +291,13 @@ const Related = [
 					Diagram="Show @playform/hook-dsh-core branching into governance helpers and normalization machinery. Connect each half to its consuming hooks. Do not depict the core as a registered plugin."
 				>
 					<p class="page-hero__sub">
-						<code>@playform/hook-dsh-core</code> exposes named exports
-						for two responsibilities: governance and normalization.
+						<code>@playform/hook-dsh-core</code> exposes named exports for two
+						responsibilities: governance and normalization.
 					</p>
 
 					<p class="page-hero__sub">
-						Consumers import the helpers directly. The core itself
-						has no plugin loader contract.
+						Consumers import the helpers directly. The core itself has no plugin loader
+						contract.
 					</p>
 				</Concept>
 
@@ -309,21 +307,23 @@ const Related = [
 					Diagram="Show the shared dispatch choosing eligible chunk or block fields, then invoking a flavor-provided transform. Label dispatch as structure and the flavor as substitution."
 				>
 					<p class="page-hero__sub">
-						The dispatch owns the structure: which fields of which
-						chunk and block types are eligible for transformation.
+						The dispatch owns the structure: which fields of which chunk and block types
+						are eligible for transformation.
 					</p>
 
 					<p class="page-hero__sub">
-						The flavor owns the substitution. A new normalization
-						flavor supplies a table and a transform closure rather
-						than forking the dispatch.
+						The flavor owns the substitution. A new normalization flavor supplies a
+						table and a transform closure rather than forking the dispatch.
 					</p>
 
-					<CodeBlock Language="typescript" Source={[
+					<CodeBlock
+						Language="typescript"
+						Source={[
 							"Replace(Text, Dashes, Replacement);",
 							"ReplaceMap(Text, Quotes);",
 							'CoreChunk(Input, (Text) => Replace(Text, Dashes, "-"), Reasoning);',
-					].join("\n")} />
+						].join("\n")}
+					/>
 				</Concept>
 			</div>
 		</section>
@@ -341,15 +341,22 @@ const Related = [
 					Diagram="Show Section supplying four dependency-section names to a consumer. Keep dependency sections separate from exclusion segments."
 				>
 					<p class="page-hero__sub">
-						<code>Section</code> supplies the canonical NPM
-						dependency-section list.
+						<code>Section</code> supplies the canonical NPM dependency-section list.
 					</p>
 
 					<ul class="concept-values">
-						<li><code>dependencies</code></li>
-						<li><code>devDependencies</code></li>
-						<li><code>peerDependencies</code></li>
-						<li><code>optionalDependencies</code></li>
+						<li>
+							<code>dependencies</code>
+						</li>
+						<li>
+							<code>devDependencies</code>
+						</li>
+						<li>
+							<code>peerDependencies</code>
+						</li>
+						<li>
+							<code>optionalDependencies</code>
+						</li>
 					</ul>
 				</Concept>
 
@@ -359,17 +366,28 @@ const Related = [
 					Diagram="Show Default supplying built-in exclusion segments to the consuming module. Do not depict the core itself listening for filesystem events."
 				>
 					<p class="page-hero__sub">
-						<code>Default</code> supplies the built-in exclusion
-						segments.
+						<code>Default</code> supplies the built-in exclusion segments.
 					</p>
 
 					<ul class="concept-values">
-						<li><code>node_modules</code></li>
-						<li><code>.git</code></li>
-						<li><code>.dsh</code></li>
-						<li><code>.pnpm</code></li>
-						<li><code>.store</code></li>
-						<li><code>DeepSeek Harness.app</code></li>
+						<li>
+							<code>node_modules</code>
+						</li>
+						<li>
+							<code>.git</code>
+						</li>
+						<li>
+							<code>.dsh</code>
+						</li>
+						<li>
+							<code>.pnpm</code>
+						</li>
+						<li>
+							<code>.store</code>
+						</li>
+						<li>
+							<code>DeepSeek Harness.app</code>
+						</li>
 					</ul>
 				</Concept>
 
@@ -379,19 +397,15 @@ const Related = [
 					Diagram="Show module, kind, and cause entering Suppress; show the resulting string sent to the consumer's logger, not its ledger."
 				>
 					<p class="page-hero__sub">
-						<code>Suppress(module, kind, cause)</code> composes
-						the shared suppression-line format.
-						The kind is <code>listener</code> or
+						<code>Suppress(module, kind, cause)</code> composes the shared
+						suppression-line format. The kind is <code>listener</code> or
 						<code>continuation</code>.
 					</p>
 
-					<div class="code-block">
-						{"module: kind error (suppressed): cause"}
-					</div>
+					<div class="code-block">{"module: kind error (suppressed): cause"}</div>
 
 					<p class="page-hero__sub">
-						The consumer sends the line to its logger.
-						It is not a ledger entry.
+						The consumer sends the line to its logger. It is not a ledger entry.
 					</p>
 				</Concept>
 
@@ -402,14 +416,13 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						<code>Policy(append, file, defaults, quiet?)</code>
-						loads the update policy through a plain-filesystem read
-						when a file is supplied and readable.
+						loads the update policy through a plain-filesystem read when a file is
+						supplied and readable.
 					</p>
 
 					<p class="page-hero__sub">
-						Failures fall back to the module's built-in defaults.
-						Quiet mode controls whether the shared diagnostics
-						are emitted.
+						Failures fall back to the module's built-in defaults. Quiet mode controls
+						whether the shared diagnostics are emitted.
 					</p>
 				</Concept>
 
@@ -419,14 +432,13 @@ const Related = [
 					Diagram="Show current and proposed documents being compared. Differences confined to declared dependency sections pass this guard; a difference elsewhere produces a refusal line and prevents the rewrite."
 				>
 					<p class="page-hero__sub">
-						<code>Refusal(...)</code> checks that only declared
-						dependency sections differ between the current
-						and proposed documents.
+						<code>Refusal(...)</code> checks that only declared dependency sections
+						differ between the current and proposed documents.
 					</p>
 
 					<p class="page-hero__sub">
-						A difference anywhere else produces the shared refusal
-						line. The consumer must not apply that rewrite.
+						A difference anywhere else produces the shared refusal line. The consumer
+						must not apply that rewrite.
 					</p>
 				</Concept>
 
@@ -441,17 +453,15 @@ const Related = [
 					</p>
 
 					<p class="page-hero__sub">
-						The envelope covers gates, P2 registration, the jobs
-						envelope, P5 records, and U2 refresh. The consuming
-						module supplies its child runner and module-specific
-						strings.
+						The envelope covers gates, P2 registration, the jobs envelope, P5 records,
+						and U2 refresh. The consuming module supplies its child runner and
+						module-specific strings.
 					</p>
 
 					<p class="page-hero__sub">
-						The P2 registration sits under the factory's namespaced
-						key - the SCHEME's {Scheme.UpdateKey}, UpdateKey(target) yields
-						update:&lt;targetKey&gt; - distinct from the chain pass's
-						plain key.
+						The P2 registration sits under the factory's namespaced key - the SCHEME's{" "}
+						{Scheme.UpdateKey}, UpdateKey(target) yields update:&lt;targetKey&gt; -
+						distinct from the chain pass's plain key.
 					</p>
 				</Concept>
 
@@ -466,9 +476,8 @@ const Related = [
 					</p>
 
 					<p class="page-hero__sub">
-						The core supplies the formatting mechanics.
-						The field list remains the consuming module's
-						responsibility.
+						The core supplies the formatting mechanics. The field list remains the
+						consuming module's responsibility.
 					</p>
 				</Concept>
 			</div>
@@ -487,17 +496,29 @@ const Related = [
 					Diagram="Show Dashes, Quotes, Ellipsis, Spaces, Invisible, and Fullwidth as independent flavor inputs. Distinguish character classes from character maps; do not imply that every flavor applies every table."
 				>
 					<p class="page-hero__sub">
-						The normalization half supplies six character
-						classes or maps, each used by its corresponding flavor.
+						The normalization half supplies six character classes or maps, each used by
+						its corresponding flavor.
 					</p>
 
 					<ul class="concept-values">
-						<li><code>Dashes</code> - the Hermes dash class</li>
-						<li><code>Quotes</code> - eight curly-to-straight mappings</li>
-						<li><code>Ellipsis</code> - the U+2026 class</li>
-						<li><code>Spaces</code> - Zs characters excluding ASCII space</li>
-						<li><code>Invisible</code> - the zero-width/format class</li>
-						<li><code>Fullwidth</code> - 94 mappings from FF01-FF5E to 21-7E</li>
+						<li>
+							<code>Dashes</code> - the Hermes dash class
+						</li>
+						<li>
+							<code>Quotes</code> - eight curly-to-straight mappings
+						</li>
+						<li>
+							<code>Ellipsis</code> - the U+2026 class
+						</li>
+						<li>
+							<code>Spaces</code> - Zs characters excluding ASCII space
+						</li>
+						<li>
+							<code>Invisible</code> - the zero-width/format class
+						</li>
+						<li>
+							<code>Fullwidth</code> - 94 mappings from FF01-FF5E to 21-7E
+						</li>
 					</ul>
 				</Concept>
 
@@ -507,14 +528,14 @@ const Related = [
 					Diagram="Show text, a character class, and a replacement string entering Replace and returning text plus count. Annotate the fresh per-call gu regex and function replacer."
 				>
 					<p class="page-hero__sub">
-						<code>Replace</code> applies a character-class
-						replacement using a fresh per-call
+						<code>Replace</code> applies a character-class replacement using a fresh
+						per-call
 						<code>gu</code> regex.
 					</p>
 
 					<p class="page-hero__sub">
-						A function replacer keeps replacement-string dollar
-						patterns from being interpreted. No shared
+						A function replacer keeps replacement-string dollar patterns from being
+						interpreted. No shared
 						<code>lastIndex</code> state is reused.
 					</p>
 				</Concept>
@@ -525,13 +546,13 @@ const Related = [
 					Diagram="Show source characters looking up replacement characters in a map. Annotate code-point-escaped regex keys, a fresh per-call regex, and a function replacer."
 				>
 					<p class="page-hero__sub">
-						<code>ReplaceMap</code> applies a character-to-character
-						map, with regex keys represented as code-point escapes.
+						<code>ReplaceMap</code> applies a character-to-character map, with regex
+						keys represented as code-point escapes.
 					</p>
 
 					<p class="page-hero__sub">
-						Like <code>Replace</code>, it uses a fresh per-call
-						regex and a function replacer.
+						Like <code>Replace</code>, it uses a fresh per-call regex and a function
+						replacer.
 					</p>
 				</Concept>
 
@@ -542,24 +563,20 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						Both replacers return
-						<code>{"{ text, count }"}</code>.
-						<code>count === 0</code> signals that no replacement
-						was made.
+						<code>{"{ text, count }"}</code>.<code>count === 0</code> signals that no
+						replacement was made.
 					</p>
 
 					<p class="page-hero__sub">
-						That signal lets the dispatch caller retain its original
-						chunk or block by identity when nothing changes.
+						That signal lets the dispatch caller retain its original chunk or block by
+						identity when nothing changes.
 					</p>
 				</Concept>
 			</div>
 		</section>
 
 		<section class="section">
-			<SectionHeader
-				Title="Stream Dispatch"
-				Meta="ELIGIBLE FIELDS AND PASSTHROUGH RULES"
-			/>
+			<SectionHeader Title="Stream Dispatch" Meta="ELIGIBLE FIELDS AND PASSTHROUGH RULES" />
 
 			<div class="concept-list">
 				<Concept
@@ -568,14 +585,13 @@ const Related = [
 					Diagram="Show text-delta, optional reasoning-delta, optional tool-call-delta, and block-end routing through Chunk. Show other chunk types returning unchanged by identity."
 				>
 					<p class="page-hero__sub">
-						<code>Chunk</code> dispatches eligible chunk fields
-						through an injected transform.
+						<code>Chunk</code> dispatches eligible chunk fields through an injected
+						transform.
 					</p>
 
 					<p class="page-hero__sub">
-						It handles text deltas, optionally reasoning and tool-call
-						deltas, and block-end chunks. Other chunk types pass
-						through by identity.
+						It handles text deltas, optionally reasoning and tool-call deltas, and
+						block-end chunks. Other chunk types pass through by identity.
 					</p>
 				</Concept>
 
@@ -586,15 +602,14 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						<code>Block</code> normalizes text in
-						<code>TextBlock</code> and <code>ReasoningBlock</code>,
-						including the latter's runtime
+						<code>TextBlock</code> and <code>ReasoningBlock</code>, including the
+						latter's runtime
 						<code>thinking</code> string field.
 					</p>
 
 					<p class="page-hero__sub">
-						Tool-call arguments are optional and use the same
-						tool-argument gate. Other blocks pass through
-						by identity.
+						Tool-call arguments are optional and use the same tool-argument gate. Other
+						blocks pass through by identity.
 					</p>
 				</Concept>
 
@@ -609,10 +624,9 @@ const Related = [
 					</p>
 
 					<p class="page-hero__sub">
-						When enabled, <code>edit</code>, <code>raw-write</code>,
-						and <code>normalize-file</code> calls still pass through
-						by identity. Raw-marked calls use a separate bypass;
-						other eligible calls receive the transform.
+						When enabled, <code>edit</code>, <code>raw-write</code>, and{" "}
+						<code>normalize-file</code> calls still pass through by identity. Raw-marked
+						calls use a separate bypass; other eligible calls receive the transform.
 					</p>
 				</Concept>
 
@@ -623,15 +637,14 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						The first-key marker
-						<code>{'{"__normalize":false'}</code> identifies
-						a raw-marked call. Its state is tracked per call ID
-						and passed through the fifth argument,
+						<code>{'{"__normalize":false'}</code> identifies a raw-marked call. Its
+						state is tracked per call ID and passed through the fifth argument,
 						<code>Raw</code>.
 					</p>
 
 					<p class="page-hero__sub">
-						The raw path leaves the argument content unnormalized
-						while <code>Stream/Strip</code> removes the marker.
+						The raw path leaves the argument content unnormalized while{" "}
+						<code>Stream/Strip</code> removes the marker.
 					</p>
 				</Concept>
 
@@ -641,9 +654,8 @@ const Related = [
 					Diagram="Show eligible content flowing through the injected transform without reordering or buffering. Show unsupported shapes and unchanged results taking identity-preserving passthrough paths."
 				>
 					<p class="page-hero__sub">
-						The dispatchers use structural chunk and block shapes.
-						Their stated contract is pure, total on strings,
-						order-preserving, and unbuffered.
+						The dispatchers use structural chunk and block shapes. Their stated contract
+						is pure, total on strings, order-preserving, and unbuffered.
 					</p>
 				</Concept>
 			</div>
@@ -658,8 +670,8 @@ const Related = [
 					Diagram="A governance hook's listener catch composing the Suppress line from module, kind and cause, and sending it to its logger - never the ledger."
 				>
 					<p class="page-hero__sub">
-						Every contained throw in a governance hook's listener logs the same shape
-						of line through <code>Suppress</code>:
+						Every contained throw in a governance hook's listener logs the same shape of
+						line through <code>Suppress</code>:
 					</p>
 
 					<CodeBlock Language="typescript" Source={SuppressionLines.join("\n")} />
@@ -739,8 +751,8 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						Every knob it exposes is a function parameter (<code>Policy</code>'s
-						defaults, <code>Replace</code>'s replacement, <code>Chunk</code>'s
-						injected transform), decided by the consuming module's own config.
+						defaults, <code>Replace</code>'s replacement, <code>Chunk</code>'s injected
+						transform), decided by the consuming module's own config.
 					</p>
 				</Concept>
 
@@ -767,8 +779,8 @@ const Related = [
 					Diagram="The core with no ledger file, no logger, no plugin - nothing written by the core itself."
 				>
 					<p class="page-hero__sub">
-						The core owns no ledger file or module-specific ledger vocabulary and
-						writes nothing - no plugin, no logger, no ledger file.
+						The core owns no ledger file or module-specific ledger vocabulary and writes
+						nothing - no plugin, no logger, no ledger file.
 					</p>
 				</Concept>
 
@@ -792,8 +804,8 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						Nothing in the core ever composes a <code>&lt;Module&gt;:</code> prefix or
-						an activation proof's field list - the <code>activated (...)</code>{" "}
-						template is the mechanics only; the fields are the module's.
+						an activation proof's field list - the <code>activated (...)</code> template
+						is the mechanics only; the fields are the module's.
 					</p>
 				</Concept>
 
@@ -829,10 +841,10 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0. The unit smoke (core-smoke.mjs in the family's smokes/
-				directory) exercises every helper with no fake context at all - {Counts.Core.Classic} checks in
-				CLASSIC, {Counts.Core.EffectTS} in EFFECT-TS. The family's smoke baseline: {Counts.Suites} suites · {Totals.Pair()}
-				· ALL PASS.
+				License: CC0-1.0. The unit smoke (core-smoke.mjs in the family's smokes/ directory)
+				exercises every helper with no fake context at all - {Counts.Core.Classic} checks in
+				CLASSIC, {Counts.Core.EffectTS} in EFFECT-TS. The family's smoke baseline:{" "}
+				{Counts.Suites} suites · {Totals.Pair()}· ALL PASS.
 			</p>
 		</section>
 	</main>

@@ -145,7 +145,6 @@ const Knobs = [
 		],
 	},
 ];
-
 ---
 
 <Base
@@ -180,9 +179,8 @@ const Knobs = [
 				>
 					<p>
 						A profile's <BrandIcon Name="file-json" /> package.json lists the bundles as{" "}
-						<code>link:</code> dependencies
-						and in the <code>dsh.profile.bundles</code> list - the list is what activates
-						them.
+						<code>link:</code> dependencies and in the <code>dsh.profile.bundles</code>{" "}
+						list - the list is what activates them.
 					</p>
 				</Concept>
 				<Concept
@@ -191,12 +189,12 @@ const Knobs = [
 					Diagram="The profile workspace and a linked bundle side by side - the bundle carrying its own node_modules and pnpm-workspace.yaml, with an install inside the bundle landing in the bundle's own workspace, never the profile's root."
 				>
 					<p>
-						The linked checkout must carry its own node_modules, and each bundle needs its
-						own pnpm-workspace.yaml (<code>packages: [.]</code>).
+						The linked checkout must carry its own node_modules, and each bundle needs
+						its own pnpm-workspace.yaml (<code>packages: [.]</code>).
 					</p>
 					<p>
-						An install inside a bundle under the profile's workspace acts on the workspace
-						root and does nothing to the bundle.
+						An install inside a bundle under the profile's workspace acts on the
+						workspace root and does nothing to the bundle.
 					</p>
 				</Concept>
 				<Concept
@@ -206,13 +204,13 @@ const Knobs = [
 				>
 					<p>
 						Remote installs work the same way: <BrandIcon Name="playform" />{" "}
-						<code>pnpm add @playform/&lt;pkg&gt;</code>{" "}
-						in the profile directory plus the package in the bundles list, or{" "}
+						<code>pnpm add @playform/&lt;pkg&gt;</code> in the profile directory plus
+						the package in the bundles list, or{" "}
 						<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code>.
 					</p>
 				</Concept>
 			</div>
-			<CodeBlock Language="json" Source={{"ProfileExample".join("\n")}} />
+			<CodeBlock Language="json" Source={ProfileExample.join("\n")} />
 		</section>
 
 		<!-- Step 2 -->
@@ -225,9 +223,9 @@ const Knobs = [
 					Diagram="A cordis.patch.yml insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
 				>
 					<p>
-						Each bundle ships a cordis.patch.yml whose <code>insert:</code> entries declare
-						the loader row and the config. A bare <code>id:</code> row patches an existing
-						entry; the loader rejects unknown ids with{" "}
+						Each bundle ships a cordis.patch.yml whose <code>insert:</code> entries
+						declare the loader row and the config. A bare <code>id:</code> row patches
+						an existing entry; the loader rejects unknown ids with{" "}
 						<code>entry "..." not found</code>.
 					</p>
 				</Concept>
@@ -237,17 +235,17 @@ const Knobs = [
 					Diagram="The factory's insert: row registering the service with an empty config, while the consumers' rows carry the actual configuration."
 				>
 					<p>
-						The factory needs no config - it registers the service, and the consumers' rows
-						do the rest.
+						The factory needs no config - it registers the service, and the consumers'
+						rows do the rest.
 					</p>
 					<p>
-						The example below is the deployed combination: the two governance plugins with
-						raw-write added to mutationTools, and the dash flavor with the example patch's
-						opt-in toolArgs.
+						The example below is the deployed combination: the two governance plugins
+						with raw-write added to mutationTools, and the dash flavor with the example
+						patch's opt-in toolArgs.
 					</p>
 				</Concept>
 			</div>
-			<CodeBlock Language="yaml" Source={{"PatchExample".join("\n")}} />
+			<CodeBlock Language="yaml" Source={PatchExample.join("\n")} />
 		</section>
 
 		<!-- Step 3 -->
@@ -264,8 +262,8 @@ const Knobs = [
 						not at install time.
 					</p>
 					<p>
-						A <code>file:</code> dependency alone is NOT activation: the bundles list plus
-						the restart is what loads the entries from each bundle's built{" "}
+						A <code>file:</code> dependency alone is NOT activation: the bundles list
+						plus the restart is what loads the entries from each bundle's built{" "}
 						<code>Target/</code>.
 					</p>
 				</Concept>
@@ -275,8 +273,8 @@ const Knobs = [
 					Diagram="The loop: edit a linked bundle's source, build its Target, restart the host - the rebuilt Target fresh on every restart."
 				>
 					<p>
-						Every rebuild of a linked bundle's Target is fresh on the next restart, so the
-						dev loop is edit - build - restart.
+						Every rebuild of a linked bundle's Target is fresh on the next restart, so
+						the dev loop is edit - build - restart.
 					</p>
 				</Concept>
 			</div>
@@ -292,12 +290,12 @@ const Knobs = [
 					Diagram="Each plugin writing its activation line to its own ~/.dsh/<name>.log at boot - the ledger and the runtime's inspect providers as the activation assessors."
 				>
 					<p>
-						"Did it activate" is answerable from the ledger alone: each plugin writes its
-						activation line to its own <code>~/.dsh/&lt;name&gt;.log</code> at boot.
+						"Did it activate" is answerable from the ledger alone: each plugin writes
+						its activation line to its own <code>~/.dsh/&lt;name&gt;.log</code> at boot.
 					</p>
 					<p>
-						The ledgers and the runtime's inspect providers are the activation assessors -
-						the old <code>--dump-config</code> verification path is gone behind the
+						The ledgers and the runtime's inspect providers are the activation assessors
+						- the old <code>--dump-config</code> verification path is gone behind the
 						app-managed profile guard.
 					</p>
 				</Concept>
@@ -379,8 +377,8 @@ const Knobs = [
 					<Badge Variant="outline">DEFAULT OFF</Badge>
 					<p>
 						The default. Tool-call arguments are execution-critical raw JSON - rewriting
-						them is the user's accepted risk, so the schema default is OFF and the example
-						patch turns it on.
+						them is the user's accepted risk, so the schema default is OFF and the
+						example patch turns it on.
 					</p>
 					<p>
 						Even when on, edit and raw-write calls pass through by identity, and a{" "}
@@ -428,8 +426,8 @@ const Knobs = [
 						the default - zero cost, no behavior change.
 					</p>
 					<p>
-						The OTLP exporter attaches only when configured, and spans never alter ledger
-						strings or timing-sensitive gates.
+						The OTLP exporter attaches only when configured, and spans never alter
+						ledger strings or timing-sensitive gates.
 					</p>
 				</Concept>
 				<Concept
@@ -443,9 +441,9 @@ const Knobs = [
 						live-verified race fix); the event path is inherently concurrent.
 					</p>
 					<p>
-						A per-call toggle to run the steps concurrently is designed (#14) to ride the
-						same govern flag shape in both releases - planned, with the sequential fold as
-						the default.
+						A per-call toggle to run the steps concurrently is designed (#14) to ride
+						the same govern flag shape in both releases - planned, with the sequential
+						fold as the default.
 					</p>
 				</Concept>
 				<Concept
@@ -455,9 +453,10 @@ const Knobs = [
 				>
 					<Badge Variant="outline">SILENCE AS INVARIANT</Badge>
 					<p>
-						Storage records buffer or drop when no storage facility is present (the human
-						ledger stays the complete record); excluded paths log one line and move on; a
-						no-op write writes nothing; a thrown-away stream writes no ledger line.
+						Storage records buffer or drop when no storage facility is present (the
+						human ledger stays the complete record); excluded paths log one line and
+						move on; a no-op write writes nothing; a thrown-away stream writes no ledger
+						line.
 					</p>
 					<p>Silence is the invariant; the ledger is the receipt.</p>
 				</Concept>
@@ -475,8 +474,8 @@ const Knobs = [
 				>
 					<p>
 						Each plugin writes its own durable ledger - the governor's, the pinner's and
-						the cargo governor's are separate files and separate concerns: activating one
-						never implies another.
+						the cargo governor's are separate files and separate concerns: activating
+						one never implies another.
 					</p>
 				</Concept>
 				<Concept
@@ -485,9 +484,9 @@ const Knobs = [
 					Diagram="One message flowing through the factory's Append into its two forms: [ISO] message in the file, plugin: message on the logger."
 				>
 					<p>
-						The line format is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file and{" "}
-						<code>&lt;plugin&gt;: &lt;message&gt;</code> on the logger, both composed by
-						the factory's Append around the plugin's own string.
+						The line format is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file
+						and <code>&lt;plugin&gt;: &lt;message&gt;</code> on the logger, both
+						composed by the factory's Append around the plugin's own string.
 					</p>
 				</Concept>
 			</div>
