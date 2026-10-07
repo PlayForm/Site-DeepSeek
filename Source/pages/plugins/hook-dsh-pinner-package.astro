@@ -176,7 +176,7 @@ const Related = [
 					<div class="diagram-placeholder" data-diagram="family-position">
 						<p class="section-kicker">Diagram placeholder - Family position</p>
 						<p>
-							Show the pinner's relationship to plugin-dsh-factory, hook-dsh-core, and
+							Show the pinner's relationship to <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a>, hook-dsh-core, and
 							the sibling package governor. Label the shared fs/observed seam.
 						</p>
 					</div>
@@ -187,7 +187,7 @@ const Related = [
 
 					<p class="page-hero__sub">
 						<strong>{Families.PinnerPackage}</strong> is a hook child of the{" "}
-						<code>plugin-dsh-factory</code> service and the
+						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source"><code>plugin-dsh-factory</code></a> service and the
 						<code>hook-dsh-core</code> helpers. It is a sibling of the package governor
 						on the same <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> seam.
 					</p>
@@ -228,7 +228,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						The pinner's <code>pin-policy.json</code> keep-list protects selected
+						The pinner's <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts"><code>pin-policy.json</code></a> keep-list protects selected
 						dependencies. Their ranges remain exactly as authored.
 					</p>
 				</section>
@@ -284,7 +284,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						<code>plugin-dsh-factory</code> supplies the gate, discovery, union
+						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source"><code>plugin-dsh-factory</code></a> supplies the gate, discovery, union
 						keep-list, guarded write, refresh, continuation, effects, and schema.
 					</p>
 				</section>
@@ -293,7 +293,7 @@ const Related = [
 					<div class="diagram-placeholder" data-diagram="core-helpers">
 						<p class="section-kicker">Diagram placeholder - Core helpers</p>
 						<p>
-							Show hook-dsh-core supplying the refusal guard and suppression composer
+							Show hook-dsh-core supplying <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> and suppression composer
 							to the pinner.
 						</p>
 					</div>
@@ -303,7 +303,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						<code>hook-dsh-core</code> supplies the refusal guard and the suppression
+						<code>hook-dsh-core</code> supplies <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> and the suppression
 						composer.
 					</p>
 				</section>
@@ -332,7 +332,7 @@ const Related = [
 						<p>
 							Show apply-time registration with Factory.RegisterGovern. Then show the
 							raw-write tool's per-call govern selection reaching the same pin pass
-							through Factory.Govern, alongside the fs/observed event path.
+							through <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts">Factory.Govern</a>, alongside the fs/observed event path.
 						</p>
 					</div>
 
@@ -349,7 +349,7 @@ const Related = [
 					<p class="page-hero__sub">
 						The raw-write tool's per-call govern selection can drive the same pin pass
 						directly through
-						<code>Factory.Govern</code>.
+						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts"><code>Factory.Govern</code></a>.
 					</p>
 				</section>
 			</div>
@@ -372,7 +372,7 @@ const Related = [
 					},
 					{
 						Seam: "The keep-list policy sidecar",
-						What: "ResolvePolicy builds the union keep-list from every readable pin-policy.json: global policyFile → the file's own directory → registry-adjacent; the P3 chain-keys interlock protects the governor's chain pins from ever being stripped.",
+						What: "ResolvePolicy builds the union keep-list from every readable <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts">pin-policy.json</a>: global policyFile → the file's own directory → registry-adjacent; the P3 chain-keys interlock protects the governor's chain pins from ever being stripped.",
 						Outcome: "Ranges the author marked as intentional stay exactly as written.",
 					},
 					{
@@ -454,7 +454,7 @@ const Related = [
 					<div class="diagram-placeholder" data-diagram="keep-list-policy">
 						<p class="section-kicker">Diagram placeholder - Keep-list policy</p>
 						<p>
-							Show pin-policy.json protecting a selected dependency from prefix
+							Show <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts">pin-policy.json</a> protecting a selected dependency from prefix
 							removal, the union of every readable discovered policy, and the P3
 							chain-keys interlock keeping the governor's ^resolved chain pins
 							unstripped.
@@ -466,7 +466,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						A <code>pin-policy.json</code> (<code>{'{"keep": ["tailwindcss"]}'}</code>)
+						A <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts"><code>pin-policy.json</code></a> (<code>{'{"keep": ["tailwindcss"]}'}</code>)
 						protects packages whose ranges must stay EXACTLY as the author wrote them.
 						The effective keep-list is the union of every readable discovered policy,
 						and the P3 chain-keys interlock means the governor's <code>^resolved</code>{" "}
@@ -552,13 +552,13 @@ const Related = [
 				Language="yaml"
 				Source={[
 					"- insert:",
-					"      - id: hook-dsh-pinner-package",
-					'        name: "@playform/hook-dsh-pinner-package"',
+					"      - id: <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source">hook-dsh-pinner-package</a>",
+					'        name: "<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source">@playform/hook-dsh-pinner-package</a>"',
 					"        config:",
 					"            log: true",
 					"            logFile: ~/.dsh/hook-dsh-pinner-package.log # SEPARATE ledger (own plugin)",
 					"            mutationTools: [write, edit, str_replace_editor]",
-					'            policyFile: "" # optional global pin-policy.json (else discovery, else built-in)',
+					'            policyFile: "" # optional global <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts">pin-policy.json</a> (else discovery, else built-in)',
 					"            sections: [dependencies, devDependencies, peerDependencies, optionalDependencies]",
 					"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
 				].join("\n")}
@@ -576,7 +576,7 @@ const Related = [
 			</p>
 			<CodeBlock Language="json" Source={PinnedWrite.join("\n")} />
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">
-				A <code>pin-policy.json</code> (<code>{'{"keep":["tailwindcss"]}'}</code>) sits
+				A <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts"><code>pin-policy.json</code></a> (<code>{'{"keep":["tailwindcss"]}'}</code>) sits
 				beside the file, so tailwindcss keeps its range; the other two dependencies are
 				pinned. The transcript shows only what the author wrote; the ledger shows the pin:
 			</p>
@@ -605,7 +605,7 @@ const Related = [
 				<code>~/.dsh/hook-dsh-pinner-package.log</code> - SEPARATE from the governor's
 				ledger) records activation, exclusions, non-JSON skips, refusals, and every pin
 				result. The strings this module composes (the
-				<code>hook-dsh-pinner-package:</code> logger prefix is the factory's Append; each
+				<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source"><code>hook-dsh-pinner-package:</code></a> logger prefix is the factory's Append; each
 				line is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file):
 			</p>
 			<div class="code-block">{LedgerStrings.join("\n")}</div>

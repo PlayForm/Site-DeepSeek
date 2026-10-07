@@ -149,7 +149,7 @@ const Knobs = [
 
 <Base
 	Title="Setup - @playform / DSH Family"
-	Description="How to configure the DeepSeek Harness Plugin Family in a profile: the bundle list, the cordis.patch.yml entries, the restart, the activation lines in each ledger - and the full configurable surface with its defaults-off posture."
+	Description="How to configure the DeepSeek Harness Plugin Family in a profile: the bundle list, the <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/cordis.patch.yml">cordis.patch.yml</a> entries, the restart, the activation lines in each ledger - and the full configurable surface with its defaults-off posture."
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -223,7 +223,7 @@ const Knobs = [
 					Diagram="A cordis.patch.yml insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
 				>
 					<p>
-						Each bundle ships a cordis.patch.yml whose <code>insert:</code> entries
+						Each bundle ships a <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/cordis.patch.yml">cordis.patch.yml</a> whose <code>insert:</code> entries
 						declare the loader row and the config. A bare <code>id:</code> row patches
 						an existing entry; the loader rejects unknown ids with{" "}
 						<code>entry "..." not found</code>.
@@ -421,7 +421,7 @@ const Knobs = [
 				>
 					<Badge Variant="outline">ZERO COST BY DEFAULT</Badge>
 					<p>
-						The Effect-TS release wraps every governance stage in spans (dsh.gate,
+						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/EffectTS">The Effect-TS release</a> wraps every governance stage in spans (dsh.gate,
 						dsh.discover, dsh.chain-pass, dsh.write) but ships Effect's no-op Tracer as
 						the default - zero cost, no behavior change.
 					</p>
@@ -437,7 +437,7 @@ const Knobs = [
 				>
 					<Badge Variant="outline">PLANNED · DEFAULT SEQUENTIAL</Badge>
 					<p>
-						The direct-govern path is deliberately SEQUENTIAL (the awaited fold - the
+						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts">The direct-govern path</a> is deliberately SEQUENTIAL (the awaited fold - the
 						live-verified race fix); the event path is inherently concurrent.
 					</p>
 					<p>
@@ -503,27 +503,27 @@ const Knobs = [
 					</thead>
 					<tbody>
 						<tr>
-							<td>hook-dsh-governor-package</td>
+							<td><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-package/Source">hook-dsh-governor-package</a></td>
 							<td>~/.dsh/hook-dsh-governor-package.log</td>
 							<td>activated (anywhere mode, ...)</td>
 						</tr>
 						<tr>
-							<td>hook-dsh-pinner-package</td>
+							<td><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source">hook-dsh-pinner-package</a></td>
 							<td>~/.dsh/hook-dsh-pinner-package.log</td>
 							<td>activated (pinner, ...)</td>
 						</tr>
 						<tr>
-							<td>hook-dsh-governor-cargo</td>
+							<td><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-cargo/Source">hook-dsh-governor-cargo</a></td>
 							<td>~/.dsh/hook-dsh-governor-cargo.log</td>
 							<td>activated (cargo flavor, ...)</td>
 						</tr>
 						<tr>
-							<td>hook-dsh-normalize-dash</td>
+							<td><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-dash/Source">hook-dsh-normalize-dash</a></td>
 							<td>~/.dsh/hook-dsh-normalize-dash.log</td>
 							<td>activated (replacement=-, reasoning=on, ...)</td>
 						</tr>
 						<tr>
-							<td>hook-dsh-normalize-file</td>
+							<td><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-file/Source">hook-dsh-normalize-file</a></td>
 							<td>~/.dsh/hook-dsh-normalize-file.log</td>
 							<td>activated (replacement=-, ...)</td>
 						</tr>

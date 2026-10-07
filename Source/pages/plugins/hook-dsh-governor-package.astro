@@ -253,7 +253,7 @@ const Related = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.GovernorPackage}</strong>): a hook child of the{" "}
-						<strong>plugin-dsh-factory</strong> service and the{" "}
+						<strong><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a></strong> service and the{" "}
 						<strong>hook-dsh-core</strong> helpers; it has no hook children of its own.
 					</p>
 					<p>
@@ -309,7 +309,7 @@ const Related = [
 						<ArrowIcon Direction="right" Tone="accent" /> <strong>strip</strong>{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> <strong>normalize</strong>{" "}
 						(the cargo module's precedence), <strong>keep-list wins</strong> (the
-						pinner's pin-policy.json keeps ranges as authored).
+						pinner's <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts">pin-policy.json</a> keeps ranges as authored).
 					</p>
 					<p>The ledgers are separate; activating one never implies another.</p>
 				</Concept>
@@ -322,7 +322,7 @@ const Related = [
 						Machinery-wise it is a <strong>factory flavor</strong>:{" "}
 						<code>inject: ["fs", "pluginFactory"]</code> - the gates, the discovery, the
 						guarded write, the refresh, the continuation, the effects and the schema
-						come from plugin-dsh-factory; the pure helpers (Suppress, the policy loader)
+						come from <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a>; the pure helpers (Suppress, the policy loader)
 						come from hook-dsh-core.
 					</p>
 					<p>
@@ -343,7 +343,7 @@ const Related = [
 					</p>
 					<p>
 						That lets the raw-write tool's per-call govern selection drive the same
-						chain pass and update stage directly through Factory.Govern.
+						chain pass and update stage directly through <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts">Factory.Govern</a>.
 					</p>
 				</Concept>
 			</div>
@@ -485,7 +485,7 @@ const Related = [
 					<p>
 						The G4 update-stage envelope - the Dispatch/Settle pair of the diagram above
 						(the gates, the jobs envelope, the breaker update, the U2 refresh) - lives
-						in the core (@playform/hook-dsh-core).
+						in the core (<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source">@playform/hook-dsh-core</a>).
 					</p>
 					<p>
 						This module is a thin delegate that injects its own collections, child stage
@@ -517,8 +517,8 @@ const Related = [
 				Language="yaml"
 				Source={[
 					"- insert:",
-					"      - id: hook-dsh-governor-package",
-					'        name: "@playform/hook-dsh-governor-package"',
+					"      - id: <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-package/Source">hook-dsh-governor-package</a>",
+					'        name: "<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-package/Source">@playform/hook-dsh-governor-package</a>"',
 					"        config:",
 					"            log: true",
 					"            logFile: ~/.dsh/hook-dsh-governor-package.log # global ledger",

@@ -140,7 +140,7 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						The core is <strong>not a plugin bundle</strong>: no{" "}
-						<code>cordis.patch.yml</code>, no loader contract, publishable on its own -
+						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/cordis.patch.yml"><code>cordis.patch.yml</code></a>, no loader contract, publishable on its own -
 						consumers link it as a plain library dependency, not as a bundle row, and
 						there is no <code>dsh plugin add</code> row for it.
 					</p>
@@ -211,7 +211,7 @@ const Related = [
 					<p class="page-hero__sub">
 						The <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> + <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/write-intent</code></a> seams supply the
 						governance half the three governance hooks compose their passes from: the
-						section list, the exclusion fence, the policy loader, the refusal guard and
+						section list, the exclusion fence, the policy loader, <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> and
 						the update-stage envelope.
 					</p>
 
@@ -252,7 +252,7 @@ const Related = [
 					<p class="page-hero__sub">
 						The family's hooks kept re-implementing the same pure functions: the NPM
 						section list, the exclusion segments, the suppression-line composer, the
-						policy loader, the refusal guard - and, for the normalize flavors, the same
+						policy loader, <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> - and, for the normalize flavors, the same
 						per-chunk dispatch, block-end normalizer and character tables, copy-pasted
 						per flavor. Every fix had to be applied N times.
 					</p>
@@ -291,7 +291,7 @@ const Related = [
 					Diagram="Show @playform/hook-dsh-core branching into governance helpers and normalization machinery. Connect each half to its consuming hooks. Do not depict the core as a registered plugin."
 				>
 					<p class="page-hero__sub">
-						<code>@playform/hook-dsh-core</code> exposes named exports for two
+						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source"><code>@playform/hook-dsh-core</code></a> exposes named exports for two
 						responsibilities: governance and normalization.
 					</p>
 
@@ -683,7 +683,7 @@ const Related = [
 					Diagram="The transform calling Refusal before the write: a difference outside the declared dependency sections composing the refusal line and returning null - the rewrite never applied."
 				>
 					<p class="page-hero__sub">
-						Before any write, the transform runs the refusal guard - only the declared
+						Before any write, the transform runs <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> - only the declared
 						dependency sections may differ:
 					</p>
 

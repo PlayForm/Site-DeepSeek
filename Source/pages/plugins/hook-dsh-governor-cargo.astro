@@ -148,7 +148,7 @@ const Related = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.GovernorCargo}</strong>): a hook child of the{" "}
-						<strong>plugin-dsh-factory</strong> service and the{" "}
+						<strong><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a></strong> service and the{" "}
 						<strong>hook-dsh-core</strong> helpers; the Rust-sided sibling of the two
 						npm governance hooks on the same <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> seam.
 					</p>
@@ -160,7 +160,7 @@ const Related = [
 						<ArrowIcon Direction="right" Tone="accent" /> <code>pinner.log</code>), and
 						this bundle (<code>Cargo.toml</code>{" "}
 						<ArrowIcon Direction="right" Tone="accent" />{" "}
-						<code>hook-dsh-governor-cargo.log</code>, chain pass bare caret /<code>=exact</code>{" "}
+						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-cargo/Source"><code>hook-dsh-governor-cargo.log</code></a>, chain pass bare caret /<code>=exact</code>{" "}
 						+ <code>cargo upgrade</code>).
 					</p>
 				</Concept>
@@ -196,7 +196,7 @@ const Related = [
 					<p>
 						Machinery-wise it is a <strong>factory flavor</strong>: gates, discovery,
 						the guarded write, the refresh, the continuation, the effects, the schema
-						and the namespaced UpdateKey come from plugin-dsh-factory; the policy loader
+						and the namespaced UpdateKey come from <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a>; the policy loader
 						and the suppression composer come from hook-dsh-core.
 					</p>
 					<p>
@@ -217,7 +217,7 @@ const Related = [
 					</p>
 					<p>
 						That lets the raw-write tool's per-call govern selection drive the same
-						chain + normalization pass and update stage directly through Factory.Govern.
+						chain + normalization pass and update stage directly through <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts">Factory.Govern</a>.
 					</p>
 				</Concept>
 			</div>
@@ -250,7 +250,7 @@ const Related = [
 					},
 					{
 						Seam: "The ledger / session",
-						What: "A separate ledger (hook-dsh-governor-cargo.log) records activation, exclusions, chain-pass results, refusals and every update dispatch - including the exact cargo upgrade argv and its exit code.",
+						What: "A separate ledger (<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-cargo/Source">hook-dsh-governor-cargo</a>.log) records activation, exclusions, chain-pass results, refusals and every update dispatch - including the exact cargo upgrade argv and its exit code.",
 						Outcome: "The Rust-side pass is fully auditable from the ledger alone.",
 					},
 				]}
@@ -390,7 +390,7 @@ const Related = [
 						pretty-printed), <code>[dependencies.name]</code> table style. Never
 						rewritten: <code>path = "..."</code>, <code>git = "..."</code>, and
 						inherited entries (<code>workspace = true</code>). Non-dependency sections
-						are NEVER touched; the refusal guard refuses any plan entry outside an
+						are NEVER touched; <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> refuses any plan entry outside an
 						identified dependency table, and Pin aborts (never a partial rewrite) if a
 						planned entry cannot be located in the text.
 					</p>
@@ -446,8 +446,8 @@ const Related = [
 				Language="yaml"
 				Source={[
 					"- insert:",
-					"      - id: hook-dsh-governor-cargo",
-					'        name: "@playform/hook-dsh-governor-cargo"',
+					"      - id: <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-cargo/Source">hook-dsh-governor-cargo</a>",
+					'        name: "<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-cargo/Source">@playform/hook-dsh-governor-cargo</a>"',
 					"        config:",
 					"            log: true",
 					"            logFile: ~/.dsh/hook-dsh-governor-cargo.log # SEPARATE ledger - never the npm ledgers",
@@ -458,7 +458,7 @@ const Related = [
 					"            cargoBin: /usr/local/bin/cargo # absolute - host PATH != shell PATH",
 					"            updateMode: cargo # the ONLY mode (the Rust-side CLI)",
 					'            policyFile: "" # optional global update-policy.json',
-					'            keepFile: "" # optional global pin-policy.json (the keep-list)',
+					'            keepFile: "" # optional global <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts">pin-policy.json</a> (the keep-list)',
 					"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
 				].join("\n")}
 			/>

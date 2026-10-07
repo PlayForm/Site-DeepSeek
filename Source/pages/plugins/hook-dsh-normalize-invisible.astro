@@ -202,7 +202,7 @@ const LedgerStrings = [
 				simply vanish (the default replacement is the empty string). A CLASS flavor of the
 				normalize family: the core's <code>Invisible</code> class plus a configurable{" "}
 				<code>replacement</code> string (default <code>""</code> - removal). The family's
-				raw-write tool (registered by hook-dsh-normalize-dash) bypasses this flavor's
+				raw-write tool (registered by <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-dash/Source">hook-dsh-normalize-dash</a>) bypasses this flavor's
 				transforms too - the exemption is family-wide.
 			</p>
 		</section>
@@ -247,7 +247,7 @@ const LedgerStrings = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.Invisible}</strong>): a hook child of the{" "}
-						<strong>plugin-dsh-factory</strong> service and the{" "}
+						<strong><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a></strong> service and the{" "}
 						<strong>hook-dsh-core</strong> machinery; the fifth of the six stream
 						normalizer siblings.
 					</p>
@@ -331,7 +331,7 @@ const LedgerStrings = [
 					},
 					{
 						Seam: "The raw-write exemption (family-wide)",
-						What: "The family's raw-write tool (registered by hook-dsh-normalize-dash) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
+						What: "The family's raw-write tool (registered by <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-dash/Source">hook-dsh-normalize-dash</a>) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
 						Outcome:
 							"Per-call control stays with the agent, even with every stream flavor armed.",
 					},
@@ -476,7 +476,7 @@ const LedgerStrings = [
 						Volatile cells commit without remounting the plugin; the factory's State
 						builder unwraps them defensively.
 					</p>
-					<p>Example cordis.patch.yml row:</p>
+					<p>Example <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/cordis.patch.yml">cordis.patch.yml</a> row:</p>
 				</Concept>
 			</div>
 			<CodeBlock
@@ -484,8 +484,8 @@ const LedgerStrings = [
 				Style="margin-top: var(--space-sm)"
 				Source={[
 					"- insert:",
-					"      - id: hook-dsh-normalize-invisible",
-					'        name: "@playform/hook-dsh-normalize-invisible"',
+					"      - id: <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-invisible/Source">hook-dsh-normalize-invisible</a>",
+					'        name: "<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-invisible/Source">@playform/hook-dsh-normalize-invisible</a>"',
 					"        config:",
 					"            log: true",
 					"            logFile: ~/.dsh/hook-dsh-normalize-invisible.log",
@@ -552,7 +552,7 @@ const LedgerStrings = [
 			<SectionHeader Title="The Ledger" Meta="TWO LINES VIA FACTORY APPEND" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				Two lines, both written through the factory's <code>Append</code> (the
-				<code>hook-dsh-normalize-invisible:</code> prefix is the logger's
+				<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-invisible/Source"><code>hook-dsh-normalize-invisible:</code></a> prefix is the logger's
 				<code>&lt;State.Module&gt;:</code>; the durable file line is
 				<code>[&lt;ISO&gt;] &lt;message&gt;</code>). The empty default replacement renders
 				as the empty <code>replacement=</code>:

@@ -169,7 +169,7 @@ const Usage = [
 
 		<section class="page-hero">
 			<h1 class="page-hero__title">
-				hook-dsh-normalize-file
+				<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-file/Source">hook-dsh-normalize-file</a>
 			</h1>
 			<p class="page-hero__sub">
 				{Families.File} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
@@ -230,7 +230,7 @@ const Usage = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.File}</strong>): a tool-child of the{" "}
-						<strong>plugin-dsh-factory</strong> service and the{" "}
+						<strong><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a></strong> service and the{" "}
 						<strong>hook-dsh-core</strong> machinery; the seventh sibling - the one
 						flavor that works on files already on disk instead of model output.
 					</p>
@@ -343,7 +343,7 @@ const Usage = [
 					},
 					{
 						Seam: "The storage domain",
-						What: "Each N > 0 write journals one normalized record into the shared package_governance v2 domain (path = the target's display path, detail byte-identical to the count line) - best-effort: with no storage facility the record buffers or drops.",
+						What: "Each N > 0 write journals one normalized record into the shared package_governance <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts">v2 domain</a> (path = the target's display path, detail byte-identical to the count line) - best-effort: with no storage facility the record buffers or drops.",
 						Outcome: "A machine-readable history beside the human ledger.",
 					},
 					{
@@ -431,7 +431,7 @@ const Usage = [
 					Diagram="The write going through Factory.Write and emitting fs/observed - but the governors' Gate requiring the actor tool name in their mutationTools pin, normalize-file never added to any such list, so these writes never trigger a chain pass."
 				>
 					<p>
-						Governance bounded passes: the write goes through <code>Factory.Write</code>{" "}
+						Governance bounded passes: the write goes through <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Write.ts"><code>Factory.Write</code></a>{" "}
 						and emits <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a>, but the governors' Gate requires the
 						actor tool name in their mutationTools pin - <code>normalize-file</code> is
 						never added to any such list, so these writes never trigger a chain pass.
@@ -455,7 +455,7 @@ const Usage = [
 				>
 					<p>
 						Raw-write read-before-write: tool calls are serialized and{" "}
-						<code>Factory.Write</code>'s before is read at write time, so a prior
+						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Write.ts"><code>Factory.Write</code></a>'s before is read at write time, so a prior
 						normalize-file in the same turn is already reflected. No race.
 					</p>
 				</Concept>
@@ -558,7 +558,7 @@ const Usage = [
 			<SectionHeader Title="The Ledger" Meta="TWO LINES VIA FACTORY APPEND" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				Two lines, both written through the factory's <code>Append</code> (the
-				<code>hook-dsh-normalize-file:</code> prefix is the logger's
+				<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-file/Source"><code>hook-dsh-normalize-file:</code></a> prefix is the logger's
 				<code>&lt;State.Module&gt;:</code>; the durable file line is
 				<code>[&lt;ISO&gt;] &lt;message&gt;</code>):
 			</p>
@@ -582,7 +582,7 @@ const Usage = [
 				>
 					<p>
 						Each N &gt; 0 write also journals one <code>normalized</code> record into the
-						shared <code>package_governance</code> v2 domain (event{" "}
+						shared <code>package_governance</code> <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts">v2 domain</a> (event{" "}
 						<code>normalized</code>, path = the target's display path, detail
 						byte-identical to the count line).
 					</p>

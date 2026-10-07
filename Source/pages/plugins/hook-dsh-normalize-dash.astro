@@ -303,7 +303,7 @@ const Config = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.Dash}</strong>): a hook child of the{" "}
-						<strong>plugin-dsh-factory</strong> service and the{" "}
+						<strong><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a></strong> service and the{" "}
 						<strong>hook-dsh-core</strong> machinery; the first of six stream normalizer
 						siblings, all built on the shared machinery.
 					</p>
@@ -434,8 +434,8 @@ const Config = [
 					Diagram="The visibility contrast: the governance family's rewrites being SILENT, this plugin's normalization flowing into both the live UI and the durable transcript."
 				>
 					<p>
-						Unlike the governance family (hook-dsh-governor-package,
-						hook-dsh-pinner-package, hook-dsh-governor-cargo), whose rewrites are
+						Unlike the governance family (<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-package/Source">hook-dsh-governor-package</a>,
+						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source">hook-dsh-pinner-package</a>, <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-cargo/Source">hook-dsh-governor-cargo</a>), whose rewrites are
 						SILENT, this plugin's normalization is{" "}
 						<strong>deliberately VISIBLE - it IS the feature</strong>: the rewrite flows
 						into both the live UI and the durable transcript.
@@ -686,7 +686,7 @@ const Config = [
 						the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts">llm/stream</a> registration - stays alive); the factory's State builder
 						unwraps them defensively.
 					</p>
-					<p>Example cordis.patch.yml row:</p>
+					<p>Example <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/cordis.patch.yml">cordis.patch.yml</a> row:</p>
 				</Concept>
 			</div>
 			<CodeBlock
@@ -694,8 +694,8 @@ const Config = [
 				Style="margin-top: var(--space-sm)"
 				Source={[
 					"- insert:",
-					"      - id: hook-dsh-normalize-dash",
-					'        name: "@playform/hook-dsh-normalize-dash"',
+					"      - id: <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-dash/Source">hook-dsh-normalize-dash</a>",
+					'        name: "<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-dash/Source">@playform/hook-dsh-normalize-dash</a>"',
 					"        config:",
 					"            log: true",
 					"            logFile: ~/.dsh/hook-dsh-normalize-dash.log",
@@ -796,7 +796,7 @@ const Config = [
 			<SectionHeader Title="The Ledger" Meta="TWO LINES VIA FACTORY APPEND" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				Two lines, both written through the factory's <code>Append</code> (the
-				<code>hook-dsh-normalize-dash:</code> prefix is the logger's
+				<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-dash/Source"><code>hook-dsh-normalize-dash:</code></a> prefix is the logger's
 				<code>&lt;State.Module&gt;:</code>; the durable file line is
 				<code>[&lt;ISO&gt;] &lt;message&gt;</code>):
 			</p>

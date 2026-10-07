@@ -198,7 +198,7 @@ const LedgerStrings = [
 				<code>' '</code>, quads and quirs alike. A CLASS flavor of the normalize family: the
 				core's <code>Spaces</code> class plus a configurable <code>replacement</code> string
 				(default <code>" "</code>, the plain ASCII space). The family's raw-write tool
-				(registered by hook-dsh-normalize-dash) bypasses this flavor's transforms too - the
+				(registered by <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-dash/Source">hook-dsh-normalize-dash</a>) bypasses this flavor's transforms too - the
 				exemption is family-wide.
 			</p>
 		</section>
@@ -243,7 +243,7 @@ const LedgerStrings = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.Spaces}</strong>): a hook child of the{" "}
-						<strong>plugin-dsh-factory</strong> service and the{" "}
+						<strong><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a></strong> service and the{" "}
 						<strong>hook-dsh-core</strong> machinery; the fourth of the six stream
 						normalizer siblings.
 					</p>
@@ -327,7 +327,7 @@ const LedgerStrings = [
 					},
 					{
 						Seam: "The raw-write exemption (family-wide)",
-						What: "The family's raw-write tool (registered by hook-dsh-normalize-dash) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
+						What: "The family's raw-write tool (registered by <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-dash/Source">hook-dsh-normalize-dash</a>) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
 						Outcome:
 							"Per-call control stays with the agent, even with every stream flavor armed.",
 					},
@@ -373,7 +373,7 @@ const LedgerStrings = [
 				>
 					<p>
 						<strong>The transform</strong> - exactly the core's <code>Spaces</code>{" "}
-						class (@playform/hook-dsh-core's Normalize/Spaces), applied per text segment
+						class (<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source">@playform/hook-dsh-core</a>'s Normalize/Spaces), applied per text segment
 						through the core's generic class-to-string <code>Replace</code>:
 					</p>
 				</Concept>
@@ -471,7 +471,7 @@ const LedgerStrings = [
 						Volatile cells commit without remounting the plugin; the factory's State
 						builder unwraps them defensively.
 					</p>
-					<p>Example cordis.patch.yml row:</p>
+					<p>Example <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/cordis.patch.yml">cordis.patch.yml</a> row:</p>
 				</Concept>
 			</div>
 			<CodeBlock
@@ -479,8 +479,8 @@ const LedgerStrings = [
 				Style="margin-top: var(--space-sm)"
 				Source={[
 					"- insert:",
-					"      - id: hook-dsh-normalize-spaces",
-					'        name: "@playform/hook-dsh-normalize-spaces"',
+					"      - id: <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-spaces/Source">hook-dsh-normalize-spaces</a>",
+					'        name: "<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-spaces/Source">@playform/hook-dsh-normalize-spaces</a>"',
 					"        config:",
 					"            log: true",
 					"            logFile: ~/.dsh/hook-dsh-normalize-spaces.log",
@@ -547,7 +547,7 @@ const LedgerStrings = [
 			<SectionHeader Title="The Ledger" Meta="TWO LINES VIA FACTORY APPEND" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				Two lines, both written through the factory's <code>Append</code> (the
-				<code>hook-dsh-normalize-spaces:</code> prefix is the logger's
+				<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-normalize-spaces/Source"><code>hook-dsh-normalize-spaces:</code></a> prefix is the logger's
 				<code>&lt;State.Module&gt;:</code>; the durable file line is
 				<code>[&lt;ISO&gt;] &lt;message&gt;</code>). In the activation line,
 				<code>replacement= </code> is followed by the ASCII space itself - the default
