@@ -67,19 +67,21 @@ const Criticals = [
 	{
 		Finding:
 			"The package governor still registered its in-flight key as the plain target key - the same key the factory's continuation uses. An update running under key K plus an external edit could orphan the update's controller. The cargo flavor had fixed the same collision locally a phase earlier.",
-		Fix: "The key helper moved factory-side as the 16th method - UpdateKey(target) yields update:<targetKey> - and both governors adopted it. Collision-window smoke cases went into the factory and governor suites the same day.",
+		Fix: "The key helper moved factory-side - the SCHEME's §2.16, UpdateKey(target) yields update:<targetKey> - and both governors adopted it. Collision-window smoke cases went into the factory and governor suites the same day.",
 		Badge: "P1",
 		Commit: "1ed3564",
 	},
 ];
 
-// The P5 journal excerpt, verbatim from the third boot's shared domain.
+// The P5 journal excerpt, verbatim from Package-10.md:86-90 (the third
+// boot's shared domain) - the ellipsis character and the <- arrow kept
+// byte-exact via the \uXXXX escape route (Lessons.md's reliable routes).
 const JournalExcerpt = [
-	"16:44:43.232 activated | activated (pinner, ...)",
-	"16:44:43.301 activated | activated (anywhere mode, ...)   <- the governor's (was missing)",
-	"16:44:43.302 activated | cargo                            <- the cargo's (was missing)",
-	"16:45:42.178 governed  | <version token>                  <- the interlock cascade",
-	"16:45:42.196 dispatched | programmatic                    <- the update stage",
+	"16:44:43.232 activated | activated (pinner, \u2026)",
+	"16:44:43.301 activated | activated (anywhere mode, \u2026)   \u2190 the governor's (was missing)",
+	"16:44:43.302 activated | cargo                            \u2190 the cargo's (was missing)",
+	"16:45:42.178 governed  | <version token>                  \u2190 the interlock cascade",
+	"16:45:42.196 dispatched | programmatic                    \u2190 the update stage",
 ];
 
 // The live governance matrix from the final battery, verbatim outcomes.
@@ -149,7 +151,7 @@ const Decisions = [
 		Rationale:
 			"The raw-write's actor carries {...exec, govern}; the gate's govern reason makes direct governance the only channel - the event path skips marked actors, so no flag means no chain (the escape hatch)",
 		Technique:
-			"The gate's actor step + the factory's Govern (the 17th method) + the step registry",
+			"The gate's actor step + the factory's Govern (the fold entry, SCHEME §2.18) + the step registry (RegisterGovern, §2.17)",
 		Evidence: "2c8764e, 83ba8e5, e69c5d3",
 	},
 	{
@@ -186,7 +188,7 @@ const Decisions = [
 		Decision: "One shared write executor owned by the factory",
 		Rationale:
 			"Three executors duplicated the same five-step pipeline; the factory is the only home both tool-style and continuation-style writes already depend on",
-		Technique: "The factory's Write (the 16th method; the guarded write lives on as its alias)",
+		Technique: "The factory's Write (the shared executor, SCHEME §2.7; the guarded write lives on as its alias)",
 		Evidence: "91293d2",
 	},
 	{
@@ -321,7 +323,9 @@ const Lessons = [
 				absorbs - each hook's transforms stay its identity. The outcome: five bundles green,
 				231 checks, and every ledger string byte-identical to pre-refactor behavior,
 				smoke-asserted. The factory's page shows the seam table this era produced; it has
-				since grown 15 &rarr; 16 &rarr; 17 methods as later phases moved machinery in.
+				since grown from 15 to 19 methods as later phases moved machinery in - by insertion
+				(Write landed at the SCHEME's §2.7, renumbering everything after it), by alias
+				(GuardedWrite shares §2.7) and by uncounted helpers (UpdateKey, §2.16).
 			</p>
 			<div class="grid grid--3">
 				{Originals.map((Item) => (
@@ -500,7 +504,8 @@ const Lessons = [
 				activation composer folded into the core the same pass. Then the fine-grained
 				control (<code>e69c5d3</code>): <code>normalize</code> selects the transforms,
 				<code>govern</code> selects the chain steps through the factory's{" "}
-				<code>Govern</code>- the 17th method - and a step registry the modules populate. The
+				<code>Govern</code> - the fold entry, SCHEME §2.18 - and a step registry the
+				modules populate (RegisterGovern, §2.17). The
 				governance marker (<code>2c8764e</code>, <code>83ba8e5</code>) inverts the event
 				path into a direct path: the raw-write's actor carries the govern selection, so
 				direct governance is the only channel and <strong>no flag means no chain</strong> -
