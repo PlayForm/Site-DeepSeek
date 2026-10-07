@@ -333,8 +333,10 @@ const Registry = [
 					<p>
 						Every plugin operates inside the <BrandIcon Name="deepseek" /> DeepSeek
 						Harness through a fixed set of
-						seams - the model stream waterfall, the filesystem events, the tool layer, the
-						subprocess seam, the jobs envelope, the storage domain and the session ledger.
+						seams - the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts">model stream waterfall</a>, the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">filesystem events</a>, the tool layer, the{" "}
+						<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/subprocess/subprocess">subprocess seam</a>, the{" "}
+						<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/jobs">jobs envelope</a>, the{" "}
+						<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/storage/storage-domain">storage domain</a> and the session ledger.
 					</p>
 					<p>This is where the twelve live, and the DeepSeek internals they work through:</p>
 				</Concept>
@@ -351,16 +353,16 @@ const Registry = [
 					<tbody>
 						<tr>
 							<td>
-								<strong>llm/stream</strong> (the model stream waterfall)
+								<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts"><strong>llm/stream</strong></a> (the model stream waterfall)
 							</td>
-							<td>@deepseek-ai/dsh-llm (type-only stream vocabulary)</td>
+							<td><a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm">@deepseek-ai/dsh-llm</a> (type-only stream vocabulary)</td>
 							<td>The six stream flavors</td>
 						</tr>
 						<tr>
 							<td>
-								<strong>fs/observed + fs/write-intent</strong>
+								<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><strong>fs/observed + fs/write-intent</strong></a>
 							</td>
-							<td>ctx.fs - dsh-fs (local, sandbox, observation-policy)</td>
+							<td>ctx.fs - <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs">dsh-fs</a> (local, sandbox, observation-policy)</td>
 							<td>
 								The three governance hooks; the write executor behind every tool
 								write
@@ -371,14 +373,14 @@ const Registry = [
 								<strong>The tool layer</strong> (write / edit / str_replace_editor +
 								the registered tools)
 							</td>
-							<td>dsh-tool-fs; ctx.tools.register</td>
+							<td><a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/tool-fs">dsh-tool-fs</a>; ctx.tools.register</td>
 							<td>raw-write (normalize + govern flags); normalize-file</td>
 						</tr>
 						<tr>
 							<td>
 								<strong>ctx.subprocess</strong>
 							</td>
-							<td>dsh-subprocess (fully-specified argv, no shell PATH drift)</td>
+							<td><a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/subprocess/subprocess">dsh-subprocess</a> (fully-specified argv, no shell PATH drift)</td>
 							<td>The cargo governor's cargo upgrade; the ncu bin mode</td>
 						</tr>
 						<tr>
@@ -392,7 +394,7 @@ const Registry = [
 						</tr>
 						<tr>
 							<td>
-								<strong>The storage domain</strong>
+								<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/storage/storage-domain"><strong>The storage domain</strong></a>
 							</td>
 							<td>ctx.get("storageDomain") - the package_governance v2 records</td>
 							<td>Factory Journal; the normalize-file normalized events</td>
@@ -617,11 +619,11 @@ const Registry = [
 					Diagram="The three attachment points: the llm/stream waterfall wrap (next() first, options untouched, per-chunk), the fs/observed listeners (sync, after content is on disk, fired by the tool layer only), and the tool registrations into the agent's toolset (raw-write, normalize-file)."
 				>
 					<p>
-						The llm/stream waterfall wrap - next() first, options untouched,
+						The <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts">llm/stream</a> waterfall wrap - next() first, options untouched,
 						per-chunk.
 					</p>
 					<p>
-						The fs/observed listeners - sync, after content is on disk, fired by the tool
+						The <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> listeners - sync, after content is on disk, fired by the tool
 						layer only. And the tool registrations into the agent's toolset: raw-write,
 						normalize-file.
 					</p>
@@ -637,7 +639,7 @@ const Registry = [
 						stage reduces to a child runner plus strings.
 					</p>
 					<p>
-						The subprocess seam carries the external tools, and the Effect-TS services
+						The <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/subprocess/subprocess">subprocess seam</a> carries the external tools, and the Effect-TS services
 						mirror the same seams.
 					</p>
 				</Concept>

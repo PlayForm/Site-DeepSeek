@@ -192,8 +192,8 @@ const LedgerStrings = [
 			<p class="page-hero__sub">
 				{Families.Fullwidth} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin
 				Family for PlayForm._ The <strong>fullwidth normalizer for model output</strong> - a
-				DeepSeek Harness plugin that hooks the <code>llm/stream</code> waterfall (the
-				interceptable wrapper around EVERY streaming model call, bound to the LlmRuntime)
+				DeepSeek Harness plugin that hooks the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts"><code>llm/stream</code></a> waterfall (the
+				interceptable wrapper around EVERY streaming model call, bound to the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts">LlmRuntime</a>)
 				and normalizes the full-width family in model output, live in the transcript: the
 				entire FULLWIDTH FORMS range U+FF01-U+FF5E maps to its ASCII half-width counterpart
 				U+0021-U+007E - the whole story, letters, punctuation and digits included. A MAP
@@ -293,12 +293,12 @@ const LedgerStrings = [
 						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
 						the config is composed by the factory's standalone <code>Schema</code>{" "}
 						helper with
-						<code>shared: false</code> - the minimal block, no fs/observed dead fields.
+						<code>shared: false</code> - the minimal block, no <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> dead fields.
 					</p>
 					<p>
-						It touches no files, so fs/write-intent and fs/observed never see it; it
+						It touches no files, so <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/write-intent</a> and <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> never see it; it
 						wraps the downstream result and always calls <code>next()</code>, so it
-						composes with other llm/stream listeners regardless of registration order.
+						composes with other <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts">llm/stream</a> listeners regardless of registration order.
 					</p>
 				</Concept>
 			</div>

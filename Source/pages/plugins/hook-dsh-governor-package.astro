@@ -71,7 +71,7 @@ const Siblings = [
 	{
 		Name: "hook-dsh-governor-cargo",
 		Gate: "Cargo.toml",
-		Ledger: "cargo-governor.log",
+		Ledger: "hook-dsh-governor-cargo.log",
 		Pass: "chain pass (bare caret / =exact) + cargo upgrade",
 		This: false,
 	},
@@ -202,7 +202,7 @@ const Related = [
 			<p class="page-hero__sub">
 				{Families.GovernorPackage} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness
 				Plugin Family for PlayForm._ The <strong>silent package.json governor</strong> of
-				the DeepSeek Harness - a plugin on the <code>fs/observed</code> event (the cordis
+				the DeepSeek Harness - a plugin on the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> event (the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/vendor/cordis">cordis</a>
 				event every harness file write dispatches; the tool layer is the only dispatcher)
 				that governs every
 				<code>package.json</code> written by any agent, anywhere: a pure chain pass
@@ -257,7 +257,7 @@ const Related = [
 						<strong>hook-dsh-core</strong> helpers; it has no hook children of its own.
 					</p>
 					<p>
-						One of three governance hooks sharing the <code>fs/observed</code> seam,
+						One of three governance hooks sharing the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> seam,
 						each gating on its own basename and writing its own ledger:
 					</p>
 				</Concept>
@@ -336,7 +336,7 @@ const Related = [
 					Diagram='Besides the fs/observed event path, its two steps registered with the factory&apos;s direct-govern registry at apply (Factory.RegisterGovern("package.json", "canonicalize" | "update", ...)) - so the raw-write tool&apos;s per-call govern selection can drive the same chain pass and update stage directly through Factory.Govern.'
 				>
 					<p>
-						Besides the fs/observed event path, its two steps are registered with the
+						Besides the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> event path, its two steps are registered with the
 						factory's direct-govern registry at apply (
 						Factory.RegisterGovern(&quot;package.json&quot;, &quot;canonicalize&quot; |
 						&quot;update&quot;, ...)).
@@ -410,8 +410,8 @@ const Related = [
 					Diagram="fs/observed being the only hook that runs after content is on disk - the fs/write-intent waterfall carrying a version guard but never the content."
 				>
 					<p>
-						<code>fs/observed</code> is the only hook that runs <em>after</em> content
-						is on disk - the <code>fs/write-intent</code> waterfall carries a version
+						<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> is the only hook that runs <em>after</em> content
+						is on disk - the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/write-intent</code></a> waterfall carries a version
 						guard but never the content.
 					</p>
 				</Concept>

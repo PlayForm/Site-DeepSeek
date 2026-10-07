@@ -150,7 +150,7 @@ const Related = [
 						<strong>{Families.GovernorCargo}</strong>): a hook child of the{" "}
 						<strong>plugin-dsh-factory</strong> service and the{" "}
 						<strong>hook-dsh-core</strong> helpers; the Rust-sided sibling of the two
-						npm governance hooks on the same <code>fs/observed</code> seam.
+						npm governance hooks on the same <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> seam.
 					</p>
 					<p>
 						One of three governance hooks, each gating on its own basename and writing
@@ -160,7 +160,7 @@ const Related = [
 						<ArrowIcon Direction="right" Tone="accent" /> <code>pinner.log</code>), and
 						this bundle (<code>Cargo.toml</code>{" "}
 						<ArrowIcon Direction="right" Tone="accent" />{" "}
-						<code>cargo-governor.log</code>, chain pass bare caret /<code>=exact</code>{" "}
+						<code>hook-dsh-governor-cargo.log</code>, chain pass bare caret /<code>=exact</code>{" "}
 						+ <code>cargo upgrade</code>).
 					</p>
 				</Concept>
@@ -211,7 +211,7 @@ const Related = [
 					Diagram='Besides the fs/observed event path, its two steps registered with the factory&apos;s direct-govern registry at apply (Factory.RegisterGovern("Cargo.toml", "cargo" | "update", ...)) - so the raw-write tool&apos;s per-call govern selection can drive the same chain + normalization pass and update stage directly through Factory.Govern.'
 				>
 					<p>
-						Besides the fs/observed event path, its two steps are registered with the
+						Besides the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> event path, its two steps are registered with the
 						factory's <BrandIcon Name="chain" /> direct-govern registry at apply (
 						Factory.RegisterGovern("Cargo.toml", "cargo" | "update", ...)).
 					</p>
@@ -250,7 +250,7 @@ const Related = [
 					},
 					{
 						Seam: "The ledger / session",
-						What: "A separate ledger (cargo-governor.log) records activation, exclusions, chain-pass results, refusals and every update dispatch - including the exact cargo upgrade argv and its exit code.",
+						What: "A separate ledger (hook-dsh-governor-cargo.log) records activation, exclusions, chain-pass results, refusals and every update dispatch - including the exact cargo upgrade argv and its exit code.",
 						Outcome: "The Rust-side pass is fully auditable from the ledger alone.",
 					},
 				]}
@@ -274,7 +274,7 @@ const Related = [
 					<p>
 						A governor for <code>Cargo.toml</code> must therefore rewrite surgically
 						(never a TOML stringify) and delegate its update stage across the Rust/TS
-						boundary - while still hooking the same <code>fs/observed</code> event the
+						boundary - while still hooking the same <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> event the
 						npm hooks use, so one trigger law covers the whole machine.
 					</p>
 				</Concept>

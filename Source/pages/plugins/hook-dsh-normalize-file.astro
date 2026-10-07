@@ -182,7 +182,7 @@ const Usage = [
 				with a per-character count, and only when N &gt; 0 is the rewritten content written
 				back through the factory's ONE shared write executor. N = 0 writes NOTHING - the
 				no-op no-write rule. The family's first LISTENER-LESS flavor: no
-				<code>llm/stream</code>, no <code>fs/observed</code> - nothing runs without an
+				<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts"><code>llm/stream</code></a>, no <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> - nothing runs without an
 				explicit agent action. This bundle's own tool calls are name-exempt in the stream
 				gate beside <code>edit</code> and <code>raw-write</code> - its arguments carry a
 				FILE PATH, and a normalized dash inside a filename would corrupt the target.
@@ -432,7 +432,7 @@ const Usage = [
 				>
 					<p>
 						Governance bounded passes: the write goes through <code>Factory.Write</code>{" "}
-						and emits <code>fs/observed</code>, but the governors' Gate requires the
+						and emits <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a>, but the governors' Gate requires the
 						actor tool name in their mutationTools pin - <code>normalize-file</code> is
 						never added to any such list, so these writes never trigger a chain pass.
 					</p>
@@ -498,7 +498,8 @@ const Usage = [
 				>
 					<p>
 						There are no stream flags (<code>normalizeReasoning</code>,{" "}
-						<code>normalizeToolArguments</code>) and no fs/observed fields (
+						<code>normalizeToolArguments</code>) and no{" "}
+						<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> fields (
 						<code>updateCooldownMs</code>, <code>mutationTools</code>,{" "}
 						<code>policyFile</code>, <code>exclude</code>): the minimal{" "}
 						<code>shared: false</code> block plus the two knobs is the whole config
