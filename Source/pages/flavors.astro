@@ -2,6 +2,7 @@
 import Base from "@Layout/Base.astro";
 import Badge from "@Component/Badge.astro";
 import Card from "@Component/Card.astro";
+import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 
@@ -115,14 +116,26 @@ const Flavors = [
 		<!-- The badge sprite -->
 		<section class="section">
 			<SectionHeader Title="The badge sprite" Meta="11 SHIELDS-STYLE SYMBOLS" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				Distinct badge treatments, one unified family look: the standalone shields-style
-				sprite at <span class="hook-tally">/assets/badges.svg</span> - label segment #003ec7
-				with white ink, value segment #eef0ff with #0038b6 ink, blue and white only.
-				Reference each symbol as
-				<span class="hook-tally">&lt;use href="/assets/badges.svg#badge-classic"/&gt;</span>
-				.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="flavors-sprite"
+					Title="Distinct badges, one unified family look"
+					Diagram="The eleven shields-style symbols of the sprite at /assets/badges.svg - the label segment, the value segment and how a page references one symbol via &lt;use&gt;."
+				>
+					<p>
+						The standalone shields-style sprite lives at{" "}
+						<span class="hook-tally">/assets/badges.svg</span>: label segment{" "}
+						<span class="hook-tally">#003ec7</span> with white ink, value segment{" "}
+						<span class="hook-tally">#eef0ff</span> with{" "}
+						<span class="hook-tally">#0038b6</span> ink - blue and white only.
+					</p>
+					<p>
+						Reference each symbol as
+						<span class="hook-tally">&lt;use href="/assets/badges.svg#badge-classic"/&gt;</span>
+						.
+					</p>
+				</Concept>
+			</div>
 			<div class="sprite-board">
 				<img src="/assets/badges.svg" alt="The eleven DSH Family badges" />
 			</div>

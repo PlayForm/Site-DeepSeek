@@ -1,7 +1,9 @@
 ---
 import Base from "@Layout/Base.astro";
+import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import Card from "@Component/Card.astro";
+import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
@@ -62,7 +64,7 @@ const Related = [
 	},
 	{
 		Name: "hook-dsh-pinner-package",
-		Desc: "The keep-list sidecar (pin-policy.json) is shared: discovery global keepFile → the file's own directory → registry-adjacent, the union.",
+		Desc: "The keep-list sidecar (pin-policy.json) is shared: discovery global keepFile - the file's own directory - registry-adjacent, the union.",
 	},
 	{
 		Name: "plugin-dsh-factory",
@@ -131,34 +133,88 @@ const Related = [
 		</p>
 		<section class="section">
 			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: THE RUST-SIDED SIBLING" />
-			<p class="page-hero__sub">
-				<strong>Family position</strong> (the @-sentence{" "}
-				<strong>Hook @ DSH @ Governor @ Cargo</strong>): a hook child of the{" "}
-				<strong>plugin-dsh-factory</strong> service and the <strong>hook-dsh-core</strong>{" "}
-				helpers; the Rust-sided sibling of the two npm governance hooks on the same{" "}
-				<code>fs/observed</code> seam. One of three governance hooks, each gating on its own
-				basename and writing its own ledger: governor-package (<code>package.json</code> →{" "}
-				<code>governor.log</code>), pinner-package (<code>package.json</code> →{" "}
-				<code>pinner.log</code>), and this bundle (<code>Cargo.toml</code> →{" "}
-				<code>cargo-governor.log</code>, chain pass bare caret /<code>=exact</code> +{" "}
-				<code>cargo upgrade</code>).
-			</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The basenames are disjoint: the cargo module never sees a <code>package.json</code>
-				event and the npm plugins never see a <code>Cargo.toml</code> event. Composition
-				semantics: <strong>chain &gt; strip &gt; normalize</strong> (this module's
-				precedence), <strong>keep-list wins</strong> over normalization - never over the
-				chain. Machinery-wise it is a <strong>factory flavor</strong>: gates, discovery, the
-				guarded write, the refresh, the continuation, the effects, the schema and the
-				namespaced UpdateKey come from plugin-dsh-factory; the policy loader and the
-				suppression composer come from hook-dsh-core. This bundle keeps the Cargo-specific
-				residue: the TOML identification, the surgical pin, the full-version directive, and
-				the <code>cargo upgrade</code> bridge. Besides the fs/observed event path, its two
-				steps are registered with the factory's direct-govern registry at apply
-				(Factory.RegisterGovern("Cargo.toml", "cargo" | "update", ...)), so the raw-write
-				tool's per-call govern selection can drive the same chain + normalization pass and
-				update stage directly through Factory.Govern.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="govcargo-family-position"
+					Title="The family position"
+					Diagram="Hook @ DSH @ Governor @ Cargo as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - the Rust-sided sibling of the two npm governance hooks on the same fs/observed seam, one of three governance hooks, each gating on its own basename and writing its own ledger."
+				>
+					<p>
+						<strong>Family position</strong> (the @-sentence{" "}
+						<strong>Hook @ DSH @ Governor @ Cargo</strong>): a hook child of the{" "}
+						<strong>plugin-dsh-factory</strong> service and the{" "}
+						<strong>hook-dsh-core</strong> helpers; the Rust-sided sibling of the two npm
+						governance hooks on the same <code>fs/observed</code> seam.
+					</p>
+					<p>
+						One of three governance hooks, each gating on its own basename and writing
+						its own ledger: governor-package (
+						<code>package.json</code> <ArrowIcon Direction="right" Tone="accent" />{" "}
+						<code>governor.log</code>), pinner-package (
+						<code>package.json</code> <ArrowIcon Direction="right" Tone="accent" />{" "}
+						<code>pinner.log</code>), and this bundle (
+						<code>Cargo.toml</code> <ArrowIcon Direction="right" Tone="accent" />{" "}
+						<code>cargo-governor.log</code>, chain pass bare caret /<code>=exact</code>{" "}
+						+ <code>cargo upgrade</code>).
+					</p>
+				</Concept>
+				<Concept
+					Id="govcargo-disjoint"
+					Title="The basenames are disjoint"
+					Diagram="The cargo module never seeing a package.json event and the npm plugins never seeing a Cargo.toml event - one trigger law covering the whole machine, npm and Rust alike."
+				>
+					<p>
+						The basenames are disjoint: the cargo module never sees a{" "}
+						<code>package.json</code> event and the npm plugins never see a{" "}
+						<code>Cargo.toml</code> event.
+					</p>
+				</Concept>
+				<Concept
+					Id="govcargo-composition"
+					Title="Composition semantics"
+					Diagram="chain > strip > normalize (this module's precedence), keep-list wins over normalization - never over the chain."
+				>
+					<p>
+						Composition semantics: <strong>chain</strong>{" "}
+						<ArrowIcon Direction="right" Tone="accent" /> <strong>strip</strong>{" "}
+						<ArrowIcon Direction="right" Tone="accent" />{" "}
+						<strong>normalize</strong> (this module's precedence),{" "}
+						<strong>keep-list wins</strong> over normalization - never over the chain.
+					</p>
+				</Concept>
+				<Concept
+					Id="govcargo-factory-flavor"
+					Title="Machinery-wise it is a factory flavor"
+					Diagram="gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey coming from plugin-dsh-factory; the policy loader and the suppression composer from hook-dsh-core; this bundle keeping the Cargo-specific residue: the TOML identification, the surgical pin, the full-version directive, and the cargo upgrade bridge."
+				>
+					<p>
+						Machinery-wise it is a <strong>factory flavor</strong>: gates, discovery, the
+						guarded write, the refresh, the continuation, the effects, the schema and the
+						namespaced UpdateKey come from plugin-dsh-factory; the policy loader and the
+						suppression composer come from hook-dsh-core.
+					</p>
+					<p>
+						This bundle keeps the Cargo-specific residue: the TOML identification, the
+						surgical pin, the full-version directive, and the{" "}
+						<code>cargo upgrade</code> bridge.
+					</p>
+				</Concept>
+				<Concept
+					Id="govcargo-direct-govern"
+					Title="The direct-govern registration"
+					Diagram="Besides the fs/observed event path, its two steps registered with the factory's direct-govern registry at apply (Factory.RegisterGovern(&quot;Cargo.toml&quot;, &quot;cargo&quot; | &quot;update&quot;, ...)) - so the raw-write tool's per-call govern selection can drive the same chain + normalization pass and update stage directly through Factory.Govern."
+				>
+					<p>
+						Besides the fs/observed event path, its two steps are registered with the
+						factory's direct-govern registry at apply (
+						Factory.RegisterGovern("Cargo.toml", "cargo" | "update", ...)).
+					</p>
+					<p>
+						That lets the raw-write tool's per-call govern selection drive the same chain
+						+ normalization pass and update stage directly through Factory.Govern.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
@@ -197,31 +253,71 @@ const Related = [
 
 		<section class="section">
 			<SectionHeader Title="The Problem" Meta="WHY THE CARGO GOVERNOR EXISTS" />
-			<p class="page-hero__sub">
-				Rust manifests drift the same way npm manifests do - but <code>Cargo.toml</code> is
-				a TOML document people decorate with comments, and there is no in-process library
-				path: the only update tool is the cargo CLI. A governor for
-				<code>Cargo.toml</code> must therefore rewrite surgically (never a TOML stringify)
-				and delegate its update stage across the Rust/TS boundary - while still hooking the
-				same <code>fs/observed</code> event the npm hooks use, so one trigger law covers the
-				whole machine.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="govcargo-problem"
+					Title="A decorated TOML document and no in-process library path"
+					Diagram="Rust manifests drifting the same way npm manifests do - but Cargo.toml being a TOML document people decorate with comments, and there being no in-process library path: the only update tool being the cargo CLI - a governor for Cargo.toml having to rewrite surgically (never a TOML stringify) and delegate its update stage across the Rust/TS boundary, while still hooking the same fs/observed event the npm hooks use, so one trigger law covers the whole machine."
+				>
+					<p>
+						Rust manifests drift the same way npm manifests do - but{" "}
+						<code>Cargo.toml</code> is a TOML document people decorate with comments, and
+						there is no in-process library path: the only update tool is the cargo CLI.
+					</p>
+					<p>
+						A governor for <code>Cargo.toml</code> must therefore rewrite surgically
+						(never a TOML stringify) and delegate its update stage across the Rust/TS
+						boundary - while still hooking the same <code>fs/observed</code> event the
+						npm hooks use, so one trigger law covers the whole machine.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
 			<SectionHeader Title="How It Works" Meta="THE PIPELINE G = U ∘ P" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The same G1/G2 gates and Stash seeding as the npm governor; the G3 chain pass parses
-				with smol-toml (IDENTIFICATION ONLY) and plans: 1. CHAIN - dep in
-				registry.effectiveLatest → the bare resolved version (Cargo's implicit caret) or
-				<code>=resolved</code> with pinStyle "exact", always the FULL form (shorthand
-				padded); 2. STRIP - strict-mode unknown deps; 3. NORMALIZE - every other simple
-				version (full-version directive below; the keep-list wins → byte-identical). The
-				rewrite is a <strong>surgical line-level edit on the raw text</strong> - comments,
-				inline comments, blank lines and spacing survive byte-for-byte - then GuardedWrite →
-				ledger <code>governed &lt;path&gt; → &lt;version&gt;</code> → Refresh. The G4 update
-				stage crosses the Rust/TS boundary:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="govcargo-chain-pass"
+					Title="The G3 chain pass, planned in three steps"
+					Diagram="The same G1/G2 gates and Stash seeding as the npm governor - the G3 chain pass parsing with smol-toml (IDENTIFICATION ONLY) and planning: 1. CHAIN - a dep in registry.effectiveLatest to the bare resolved version (Cargo's implicit caret) or =resolved with pinStyle &quot;exact&quot;, always the FULL form (shorthand padded); 2. STRIP - strict-mode unknown deps; 3. NORMALIZE - every other simple version (the full-version directive below; the keep-list wins to byte-identical)."
+				>
+					<p>
+						The same G1/G2 gates and Stash seeding as the npm governor; the G3 chain pass
+						parses with smol-toml (IDENTIFICATION ONLY) and plans:
+					</p>
+					<ul class="concept-values">
+						<li>
+							<strong>CHAIN</strong> - a dep in registry.effectiveLatest{" "}
+							<ArrowIcon Direction="right" Tone="accent" /> the bare resolved version
+							(Cargo's implicit caret) or <code>=resolved</code> with pinStyle
+							"exact", always the FULL form (shorthand padded);
+						</li>
+						<li>
+							<strong>STRIP</strong> - strict-mode unknown deps;
+						</li>
+						<li>
+							<strong>NORMALIZE</strong> - every other simple version (the full-version
+							directive below; the keep-list wins{" "}
+							<ArrowIcon Direction="right" Tone="accent" /> byte-identical).
+						</li>
+					</ul>
+				</Concept>
+				<Concept
+					Id="govcargo-surgical"
+					Title="The surgical line-level edit on the raw text"
+					Diagram="The rewrite being a surgical line-level edit on the raw text - comments, inline comments, blank lines and spacing surviving byte-for-byte - then GuardedWrite, the ledger governed <path> → <version>, then Refresh."
+				>
+					<p>
+						The rewrite is a <strong>surgical line-level edit on the raw text</strong> -
+						comments, inline comments, blank lines and spacing survive byte-for-byte -
+						then GuardedWrite <ArrowIcon Direction="right" Tone="accent" /> ledger{" "}
+						<code>governed &lt;path&gt; → &lt;version&gt;</code>{" "}
+						<ArrowIcon Direction="right" Tone="accent" /> Refresh.
+					</p>
+					<p>The G4 update stage crosses the Rust/TS boundary:</p>
+				</Concept>
+			</div>
 			<div class="code-block">
 				{[
 					"cargo upgrade --manifest-path <Cargo.toml>",
@@ -233,11 +329,19 @@ const Related = [
 					"cargo upgrade must never bump a chain-governed pin)",
 				].join("\n")}
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				<strong>The full-version normalization directive.</strong> No shorthand like "1.0"
-				may remain in a governed Cargo.toml; every dependency version is expanded to its
-				MOST SPECIFIC form:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="govcargo-full-version"
+					Title="The full-version normalization directive"
+					Diagram="No shorthand like &quot;1.0&quot; remaining in a governed Cargo.toml - every dependency version expanded to its MOST SPECIFIC form."
+				>
+					<p>
+						<strong>The full-version normalization directive.</strong> No shorthand like
+						"1.0" may remain in a governed Cargo.toml; every dependency version is
+						expanded to its MOST SPECIFIC form:
+					</p>
+				</Concept>
+			</div>
 			<div class="table-wrap" style="margin-top: var(--space-sm)">
 				<table class="table">
 					<thead>
@@ -258,42 +362,78 @@ const Related = [
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				<strong>The TOML rewrite: why comments survive.</strong> smol-toml (the ONE runtime
-				dependency, carried by the bundle's own node_modules) is used for PARSING ONLY -
-				identification of the dep entries in <code>[dependencies]</code>,
-				<code>[dev-dependencies]</code>, <code>[build-dependencies]</code>,
-				<code>[target.'cfg(...)'.dependencies]</code> (and its dev/build variants), and
-				<code>[workspace.dependencies]</code> (handled natively). Handled entry shapes:
-				<code>name = "0.3.4"</code>, <code>name = {'{ version = "0.3.4", ... }'}</code>
-				(single line or pretty-printed), <code>[dependencies.name]</code> table style. Never
-				rewritten: <code>path = "..."</code>, <code>git = "..."</code>, and inherited
-				entries (<code>workspace = true</code>). Non-dependency sections are NEVER touched;
-				the refusal guard refuses any plan entry outside an identified dependency table, and
-				Pin aborts (never a partial rewrite) if a planned entry cannot be located in the
-				text.
-			</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				<strong>The Rust side (live-verified).</strong> cargo 1.100.0-nightly + cargo-edit
-				0.13.13, resolved through <code>cargoBin</code>.{" "}
-				<strong>--exclude is ONE flag per crate</strong> - the comma form is silently
-				IGNORED, the exact inverse of ncu's one-comma-argument reject list.{" "}
-				<strong>There is NO --exact flag</strong> in cargo-edit 0.13.13 - exact pins are
-				enforced at the manifest level by the chain pass (pinStyle: "exact" →{" "}
-				<code>=resolved</code>). <code>cargo upgrade</code> preserves comments and
-				formatting (it edits via toml_edit). If cargo-edit is NOT installed,
-				<code>cargo upgrade</code> exits 101 with
-				<code>no such command: upgrade</code> - the module logs
-				<code>update: cargo-edit unavailable: ...</code> and fails gracefully.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="govcargo-toml-rewrite"
+					Title="Why comments survive"
+					Diagram="smol-toml (the ONE runtime dependency, carried by the bundle's own node_modules) used for PARSING ONLY - identification of the dep entries in [dependencies], [dev-dependencies], [build-dependencies], [target.'cfg(...)'.dependencies] (and its dev/build variants), and [workspace.dependencies] (handled natively) - the handled entry shapes, the never-rewritten shapes (path, git, inherited workspace = true), non-dependency sections NEVER touched, the refusal guard refusing any plan entry outside an identified dependency table, and Pin aborting (never a partial rewrite) if a planned entry cannot be located in the text."
+				>
+					<p>
+						smol-toml (the ONE runtime dependency, carried by the bundle's own
+						node_modules) is used for PARSING ONLY - identification of the dep entries in{" "}
+						<code>[dependencies]</code>, <code>[dev-dependencies]</code>,{" "}
+						<code>[build-dependencies]</code>,{" "}
+						<code>[target.'cfg(...)'.dependencies]</code> (and its dev/build variants),
+						and <code>[workspace.dependencies]</code> (handled natively).
+					</p>
+					<p>
+						Handled entry shapes: <code>name = "0.3.4"</code>,{" "}
+						<code>name = {'{ version = "0.3.4", ... }'}</code> (single line or
+						pretty-printed), <code>[dependencies.name]</code> table style. Never
+						rewritten: <code>path = "..."</code>, <code>git = "..."</code>, and
+						inherited entries (<code>workspace = true</code>). Non-dependency sections
+						are NEVER touched; the refusal guard refuses any plan entry outside an
+						identified dependency table, and Pin aborts (never a partial rewrite) if a
+						planned entry cannot be located in the text.
+					</p>
+				</Concept>
+				<Concept
+					Id="govcargo-rust-side"
+					Title="The Rust side (live-verified)"
+					Diagram="cargo 1.100.0-nightly + cargo-edit 0.13.13, resolved through cargoBin - --exclude being ONE flag per crate (the comma form silently IGNORED, the exact inverse of ncu's one-comma-argument reject list) - NO --exact flag in cargo-edit 0.13.13, exact pins enforced at the manifest level by the chain pass (pinStyle: &quot;exact&quot; to =resolved) - cargo upgrade preserving comments and formatting (it edits via toml_edit)."
+				>
+					<p>
+						<strong>The Rust side (live-verified).</strong> cargo 1.100.0-nightly +
+						cargo-edit 0.13.13, resolved through <code>cargoBin</code>.{" "}
+						<strong>--exclude is ONE flag per crate</strong> - the comma form is
+						silently IGNORED, the exact inverse of ncu's one-comma-argument reject list.{" "}
+						<strong>There is NO --exact flag</strong> in cargo-edit 0.13.13 - exact pins
+						are enforced at the manifest level by the chain pass (pinStyle: "exact"{" "}
+						<ArrowIcon Direction="right" Tone="accent" /> <code>=resolved</code>).
+					</p>
+					<p>
+						<code>cargo upgrade</code> preserves comments and formatting (it edits via
+						toml_edit).
+					</p>
+				</Concept>
+				<Concept
+					Id="govcargo-missing-edit"
+					Title="When cargo-edit is NOT installed"
+					Diagram="cargo upgrade exiting 101 with no such command: upgrade - the module logging update: cargo-edit unavailable: ... and failing gracefully."
+				>
+					<p>
+						If cargo-edit is NOT installed, <code>cargo upgrade</code> exits 101 with{" "}
+						<code>no such command: upgrade</code> - the module logs{" "}
+						<code>update: cargo-edit unavailable: ...</code> and fails gracefully.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
 			<SectionHeader Title="The Config" Meta="SCHEMA + DEFAULTS AT LOAD" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The exported Config schema validates and fills every default at load; new patch
-				entries are declared with <code>insert:</code>. Full example:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="govcargo-config-schema"
+					Title="The exported Config schema"
+					Diagram="The exported Config schema validating and filling every default at load - new patch entries declared with insert:."
+				>
+					<p>
+						The exported Config schema validates and fills every default at load; new
+						patch entries are declared with <code>insert:</code>. Full example:
+					</p>
+				</Concept>
+			</div>
 			<div class="code-block">
 				{[
 					"- insert:",
@@ -313,32 +453,63 @@ const Related = [
 					"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
 				].join("\n")}
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				<strong>Update-stage policy mapping</strong> (update-policy.json, same discovery as
-				the npm governor): <code>reject</code> → <code>--exclude &lt;crate&gt;</code> (ONE
-				flag per crate); <code>allow</code> → <code>-p &lt;crate&gt;</code> (repeatable);
-				<code>incompatible</code>/<code>pinned</code>/<code>compatible</code> →
-				<code>--incompatible</code>/<code>--pinned</code>/<code>--compatible</code>;
-				<code>pinStyle</code> has NO CLI equivalent (manifest-level via the chain pass);
-				<code>verifyCommand</code> runs after the upgrade via the subprocess seam, exit 127
-				non-fatal. The built-in default mirrors <code>cargo upgrade</code>'s own semantics:
-				no rejects, incompatible: "ignore", pinned: "ignore", pinStyle: "caret", no
-				verifyCommand (never install implicitly).
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="govcargo-policy-mapping"
+					Title="The update-stage policy mapping"
+					Diagram="The update-policy.json mapping (same discovery as the npm governor): reject to --exclude <crate> (ONE flag per crate); allow to -p <crate> (repeatable); incompatible/pinned/compatible to --incompatible/--pinned/--compatible; pinStyle with NO CLI equivalent (manifest-level via the chain pass); verifyCommand running after the upgrade via the subprocess seam, exit 127 non-fatal - the built-in default mirroring cargo upgrade's own semantics: no rejects, incompatible: &quot;ignore&quot;, pinned: &quot;ignore&quot;, pinStyle: &quot;caret&quot;, no verifyCommand (never install implicitly)."
+				>
+					<p>
+						<strong>Update-stage policy mapping</strong> (update-policy.json, same
+						discovery as the npm governor): <code>reject</code>{" "}
+						<ArrowIcon Direction="right" Tone="accent" />{" "}
+						<code>--exclude &lt;crate&gt;</code> (ONE flag per crate);{" "}
+						<code>allow</code> <ArrowIcon Direction="right" Tone="accent" />{" "}
+						<code>-p &lt;crate&gt;</code> (repeatable);{" "}
+						<code>incompatible</code>/<code>pinned</code>/<code>compatible</code>{" "}
+						<ArrowIcon Direction="right" Tone="accent" />{" "}
+						<code>--incompatible</code>/<code>--pinned</code>/<code>--compatible</code>;
+						<code>pinStyle</code> has NO CLI equivalent (manifest-level via the chain
+						pass); <code>verifyCommand</code> runs after the upgrade via the subprocess
+						seam, exit 127 non-fatal.
+					</p>
+					<p>
+						The built-in default mirrors <code>cargo upgrade</code>'s own semantics: no
+						rejects, incompatible: "ignore", pinned: "ignore", pinStyle: "caret", no
+						verifyCommand (never install implicitly).
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
 			<SectionHeader Title="In Action" Meta="ONE GOVERNED WRITE" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				One governed write. The author saves a <code>Cargo.toml</code> with comments, a
-				shorthand version, and a chain-governed dep:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="govcargo-in-action-setup"
+					Title="One governed write"
+					Diagram="The author saving a Cargo.toml with comments, a shorthand version, and a chain-governed dep."
+				>
+					<p>
+						One governed write. The author saves a <code>Cargo.toml</code> with comments,
+						a shorthand version, and a chain-governed dep:
+					</p>
+				</Concept>
+			</div>
 			<p class="section-kicker">Before - the Cargo.toml as the author wrote it</p>
 			<div class="code-block">{CargoBefore.join("\n")}</div>
-			<p class="page-hero__sub" style="margin: var(--space-md) 0">
-				With the nearest <code>registry.json</code> resolving tokio to 0.4.5, the surgical
-				rewrite produces (same text, same comments, same inline spacing):
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="govcargo-in-action-surgical"
+					Title="The surgical rewrite, same text"
+					Diagram="With the nearest registry.json resolving tokio to 0.4.5 - the surgical rewrite producing the same text, same comments, same inline spacing."
+				>
+					<p>
+						With the nearest <code>registry.json</code> resolving tokio to 0.4.5, the
+						surgical rewrite produces (same text, same comments, same inline spacing):
+					</p>
+				</Concept>
+			</div>
 			<p class="section-kicker">After - the same file, surgically rewritten</p>
 			<div class="code-block">{CargoAfter.join("\n")}</div>
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">
@@ -346,39 +517,67 @@ const Related = [
 			</p>
 			<p class="section-kicker">The ledger lines for the same pass</p>
 			<div class="code-block">{LedgerExcerpt.join("\n")}</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				Here the policy's chain deps plus rejects became one <code>--exclude</code> flag per
-				crate; <code>serde</code> and <code>tokio</code> are protected from the CLI bump -
-				tokio by the chain, serde by the normalization pass already writing its full form.
-				Read the file back to see the governed state; write it again immediately and nothing
-				complains - no <code>FS_STALE_VERSION</code>. Write inside
-				<code>node_modules</code>/<code>.git</code>/<code>.dsh</code> and the ledger gains
-				<code>skipped (excluded) ...</code> while the file stays untouched. Remove
-				cargo-edit and the pass fails gracefully:{" "}
-				<code>update: cargo-edit unavailable: ...</code>, the manifest untouched, the
-				breaker counting the failure.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="govcargo-in-action-exclude"
+					Title="The exclude protection, the re-write, and the graceful failure"
+					Diagram="The policy's chain deps plus rejects becoming one --exclude flag per crate - serde and tokio protected from the CLI bump (tokio by the chain, serde by the normalization pass already writing its full form) - reading the file back to see the governed state, writing again immediately with nothing complaining (no FS_STALE_VERSION) - writing inside node_modules/.git/.dsh and the ledger gaining skipped (excluded) ... while the file stays untouched - removing cargo-edit and the pass failing gracefully: update: cargo-edit unavailable: ..., the manifest untouched, the breaker counting the failure."
+				>
+					<p>
+						Here the policy's chain deps plus rejects became one <code>--exclude</code>{" "}
+						flag per crate; <code>serde</code> and <code>tokio</code> are protected from
+						the CLI bump - tokio by the chain, serde by the normalization pass already
+						writing its full form.
+					</p>
+					<p>
+						Read the file back to see the governed state; write it again immediately and
+						nothing complains - no <code>FS_STALE_VERSION</code>. Write inside{" "}
+						<code>node_modules</code>/<code>.git</code>/<code>.dsh</code> and the ledger
+						gains <code>skipped (excluded) ...</code> while the file stays untouched.
+						Remove cargo-edit and the pass fails gracefully:{" "}
+						<code>update: cargo-edit unavailable: ...</code>, the manifest untouched, the
+						breaker counting the failure.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
 			<SectionHeader Title="The Ledger" Meta="ONE GLOBAL LOG" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				One global log (<code>logFile</code>, default
-				<code>~/.dsh/hook-dsh-governor-cargo.log</code> - SEPARATE from the npm ledgers)
-				records activation, exclusions, chain-pass results, refusals, and every update-stage
-				dispatch. The strings this module composes (the
-				<code>hook-dsh-governor-cargo:</code> logger prefix is the factory's Append; each
-				line is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file):
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="govcargo-ledger-log"
+					Title="One global log, SEPARATE from the npm ledgers"
+					Diagram="One global log (logFile, default ~/.dsh/hook-dsh-governor-cargo.log - SEPARATE from the npm ledgers) recording activation, exclusions, chain-pass results, refusals, and every update-stage dispatch - the activation line written by apply() so &quot;did it activate&quot; is answerable from the ledger alone."
+				>
+					<p>
+						One global log (<code>logFile</code>, default{" "}
+						<code>~/.dsh/hook-dsh-governor-cargo.log</code> - SEPARATE from the npm
+						ledgers) records activation, exclusions, chain-pass results, refusals, and
+						every update-stage dispatch.
+					</p>
+					<p>
+						The activation line is written by <code>apply()</code> - "did it activate"
+						must be answerable from the ledger alone.
+					</p>
+				</Concept>
+				<Concept
+					Id="govcargo-ledger-em-dashes"
+					Title="The em dashes are part of the literal strings"
+					Diagram="The registry-miss line ending with an em dash followed by chain pass skipped, the DONE line update: DONE + em dash + reason - byte-exact forms in the In Action excerpt, the em dashes living only in the example block."
+				>
+					<p>
+						The registry-miss line ends with an em dash followed by{" "}
+						<code>chain pass skipped</code>; the DONE line is <code>update: DONE</code>{" "}
+						+ em dash + reason - byte-exact forms are in the In Action excerpt above.
+					</p>
+					<p>
+						Those em dashes are part of the literal ledger strings, so they live only in
+						the example block.
+					</p>
+				</Concept>
+			</div>
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The registry-miss line ends with an em dash followed by
-				<code>chain pass skipped</code>; the DONE line is <code>update: DONE</code> + em
-				dash + reason - byte-exact forms are in the In Action excerpt above. Those em dashes
-				are part of the literal ledger strings, so they live only in the example block. The
-				activation line is written by <code>apply()</code> - "did it activate" must be
-				answerable from the ledger alone.
-			</p>
 		</section>
 
 		<section class="section">

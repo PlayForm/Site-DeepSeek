@@ -2,6 +2,7 @@
 import Base from "@Layout/Base.astro";
 import Badge from "@Component/Badge.astro";
 import Card from "@Component/Card.astro";
+import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 
@@ -120,11 +121,21 @@ const Invariants = [
 		<!-- The smoke baseline -->
 		<section class="section">
 			<SectionHeader Title="The smoke baseline" Meta="12 SUITES · 733 CHECKS CLASSIC · 746 EFFECT-TS · ALL PASS" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				Every suite loads the REAL built Target of its bundle and asserts the ledger strings
-				byte-identically - the smokes are the arbiter after every change, and the Effect-TS
-				tree proves parity with these numbers before any swap-in.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="versions-arbiter"
+					Title="The smokes are the arbiter"
+					Diagram="The twelve smoke suites loading the REAL built Target of their own bundle and asserting the ledger strings byte-identically - and the Effect-TS tree proving parity with these numbers before any swap-in."
+				>
+					<p>
+						Every suite loads the REAL built Target of its bundle and asserts the ledger
+						strings byte-identically - the smokes are the arbiter after every change.
+					</p>
+					<p>
+						The Effect-TS tree proves parity with these numbers before any swap-in.
+					</p>
+				</Concept>
+			</div>
 			<div class="grid grid--3">
 				<Card
 					Variant="white"
@@ -169,11 +180,19 @@ const Invariants = [
 					<Badge slot="badge">7 SUITES</Badge>
 				</Card>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The honest caveat, learned live: the smokes prove the mechanics; the live battery
-				proves the wiring - the real defects (the patch-layer shadowing, the P5 v2 open, the
-				version-guard race) were found live, not by the smokes.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="versions-caveat"
+					Title="The honest caveat, learned live"
+					Diagram="The split of proof: the smokes proving the mechanics, the live battery proving the wiring - with the three real defects marked where they were actually found."
+				>
+					<p>
+						The smokes prove the mechanics; the live battery proves the wiring. The real
+						defects - the patch-layer shadowing, the P5 v2 open, the version-guard race -
+						were found live, not by the smokes.
+					</p>
+				</Concept>
+			</div>
 		</section>
 	</main>
 </Base>

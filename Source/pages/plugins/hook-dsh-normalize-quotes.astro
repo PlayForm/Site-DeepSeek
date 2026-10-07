@@ -1,7 +1,9 @@
 ---
 import Base from "@Layout/Base.astro";
+import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import Card from "@Component/Card.astro";
+import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
@@ -217,12 +219,21 @@ const LedgerStrings = [
 				Title="Where It Fits"
 				Meta="FAMILY POSITION: 2ND OF 6 STREAM NORMALIZERS"
 			/>
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>Family position</strong> (the @-sentence{" "}
-				<strong>Hook @ DSH @ Normalize @ Quotes</strong>): a hook child of the{" "}
-				<strong>plugin-dsh-factory</strong> service and the <strong>hook-dsh-core</strong>{" "}
-				machinery; the second of the six stream normalizer siblings:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="quotes-family-position"
+					Title="The family position"
+					Diagram="Hook @ DSH @ Normalize @ Quotes as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the second of the six stream normalizer siblings."
+				>
+					<p>
+						<strong>Family position</strong> (the @-sentence{" "}
+						<strong>Hook @ DSH @ Normalize @ Quotes</strong>): a hook child of the{" "}
+						<strong>plugin-dsh-factory</strong> service and the{" "}
+						<strong>hook-dsh-core</strong> machinery; the second of the six stream
+						normalizer siblings.
+					</p>
+				</Concept>
+			</div>
 			<div class="table-wrap">
 				<table class="table">
 					<thead>
@@ -239,22 +250,39 @@ const LedgerStrings = [
 									<strong>{Row.Flavor}</strong>
 								</td>
 								<td>{Row.Table}</td>
-								<td>{Row.Sub}</td>
+								<td>
+									{Row.Sub.split("→").map((Part, Index) => (
+										<Fragment>
+											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+											{Part}
+										</Fragment>
+									))}
+								</td>
 							</tr>
 						))}
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				A <strong>non-manifest factory consumer</strong>: it injects
-				<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap +
-				shared Ledger/Enabled mappings + its own fields) and <code>Append</code>; the config
-				is composed by the factory's standalone <code>Schema</code> helper with
-				<code>shared: false</code> - the minimal block, no fs/observed dead fields. It
-				touches no files, so fs/write-intent and fs/observed never see it; it wraps the
-				downstream result and always calls <code>next()</code>, so it composes with other
-				llm/stream listeners regardless of registration order.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="quotes-non-manifest"
+					Title="A non-manifest factory consumer"
+					Diagram="The flavor's factory surface: injecting [&quot;pluginFactory&quot;], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."
+				>
+					<p>
+						A <strong>non-manifest factory consumer</strong>: it injects{" "}
+						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap +
+						shared Ledger/Enabled mappings + its own fields) and <code>Append</code>; the
+						config is composed by the factory's standalone <code>Schema</code> helper with
+						<code>shared: false</code> - the minimal block, no fs/observed dead fields.
+					</p>
+					<p>
+						It touches no files, so fs/write-intent and fs/observed never see it; it
+						wraps the downstream result and always calls <code>next()</code>, so it
+						composes with other llm/stream listeners regardless of registration order.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
@@ -296,24 +324,42 @@ const LedgerStrings = [
 
 		<section class="section">
 			<SectionHeader Title="The Problem" Meta="WHY THE QUOTES FLAVOR EXISTS" />
-			<p class="page-hero__sub">
-				Smart-quote processors and code editors emit typographic quotes; every parser, shell
-				and diff understands the straight ASCII ones. Left in model output, a curly quote is
-				a silent correctness hazard - in code blocks, commands and file paths it is simply
-				the wrong character. This flavor makes the straight form the one that reaches the
-				transcript.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="quotes-problem"
+					Title="A curly quote is simply the wrong character"
+					Diagram="Smart-quote processors and code editors emitting typographic quotes - every parser, shell and diff understanding the straight ASCII ones - a curly quote in code blocks, commands and file paths being simply the wrong character."
+				>
+					<p>
+						Smart-quote processors and code editors emit typographic quotes; every
+						parser, shell and diff understands the straight ASCII ones.
+					</p>
+					<p>
+						Left in model output, a curly quote is a silent correctness hazard - in code
+						blocks, commands and file paths it is simply the wrong character. This flavor
+						makes the straight form the one that reaches the transcript.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
 			<SectionHeader Title="How It Works" Meta="THE STREAM PIPELINE" />
 			<div class="code-block">{Pipeline.join("\n")}</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				<strong>The transform</strong> - exactly the core's <code>Quotes</code> map
-				(@playform/hook-dsh-core's Normalize/Quotes), applied per text segment through the
-				core's <code>ReplaceMap</code> - eight entries, each typographic quote code point to
-				its ASCII straight counterpart:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="quotes-transform"
+					Title="The transform: the core's Quotes map"
+					Diagram="Exactly the core's Quotes map (@playform/hook-dsh-core's Normalize/Quotes), applied per text segment through the core's ReplaceMap - eight entries, each typographic quote code point to its ASCII straight counterpart."
+				>
+					<p>
+						<strong>The transform</strong> - exactly the core's <code>Quotes</code> map
+						(@playform/hook-dsh-core's Normalize/Quotes), applied per text segment
+						through the core's <code>ReplaceMap</code> - eight entries, each typographic
+						quote code point to its ASCII straight counterpart:
+					</p>
+				</Concept>
+			</div>
 			<div class="table-wrap" style="margin-top: var(--space-sm)">
 				<table class="table">
 					<thead>
@@ -338,13 +384,24 @@ const LedgerStrings = [
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				No context rules - one character in, its straight counterpart out.
-				Chunk-boundary-safe: single-character substitution, no lookahead - per-chunk
-				application can never disagree with whole-text application. The mapping values are
-				returned through a function replacer, so they are inserted literally (no $-pattern
-				interpretation). Replaced characters are counted per stream for the ledger line.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="quotes-mechanics"
+					Title="Chunk-boundary-safe, function-replaced, counted"
+					Diagram="No context rules - one character in, its straight counterpart out; chunk-boundary-safe: single-character substitution, no lookahead - per-chunk application never disagreeing with whole-text application; the mapping values returned through a function replacer so they are inserted literally (no $-pattern interpretation); replaced characters counted per stream for the ledger line."
+				>
+					<p>
+						No context rules - one character in, its straight counterpart out.
+						Chunk-boundary-safe: single-character substitution, no lookahead - per-chunk
+						application can never disagree with whole-text application.
+					</p>
+					<p>
+						The mapping values are returned through a function replacer, so they are
+						inserted literally (no $-pattern interpretation). Replaced characters are
+						counted per stream for the ledger line.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
@@ -375,14 +432,21 @@ const LedgerStrings = [
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				There is{" "}
-				<strong>
-					no <code>replacement</code> field
-				</strong>{" "}
-				(MAP flavor). Volatile cells commit without remounting the plugin; the factory's
-				State builder unwraps them defensively. Example cordis.patch.yml row:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="quotes-no-replacement"
+					Title="There is no replacement field (MAP flavor)"
+					Diagram="The MAP flavor carrying no replacement field - volatile cells committing without remounting the plugin, the factory's State builder unwrapping them defensively."
+				>
+					<p>
+						There is <strong>no <code>replacement</code> field</strong> (MAP flavor).
+					</p>
+					<p>
+						Volatile cells commit without remounting the plugin; the factory's State
+						builder unwraps them defensively. Example cordis.patch.yml row:
+					</p>
+				</Concept>
+			</div>
 			<div class="code-block" style="margin-top: var(--space-sm)">
 				{[
 					"- insert:",
@@ -403,21 +467,44 @@ const LedgerStrings = [
 				the transcript receive the straight ASCII forms:
 			</p>
 			<p class="section-kicker">
-				Before → after - the model stream, then what reaches the transcript
+				Before <ArrowIcon Direction="right" Tone="accent" /> after - the model stream, then
+				what reaches the transcript
 			</p>
 			<div class="code-block">{StreamExample.join("\n")}</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				Every typographic quote in the incoming text - the four single forms and the four
-				double forms - becomes its ASCII counterpart; straight quotes that were already
-				there are untouched (the count only counts replacements). In code blocks, commands
-				and file paths this is the difference between a command that runs and one that fails
-				for no visible reason. When a stream finishes normally with replacements made, the
-				ledger gets the count line shown below. The same pass runs over reasoning deltas
-				when <code>normalizeReasoning</code> is on, and over tool-call arguments when the
-				example patch enables <code>normalizeToolArguments</code> - with the{" "}
-				<code>edit</code>
-				name exempt and the raw-marker calls passing through unnormalized.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="quotes-in-action"
+					Title="Every typographic quote becomes its ASCII counterpart"
+					Diagram="Every typographic quote in the incoming text - the four single forms and the four double forms - becoming its ASCII counterpart, straight quotes already there untouched (the count only counting replacements) - the difference between a command that runs and one that fails for no visible reason."
+				>
+					<p>
+						Every typographic quote in the incoming text - the four single forms and the
+						four double forms - becomes its ASCII counterpart; straight quotes that were
+						already there are untouched (the count only counts replacements).
+					</p>
+					<p>
+						In code blocks, commands and file paths this is the difference between a
+						command that runs and one that fails for no visible reason.
+					</p>
+				</Concept>
+				<Concept
+					Id="quotes-pass-coverage"
+					Title="The same pass runs over reasoning and tool-call arguments"
+					Diagram="The count line on a normal completion with replacements made - and the same pass running over reasoning deltas when normalizeReasoning is on, and over tool-call arguments when the example patch enables normalizeToolArguments - with the edit name exempt and raw-marker calls passing through unnormalized."
+				>
+					<p>
+						When a stream finishes normally with replacements made, the ledger gets the
+						count line shown below.
+					</p>
+					<p>
+						The same pass runs over reasoning deltas when{" "}
+						<code>normalizeReasoning</code> is on, and over tool-call arguments when the
+						example patch enables <code>normalizeToolArguments</code> - with the{" "}
+						<code>edit</code> name exempt and the raw-marker calls passing through
+						unnormalized.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">

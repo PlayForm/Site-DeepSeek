@@ -1,5 +1,6 @@
 ---
 import Base from "@Layout/Base.astro";
+import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import Card from "@Component/Card.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -163,30 +164,226 @@ const Related = [
 		</p>
 		<section class="section">
 			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: A GOVERNANCE HOOK" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>Family position</strong> (the @-sentence{" "}
-				<strong>Hook @ DSH @ Pinner @ Package</strong>): a hook child of the{" "}
-				<strong>plugin-dsh-factory</strong> service and the <strong>hook-dsh-core</strong>{" "}
-				helpers; a sibling of the package governor on the same <code>fs/observed</code>{" "}
-				seam. Composition semantics: <strong>pin → bump-exact</strong> (the pinner pins{" "}
-				<code>^0.3.4</code> → <code>0.3.4</code>; a fully pinned manifest then leaves the
-				governor's update stage nothing to do, while its chain pass may still
-				re-canonicalize chain pins), <strong>keep-list wins</strong>
-				(the pinner's pin-policy.json keeps ranges as authored). The ledgers are separate
-				(pinner.log vs governor.log); activating one never implies another.
-			</p>
-			<p class="page-hero__sub">
-				Machinery-wise it is a <strong>factory flavor</strong>:
-				<code>inject: ["fs", "pluginFactory"]</code> - the gate, the discovery, the union
-				keep-list, the guarded write, the refresh, the continuation, the effects and the
-				schema come from plugin-dsh-factory; the refusal guard and the suppression composer
-				come from hook-dsh-core. This bundle keeps its own logic: the range law, the decode,
-				and every ledger string. Besides the fs/observed event path, its chain pass is
-				registered with the factory's direct-govern registry at apply
-				(Factory.RegisterGovern("package.json", "pin", ...)), so the raw-write tool's
-				per-call govern selection can drive the same pin pass directly through
-				Factory.Govern.
-			</p>
+
+			<div class="concept-list">
+				<section class="concept-block" aria-labelledby="pinner-family-position">
+					<div
+						class="diagram-placeholder"
+						data-diagram="family-position"
+					>
+						<p class="section-kicker">Diagram placeholder - Family position</p>
+						<p>
+							Show the pinner's relationship to plugin-dsh-factory,
+							hook-dsh-core, and the sibling package governor.
+							Label the shared fs/observed seam.
+						</p>
+					</div>
+
+					<h3 id="pinner-family-position" class="concept-block__title">
+						Family position
+					</h3>
+
+					<p class="page-hero__sub">
+						<strong>Hook @ DSH @ Pinner @ Package</strong> is a hook child
+						of the <code>plugin-dsh-factory</code> service and the
+						<code>hook-dsh-core</code> helpers. It is a sibling of the
+						package governor on the same <code>fs/observed</code> seam.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-composition">
+					<div
+						class="diagram-placeholder"
+						data-diagram="pin-then-bump-exact"
+					>
+						<p class="section-kicker">Diagram placeholder - Composition</p>
+						<p>
+							Show ^0.3.4 -> pinner -> 0.3.4 -> governor update stage:
+							nothing to do. Show the governor's chain pass separately,
+							noting that it may still re-canonicalize chain pins.
+						</p>
+					</div>
+
+					<h3 id="pinner-composition" class="concept-block__title">
+						Pin <ArrowIcon Direction="right" Tone="accent" /> bump-exact
+					</h3>
+
+					<p class="page-hero__sub">
+						The pinner turns <code>^0.3.4</code> into <code>0.3.4</code>.
+						A fully pinned manifest leaves the governor's update stage
+						nothing to do. Its chain pass may still re-canonicalize
+						chain pins.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-keep-list">
+					<div
+						class="diagram-placeholder"
+						data-diagram="keep-list-precedence"
+					>
+						<p class="section-kicker">Diagram placeholder - Policy precedence</p>
+						<p>
+							Show a keep-listed dependency bypassing prefix removal
+							and retaining its authored range.
+						</p>
+					</div>
+
+					<h3 id="pinner-keep-list" class="concept-block__title">
+						Keep-list wins
+					</h3>
+
+					<p class="page-hero__sub">
+						The pinner's <code>pin-policy.json</code> keep-list protects
+						selected dependencies. Their ranges remain exactly as authored.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-ledger-independence">
+					<div
+						class="diagram-placeholder"
+						data-diagram="independent-ledgers"
+					>
+						<p class="section-kicker">Diagram placeholder - Independent ledgers</p>
+						<p>
+							Show pinner -> pinner.log and governor -> governor.log
+							as separate paths. Mark activation as independent.
+						</p>
+					</div>
+
+					<h3 id="pinner-ledger-independence" class="concept-block__title">
+						Separate ledgers and activation
+					</h3>
+
+					<p class="page-hero__sub">
+						The pinner and governor use separate ledgers:
+						<code>pinner.log</code> and <code>governor.log</code>.
+						Activating either plugin never implies activation of the other.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-injection">
+					<div
+						class="diagram-placeholder"
+						data-diagram="injected-services"
+					>
+						<p class="section-kicker">Diagram placeholder - Injected services</p>
+						<p>
+							Show fs and pluginFactory as the pinner's two injected
+							services.
+						</p>
+					</div>
+
+					<h3 id="pinner-injection" class="concept-block__title">
+						A factory flavor
+					</h3>
+
+					<p class="page-hero__sub">
+						The pinner declares
+						<code>inject: ["fs", "pluginFactory"]</code>.
+						It composes shared machinery with its own pinning logic.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-factory-machinery">
+					<div
+						class="diagram-placeholder"
+						data-diagram="factory-responsibilities"
+					>
+						<p class="section-kicker">Diagram placeholder - Factory machinery</p>
+						<p>
+							Group the factory-provided responsibilities:
+							gate, discovery, union keep-list, guarded write,
+							refresh, continuation, effects, and schema.
+						</p>
+					</div>
+
+					<h3 id="pinner-factory-machinery" class="concept-block__title">
+						Machinery supplied by the factory
+					</h3>
+
+					<p class="page-hero__sub">
+						<code>plugin-dsh-factory</code> supplies the gate, discovery,
+						union keep-list, guarded write, refresh, continuation,
+						effects, and schema.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-core-helpers">
+					<div
+						class="diagram-placeholder"
+						data-diagram="core-helpers"
+					>
+						<p class="section-kicker">Diagram placeholder - Core helpers</p>
+						<p>
+							Show hook-dsh-core supplying the refusal guard and
+							suppression composer to the pinner.
+						</p>
+					</div>
+
+					<h3 id="pinner-core-helpers" class="concept-block__title">
+						Helpers supplied by core
+					</h3>
+
+					<p class="page-hero__sub">
+						<code>hook-dsh-core</code> supplies the refusal guard and
+						the suppression composer.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-owned-logic">
+					<div
+						class="diagram-placeholder"
+						data-diagram="pinner-owned-logic"
+					>
+						<p class="section-kicker">Diagram placeholder - Local ownership</p>
+						<p>
+							Show the pinner-owned boundary containing the range law,
+							decode logic, and ledger strings.
+						</p>
+					</div>
+
+					<h3 id="pinner-owned-logic" class="concept-block__title">
+						Logic owned by this bundle
+					</h3>
+
+					<p class="page-hero__sub">
+						This bundle owns the range law, decode logic, and every
+						ledger string.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-direct-govern">
+					<div
+						class="diagram-placeholder"
+						data-diagram="direct-govern-entry"
+					>
+						<p class="section-kicker">Diagram placeholder - Direct governance</p>
+						<p>
+							Show apply-time registration with Factory.RegisterGovern.
+							Then show the raw-write tool's per-call govern selection
+							reaching the same pin pass through Factory.Govern,
+							alongside the fs/observed event path.
+						</p>
+					</div>
+
+					<h3 id="pinner-direct-govern" class="concept-block__title">
+						A direct governance entry point
+					</h3>
+
+					<p class="page-hero__sub">
+						Besides the <code>fs/observed</code> event path, the chain
+						pass registers with the factory's direct-govern registry
+						during <code>apply()</code>:
+						<code>Factory.RegisterGovern("package.json", "pin", ...)</code>.
+					</p>
+
+					<p class="page-hero__sub">
+						The raw-write tool's per-call govern selection can drive
+						the same pin pass directly through
+						<code>Factory.Govern</code>.
+					</p>
+				</section>
+			</div>
 		</section>
 
 		<section class="section">
@@ -264,25 +461,134 @@ const Related = [
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				<strong>Idempotent:</strong> an already-static version has no leading prefix, so
-				rule 2 passes it through - pinning a pinned file is a no-op rewrite;{" "}
-				<code>P(P(c)) = P(c)</code>. <strong>Keep-list policy:</strong> a pin-policy.json (
-				<code>{'{"keep": ["tailwindcss"]}'}</code>) protects packages whose ranges must stay
-				EXACTLY as the author wrote them; the effective keep-list is the union of every
-				readable discovered policy, and the P3 chain-keys interlock means the governor's{" "}
-				<code>^resolved</code> chain pins are never stripped. A file that exists but does
-				not parse is logged and contributes nothing.
-				<strong>Documented edge decision:</strong> <code>"^1.*"</code> IS stripped to
-				<code>"1.*"</code> - the law strips the notation (the prefix) and leaves the content
-				untouched; protect wildcards with the keep-list if you need them preserved.
-				<strong>Refusal guard:</strong> non-dependency sections (name, version, description,
-				scripts, ...) are NEVER touched - if the pinner's own logic would ever change one,
-				the rewrite is REFUSED and logged instead of applied.
-				<strong>Version coherence:</strong> the rewrite carries replaceIfVersion at the
-				observed version; a racing author write makes it fail safely (no clobber), and the
-				re-emit re-enters this listener where the Stash token gate makes it a no-op.
-			</p>
+			<div class="concept-list">
+				<section class="concept-block" aria-labelledby="pinner-idempotence">
+					<div
+						class="diagram-placeholder"
+						data-diagram="idempotence"
+					>
+						<p class="section-kicker">Diagram placeholder - Idempotence</p>
+						<p>
+							Show a second write of an already-pinned package.json
+							passing the range law untouched - the no-op rewrite
+							P(P(c)) = P(c).
+						</p>
+					</div>
+
+					<h3 id="pinner-idempotence" class="concept-block__title">
+						Idempotence
+					</h3>
+
+					<p class="page-hero__sub">
+						An already-static version has no leading prefix, so rule 2
+						passes it through - pinning a pinned file is a no-op
+						rewrite: <code>P(P(c)) = P(c)</code>.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-keep-list-policy">
+					<div
+						class="diagram-placeholder"
+						data-diagram="keep-list-policy"
+					>
+						<p class="section-kicker">Diagram placeholder - Keep-list policy</p>
+						<p>
+							Show pin-policy.json protecting a selected dependency
+							from prefix removal, the union of every readable
+							discovered policy, and the P3 chain-keys interlock
+							keeping the governor's ^resolved chain pins unstripped.
+						</p>
+					</div>
+
+					<h3 id="pinner-keep-list-policy" class="concept-block__title">
+						Keep-list policy
+					</h3>
+
+					<p class="page-hero__sub">
+						A <code>pin-policy.json</code> (
+						<code>{'{"keep": ["tailwindcss"]}'}</code>) protects packages whose ranges
+						must stay EXACTLY as the author wrote them. The effective keep-list is the
+						union of every readable discovered policy, and the P3 chain-keys interlock
+						means the governor's <code>^resolved</code> chain pins are never stripped. A
+						file that exists but does not parse is logged and contributes nothing.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-wildcard-behavior">
+					<div
+						class="diagram-placeholder"
+						data-diagram="wildcard-behavior"
+					>
+						<p class="section-kicker">Diagram placeholder - Wildcard behavior</p>
+						<p>
+							Show "^1.*" stripped to "1.*" - the law strips only
+							the one leading notation and leaves the content
+							untouched.
+						</p>
+					</div>
+
+					<h3 id="pinner-wildcard-behavior" class="concept-block__title">
+						Wildcard behavior
+					</h3>
+
+					<p class="page-hero__sub">
+						Documented edge decision: <code>"^1.*"</code> IS stripped to
+						<code>"1.*"</code> - the law strips the notation (the prefix) and leaves
+						the content untouched; protect wildcards with the keep-list if you need them
+						preserved.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-refusal-guard">
+					<div
+						class="diagram-placeholder"
+						data-diagram="refusal-guard"
+					>
+						<p class="section-kicker">Diagram placeholder - Refusal guard</p>
+						<p>
+							Show a non-dependency section change being REFUSED and
+							logged instead of applied.
+						</p>
+					</div>
+
+					<h3 id="pinner-refusal-guard" class="concept-block__title">
+						Refusal guard
+					</h3>
+
+					<p class="page-hero__sub">
+						Non-dependency sections (<code>name</code>, <code>version</code>,
+						<code>description</code>, <code>scripts</code>, ...) are NEVER touched - if
+						the pinner's own logic would ever change one, the rewrite is REFUSED and
+						logged instead of applied.
+					</p>
+				</section>
+
+				<section class="concept-block" aria-labelledby="pinner-version-coherence">
+					<div
+						class="diagram-placeholder"
+						data-diagram="version-coherence"
+					>
+						<p class="section-kicker">Diagram placeholder - Version coherence</p>
+						<p>
+							Show the guarded write carrying replaceIfVersion at
+							the observed version - a racing author write fails
+							safely (no clobber), and the re-emit re-enters this
+							listener as a Stash-gated no-op.
+						</p>
+					</div>
+
+					<h3 id="pinner-version-coherence" class="concept-block__title">
+						Version coherence
+					</h3>
+
+					<p class="page-hero__sub">
+						The rewrite carries <code>replaceIfVersion</code> at the
+						observed version; a racing author write makes it fail
+						safely (no clobber), and the re-emit re-enters this
+						listener where the Stash token gate makes it a no-op.
+					</p>
+				</section>
+			</div>
 		</section>
 
 		<section class="section">
@@ -379,3 +685,38 @@ const Related = [
 		</section>
 	</main>
 </Base>
+
+<style>
+	.concept-list {
+		display: grid;
+		gap: var(--space-xl, 3rem);
+		margin-top: var(--space-md);
+	}
+
+	.concept-block {
+		display: grid;
+		gap: var(--space-sm);
+		min-width: 0;
+	}
+
+	.concept-block__title {
+		margin: 0;
+	}
+
+	.concept-block > .page-hero__sub {
+		margin: 0;
+	}
+
+	.diagram-placeholder {
+		display: grid;
+		gap: var(--space-sm);
+		padding: var(--space-md);
+		margin-bottom: var(--space-sm);
+		border: 1px dashed currentColor;
+		border-radius: var(--radius-md, 0.75rem);
+	}
+
+	.diagram-placeholder > p {
+		margin: 0;
+	}
+</style>

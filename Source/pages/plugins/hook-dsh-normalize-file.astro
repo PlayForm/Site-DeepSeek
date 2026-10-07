@@ -1,7 +1,9 @@
 ---
 import Base from "@Layout/Base.astro";
+import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import Card from "@Component/Card.astro";
+import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
@@ -169,8 +171,10 @@ const Usage = [
 			<p class="page-hero__sub">
 				Hook @ DSH @ Normalize @ File • _The DeepSeek Harness Plugin Family for PlayForm._
 				The <strong>file-content normalizer</strong> - a DeepSeek Harness plugin that
-				registers the normalize family's <code>normalize-file</code> TOOL: the read → count
-				→ write pipeline over files ALREADY on disk, beyond the tool layer. One agent-chosen
+				registers the normalize family's <code>normalize-file</code> TOOL: the read{" "}
+				<ArrowIcon Direction="right" Tone="accent" /> count{" "}
+				<ArrowIcon Direction="right" Tone="accent" /> write pipeline over files ALREADY on
+				disk, beyond the tool layer. One agent-chosen
 				file per call: the target's content is read, the family's SIX transforms are applied
 				with a per-character count, and only when N &gt; 0 is the rewritten content written
 				back through the factory's ONE shared write executor. N = 0 writes NOTHING - the
@@ -214,13 +218,21 @@ const Usage = [
 				Title="Where It Fits"
 				Meta="FAMILY POSITION: 7TH SIBLING - FILES ON DISK"
 			/>
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>Family position</strong> (the @-sentence{" "}
-				<strong>Hook @ DSH @ Normalize @ File</strong>): a tool-child of the{" "}
-				<strong>plugin-dsh-factory</strong> service and the <strong>hook-dsh-core</strong>{" "}
-				machinery; the seventh sibling - the one flavor that works on files already on disk
-				instead of model output:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="file-family-position"
+					Title="The family position"
+					Diagram="Hook @ DSH @ Normalize @ File as a tool-child of the plugin-dsh-factory service and the hook-dsh-core machinery - the seventh sibling, the one flavor that works on files already on disk instead of model output."
+				>
+					<p>
+						<strong>Family position</strong> (the @-sentence{" "}
+						<strong>Hook @ DSH @ Normalize @ File</strong>): a tool-child of the{" "}
+						<strong>plugin-dsh-factory</strong> service and the{" "}
+						<strong>hook-dsh-core</strong> machinery; the seventh sibling - the one
+						flavor that works on files already on disk instead of model output.
+					</p>
+				</Concept>
+			</div>
 			<div class="table-wrap">
 				<table class="table">
 					<thead>
@@ -237,34 +249,72 @@ const Usage = [
 									<strong>{Row.Flavor}</strong>
 								</td>
 								<td>{Row.Layer}</td>
-								<td>{Row.Mechanism}</td>
+								<td>
+									{Row.Mechanism.split("→").map((Part, Index) => (
+										<Fragment>
+											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+											{Part}
+										</Fragment>
+									))}
+								</td>
 							</tr>
 						))}
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The six stream flavors cover only what the model is emitting right now; the
-				raw-write tool's <code>normalize: true</code> covers only content being written.
-				This flavor covers the gap in between: pre-existing files, git-cloned material,
-				script-created files - anything already on disk that the agent did not just write.
-				The hermes heritage is direct: the
-				<code>normalize-dashes-for-execute-code.sh</code> hook swept
-				script-created files after the fact; DSH makes the same rewrite an explicit,
-				visible, opt-in TOOL call instead of a background hook (and
-				<code>normalize-tabs.sh</code> - the repair hook for a repair hook - is the
-				cautionary tale that keeps it that way).
-			</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				A <strong>non-manifest factory consumer</strong>: it injects
-				<code>["pluginFactory", "fs", "tools"]</code> and uses <code>State</code> (cell
-				unwrap + shared Ledger/Enabled mappings + its own field), <code>Append</code> (the
-				ledger), <code>Journal</code> (the P5 storage record) and - uniquely in the family -
-				<code>Write</code>, the ONE shared write executor. The tool's writes carry the
-				call's exec as the actor, so the governance trio's Gate (which pins mutationTools to
-				write/edit/str_replace_editor) never treats them as a trigger - the same protection
-				raw-write already has.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="file-gap"
+					Title="The gap in between"
+					Diagram="The six stream flavors covering only what the model is emitting right now, the raw-write tool's normalize: true covering only content being written - and this flavor covering the gap in between: pre-existing files, git-cloned material, script-created files - anything already on disk that the agent did not just write."
+				>
+					<p>
+						The six stream flavors cover only what the model is emitting right now; the
+						raw-write tool's <code>normalize: true</code> covers only content being
+						written.
+					</p>
+					<p>
+						This flavor covers the gap in between: pre-existing files, git-cloned
+						material, script-created files - anything already on disk that the agent did
+						not just write.
+					</p>
+				</Concept>
+				<Concept
+					Id="file-hermes"
+					Title="The hermes heritage is direct"
+					Diagram="The normalize-dashes-for-execute-code.sh hook sweeping script-created files after the fact - DSH making the same rewrite an explicit, visible, opt-in TOOL call instead of a background hook, with normalize-tabs.sh (the repair hook for a repair hook) as the cautionary tale that keeps it that way."
+				>
+					<p>
+						The hermes heritage is direct: the{" "}
+						<code>normalize-dashes-for-execute-code.sh</code> hook swept script-created
+						files after the fact; DSH makes the same rewrite an explicit, visible, opt-in
+						TOOL call instead of a background hook.
+					</p>
+					<p>
+						<code>normalize-tabs.sh</code> - the repair hook for a repair hook - is the
+						cautionary tale that keeps it that way.
+					</p>
+				</Concept>
+				<Concept
+					Id="file-non-manifest"
+					Title="A non-manifest factory consumer - the only one that writes"
+					Diagram="The tool's factory surface: injecting [&quot;pluginFactory&quot;, &quot;fs&quot;, &quot;tools&quot;], using State, Append (the ledger), Journal (the P5 storage record) and - uniquely in the family - Write, the ONE shared write executor - with the tool's writes carrying the call's exec as the actor, so the governance trio's Gate (which pins mutationTools to write/edit/str_replace_editor) never treats them as a trigger."
+				>
+					<p>
+						A <strong>non-manifest factory consumer</strong>: it injects{" "}
+						<code>["pluginFactory", "fs", "tools"]</code> and uses <code>State</code>{" "}
+						(cell unwrap + shared Ledger/Enabled mappings + its own field),{" "}
+						<code>Append</code> (the ledger), <code>Journal</code> (the P5 storage
+						record) and - uniquely in the family - <code>Write</code>, the ONE shared
+						write executor.
+					</p>
+					<p>
+						The tool's writes carry the call's exec as the actor, so the governance
+						trio's Gate (which pins mutationTools to write/edit/str_replace_editor)
+						never treats them as a trigger - the same protection raw-write already has.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
@@ -305,48 +355,108 @@ const Usage = [
 
 		<section class="section">
 			<SectionHeader Title="The Problem" Meta="WHY THE FILE TOOL EXISTS" />
-			<p class="page-hero__sub">
-				Files that never passed through a write tool are invisible to every normalization
-				layer DSH has: <code>raw-write</code>'s <code>normalize: true</code> is an explicit
-				per-call opt-in for NEW writes, and the six stream flavors only rewrite model output
-				- they never touch disk. Left unnormalized, a pre-existing file keeps every
-				typographic dash, curly quote, ellipsis, unicode space, zero-width character and
-				full-width character it was born with - exactly the characters that break parsers,
-				shells, diffs and byte-exact edit matches downstream.
-			</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
-				But the fix cannot be another silent rewriter. Files are rewritten behind the agent
-				only at the price of the edit tool's <code>old_string</code> contract: the agent
-				read bytes X, a background rewriter silently changed them to X', and the next edit
-				fails or half-matches. Hermes learned this the hard way - its
-				<code>normalize-tabs.sh</code> exists to repair the damage its own after-the-fact
-				rewriting caused. The tool is the answer: explicit, visible, discoverable, zero
-				background activity.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="file-problem-invisible"
+					Title="Files that never passed through a write tool are invisible"
+					Diagram="Files that never passed through a write tool being invisible to every normalization layer DSH has - raw-write's normalize: true an explicit per-call opt-in for NEW writes, the six stream flavors only rewriting model output, never touching disk - a pre-existing file keeping every typographic character it was born with, exactly the characters that break parsers, shells, diffs and byte-exact edit matches downstream."
+				>
+					<p>
+						Files that never passed through a write tool are invisible to every
+						normalization layer DSH has: <code>raw-write</code>'s{" "}
+						<code>normalize: true</code> is an explicit per-call opt-in for NEW writes,
+						and the six stream flavors only rewrite model output - they never touch disk.
+					</p>
+					<p>
+						Left unnormalized, a pre-existing file keeps every typographic dash, curly
+						quote, ellipsis, unicode space, zero-width character and full-width character
+						it was born with - exactly the characters that break parsers, shells, diffs
+						and byte-exact edit matches downstream.
+					</p>
+				</Concept>
+				<Concept
+					Id="file-problem-rewriter"
+					Title="The fix cannot be another silent rewriter"
+					Diagram="Files rewritten behind the agent only at the price of the edit tool's old_string contract - the agent reading bytes X, a background rewriter silently changing them to X', the next edit failing or half-matching - Hermes learning this the hard way with normalize-tabs.sh existing to repair the damage its own after-the-fact rewriting caused."
+				>
+					<p>
+						But the fix cannot be another silent rewriter. Files are rewritten behind the
+						agent only at the price of the edit tool's <code>old_string</code> contract:
+						the agent read bytes X, a background rewriter silently changed them to X',
+						and the next edit fails or half-matches.
+					</p>
+					<p>
+						Hermes learned this the hard way - its <code>normalize-tabs.sh</code> exists
+						to repair the damage its own after-the-fact rewriting caused. The tool is the
+						answer: explicit, visible, discoverable, zero background activity.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="How It Works" Meta="READ → COUNT → WRITE" />
+			<div class="section-header">
+				<div class="section-header__left">
+					<span class="section-header__marker"></span>
+					<h2 class="section-header__title">How It Works</h2>
+				</div>
+				<span class="section-header__meta">
+					READ <ArrowIcon Direction="right" Tone="accent" /> COUNT{" "}
+					<ArrowIcon Direction="right" Tone="accent" /> WRITE
+				</span>
+			</div>
 			<div class="code-block">{Pipeline.join("\n")}</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The transformation is exactly the raw-write <code>normalize: true</code> chain - the
-				core's tables and replacers, applied whole at write time. There is no stream
-				dispatch to gate: the tool registers NO event listener, so the six transforms are
-				applied to the entire file content in one pass, and the count is the ledger's N and
-				the no-op condition in one.
-			</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
-				<strong>The conflict map, honored by construction.</strong> Governance bounded
-				passes: the write goes through <code>Factory.Write</code> and emits
-				<code>fs/observed</code>, but the governors' Gate requires the actor tool name in
-				their mutationTools pin - <code>normalize-file</code> is never added to any such
-				list, so these writes never trigger a chain pass. Edit <code>old_string</code>
-				contract: safe because visible - the diff card shows the before/after in the same
-				turn, and the tool description says to re-read before editing. Raw-write
-				read-before-write: tool calls are serialized and <code>Factory.Write</code>'s before
-				is read at write time, so a prior normalize-file in the same turn is already
-				reflected. No race.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="file-whole-chain"
+					Title="The whole-chain transform, applied at write time"
+					Diagram="The transformation being exactly the raw-write normalize: true chain - the core's tables and replacers, applied whole at write time - no stream dispatch to gate: the tool registering NO event listener, the six transforms applied to the entire file content in one pass, the count being the ledger's N and the no-op condition in one."
+				>
+					<p>
+						The transformation is exactly the raw-write <code>normalize: true</code>{" "}
+						chain - the core's tables and replacers, applied whole at write time.
+					</p>
+					<p>
+						There is no stream dispatch to gate: the tool registers NO event listener, so
+						the six transforms are applied to the entire file content in one pass, and
+						the count is the ledger's N and the no-op condition in one.
+					</p>
+				</Concept>
+				<Concept
+					Id="file-governance-bound"
+					Title="Governance bounded passes"
+					Diagram="The write going through Factory.Write and emitting fs/observed - but the governors' Gate requiring the actor tool name in their mutationTools pin, normalize-file never added to any such list, so these writes never trigger a chain pass."
+				>
+					<p>
+						Governance bounded passes: the write goes through <code>Factory.Write</code>{" "}
+						and emits <code>fs/observed</code>, but the governors' Gate requires the
+						actor tool name in their mutationTools pin - <code>normalize-file</code> is
+						never added to any such list, so these writes never trigger a chain pass.
+					</p>
+				</Concept>
+				<Concept
+					Id="file-edit-contract"
+					Title="The edit old_string contract, kept safe because visible"
+					Diagram="The edit old_string contract safe because visible - the diff card showing the before/after in the same turn, and the tool description saying to re-read before editing."
+				>
+					<p>
+						Edit <code>old_string</code> contract: safe because visible - the diff card
+						shows the before/after in the same turn, and the tool description says to
+						re-read before editing.
+					</p>
+				</Concept>
+				<Concept
+					Id="file-race"
+					Title="The raw-write read-before-write race, closed"
+					Diagram="Tool calls serialized and Factory.Write's before read at write time - a prior normalize-file in the same turn already reflected. No race."
+				>
+					<p>
+						Raw-write read-before-write: tool calls are serialized and{" "}
+						<code>Factory.Write</code>'s before is read at write time, so a prior
+						normalize-file in the same turn is already reflected. No race.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
@@ -377,15 +487,26 @@ const Usage = [
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				There are no stream flags (<code>normalizeReasoning</code>,
-				<code>normalizeToolArguments</code>) and no fs/observed fields (
-				<code>updateCooldownMs</code>, <code>mutationTools</code>,<code>policyFile</code>,{" "}
-				<code>exclude</code>): the minimal <code>shared: false</code>
-				block plus the two knobs is the whole config surface, because the tool registers no
-				listener of any kind. Volatile cells commit without remounting the plugin. The tool
-				is called by the agent like any built-in tool:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="file-minimal-config"
+					Title="The minimal config surface"
+					Diagram="No stream flags (normalizeReasoning, normalizeToolArguments) and no fs/observed fields (updateCooldownMs, mutationTools, policyFile, exclude) - the minimal shared: false block plus the two knobs being the whole config surface, because the tool registers no listener of any kind; volatile cells committing without remounting the plugin."
+				>
+					<p>
+						There are no stream flags (<code>normalizeReasoning</code>,{" "}
+						<code>normalizeToolArguments</code>) and no fs/observed fields (
+						<code>updateCooldownMs</code>, <code>mutationTools</code>,{" "}
+						<code>policyFile</code>, <code>exclude</code>): the minimal{" "}
+						<code>shared: false</code> block plus the two knobs is the whole config
+						surface, because the tool registers no listener of any kind.
+					</p>
+					<p>
+						Volatile cells commit without remounting the plugin. The tool is called by
+						the agent like any built-in tool:
+					</p>
+				</Concept>
+			</div>
 			<div class="code-block" style="margin-top: var(--space-sm)">
 				{Usage.join("\n")}
 			</div>
@@ -395,17 +516,38 @@ const Usage = [
 			<SectionHeader Title="In Action" Meta="ONE CALL, ONE FILE, ONE COUNT" />
 			<p class="section-kicker">Before - the file as it sits on disk</p>
 			<div class="code-block">{BeforeAfter.join("\n")}</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				Every em dash (U+2014) becomes the ASCII hyphen-minus, the curly quotes become
-				straight ones, the ellipsis becomes three periods; five characters replaced, so N =
-				5 and the write happens. The result carries the outcome and the diff card shows the
-				before/after in the same turn; the ledger gets the count line shown below. A file
-				with nothing to replace is a no-op: <code>changed: false</code>, the file stays
-				byte-identical, no write, no count line, no journal record. A missing, binary or
-				undecodable target is an error result with no write. Because the file's bytes change
-				under you, re-read before editing - the edit tool's <code>old_string</code> must
-				match the new content.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="file-in-action-count"
+					Title="The counted write"
+					Diagram="Every em dash (U+2014) becoming the ASCII hyphen-minus, the curly quotes straight ones, the ellipsis three periods - five characters replaced, so N = 5 and the write happens; the result carrying the outcome, the diff card showing the before/after in the same turn, the ledger getting the count line."
+				>
+					<p>
+						Every em dash (U+2014) becomes the ASCII hyphen-minus, the curly quotes
+						become straight ones, the ellipsis becomes three periods; five characters
+						replaced, so N = 5 and the write happens.
+					</p>
+					<p>
+						The result carries the outcome and the diff card shows the before/after in
+						the same turn; the ledger gets the count line shown below.
+					</p>
+				</Concept>
+				<Concept
+					Id="file-in-action-noop"
+					Title="The no-op and the error cases"
+					Diagram="A file with nothing to replace being a no-op: changed: false, the file staying byte-identical, no write, no count line, no journal record - a missing, binary or undecodable target being an error result with no write - and re-reading before editing, because the file's bytes change under you."
+				>
+					<p>
+						A file with nothing to replace is a no-op: <code>changed: false</code>, the
+						file stays byte-identical, no write, no count line, no journal record. A
+						missing, binary or undecodable target is an error result with no write.
+					</p>
+					<p>
+						Because the file's bytes change under you, re-read before editing - the edit
+						tool's <code>old_string</code> must match the new content.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
@@ -417,15 +559,35 @@ const Usage = [
 				<code>[&lt;ISO&gt;] &lt;message&gt;</code>):
 			</p>
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The activation line is written by <code>apply()</code>; the count line follows only
-				a successful N &gt; 0 write - a no-op writes no line, and a failed read or an
-				aborted call writes none either. Each N &gt; 0 write also journals one
-				<code>normalized</code> record into the shared <code>package_governance</code> v2
-				domain (event <code>normalized</code>, path = the target's display path, detail
-				byte-identical to the count line), best-effort: with no storage facility the record
-				buffers or drops and the human ledger stays the complete record.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="file-ledger-lines"
+					Title="Two lines, and the lines that never get written"
+					Diagram="The activation line written by apply() - the count line following only a successful N > 0 write, a no-op writing no line, a failed read or an aborted call writing none either."
+				>
+					<p>
+						The activation line is written by <code>apply()</code>; the count line
+						follows only a successful N &gt; 0 write - a no-op writes no line, and a
+						failed read or an aborted call writes none either.
+					</p>
+				</Concept>
+				<Concept
+					Id="file-journal-record"
+					Title="The journaled record"
+					Diagram="Each N > 0 write also journaling one normalized record into the shared package_governance v2 domain (event normalized, path = the target's display path, detail byte-identical to the count line) - best-effort: with no storage facility the record buffers or drops and the human ledger stays the complete record."
+				>
+					<p>
+						Each N &gt; 0 write also journals one <code>normalized</code> record into the
+						shared <code>package_governance</code> v2 domain (event{" "}
+						<code>normalized</code>, path = the target's display path, detail
+						byte-identical to the count line).
+					</p>
+					<p>
+						Best-effort: with no storage facility the record buffers or drops and the
+						human ledger stays the complete record.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">

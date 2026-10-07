@@ -1,7 +1,9 @@
 ---
 import Base from "@Layout/Base.astro";
+import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import Card from "@Component/Card.astro";
+import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Terminal from "@Component/Terminal.astro";
@@ -287,33 +289,85 @@ const Lessons = [
 
 		<!-- Phase 0: Overview -->
 		<section class="section" id="overview">
-			<SectionHeader Title="Overview" Meta="5 BUNDLES / 231 CHECKS -> 12 PACKAGES" />
-			<p class="page-hero__sub">
-				The family grew from <strong>five bundles and 231 smoke checks</strong> to
-				<strong>twelve packages</strong> across one commit era - the Oct 3&ndash;6, 2026
-				stretch that ends at <code>5982aa8</code> - with <strong>733 checks Classic · 746
-				Effect-TS</strong> across twelve suites as the final count (the suites print their
-				own totals; the <a href="/versions/">versions page</a> breaks the pair down per
-				package). Every step of the way, the smokes were the arbiter: zero assertion
-				rewrites across refactors, renames and a framework port - the Effect-TS port
-				actually <strong>adds 13 checks</strong> (core +3, factory +7, governor +3), so
-				its totals run higher than the Classic's with every shared assertion intact: the
-				port proved parity by extending coverage, not by rewriting assertions. And every
-				real bug - the shadowed patch layers, the silent journal open, the version guard
-				that could only succeed once - was found <strong>live</strong>, not by the smokes.
-				That asymmetry is the story's spine, and the sections below keep it honest: what
-				the suites caught, what only a restart could catch, and which two theories died on
-				the way to the truth.
-			</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The spine underneath the counts: the ledger strings are the family's
-				<strong>public interface</strong> - the only observable that survives a framework
-				port - so renames and re-implementations change mechanics, never the bytes the
-				suites assert. Three implementations hold that contract: <strong>Boilerplate</strong>
-				(the live truth, still running on this host), <strong>Classic</strong> (the
-				anonymized release) and <strong>Effect-TS</strong> (the port - built for external
-				traceability, ecosystem interop and hooking other transformers, register #13).
-			</p>
+			<div class="section-header">
+				<div class="section-header__left">
+					<span class="section-header__marker"></span>
+					<h2 class="section-header__title">Overview</h2>
+				</div>
+				<span class="section-header__meta">
+					5 BUNDLES / 231 CHECKS <ArrowIcon Direction="right" Tone="accent" /> 12 PACKAGES
+				</span>
+			</div>
+			<div class="concept-list">
+				<Concept
+					Id="case-growth"
+					Title="From five bundles to twelve packages"
+					Diagram="The growth across one commit era - the Oct 3-6, 2026 stretch ending at 5982aa8 - five bundles and 231 smoke checks growing into twelve packages with 733 checks Classic · 746 Effect-TS across twelve suites as the final count."
+				>
+					<p>
+						The family grew from <strong>five bundles and 231 smoke checks</strong> to{" "}
+						<strong>twelve packages</strong> across one commit era - the Oct
+						3&ndash;6, 2026 stretch that ends at <code>5982aa8</code> - with{" "}
+						<strong>733 checks Classic · 746 Effect-TS</strong> across twelve suites as
+						the final count.
+					</p>
+					<p>
+						The suites print their own totals; the
+						<a href="/versions/">versions page</a> breaks the pair down per package.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-arbiter"
+					Title="The smokes were the arbiter"
+					Diagram="Zero assertion rewrites across refactors, renames and a framework port - the Effect-TS port ADDING 13 checks (core +3, factory +7, governor +3), its totals running higher with every shared assertion intact."
+				>
+					<p>
+						Every step of the way, the smokes were the arbiter: zero assertion rewrites
+						across refactors, renames and a framework port.
+					</p>
+					<p>
+						The Effect-TS port actually <strong>adds 13 checks</strong> (core +3, factory
+						+7, governor +3), so its totals run higher than the Classic's with every
+						shared assertion intact: the port proved parity by extending coverage, not by
+						rewriting assertions.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-live"
+					Title="Found live, not by the smokes"
+					Diagram="The real bugs - the shadowed patch layers, the silent journal open, the version guard that could only succeed once - marked as found live, while the suites and the restart each catch a different class of defect."
+				>
+					<p>
+						Every real bug - the shadowed patch layers, the silent journal open, the
+						version guard that could only succeed once - was found{" "}
+						<strong>live</strong>, not by the smokes.
+					</p>
+					<p>
+						That asymmetry is the story's spine, and the sections below keep it honest:
+						what the suites caught, what only a restart could catch, and which two
+						theories died on the way to the truth.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-ledger-contract"
+					Title="The ledger strings are the public interface"
+					Diagram="The spine underneath the counts: renames and re-implementations changing mechanics, never the bytes the suites assert - with the three implementations holding the contract: Boilerplate, Classic and Effect-TS."
+				>
+					<p>
+						The spine underneath the counts: the ledger strings are the family's{" "}
+						<strong>public interface</strong> - the only observable that survives a
+						framework port - so renames and re-implementations change mechanics, never
+						the bytes the suites assert.
+					</p>
+					<p>
+						Three implementations hold that contract: <strong>Boilerplate</strong> (the
+						live truth, still running on this host), <strong>Classic</strong> (the
+						anonymized release) and <strong>Effect-TS</strong> (the port - built for
+						external traceability, ecosystem interop and hooking other transformers,
+						register #13).
+					</p>
+				</Concept>
+			</div>
 			<div class="flavor-strip" style="margin-top: var(--space-md)">
 				<Badge Variant="active">12 PACKAGES</Badge>
 				<Badge Variant="active">12 SMOKE SUITES</Badge>
@@ -328,22 +382,68 @@ const Lessons = [
 				Title="Phase I - The boilerplate era"
 				Meta="THE FACTORY + THE GOVERNANCE TRIO"
 			/>
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The setup: three independent hooks - the package governor, the package pinner, the
-				cargo governor - plus the dash normalizer, each carrying its own copy of the same
-				machinery: ledgers, exclusion matching, policy loading, guarded writes, wiring,
-				schemas. The decision (<code>49e5b3d</code>, <code>859f16a</code>,
-				<code>018919c</code>): consolidate onto <strong>one factory service</strong> - 15
-				methods, one transform contract, and the ledger strings owned by the modules
-				themselves. The technique: the <code>Wire</code>/<code>Attach</code>/
-				<code>Continue</code> seam trio, and a transform leaf the factory drives but never
-				absorbs - each hook's transforms stay its identity. The outcome: five bundles green,
-				231 checks, and every ledger string byte-identical to pre-refactor behavior,
-				smoke-asserted. The factory's page shows the seam table this era produced; it has
-				since grown from 15 to 19 methods as later phases moved machinery in - by insertion
-				(Write landed at the SCHEME's §2.7, renumbering everything after it), by alias
-				(GuardedWrite shares §2.7) and by uncounted helpers (UpdateKey, §2.16).
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="case-p1-setup"
+					Title="The setup: the same machinery, copied"
+					Diagram="Three independent hooks - the package governor, the package pinner, the cargo governor - plus the dash normalizer, each carrying its own copy of the same machinery: ledgers, exclusion matching, policy loading, guarded writes, wiring, schemas."
+				>
+					<p>
+						The setup: three independent hooks - the package governor, the package
+						pinner, the cargo governor - plus the dash normalizer, each carrying its own
+						copy of the same machinery: ledgers, exclusion matching, policy loading,
+						guarded writes, wiring, schemas.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p1-decision"
+					Title="The decision: one factory service"
+					Diagram="The consolidation (49e5b3d, 859f16a, 018919c) onto one factory service - 15 methods, one transform contract, and the ledger strings owned by the modules themselves."
+				>
+					<p>
+						The decision (<code>49e5b3d</code>, <code>859f16a</code>,{" "}
+						<code>018919c</code>): consolidate onto <strong>one factory service</strong>{" "}
+						- 15 methods, one transform contract, and the ledger strings owned by the
+						modules themselves.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p1-technique"
+					Title="The technique: the seam trio and the transform leaf"
+					Diagram="The Wire / Attach / Continue seam trio, and a transform leaf the factory drives but never absorbs - each hook's transforms staying its identity."
+				>
+					<p>
+						The technique: the <code>Wire</code>/<code>Attach</code>/
+						<code>Continue</code> seam trio, and a transform leaf the factory drives but
+						never absorbs - each hook's transforms stay its identity.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p1-outcome"
+					Title="The outcome: green and byte-identical"
+					Diagram="Five bundles green, 231 checks, and every ledger string byte-identical to pre-refactor behavior, smoke-asserted."
+				>
+					<p>
+						The outcome: five bundles green, 231 checks, and every ledger string
+						byte-identical to pre-refactor behavior, smoke-asserted.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p1-methods"
+					Title="The factory has since grown from 15 to 19 methods"
+					Diagram="The factory's seam table growing as later phases move machinery in - by insertion (Write landing at the SCHEME's §2.7, renumbering everything after it), by alias (GuardedWrite sharing §2.7) and by uncounted helpers (UpdateKey, §2.16)."
+				>
+					<p>
+						The factory's page shows the seam table this era produced; it has since grown
+						from 15 to 19 methods as later phases moved machinery in.
+					</p>
+					<p>
+						The growth happened by insertion (Write landed at the SCHEME's §2.7,
+						renumbering everything after it), by alias (GuardedWrite shares §2.7) and by
+						uncounted helpers (UpdateKey, §2.16).
+					</p>
+				</Concept>
+			</div>
 			<div class="grid grid--3">
 				{Originals.map((Item) => (
 					<Card Variant="white" Name={Item.Name} Desc={Item.Desc} Muted>
@@ -353,13 +453,24 @@ const Lessons = [
 					</Card>
 				))}
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				Two live-verified fixes from this era never regressed since: a hook's
-				<code>inject</code> and <code>Config</code> must sit on the loader's default export
-				object, and <code>apply</code> must return nothing - a returned value silently kills
-				event delivery. Both are the kind of bug no type checker sees; both were found with
-				a restart and a missing ledger line.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="case-p1-fixes"
+					Title="Two live-verified fixes that never regressed"
+					Diagram="The loader contract: a hook's inject and Config sitting on the loader's default export object, and apply returning nothing - a returned value silently killing event delivery."
+				>
+					<p>
+						Two live-verified fixes from this era never regressed since: a hook's{" "}
+						<code>inject</code> and <code>Config</code> must sit on the loader's default
+						export object, and <code>apply</code> must return nothing - a returned value
+						silently kills event delivery.
+					</p>
+					<p>
+						Both are the kind of bug no type checker sees; both were found with a restart
+						and a missing ledger line.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<!-- Phase 2 -->
@@ -368,11 +479,19 @@ const Lessons = [
 				Title="Phase II - The audit and the fixes"
 				Meta="3 CRITICALS, THEN THE QUEUE"
 			/>
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				A confirmation agent re-verified all five bundles and found three things that
-				rewrote the queue. Each is a finding with a fix; none was visible from the passing
-				smokes alone.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="case-p2-audit"
+					Title="The audit found three things that rewrote the queue"
+					Diagram="A confirmation agent re-verifying all five bundles - the three findings, each one a finding with a fix, none visible from the passing smokes alone."
+				>
+					<p>
+						A confirmation agent re-verified all five bundles and found three things that
+						rewrote the queue.
+					</p>
+					<p>Each is a finding with a fix; none was visible from the passing smokes alone.</p>
+				</Concept>
+			</div>
 			<div class="grid grid--2">
 				{Criticals.map((Item) => (
 					<Card Variant="white" Desc={Item.Finding} Muted>
@@ -386,70 +505,169 @@ const Lessons = [
 					</Card>
 				))}
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The rest of the queue executed in one session: the module terminology rename (
-				<code>3c29108</code> - mechanics only, the <code>cargo flavor</code> literal in the
-				activation string stays), the standalone schema helper that deleted three config
-				workarounds (<code>060e3b6</code>), the core extraction as a dependency-free pure
-				package (<code>1fef4ca</code>), and the granularization splits (<code>711d5b2</code>
-				). One operational beat worth keeping: the smoke suites lived in <code>
-					/tmp
-				</code>{" "}
-				and were lost once - replayed from the session archives step by step, then archived
-				to <code>~/.dsh/smokes/</code> forever after. The arbiter must not be disposable.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="case-p2-queue"
+					Title="The rest of the queue, executed in one session"
+					Diagram="The four queue items: the module terminology rename (3c29108), the standalone schema helper (060e3b6), the core extraction (1fef4ca) and the granularization splits (711d5b2)."
+				>
+					<ul class="concept-values">
+						<li>
+							The module terminology rename (<code>3c29108</code> - mechanics only, the{" "}
+							<code>cargo flavor</code> literal in the activation string stays).
+						</li>
+						<li>
+							The standalone schema helper that deleted three config workarounds (
+							<code>060e3b6</code>).
+						</li>
+						<li>
+							The core extraction as a dependency-free pure package (
+							<code>1fef4ca</code>).
+						</li>
+						<li>The granularization splits (<code>711d5b2</code>).</li>
+					</ul>
+				</Concept>
+				<Concept
+					Id="case-p2-arbiter"
+					Title="The arbiter must not be disposable"
+					Diagram="The smoke suites living in /tmp and being lost once - replayed from the session archives step by step, then archived to ~/.dsh/smokes/ forever after."
+				>
+					<p>
+						One operational beat worth keeping: the smoke suites lived in{" "}
+						<code>/tmp</code> and were lost once - replayed from the session archives step
+						by step, then archived to <code>~/.dsh/smokes/</code> forever after.
+					</p>
+					<p>The arbiter must not be disposable.</p>
+				</Concept>
+			</div>
 		</section>
 
 		<!-- Phase 3 -->
 		<section class="section" id="phase-3">
 			<SectionHeader Title="Phase III - Going live" Meta="THE JOURNAL SAGA" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The first live battery exercised everything the smokes had proven: the
-				governor&nbsp;+&nbsp;pinner interlock on one manifest write, the update stages as
-				real jobs, the cargo's actual <code>cargo upgrade</code> with the full argv, the
-				dash normalizer counting replacements in live streams. It also surfaced the first
-				live-only failure: the harness's storage domain enforces
-				<strong>one open per name</strong>, so the shared journal domain was single-winner
-				per boot. At that boot only the pinner's records landed; the governor's and the
-				cargo's silently never did - while the human ledger files remained the complete
-				record, which is the only reason the loss was even noticed.
-			</p>
-			<p class="section-kicker">The fix, in two commits</p>
-			<p class="page-hero__sub">
-				The first successful open binds its handle on the factory instance (
-				<code>952eaa1</code>), and every module's records route through it. The boot-window
-				race came next (<code>aa53c91</code>): records journaled before any open completes
-				now buffer in a capped, drop-when-full pre-bind queue and drain with their
-				timestamps preserved - a three-stage routing of shared sink, pre-bind buffer, then
-				per-state fallback. The third boot confirmed both live:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="case-p3-battery"
+					Title="The first live battery"
+					Diagram="The first live battery exercising everything the smokes had proven: the governor + pinner interlock on one manifest write, the update stages as real jobs, the cargo's actual cargo upgrade with the full argv, the dash normalizer counting replacements in live streams."
+				>
+					<p>
+						The first live battery exercised everything the smokes had proven: the
+						governor&nbsp;+&nbsp;pinner interlock on one manifest write, the update stages
+						as real jobs, the cargo's actual <code>cargo upgrade</code> with the full
+						argv, the dash normalizer counting replacements in live streams.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p3-one-open"
+					Title="The first live-only failure: one open per name"
+					Diagram="The harness's storage domain enforcing one open per name - the shared journal domain single-winner per boot, only the pinner's records landing while the governor's and the cargo's silently never did, the human ledger files remaining the complete record."
+				>
+					<p>
+						It also surfaced the first live-only failure: the harness's storage domain
+						enforces <strong>one open per name</strong>, so the shared journal domain was
+						single-winner per boot.
+					</p>
+					<p>
+						At that boot only the pinner's records landed; the governor's and the cargo's
+						silently never did - while the human ledger files remained the complete
+						record, which is the only reason the loss was even noticed.
+					</p>
+				</Concept>
+			</div>
+			<div class="concept-list">
+				<Concept
+					Id="case-p3-fix"
+					Title="The fix, in two commits"
+					Diagram="The first successful open binding its handle on the factory instance (952eaa1) with every module's records routing through it - then the boot-window race (aa53c91): records journaled before any open completes buffering in a capped, drop-when-full pre-bind queue, draining with timestamps preserved - the three-stage routing of shared sink, pre-bind buffer, then per-state fallback."
+				>
+					<p>
+						The first successful open binds its handle on the factory instance (
+						<code>952eaa1</code>), and every module's records route through it.
+					</p>
+					<p>
+						The boot-window race came next (<code>aa53c91</code>): records journaled
+						before any open completes now buffer in a capped, drop-when-full pre-bind
+						queue and drain with their timestamps preserved - a three-stage routing of
+						shared sink, pre-bind buffer, then per-state fallback. The third boot
+						confirmed both live:
+					</p>
+				</Concept>
+			</div>
 			<p class="section-kicker">One boot's complete record set - the shared domain</p>
 			<div class="code-block">{JournalExcerpt.join("\n")}</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				Before the fix, that file showed one module's activations. After it, all four - and
-				the interlock cascade and the dispatched update stage record themselves in the same
-				place. The update stage's awaited promise resolves at the dispatch: the background
-				job keeps running, and the caller never awaits the job.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="case-p3-before-after"
+					Title="Before the fix, one module; after it, all four"
+					Diagram="The same file before and after the fix - one module's activations becoming all four, with the interlock cascade and the dispatched update stage recording themselves in the same place."
+				>
+					<p>
+						Before the fix, that file showed one module's activations. After it, all four
+						- and the interlock cascade and the dispatched update stage record themselves
+						in the same place.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p3-dispatch"
+					Title="The dispatch resolves at the dispatch"
+					Diagram="The update stage's awaited promise resolving at the dispatch while the background job keeps running - the caller never awaiting the job."
+				>
+					<p>
+						The update stage's awaited promise resolves at the dispatch: the background
+						job keeps running, and the caller never awaits the job.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<!-- Phase 4 -->
 		<section class="section" id="phase-4">
 			<SectionHeader Title="Phase IV - The stream family" Meta="SIX FLAVORS + THE GATE" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The dash normalizer generalized. The core took over the pure machinery - generic
-				over structural shapes, with no dependency on the host's LLM types: a fragile
-				cross-bundle symlink workaround for a nominal-type clash was replaced by a durable
-				design (<code>98be27b</code>, <code>c2beb06</code>). Five sibling flavors followed
-				on the same template - quotes, ellipsis, spaces, invisible, fullwidth - each with
-				its own ledger, activation line and count line (<code>ad4c2c3</code>,
-				<code>68afdcd</code>). Then the tool-args gate (<code>1d827ad</code>), and its
-				three-way refinement (<code>9d6e195</code>): edit calls pass by identity - the
-				old-string must match the real file bytes - and a per-call marker lets a single call
-				opt out entirely. The marker is honestly stated: smoke-verified, but not reachable
-				from the structured tool interface at the time; the practical per-call raw route is
-				the edit exemption.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="case-p4-generalize"
+					Title="The dash normalizer generalized"
+					Diagram="The core taking over the pure machinery - generic over structural shapes, no dependency on the host's LLM types - replacing the fragile cross-bundle symlink workaround for the nominal-type clash with a durable design (98be27b, c2beb06)."
+				>
+					<p>
+						The dash normalizer generalized. The core took over the pure machinery -
+						generic over structural shapes, with no dependency on the host's LLM types.
+					</p>
+					<p>
+						A fragile cross-bundle symlink workaround for a nominal-type clash was
+						replaced by a durable design (<code>98be27b</code>, <code>c2beb06</code>).
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p4-siblings"
+					Title="Five sibling flavors on the same template"
+					Diagram="Quotes, ellipsis, spaces, invisible and fullwidth following the same template - each with its own ledger, activation line and count line (ad4c2c3, 68afdcd)."
+				>
+					<p>
+						Five sibling flavors followed on the same template - quotes, ellipsis,
+						spaces, invisible, fullwidth - each with its own ledger, activation line and
+						count line (<code>ad4c2c3</code>, <code>68afdcd</code>).
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p4-toolargs"
+					Title="The tool-args gate and its three-way refinement"
+					Diagram="The tool-args gate (1d827ad) and its three-way refinement (9d6e195): edit calls passing by identity - the old-string must match the real file bytes - and a per-call marker letting a single call opt out entirely, smoke-verified but not reachable from the structured tool interface at the time."
+				>
+					<p>
+						Then the tool-args gate (<code>1d827ad</code>), and its three-way refinement (
+						<code>9d6e195</code>): edit calls pass by identity - the old-string must
+						match the real file bytes - and a per-call marker lets a single call opt out
+						entirely.
+					</p>
+					<p>
+						The marker is honestly stated: smoke-verified, but not reachable from the
+						structured tool interface at the time; the practical per-call raw route is
+						the edit exemption.
+					</p>
+				</Concept>
+			</div>
 			<p class="section-kicker">The stream, before and after</p>
 			<div class="code-block">
 				{[
@@ -460,16 +678,36 @@ const Lessons = [
 					'  arguments {"old": "a \u2014 b"}  -> untouched: the old_string must match real bytes',
 				].join("\n")}
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				One beat belongs to the family's self-awareness: the system normalizes itself. The
-				agents building the family saw their own comment prose come out with ASCII hyphens,
-				because their output streams run through the same flavors. The planned cosmetic pass
-				was cancelled by the user - em-dashes live only in the README examples, never in
-				code. The <a href="/workbench/">workbench</a> and the <a href="/matrix/">matrix</a>
-				pages run exactly these flavors live - the workbench lets you watch the gate make
-				its per-call decisions, the matrix shows the raw-vs-canonical payload pair engine
-				by engine.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="case-p4-selfaware"
+					Title="The family normalizes itself"
+					Diagram="The agents building the family seeing their own comment prose come out with ASCII hyphens, because their output streams run through the same flavors - and the planned cosmetic pass cancelled by the user: em-dashes live only in the README examples, never in code."
+				>
+					<p>
+						One beat belongs to the family's self-awareness: the system normalizes
+						itself.
+					</p>
+					<p>
+						The agents building the family saw their own comment prose come out with
+						ASCII hyphens, because their output streams run through the same flavors. The
+						planned cosmetic pass was cancelled by the user - em-dashes live only in the
+						README examples, never in code.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p4-live-pages"
+					Title="The workbench and the matrix run exactly these flavors live"
+					Diagram="The workbench letting you watch the gate make its per-call decisions, and the matrix showing the raw-vs-canonical payload pair engine by engine."
+				>
+					<p>
+						The <a href="/workbench/">workbench</a> and the{" "}
+						<a href="/matrix/">matrix</a> pages run exactly these flavors live - the
+						workbench lets you watch the gate make its per-call decisions, the matrix
+						shows the raw-vs-canonical payload pair engine by engine.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<!-- Phase 5 -->
@@ -478,57 +716,140 @@ const Lessons = [
 				Title="Phase V - The raw-write saga, commonalization and granular control"
 				Meta="THE DENSEST PHASE"
 			/>
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The raw-write tool landed first (<code>bb9a6fd</code>): a write wrapper with an
-				explicit normalize parameter, exempt from stream normalization by name like edit,
-				mirroring the built-in write's filesystem path so the governance hooks see its
-				writes. Then the live tests showed its writes never triggered the governance chain -
-				and the diagnosis took three rounds, two of them wrong. The
-				<strong>emit-context theory</strong>: the event must be scoped to the emitting
-				plugin. The <strong>listener-scope theory</strong>: the listener must be registered
-				at the wrong level. The delivery research refuted both with code, simulation and
-				live policy evidence: <em>the event is delivered; the gate rejects the actor.</em>
-				The shared event bus has no scope filter on plain emits - the root registration fix
-				aimed at the misdiagnosis was harmless, and stayed.
-			</p>
-			<p class="section-kicker">The real blocker: the patch layers</p>
-			<p class="page-hero__sub">
-				The deployed <code>mutationTools</code> value of all three governance bundles was
-				<code>[write, edit, str_replace_editor]</code> - no <code>raw-write</code> - even
-				though the schema default included it. The bundles' own patch layers set
-				<code>mutationTools</code> explicitly, and a patch layer's config
-				<strong>replaces the entry config wholesale</strong>, shadowing the default. The
-				inspection tooling projected the <em>schema</em>, so the projected list looked
-				correct while the live value was not - the verification blind spot in one sentence.
-				The fix (<code>affa730</code>) was one line in three patch files, and it became the
-				family's standing lesson about verifying the live effective config.
-			</p>
-			<p class="section-kicker">The journal migration that failed silently</p>
-			<p class="page-hero__sub">
-				The journal domain bumped to v2 to carry the stream counts (<code>4c0e83b</code>) -
-				and every boot after it landed zero records. The v2 open failed against the v1 file
-				on an exact-equality version check; the open's catch swallowed it; every record
-				drained into a never-drained buffer and died with the process. The fix (
-				<code>756d566</code>): a per-record layout that auto-migrates the v1 records,
-				backup-and-skip for invalid ones, and a <strong>loud failure line</strong> on any
-				open failure - because the silence is what made it undiagnosable.
-			</p>
-			<p class="section-kicker">Commonalization: three executors become one</p>
-			<p class="page-hero__sub">
-				The write-path audit found the built-in write, the raw-write tool and the factory's
-				guarded write all implementing the same five steps, three times. The merge (
-				<code>91293d2</code>): the factory's <code>Write</code> becomes the shared executor
-				- the guarded write lives on as its alias - with the update envelope and the
-				activation composer folded into the core the same pass. Then the fine-grained
-				control (<code>e69c5d3</code>): <code>normalize</code> selects the transforms,
-				<code>govern</code> selects the chain steps through the factory's{" "}
-				<code>Govern</code> - the fold entry, SCHEME §2.18 - and a step registry the
-				modules populate (RegisterGovern, §2.17). The
-				governance marker (<code>2c8764e</code>, <code>83ba8e5</code>) inverts the event
-				path into a direct path: the raw-write's actor carries the govern selection, so
-				direct governance is the only channel and <strong>no flag means no chain</strong> -
-				the escape hatch.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="case-p5-rawwrite"
+					Title="The raw-write tool landed first"
+					Diagram="The raw-write tool (bb9a6fd): a write wrapper with an explicit normalize parameter, exempt from stream normalization by name like edit, mirroring the built-in write's filesystem path so the governance hooks see its writes."
+				>
+					<p>
+						The raw-write tool landed first (<code>bb9a6fd</code>): a write wrapper with
+						an explicit normalize parameter, exempt from stream normalization by name
+						like edit, mirroring the built-in write's filesystem path so the governance
+						hooks see its writes.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p5-diagnosis"
+					Title="The three-round diagnosis"
+					Diagram="The live tests showing the writes never triggered the governance chain - the emit-context theory and the listener-scope theory both refuted by delivery research with code, simulation and live policy evidence: the event is delivered; the gate rejects the actor."
+				>
+					<p>
+						Then the live tests showed its writes never triggered the governance chain -
+						and the diagnosis took three rounds, two of them wrong. The{" "}
+						<strong>emit-context theory</strong>: the event must be scoped to the
+						emitting plugin. The <strong>listener-scope theory</strong>: the listener must
+						be registered at the wrong level.
+					</p>
+					<p>
+						The delivery research refuted both with code, simulation and live policy
+						evidence: <em>the event is delivered; the gate rejects the actor.</em> The
+						shared event bus has no scope filter on plain emits - the root registration
+						fix aimed at the misdiagnosis was harmless, and stayed.
+					</p>
+				</Concept>
+			</div>
+			<div class="concept-list">
+				<Concept
+					Id="case-p5-patch-layers"
+					Title="The real blocker: the patch layers"
+					Diagram="The deployed mutationTools value of all three governance bundles being [write, edit, str_replace_editor] - no raw-write - even though the schema default included it, the bundles' own patch layers setting it explicitly, and a patch layer's config replacing the entry config wholesale, shadowing the default."
+				>
+					<p>
+						The deployed <code>mutationTools</code> value of all three governance bundles
+						was <code>[write, edit, str_replace_editor]</code> - no{" "}
+						<code>raw-write</code> - even though the schema default included it.
+					</p>
+					<p>
+						The bundles' own patch layers set <code>mutationTools</code> explicitly, and a
+						patch layer's config <strong>replaces the entry config wholesale</strong>,
+						shadowing the default. The inspection tooling projected the{" "}
+						<em>schema</em>, so the projected list looked correct while the live value
+						was not - the verification blind spot in one sentence.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p5-patch-fix"
+					Title="The one-line fix and the standing lesson"
+					Diagram="The fix (affa730) being one line in three patch files - and it becoming the family's standing lesson about verifying the live effective config."
+				>
+					<p>
+						The fix (<code>affa730</code>) was one line in three patch files, and it
+						became the family's standing lesson about verifying the live effective
+						config.
+					</p>
+				</Concept>
+			</div>
+			<div class="concept-list">
+				<Concept
+					Id="case-p5-journal-silent"
+					Title="The journal migration that failed silently"
+					Diagram="The journal domain bumping to v2 to carry the stream counts (4c0e83b) - every boot after it landing zero records: the v2 open failing against the v1 file on an exact-equality version check, the open's catch swallowing it, every record draining into a never-drained buffer and dying with the process."
+				>
+					<p>
+						The journal domain bumped to v2 to carry the stream counts (
+						<code>4c0e83b</code>) - and every boot after it landed zero records.
+					</p>
+					<p>
+						The v2 open failed against the v1 file on an exact-equality version check; the
+						open's catch swallowed it; every record drained into a never-drained buffer
+						and died with the process.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p5-journal-fix"
+					Title="The fix: per-record, and loud"
+					Diagram="The fix (756d566): a per-record layout that auto-migrates the v1 records, backup-and-skip for invalid ones, and a loud failure line on any open failure - because the silence is what made it undiagnosable."
+				>
+					<p>
+						The fix (<code>756d566</code>): a per-record layout that auto-migrates the v1
+						records, backup-and-skip for invalid ones, and a{" "}
+						<strong>loud failure line</strong> on any open failure - because the silence
+						is what made it undiagnosable.
+					</p>
+				</Concept>
+			</div>
+			<div class="concept-list">
+				<Concept
+					Id="case-p5-commonalization"
+					Title="Three executors become one"
+					Diagram="The write-path audit finding the built-in write, the raw-write tool and the factory's guarded write all implementing the same five steps, three times - and the merge (91293d2): the factory's Write becoming the shared executor, the guarded write living on as its alias, the update envelope and the activation composer folded into the core the same pass."
+				>
+					<p>
+						The write-path audit found the built-in write, the raw-write tool and the
+						factory's guarded write all implementing the same five steps, three times.
+					</p>
+					<p>
+						The merge (<code>91293d2</code>): the factory's <code>Write</code> becomes the
+						shared executor - the guarded write lives on as its alias - with the update
+						envelope and the activation composer folded into the core the same pass.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p5-granular"
+					Title="The fine-grained control"
+					Diagram="The control split (e69c5d3): normalize selecting the transforms, govern selecting the chain steps through the factory's Govern - the fold entry, SCHEME §2.18 - and a step registry the modules populate (RegisterGovern, §2.17)."
+				>
+					<p>
+						Then the fine-grained control (<code>e69c5d3</code>):{" "}
+						<code>normalize</code> selects the transforms, <code>govern</code> selects the
+						chain steps through the factory's <code>Govern</code> - the fold entry, SCHEME
+						§2.18 - and a step registry the modules populate (RegisterGovern, §2.17).
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p5-marker"
+					Title="The governance marker inverts the event path"
+					Diagram="The governance marker (2c8764e, 83ba8e5) inverting the event path into a direct path: the raw-write's actor carrying the govern selection, so direct governance is the only channel and no flag means no chain - the escape hatch."
+				>
+					<p>
+						The governance marker (<code>2c8764e</code>, <code>83ba8e5</code>) inverts
+						the event path into a direct path: the raw-write's actor carries the govern
+						selection, so direct governance is the only channel and{" "}
+						<strong>no flag means no chain</strong> - the escape hatch.
+					</p>
+				</Concept>
+			</div>
 			<div class="table-wrap" style="margin-top: var(--space-md)">
 				<table class="table">
 					<thead>
@@ -545,8 +866,22 @@ const Lessons = [
 								<td>
 									<strong>{Row.Step}</strong>
 								</td>
-								<td>{Row.Builtin}</td>
-								<td>{Row.Raw}</td>
+								<td>
+									{Row.Builtin.split("->").map((Part, Index) => (
+										<Fragment>
+											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+											{Part}
+										</Fragment>
+									))}
+								</td>
+								<td>
+									{Row.Raw.split("->").map((Part, Index) => (
+										<Fragment>
+											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+											{Part}
+										</Fragment>
+									))}
+								</td>
 								<td>{Row.Factory}</td>
 							</tr>
 						))}
@@ -556,70 +891,190 @@ const Lessons = [
 			<p class="section-kicker" style="margin-top: var(--space-lg)">
 				The fold, and the guard that made it converge
 			</p>
-			<p class="page-hero__sub">
-				The direct steps' detached chains raced - nondeterministic writes on the same file -
-				so the fold awaits each step's chain before the next reads (<code>d7a3c93</code>,{" "}
-				<code>140faa0</code>). Then the deeper bug: every step wrote against the version
-				observed at the triggering event, so
-				<strong>only the first write could succeed</strong> and the later steps failed the
-				stale-version check silently. The fix (<code>5982aa8</code>): the chain pass stats
-				the target before its write and takes the fresh version, so the fold converges in
-				any step order - which matters, because the pinner activated before the governor at
-				the decisive boot. One more fix belongs to the Effect-TS port: the write executor
-				originally mapped the caller's abort signal onto the run promise's options, so a
-				<strong>pre-aborted signal interrupted the whole fiber</strong> and the caller saw
-				<em>all fibers interrupted without error</em> instead of the Classic
-				aborted-before-write behavior. The dash suite's pre-aborted-write scenario caught
-				it; the fix drops the signal mapping - the signal forwards to the seams only,
-				exactly the Classic semantics.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="case-p5-fold"
+					Title="The sequential fold"
+					Diagram="The direct steps' detached chains racing - nondeterministic writes on the same file - and the fold awaiting each step's chain before the next reads (d7a3c93, 140faa0)."
+				>
+					<p>
+						The direct steps' detached chains raced - nondeterministic writes on the same
+						file - so the fold awaits each step's chain before the next reads (
+						<code>d7a3c93</code>, <code>140faa0</code>).
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p5-stat-guard"
+					Title="The stat-before-write guard that made it converge"
+					Diagram="The deeper bug: every step writing against the version observed at the triggering event, so only the first write could succeed and the later steps failed the stale-version check silently - and the fix (5982aa8): the chain pass statting the target before its write and taking the fresh version, the fold converging in any step order."
+				>
+					<p>
+						Then the deeper bug: every step wrote against the version observed at the
+						triggering event, so <strong>only the first write could succeed</strong> and
+						the later steps failed the stale-version check silently.
+					</p>
+					<p>
+						The fix (<code>5982aa8</code>): the chain pass stats the target before its
+						write and takes the fresh version, so the fold converges in any step order -
+						which matters, because the pinner activated before the governor at the
+						decisive boot.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p5-abort"
+					Title="The abort-signal fix belongs to the Effect-TS port"
+					Diagram="The write executor originally mapping the caller's abort signal onto the run promise's options - a pre-aborted signal interrupting the whole fiber, the caller seeing all fibers interrupted without error instead of the Classic aborted-before-write behavior - and the fix dropping the signal mapping so the signal forwards to the seams only."
+				>
+					<p>
+						One more fix belongs to the Effect-TS port: the write executor originally
+						mapped the caller's abort signal onto the run promise's options, so a{" "}
+						<strong>pre-aborted signal interrupted the whole fiber</strong> and the
+						caller saw <em>all fibers interrupted without error</em> instead of the
+						Classic aborted-before-write behavior.
+					</p>
+					<p>
+						The dash suite's pre-aborted-write scenario caught it; the fix drops the
+						signal mapping - the signal forwards to the seams only, exactly the Classic
+						semantics.
+					</p>
+				</Concept>
+			</div>
 			<p class="section-kicker">The final battery's outcomes, verbatim</p>
 			<div class="code-block">{LiveMatrix.join("\n")}</div>
 		</section>
 
 		<!-- Phase 6 -->
 		<section class="section" id="phase-6">
-			<SectionHeader
-				Title="Phase VI - The releases, the monorepo and the Site"
-				Meta="BOILERPLATE -> SHIPPING"
-			/>
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The completed codebase became the boilerplate for two official releases off one
-				source: the Classic implementation stays live-first, and the Effect-TS port ships
-				only after its smokes prove parity - the ledger strings remain the contract in both
-				(<code>register #13</code>). The port exists for a reason beyond the parity
-				discipline: register #13's three goals - <strong>external traceability</strong>,
-				<strong>ecosystem interop</strong>, and hooking other transformers from the same
-				Effect ecosystem into the same governed machinery. The triad's roles stay fixed:
-				<strong>Boilerplate</strong> is the live truth, <strong>Classic</strong> is the
-				anonymized release, <strong>Effect-TS</strong> is the port. The Effect-TS mapping
-				planned the <strong>parallel-govern toggle in from the start</strong> - concurrency
-				is different there, and designing the toggle first beats retrofitting it. Its
-				tracing is an <strong>opt-in knob</strong>: by default the factory runs Effect's
-				no-op Tracer - zero cost, the identical synchronous build - and only when{" "}
-				<code>enableTracing</code> is set does the OTLP exporter attach (the NodeSdk layer,
-				the <code>dsh.*</code> spans leaving to any OTel collector). The exporter packages
-				load dynamically, so an unloadable bundle degrades to the no-op - tracing is
-				best-effort, never allowed to break the plugin - and the spans carry read-only
-				facts, so a traced smoke run still produces byte-identical ledgers.
-			</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The release prep anonymized and de-personalized every bundle (the releases are
-				clean: the governor's <code>ncuBin</code> default was re-pinned to a portable
-				PATH-resolved value - the internal Boilerplate baseline keeps the functional real
-				path by design) and rebuilt the READMEs on a single skeleton borrowed heavily from
-				the sibling project's conventions. The naming inverted (<code>register #15</code>):
-				packages read as <code>@</code>-sentences -{" "}
-				<em>Hook @ DSH @ Governor @ Package</em> - and group alphabetically by kind, role
-				and domain: kind-first ordering mirrors the consumer topology - the hooks vs the
-				factory service - and role-contiguous grouping keeps the shared-machinery families
-				together (governor-cargo/governor-package, the normalize-* family), at version
-				0.0.1, with one repository per package under submodule structure designed but{" "}
-				<strong>NOT STARTED</strong> (register #16: no commits yet, everything still in
-				this monorepo). And the Site you are reading is the last item: the integration
-				showcase, with the <a href="/versions/">versions page</a> carrying the two engines
-				side by side.
-			</p>
+			<div class="section-header">
+				<div class="section-header__left">
+					<span class="section-header__marker"></span>
+					<h2 class="section-header__title">Phase VI - The releases, the monorepo and the Site</h2>
+				</div>
+				<span class="section-header__meta">
+					BOILERPLATE <ArrowIcon Direction="right" Tone="accent" /> SHIPPING
+				</span>
+			</div>
+			<div class="concept-list">
+				<Concept
+					Id="case-p6-releases"
+					Title="Two official releases off one source"
+					Diagram="The completed codebase becoming the boilerplate: the Classic implementation staying live-first, the Effect-TS port shipping only after its smokes prove parity - the ledger strings remaining the contract in both (register #13)."
+				>
+					<p>
+						The completed codebase became the boilerplate for two official releases off
+						one source: the Classic implementation stays live-first, and the Effect-TS
+						port ships only after its smokes prove parity - the ledger strings remain the
+						contract in both (<code>register #13</code>).
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p6-port-goals"
+					Title="Why the port exists beyond the parity discipline"
+					Diagram="Register #13's three goals: external traceability, ecosystem interop, and hooking other transformers from the same Effect ecosystem into the same governed machinery."
+				>
+					<p>
+						The port exists for a reason beyond the parity discipline: register #13's
+						three goals - <strong>external traceability</strong>,{" "}
+						<strong>ecosystem interop</strong>, and hooking other transformers from the
+						same Effect ecosystem into the same governed machinery.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p6-triad"
+					Title="The triad's roles stay fixed"
+					Diagram="The three implementations and their fixed roles: Boilerplate as the live truth, Classic as the anonymized release, Effect-TS as the port."
+				>
+					<p>
+						The triad's roles stay fixed: <strong>Boilerplate</strong> is the live truth,{" "}
+						<strong>Classic</strong> is the anonymized release,{" "}
+						<strong>Effect-TS</strong> is the port.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p6-parallel"
+					Title="The parallel-govern toggle, designed in from the start"
+					Diagram="The Effect-TS mapping planning the parallel-govern toggle in from the start - concurrency being different there, designing the toggle first beating retrofitting it."
+				>
+					<p>
+						The Effect-TS mapping planned the{" "}
+						<strong>parallel-govern toggle in from the start</strong> - concurrency is
+						different there, and designing the toggle first beats retrofitting it.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p6-tracing"
+					Title="Tracing is an opt-in knob"
+					Diagram="The factory running Effect's no-op Tracer by default - zero cost, the identical synchronous build - with the OTLP exporter attaching only when enableTracing is set (the NodeSdk layer, the dsh.* spans leaving to any OTel collector), the exporter packages loading dynamically so an unloadable bundle degrades to the no-op, and the spans carrying read-only facts so a traced smoke run still produces byte-identical ledgers."
+				>
+					<p>
+						Its tracing is an <strong>opt-in knob</strong>: by default the factory runs
+						Effect's no-op Tracer - zero cost, the identical synchronous build - and only
+						when <code>enableTracing</code> is set does the OTLP exporter attach (the
+						NodeSdk layer, the <code>dsh.*</code> spans leaving to any OTel collector).
+					</p>
+					<p>
+						The exporter packages load dynamically, so an unloadable bundle degrades to
+						the no-op - tracing is best-effort, never allowed to break the plugin - and
+						the spans carry read-only facts, so a traced smoke run still produces
+						byte-identical ledgers.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p6-prep"
+					Title="The release prep anonymized and de-personalized every bundle"
+					Diagram="The clean releases: the governor's ncuBin default re-pinned to a portable PATH-resolved value (the internal Boilerplate baseline keeping the functional real path by design), and the READMEs rebuilt on a single skeleton borrowed heavily from the sibling project's conventions."
+				>
+					<p>
+						The release prep anonymized and de-personalized every bundle: the releases are
+						clean - the governor's <code>ncuBin</code> default was re-pinned to a portable
+						PATH-resolved value, while the internal Boilerplate baseline keeps the
+						functional real path by design.
+					</p>
+					<p>
+						The READMEs were rebuilt on a single skeleton borrowed heavily from the
+						sibling project's conventions.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p6-naming"
+					Title="The naming inverted (register #15)"
+					Diagram="Packages reading as @-sentences - Hook @ DSH @ Governor @ Package - and grouping alphabetically by kind, role and domain: kind-first ordering mirroring the consumer topology (the hooks vs the factory service), role-contiguous grouping keeping the shared-machinery families together (governor-cargo/governor-package, the normalize-* family), at version 0.0.1."
+				>
+					<p>
+						The naming inverted (<code>register #15</code>): packages read as{" "}
+						<code>@</code>-sentences - <em>Hook @ DSH @ Governor @ Package</em> - and
+						group alphabetically by kind, role and domain.
+					</p>
+					<p>
+						Kind-first ordering mirrors the consumer topology - the hooks vs the factory
+						service - and role-contiguous grouping keeps the shared-machinery families
+						together (governor-cargo/governor-package, the normalize-* family), at
+						version 0.0.1.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p6-submodules"
+					Title="The submodule structure: designed, NOT STARTED"
+					Diagram="One repository per package under submodule structure - register #16: no commits yet, everything still in this monorepo."
+				>
+					<p>
+						One repository per package under submodule structure is designed but{" "}
+						<strong>NOT STARTED</strong> (register #16: no commits yet, everything still
+						in this monorepo).
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p6-site"
+					Title="The Site you are reading is the last item"
+					Diagram="The integration showcase - the versions page carrying the two engines side by side."
+				>
+					<p>
+						And the Site you are reading is the last item: the integration showcase, with
+						the <a href="/versions/">versions page</a> carrying the two engines side by
+						side.
+					</p>
+				</Concept>
+			</div>
 			<div class="action-row">
 				<a class="action" href="/versions/">
 					The two releases
@@ -656,7 +1111,14 @@ const Lessons = [
 								<td>
 									<strong>{Row.Decision}</strong>
 								</td>
-								<td>{Row.Rationale}</td>
+								<td>
+									{Row.Rationale.split("->").map((Part, Index) => (
+										<Fragment>
+											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+											{Part}
+										</Fragment>
+									))}
+								</td>
 								<td>{Row.Technique}</td>
 								<td>{Row.Evidence}</td>
 							</tr>

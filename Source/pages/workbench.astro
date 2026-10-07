@@ -1,5 +1,6 @@
 ---
 import Base from "@Layout/Base.astro";
+import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import PageHero from "@Component/PageHero.astro";
 
@@ -79,13 +80,14 @@ const Engines = [
 ];
 
 // The pipeline stages the demo mirrors, in the family's real order (each
-// stage is a step the packages' own code takes per chunk).
+// stage is a step the packages' own code takes per chunk). The two flow
+// stages carry the colored arrow icon between their parts.
 const Spans = [
-	"next() first",
-	"CoreChunk dispatch",
-	"per-flavor transform",
-	"yield → transcript",
-	"Append → ledger line",
+	{ Text: "next() first", Flow: false },
+	{ Text: "CoreChunk dispatch", Flow: false },
+	{ Text: "per-flavor transform", Flow: false },
+	{ Text: "yield", Flow: true, To: "transcript" },
+	{ Text: "Append", Flow: true, To: "ledger line" },
 ];
 ---
 
@@ -180,7 +182,7 @@ const Spans = [
 						<span class="metric__value" data-metric="quotes">
 							0
 						</span>
-						<span class="metric__note">\u201C\u201D \u2192 ""</span>
+						<span class="metric__note">\u201C\u201D <ArrowIcon Direction="right" Tone="accent" /> ""</span>
 					</div>
 				</div>
 				<div class="metric">
@@ -189,7 +191,7 @@ const Spans = [
 						<span class="metric__value" data-metric="dash">
 							0
 						</span>
-						<span class="metric__note">\u2014 \u2013 \u2192 -</span>
+						<span class="metric__note">\u2014 \u2013 <ArrowIcon Direction="right" Tone="accent" /> -</span>
 					</div>
 				</div>
 				<div class="metric">
@@ -233,7 +235,7 @@ const Spans = [
 						<span class="hook-card__name">{Hook.Name}</span>
 						<span class="hook-card__rule">
 							<span>{Hook.From}</span>
-							<span class="arrow">\u2192</span>
+							<ArrowIcon Direction="right" Tone="accent" />
 							<span>{Hook.To}</span>
 						</span>
 					</button>
@@ -289,7 +291,17 @@ const Spans = [
 				<div class="trace-ribbon__chain">
 					<span>The pipeline this demo mirrors:</span>
 					{Spans.map((Span) => (
-						<span class="trace-ribbon__span">{Span}</span>
+						<span class="trace-ribbon__span">
+							{Span.Flow ? (
+								<Fragment>
+									{Span.Text}
+									<ArrowIcon Direction="right" Tone="accent" />
+									{Span.To}
+								</Fragment>
+							) : (
+								Span.Text
+							)}
+						</span>
 					))}
 				</div>
 				<span>

@@ -1,6 +1,8 @@
 ---
 import Base from "@Layout/Base.astro";
+import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
+import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 
@@ -129,7 +131,14 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 					<span class="section-header__marker"></span>
 					<h2 class="section-header__title">Stream gate pipeline</h2>
 				</div>
-				<span class="section-header__meta">{Pipeline.join(" &gt; ")}</span>
+				<span class="section-header__meta">
+					{Pipeline.map((Name, Index) => (
+						<Fragment>
+							{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+							{Name}
+						</Fragment>
+					))}
+				</span>
 			</div>
 			<div class="stream-grid">
 				<div class="stream-pane">
@@ -200,11 +209,19 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 		<!-- Engine x flavor matrix -->
 		<section class="section">
 			<SectionHeader Title="The suites behind this demo" Meta="SMOKE CHECKS PER FLAVOR" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The inspector above runs the same per-chunk rules the packages run, client-side; the
-				real authority is each flavor's smoke suite, which loads the built package and
-				asserts the ledger strings byte-identically.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="matrix-authority"
+					Title="A client-side demo with a real authority behind it"
+					Diagram="The inspector running the same per-chunk rules the packages run, client-side - and the flavor's smoke suite loading the built package and asserting the ledger strings byte-identically."
+				>
+					<p>
+						The inspector above runs the same per-chunk rules the packages run,
+						client-side. The real authority is each flavor's smoke suite, which loads the
+						built package and asserts the ledger strings byte-identically.
+					</p>
+				</Concept>
+			</div>
 			<div class="table-wrap">
 				<table class="table">
 					<thead>

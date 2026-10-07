@@ -2,6 +2,7 @@
 import Base from "@Layout/Base.astro";
 import Badge from "@Component/Badge.astro";
 import Card from "@Component/Card.astro";
+import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 
@@ -322,12 +323,20 @@ const Registry = [
 		<!-- The integration surface -->
 		<section class="section">
 			<SectionHeader Title="Where the family operates" Meta="THE HARNESS SEAMS" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				Every plugin operates inside the DeepSeek Harness through a fixed set of seams - the
-				model stream waterfall, the filesystem events, the tool layer, the subprocess seam,
-				the jobs envelope, the storage domain and the session ledger. This is where the
-				twelve live, and the DeepSeek internals they work through:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="plugins-seams"
+					Title="The seven seams the twelve live on"
+					Diagram="The twelve plugins attaching to the DeepSeek Harness through the fixed seam set - the model stream waterfall, the filesystem events, the tool layer, the subprocess seam, the jobs envelope, the storage domain and the session ledger - with the DeepSeek internals each seam works through."
+				>
+					<p>
+						Every plugin operates inside the DeepSeek Harness through a fixed set of
+						seams - the model stream waterfall, the filesystem events, the tool layer, the
+						subprocess seam, the jobs envelope, the storage domain and the session ledger.
+					</p>
+					<p>This is where the twelve live, and the DeepSeek internals they work through:</p>
+				</Concept>
+			</div>
 			<div class="table-wrap">
 				<table class="table">
 					<thead>
@@ -401,12 +410,22 @@ const Registry = [
 		<!-- The smoke baseline (the arbiter) -->
 		<section class="section">
 			<SectionHeader Title="The smoke baseline" Meta="12 SUITES · 733 CHECKS CLASSIC · 746 EFFECT-TS · ALL PASS" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The smokes are the arbiter: every suite loads the REAL built Target of its bundle
-				and asserts the ledger strings byte-identically. The Effect-TS tree is held to the
-				same bar - its swap-in happens only after its own smokes prove parity with these
-				numbers.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="plugins-smoke-arbiter"
+					Title="The smokes are the arbiter"
+					Diagram="Every suite loading the REAL built Target of its bundle and asserting the ledger strings byte-identically - the Effect-TS tree held to the same bar, its swap-in gated on its own parity."
+				>
+					<p>
+						The smokes are the arbiter: every suite loads the REAL built Target of its
+						bundle and asserts the ledger strings byte-identically.
+					</p>
+					<p>
+						The Effect-TS tree is held to the same bar - its swap-in happens only after
+						its own smokes prove parity with these numbers.
+					</p>
+				</Concept>
+			</div>
 			<div class="table-wrap">
 				<table class="table">
 					<thead>
@@ -481,14 +500,30 @@ const Registry = [
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The checks are the CLASSIC counts; the EFFECT-TS suites add coverage on the same
-				contracts (core 17, factory 41, governor 81 - 746 total vs Classic's 733).
-			</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The smokes prove the mechanics; the live battery proves the wiring - every defect
-				below was found live, not by the smokes, which is exactly why both exist.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="plugins-smoke-counts"
+					Title="The checks are the CLASSIC counts"
+					Diagram="The CLASSIC totals per suite against the EFFECT-TS totals on the same contracts - core 17, factory 41, governor 81 - summing to 746 vs Classic's 733."
+				>
+					<p>
+						The checks are the CLASSIC counts; the EFFECT-TS suites add coverage on the
+						same contracts (core 17, factory 41, governor 81 - 746 total vs Classic's
+						733).
+					</p>
+				</Concept>
+				<Concept
+					Id="plugins-smoke-wiring"
+					Title="Why both exist"
+					Diagram="The two proofs side by side - the smokes proving the mechanics, the live battery proving the wiring - with the defects that were found live, not by the smokes."
+				>
+					<p>
+						The smokes prove the mechanics; the live battery proves the wiring - every
+						defect below was found live, not by the smokes, which is exactly why both
+						exist.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<!-- The failure cases that shaped the family -->
@@ -497,35 +532,74 @@ const Registry = [
 				Title="The failure cases that shaped it"
 				Meta="FOUND LIVE · FIXED · VERIFIED"
 			/>
-			<div class="grid grid--2">
-				<Card
-					Variant="white"
-					Name="The patch-layer config shadowing"
-					Desc="The bundle cordis.patch.yml patch config REPLACES the entry config wholesale - the schema defaults (mutationTools) were shadowed in deployment, so the raw-write's fs/observed never triggered the chain. Solved: add raw-write to the three patch layers, and verify the LIVE effective config from the bundle layers - the Config inspect provider projects the schema, not the resolved config."
+			<div class="concept-list">
+				<Concept
+					Id="plugins-failure-shadowing"
+					Title="The patch-layer config shadowing"
+					Diagram="The bundle's cordis.patch.yml patch config replacing the entry config wholesale - the schema defaults (mutationTools) shadowed in deployment, the raw-write's fs/observed never triggering the chain - and the fix adding raw-write to the three patch layers with the LIVE effective config verified from the bundle layers."
 				>
-					<Badge slot="badge">LIVE-FOUND · FIXED</Badge>
-				</Card>
-				<Card
-					Variant="white"
-					Name="The same-observed-version guard race"
-					Desc="In the multi-step direct-govern fold every step wrote with the SAME observed version - only the first write could succeed, the later steps failed the stale-version check silently. Solved: the sequential fold awaits each step's chain, and the chain pass stats the target before its write (the fresh-version pattern) - the fold converges in any step order."
+					<Badge Variant="outline">LIVE-FOUND · FIXED</Badge>
+					<p>
+						The bundle cordis.patch.yml patch config REPLACES the entry config wholesale -
+						the schema defaults (mutationTools) were shadowed in deployment, so the
+						raw-write's fs/observed never triggered the chain.
+					</p>
+					<p>
+						Solved: add raw-write to the three patch layers, and verify the LIVE effective
+						config from the bundle layers - the Config inspect provider projects the
+						schema, not the resolved config.
+					</p>
+				</Concept>
+				<Concept
+					Id="plugins-failure-race"
+					Title="The same-observed-version guard race"
+					Diagram="The multi-step direct-govern fold with every step writing the SAME observed version - only the first write succeeding, the later steps failing the stale-version check silently - and the fix: the sequential fold awaiting each step's chain with the chain pass statting the target before its write."
 				>
-					<Badge slot="badge">LIVE-FOUND · FIXED</Badge>
-				</Card>
-				<Card
-					Variant="white"
-					Name="The P5 v2 storage open failure"
-					Desc="The package_governance v2 domain open failed SILENTLY against the v1 file (the exact-equality version check) - the silence made it undiagnosable. Solved: per-record layout + compatibleVersions [1] (76 v1 records auto-migrated) + backup-and-skip for invalid records + a loud failure line - live-confirmed on the next boot."
+					<Badge Variant="outline">LIVE-FOUND · FIXED</Badge>
+					<p>
+						In the multi-step direct-govern fold every step wrote with the SAME observed
+						version - only the first write could succeed, the later steps failed the
+						stale-version check silently.
+					</p>
+					<p>
+						Solved: the sequential fold awaits each step's chain, and the chain pass stats
+						the target before its write (the fresh-version pattern) - the fold converges
+						in any step order.
+					</p>
+				</Concept>
+				<Concept
+					Id="plugins-failure-storage"
+					Title="The P5 v2 storage open failure"
+					Diagram="The package_governance v2 domain open failing SILENTLY against the v1 file on the exact-equality version check - and the fix: per-record layout, compatibleVersions [1], backup-and-skip for invalid records, and a loud failure line."
 				>
-					<Badge slot="badge">LIVE-FOUND · FIXED</Badge>
-				</Card>
-				<Card
-					Variant="white"
-					Name="The cross-module re-processing bound"
-					Desc="A governed write re-fires fs/observed - the interlock re-enters the listeners by design. Kept safe by construction: the Stash idempotence gate turns self re-entries into no-ops, the P3/U2 refresh re-emits with the same actor, and the live battery proves the re-pass is bounded and self-canonicalizing (governed + pinned converge)."
+					<Badge Variant="outline">LIVE-FOUND · FIXED</Badge>
+					<p>
+						The package_governance v2 domain open failed SILENTLY against the v1 file (the
+						exact-equality version check) - the silence made it undiagnosable.
+					</p>
+					<p>
+						Solved: per-record layout + compatibleVersions [1] (76 v1 records
+						auto-migrated) + backup-and-skip for invalid records + a loud failure line -
+						live-confirmed on the next boot.
+					</p>
+				</Concept>
+				<Concept
+					Id="plugins-failure-reprocessing"
+					Title="The cross-module re-processing bound"
+					Diagram="A governed write re-firing fs/observed with the interlock re-entering the listeners by design - and the three bounds keeping the re-pass safe: the Stash idempotence gate, the P3/U2 refresh re-emitting with the same actor, and the live battery proving bounded, self-canonicalizing re-passes."
 				>
-					<Badge slot="badge">BOUNDED BY DESIGN · VERIFIED LIVE</Badge>
-				</Card>
+					<Badge Variant="outline">BOUNDED BY DESIGN · VERIFIED LIVE</Badge>
+					<p>
+						A governed write re-fires fs/observed - the interlock re-enters the listeners
+						by design.
+					</p>
+					<p>
+						Kept safe by construction: the Stash idempotence gate turns self re-entries
+						into no-ops, the P3/U2 refresh re-emits with the same actor, and the live
+						battery proves the re-pass is bounded and self-canonicalizing (governed +
+						pinned converge).
+					</p>
+				</Concept>
 			</div>
 		</section>
 
@@ -535,28 +609,51 @@ const Registry = [
 				Title="The architecture in action"
 				Meta="HOOKS · DELEGATIONS · INVERSIONS"
 			/>
-			<div class="grid grid--3">
-				<Card
-					Variant="white"
-					Name="Hooks"
-					Desc="Where the family attaches: the llm/stream waterfall wrap (next() first, options untouched, per-chunk), the fs/observed listeners (sync, after content is on disk, fired by the tool layer only), and the tool registrations into the agent's toolset (raw-write, normalize-file)."
+			<div class="concept-list">
+				<Concept
+					Id="plugins-arch-hooks"
+					Title="Hooks - where the family attaches"
+					Diagram="The three attachment points: the llm/stream waterfall wrap (next() first, options untouched, per-chunk), the fs/observed listeners (sync, after content is on disk, fired by the tool layer only), and the tool registrations into the agent's toolset (raw-write, normalize-file)."
 				>
-					<Badge slot="badge">HOOK POINTS</Badge>
-				</Card>
-				<Card
-					Variant="white"
-					Name="Delegations"
-					Desc="Who does the work: the factory's Direct-govern steps (per basename, the raw-write govern selection), the core's Dispatch/Settle envelope builder (a new update stage reduces to a child runner plus strings), the subprocess seam for the external tools, and the Effect-TS services mirroring the same seams."
+					<p>
+						The llm/stream waterfall wrap - next() first, options untouched,
+						per-chunk.
+					</p>
+					<p>
+						The fs/observed listeners - sync, after content is on disk, fired by the tool
+						layer only. And the tool registrations into the agent's toolset: raw-write,
+						normalize-file.
+					</p>
+				</Concept>
+				<Concept
+					Id="plugins-arch-delegations"
+					Title="Delegations - who does the work"
+					Diagram="The work splitting across the family: the factory's Direct-govern steps (per basename, the raw-write govern selection), the core's Dispatch/Settle envelope builder (a new update stage reducing to a child runner plus strings), the subprocess seam for the external tools, and the Effect-TS services mirroring the same seams."
 				>
-					<Badge slot="badge">DELEGATIONS</Badge>
-				</Card>
-				<Card
-					Variant="white"
-					Name="Inversions"
-					Desc="Who owns what: the Dependencies injection builders (every collection, child stage and string injected), the module-owned ledger strings (the byte-identical contract), the consumers bring their own metal while the factory pours the mold, and the smokes as the arbiter after every change."
+					<p>
+						The factory's Direct-govern steps (per basename, the raw-write govern
+						selection) and the core's Dispatch/Settle envelope builder - a new update
+						stage reduces to a child runner plus strings.
+					</p>
+					<p>
+						The subprocess seam carries the external tools, and the Effect-TS services
+						mirror the same seams.
+					</p>
+				</Concept>
+				<Concept
+					Id="plugins-arch-inversions"
+					Title="Inversions - who owns what"
+					Diagram="The ownership boundaries: the Dependencies injection builders (every collection, child stage and string injected), the module-owned ledger strings (the byte-identical contract), the consumers bringing their own metal while the factory pours the mold, and the smokes as the arbiter after every change."
 				>
-					<Badge slot="badge">INVERSIONS</Badge>
-				</Card>
+					<p>
+						The Dependencies injection builders - every collection, child stage and string
+						injected - and the module-owned ledger strings, the byte-identical contract.
+					</p>
+					<p>
+						The consumers bring their own metal while the factory pours the mold, and the
+						smokes are the arbiter after every change.
+					</p>
+				</Concept>
 			</div>
 		</section>
 	</main>

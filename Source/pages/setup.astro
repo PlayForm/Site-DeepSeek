@@ -2,6 +2,7 @@
 import Base from "@Layout/Base.astro";
 import Badge from "@Component/Badge.astro";
 import Card from "@Component/Card.astro";
+import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 
@@ -142,40 +143,6 @@ const Knobs = [
 	},
 ];
 
-// The optionality showcase: what is OFF by default, and what happens when
-// you leave it off.
-const Optional = [
-	{
-		Name: "normalizeToolArguments: false",
-		Desc: 'The default. Tool-call arguments are execution-critical raw JSON - rewriting them is the user\'s accepted risk, so the schema default is OFF and the example patch turns it on. Even when on, edit and raw-write calls pass through by identity and a {"__normalize":false-marked call passes through unnormalized.',
-		Badge: "DEFAULT OFF",
-	},
-	{
-		Name: "govern: absent",
-		Desc: "The raw-write tool's escape hatch: with no govern flag the write emits fs/observed exactly like a built-in write and the event path governs it as always - the per-call direct chain only runs when you ask for it.",
-		Badge: "ESCAPE HATCH",
-	},
-	{
-		Name: "normalize: absent (raw-write)",
-		Desc: "The default posture of the raw-write tool: content lands verbatim, byte-for-byte. Normalization happens only when the call selects it - all six transforms, or specific flavors.",
-		Badge: "VERBATIM BY DEFAULT",
-	},
-	{
-		Name: "Tracing: no-op by default",
-		Desc: "The Effect-TS release wraps every governance stage in spans (dsh.gate, dsh.discover, dsh.chain-pass, dsh.write) but ships Effect's no-op Tracer as the default - zero cost, no behavior change. The OTLP exporter attaches only when configured, and spans never alter ledger strings or timing-sensitive gates.",
-		Badge: "ZERO COST BY DEFAULT",
-	},
-	{
-		Name: "The parallel-govern toggle",
-		Desc: "The direct-govern path is deliberately SEQUENTIAL (the awaited fold - the live-verified race fix); the event path is inherently concurrent. A per-call toggle to run the steps concurrently is designed (#14) to ride the same govern flag shape in both releases - planned, with the sequential fold as the default.",
-		Badge: "PLANNED · DEFAULT SEQUENTIAL",
-	},
-	{
-		Name: "Best-effort everywhere",
-		Desc: "Storage records buffer or drop when no storage facility is present (the human ledger stays the complete record); excluded paths log one line and move on; a no-op write writes nothing; a thrown-away stream writes no ledger line. Silence is the invariant; the ledger is the receipt.",
-		Badge: "SILENCE AS INVARIANT",
-	},
-];
 ---
 
 <Base
@@ -202,75 +169,179 @@ const Optional = [
 				Title="Step 1 - Add the bundles to the profile"
 				Meta="~/.dsh/profiles/<name>/package.json"
 			/>
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				A profile's package.json lists the bundles as <code>link:</code> dependencies and in
-				the <code>dsh.profile.bundles</code> list - the list is what activates them. The
-				linked checkout must carry its own node_modules, and each bundle needs its own
-				pnpm-workspace.yaml (<code>packages: [.]</code>): an install inside a bundle under
-				the profile's workspace acts on the workspace root and does nothing to the bundle.
-				Remote installs work the same way: <code>pnpm add @playform/&lt;pkg&gt;</code> in
-				the profile directory plus the package in the bundles list, or{" "}
-				<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code>.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="setup-bundles-list"
+					Title="The bundles list is what activates"
+					Diagram="The profile's package.json with the link: dependencies on the left and the dsh.profile.bundles list on the right - the list marking which entries actually activate."
+				>
+					<p>
+						A profile's package.json lists the bundles as <code>link:</code> dependencies
+						and in the <code>dsh.profile.bundles</code> list - the list is what activates
+						them.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-workspace-boundary"
+					Title="The linked checkout needs its own workspace"
+					Diagram="The profile workspace and a linked bundle side by side - the bundle carrying its own node_modules and pnpm-workspace.yaml, with an install inside the bundle landing in the bundle's own workspace, never the profile's root."
+				>
+					<p>
+						The linked checkout must carry its own node_modules, and each bundle needs its
+						own pnpm-workspace.yaml (<code>packages: [.]</code>).
+					</p>
+					<p>
+						An install inside a bundle under the profile's workspace acts on the workspace
+						root and does nothing to the bundle.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-remote-installs"
+					Title="Remote installs work the same way"
+					Diagram="Two equivalent remote routes into the same bundles list: pnpm add of the package in the profile directory, or dsh plugin --profile add of a tarball."
+				>
+					<p>
+						Remote installs work the same way: <code>pnpm add @playform/&lt;pkg&gt;</code>{" "}
+						in the profile directory plus the package in the bundles list, or{" "}
+						<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code>.
+					</p>
+				</Concept>
+			</div>
 			<div class="code-block">{ProfileExample.join("\n")}</div>
 		</section>
 
 		<!-- Step 2 -->
 		<section class="section">
 			<SectionHeader Title="Step 2 - The patch entries" Meta="cordis.patch.yml" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				Each bundle ships a cordis.patch.yml whose <code>insert:</code> entries declare the
-				loader row and the config. A bare <code>id:</code> row patches an existing entry;
-				the loader rejects unknown ids with <code>entry "..." not found</code>. The factory
-				needs no config - it registers the service, and the consumers' rows do the rest. The
-				example below is the deployed combination: the two governance plugins with raw-write
-				added to mutationTools, and the dash flavor with the example patch's opt-in
-				toolArgs:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="setup-patch-rows"
+					Title="The insert: entries declare the loader row"
+					Diagram="A cordis.patch.yml insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
+				>
+					<p>
+						Each bundle ships a cordis.patch.yml whose <code>insert:</code> entries declare
+						the loader row and the config. A bare <code>id:</code> row patches an existing
+						entry; the loader rejects unknown ids with{" "}
+						<code>entry "..." not found</code>.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-factory-config"
+					Title="The factory needs no config"
+					Diagram="The factory's insert: row registering the service with an empty config, while the consumers' rows carry the actual configuration."
+				>
+					<p>
+						The factory needs no config - it registers the service, and the consumers' rows
+						do the rest.
+					</p>
+					<p>
+						The example below is the deployed combination: the two governance plugins with
+						raw-write added to mutationTools, and the dash flavor with the example patch's
+						opt-in toolArgs.
+					</p>
+				</Concept>
+			</div>
 			<div class="code-block">{PatchExample.join("\n")}</div>
 		</section>
 
 		<!-- Step 3 -->
 		<section class="section">
 			<SectionHeader Title="Step 3 - Restart" Meta="BUNDLE LAYERS COMPOSE AT HOST BOOT" />
-			<p class="page-hero__sub">
-				Bundle layers compose when the host boots - activation is at the next start, not at
-				install time. A <code>file:</code> dependency alone is NOT activation: the bundles
-				list plus the restart is what loads the entries from each bundle's built
-				<code>Target/</code>. Every rebuild of a linked bundle's Target is fresh on the next
-				restart, so the dev loop is edit - build - restart.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="setup-boot-activation"
+					Title="Activation is at the next start, not at install time"
+					Diagram="Install-time vs boot-time: the file: dependency alone not activating, the bundles list plus the restart loading the entries from each bundle's built Target/."
+				>
+					<p>
+						Bundle layers compose when the host boots - activation is at the next start,
+						not at install time.
+					</p>
+					<p>
+						A <code>file:</code> dependency alone is NOT activation: the bundles list plus
+						the restart is what loads the entries from each bundle's built{" "}
+						<code>Target/</code>.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-dev-loop"
+					Title="The dev loop is edit - build - restart"
+					Diagram="The loop: edit a linked bundle's source, build its Target, restart the host - the rebuilt Target fresh on every restart."
+				>
+					<p>
+						Every rebuild of a linked bundle's Target is fresh on the next restart, so the
+						dev loop is edit - build - restart.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<!-- Step 4 -->
 		<section class="section">
 			<SectionHeader Title="Step 4 - Verify" Meta="THE LEDGERS' ACTIVATION LINES" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				"Did it activate" is answerable from the ledger alone: each plugin writes its
-				activation line to its own <code>~/.dsh/&lt;name&gt;.log</code> at boot - the
-				ledgers and the runtime's inspect providers are the activation assessors (the old{" "}
-				<code>--dump-config</code> verification path is gone behind the app-managed profile
-				guard). Read the effective config from the bundle patch layers, not the schema
-				projection alone: a patch config replaces the entry config wholesale, so the
-				defaults the schema advertises may not be what runs.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="setup-ledger-verify"
+					Title="The ledger answers 'did it activate'"
+					Diagram="Each plugin writing its activation line to its own ~/.dsh/<name>.log at boot - the ledger and the runtime's inspect providers as the activation assessors."
+				>
+					<p>
+						"Did it activate" is answerable from the ledger alone: each plugin writes its
+						activation line to its own <code>~/.dsh/&lt;name&gt;.log</code> at boot.
+					</p>
+					<p>
+						The ledgers and the runtime's inspect providers are the activation assessors -
+						the old <code>--dump-config</code> verification path is gone behind the
+						app-managed profile guard.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-effective-config"
+					Title="Read the effective config, not the schema"
+					Diagram="The bundle patch layers projecting the live effective config - a patch config replacing the entry config wholesale, the schema-advertised defaults shown as possibly-not-running."
+				>
+					<p>
+						Read the effective config from the bundle patch layers, not the schema
+						projection alone: a patch config replaces the entry config wholesale, so the
+						defaults the schema advertises may not be what runs.
+					</p>
+				</Concept>
+			</div>
 			<div class="code-block">{VerifyLines.join("\n")}</div>
 		</section>
 
 		<!-- The configurable surface -->
 		<section class="section">
 			<SectionHeader Title="The configurable surface" Meta="REAL SCHEMA FIELDS" />
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				Every knob below is a real field in the packages' Config schemas; volatile cells
-				(log, logFile, replacement and each plugin's own hot fields) commit without
-				remounting the plugin. Each plugin's full table lives on its page: the
-				<a href="/plugins/hook-dsh-governor-package/">package governor</a>, the
-				<a href="/plugins/hook-dsh-pinner-package/">pinner</a>, the
-				<a href="/plugins/hook-dsh-governor-cargo/">cargo governor</a>, the
-				<a href="/plugins/hook-dsh-normalize-dash/">dash flavor</a>, the
-				<a href="/plugins/hook-dsh-normalize-file/">normalize-file tool</a> and the
-				<a href="/plugins/plugin-dsh-factory/">factory service</a>.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="setup-real-fields"
+					Title="Real schema fields, hot-editable"
+					Diagram="The Config schemas behind every knob - the volatile cells (log, logFile, replacement, each plugin's own hot fields) committing without remounting the plugin."
+				>
+					<p>
+						Every knob below is a real field in the packages' Config schemas; volatile
+						cells (log, logFile, replacement and each plugin's own hot fields) commit
+						without remounting the plugin.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-full-tables"
+					Title="The full tables live on each plugin page"
+					Diagram="The plugin pages carrying the full config table for each bundle - the six pages linked from this section."
+				>
+					<p>
+						Each plugin's full table lives on its page: the
+						<a href="/plugins/hook-dsh-governor-package/">package governor</a>, the
+						<a href="/plugins/hook-dsh-pinner-package/">pinner</a>, the
+						<a href="/plugins/hook-dsh-governor-cargo/">cargo governor</a>, the
+						<a href="/plugins/hook-dsh-normalize-dash/">dash flavor</a>, the
+						<a href="/plugins/hook-dsh-normalize-file/">normalize-file tool</a> and the
+						<a href="/plugins/plugin-dsh-factory/">factory service</a>.
+					</p>
+				</Concept>
+			</div>
 			<div class="grid grid--3">
 				{Knobs.map((Group) => (
 					<Card Variant="white">
@@ -293,27 +364,127 @@ const Optional = [
 		<!-- Optionality -->
 		<section class="section">
 			<SectionHeader Title="Optional by default" Meta="WHAT STAYS OFF UNLESS YOU ASK" />
-			<div class="grid grid--2">
-				{Optional.map((Item) => (
-					<Card Variant="white" Name={Item.Name} Desc={Item.Desc} Muted>
-						<Badge slot="badge" Variant="outline">
-							{Item.Badge}
-						</Badge>
-					</Card>
-				))}
+			<div class="concept-list">
+				<Concept
+					Id="setup-optional-toolargs"
+					Title="normalizeToolArguments: false"
+					Diagram="The schema default OFF for tool-call arguments - execution-critical raw JSON - and the two pass-through exemptions (edit/raw-write by identity, the __normalize:false marker) when a patch turns it on."
+				>
+					<Badge Variant="outline">DEFAULT OFF</Badge>
+					<p>
+						The default. Tool-call arguments are execution-critical raw JSON - rewriting
+						them is the user's accepted risk, so the schema default is OFF and the example
+						patch turns it on.
+					</p>
+					<p>
+						Even when on, edit and raw-write calls pass through by identity, and a{" "}
+						<code>&#123;"__normalize":false&#125;</code>-marked call passes through
+						unnormalized.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-optional-govern"
+					Title="govern: absent"
+					Diagram="The raw-write tool with no govern flag emitting fs/observed exactly like a built-in write - the event path governing it as always, the per-call direct chain running only when asked."
+				>
+					<Badge Variant="outline">ESCAPE HATCH</Badge>
+					<p>
+						The raw-write tool's escape hatch: with no govern flag the write emits
+						fs/observed exactly like a built-in write and the event path governs it as
+						always.
+					</p>
+					<p>The per-call direct chain only runs when you ask for it.</p>
+				</Concept>
+				<Concept
+					Id="setup-optional-normalize"
+					Title="normalize: absent (raw-write)"
+					Diagram="The raw-write tool's default posture: content landing verbatim, byte-for-byte - normalization happening only when the call selects it, all six transforms or specific flavors."
+				>
+					<Badge Variant="outline">VERBATIM BY DEFAULT</Badge>
+					<p>
+						The default posture of the raw-write tool: content lands verbatim,
+						byte-for-byte.
+					</p>
+					<p>
+						Normalization happens only when the call selects it - all six transforms, or
+						specific flavors.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-optional-tracing"
+					Title="Tracing: no-op by default"
+					Diagram="The Effect-TS release wrapping every governance stage in spans while shipping Effect's no-op Tracer - the OTLP exporter attaching only when configured, spans never altering ledger strings or timing-sensitive gates."
+				>
+					<Badge Variant="outline">ZERO COST BY DEFAULT</Badge>
+					<p>
+						The Effect-TS release wraps every governance stage in spans (dsh.gate,
+						dsh.discover, dsh.chain-pass, dsh.write) but ships Effect's no-op Tracer as
+						the default - zero cost, no behavior change.
+					</p>
+					<p>
+						The OTLP exporter attaches only when configured, and spans never alter ledger
+						strings or timing-sensitive gates.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-optional-parallel"
+					Title="The parallel-govern toggle"
+					Diagram="The direct-govern path running SEQUENTIAL (the awaited fold - the live-verified race fix) against the inherently concurrent event path - the designed per-call toggle riding the same govern flag shape in both releases."
+				>
+					<Badge Variant="outline">PLANNED · DEFAULT SEQUENTIAL</Badge>
+					<p>
+						The direct-govern path is deliberately SEQUENTIAL (the awaited fold - the
+						live-verified race fix); the event path is inherently concurrent.
+					</p>
+					<p>
+						A per-call toggle to run the steps concurrently is designed (#14) to ride the
+						same govern flag shape in both releases - planned, with the sequential fold as
+						the default.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-optional-best-effort"
+					Title="Best-effort everywhere"
+					Diagram="The four best-effort postures: storage records buffering or dropping without a facility, excluded paths logging one line and moving on, a no-op write writing nothing, a thrown-away stream writing no ledger line."
+				>
+					<Badge Variant="outline">SILENCE AS INVARIANT</Badge>
+					<p>
+						Storage records buffer or drop when no storage facility is present (the human
+						ledger stays the complete record); excluded paths log one line and move on; a
+						no-op write writes nothing; a thrown-away stream writes no ledger line.
+					</p>
+					<p>Silence is the invariant; the ledger is the receipt.</p>
+				</Concept>
 			</div>
 		</section>
 
 		<!-- The ledgers -->
 		<section class="section">
 			<SectionHeader Title="One ledger per plugin" Meta="~/.dsh/<name>.log" />
-			<p class="page-hero__sub">
-				Each plugin writes its own durable ledger - the governor's, the pinner's and the
-				cargo governor's are separate files and separate concerns: activating one never
-				implies another. The line format is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in
-				the file and <code>&lt;plugin&gt;: &lt;message&gt;</code> on the logger, both
-				composed by the factory's Append around the plugin's own string.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="setup-separate-ledgers"
+					Title="Separate ledgers, separate concerns"
+					Diagram="The governor's, the pinner's and the cargo governor's ledgers as three separate files - activating one never implying another."
+				>
+					<p>
+						Each plugin writes its own durable ledger - the governor's, the pinner's and
+						the cargo governor's are separate files and separate concerns: activating one
+						never implies another.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-line-format"
+					Title="The line format"
+					Diagram="One message flowing through the factory's Append into its two forms: [ISO] message in the file, plugin: message on the logger."
+				>
+					<p>
+						The line format is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file and{" "}
+						<code>&lt;plugin&gt;: &lt;message&gt;</code> on the logger, both composed by
+						the factory's Append around the plugin's own string.
+					</p>
+				</Concept>
+			</div>
 			<div class="table-wrap" style="margin-top: var(--space-md)">
 				<table class="table">
 					<thead>

@@ -1,7 +1,9 @@
 ---
 import Base from "@Layout/Base.astro";
+import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import Card from "@Component/Card.astro";
+import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
@@ -234,12 +236,21 @@ const LedgerStrings = [
 				Title="Where It Fits"
 				Meta="FAMILY POSITION: 5TH OF 6 STREAM NORMALIZERS"
 			/>
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>Family position</strong> (the @-sentence{" "}
-				<strong>Hook @ DSH @ Normalize @ Invisible</strong>): a hook child of the{" "}
-				<strong>plugin-dsh-factory</strong> service and the <strong>hook-dsh-core</strong>{" "}
-				machinery; the fifth of the six stream normalizer siblings:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="invisible-family-position"
+					Title="The family position"
+					Diagram="Hook @ DSH @ Normalize @ Invisible as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the fifth of the six stream normalizer siblings."
+				>
+					<p>
+						<strong>Family position</strong> (the @-sentence{" "}
+						<strong>Hook @ DSH @ Normalize @ Invisible</strong>): a hook child of the{" "}
+						<strong>plugin-dsh-factory</strong> service and the{" "}
+						<strong>hook-dsh-core</strong> machinery; the fifth of the six stream
+						normalizer siblings.
+					</p>
+				</Concept>
+			</div>
 			<div class="table-wrap">
 				<table class="table">
 					<thead>
@@ -256,22 +267,39 @@ const LedgerStrings = [
 									<strong>{Row.Flavor}</strong>
 								</td>
 								<td>{Row.Table}</td>
-								<td>{Row.Sub}</td>
+								<td>
+									{Row.Sub.split("→").map((Part, Index) => (
+										<Fragment>
+											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+											{Part}
+										</Fragment>
+									))}
+								</td>
 							</tr>
 						))}
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				A <strong>non-manifest factory consumer</strong>: it injects
-				<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap +
-				shared Ledger/Enabled mappings + its own fields) and <code>Append</code>; the config
-				is composed by the factory's standalone <code>Schema</code> helper with
-				<code>shared: false</code> - the minimal block, no fs/observed dead fields. It
-				touches no files, so fs/write-intent and fs/observed never see it; it wraps the
-				downstream result and always calls <code>next()</code>, so it composes with other
-				llm/stream listeners regardless of registration order.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="invisible-non-manifest"
+					Title="A non-manifest factory consumer"
+					Diagram="The flavor's factory surface: injecting [&quot;pluginFactory&quot;], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."
+				>
+					<p>
+						A <strong>non-manifest factory consumer</strong>: it injects{" "}
+						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap +
+						shared Ledger/Enabled mappings + its own fields) and <code>Append</code>; the
+						config is composed by the factory's standalone <code>Schema</code> helper with
+						<code>shared: false</code> - the minimal block, no fs/observed dead fields.
+					</p>
+					<p>
+						It touches no files, so fs/write-intent and fs/observed never see it; it
+						wraps the downstream result and always calls <code>next()</code>, so it
+						composes with other llm/stream listeners regardless of registration order.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
@@ -313,29 +341,55 @@ const LedgerStrings = [
 
 		<section class="section">
 			<SectionHeader Title="The Problem" Meta="WHY THE INVISIBLE FLAVOR EXISTS" />
-			<p class="page-hero__sub">
-				Zero-width and format characters carry no visible width - which makes them the
-				perfect smugglers. A zero-width joiner inside a file path, a right-to-left mark
-				inside a command, the U+202E visual-spoofing override in what looks like plain text:
-				none of them show up in the transcript, all of them change what a parser, shell or
-				diff sees. This flavor deletes the whole family before it reaches the transcript.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="invisible-problem"
+					Title="The perfect smugglers"
+					Diagram="Zero-width and format characters carrying no visible width - a zero-width joiner inside a file path, a right-to-left mark inside a command, the U+202E visual-spoofing override in what looks like plain text: none showing up in the transcript, all of them changing what a parser, shell or diff sees."
+				>
+					<p>
+						Zero-width and format characters carry no visible width - which makes them
+						the perfect smugglers.
+					</p>
+					<p>
+						A zero-width joiner inside a file path, a right-to-left mark inside a
+						command, the U+202E visual-spoofing override in what looks like plain text:
+						none of them show up in the transcript, all of them change what a parser,
+						shell or diff sees. This flavor deletes the whole family before it reaches
+						the transcript.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
 			<SectionHeader Title="How It Works" Meta="THE STREAM PIPELINE" />
 			<div class="code-block">{Pipeline.join("\n")}</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				<strong>The transform</strong> - the core's <code>Invisible</code> class, applied
-				per text segment through the core's generic class-to-string
-				<code>Replace</code>:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="invisible-transform"
+					Title="The transform: the core's Invisible class"
+					Diagram="The core's Invisible class, applied per text segment through the core's generic class-to-string Replace."
+				>
+					<p>
+						<strong>The transform</strong> - the core's <code>Invisible</code> class,
+						applied per text segment through the core's generic class-to-string{" "}
+						<code>Replace</code>:
+					</p>
+				</Concept>
+			</div>
 			<div class="code-block" style="margin-top: var(--space-sm)">
 				{TransformClass.join("\n")}
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
-				All are removed (default <code>replacement: ""</code> - REMOVAL) per text segment:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="invisible-removal"
+					Title="All are removed - the default is REMOVAL"
+					Diagram="All covered characters removed (default replacement: &quot;&quot; - REMOVAL) per text segment."
+				>
+					<p>All are removed (default <code>replacement: ""</code> - REMOVAL) per text segment:</p>
+				</Concept>
+			</div>
 			<div class="table-wrap" style="margin-top: var(--space-sm)">
 				<table class="table">
 					<thead>
@@ -356,13 +410,24 @@ const LedgerStrings = [
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				No context rules, chunk-boundary-safe - single-character replacement, no lookahead,
-				per-chunk application can never disagree with whole-text application. The
-				replacement is applied with a function replacer, so a custom
-				<code>replacement</code> containing <code>$</code> patterns is inserted literally.
-				Replaced characters are counted per stream for the ledger line.
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="invisible-mechanics"
+					Title="Chunk-boundary-safe, function-replaced, counted"
+					Diagram="No context rules, chunk-boundary-safe - single-character replacement, no lookahead, per-chunk application never disagreeing with whole-text application; the replacement applied with a function replacer so a custom replacement containing $ patterns is inserted literally; replaced characters counted per stream for the ledger line."
+				>
+					<p>
+						No context rules, chunk-boundary-safe - single-character replacement, no
+						lookahead, per-chunk application can never disagree with whole-text
+						application.
+					</p>
+					<p>
+						The replacement is applied with a function replacer, so a custom{" "}
+						<code>replacement</code> containing <code>$</code> patterns is inserted
+						literally. Replaced characters are counted per stream for the ledger line.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
@@ -393,10 +458,19 @@ const LedgerStrings = [
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				Volatile cells commit without remounting the plugin; the factory's State builder
-				unwraps them defensively. Example cordis.patch.yml row:
-			</p>
+			<div class="concept-list">
+				<Concept
+					Id="invisible-volatile"
+					Title="Volatile cells commit without remounting"
+					Diagram="The volatile cells committing without remounting the plugin - the factory's State builder unwrapping them defensively."
+				>
+					<p>
+						Volatile cells commit without remounting the plugin; the factory's State
+						builder unwraps them defensively.
+					</p>
+					<p>Example cordis.patch.yml row:</p>
+				</Concept>
+			</div>
 			<div class="code-block" style="margin-top: var(--space-sm)">
 				{[
 					"- insert:",
@@ -420,21 +494,48 @@ const LedgerStrings = [
 				joiner (U+200D), a left-to-right mark (U+200E), a right-to-left mark (U+200F), a
 				word joiner (U+2060) and a BOM character (U+FEFF):
 			</p>
-			<p class="section-kicker">Before → after - identical in print, different to a parser</p>
-			<div class="code-block">{StreamExample.join("\n")}</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				In the incoming line the smugglers sit inside the word <code>password</code> and
-				around the colon; a diff would see a <code>password</code> that does not match the
-				author's text, a parser would tokenize differently, a shell could splice a command.
-				After the pass all of them are simply gone - the output line is what the reader
-				should see. When a stream finishes normally with replacements made, the ledger gets
-				the count line shown below. The <code>replacement</code> is hot-editable (the
-				default <code>""</code> removes; a non-empty value such as <code>"?"</code> would
-				mark each smuggler's position for debugging), and the same pass runs over reasoning
-				deltas when <code>normalizeReasoning</code> is on and over tool-call arguments when
-				the example patch enables <code>normalizeToolArguments</code> - with the
-				<code>edit</code> name exempt and raw-marker calls passing through unnormalized.
+			<p class="section-kicker">
+				Before <ArrowIcon Direction="right" Tone="accent" /> after - identical in print,
+				different to a parser
 			</p>
+			<div class="code-block">{StreamExample.join("\n")}</div>
+			<div class="concept-list">
+				<Concept
+					Id="invisible-in-action"
+					Title="The smugglers simply vanish"
+					Diagram="The smugglers sitting inside the word password and around the colon - a diff seeing a password that does not match the author's text, a parser tokenizing differently, a shell splicing a command - and after the pass all of them simply gone, the output line being what the reader should see."
+				>
+					<p>
+						In the incoming line the smugglers sit inside the word <code>password</code>{" "}
+						and around the colon; a diff would see a <code>password</code> that does not
+						match the author's text, a parser would tokenize differently, a shell could
+						splice a command.
+					</p>
+					<p>
+						After the pass all of them are simply gone - the output line is what the
+						reader should see.
+					</p>
+				</Concept>
+				<Concept
+					Id="invisible-hot-and-pass"
+					Title="Hot-editable, and the same pass elsewhere"
+					Diagram="The count line on a normal completion with replacements made - the replacement hot-editable (the default &quot;&quot; removes; a non-empty value such as &quot;?&quot; would mark each smuggler's position for debugging), and the same pass running over reasoning deltas when normalizeReasoning is on and over tool-call arguments when the example patch enables normalizeToolArguments - with the edit name exempt and raw-marker calls passing through unnormalized."
+				>
+					<p>
+						When a stream finishes normally with replacements made, the ledger gets the
+						count line shown below.
+					</p>
+					<p>
+						The <code>replacement</code> is hot-editable (the default <code>""</code>{" "}
+						removes; a non-empty value such as <code>"?"</code> would mark each
+						smuggler's position for debugging), and the same pass runs over reasoning
+						deltas when <code>normalizeReasoning</code> is on and over tool-call
+						arguments when the example patch enables{" "}
+						<code>normalizeToolArguments</code> - with the <code>edit</code> name exempt
+						and raw-marker calls passing through unnormalized.
+					</p>
+				</Concept>
+			</div>
 		</section>
 
 		<section class="section">
