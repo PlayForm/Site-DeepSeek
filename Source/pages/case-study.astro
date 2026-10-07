@@ -1,0 +1,643 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Terminal from "@Component/Terminal.astro";
+
+// The in-page phase index: anchor links in a badge row under the hero.
+const Index = [
+	{ Href: "#overview", Label: "OVERVIEW", Primary: true },
+	{ Href: "#phase-1", Label: "PHASE I - THE FACTORY" },
+	{ Href: "#phase-2", Label: "PHASE II - THE AUDIT" },
+	{ Href: "#phase-3", Label: "PHASE III - GOING LIVE" },
+	{ Href: "#phase-4", Label: "PHASE IV - THE STREAMS" },
+	{ Href: "#phase-5", Label: "PHASE V - RAW-WRITE & CONTROL" },
+	{ Href: "#phase-6", Label: "PHASE VI - RELEASES" },
+	{ Href: "#decisions", Label: "THE DECISION INDEX" },
+	{ Href: "#lessons", Label: "THE LESSONS" },
+];
+
+// The five original bundles of the boilerplate era (Package 1 of the record).
+const Originals = [
+	{
+		Name: "dsh-plugin-factory",
+		Desc: "The furnace: one service with 15 methods centralizing the machinery the hooks kept duplicating - the ledger, the gate, the guarded write, the wiring, the schema factory.",
+		Badge: "SERVICE",
+	},
+	{
+		Name: "dsh-hook-package-governor",
+		Desc: "The package.json governor: chain-canonicalization plus the update stage, run as a detached, contained continuation.",
+		Badge: "HOOK",
+	},
+	{
+		Name: "dsh-hook-package-pinner",
+		Desc: "The static pinner: every ranged dependency version rewritten to its exact form, protected by a keep-list.",
+		Badge: "HOOK",
+	},
+	{
+		Name: "dsh-hook-cargo-governor",
+		Desc: "The Cargo.toml governor: surgical line rewrites on raw TOML and cargo upgrade driven through the subprocess seam.",
+		Badge: "HOOK",
+	},
+	{
+		Name: "dsh-hook-mdash",
+		Desc: "The first stream normalizer: the dash family rewritten live in the model output, at the injection point a file hook does not have.",
+		Badge: "NON-MANIFEST",
+	},
+];
+
+// The audit's three criticals as finding -> fix pairs (the 8176b172 report).
+const Criticals = [
+	{
+		Finding:
+			"The pinner's tsc went red - TS2339 four times plus TS2310, a type that recursively references itself as a base. The factory's built declarations shipped unresolved @Interface/* aliases; any consumer whose tsconfig maps the same paths resolves them to its own files. Runtime unaffected: the smoke still passed 28/28.",
+		Fix: "Relative specifiers everywhere and named type exports from the factory entry - then the type-import flip deleted the consumers' local structural mirrors outright (~208 lines). Type-only imports are erased, so the consumers' only-Config-imports-the-factory posture survives the flip untouched.",
+		Badge: "TYPE-ONLY",
+		Commit: "28ebc30 + c6a72ce",
+	},
+	{
+		Finding:
+			"The build was nondeterministic: the build tool's TypeScript hook ran tsc then tsc-alias through an exec() that was never awaited, so the emitted declaration specifier style depended on timing - rebuilding did not reproduce the committed state.",
+		Fix: "Each bundle's prepublishOnly now runs the build with the racy hook neutralized, then explicit sequential tsc && tsc-alias - and a red tsc fails the build instead of shipping. Rebuild twice, get an identical tree.",
+		Badge: "P0",
+		Commit: "28ebc30",
+	},
+	{
+		Finding:
+			"The package governor still registered its in-flight key as the plain target key - the same key the factory's continuation uses. An update running under key K plus an external edit could orphan the update's controller. The cargo flavor had fixed the same collision locally a phase earlier.",
+		Fix: "The key helper moved factory-side as the 16th method - UpdateKey(target) yields update:<targetKey> - and both governors adopted it. Collision-window smoke cases went into the factory and governor suites the same day.",
+		Badge: "P1",
+		Commit: "1ed3564",
+	},
+];
+
+// The P5 journal excerpt, verbatim from the third boot's shared domain.
+const JournalExcerpt = [
+	"16:44:43.232 activated | activated (pinner, ...)",
+	"16:44:43.301 activated | activated (anywhere mode, ...)   <- the governor's (was missing)",
+	"16:44:43.302 activated | cargo                            <- the cargo's (was missing)",
+	"16:45:42.178 governed  | <version token>                  <- the interlock cascade",
+	"16:45:42.196 dispatched | programmatic                    <- the update stage",
+];
+
+// The live governance matrix from the final battery, verbatim outcomes.
+const LiveMatrix = [
+	"raw-write, no govern flag          -> NO chain (the escape hatch; the write still emits fs/observed)",
+	'raw-write, govern: ["canonicalize","pin"]',
+	"                                   -> governed + pinned both land, the file canonical + pinned, NO update dispatch",
+	"raw-write, govern: true            -> governed -> update stage dispatched -> pinned (the full chain, any step order)",
+	"built-in write / edit              -> governed via the event path (the interlock as always)",
+];
+
+// The shared write pipeline: the five steps the audit found repeated across
+// three executors, and what each executor contributed before the merge.
+const Executors = [
+	{
+		Step: "1. resolve",
+		Builtin: "session-aware resolve options (cwd, escalation root)",
+		Raw: "same call, no cwd option - a real divergence, documented",
+		Factory: "none - the target arrives pre-resolved",
+	},
+	{
+		Step: "2. fs/write-intent",
+		Builtin: "the waterfall, next() -> void",
+		Raw: "identical waterfall, next() -> undefined",
+		Factory: "builds the intent inline: replaceIfVersion + version",
+	},
+	{
+		Step: "3. sandbox policy",
+		Builtin: "fail-closed controller + standing session policy",
+		Raw: "verbatim replica of the no-escalation branch",
+		Factory: "the per-call workspace-write fence at the target's own directory",
+	},
+	{
+		Step: "4. writeText",
+		Builtin: "the five-argument call + denial remediation",
+		Raw: "same five arguments, no remediation",
+		Factory: "same five arguments, plus the stash pre-registration",
+	},
+	{
+		Step: "5. fs/observed",
+		Builtin: "present emit with the written version, actor = the exec",
+		Raw: "byte-identical emit shape, actor = the exec",
+		Factory: "delegated to the same-actor refresh",
+	},
+];
+
+// The twelve decisions + the abort-signal fix, as the decision index.
+const Decisions = [
+	{
+		Decision: "Module-owned ledger strings; the smokes as the arbiter",
+		Rationale:
+			"Byte-identical strings make renames safe and behavior provable - the literal activated (cargo flavor, ...) survives every refactor",
+		Technique:
+			"The transform contract + the smoke harness; renames change mechanics, never strings",
+		Evidence: "the handoff P2/P5; 3c29108, e106a98, 66bfd81",
+	},
+	{
+		Decision: "Stat-before-write version guard",
+		Rationale:
+			"In a multi-step fold every step wrote against the SAME observed version - only the first write could succeed; the fresh stat makes the fold converge in ANY step order",
+		Technique:
+			"The guarded write's replaceIfVersion intent + a fresh version before each write",
+		Evidence: "5982aa8",
+	},
+	{
+		Decision: "Wrapped-actor governance marker + the direct path",
+		Rationale:
+			"The raw-write's actor carries {...exec, govern}; the gate's govern reason makes direct governance the only channel - the event path skips marked actors, so no flag means no chain (the escape hatch)",
+		Technique:
+			"The gate's actor step + the factory's Govern (the 17th method) + the step registry",
+		Evidence: "2c8764e, 83ba8e5, e69c5d3",
+	},
+	{
+		Decision: "The sequential fold; the parallel toggle designed but gated",
+		Rationale:
+			"Detached chains raced (nondeterministic writes); same-file steps - canonicalize + pin on one package.json - DO race, so parallel only when disjointness is proven",
+		Technique:
+			"The direct-govern fold in the write executor's continuation; the per-call toggle rides the same govern flag shape",
+		Evidence: "d7a3c93, 140faa0",
+	},
+	{
+		Decision: "Per-record journal layout + the loud failure line",
+		Rationale:
+			"The v2 open failed silently against the v1 file (an exact-equality version check) and buffered every record into a never-drained buffer; silence made it undiagnosable",
+		Technique:
+			"layout: per-record, compatibleVersions: [1], invalidRecords: backup-and-skip - one ledger line on open failure",
+		Evidence: "4c0e83b, 756d566",
+	},
+	{
+		Decision: "Patch layers carry the live config",
+		Rationale:
+			"A patch layer's config REPLACES the entry config wholesale, shadowing schema defaults; the schema projection alone is the verification blind spot",
+		Technique: "The three governance bundles' patch layers + the mutationTools gate input",
+		Evidence: "affa730",
+	},
+	{
+		Decision: "Explicit tools over background rewriters",
+		Rationale:
+			"Background rewriting breaks the edit old-string contract and interleaves with bounded passes; an explicit tool is visible, opt-in, and a no-op writes nothing",
+		Technique: "The tools seam (ctx.tools.register) + the stream gate's name-exemption",
+		Evidence: "48f9515",
+	},
+	{
+		Decision: "One shared write executor owned by the factory",
+		Rationale:
+			"Three executors duplicated the same five-step pipeline; the factory is the only home both tool-style and continuation-style writes already depend on",
+		Technique: "The factory's Write (the 16th method; the guarded write lives on as its alias)",
+		Evidence: "91293d2",
+	},
+	{
+		Decision: "The core as pure delegate; the stream dispatch dependency-free",
+		Rationale:
+			"A cross-bundle symlink workaround for a nominal-type clash was fragile; generic structural shapes survive every narrowing",
+		Technique: "Stream/Chunk + Stream/Block with no dsh-llm import anywhere",
+		Evidence: "98be27b, c2beb06",
+	},
+	{
+		Decision: "Host-era pins; verify from the installed app, never stale node_modules",
+		Rationale:
+			"The @deepseek-ai family pins must match the running host; the registry's latest tag is stale and the profile's old links lie",
+		Technique: "The dependency-pin discipline",
+		Evidence: "the handoff P12",
+	},
+	{
+		Decision: "Dual release: Classic live-first, Effect-TS ships only after parity",
+		Rationale:
+			"Keep the working implementation onboard; the ledger strings stay the contract in BOTH implementations",
+		Technique: "The stream gate, the services + layers, the tracing spans",
+		Evidence: "the monorepo plan; the versions page",
+	},
+	{
+		Decision: "Reversed hierarchical naming + version 0.0.1 + submodules",
+		Rationale: "Names read as @-sentences and group alphabetically; one repository per package",
+		Technique: "Package naming; the monorepo layout",
+		Evidence: "the branding brief",
+	},
+	{
+		Decision: "The abort signal forwards to the seams, never onto the fiber",
+		Rationale:
+			"The Effect-TS write executor originally mapped the caller's signal into the run promise's options; a pre-aborted signal interrupted the whole fiber - the caller saw All fibers interrupted without error instead of the Classic aborted-before-write semantics",
+		Technique:
+			"The Effect-TS Write executor with the signal mapping dropped - the signal rides the seams only, exactly the Classic mechanics",
+		Evidence: "the dash suite's pre-aborted-write scenario (the Effect-TS round)",
+	},
+];
+
+// The working lessons: the honest close.
+const Lessons = [
+	{
+		Name: "The smoke/live fidelity gap",
+		Desc: "Every real bug - the patch layers, the v2 journal open, the version guard, the delivery puzzle - was found LIVE, not by the smokes. The smokes prove the mechanics; the live battery proves the wiring. Neither report is complete without the other.",
+	},
+	{
+		Name: "Load order is not list order",
+		Desc: "The pinner activated before the governor at the decisive boot - never rely on the bundle-list order for step ordering. The fold plus the fresh-version writes make the order irrelevant.",
+	},
+	{
+		Name: "Timestamps are epoch UTC",
+		Desc: "The storage timestamps are epoch milliseconds; the local display adds +03. The missing-records scares were filter mistakes, not lost data - one hour of arithmetic saved an hour of dread.",
+	},
+	{
+		Name: "The subagent quirks",
+		Desc: "One file per response keeps agents alive; agents that batch die more often. Agents crash mid-flight without a closing message - recover from the on-disk state. And the subagents' own streams get normalized: their comment prose came out hyphenated.",
+	},
+	{
+		Name: "Verify the live effective config",
+		Desc: "The meta-lesson of the patch-layer saga: a schema projection is not the truth. The patch layer replaces the entry config wholesale - read the composed layers, never just the defaults.",
+	},
+];
+---
+
+<Base
+	Title="Case Study - @playform / DSH Family"
+	Description="How the twelve-package family was built: five bundles and 231 smoke checks grown to twelve packages across one commit era - the factory, the audit, the live battery, the stream family, the raw-write saga and the decision index behind them."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				CASE STUDY
+			</Badge>
+			<Badge>ONE COMMIT ERA</Badge>
+			<Badge>12 DECISIONS + 1 FIX</Badge>
+		</div>
+
+		<PageHero
+			Title="The case study: how this family got built."
+			Sub="The development story of the twelve packages, told as it happened - the phases, the misdiagnoses named before the fixes, and the decisions that survive in the shipped seams. Every challenge below is stated with what actually happened."
+		/>
+
+		<!-- The phase index -->
+		<div class="eyebrow-row" style="margin-bottom: var(--space-lg)">
+			{Index.map((Item) => (
+				<a href={Item.Href} style="text-decoration: none">
+					<Badge Variant={Item.Primary ? "primary" : "muted"} Dot={Item.Primary}>
+						{Item.Label}
+					</Badge>
+				</a>
+			))}
+		</div>
+
+		<!-- Phase 0: Overview -->
+		<section class="section" id="overview">
+			<SectionHeader Title="Overview" Meta="5 BUNDLES / 231 CHECKS -> 12 PACKAGES" />
+			<p class="page-hero__sub">
+				The family grew from <strong>five bundles and 231 smoke checks</strong> to
+				<strong>twelve packages</strong> across one commit era - the Oct 3&ndash;6, 2026
+				stretch that ends at <code>5982aa8</code> - with roughly 800 checks across twelve
+				suites as the final count. Every step of the way, the smokes were the arbiter: zero
+				assertion changes across refactors, renames and a framework port. And every real bug
+				- the shadowed patch layers, the silent journal open, the version guard that could
+				only succeed once - was found <strong>live</strong>, not by the smokes. That
+				asymmetry is the story's spine, and the sections below keep it honest: what the
+				suites caught, what only a restart could catch, and which two theories died on the
+				way to the truth.
+			</p>
+			<div class="flavor-strip" style="margin-top: var(--space-md)">
+				<Badge Variant="active">12 PACKAGES</Badge>
+				<Badge Variant="active">12 SMOKE SUITES</Badge>
+				<Badge>DUAL RELEASE</Badge>
+				<Badge>CLASSIC + EFFECT-TS</Badge>
+			</div>
+		</section>
+
+		<!-- Phase 1 -->
+		<section class="section" id="phase-1">
+			<SectionHeader
+				Title="Phase I - The boilerplate era"
+				Meta="THE FACTORY + THE GOVERNANCE TRIO"
+			/>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The setup: three independent hooks - the package governor, the package pinner, the
+				cargo governor - plus the dash normalizer, each carrying its own copy of the same
+				machinery: ledgers, exclusion matching, policy loading, guarded writes, wiring,
+				schemas. The decision (<code>49e5b3d</code>, <code>859f16a</code>,
+				<code>018919c</code>): consolidate onto <strong>one factory service</strong> - 15
+				methods, one transform contract, and the ledger strings owned by the modules
+				themselves. The technique: the <code>Wire</code>/<code>Attach</code>/
+				<code>Continue</code> seam trio, and a transform leaf the factory drives but never
+				absorbs - each hook's transforms stay its identity. The outcome: five bundles green,
+				231 checks, and every ledger string byte-identical to pre-refactor behavior,
+				smoke-asserted. The factory's page shows the seam table this era produced; it has
+				since grown 15 &rarr; 16 &rarr; 17 methods as later phases moved machinery in.
+			</p>
+			<div class="grid grid--3">
+				{Originals.map((Item) => (
+					<Card Variant="white" Name={Item.Name} Desc={Item.Desc} Muted>
+						<Badge slot="badge" Variant="outline">
+							{Item.Badge}
+						</Badge>
+					</Card>
+				))}
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				Two live-verified fixes from this era never regressed since: a hook's
+				<code>inject</code> and <code>Config</code> must sit on the loader's default export
+				object, and <code>apply</code> must return nothing - a returned value silently kills
+				event delivery. Both are the kind of bug no type checker sees; both were found with
+				a restart and a missing ledger line.
+			</p>
+		</section>
+
+		<!-- Phase 2 -->
+		<section class="section" id="phase-2">
+			<SectionHeader
+				Title="Phase II - The audit and the fixes"
+				Meta="3 CRITICALS, THEN THE QUEUE"
+			/>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				A confirmation agent re-verified all five bundles and found three things that
+				rewrote the queue. Each is a finding with a fix; none was visible from the passing
+				smokes alone.
+			</p>
+			<div class="grid grid--2">
+				{Criticals.map((Item) => (
+					<Card Variant="white" Desc={Item.Finding} Muted>
+						<div slot="head" class="card__top">
+							<Badge Variant="outline">{Item.Badge}</Badge>
+							<Badge>{Item.Commit}</Badge>
+						</div>
+						<p class="card__desc" slot="after" style="margin-top: var(--space-sm)">
+							<strong>Fix.</strong> {Item.Fix}
+						</p>
+					</Card>
+				))}
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The rest of the queue executed in one session: the module terminology rename (
+				<code>3c29108</code> - mechanics only, the <code>cargo flavor</code> literal in the
+				activation string stays), the standalone schema helper that deleted three config
+				workarounds (<code>060e3b6</code>), the core extraction as a dependency-free pure
+				package (<code>1fef4ca</code>), and the granularization splits (<code>711d5b2</code>
+				). One operational beat worth keeping: the smoke suites lived in <code>
+					/tmp
+				</code>{" "}
+				and were lost once - replayed from the session archives step by step, then archived
+				to <code>~/.dsh/smokes/</code> forever after. The arbiter must not be disposable.
+			</p>
+		</section>
+
+		<!-- Phase 3 -->
+		<section class="section" id="phase-3">
+			<SectionHeader Title="Phase III - Going live" Meta="THE JOURNAL SAGA" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The first live battery exercised everything the smokes had proven: the
+				governor&nbsp;+&nbsp;pinner interlock on one manifest write, the update stages as
+				real jobs, the cargo's actual <code>cargo upgrade</code> with the full argv, the
+				dash normalizer counting replacements in live streams. It also surfaced the first
+				live-only failure: the harness's storage domain enforces
+				<strong>one open per name</strong>, so the shared journal domain was single-winner
+				per boot. At that boot only the pinner's records landed; the governor's and the
+				cargo's silently never did - while the human ledger files remained the complete
+				record, which is the only reason the loss was even noticed.
+			</p>
+			<p class="section-kicker">The fix, in two commits</p>
+			<p class="page-hero__sub">
+				The first successful open binds its handle on the factory instance (
+				<code>952eaa1</code>), and every module's records route through it. The boot-window
+				race came next (<code>aa53c91</code>): records journaled before any open completes
+				now buffer in a capped, drop-when-full pre-bind queue and drain with their
+				timestamps preserved - a three-stage routing of shared sink, pre-bind buffer, then
+				per-state fallback. The third boot confirmed both live:
+			</p>
+			<p class="section-kicker">One boot's complete record set - the shared domain</p>
+			<div class="code-block">{JournalExcerpt.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				Before the fix, that file showed one module's activations. After it, all four - and
+				the interlock cascade and the dispatched update stage record themselves in the same
+				place. The update stage's awaited promise resolves at the dispatch: the background
+				job keeps running, and the caller never awaits the job.
+			</p>
+		</section>
+
+		<!-- Phase 4 -->
+		<section class="section" id="phase-4">
+			<SectionHeader Title="Phase IV - The stream family" Meta="SIX FLAVORS + THE GATE" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The dash normalizer generalized. The core took over the pure machinery - generic
+				over structural shapes, with no dependency on the host's LLM types: a fragile
+				cross-bundle symlink workaround for a nominal-type clash was replaced by a durable
+				design (<code>98be27b</code>, <code>c2beb06</code>). Five sibling flavors followed
+				on the same template - quotes, ellipsis, spaces, invisible, fullwidth - each with
+				its own ledger, activation line and count line (<code>ad4c2c3</code>,
+				<code>68afdcd</code>). Then the tool-args gate (<code>1d827ad</code>), and its
+				three-way refinement (<code>9d6e195</code>): edit calls pass by identity - the
+				old-string must match the real file bytes - and a per-call marker lets a single call
+				opt out entirely. The marker is honestly stated: smoke-verified, but not reachable
+				from the structured tool interface at the time; the practical per-call raw route is
+				the edit exemption.
+			</p>
+			<p class="section-kicker">The stream, before and after</p>
+			<div class="code-block">
+				{[
+					"text-delta in :  \u201CThe refactor is complete \u2014 ranges 10\u201315 covered.\u201D",
+					"text-delta out:  \u201CThe refactor is complete - ranges 10-15 covered.\u201D",
+					"",
+					'tool-call-delta, name "edit"      -> passes through BY IDENTITY',
+					'  arguments {"old": "a \u2014 b"}  -> untouched: the old_string must match real bytes',
+				].join("\n")}
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				One beat belongs to the family's self-awareness: the system normalizes itself. The
+				agents building the family saw their own comment prose come out with ASCII hyphens,
+				because their output streams run through the same flavors. The planned cosmetic pass
+				was cancelled by the user - em-dashes live only in the README examples, never in
+				code. The workbench and the matrix pages run exactly these flavors live, and the
+				<a href="/workbench/">workbench</a> lets you watch the gate make its per-call
+				decisions.
+			</p>
+		</section>
+
+		<!-- Phase 5 -->
+		<section class="section" id="phase-5">
+			<SectionHeader
+				Title="Phase V - The raw-write saga, commonalization and granular control"
+				Meta="THE DENSEST PHASE"
+			/>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The raw-write tool landed first (<code>bb9a6fd</code>): a write wrapper with an
+				explicit normalize parameter, exempt from stream normalization by name like edit,
+				mirroring the built-in write's filesystem path so the governance hooks see its
+				writes. Then the live tests showed its writes never triggered the governance chain -
+				and the diagnosis took three rounds, two of them wrong. The
+				<strong>emit-context theory</strong>: the event must be scoped to the emitting
+				plugin. The <strong>listener-scope theory</strong>: the listener must be registered
+				at the wrong level. The delivery research refuted both with code, simulation and
+				live policy evidence: <em>the event is delivered; the gate rejects the actor.</em>
+				The shared event bus has no scope filter on plain emits - the root registration fix
+				aimed at the misdiagnosis was harmless, and stayed.
+			</p>
+			<p class="section-kicker">The real blocker: the patch layers</p>
+			<p class="page-hero__sub">
+				The deployed <code>mutationTools</code> value of all three governance bundles was
+				<code>[write, edit, str_replace_editor]</code> - no <code>raw-write</code> - even
+				though the schema default included it. The bundles' own patch layers set
+				<code>mutationTools</code> explicitly, and a patch layer's config
+				<strong>replaces the entry config wholesale</strong>, shadowing the default. The
+				inspection tooling projected the <em>schema</em>, so the projected list looked
+				correct while the live value was not - the verification blind spot in one sentence.
+				The fix (<code>affa730</code>) was one line in three patch files, and it became the
+				family's standing lesson about verifying the live effective config.
+			</p>
+			<p class="section-kicker">The journal migration that failed silently</p>
+			<p class="page-hero__sub">
+				The journal domain bumped to v2 to carry the stream counts (<code>4c0e83b</code>) -
+				and every boot after it landed zero records. The v2 open failed against the v1 file
+				on an exact-equality version check; the open's catch swallowed it; every record
+				drained into a never-drained buffer and died with the process. The fix (
+				<code>756d566</code>): a per-record layout that auto-migrates the v1 records,
+				backup-and-skip for invalid ones, and a <strong>loud failure line</strong> on any
+				open failure - because the silence is what made it undiagnosable.
+			</p>
+			<p class="section-kicker">Commonalization: three executors become one</p>
+			<p class="page-hero__sub">
+				The write-path audit found the built-in write, the raw-write tool and the factory's
+				guarded write all implementing the same five steps, three times. The merge (
+				<code>91293d2</code>): the factory's <code>Write</code> becomes the shared executor
+				- the guarded write lives on as its alias - with the update envelope and the
+				activation composer folded into the core the same pass. Then the fine-grained
+				control (<code>e69c5d3</code>): <code>normalize</code> selects the transforms,
+				<code>govern</code> selects the chain steps through the factory's{" "}
+				<code>Govern</code>- the 17th method - and a step registry the modules populate. The
+				governance marker (<code>2c8764e</code>, <code>83ba8e5</code>) inverts the event
+				path into a direct path: the raw-write's actor carries the govern selection, so
+				direct governance is the only channel and <strong>no flag means no chain</strong> -
+				the escape hatch.
+			</p>
+			<div class="table-wrap" style="margin-top: var(--space-md)">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Shared step</th>
+							<th>Built-in write</th>
+							<th>raw-write (before)</th>
+							<th>Factory guarded write (before)</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Executors.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Step}</strong>
+								</td>
+								<td>{Row.Builtin}</td>
+								<td>{Row.Raw}</td>
+								<td>{Row.Factory}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="section-kicker" style="margin-top: var(--space-lg)">
+				The fold, and the guard that made it converge
+			</p>
+			<p class="page-hero__sub">
+				The direct steps' detached chains raced - nondeterministic writes on the same file -
+				so the fold awaits each step's chain before the next reads (<code>d7a3c93</code>,{" "}
+				<code>140faa0</code>). Then the deeper bug: every step wrote against the version
+				observed at the triggering event, so
+				<strong>only the first write could succeed</strong> and the later steps failed the
+				stale-version check silently. The fix (<code>5982aa8</code>): the chain pass stats
+				the target before its write and takes the fresh version, so the fold converges in
+				any step order - which matters, because the pinner activated before the governor at
+				the decisive boot. One more fix belongs to the Effect-TS port: the write executor
+				originally mapped the caller's abort signal onto the run promise's options, so a
+				<strong>pre-aborted signal interrupted the whole fiber</strong> and the caller saw
+				<em>all fibers interrupted without error</em> instead of the Classic
+				aborted-before-write behavior. The dash suite's pre-aborted-write scenario caught
+				it; the fix drops the signal mapping - the signal forwards to the seams only,
+				exactly the Classic semantics.
+			</p>
+			<p class="section-kicker">The final battery's outcomes, verbatim</p>
+			<div class="code-block">{LiveMatrix.join("\n")}</div>
+		</section>
+
+		<!-- Phase 6 -->
+		<section class="section" id="phase-6">
+			<SectionHeader
+				Title="Phase VI - The releases, the monorepo and the Site"
+				Meta="BOILERPLATE -> SHIPPING"
+			/>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The completed codebase became the boilerplate for two official releases off one
+				source: the Classic implementation stays live-first, and the Effect-TS port ships
+				only after its smokes prove parity - the ledger strings remain the contract in both
+				(<code>register #13</code>). The release prep anonymized and de-personalized every
+				bundle and rebuilt the READMEs on a single skeleton borrowed heavily from the
+				sibling project's conventions. The Effect-TS mapping planned the
+				<strong>parallel-govern toggle in from the start</strong> - concurrency is different
+				there, and designing the toggle first beats retrofitting it. The naming inverted (
+				<code>register #15</code>): packages read as
+				<code>@</code>-sentences - <em>Hook @ DSH @ Governor @ Package</em> - and group
+				alphabetically by kind, role and domain, at version 0.0.1, one repository per
+				package under submodule structure. And the Site you are reading is the last item:
+				the integration showcase, with the <a href="/versions/">versions page</a> carrying
+				the two engines side by side.
+			</p>
+			<div class="action-row">
+				<a class="action" href="/versions/">
+					The two releases
+				</a>
+				<a class="action action--secondary" href="/plugins/">
+					The twelve packages
+				</a>
+			</div>
+		</section>
+
+		<!-- Phase 7: Decision index -->
+		<section class="section" id="decisions">
+			<SectionHeader
+				Title="The decision index"
+				Meta="13 DECISIONS, WHERE THEY LIVE, WHAT PROVED THEM"
+			/>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Every decision below survives in a shipped seam. The technique column names where it
+				lives; the evidence column links the narrative to the commit era.
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Decision</th>
+							<th>Rationale</th>
+							<th>Technique / seam</th>
+							<th>Evidence</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Decisions.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Decision}</strong>
+								</td>
+								<td>{Row.Rationale}</td>
+								<td>{Row.Technique}</td>
+								<td>{Row.Evidence}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- Phase 8: Lessons -->
+		<section class="section" id="lessons">
+			<SectionHeader Title="The working lessons" Meta="THE HONEST CLOSE" />
+			<div class="grid grid--2">
+				{Lessons.map((Item) => (
+					<Card Variant="white" Name={Item.Name} Desc={Item.Desc} Muted />
+				))}
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The state the era ended in: twelve packages, twelve green suites, a clean tree, the
+				full live matrix passed - and a backlog of decisions already designed, waiting for
+				the next era. The install command below is the whole family's front door.
+			</p>
+			<div class="snippet-list" style="margin-top: var(--space-md)">
+				<Terminal Command="pnpm add @playform/hook-dsh-core" Label="START HERE" />
+			</div>
+		</section>
+	</main>
+</Base>

@@ -4,12 +4,29 @@ import "@Stylesheet/Base.css";
 import { Head } from "astro-capo";
 import { ClientRouter } from "astro:transitions";
 
-// TODO Place your title and description here
 const { Title = "", Description = "" } = Astro.props;
 
 interface Props {
 	Title?: string;
 	Description?: string;
+}
+
+// The primary nav: the current entry is highlighted via aria-current.
+const Nav = [
+	{ Href: "/", Label: "Overview" },
+	{ Href: "/plugins/", Label: "Plugins" },
+	{ Href: "/setup/", Label: "Setup" },
+	{ Href: "/versions/", Label: "Versions" },
+	{ Href: "/flavors/", Label: "Flavors" },
+	{ Href: "/models/", Label: "Models" },
+	{ Href: "/case-study/", Label: "Case Study" },
+	{ Href: "/workbench/", Label: "Workbench" },
+];
+
+const Path = Astro.url.pathname;
+
+function Current(Href: string) {
+	return Href === "/" ? Path === "/" : Path.startsWith(Href.replace(/\/$/, ""));
 }
 ---
 
@@ -20,30 +37,25 @@ interface Props {
 			document.documentElement.classList.remove("no-js");
 			document.documentElement.classList.add("js");
 		</script>
-
 		<!-- Meta -->
 		<title>{Title}</title>
 		<meta charset="utf-8" />
 
 		<meta name="description" content={Description} />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<!-- TODO Define your color theme in hex here -->
-		<meta name="theme-color" content="" />
+		<meta name="theme-color" content="#0052ff" />
 		<meta name="format-detection" content="telephone=no" />
 		<meta name="twitter:dnt" content="on" />
 
 		<!-- Links -->
-		<link
-			rel="preconnect"
-			href="https://fonts.googleapis.com"
-			crossorigin
-		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			rel="manifest"
-			href="/Manifest.json"
-			crossorigin="use-credentials"
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+			crossorigin="anonymous"
 		/>
+		<link rel="manifest" href="/Manifest.json" crossorigin="use-credentials" />
 
 		<style is:global>
 			@import "@Stylesheet/Global.css";
@@ -55,9 +67,57 @@ interface Props {
 		<ClientRouter />
 	</Head>
 	<body>
-		<div class="grow">
+		<!-- Fixed header -->
+		<header class="site-header">
+			<div class="site-header__inner">
+				<div class="site-header__brand">
+					<svg
+						class="site-header__glyph"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+						aria-hidden="true"
+					>
+						<circle cx="12" cy="5" r="2.5"></circle>
+						<circle cx="5" cy="18" r="2.5"></circle>
+						<circle cx="19" cy="18" r="2.5"></circle>
+						<path d="M12 7.5 L6.5 15.8 M12 7.5 L17.5 15.8 M7.5 18 L16.5 18"></path>
+					</svg>
+					<span class="site-header__title">
+						@playform <span class="sep">/</span> DSH Family
+					</span>
+				</div>
+				<nav class="site-header__nav" aria-label="Primary">
+					{Nav.map((Item) => (
+						<a href={Item.Href} aria-current={Current(Item.Href) ? "page" : undefined}>
+							{Item.Label}
+						</a>
+					))}
+				</nav>
+				<div class="site-header__avatar" aria-hidden="true">
+					P
+				</div>
+			</div>
+		</header>
+
+		<div class="page">
 			<slot />
 		</div>
+
+		<!-- Footer -->
+		<footer class="site-footer container">
+			<div class="site-footer__links">
+				{Nav.map((Item) => (
+					<a href={Item.Href}>{Item.Label}</a>
+				))}
+			</div>
+			<p class="site-footer__note">
+				@playform: deterministic AI engine harnesses for production workloads. MIT licensed.
+			</p>
+			<p class="site-footer__copy">© 2025 PlayForm Systems. All rights reserved.</p>
+		</footer>
+
 		<script>
 			import "@Script/Firebase";
 		</script>

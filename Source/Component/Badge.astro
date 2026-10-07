@@ -1,0 +1,15 @@
+---
+// Eyebrow / meta badge: a mono label chip in the blue+white palette.
+// Variant "primary" carries the blue status dot on the lead badge.
+interface Props {
+	Variant?: "primary" | "muted" | "outline" | "active";
+	Dot?: boolean;
+}
+
+const { Variant = "muted", Dot = false } = Astro.props;
+---
+
+<span class={`badge badge--${Variant}`}>
+	{Dot && <span class="dot"></span>}
+	<slot />
+</span>

@@ -1,6 +1,38 @@
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
+
 import { defineConfig } from "astro/config";
 
 export const On = process.env["NODE_ENV"] === "development";
+
+export const Here = dirname(fileURLToPath(import.meta.url));
+
+// Alias table mirroring the `@playform/build` tsconfig paths convention, so
+// that Vite resolves the same `@Stylesheet/`, `@Script/`, ... imports that
+// TypeScript resolves via tsconfig `paths`.
+export const Aliases = Object.fromEntries(
+	[
+		"Asset",
+		"Class",
+		"Component",
+		"Context",
+		"Element",
+		"Function",
+		"Interface",
+		"Layout",
+		"Library",
+		"Notation",
+		"Option",
+		"Page",
+		"Script",
+		"Stylesheet",
+		"Target",
+		"Test",
+	].map((Folder) => [
+		`@${Folder}`,
+		resolve(Here, "Source", Folder === "Page" ? "pages" : Folder),
+	]),
+);
 
 export default defineConfig({
 	srcDir: "./Source",
@@ -25,7 +57,12 @@ export default defineConfig({
 			? (await import("astrojs-service-worker")).default()
 			: null,
 		(await import("@astrojs/sitemap")).default(),
-		(await import("@playform/inline")).default({ Logger: 1 }),
+		// Beasties inlines the critical CSS into each HTML page; pruning must
+		// stay off or the shared stylesheet chunk is gutted across pages.
+		(await import("@playform/inline")).default({
+			Logger: 1,
+			Beasties: { pruneSource: false },
+		}),
 		(await import("@playform/compress")).default({ Logger: 1 }),
 	],
 	experimental: {
@@ -37,7 +74,7 @@ export default defineConfig({
 			sourcemap: On,
 			manifest: true,
 			minify: On ? false : "terser",
-			cssMinify: On ? false : "esbuild",
+			cssMinify: On ? false : "lightningcss",
 			terserOptions: On
 				? {
 						compress: false,
@@ -79,6 +116,7 @@ export default defineConfig({
 		},
 		resolve: {
 			preserveSymlinks: false,
+			alias: Aliases,
 		},
 		css: {
 			devSourcemap: true,

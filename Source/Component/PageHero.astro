@@ -1,0 +1,14 @@
+---
+// Page hero: the sub-page headline block (headline-lg title + body sub).
+interface Props {
+	Title: string;
+	Sub?: string;
+}
+
+const { Title, Sub } = Astro.props;
+---
+
+<section class="page-hero">
+	<h1 class="page-hero__title">{Title}</h1>
+	{Sub && <p class="page-hero__sub">{Sub}</p>}
+</section>

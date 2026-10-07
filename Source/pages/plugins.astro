@@ -1,0 +1,516 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+
+// The twelve plugins, each with its @-sentence identity and install snippet.
+const Core = [
+	{
+		Name: "hook-dsh-core",
+		Tone: "primary",
+		Role: "ROLE: CORE",
+		Sentence: "Hook @ DSH @ Core",
+		Desc: "The pure, dependency-free commonalities of the family: the section lists, the exclusion segments, the suppression composer, the policy loader, the refusal guard and the normalize/Stream machinery.",
+		Install: "pnpm add @playform/hook-dsh-core",
+	},
+	{
+		Name: "plugin-dsh-factory",
+		Tone: "primary",
+		Role: "ROLE: FACTORY",
+		Sentence: "Plugin @ DSH @ Factory",
+		Desc: "The family's first service: the ledger, the exclusion match, the discovery, the keep-list union, the gate set, the version-guarded fenced write, the refresh, the detached contained continuation, the State builder, the wiring, the effects, the schema factory and the probe-once seam.",
+		Install: "pnpm add @playform/plugin-dsh-factory",
+	},
+];
+
+const Governance = [
+	{
+		Name: "hook-dsh-governor-package",
+		Role: "ROLE: GOVERNOR",
+		Sentence: "Hook @ DSH @ Governor @ Package",
+		Desc: "The silent package.json governor: hooks fs/observed, rewrites chain-governed pins to the effective registry's resolved versions, and runs the update stage as a detached, contained continuation.",
+		Install: "pnpm add @playform/hook-dsh-governor-package",
+	},
+	{
+		Name: "hook-dsh-pinner-package",
+		Role: "ROLE: PINNER",
+		Sentence: "Hook @ DSH @ Pinner @ Package",
+		Desc: "The silent package.json version pinner: hooks fs/observed and deterministically rewrites every ranged dependency version to its static version, protected by a pin-policy keep-list.",
+		Install: "pnpm add @playform/hook-dsh-pinner-package",
+	},
+	{
+		Name: "hook-dsh-governor-cargo",
+		Role: "ROLE: GOVERNOR",
+		Sentence: "Hook @ DSH @ Governor @ Cargo",
+		Desc: "The Cargo.toml governor: the Rust-sided flavor of the package governor - surgical chain-pin rewrites on the raw TOML lines and cargo upgrade driven through the subprocess seam.",
+		Install: "pnpm add @playform/hook-dsh-governor-cargo",
+	},
+];
+
+const Normalize = [
+	{
+		Name: "hook-dsh-normalize-dash",
+		Role: "FLAVOR: DASH",
+		Sentence: "Hook @ DSH @ Normalize @ Dash",
+		Desc: "The dash flavor: normalizes the unicode dash family to ASCII hyphen-minus in model output streams, mirroring the hermes regex at the injection point hermes lacks.",
+		Install: "pnpm add @playform/hook-dsh-normalize-dash",
+	},
+	{
+		Name: "hook-dsh-normalize-quotes",
+		Role: "FLAVOR: QUOTES",
+		Sentence: "Hook @ DSH @ Normalize @ Quotes",
+		Desc: "The quotes flavor: maps the eight curly quote code points to their ASCII straight counterparts in model output streams.",
+		Install: "pnpm add @playform/hook-dsh-normalize-quotes",
+	},
+	{
+		Name: "hook-dsh-normalize-ellipsis",
+		Role: "FLAVOR: ELLIPSIS",
+		Sentence: "Hook @ DSH @ Normalize @ Ellipsis",
+		Desc: "The ellipsis flavor: replaces the horizontal ellipsis (U+2026) with the plain ASCII three-dot sequence in model output streams.",
+		Install: "pnpm add @playform/hook-dsh-normalize-ellipsis",
+	},
+	{
+		Name: "hook-dsh-normalize-spaces",
+		Role: "FLAVOR: SPACES",
+		Sentence: "Hook @ DSH @ Normalize @ Spaces",
+		Desc: "The spaces flavor: normalizes the unicode space family (Zs minus the ASCII space) to the plain space in model output streams.",
+		Install: "pnpm add @playform/hook-dsh-normalize-spaces",
+	},
+	{
+		Name: "hook-dsh-normalize-invisible",
+		Role: "FLAVOR: INVISIBLE",
+		Sentence: "Hook @ DSH @ Normalize @ Invisible",
+		Desc: "The invisible flavor: removes the zero-width/invisible character family (soft hyphen, zero-width spaces and joiners, bidi controls, BOM) from model output streams.",
+		Install: "pnpm add @playform/hook-dsh-normalize-invisible",
+	},
+	{
+		Name: "hook-dsh-normalize-fullwidth",
+		Role: "FLAVOR: FULLWIDTH",
+		Sentence: "Hook @ DSH @ Normalize @ Fullwidth",
+		Desc: "The fullwidth flavor: maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterparts in model output streams.",
+		Install: "pnpm add @playform/hook-dsh-normalize-fullwidth",
+	},
+	{
+		Name: "hook-dsh-normalize-file",
+		Role: "FLAVOR: FILE",
+		Sentence: "Hook @ DSH @ Normalize @ File",
+		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing only when something changed.",
+		Install: "pnpm add @playform/hook-dsh-normalize-file",
+	},
+];
+
+// The ontological registry: the twelve plugins in pipeline sequence.
+const Registry = [
+	...Core.map((Plugin, Index) => ({
+		Seq: `0${Index + 1}`,
+		Coordinate: `@playform/${Plugin.Name}`,
+		Sentence: Plugin.Sentence,
+		Rules: "Sections • exclusions • suppression • policy",
+	})),
+	...Governance.map((Plugin, Index) => ({
+		Seq: `0${Index + 3}`,
+		Coordinate: `@playform/${Plugin.Name}`,
+		Sentence: Plugin.Sentence,
+		Rules: "Manifest • chain pins • update stages",
+	})),
+	...Normalize.map((Plugin, Index) => ({
+		Seq: String(Index + 6).padStart(2, "0"),
+		Coordinate: `@playform/${Plugin.Name}`,
+		Sentence: Plugin.Sentence,
+		Rules: "Stream gate • single-pass transform",
+	})),
+];
+---
+
+<Base
+	Title="Plugins - @playform / DSH Family"
+	Description="The twelve plugins of the DeepSeek Harness Plugin Family for PlayForm, each with its @-sentence identity and its pnpm install snippet."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				ECOSYSTEM: @PLAYFORM
+			</Badge>
+			<Badge>12 PLUGINS</Badge>
+		</div>
+
+		<PageHero
+			Title="Plugins"
+			Sub={
+				'The twelve TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle. The release identity follows the reversed hierarchical naming - the "@-sentence" identity: the scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.'
+			}
+		/>
+
+		<!-- Registry filter bar -->
+		<section class="section" style="margin-bottom: var(--space-md)">
+			<div class="filter-bar">
+				<span class="filter-bar__label">Filter registry:</span>
+				<input
+					class="filter-bar__input"
+					type="search"
+					placeholder="Search the twelve plugins by name, role or flavor..."
+					aria-label="Filter plugins"
+					data-filter
+				/>
+				<Badge Variant="outline">12 RESULTS</Badge>
+			</div>
+		</section>
+
+		<!-- Core & Factory -->
+		<section class="section">
+			<SectionHeader Title="Core & Factory" Meta="2 PLUGINS" />
+			<div class="grid grid--2">
+				{Core.map((Plugin) => (
+					<Card
+						Variant="white"
+						Name={Plugin.Name}
+						Href={`/plugins/${Plugin.Name}/`}
+						NameTone={Plugin.Tone as "primary" | "ink"}
+						Sentence={Plugin.Sentence}
+						Desc={Plugin.Desc}
+						Install={Plugin.Install}
+					>
+						<Badge slot="badge" Variant="outline">
+							{Plugin.Role}
+						</Badge>
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<!-- Governance -->
+		<section class="section">
+			<SectionHeader Title="Governance" Meta="3 PLUGINS" />
+			<div class="grid grid--3">
+				{Governance.map((Plugin) => (
+					<Card
+						Variant="white"
+						Name={Plugin.Name}
+						Href={`/plugins/${Plugin.Name}/`}
+						Sentence={Plugin.Sentence}
+						Desc={Plugin.Desc}
+						Install={Plugin.Install}
+					>
+						<Badge slot="badge">{Plugin.Role}</Badge>
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<!-- Normalize -->
+		<section class="section">
+			<SectionHeader
+				Title="Normalize"
+				Meta="7 PLUGINS - SIX STREAM FLAVORS + THE FILE TOOL"
+			/>
+			<div class="grid grid--3">
+				{Normalize.map((Plugin) => (
+					<Card
+						Variant="white"
+						Name={Plugin.Name}
+						Href={`/plugins/${Plugin.Name}/`}
+						Sentence={Plugin.Sentence}
+						Desc={Plugin.Desc}
+						Install={Plugin.Install}
+					>
+						<Badge slot="badge">{Plugin.Role}</Badge>
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<!-- Registered pipeline manifest (the ontological registry) -->
+		<section class="section">
+			<SectionHeader
+				Title="Registered pipeline manifest plugins"
+				Meta="ONTOLOGICAL REGISTRY"
+			/>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Deterministic transform pipeline sequence executing over the active PlayForm
+				runtime.
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Seq</th>
+							<th>Plugin Coordinate</th>
+							<th>Ontology @-Sentence</th>
+							<th>Target Rules</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Registry.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Seq}</strong>
+								</td>
+								<td>
+									<strong>{Row.Coordinate}</strong>
+								</td>
+								<td>{Row.Sentence}</td>
+								<td>{Row.Rules}</td>
+								<td>
+									<span class="hook-tally">ACTIVE</span>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- The integration surface -->
+		<section class="section">
+			<SectionHeader Title="Where the family operates" Meta="THE HARNESS SEAMS" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Every plugin operates inside the DeepSeek Harness through a fixed set of seams - the
+				model stream waterfall, the filesystem events, the tool layer, the subprocess seam,
+				the jobs envelope, the storage domain and the session ledger. This is where the
+				twelve live, and the DeepSeek internals they work through:
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Seam</th>
+							<th>DeepSeek internal</th>
+							<th>Who operates it</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<strong>llm/stream</strong> (the model stream waterfall)
+							</td>
+							<td>@deepseek-ai/dsh-llm (type-only stream vocabulary)</td>
+							<td>The six stream flavors</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>fs/observed + fs/write-intent</strong>
+							</td>
+							<td>ctx.fs - dsh-fs (local, sandbox, observation-policy)</td>
+							<td>
+								The three governance hooks; the write executor behind every tool
+								write
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>The tool layer</strong> (write / edit / str_replace_editor +
+								the registered tools)
+							</td>
+							<td>dsh-tool-fs; ctx.tools.register</td>
+							<td>raw-write (normalize + govern flags); normalize-file</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>ctx.subprocess</strong>
+							</td>
+							<td>dsh-subprocess (fully-specified argv, no shell PATH drift)</td>
+							<td>The cargo governor's cargo upgrade; the ncu bin mode</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>ctx.jobs</strong>
+							</td>
+							<td>
+								The jobs envelope (kind governor-update) + the detached fallback
+							</td>
+							<td>The two governors' update stages</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>The storage domain</strong>
+							</td>
+							<td>ctx.get("storageDomain") - the package_governance v2 records</td>
+							<td>Factory Journal; the normalize-file normalized events</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>Sessions / the ledgers</strong>
+							</td>
+							<td>The durable ledger files ([&lt;ISO&gt;] &lt;message&gt;)</td>
+							<td>All twelve, through the factory's Append</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- The smoke baseline (the arbiter) -->
+		<section class="section">
+			<SectionHeader Title="The smoke baseline" Meta="12 SUITES · 671 CHECKS · ALL PASS" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The smokes are the arbiter: every suite loads the REAL built Target of its bundle
+				and asserts the ledger strings byte-identically. The Effect-TS tree is held to the
+				same bar - its swap-in happens only after its own smokes prove parity with these
+				numbers.
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Suite</th>
+							<th>Checks</th>
+							<th>Suite</th>
+							<th>Checks</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<strong>hook-dsh-core</strong>
+							</td>
+							<td>14</td>
+							<td>
+								<strong>hook-dsh-normalize-dash</strong>
+							</td>
+							<td>132</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>plugin-dsh-factory</strong>
+							</td>
+							<td>34</td>
+							<td>
+								<strong>hook-dsh-normalize-quotes</strong>
+							</td>
+							<td>62</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>hook-dsh-governor-package</strong>
+							</td>
+							<td>78</td>
+							<td>
+								<strong>hook-dsh-normalize-ellipsis</strong>
+							</td>
+							<td>62</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>hook-dsh-pinner-package</strong>
+							</td>
+							<td>32</td>
+							<td>
+								<strong>hook-dsh-normalize-spaces</strong>
+							</td>
+							<td>62</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>hook-dsh-governor-cargo</strong>
+							</td>
+							<td>62</td>
+							<td>
+								<strong>hook-dsh-normalize-invisible</strong>
+							</td>
+							<td>62</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>hook-dsh-normalize-file</strong>
+							</td>
+							<td>71</td>
+							<td>
+								<strong>hook-dsh-normalize-fullwidth</strong>
+							</td>
+							<td>62</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The smokes prove the mechanics; the live battery proves the wiring - every defect
+				below was found live, not by the smokes, which is exactly why both exist.
+			</p>
+		</section>
+
+		<!-- The failure cases that shaped the family -->
+		<section class="section">
+			<SectionHeader
+				Title="The failure cases that shaped it"
+				Meta="FOUND LIVE · FIXED · VERIFIED"
+			/>
+			<div class="grid grid--2">
+				<Card
+					Variant="white"
+					Name="The patch-layer config shadowing"
+					Desc="The bundle cordis.patch.yml patch config REPLACES the entry config wholesale - the schema defaults (mutationTools) were shadowed in deployment, so the raw-write's fs/observed never triggered the chain. Solved: add raw-write to the three patch layers, and verify the LIVE effective config from the bundle layers - the Config inspect provider projects the schema, not the resolved config."
+				>
+					<Badge slot="badge">LIVE-FOUND · FIXED</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="The same-observed-version guard race"
+					Desc="In the multi-step direct-govern fold every step wrote with the SAME observed version - only the first write could succeed, the later steps failed the stale-version check silently. Solved: the sequential fold awaits each step's chain, and the chain pass stats the target before its write (the fresh-version pattern) - the fold converges in any step order."
+				>
+					<Badge slot="badge">LIVE-FOUND · FIXED</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="The P5 v2 storage open failure"
+					Desc="The package_governance v2 domain open failed SILENTLY against the v1 file (the exact-equality version check) - the silence made it undiagnosable. Solved: per-record layout + compatibleVersions [1] (76 v1 records auto-migrated) + backup-and-skip for invalid records + a loud failure line - live-confirmed on the next boot."
+				>
+					<Badge slot="badge">LIVE-FOUND · FIXED</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="The cross-module re-processing bound"
+					Desc="A governed write re-fires fs/observed - the interlock re-enters the listeners by design. Kept safe by construction: the Stash idempotence gate turns self re-entries into no-ops, the P3/U2 refresh re-emits with the same actor, and the live battery proves the re-pass is bounded and self-canonicalizing (governed + pinned converge)."
+				>
+					<Badge slot="badge">BOUNDED BY DESIGN · VERIFIED LIVE</Badge>
+				</Card>
+			</div>
+		</section>
+
+		<!-- The architecture in action -->
+		<section class="section">
+			<SectionHeader
+				Title="The architecture in action"
+				Meta="HOOKS · DELEGATIONS · INVERSIONS"
+			/>
+			<div class="grid grid--3">
+				<Card
+					Variant="white"
+					Name="Hooks"
+					Desc="Where the family attaches: the llm/stream waterfall wrap (next() first, options untouched, per-chunk), the fs/observed listeners (sync, after content is on disk, fired by the tool layer only), and the tool registrations into the agent's toolset (raw-write, normalize-file)."
+				>
+					<Badge slot="badge">HOOK POINTS</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="Delegations"
+					Desc="Who does the work: the factory's Direct-govern steps (per basename, the raw-write govern selection), the core's Dispatch/Settle envelope builder (a new update stage reduces to a child runner plus strings), the subprocess seam for the external tools, and the Effect-TS services mirroring the same seams."
+				>
+					<Badge slot="badge">DELEGATIONS</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="Inversions"
+					Desc="Who owns what: the Dependencies injection builders (every collection, child stage and string injected), the module-owned ledger strings (the byte-identical contract), the consumers bring their own metal while the factory pours the mold, and the smokes as the arbiter after every change."
+				>
+					<Badge slot="badge">INVERSIONS</Badge>
+				</Card>
+			</div>
+		</section>
+	</main>
+</Base>
+
+<script>
+	// Registry filter: the search input hides the cards that do not match.
+	const Input = document.querySelector<HTMLInputElement>("[data-filter]");
+
+	Input?.addEventListener("input", () => {
+		const Query = Input.value.trim().toLowerCase();
+		document.querySelectorAll<HTMLElement>(".card").forEach((Card) => {
+			const Match = Card.textContent?.toLowerCase().includes(Query) ?? true;
+			Card.style.display = Match ? "" : "none";
+		});
+	});
+</script>

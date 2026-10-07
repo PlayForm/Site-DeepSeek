@@ -1,0 +1,466 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Seams from "@Component/Seams.astro";
+import Terminal from "@Component/Terminal.astro";
+
+// The seven siblings of the normalize family, from the README (this bundle highlighted).
+const Siblings = [
+	{
+		Flavor: "hook-dsh-normalize-dash",
+		Layer: "model output (stream)",
+		Mechanism: "core Dashes class → replacement (default -)",
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-quotes",
+		Layer: "model output (stream)",
+		Mechanism: "core Quotes MAP → curly → straight",
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-ellipsis",
+		Layer: "model output (stream)",
+		Mechanism: "core Ellipsis class → ...",
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-spaces",
+		Layer: "model output (stream)",
+		Mechanism: 'core Spaces class → " "',
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-invisible",
+		Layer: "model output (stream)",
+		Mechanism: "core Invisible class → removed",
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-fullwidth",
+		Layer: "model output (stream)",
+		Mechanism: "core Fullwidth MAP → full-width → half-width",
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-file (this bundle)",
+		Layer: "files already on disk (tool)",
+		Mechanism: "all SIX, at write time, through Factory.Write",
+		This: true,
+	},
+];
+
+// The pipeline, from the package README.
+const Pipeline = [
+	"  agent calls normalize-file { file_path }",
+	"       |",
+	"       v",
+	"  ctx.fs.resolve                     the model-supplied path becomes a",
+	"       |                             stable target (caller-side, like raw-write)",
+	"       v",
+	"  ctx.fs.readText(target, signal)    the shared read path - a missing file,",
+	"       |                             a directory, a binary/undecodable target,",
+	"       |                             a permission failure or an abort rejects",
+	"       |                             here -> error result, NO write",
+	"       v",
+	"  Rewrite(content, replacement)      the counting six-fold chain, in order:",
+	'       |                               1. Dashes    class  -> replacement ("-")',
+	"       |                               2. Quotes    MAP    -> curly -> straight",
+	'       |                               3. Ellipsis  class  -> "..."',
+	'       |                               4. Spaces    class  -> " "',
+	'       |                               5. Invisible class  -> "" (removed)',
+	"       |                               6. Fullwidth MAP    -> full-width -> half-width",
+	"       |                             every step returns { text, count } and the",
+	"       |                             counts are summed -> N",
+	"       v",
+	"  N == 0 ?  -----------------------> NO write at all: the file is left",
+	"       |                               byte-identical, no ledger line, no",
+	"       |                               journal record; result: changed: false",
+	"       | N > 0",
+	"       v",
+	"  Factory.Write(state, target,       the ONE shared write executor:",
+	"       |    rewritten, { signal,       the fs/write-intent waterfall, the",
+	"       |    actor: exec,               standing sandbox policy, writeText end",
+	'       |    policy: "standing" })     to end, and the fs/observed',
+	'       |                             { kind: "present", version } emit ON THE',
+	"       |                             ROOT CONTEXT with the call's exec as the",
+	"       |                             actor - byte-identical with raw-write",
+	"       v",
+	"  ledger + journal                   `normalized N char(s) in <path>` via",
+	"                                      Factory.Append, and the `normalized`",
+	"                                      event of the shared package_governance",
+	"                                      v2 domain via Factory.Journal",
+	"       |",
+	"       v",
+	"  result { path, count, changed,     the diff card shows the outcome's",
+	"           before, after }           before/after in the same turn",
+];
+
+const Config = [
+	{
+		Field: "log",
+		Type: "boolean",
+		Default: "true",
+		Volatile: "yes",
+		Meaning: "write the durable ledger file",
+	},
+	{
+		Field: "logFile",
+		Type: "string",
+		Default: "~/.dsh/hook-dsh-normalize-file.log",
+		Volatile: "yes",
+		Meaning: "the normalize-file ledger (separate from the family's logs)",
+	},
+	{
+		Field: "replacement",
+		Type: "string",
+		Default: "-",
+		Volatile: "yes",
+		Meaning: "the dash step's replacement (the transform's only knob)",
+	},
+];
+
+// The In Action before/after, from the README (literal characters preserved).
+const BeforeAfter = [
+	"before (what is on disk):",
+	"",
+	"  Nova — “launch” ... Q3 — done",
+	"",
+	"after (what the tool writes back):",
+	"",
+	'  Nova - "launch" ... Q3 - done',
+];
+
+// The ledger strings, from the README.
+const LedgerStrings = [
+	"hook-dsh-normalize-file: activated (replacement=-, logFile=~/.dsh/hook-dsh-normalize-file.log)",
+	"hook-dsh-normalize-file: normalized 5 char(s) in <project>/notes/report.md",
+];
+
+// The tool call shape, from the README's Usage.
+const Usage = [
+	'normalize-file { file_path: "notes/report.md" }',
+	"→ result { path, count, changed, before, after }   (the diff card shows",
+	"                                                     the before/after in",
+	"                                                     the same turn)",
+];
+---
+
+<Base
+	Title="hook-dsh-normalize-file - @playform / DSH Family"
+	Description="Hook @ DSH @ Normalize @ File - the file-content normalizer: the normalize-family tool for files already on disk - read, count, write through all six transforms, writing only when something changed."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				PLUGIN DETAIL
+			</Badge>
+			<Badge>FLAVOR: FILE</Badge>
+			<Badge>LISTENER-LESS TOOL</Badge>
+		</div>
+
+		<section class="page-hero">
+			<h1 class="page-hero__title" style="font-family: var(--font-mono)">
+				hook-dsh-normalize-file
+			</h1>
+			<p class="page-hero__sub">
+				Hook @ DSH @ Normalize @ File • _The DeepSeek Harness Plugin Family for PlayForm._
+				The <strong>file-content normalizer</strong> - a DeepSeek Harness plugin that
+				registers the normalize family's <code>normalize-file</code> TOOL: the read → count
+				→ write pipeline over files ALREADY on disk, beyond the tool layer. One agent-chosen
+				file per call: the target's content is read, the family's SIX transforms are applied
+				with a per-character count, and only when N &gt; 0 is the rewritten content written
+				back through the factory's ONE shared write executor. N = 0 writes NOTHING - the
+				no-op no-write rule. The family's first LISTENER-LESS flavor: no
+				<code>llm/stream</code>, no <code>fs/observed</code> - nothing runs without an
+				explicit agent action. This bundle's own tool calls are name-exempt in the stream
+				gate beside <code>edit</code> and <code>raw-write</code> - its arguments carry a
+				FILE PATH, and a normalized dash inside a filename would corrupt the target.
+			</p>
+		</section>
+
+		<section class="section" style="margin-top: calc(-1 * var(--space-lg))">
+			<div class="snippet-list">
+				<Terminal Command="pnpm add @playform/hook-dsh-normalize-file" />
+			</div>
+			<div class="workbench-controls" style="margin-top: var(--space-md); margin-bottom: 0">
+				<div class="workbench-controls__group">
+					<span class="workbench-controls__label">Namespace:</span>
+					<span class="hook-tally">@playform/hook-dsh-normalize-file</span>
+					<span class="workbench-controls__label">Release:</span>
+					<Badge Variant="outline">v0.0.1</Badge>
+				</div>
+				<div class="workbench-controls__group">
+					<span class="workbench-controls__label">Archetype:</span>
+					<Badge Variant="outline">Tool</Badge>
+					<span class="workbench-controls__label">Listeners:</span>
+					<Badge>NONE</Badge>
+					<span class="workbench-controls__label">Injects:</span>
+					<Badge Variant="active">pluginFactory, fs, tools</Badge>
+				</div>
+			</div>
+		</section>
+
+		<p class="page-hero__sub" style="margin-top: var(--space-md)">
+			The profile wiring for this plugin - the bundles list, the patch entry and the restart -
+			is on the <a href="/setup/">setup page</a>.
+		</p>
+		<section class="section">
+			<SectionHeader
+				Title="Where It Fits"
+				Meta="FAMILY POSITION: 7TH SIBLING - FILES ON DISK"
+			/>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<strong>Family position</strong> (the @-sentence{" "}
+				<strong>Hook @ DSH @ Normalize @ File</strong>): a tool-child of the{" "}
+				<strong>plugin-dsh-factory</strong> service and the <strong>hook-dsh-core</strong>{" "}
+				machinery; the seventh sibling - the one flavor that works on files already on disk
+				instead of model output:
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Flavor</th>
+							<th>Layer</th>
+							<th>Mechanism</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Siblings.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Flavor}</strong>
+								</td>
+								<td>{Row.Layer}</td>
+								<td>{Row.Mechanism}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The six stream flavors cover only what the model is emitting right now; the
+				raw-write tool's <code>normalize: true</code> covers only content being written.
+				This flavor covers the gap in between: pre-existing files, git-cloned material,
+				script-created files - anything already on disk that the agent did not just write.
+				The hermes heritage is direct: the user's
+				<code>~/.hermes/agent-hooks/normalize-dashes-for-execute-code.sh</code> swept
+				script-created files after the fact; DSH makes the same rewrite an explicit,
+				visible, opt-in TOOL call instead of a background hook (and
+				<code>normalize-tabs.sh</code> - the repair hook for a repair hook - is the
+				cautionary tale that keeps it that way).
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				A <strong>non-manifest factory consumer</strong>: it injects
+				<code>["pluginFactory", "fs", "tools"]</code> and uses <code>State</code> (cell
+				unwrap + shared Ledger/Enabled mappings + its own field), <code>Append</code> (the
+				ledger), <code>Journal</code> (the P5 storage record) and - uniquely in the family -
+				<code>Write</code>, the ONE shared write executor. The tool's writes carry the
+				call's exec as the actor, so the governance trio's Gate (which pins mutationTools to
+				write/edit/str_replace_editor) never treats them as a trigger - the same protection
+				raw-write already has.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="In the DeepSeek Harness" Meta="A TOOL IN THE AGENT'S TOOLSET" />
+			<Seams
+				Seams={[
+					{
+						Seam: "The tool layer - the agent's toolset",
+						What: "The plugin registers the normalize-file tool into the agent's toolset: the agent calls it like any built-in tool, one agent-chosen file per call. Nothing runs without that explicit action - no llm/stream, no fs/observed listener of any kind.",
+						Outcome: "Zero background activity: discoverable, visible, opt-in.",
+					},
+					{
+						Seam: "ctx.fs - the write executor behind the tools (dsh-fs)",
+						What: "Every N > 0 write goes through the factory's ONE shared write executor - the fs/write-intent waterfall, the standing sandbox policy, writeText end to end, and the fs/observed {kind: present, version} emit on the root context with the call's exec as the actor.",
+						Outcome:
+							"Byte-identical with the raw-write path; the observation policy sees it like any tool write.",
+					},
+					{
+						Seam: "The governance interlock",
+						What: "The write's actor is the call's exec, and normalize-file is never added to any governor's mutationTools pin - so these writes never trigger a chain pass; the tool calls are also name-exempt in the stream gate beside edit and raw-write.",
+						Outcome:
+							"Normalization without re-processing loops, and edit targets that never corrupt.",
+					},
+					{
+						Seam: "The storage domain",
+						What: "Each N > 0 write journals one normalized record into the shared package_governance v2 domain (path = the target's display path, detail byte-identical to the count line) - best-effort: with no storage facility the record buffers or drops.",
+						Outcome: "A machine-readable history beside the human ledger.",
+					},
+					{
+						Seam: "The ledger / session",
+						What: "Two lines through the factory's Append: the activation proof from apply() and the count line that follows only a successful N > 0 write.",
+						Outcome:
+							"A no-op writes no line; a failed read or aborted call writes none either.",
+					},
+				]}
+			/>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Problem" Meta="WHY THE FILE TOOL EXISTS" />
+			<p class="page-hero__sub">
+				Files that never passed through a write tool are invisible to every normalization
+				layer DSH has: <code>raw-write</code>'s <code>normalize: true</code> is an explicit
+				per-call opt-in for NEW writes, and the six stream flavors only rewrite model output
+				- they never touch disk. Left unnormalized, a pre-existing file keeps every
+				typographic dash, curly quote, ellipsis, unicode space, zero-width character and
+				full-width character it was born with - exactly the characters that break parsers,
+				shells, diffs and byte-exact edit matches downstream.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
+				But the fix cannot be another silent rewriter. Files are rewritten behind the agent
+				only at the price of the edit tool's <code>old_string</code> contract: the agent
+				read bytes X, a background rewriter silently changed them to X', and the next edit
+				fails or half-matches. Hermes learned this the hard way - its
+				<code>normalize-tabs.sh</code> exists to repair the damage its own after-the-fact
+				rewriting caused. The tool is the answer: explicit, visible, discoverable, zero
+				background activity.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="How It Works" Meta="READ → COUNT → WRITE" />
+			<div class="code-block">{Pipeline.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The transformation is exactly the raw-write <code>normalize: true</code> chain - the
+				core's tables and replacers, applied whole at write time. There is no stream
+				dispatch to gate: the tool registers NO event listener, so the six transforms are
+				applied to the entire file content in one pass, and the count is the ledger's N and
+				the no-op condition in one.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
+				<strong>The conflict map, honored by construction.</strong> Governance bounded
+				passes: the write goes through <code>Factory.Write</code> and emits
+				<code>fs/observed</code>, but the governors' Gate requires the actor tool name in
+				their mutationTools pin - <code>normalize-file</code> is never added to any such
+				list, so these writes never trigger a chain pass. Edit <code>old_string</code>
+				contract: safe because visible - the diff card shows the before/after in the same
+				turn, and the tool description says to re-read before editing. Raw-write
+				read-before-write: tool calls are serialized and <code>Factory.Write</code>'s before
+				is read at write time, so a prior normalize-file in the same turn is already
+				reflected. No race.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Config" Meta="MINIMAL BLOCK + TWO KNOBS" />
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Field</th>
+							<th>Type</th>
+							<th>Default</th>
+							<th>Volatile</th>
+							<th>Meaning</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Config.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Field}</strong>
+								</td>
+								<td>{Row.Type}</td>
+								<td>{Row.Default}</td>
+								<td>{Row.Volatile}</td>
+								<td>{Row.Meaning}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				There are no stream flags (<code>normalizeReasoning</code>,
+				<code>normalizeToolArguments</code>) and no fs/observed fields (
+				<code>updateCooldownMs</code>, <code>mutationTools</code>,<code>policyFile</code>,{" "}
+				<code>exclude</code>): the minimal <code>shared: false</code>
+				block plus the two knobs is the whole config surface, because the tool registers no
+				listener of any kind. Volatile cells commit without remounting the plugin. The tool
+				is called by the agent like any built-in tool:
+			</p>
+			<div class="code-block" style="margin-top: var(--space-sm)">
+				{Usage.join("\n")}
+			</div>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="In Action" Meta="ONE CALL, ONE FILE, ONE COUNT" />
+			<p class="section-kicker">Before - the file as it sits on disk</p>
+			<div class="code-block">{BeforeAfter.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				Every em dash (U+2014) becomes the ASCII hyphen-minus, the curly quotes become
+				straight ones, the ellipsis becomes three periods; five characters replaced, so N =
+				5 and the write happens. The result carries the outcome and the diff card shows the
+				before/after in the same turn; the ledger gets the count line shown below. A file
+				with nothing to replace is a no-op: <code>changed: false</code>, the file stays
+				byte-identical, no write, no count line, no journal record. A missing, binary or
+				undecodable target is an error result with no write. Because the file's bytes change
+				under you, re-read before editing - the edit tool's <code>old_string</code> must
+				match the new content.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Ledger" Meta="TWO LINES VIA FACTORY APPEND" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Two lines, both written through the factory's <code>Append</code> (the
+				<code>hook-dsh-normalize-file:</code> prefix is the logger's
+				<code>&lt;State.Module&gt;:</code>; the durable file line is
+				<code>[&lt;ISO&gt;] &lt;message&gt;</code>):
+			</p>
+			<div class="code-block">{LedgerStrings.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The activation line is written by <code>apply()</code>; the count line follows only
+				a successful N &gt; 0 write - a no-op writes no line, and a failed read or an
+				aborted call writes none either. Each N &gt; 0 write also journals one
+				<code>normalized</code> record into the shared <code>package_governance</code> v2
+				domain (event <code>normalized</code>, path = the target's display path, detail
+				byte-identical to the count line), best-effort: with no storage facility the record
+				buffers or drops and the human ledger stays the complete record.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<div class="grid grid--3">
+				<Card
+					Variant="white"
+					Name="plugin-dsh-factory"
+					Href="/plugins/plugin-dsh-factory/"
+					Desc="State, Append, Journal and - uniquely here - Write, the ONE shared write executor every N > 0 write goes through."
+					Muted
+				>
+					<Badge slot="badge">PARENT SERVICE</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="hook-dsh-normalize-dash"
+					Href="/plugins/hook-dsh-normalize-dash/"
+					Desc="The stream sibling and the registrar of the raw-write tool - whose normalize:true chain this tool applies whole."
+					Muted
+				>
+					<Badge slot="badge">SIBLING FLAVOR</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="hook-dsh-core"
+					Href="/plugins/hook-dsh-core/"
+					Desc="The six transform tables and the generic Replace/ReplaceMap replacers this tool chains."
+					Muted
+				>
+					<Badge slot="badge">DSH FAMILY</Badge>
+				</Card>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				License: MIT.
+			</p>
+		</section>
+	</main>
+</Base>

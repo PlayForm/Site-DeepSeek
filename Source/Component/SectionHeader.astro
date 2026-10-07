@@ -1,0 +1,17 @@
+---
+// Section header: the blue marker bar + Inter title + uppercase mono meta.
+interface Props {
+	Title: string;
+	Meta?: string;
+}
+
+const { Title, Meta } = Astro.props;
+---
+
+<div class="section-header">
+	<div class="section-header__left">
+		<span class="section-header__marker"></span>
+		<h2 class="section-header__title">{Title}</h2>
+	</div>
+	{Meta && <span class="section-header__meta">{Meta}</span>}
+</div>

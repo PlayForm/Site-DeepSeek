@@ -1,0 +1,492 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Seams from "@Component/Seams.astro";
+import Terminal from "@Component/Terminal.astro";
+
+// The stream pipeline, from the package README (class flavor).
+const Pipeline = [
+	"  llm/stream waterfall (options, next)     the interceptable wrapper around",
+	"       │                                   EVERY streaming model call",
+	"       ▼  next() called FIRST, always - options never touched",
+	"  Normalize(upstream, state)               the async generator",
+	"       │   for await (chunk of upstream)",
+	"       ▼",
+	"  CoreChunk(chunk, transform, reasoning, toolArgs, raw)  the core's per-chunk dispatch",
+	"       │",
+	'       ├─ text-delta ────────► Replace(text, Spaces, " ")   rewrite the text field',
+	"       ├─ reasoning-delta ───► same, when normalizeReasoning (default ON)",
+	"       ├─ block-end ─────────► the assembled block's text fields -",
+	"       │                       TextBlock.text / ReasoningBlock.text (plus a",
+	"       │                       runtime `thinking` string field) - the deltas",
+	"       │                       AND the block must agree, or consumers see",
+	"       │                       inconsistencies",
+	'       ├─ tool-call-delta ───► Replace(argumentsDelta, Spaces, " ") when',
+	"       │                       normalizeToolArguments (IMPLEMENTED, default",
+	"       │                       OFF - execution-critical raw JSON, the user's",
+	"       │                       accepted risk; the example patch turns it",
+	"       │                       on) - the assembled ToolCallBlock.arguments",
+	"       │                       follows the same flag via block-end",
+	"       │                       The gate is THREE-WAY with the flag on: a",
+	'       │                       delta/block whose `name` is "edit" passes',
+	"       │                       through BY IDENTITY (the edit tool's",
+	"       │                       `old_string` must match the real file bytes),",
+	"       │                       and a call whose arguments open with the",
+	'       │                       `{"__normalize":false` marker (FIRST key,',
+	"       │                       tracked per call id) passes through",
+	"       │                       UNNORMALIZED with the marker entry stripped,",
+	"       │                       so the executed call carries no unknown key",
+	"       └─ block-start / usage / finish",
+	"                                ──► PASSTHROUGH BY IDENTITY, ALWAYS",
+	"                                    (usage/finish ordering is the",
+	"                                     adapter contract)",
+	"       │   count === 0 → original chunk BY IDENTITY; rewritten → shallow copy",
+	"       ▼",
+	"  yield ──► downstream consumers = the live UI + the durable transcript",
+	"       │    (order preserved, no buffering; upstream throws propagate)",
+	"       ▼  normal loop completion, Count > 0",
+	"  Factory.Append ──► `hook-dsh-normalize-spaces: normalized N space char(s) in one stream`",
+];
+
+// The transform class, from the README.
+const TransformClass = ["[\\u00A0\\u1680\\u2000-\\u200A\\u202F\\u205F\\u3000]  →  replacement"];
+
+// The covered characters, from the README.
+const Coverage = [
+	{ Code: "U+00A0", Name: "no-break space" },
+	{ Code: "U+1680", Name: "ogham space mark" },
+	{
+		Code: "U+2000-U+200A",
+		Name: "en quad, em quad, en space, three-per-em, four-per-em, six-per-em, figure space, punctuation space, thin space, hair space",
+	},
+	{ Code: "U+202F", Name: "narrow no-break space" },
+	{ Code: "U+205F", Name: "medium mathematical space" },
+	{ Code: "U+3000", Name: "ideographic space" },
+];
+
+// The six siblings, from the README (this bundle highlighted).
+const Siblings = [
+	{
+		Flavor: "hook-dsh-normalize-dash",
+		Table: "core Dashes class",
+		Sub: "→ replacement (default -)",
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-quotes",
+		Table: "core Quotes MAP",
+		Sub: "curly → straight",
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-ellipsis",
+		Table: "core Ellipsis class",
+		Sub: "U+2026 → ...",
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-spaces (this bundle)",
+		Table: "core Spaces class",
+		Sub: 'unicode spaces → " "',
+		This: true,
+	},
+	{
+		Flavor: "hook-dsh-normalize-invisible",
+		Table: "core Invisible class",
+		Sub: 'removed (default "")',
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-fullwidth",
+		Table: "core Fullwidth MAP",
+		Sub: "full-width → half-width",
+		This: false,
+	},
+];
+
+const Config = [
+	{
+		Field: "log",
+		Type: "boolean",
+		Default: "true",
+		Volatile: "yes",
+		Meaning: "write the durable ledger file",
+	},
+	{
+		Field: "logFile",
+		Type: "string",
+		Default: "~/.dsh/hook-dsh-normalize-spaces.log",
+		Volatile: "yes",
+		Meaning: "the spaces ledger (separate from the family's logs)",
+	},
+	{
+		Field: "replacement",
+		Type: "string",
+		Default: '" "',
+		Volatile: "yes",
+		Meaning:
+			"the transform's only knob - hot-editable, the next stream picks it up with no remount",
+	},
+	{
+		Field: "normalizeReasoning",
+		Type: "boolean",
+		Default: "true",
+		Volatile: "no",
+		Meaning: "normalize reasoning deltas and the assembled reasoning block too",
+	},
+	{
+		Field: "normalizeToolArguments",
+		Type: "boolean",
+		Default: "false",
+		Volatile: "no",
+		Meaning:
+			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit name exemption and the {"__normalize":false raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
+	},
+];
+
+// The stream example, from the README's In Action (the three gaps are, in
+// order: U+00A0, U+2003 (em quad), U+3000).
+const StreamExample = [
+	"text-delta in (what the model wrote; each marked gap is a non-ASCII space):",
+	"",
+	"  deploy the agent to the ring　buffer",
+	"",
+	"text-delta out (what reaches the transcript):",
+	"",
+	'  "deploy the agent to the ring buffer"',
+];
+
+// The ledger strings, from the README.
+const LedgerStrings = [
+	"hook-dsh-normalize-spaces: activated (replacement= , reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-spaces.log)",
+	"hook-dsh-normalize-spaces: normalized 3 space char(s) in one stream",
+];
+---
+
+<Base
+	Title="hook-dsh-normalize-spaces - @playform / DSH Family"
+	Description="Hook @ DSH @ Normalize @ Spaces - the space normalizer for model output: hooks the llm/stream waterfall and normalizes the unicode space family (Zs minus the ASCII space) to the plain space, live in the transcript."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				PLUGIN DETAIL
+			</Badge>
+			<Badge>FLAVOR: SPACES</Badge>
+			<Badge>CLASS FLAVOR</Badge>
+		</div>
+
+		<section class="page-hero">
+			<h1 class="page-hero__title" style="font-family: var(--font-mono)">
+				hook-dsh-normalize-spaces
+			</h1>
+			<p class="page-hero__sub">
+				Hook @ DSH @ Normalize @ Spaces • _The DeepSeek Harness Plugin Family for PlayForm._
+				The <strong>space normalizer for model output</strong> - a DeepSeek Harness plugin
+				that hooks the <code>llm/stream</code> waterfall (the interceptable wrapper around
+				EVERY streaming model call, bound to the LlmRuntime) and normalizes the unicode
+				space family in model output, live in the transcript: every visible non-terminator
+				space that is not the ASCII space becomes the plain ASCII space - U+00A0 to
+				<code>' '</code>, quads and quirs alike. A CLASS flavor of the normalize family: the
+				core's <code>Spaces</code> class plus a configurable <code>replacement</code> string
+				(default <code>" "</code>, the plain ASCII space). The family's raw-write tool
+				(registered by hook-dsh-normalize-dash) bypasses this flavor's transforms too - the
+				exemption is family-wide.
+			</p>
+		</section>
+
+		<section class="section" style="margin-top: calc(-1 * var(--space-lg))">
+			<div class="snippet-list">
+				<Terminal Command="pnpm add @playform/hook-dsh-normalize-spaces" />
+			</div>
+			<div class="workbench-controls" style="margin-top: var(--space-md); margin-bottom: 0">
+				<div class="workbench-controls__group">
+					<span class="workbench-controls__label">Namespace:</span>
+					<span class="hook-tally">@playform/hook-dsh-normalize-spaces</span>
+					<span class="workbench-controls__label">Release:</span>
+					<Badge Variant="outline">v0.0.1</Badge>
+				</div>
+				<div class="workbench-controls__group">
+					<span class="workbench-controls__label">Archetype:</span>
+					<Badge Variant="outline">Hook</Badge>
+					<span class="workbench-controls__label">Event:</span>
+					<Badge>llm/stream</Badge>
+					<span class="workbench-controls__label">Table:</span>
+					<Badge Variant="active">core Spaces class</Badge>
+				</div>
+			</div>
+		</section>
+
+		<p class="page-hero__sub" style="margin-top: var(--space-md)">
+			The profile wiring for this plugin - the bundles list, the patch entry and the restart -
+			is on the <a href="/setup/">setup page</a>.
+		</p>
+		<section class="section">
+			<SectionHeader
+				Title="Where It Fits"
+				Meta="FAMILY POSITION: 4TH OF 6 STREAM NORMALIZERS"
+			/>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<strong>Family position</strong> (the @-sentence{" "}
+				<strong>Hook @ DSH @ Normalize @ Spaces</strong>): a hook child of the{" "}
+				<strong>plugin-dsh-factory</strong> service and the <strong>hook-dsh-core</strong>{" "}
+				machinery; the fourth of the six stream normalizer siblings:
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Flavor</th>
+							<th>Table</th>
+							<th>Substitution</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Siblings.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Flavor}</strong>
+								</td>
+								<td>{Row.Table}</td>
+								<td>{Row.Sub}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				A <strong>non-manifest factory consumer</strong>: it injects
+				<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap +
+				shared Ledger/Enabled mappings + its own fields) and <code>Append</code>; the config
+				is composed by the factory's standalone <code>Schema</code> helper with
+				<code>shared: false</code> - the minimal block, no fs/observed dead fields. It
+				touches no files, so fs/write-intent and fs/observed never see it; it wraps the
+				downstream result and always calls <code>next()</code>, so it composes with other
+				llm/stream listeners regardless of registration order.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="In the DeepSeek Harness" Meta="WHERE THE FLAVOR OPERATES" />
+			<Seams
+				Seams={[
+					{
+						Seam: "llm/stream - the model stream waterfall",
+						What: "The plugin's listener wraps the interceptable waterfall around EVERY streaming model call (bound to the LlmRuntime): next() is called first, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
+						Outcome:
+							"Plain ASCII spaces reach the live UI and the durable transcript as the stream is born.",
+					},
+					{
+						Seam: "The model stream vocabulary (dsh-llm)",
+						What: "The chunk/block shapes it rewrites come from the harness's stream vocabulary (@deepseek-ai/dsh-llm, type-only): text deltas, reasoning deltas and assembled blocks must agree.",
+						Outcome:
+							"No inconsistencies between deltas and blocks for downstream consumers.",
+					},
+					{
+						Seam: "The factory service",
+						What: "A non-manifest factory consumer: State for the config (the replacement is a hot-editable volatile cell - no remount) and Append for every ledger line; it touches no files.",
+						Outcome:
+							"Composes with other llm/stream listeners regardless of registration order.",
+					},
+					{
+						Seam: "The raw-write exemption (family-wide)",
+						What: "The family's raw-write tool (registered by hook-dsh-normalize-dash) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
+						Outcome:
+							"Per-call control stays with the agent, even with every stream flavor armed.",
+					},
+					{
+						Seam: "The ledger / session",
+						What: "Two lines through the factory's Append: the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
+						Outcome: "A thrown-away stream writes no ledger line.",
+					},
+				]}
+			/>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Problem" Meta="WHY THE SPACES FLAVOR EXISTS" />
+			<p class="page-hero__sub">
+				Model output picks up exotic spaces - the no-break space from copy-pasted prose, the
+				thin space from typographic text, the ideographic space from CJK input. Markdown
+				renderers and shell quoting do not treat them as spaces; a command with a U+00A0 in
+				it fails for no visible reason. This flavor makes the plain ASCII space the one that
+				reaches the transcript.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="How It Works" Meta="THE STREAM PIPELINE" />
+			<div class="code-block">{Pipeline.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				<strong>The transform</strong> - exactly the core's <code>Spaces</code> class
+				(@playform/hook-dsh-core's Normalize/Spaces), applied per text segment through the
+				core's generic class-to-string <code>Replace</code>:
+			</p>
+			<div class="code-block" style="margin-top: var(--space-sm)">
+				{TransformClass.join("\n")}
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
+				Exactly Unicode's Zs category minus the ASCII space - becomes the config
+				<code>replacement</code> (default <code>" "</code>, the plain ASCII space U+0020):
+			</p>
+			<div class="table-wrap" style="margin-top: var(--space-sm)">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Code points</th>
+							<th>Characters</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Coverage.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Code}</strong>
+								</td>
+								<td>{Row.Name}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				No context rules - hermes-style whole-chunk replacement, no lookahead;
+				chunk-boundary-safe. The replacement is applied with a function replacer, so a
+				custom <code>replacement</code> containing <code>$</code> patterns is inserted
+				literally. Replaced characters are counted per stream for the ledger line.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Config" Meta="SCHEMA + DEFAULTS AT LOAD" />
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Field</th>
+							<th>Type</th>
+							<th>Default</th>
+							<th>Volatile</th>
+							<th>Meaning</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Config.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Field}</strong>
+								</td>
+								<td>{Row.Type}</td>
+								<td>{Row.Default}</td>
+								<td>{Row.Volatile}</td>
+								<td>{Row.Meaning}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				Volatile cells commit without remounting the plugin; the factory's State builder
+				unwraps them defensively. Example cordis.patch.yml row:
+			</p>
+			<div class="code-block" style="margin-top: var(--space-sm)">
+				{[
+					"- insert:",
+					"      - id: hook-dsh-normalize-spaces",
+					'        name: "@playform/hook-dsh-normalize-spaces"',
+					"        config:",
+					"            log: true",
+					"            logFile: ~/.dsh/hook-dsh-normalize-spaces.log",
+					'            replacement: " "',
+				].join("\n")}
+			</div>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="In Action" Meta="ONE STREAM, ONE TRANSFORMATION" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				One stream, one transformation. The model emits copy-pasted typographic spacing; the
+				live UI and the transcript receive plain ASCII spaces. In the incoming line below
+				the three gaps are the no-break space U+00A0, the em quad U+2003 and the ideographic
+				space U+3000, in that order:
+			</p>
+			<p class="section-kicker">
+				Before → after - the model stream, then what reaches the transcript
+			</p>
+			<div class="code-block">{StreamExample.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				Each non-ASCII space in the Zs-minus-ASCII class - U+00A0 between
+				<code>deploy</code> and <code>the</code>, U+2003 between <code>agent</code> and
+				<code>to</code>, U+3000 between <code>ring</code> and <code>buffer</code> in the
+				sample above - becomes exactly one ASCII space (U+0020); ASCII spaces that were
+				already there are untouched. This is what makes a pasted command executable again:
+				<code>echo a - b</code> with a hidden no-break space between the arguments runs
+				after the pass, where before the pass the shell saw one mangled word. When a stream
+				finishes normally with replacements made, the ledger gets the count line shown below
+				(note the <code>replacement= </code> field renders the default as a bare space). The{" "}
+				<code>replacement</code> is hot-editable (say to <code>_</code> for debugging), and
+				the same pass runs over reasoning deltas when
+				<code>normalizeReasoning</code> is on and over tool-call arguments when the example
+				patch enables <code>normalizeToolArguments</code> - with the <code>edit</code> name
+				exempt and raw-marker calls passing through unnormalized.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Ledger" Meta="TWO LINES VIA FACTORY APPEND" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Two lines, both written through the factory's <code>Append</code> (the
+				<code>hook-dsh-normalize-spaces:</code> prefix is the logger's
+				<code>&lt;State.Module&gt;:</code>; the durable file line is
+				<code>[&lt;ISO&gt;] &lt;message&gt;</code>). In the activation line,
+				<code>replacement= </code> is followed by the ASCII space itself - the default
+				renders as a trailing blank:
+			</p>
+			<div class="code-block">{LedgerStrings.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The activation line is written by <code>apply()</code>; the count line only follows
+				a normal stream completion and only when N &gt; 0 (a thrown-away stream writes no
+				ledger line).
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<div class="grid grid--3">
+				<Card
+					Variant="white"
+					Name="hook-dsh-core"
+					Href="/plugins/hook-dsh-core/"
+					Desc="Supplies the Spaces class, the Replace replacer and the generic Chunk/Block dispatch this flavor is a thin closure over."
+					Muted
+				>
+					<Badge slot="badge">DSH FAMILY</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="hook-dsh-normalize-invisible"
+					Href="/plugins/hook-dsh-normalize-invisible/"
+					Desc="The neighbouring sibling flavor - the zero-width/invisible family, removed entirely."
+					Muted
+				>
+					<Badge slot="badge">SIBLING FLAVOR</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="plugin-dsh-factory"
+					Href="/plugins/plugin-dsh-factory/"
+					Desc="The parent service: State, Append - plus the named Schema helper (shared: false) for the config."
+					Muted
+				>
+					<Badge slot="badge">PARENT SERVICE</Badge>
+				</Card>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				License: MIT.
+			</p>
+		</section>
+	</main>
+</Base>

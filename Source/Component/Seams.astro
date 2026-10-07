@@ -1,0 +1,39 @@
+---
+// Seams: the plugin's integration points with the DeepSeek Harness
+// internals - the actual events, services and facilities the plugin
+// operates through, rendered as a seam table.
+export interface Seam {
+	Seam: string;
+	What: string;
+	Outcome: string;
+}
+
+interface Props {
+	Seams: Seam[];
+}
+
+const { Seams } = Astro.props;
+---
+
+<div class="table-wrap">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Seam</th>
+				<th>What the plugin does there</th>
+				<th>What you can observe</th>
+			</tr>
+		</thead>
+		<tbody>
+			{Seams.map((Row) => (
+				<tr>
+					<td>
+						<strong>{Row.Seam}</strong>
+					</td>
+					<td>{Row.What}</td>
+					<td>{Row.Outcome}</td>
+				</tr>
+			))}
+		</tbody>
+	</table>
+</div>

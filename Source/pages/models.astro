@@ -1,0 +1,121 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+
+// The reference models: the harness sessions the family is battle-tested on.
+const Models = [
+	{
+		Name: "DeepSeek V4 Flash",
+		Note: "The harness route the family is developed and smoke-run against - every flavor verified on its token output streams.",
+	},
+	{
+		Name: "GLM 5.3 Flash",
+		Note: "The second battle-tested route - the same normalization and governance pipeline holding on a different vendor's stream.",
+	},
+];
+
+// What normalization covers, independent of which model produced the stream.
+const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDTH", "FILE"];
+---
+
+<Base
+	Title="Models - @playform / DSH Family"
+	Description="The DeepSeek Harness Plugin Family is model-agnostic: it normalizes any LLM's output stream to clean ASCII. Battle-tested on DeepSeek V4 Flash and GLM 5.3 Flash."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				MODEL INDEPENDENCE
+			</Badge>
+			<Badge>ANY LLM</Badge>
+		</div>
+
+		<PageHero
+			Title="Built to serve any LLM."
+			Sub="The family is model-agnostic by construction: it hooks the harness's token output stream, not the model. Whatever LLM produced the text - DeepSeek, GLM, or the next one - the same six stream flavors and two governance roles apply, because unicode drift and unpinned manifests are model-independent problems."
+		/>
+
+		<!-- The reference models -->
+		<section class="section">
+			<SectionHeader Title="The reference models" Meta="BATTLE-TESTED ROUTES" />
+			<div class="workbench-controls">
+				<div class="workbench-controls__group">
+					<span class="workbench-controls__label">Engine selection:</span>
+					<span class="engine-pill engine-pill--active">
+						<span class="dot"></span> DeepSeek V4 Flash (120 tps)
+					</span>
+					<span class="engine-pill">
+						<span class="dot"></span> GLM 5.3 Flash
+					</span>
+					<span class="engine-pill">
+						<span class="dot"></span> Raw LLM Stream
+					</span>
+				</div>
+				<div class="workbench-controls__group">
+					<a class="action action--secondary" href="/matrix/">
+						Open the Stream Inspector
+					</a>
+					<a class="action action--secondary" href="/workbench/">
+						Open the Workbench
+					</a>
+				</div>
+			</div>
+			<div class="grid grid--2">
+				{Models.map((Model) => (
+					<Card Variant="white" Name={Model.Name} Desc={Model.Note} Muted>
+						<Badge slot="badge" Variant="active">
+							VERIFIED STREAM
+						</Badge>
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<!-- What applies to every model -->
+		<section class="section">
+			<SectionHeader Title="What applies to every model" Meta="7 NORMALIZERS" />
+			<div class="flavor-strip">
+				{Coverage.map((Flavor) => (
+					<Badge>{Flavor}</Badge>
+				))}
+			</div>
+			<div class="independence" style="margin-top: var(--space-md)">
+				<div class="independence__label">
+					<svg
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+						aria-hidden="true"
+					>
+						<rect x="5" y="5" width="14" height="14" rx="1"></rect>
+						<path d="M9 2 v3 M15 2 v3 M9 19 v3 M15 19 v3 M2 9 h3 M2 15 h3 M19 9 h3 M19 15 h3"></path>
+						<rect x="9" y="9" width="6" height="6"></rect>
+					</svg>
+					Model Independence
+				</div>
+				<p class="independence__title">Normalizers sit on the stream, not on the model.</p>
+				<p class="independence__body">
+					Extensively battle-tested on <strong>DeepSeek V4 Flash</strong> &amp;
+					<strong>GLM 5.3 Flash</strong> token output streams. The dash, quotes, ellipsis,
+					spaces, invisible and fullwidth flavors run on every token batch before it
+					reaches your files; the file flavor re-normalizes what is already on disk; the
+					governor and pinner keep every manifest pinned - regardless of which engine
+					wrote the output.
+				</p>
+			</div>
+		</section>
+
+		<!-- Notation -->
+		<section class="section">
+			<div class="notation">
+				<p>@playform/dsh-family: the complete deterministic stream governor matrix.</p>
+				<p>@playform/hooks: zero runtime overhead normalizers with zero unicode drift.</p>
+				<p>@playform/runtime: pinned across 12 packages under atomic version gates.</p>
+			</div>
+		</section>
+	</main>
+</Base>

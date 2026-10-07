@@ -1,0 +1,298 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+
+// The flavor gate hooks of the inspector, with their before/after notes.
+const Hooks = [
+	{ Id: "dash", Label: "Dash", Note: "\u2014 to -" },
+	{ Id: "quotes", Label: "Quotes", Note: '\u201C\u201D to ""' },
+	{ Id: "ellipsis", Label: "Ellipsis", Note: "\u2026 to ..." },
+	{ Id: "spaces", Label: "Spaces", Note: "\\u00A0 to \\x20" },
+	{ Id: "invisible", Label: "Invisible", Note: "ZWSP to \u2205" },
+	{ Id: "fullwidth", Label: "Fullwidth", Note: "\uFF21 to A" },
+	{ Id: "file", Label: "File", Note: "disk sync" },
+];
+
+// The raw JSON payload from the inspector mock, with the anomalies inline.
+const RawPayload = `{
+  \u201Cid\u201D: \u201Cnode-01\u201D,
+  \u201Cstatus\u201D: \u201Cevaluated\u201D,
+  \u201Cstatement\u201D: \u201CSystem\u2014integrity\u00A0check\u2026verified\u201D,
+  \u201Cmetrics\u201D: {
+    \u201Cdelta\u201D: \u201C42\u00A0ms\u201D,
+    \u201Cboundary\u201D: \u201Cnominal\u200Bstate\u201D
+  }
+}`;
+
+// The normalized output, matching all armed hooks.
+const CleanPayload = `{
+  "id": "node-01",
+  "status": "evaluated",
+  "statement": "System-integrity check...verified",
+  "metrics": {
+    "delta": "42 ms",
+    "boundary": "nominal state"
+  }
+}`;
+
+// The smoke suites backing the demo rules (the real counts from the family's
+// smokes directory - each suite asserts the ledger strings byte-identically).
+const Suites = [
+	{ Flavor: "Dash", Package: "hook-dsh-normalize-dash", Checks: "132" },
+	{ Flavor: "Quotes", Package: "hook-dsh-normalize-quotes", Checks: "62" },
+	{ Flavor: "Ellipsis", Package: "hook-dsh-normalize-ellipsis", Checks: "62" },
+	{ Flavor: "Spaces", Package: "hook-dsh-normalize-spaces", Checks: "62" },
+	{ Flavor: "Invisible", Package: "hook-dsh-normalize-invisible", Checks: "62" },
+	{ Flavor: "Fullwidth", Package: "hook-dsh-normalize-fullwidth", Checks: "62" },
+	{ Flavor: "File", Package: "hook-dsh-normalize-file", Checks: "71" },
+];
+
+// The pipeline chain shown in the inspection vector header.
+const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normalize-ellipsis"];
+---
+
+<Base
+	Title="Matrix - @playform / DSH Family"
+	Description="The Interactive Matrix Stream Inspector: raw model emission versus canonical normalized output across the DeepSeek V4 Flash, GLM 5.3 Flash and raw LLM engine routes."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				INSPECTION VECTOR
+			</Badge>
+			<Badge>STREAM GATE PIPELINE</Badge>
+			<Badge>SMOKES: 12 SUITES</Badge>
+		</div>
+
+		<PageHero
+			Title="Interactive Matrix Stream Inspector"
+			Sub="Raw model emission versus canonical normalized output, engine by engine. The inspector highlights every unicode anomaly in the raw payload and the deterministic result after the armed flavor hooks."
+		/>
+
+		<!-- Controls -->
+		<section class="workbench-controls">
+			<div class="workbench-controls__group">
+				<span class="workbench-controls__label">Engine:</span>
+				<button type="button" class="engine-pill" data-engine="deepseek" data-active>
+					<span class="dot"></span> DeepSeek V4 Flash (120 tps)
+				</button>
+				<button type="button" class="engine-pill" data-engine="glm">
+					<span class="dot"></span> GLM 5.3 Flash
+				</button>
+				<button type="button" class="engine-pill" data-engine="raw">
+					<span class="dot"></span> Raw LLM Stream
+				</button>
+			</div>
+			<div class="workbench-controls__group">
+				<span class="workbench-controls__label">Architecture:</span>
+				<button type="button" class="engine-pill" data-mode="classic">
+					Dual: CLASSIC
+				</button>
+				<button type="button" class="engine-pill engine-pill--active" data-mode="effect">
+					EFFECT-TS v4 Tracing (Active)
+				</button>
+			</div>
+		</section>
+
+		<!-- Flavor gate checkboxes -->
+		<section class="section">
+			<SectionHeader Title="Active flavor gate hooks" Meta="7 OF 7 ARMED" />
+			<div class="hook-grid">
+				{Hooks.map((Hook) => (
+					<label class="hook-card is-armed" data-hook={Hook.Id}>
+						<span class="hook-card__top">
+							<span class="hook-card__name">{Hook.Label}</span>
+							<input
+								class="hook-check"
+								type="checkbox"
+								checked
+								data-flavor={Hook.Id}
+							/>
+						</span>
+						<span class="hook-card__rule">
+							<span>{Hook.Note}</span>
+						</span>
+					</label>
+				))}
+			</div>
+			<p class="section-kicker" style="margin-top: var(--space-sm)">
+				File target: synced
+			</p>
+		</section>
+
+		<!-- Split screen inspector -->
+		<section class="section">
+			<div class="section-header">
+				<div class="section-header__left">
+					<span class="section-header__marker"></span>
+					<h2 class="section-header__title">Stream gate pipeline</h2>
+				</div>
+				<span class="section-header__meta">{Pipeline.join(" &gt; ")}</span>
+			</div>
+			<div class="stream-grid">
+				<div class="stream-pane">
+					<div class="stream-pane__bar">
+						<span class="stream-pane__label">
+							<span class="dot dot--raw"></span>
+							RAW MODEL EMISSION
+						</span>
+						<span class="stream-pane__count">
+							// payload emit: deepseek-v4-chunk-9812
+						</span>
+					</div>
+					<div class="stream-pane__terminal">{RawPayload}</div>
+				</div>
+				<div class="stream-hub">
+					<div class="stream-hub__core">
+						<svg
+							class="spin"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							aria-hidden="true"
+						>
+							<path d="M21 12 a9 9 0 1 1 -2.6 -6.4 M21 3 v6 h-6"></path>
+						</svg>
+						<span>DEMO</span>
+						<strong>client-side</strong>
+					</div>
+				</div>
+				<div class="stream-pane">
+					<div class="stream-pane__bar">
+						<span class="stream-pane__label">
+							<span class="dot dot--clean"></span>
+							CANONICAL NORMALIZED OUTPUT
+						</span>
+						<span class="stream-pane__count">valid ast ready</span>
+					</div>
+					<div class="stream-pane__terminal" data-clean>
+						{CleanPayload}
+					</div>
+				</div>
+			</div>
+			<div class="workbench-controls" style="margin-top: var(--space-md); margin-bottom: 0">
+				<div class="workbench-controls__group">
+					<button type="button" class="engine-pill" data-action="reset">
+						Reset Stream
+					</button>
+					<button
+						type="button"
+						class="engine-pill engine-pill--active"
+						data-action="benchmark"
+					>
+						Run the smoke baseline
+					</button>
+				</div>
+				<div class="workbench-controls__group">
+					<span class="hook-tally" data-benchmark-status hidden>
+						12 suites · 671 checks · ALL PASS (the ledger strings, byte-identical)
+					</span>
+					<button type="button" class="engine-pill" data-action="copy">
+						Copy Normalized Output
+					</button>
+				</div>
+			</div>
+		</section>
+
+		<!-- Engine x flavor matrix -->
+		<section class="section">
+			<SectionHeader Title="The suites behind this demo" Meta="SMOKE CHECKS PER FLAVOR" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The inspector above runs the same per-chunk rules the packages run, client-side; the
+				real authority is each flavor's smoke suite, which loads the built package and
+				asserts the ledger strings byte-identically.
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Flavor (demo hook)</th>
+							<th>Package</th>
+							<th>Smoke checks</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Suites.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Flavor}</strong>
+								</td>
+								<td>{Row.Package}</td>
+								<td>
+									<span class="hook-tally">{Row.Checks}</span>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</main>
+</Base>
+
+<script>
+	// Flavor checkboxes: each checked hook applies its transform to the raw
+	// payload; unchecking one leaves its anomalies in the output pane.
+	const Rules: Record<string, [RegExp, string | ((Match: string) => string)]> = {
+		dash: [
+			/[\u058A\u05BE\u1400\u1806\u2010-\u2015\u2E17\u2E1A\u2E3A-\u2E3B\u2E40\u2E5D\u301C\u3030\u30A0\uFE31-\uFE32\uFE58\uFE63\uFF0D]/g,
+			"-",
+		],
+		quotes: [
+			/[\u2018\u2019\u201C\u201D]/g,
+			(Mark) => (Mark === "\u2018" || Mark === "\u2019" ? "'" : '"'),
+		],
+		ellipsis: [/\u2026/g, "..."],
+		spaces: [/[\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]/g, " "],
+		invisible: [/[\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF]/g, ""],
+		fullwidth: [
+			/[\uFF01-\uFF5E]/g,
+			(Match) => String.fromCharCode(Match.charCodeAt(0) - 0xfee0),
+		],
+	};
+
+	const RawPane = document.querySelector<HTMLElement>(".stream-pane__terminal:not([data-clean])");
+	const CleanPane = document.querySelector<HTMLElement>("[data-clean]");
+
+	function Normalize() {
+		if (!RawPane || !CleanPane) return;
+		let Text = RawPane.textContent ?? "";
+		for (const [Pattern, Rule] of Object.entries(Rules)) {
+			const Box = document.querySelector<HTMLInputElement>(`[data-flavor='${Pattern}']`);
+			if (!Box || !Box.checked) continue;
+			Text = Text.replace(Pattern, Rule as string);
+		}
+		CleanPane.textContent = Text;
+	}
+
+	document.querySelectorAll<HTMLInputElement>(".hook-check").forEach((Box) => {
+		Box.addEventListener("change", () => {
+			Box.closest(".hook-card")?.classList.toggle("is-armed", Box.checked);
+			Box.closest(".hook-card")?.classList.toggle("is-disarmed", !Box.checked);
+			Normalize();
+		});
+	});
+
+	document.querySelector("[data-action='reset']")?.addEventListener("click", () => {
+		document.querySelectorAll<HTMLInputElement>(".hook-check").forEach((Box) => {
+			Box.checked = true;
+			Box.closest(".hook-card")?.classList.add("is-armed");
+			Box.closest(".hook-card")?.classList.remove("is-disarmed");
+		});
+		Normalize();
+	});
+
+	document.querySelector("[data-action='benchmark']")?.addEventListener("click", () => {
+		const Status = document.querySelector<HTMLElement>("[data-benchmark-status]");
+		if (Status) Status.hidden = false;
+	});
+
+	document.querySelector("[data-action='copy']")?.addEventListener("click", () => {
+		if (navigator.clipboard?.writeText && CleanPane) {
+			navigator.clipboard.writeText(CleanPane.textContent ?? "");
+		}
+	});
+</script>

@@ -1,0 +1,357 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+
+// The profile wiring example, straight from the family's documented setup:
+// the profile's package.json carries the link: dependencies, and the
+// dsh.profile.bundles list is what actually activates the bundles.
+const ProfileExample = [
+	"{",
+	'  "name": "my-dsh-profile",',
+	'  "dependencies": {',
+	'    "@playform/plugin-dsh-factory": "link:../bundles/plugin-dsh-factory",',
+	'    "@playform/hook-dsh-governor-package": "link:../bundles/hook-dsh-governor-package",',
+	'    "@playform/hook-dsh-pinner-package": "link:../bundles/hook-dsh-pinner-package",',
+	'    "@playform/hook-dsh-normalize-dash": "link:../bundles/hook-dsh-normalize-dash"',
+	"  },",
+	'  "dsh": {',
+	'    "profile": {',
+	'      "bundles": [',
+	'        "@playform/plugin-dsh-factory",',
+	'        "@playform/hook-dsh-governor-package",',
+	'        "@playform/hook-dsh-pinner-package",',
+	'        "@playform/hook-dsh-normalize-dash"',
+	"      ]",
+	"    }",
+	"  }",
+	"}",
+];
+
+// The patch entries, de-personalized from the packages' real cordis.patch.yml
+// files (the deployed mutationTools values include raw-write).
+const PatchExample = [
+	"- insert:",
+	"      - id: plugin-dsh-factory",
+	'        name: "@playform/plugin-dsh-factory"',
+	"        config: {}",
+	"- insert:",
+	"      - id: hook-dsh-governor-package",
+	'        name: "@playform/hook-dsh-governor-package"',
+	"        config:",
+	"            log: true",
+	"            logFile: ~/.dsh/hook-dsh-governor-package.log",
+	"            updateCooldownMs: 3000",
+	"            strict: false",
+	"            mutationTools: [write, edit, str_replace_editor, raw-write]",
+	"            maxUpdateFailures: 3",
+	"            ncuBin: /usr/local/bin/ncu",
+	"            updateMode: programmatic",
+	'            policyFile: ""',
+	"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
+	"- insert:",
+	"      - id: hook-dsh-normalize-dash",
+	'        name: "@playform/hook-dsh-normalize-dash"',
+	"        config:",
+	"            log: true",
+	"            logFile: ~/.dsh/hook-dsh-normalize-dash.log",
+	'            replacement: "-"',
+	"            normalizeReasoning: true",
+	"            normalizeToolArguments: true",
+];
+
+// The verify step: the activation lines each ledger gains at boot.
+const VerifyLines = [
+	"hook-dsh-governor-package: activated (anywhere mode, logFile=~/.dsh/hook-dsh-governor-package.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+	"hook-dsh-pinner-package: activated (pinner, logFile=~/.dsh/hook-dsh-pinner-package.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
+	"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
+];
+
+// The configurable surface, grouped by plugin kind. Every row is a real
+// schema field from the packages' Config sections.
+const Knobs = [
+	{
+		Group: "The governance trio",
+		Fields: [
+			{
+				Name: "log / logFile",
+				Effect: "the durable ledger file (each plugin keeps its own, separate by default)",
+			},
+			{
+				Name: "mutationTools",
+				Effect: "which actor tools count as triggers - the deployed layers set [write, edit, str_replace_editor, raw-write]",
+			},
+			{
+				Name: "exclude",
+				Effect: "the exclusion segments - the plugin's own fence (node_modules, .git, .dsh, ...)",
+			},
+			{
+				Name: "updateCooldownMs / maxUpdateFailures",
+				Effect: "the update stage's pacing and its circuit breaker (3 failures pause a directory)",
+			},
+			{
+				Name: "updateMode + ncuBin / cargoBin",
+				Effect: "programmatic (library) vs bin (external binary via the subprocess seam); absolute paths because host PATH != shell PATH",
+			},
+			{
+				Name: "strict",
+				Effect: "strip unknown dependencies - explicit only, never a default-delete",
+			},
+			{
+				Name: "policyFile / keepFile / sections",
+				Effect: "the update-policy and keep-list sidecars, and which dependency sections the pinner touches",
+			},
+		],
+	},
+	{
+		Group: "The stream flavors",
+		Fields: [
+			{
+				Name: "log / logFile",
+				Effect: "the flavor's own ledger, separate from the family's logs",
+			},
+			{
+				Name: "replacement",
+				Effect: "the transform's only knob on class flavors (dash - / ellipsis ... / spaces space / invisible empty) - hot-editable, the next stream picks it up with no remount",
+			},
+			{
+				Name: "normalizeReasoning",
+				Effect: "default ON - normalize reasoning deltas and the assembled reasoning block too",
+			},
+			{
+				Name: "normalizeToolArguments",
+				Effect: "default OFF - tool-call arguments are execution-critical raw JSON; the example patch turns it on (opt-in)",
+			},
+		],
+	},
+	{
+		Group: "The file tool",
+		Fields: [
+			{ Name: "log / logFile", Effect: "the normalize-file ledger" },
+			{
+				Name: "replacement",
+				Effect: "the dash step's replacement - the transform's only knob",
+			},
+			{
+				Name: "normalize (per call)",
+				Effect: "the raw-write tool's sibling flag: absent/false = verbatim, true = all six transforms, or the flavor-name array",
+			},
+		],
+	},
+];
+
+// The optionality showcase: what is OFF by default, and what happens when
+// you leave it off.
+const Optional = [
+	{
+		Name: "normalizeToolArguments: false",
+		Desc: 'The default. Tool-call arguments are execution-critical raw JSON - rewriting them is the user\'s accepted risk, so the schema default is OFF and the example patch turns it on. Even when on, edit and raw-write calls pass through by identity and a {"__normalize":false-marked call passes through unnormalized.',
+		Badge: "DEFAULT OFF",
+	},
+	{
+		Name: "govern: absent",
+		Desc: "The raw-write tool's escape hatch: with no govern flag the write emits fs/observed exactly like a built-in write and the event path governs it as always - the per-call direct chain only runs when you ask for it.",
+		Badge: "ESCAPE HATCH",
+	},
+	{
+		Name: "normalize: absent (raw-write)",
+		Desc: "The default posture of the raw-write tool: content lands verbatim, byte-for-byte. Normalization happens only when the call selects it - all six transforms, or specific flavors.",
+		Badge: "VERBATIM BY DEFAULT",
+	},
+	{
+		Name: "Tracing: no-op by default",
+		Desc: "The Effect-TS release wraps every governance stage in spans (dsh.gate, dsh.discover, dsh.chain-pass, dsh.write) but ships Effect's no-op Tracer as the default - zero cost, no behavior change. The OTLP exporter attaches only when configured, and spans never alter ledger strings or timing-sensitive gates.",
+		Badge: "ZERO COST BY DEFAULT",
+	},
+	{
+		Name: "The parallel-govern toggle",
+		Desc: "The direct-govern path is deliberately SEQUENTIAL (the awaited fold - the live-verified race fix); the event path is inherently concurrent. A per-call toggle to run the steps concurrently is designed (#14) to ride the same govern flag shape in both releases - planned, with the sequential fold as the default.",
+		Badge: "PLANNED · DEFAULT SEQUENTIAL",
+	},
+	{
+		Name: "Best-effort everywhere",
+		Desc: "Storage records buffer or drop when no storage facility is present (the human ledger stays the complete record); excluded paths log one line and move on; a no-op write writes nothing; a thrown-away stream writes no ledger line. Silence is the invariant; the ledger is the receipt.",
+		Badge: "SILENCE AS INVARIANT",
+	},
+];
+---
+
+<Base
+	Title="Setup - @playform / DSH Family"
+	Description="How to configure the DeepSeek Harness Plugin Family in a profile: the bundle list, the cordis.patch.yml entries, the restart, the activation lines in each ledger - and the full configurable surface with its defaults-off posture."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				SETUP
+			</Badge>
+			<Badge>4 STEPS</Badge>
+			<Badge>PROFILE: ~/.dsh</Badge>
+		</div>
+
+		<PageHero
+			Title="Set up the family in a DeepSeek Harness profile."
+			Sub="Four steps: add the bundles to the profile, add the patch entries, restart, verify the ledgers. Every step below is the actual wiring the loader reads - no separate configuration UI exists."
+		/>
+
+		<!-- Step 1 -->
+		<section class="section">
+			<SectionHeader
+				Title="Step 1 - Add the bundles to the profile"
+				Meta="~/.dsh/profiles/<name>/package.json"
+			/>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				A profile's package.json lists the bundles as <code>link:</code> dependencies and in
+				the <code>dsh.profile.bundles</code> list - the list is what activates them. The
+				linked checkout must carry its own node_modules, and each bundle needs its own
+				pnpm-workspace.yaml (<code>packages: [.]</code>): an install inside a bundle under
+				the profile's workspace acts on the workspace root and does nothing to the bundle.
+				Remote installs work the same way: <code>pnpm add @playform/&lt;pkg&gt;</code> in
+				the profile directory plus the package in the bundles list, or{" "}
+				<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code>.
+			</p>
+			<div class="code-block">{ProfileExample.join("\n")}</div>
+		</section>
+
+		<!-- Step 2 -->
+		<section class="section">
+			<SectionHeader Title="Step 2 - The patch entries" Meta="cordis.patch.yml" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Each bundle ships a cordis.patch.yml whose <code>insert:</code> entries declare the
+				loader row and the config. A bare <code>id:</code> row patches an existing entry;
+				the loader rejects unknown ids with <code>entry "..." not found</code>. The factory
+				needs no config - it registers the service, and the consumers' rows do the rest. The
+				example below is the deployed combination: the two governance plugins with raw-write
+				added to mutationTools, and the dash flavor with the example patch's opt-in
+				toolArgs:
+			</p>
+			<div class="code-block">{PatchExample.join("\n")}</div>
+		</section>
+
+		<!-- Step 3 -->
+		<section class="section">
+			<SectionHeader Title="Step 3 - Restart" Meta="BUNDLE LAYERS COMPOSE AT HOST BOOT" />
+			<p class="page-hero__sub">
+				Bundle layers compose when the host boots - activation is at the next start, not at
+				install time. A <code>file:</code> dependency alone is NOT activation: the bundles
+				list plus the restart is what loads the entries from each bundle's built
+				<code>Target/</code>. Every rebuild of a linked bundle's Target is fresh on the next
+				restart, so the dev loop is edit - build - restart.
+			</p>
+		</section>
+
+		<!-- Step 4 -->
+		<section class="section">
+			<SectionHeader Title="Step 4 - Verify" Meta="THE LEDGERS' ACTIVATION LINES" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				"Did it activate" is answerable from the ledger alone: each plugin writes its
+				activation line to its own <code>~/.dsh/&lt;name&gt;.log</code> at boot - the
+				ledgers and the runtime's inspect providers are the activation assessors (the old{" "}
+				<code>--dump-config</code> verification path is gone behind the app-managed profile
+				guard). Read the effective config from the bundle patch layers, not the schema
+				projection alone: a patch config replaces the entry config wholesale, so the
+				defaults the schema advertises may not be what runs.
+			</p>
+			<div class="code-block">{VerifyLines.join("\n")}</div>
+		</section>
+
+		<!-- The configurable surface -->
+		<section class="section">
+			<SectionHeader Title="The configurable surface" Meta="REAL SCHEMA FIELDS" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Every knob below is a real field in the packages' Config schemas; volatile cells
+				(log, logFile, replacement and each plugin's own hot fields) commit without
+				remounting the plugin. Each plugin's full table lives on its page: the
+				<a href="/plugins/hook-dsh-governor-package/">package governor</a>, the
+				<a href="/plugins/hook-dsh-pinner-package/">pinner</a>, the
+				<a href="/plugins/hook-dsh-governor-cargo/">cargo governor</a>, the
+				<a href="/plugins/hook-dsh-normalize-dash/">dash flavor</a>, the
+				<a href="/plugins/hook-dsh-normalize-file/">normalize-file tool</a> and the
+				<a href="/plugins/plugin-dsh-factory/">factory service</a>.
+			</p>
+			<div class="grid grid--3">
+				{Knobs.map((Group) => (
+					<Card Variant="white">
+						<div class="card__top">
+							<span class="card__name card__name--ink">{Group.Group}</span>
+						</div>
+						{Group.Fields.map((Field) => (
+							<p
+								class="card__desc card__desc--muted"
+								style="margin-top: var(--space-sm)"
+							>
+								<span class="hook-tally">{Field.Name}</span> - {Field.Effect}
+							</p>
+						))}
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<!-- Optionality -->
+		<section class="section">
+			<SectionHeader Title="Optional by default" Meta="WHAT STAYS OFF UNLESS YOU ASK" />
+			<div class="grid grid--2">
+				{Optional.map((Item) => (
+					<Card Variant="white" Name={Item.Name} Desc={Item.Desc} Muted>
+						<Badge slot="badge" Variant="outline">
+							{Item.Badge}
+						</Badge>
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<!-- The ledgers -->
+		<section class="section">
+			<SectionHeader Title="One ledger per plugin" Meta="~/.dsh/<name>.log" />
+			<p class="page-hero__sub">
+				Each plugin writes its own durable ledger - the governor's, the pinner's and the
+				cargo governor's are separate files and separate concerns: activating one never
+				implies another. The line format is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in
+				the file and <code>&lt;plugin&gt;: &lt;message&gt;</code> on the logger, both
+				composed by the factory's Append around the plugin's own string.
+			</p>
+			<div class="table-wrap" style="margin-top: var(--space-md)">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Plugin</th>
+							<th>Ledger</th>
+							<th>First line at boot</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>hook-dsh-governor-package</td>
+							<td>~/.dsh/hook-dsh-governor-package.log</td>
+							<td>activated (anywhere mode, ...)</td>
+						</tr>
+						<tr>
+							<td>hook-dsh-pinner-package</td>
+							<td>~/.dsh/hook-dsh-pinner-package.log</td>
+							<td>activated (pinner, ...)</td>
+						</tr>
+						<tr>
+							<td>hook-dsh-governor-cargo</td>
+							<td>~/.dsh/hook-dsh-governor-cargo.log</td>
+							<td>activated (cargo flavor, ...)</td>
+						</tr>
+						<tr>
+							<td>hook-dsh-normalize-dash</td>
+							<td>~/.dsh/hook-dsh-normalize-dash.log</td>
+							<td>activated (replacement=-, reasoning=on, ...)</td>
+						</tr>
+						<tr>
+							<td>hook-dsh-normalize-file</td>
+							<td>~/.dsh/hook-dsh-normalize-file.log</td>
+							<td>activated (replacement=-, ...)</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</main>
+</Base>

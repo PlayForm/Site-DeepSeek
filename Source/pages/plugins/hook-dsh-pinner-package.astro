@@ -1,0 +1,380 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Seams from "@Component/Seams.astro";
+import Terminal from "@Component/Terminal.astro";
+
+// The pipeline P = Rewrite ∘ Pin ∘ Resolve ∘ Decode diagram, from the package README.
+const Pipeline = [
+	'  fs/observed (target, {kind:"present", version}, actor)',
+	"  ── fired by the TOOL LAYER ONLY, for every harness write/edit, any thread ──►",
+	"       │",
+	"       ▼",
+	'  G1  Factory.Gate ── displayPath → actor ∈ mutationTools → kind "present" →',
+	'  │                    Stash idempotence → basename "package.json" → excluded?',
+	"  │     excluded ──► ledger `skipped (excluded) <path>`   (every other gate",
+	"  ▼                  outcome is silent)                      outcome proceeds)",
+	"  G2  Factory.Discover ── nearest registry.json walk-up (an exempt plain-fs",
+	"  │     probe - it exists ONLY as a location for the co-located",
+	"  │     pin-policy.json); Stash seed (targetKey, version)",
+	"  ▼",
+	"  g3  PIN PASS  (detached, contained - Factory.Continue; the listener never",
+	"  │     awaits) ── ctx.fs.readText → union keep-list (ResolvePolicy: global",
+	"  │     policyFile → the file's own directory → registry-adjacent → built-in",
+	"  │     default) → Decode (JSON.parse, null on failure) → the RANGE LAW",
+	"  │     (the range law - ONE leading ^/~/= stripped per dep) → the REFUSAL",
+	"  │     GUARD (core's Refusal) → GuardedWrite (replaceIfVersion + the P4",
+	"  │     fence) → ledger `pinned <path> (<N> versions)` → Refresh (P3",
+	"  │     re-emit, same actor)",
+	"  ▼",
+	"  SILENCE: the tool result shows exactly what the author wrote.",
+	"  The pinned state is discoverable only by a subsequent read - or in",
+	"  the ledger.",
+];
+
+// The range law, from the README - for each dependency value, in order.
+const RangeLaw = [
+	{ N: "1", Condition: "not a string", Action: "untouched", Examples: '"foo": {"imports": ...}' },
+	{
+		N: "2",
+		Condition: "first char not in {^, ~, =}",
+		Action: "untouched",
+		Examples:
+			'"0.3.4", "1.2.3-rc.1", "*", "", ">=1.0.0", "workspace:*", "file:../x", "link:...", "git+https://...", "npm:pkg@1.0.0"',
+	},
+	{
+		N: "3",
+		Condition: "whitespace in value",
+		Action: "untouched",
+		Examples: '"^1.0.0 || 2.0.0", "^1.0.0 <2.0.0"',
+	},
+	{
+		N: "4",
+		Condition: "otherwise",
+		Action: "strip the one leading prefix",
+		Examples: '"^0.3.4" → "0.3.4", "~1.2.3" → "1.2.3", "=2.0.0" → "2.0.0"',
+	},
+];
+
+// The In Action ledger excerpt, from the README.
+const LedgerExcerpt = [
+	"[2026-10-03T09:15:22.411Z] activated (pinner, logFile=~/.dsh/hook-dsh-pinner-package.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
+	"[2026-10-03T09:16:01.880Z] pinned <project>/acme/tool/package.json (2 versions)",
+];
+
+// The pinned write itself, from the README.
+const PinnedWrite = [
+	"{",
+	'  "name": "@acme/tool",',
+	'  "scripts": { "build": "tsc" },',
+	'  "dependencies": {',
+	'    "@playform/build": "^0.3.4",',
+	'    "tailwindcss": "^3.0.5",',
+	'    "@acme/core": "~1.2.3"',
+	"  }",
+	"}",
+];
+
+// The module's composed strings, from the README's Ledger section.
+const LedgerStrings = [
+	"activated (pinner, logFile=..., sections=[...], exclude=[...])",
+	"skipped (excluded) <path>",
+	"observed non-JSON package.json <path>",
+	"pinned <path> (N versions)",
+	"no changes to pin for <path>",
+	'REFUSED rewrite of <path>: non-dependency section "<name>" would change',
+];
+
+const Related = [
+	{
+		Name: "plugin-dsh-factory",
+		Desc: "The family's furnace: the gate, the discovery, the union keep-list, the guarded write, the refresh, the continuation, the effects and the schema come from it.",
+	},
+	{
+		Name: "hook-dsh-governor-package",
+		Desc: "The sibling governor on the same seam: pin → bump-exact, since a fully pinned manifest leaves the governor's update stage nothing to do.",
+	},
+	{
+		Name: "hook-dsh-core",
+		Desc: "Supplies the refusal guard (Refusal) and the suppression composer (Suppress) this bundle composes its lines with.",
+	},
+];
+---
+
+<Base
+	Title="hook-dsh-pinner-package - @playform / DSH Family"
+	Description="Hook @ DSH @ Pinner @ Package - the silent version pinner of the DeepSeek Harness: hooks fs/observed and pins every dependency version in a written package.json to its static version."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				PLUGIN DETAIL
+			</Badge>
+			<Badge>ROLE: PINNER</Badge>
+			<Badge>GATE: package.json</Badge>
+		</div>
+
+		<section class="page-hero">
+			<h1 class="page-hero__title" style="font-family: var(--font-mono)">
+				hook-dsh-pinner-package
+			</h1>
+			<p class="page-hero__sub">
+				Hook @ DSH @ Pinner @ Package • _The DeepSeek Harness Plugin Family for PlayForm._
+				The <strong>silent version pinner</strong> of the DeepSeek Harness - a plugin on the
+				<code>fs/observed</code> event that pins every dependency version in a written
+				<code>package.json</code> to its STATIC version:{" "}
+				<code>"@playform/build": "^0.3.4"</code> becomes <code>"0.3.4"</code>. One leading
+				range prefix (<code>^</code>,<code>~</code>, or <code>=</code>) is stripped, in
+				every dependency section the config declares - and the author never learns. A
+				factory flavor: pure P-only - no ncu, no jobs, no subprocess, no cooldown. Just the
+				pin.
+			</p>
+		</section>
+
+		<section class="section" style="margin-top: calc(-1 * var(--space-lg))">
+			<div class="snippet-list">
+				<Terminal Command="pnpm add @playform/hook-dsh-pinner-package" />
+			</div>
+			<div class="workbench-controls" style="margin-top: var(--space-md); margin-bottom: 0">
+				<div class="workbench-controls__group">
+					<span class="workbench-controls__label">Namespace:</span>
+					<span class="hook-tally">@playform/hook-dsh-pinner-package</span>
+					<span class="workbench-controls__label">Release:</span>
+					<Badge Variant="outline">v0.0.1</Badge>
+				</div>
+				<div class="workbench-controls__group">
+					<span class="workbench-controls__label">Archetype:</span>
+					<Badge Variant="outline">Hook</Badge>
+					<span class="workbench-controls__label">Event:</span>
+					<Badge>fs/observed</Badge>
+					<span class="workbench-controls__label">Injects:</span>
+					<Badge Variant="active">fs, pluginFactory</Badge>
+				</div>
+			</div>
+		</section>
+
+		<p class="page-hero__sub" style="margin-top: var(--space-md)">
+			The profile wiring for this plugin - the bundles list, the patch entry and the restart -
+			is on the <a href="/setup/">setup page</a>.
+		</p>
+		<section class="section">
+			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: A GOVERNANCE HOOK" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<strong>Family position</strong> (the @-sentence{" "}
+				<strong>Hook @ DSH @ Pinner @ Package</strong>): a hook child of the{" "}
+				<strong>plugin-dsh-factory</strong> service and the <strong>hook-dsh-core</strong>{" "}
+				helpers; a sibling of the package governor on the same <code>fs/observed</code>{" "}
+				seam. Composition semantics: <strong>pin → bump-exact</strong> (the pinner pins{" "}
+				<code>^0.3.4</code> → <code>0.3.4</code>; a fully pinned manifest then leaves the
+				governor's update stage nothing to do, while its chain pass may still
+				re-canonicalize chain pins), <strong>keep-list wins</strong>
+				(the pinner's pin-policy.json keeps ranges as authored). The ledgers are separate
+				(pinner.log vs governor.log); activating one never implies another.
+			</p>
+			<p class="page-hero__sub">
+				Machinery-wise it is a <strong>factory flavor</strong>:
+				<code>inject: ["fs", "pluginFactory"]</code> - the gate, the discovery, the union
+				keep-list, the guarded write, the refresh, the continuation, the effects and the
+				schema come from plugin-dsh-factory; the refusal guard and the suppression composer
+				come from hook-dsh-core. This bundle keeps its own logic: the range law, the decode,
+				and every ledger string. Besides the fs/observed event path, its chain pass is
+				registered with the factory's direct-govern registry at apply
+				(Factory.RegisterGovern("package.json", "pin", ...)), so the raw-write tool's
+				per-call govern selection can drive the same pin pass directly through
+				Factory.Govern.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="In the DeepSeek Harness" Meta="WHERE THE PINNER OPERATES" />
+			<Seams
+				Seams={[
+					{
+						Seam: "fs/observed - the file observation event",
+						What: "The pinner's one listener hook: the same event the governor reacts to, fired by the tool layer only for every harness write/edit - so the pin happens after content is on disk, on every write path.",
+						Outcome:
+							"Static versions become the default outcome of every write, invisibly.",
+					},
+					{
+						Seam: "ctx.fs - the filesystem service (dsh-fs)",
+						What: "The pin pass reads the file via ctx.fs.readText and writes via the factory's guarded write (replaceIfVersion + the P4 sandbox fence), with an explicit sandbox policy because the plugin's own exclude list IS its fence.",
+						Outcome: "No clobber, no recursion; the re-emit re-enters as a no-op.",
+					},
+					{
+						Seam: "The keep-list policy sidecar",
+						What: "ResolvePolicy builds the union keep-list from every readable pin-policy.json: global policyFile → the file's own directory → registry-adjacent; the P3 chain-keys interlock protects the governor's chain pins from ever being stripped.",
+						Outcome: "Ranges the author marked as intentional stay exactly as written.",
+					},
+					{
+						Seam: "The ledger / session",
+						What: "A separate ledger (pinner.log) records activation, exclusions, non-JSON skips, refusals and every pin result; the activation line is written by apply().",
+						Outcome:
+							'"Did it activate" is answerable from the ledger alone - and never implies the governor\'s ledger.',
+					},
+				]}
+			/>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Problem" Meta="WHY THE PINNER EXISTS" />
+			<p class="page-hero__sub">
+				Ranged versions make builds drift: <code>"^0.3.4"</code> today is
+				<code>"0.3.5"</code> next week. Teams that want reproducible installs want static
+				versions - but writing them by hand (or remembering to) is exactly the kind of
+				discipline an agent workflow loses. The pinner makes static versions the default
+				outcome of every write, invisibly.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader
+				Title="How It Works"
+				Meta="THE PIPELINE P = REWRITE ∘ PIN ∘ RESOLVE ∘ DECODE"
+			/>
+			<div class="code-block">{Pipeline.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				<strong>The range law</strong> (the transform, exactly) - for each dependency value
+				(after the keep-list gate), in order:
+			</p>
+			<div class="table-wrap" style="margin-top: var(--space-sm)">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Condition</th>
+							<th>Action</th>
+							<th>Examples</th>
+						</tr>
+					</thead>
+					<tbody>
+						{RangeLaw.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.N}</strong>
+								</td>
+								<td>{Row.Condition}</td>
+								<td>{Row.Action}</td>
+								<td>{Row.Examples}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				<strong>Idempotent:</strong> an already-static version has no leading prefix, so
+				rule 2 passes it through - pinning a pinned file is a no-op rewrite;{" "}
+				<code>P(P(c)) = P(c)</code>. <strong>Keep-list policy:</strong> a pin-policy.json (
+				<code>{'{"keep": ["tailwindcss"]}'}</code>) protects packages whose ranges must stay
+				EXACTLY as the author wrote them; the effective keep-list is the union of every
+				readable discovered policy, and the P3 chain-keys interlock means the governor's{" "}
+				<code>^resolved</code> chain pins are never stripped. A file that exists but does
+				not parse is logged and contributes nothing.
+				<strong>Documented edge decision:</strong> <code>"^1.*"</code> IS stripped to
+				<code>"1.*"</code> - the law strips the notation (the prefix) and leaves the content
+				untouched; protect wildcards with the keep-list if you need them preserved.
+				<strong>Refusal guard:</strong> non-dependency sections (name, version, description,
+				scripts, ...) are NEVER touched - if the pinner's own logic would ever change one,
+				the rewrite is REFUSED and logged instead of applied.
+				<strong>Version coherence:</strong> the rewrite carries replaceIfVersion at the
+				observed version; a racing author write makes it fail safely (no clobber), and the
+				re-emit re-enters this listener where the Stash token gate makes it a no-op.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Config" Meta="SCHEMA + DEFAULTS AT LOAD" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The exported Config schema (the factory's Schema helper extended with
+				<code>sections</code>) validates and fills every default at load - invalid
+				configuration fails loudly. New patch entries are declared with
+				<code>insert:</code>. Full example:
+			</p>
+			<div class="code-block">
+				{[
+					"- insert:",
+					"      - id: hook-dsh-pinner-package",
+					'        name: "@playform/hook-dsh-pinner-package"',
+					"        config:",
+					"            log: true",
+					"            logFile: ~/.dsh/hook-dsh-pinner-package.log # SEPARATE ledger (own plugin)",
+					"            mutationTools: [write, edit, str_replace_editor]",
+					'            policyFile: "" # optional global pin-policy.json (else discovery, else built-in)',
+					"            sections: [dependencies, devDependencies, peerDependencies, optionalDependencies]",
+					"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
+				].join("\n")}
+			</div>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="In Action" Meta="ONE PINNED WRITE" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				One pinned write. The author drops a <code>package.json</code> with two ranged
+				versions and a keep-listed package nearby:
+			</p>
+			<p class="section-kicker">Before - the manifest as the author wrote it</p>
+			<div class="code-block">{PinnedWrite.join("\n")}</div>
+			<p class="page-hero__sub" style="margin: var(--space-md) 0">
+				A <code>pin-policy.json</code> (<code>{'{"keep":["tailwindcss"]}'}</code>) sits
+				beside the file, so tailwindcss keeps its range; the other two dependencies are
+				pinned. The transcript shows only what the author wrote; the ledger shows the pin:
+			</p>
+			<p class="section-kicker">After - the pin in the ledger</p>
+			<div class="code-block">{LedgerExcerpt.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				Read the file back and <code>"@playform/build"</code> is <code>"0.3.4"</code>,
+				<code>"@acme/core"</code> is <code>"1.2.3"</code>, <code>"tailwindcss"</code> is
+				still <code>"^3.0.5"</code>, and <code>"scripts"</code> is byte-identical. Write the
+				pinned file again and the pass is a no-op with its own line:
+				<code>no changes to pin for ...</code>. Write inside
+				<code>node_modules</code>/<code>.git</code>/<code>.dsh</code> and the ledger gains
+				<code>skipped (excluded) ...</code> while the file stays untouched. (A non-JSON
+				package.json - or a refusal, if a non-dependency section would change - gets its own
+				line, e.g. <code>observed non-JSON package.json ... - skipped</code>, before the
+				silence.)
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Ledger" Meta="ONE GLOBAL LOG" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				One global log (<code>logFile</code>, default
+				<code>~/.dsh/hook-dsh-pinner-package.log</code> - SEPARATE from the governor's
+				ledger) records activation, exclusions, non-JSON skips, refusals, and every pin
+				result. The strings this module composes (the
+				<code>hook-dsh-pinner-package:</code> logger prefix is the factory's Append; each
+				line is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file):
+			</p>
+			<div class="code-block">{LedgerStrings.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The non-JSON line ends with an em dash followed by <code>skipped</code> - part of
+				the literal string, so its byte-exact form appears only in the In Action excerpt
+				above. The activation line is written by <code>apply()</code> - "did it activate"
+				must be answerable from the ledger alone.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<div class="grid grid--3">
+				{Related.map((Plugin) => (
+					<Card
+						Variant="white"
+						Name={Plugin.Name}
+						Href={`/plugins/${Plugin.Name}/`}
+						Desc={Plugin.Desc}
+						Muted
+					>
+						<Badge slot="badge">DSH FAMILY</Badge>
+					</Card>
+				))}
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				License: MIT. Full contract: SCHEME.md. TypeScript-first, built with @playform build
+				(ESBuild + tsc type-check); the published artifact contains only the built output.
+			</p>
+		</section>
+	</main>
+</Base>

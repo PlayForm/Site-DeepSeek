@@ -1,0 +1,179 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+
+const Invariants = [
+	{
+		Id: "INVARIANT 01",
+		Desc: "The twelve contracts are identical across the two trees; only the runtime plumbing differs.",
+	},
+	{
+		Id: "INVARIANT 02",
+		Desc: "The smoke suites arbitrate both releases; every suite loads the real built Target of its bundle.",
+	},
+	{
+		Id: "INVARIANT 03",
+		Desc: "The @-sentence identity holds in both trees: the scope stays @playform, the family/type marker leads.",
+	},
+];
+---
+
+<Base
+	Title="Versions - @playform / DSH Family"
+	Description="The dual engine distribution of the DeepSeek Harness Plugin Family: CLASSIC in plain TypeScript, EFFECT-TS on Effect-TS services and layers - same twelve contracts, same smokes, both at 0.0.1."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				ECOSYSTEM: @PLAYFORM
+			</Badge>
+			<Badge>CLASSIC</Badge>
+			<Badge>EFFECT-TS</Badge>
+		</div>
+
+		<PageHero
+			Title="Versions"
+			Sub="The dual engine distribution: the same twelve contracts, built twice. CLASSIC in plain TypeScript, EFFECT-TS on Effect-TS services and layers - same behavior, same smokes, different runtime plumbing. Both releases are at version 0.0.1."
+		/>
+
+		<section class="section">
+			<div class="grid grid--2">
+				<Card Variant="white">
+					<div slot="head" class="version-card__head">
+						<span class="version-card__title">CLASSIC</span>
+						<svg
+							class="version-card__icon"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							aria-hidden="true"
+						>
+							<path d="M12 3 L21 8 L12 13 L3 8 Z M3 12.5 L12 17.5 L21 12.5 M3 16.5 L12 21.5 L21 16.5"></path>
+						</svg>
+					</div>
+					<p class="version-card__body">
+						The twelve contracts in plain TypeScript - classes, Maps and plain
+						functions, zero runtime framework dependencies. The release built from
+						<strong style="font-weight: 500; color: var(--color-on-surface)">
+							Classic/
+						</strong>
+						and verified by its twelve smoke suites.
+					</p>
+					<div class="version-card__facts">
+						<Badge Variant="primary" Dot>
+							PLAIN TYPESCRIPT
+						</Badge>
+						<Badge>CLASSES · MAPS · FUNCTIONS</Badge>
+						<Badge>ZERO FRAMEWORK DEPS</Badge>
+						<Badge Variant="outline">0.0.1</Badge>
+					</div>
+				</Card>
+				<Card Variant="primary">
+					<div slot="head" class="version-card__head">
+						<span class="version-card__title">EFFECT-TS</span>
+						<svg
+							class="version-card__icon"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							aria-hidden="true"
+						>
+							<path d="M13 2 L5 13 H11 L9 22 L19 9 H13 Z"></path>
+						</svg>
+					</div>
+					<p class="version-card__body">
+						The same twelve contracts re-expressed on Effect-TS services and layers -
+						same behavior, same smokes, different runtime plumbing. Built from
+						<strong style="font-weight: 500; color: var(--color-on-primary)">
+							EffectTS/
+						</strong>
+						.
+					</p>
+					<div class="version-card__facts">
+						<Badge Variant="active">EFFECT-TS SERVICES &amp; LAYERS</Badge>
+						<Badge Variant="outline">SAME TWELVE CONTRACTS</Badge>
+						<Badge Variant="outline">SAME SMOKES</Badge>
+						<Badge Variant="outline">0.0.1</Badge>
+					</div>
+				</Card>
+			</div>
+		</section>
+
+		<!-- Shared invariants -->
+		<section class="section">
+			<SectionHeader Title="Shared invariants" Meta="WHAT BOTH RELEASES HOLD" />
+			<div class="grid grid--3">
+				{Invariants.map((Invariant) => (
+					<Card Muted>
+						<p class="card__sentence">{Invariant.Id}</p>
+						<p class="card__desc card__desc--muted">{Invariant.Desc}</p>
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<!-- The smoke baseline -->
+		<section class="section">
+			<SectionHeader Title="The smoke baseline" Meta="12 SUITES · 671 CHECKS · ALL PASS" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Every suite loads the REAL built Target of its bundle and asserts the ledger strings
+				byte-identically - the smokes are the arbiter after every change, and the Effect-TS
+				tree proves parity with these numbers before any swap-in.
+			</p>
+			<div class="grid grid--3">
+				<Card
+					Variant="white"
+					Name="hook-dsh-core"
+					Desc="14 checks - every helper with no fake context at all."
+				>
+					<Badge slot="badge">SMOKE</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="plugin-dsh-factory"
+					Desc="34 checks - a fake ctx + a REAL instance, every primitive, the Gate matrix, both GuardedWrite postures, the full Continue lifecycle."
+				>
+					<Badge slot="badge">SMOKE</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="hook-dsh-governor-package"
+					Desc="78 checks - the gates, the chain pass, the update envelope, every ledger line byte-exact."
+				>
+					<Badge slot="badge">SMOKE</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="hook-dsh-pinner-package"
+					Desc="32 checks - the range law, the keep-list union, the refusals, every ledger line byte-exact."
+				>
+					<Badge slot="badge">SMOKE</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="hook-dsh-governor-cargo"
+					Desc="62 checks - the TOML identification, the surgical pin, the full-version directive, the cargo bridge."
+				>
+					<Badge slot="badge">SMOKE</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="The normalize family"
+					Desc="132 (dash) + 62 each (quotes, ellipsis, spaces, invisible, fullwidth) + 71 (file) - the tables, the dispatch, the gate exemptions, the count lines."
+				>
+					<Badge slot="badge">7 SUITES</Badge>
+				</Card>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The honest caveat, learned live: the smokes prove the mechanics; the live battery
+				proves the wiring - the real defects (the patch-layer shadowing, the P5 v2 open, the
+				version-guard race) were found live, not by the smokes.
+			</p>
+		</section>
+	</main>
+</Base>

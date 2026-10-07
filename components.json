@@ -1,0 +1,51 @@
+{
+	"$schema": "https://json.schemastore.org/components.json",
+	"style": "default",
+	"rsc": false,
+	"tsx": false,
+	"tailwind": {
+		"config": "tailwind.config.js",
+		"css": "Source/Stylesheet/Base.css",
+		"baseColor": "slate",
+		"cssVariables": {
+			"light": {
+				"background": "250 100% 99%",
+				"foreground": "226 26% 12%",
+				"card": "0 0% 100%",
+				"card-foreground": "226 26% 12%",
+				"popover": "0 0% 100%",
+				"popover-foreground": "226 26% 12%",
+				"primary": "224 100% 39%",
+				"primary-foreground": "0 0% 100%",
+				"secondary": "226 55% 48%",
+				"secondary-foreground": "0 0% 100%",
+				"muted": "232 100% 97%",
+				"muted-foreground": "230 13% 30%",
+				"accent": "232 100% 97%",
+				"accent-foreground": "224 100% 39%",
+				"destructive": "0 100% 42%",
+				"destructive-foreground": "0 0% 100%",
+				"border": "232 17% 78%",
+				"input": "232 17% 78%",
+				"ring": "224 100% 50%",
+				"radius": "0.5rem"
+			}
+		}
+	},
+	"aliases": {
+		"components": "./Source/Component",
+		"layout": "./Source/Layout",
+		"pages": "./Source/pages",
+		"styles": "./Source/Stylesheet",
+		"scripts": "./Source/Script",
+		"assets": "./Public/assets"
+	},
+	"icon": "inline-svg",
+	"components": {
+		"badge": true,
+		"card": true,
+		"section-header": true,
+		"page-hero": true,
+		"terminal": true
+	}
+}

@@ -1,0 +1,59 @@
+---
+// Card: the product/version card on a hairline-bordered plane.
+// Variant "white" is the white surface; "primary" is the solid blue card.
+interface Props {
+	Variant?: "default" | "white" | "primary";
+	Name?: string;
+	NameTone?: "primary" | "ink";
+	Sentence?: string;
+	Desc?: string;
+	Muted?: boolean;
+	Install?: string;
+	// Optional plugin page the card's name links to (e.g. "/plugins/hook-dsh-core/").
+	Href?: string;
+}
+
+const {
+	Variant = "default",
+	Name,
+	NameTone = "ink",
+	Sentence,
+	Desc,
+	Muted = false,
+	Install,
+	Href,
+} = Astro.props;
+
+const CardClass = `card${Variant === "default" ? "" : ` card--${Variant}`}`;
+---
+
+<article class={CardClass}>
+	{Name ? (
+		<div class="card__top">
+			{Href ? (
+				<a class={`card__name card__name--${NameTone}`} href={Href}>
+					{Name}
+				</a>
+			) : (
+				<span class={`card__name card__name--${NameTone}`}>{Name}</span>
+			)}
+			<slot name="badge" />
+		</div>
+	) : (
+		<slot name="head" />
+	)}
+
+	{Sentence && <p class="card__sentence">{Sentence}</p>}
+
+	{Desc && <p class={`card__desc${Muted ? " card__desc--muted" : ""}`}>{Desc}</p>}
+
+	<slot />
+
+	{Install && (
+		<div class="card__install">
+			<span class="prompt">$</span> {Install}
+		</div>
+	)}
+
+	<slot name="after" />
+</article>

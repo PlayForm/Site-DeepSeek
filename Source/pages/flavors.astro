@@ -1,0 +1,131 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+
+// The seven normalize flavors: six stream flavors plus the file tool.
+const Flavors = [
+	{
+		Name: "FLAVOR: DASH",
+		Package: "hook-dsh-normalize-dash",
+		Desc: "Normalizes the unicode dash family to ASCII hyphen-minus in model output streams.",
+	},
+	{
+		Name: "FLAVOR: QUOTES",
+		Package: "hook-dsh-normalize-quotes",
+		Desc: "Maps the eight curly quote code points to their ASCII straight counterparts in model output streams.",
+	},
+	{
+		Name: "FLAVOR: ELLIPSIS",
+		Package: "hook-dsh-normalize-ellipsis",
+		Desc: "Replaces the horizontal ellipsis (U+2026) with the plain ASCII three-dot sequence in model output streams.",
+	},
+	{
+		Name: "FLAVOR: SPACES",
+		Package: "hook-dsh-normalize-spaces",
+		Desc: "Normalizes the unicode space family (Zs minus the ASCII space) to the plain space in model output streams.",
+	},
+	{
+		Name: "FLAVOR: INVISIBLE",
+		Package: "hook-dsh-normalize-invisible",
+		Desc: "Removes the zero-width/invisible character family (soft hyphen, zero-width spaces and joiners, bidi controls, BOM) from model output streams.",
+	},
+	{
+		Name: "FLAVOR: FULLWIDTH",
+		Package: "hook-dsh-normalize-fullwidth",
+		Desc: "Maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterparts in model output streams.",
+	},
+	{
+		Name: "FLAVOR: FILE",
+		Package: "hook-dsh-normalize-file",
+		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms (dash, quotes, ellipsis, spaces, invisible, fullwidth) to a file already on disk, writing only when something changed.",
+	},
+];
+---
+
+<Base
+	Title="Flavors & Roles - @playform / DSH Family"
+	Description="The seven normalize flavors (dash, quotes, ellipsis, spaces, invisible, fullwidth, file) and the two governance roles (governor, pinner) of the DeepSeek Harness Plugin Family."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				ECOSYSTEM: @PLAYFORM
+			</Badge>
+			<Badge>7 FLAVORS / 2 ROLES</Badge>
+		</div>
+
+		<PageHero
+			Title="Flavors & Roles"
+			Sub="Nine capabilities, two kinds. The seven normalize flavors turn model output streams and project files into clean ASCII; the two governance roles keep the project's manifests pinned and governed under the author's control."
+		/>
+
+		<!-- The seven flavors -->
+		<section class="section">
+			<SectionHeader Title="The seven flavors" Meta="SIX STREAM FLAVORS + THE FILE TOOL" />
+			<div class="grid grid--2">
+				{Flavors.map((Flavor) => (
+					<Card
+						Variant="white"
+						Name={Flavor.Package}
+						Href={`/plugins/${Flavor.Package}/`}
+						Desc={Flavor.Desc}
+						Muted
+					>
+						<Badge slot="badge">{Flavor.Name}</Badge>
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<!-- The two roles -->
+		<section class="section">
+			<SectionHeader Title="The two roles" Meta="GOVERNANCE" />
+			<div class="grid grid--2">
+				<Card Variant="primary">
+					<div class="card__top">
+						<span class="card__name" style="color: var(--color-on-primary)">
+							ROLE: GOVERNOR
+						</span>
+						<Badge Variant="outline">hook-dsh-governor-*</Badge>
+					</div>
+					<p class="card__desc" style="color: var(--color-on-primary-container)">
+						The governance role: silently hooks fs/observed and rewrites the project's
+						dependency pins to the governed versions - the package.json governor and the
+						Cargo.toml governor.
+					</p>
+				</Card>
+				<Card Variant="primary">
+					<div class="card__top">
+						<span class="card__name" style="color: var(--color-on-primary)">
+							ROLE: PINNER
+						</span>
+						<Badge Variant="outline">hook-dsh-pinner-*</Badge>
+					</div>
+					<p class="card__desc" style="color: var(--color-on-primary-container)">
+						The pinning role: deterministically rewrites every ranged dependency version
+						to its static version, protected by a pin-policy keep-list.
+					</p>
+				</Card>
+			</div>
+		</section>
+
+		<!-- The badge sprite -->
+		<section class="section">
+			<SectionHeader Title="The badge sprite" Meta="11 SHIELDS-STYLE SYMBOLS" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Distinct badge treatments, one unified family look: the standalone shields-style
+				sprite at <span class="hook-tally">/assets/badges.svg</span> - label segment #003ec7
+				with white ink, value segment #eef0ff with #0038b6 ink, blue and white only.
+				Reference each symbol as
+				<span class="hook-tally">&lt;use href="/assets/badges.svg#badge-classic"/&gt;</span>
+				.
+			</p>
+			<div class="sprite-board">
+				<img src="/assets/badges.svg" alt="The eleven DSH Family badges" />
+			</div>
+		</section>
+	</main>
+</Base>

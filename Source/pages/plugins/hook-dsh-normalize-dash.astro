@@ -1,0 +1,648 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Seams from "@Component/Seams.astro";
+import Terminal from "@Component/Terminal.astro";
+
+// The stream pipeline diagram, from the package README.
+const Pipeline = [
+	"  llm/stream waterfall (options, next)     the interceptable wrapper around",
+	"       │                                   EVERY streaming model call",
+	"       ▼  next() called FIRST, always - options never touched",
+	"  Normalize(upstream, state)               the async generator (Function/Normalize)",
+	"       │   for await (chunk of upstream)",
+	"       ▼",
+	"  CoreChunk(chunk, transform, reasoning, toolArgs, raw)",
+	"       │                                   the core's per-chunk dispatch",
+	"       │",
+	'       ├─ text-delta ────────► Replace(text, Dashes, "-")   rewrite the text field',
+	"       ├─ reasoning-delta ───► same, when normalizeReasoning (default ON)",
+	"       ├─ block-end ─────────► the assembled block's text fields -",
+	"       │                       TextBlock.text / ReasoningBlock.text (plus a",
+	"       │                       runtime `thinking` string field) - the deltas",
+	"       │                       AND the block must agree, or consumers see",
+	"       │                       inconsistencies",
+	'       ├─ tool-call-delta ───► Replace(argumentsDelta, Dashes, "-") when',
+	"       │                       normalizeToolArguments (IMPLEMENTED, default",
+	"       │                       OFF - execution-critical raw JSON, the user's",
+	"       │                       accepted risk; the example patch turns it",
+	"       │                       on) - the assembled ToolCallBlock.arguments",
+	"       │                       follows the same flag via block-end",
+	"       │",
+	"       │                       The gate is THREE-WAY with the flag on: a",
+	'       │                       delta/block whose `name` is "edit" or',
+	'       │                       "raw-write" passes through BY IDENTITY (the',
+	"       │                       edit tool's `old_string` must match the real",
+	"       │                       file bytes; the raw-write tool owns its",
+	"       │                       normalization through the explicit `normalize`",
+	"       │                       parameter), and a call whose arguments open",
+	'       │                       with the `{"__normalize":false` marker (FIRST',
+	"       │                       key, tracked per call id) passes through",
+	"       │                       UNNORMALIZED with the marker entry stripped,",
+	"       │                       so the executed call carries no unknown key",
+	"       └─ block-start / usage / finish",
+	"                                ──► PASSTHROUGH BY IDENTITY, ALWAYS",
+	"                                    (usage/finish ordering is the",
+	"                                     adapter contract)",
+	"       │   count === 0 → original chunk BY IDENTITY; rewritten → shallow copy",
+	"       ▼",
+	"  yield ──► downstream consumers = the live UI + the durable transcript",
+	"       │    (order preserved, no buffering; upstream throws propagate)",
+	"       ▼  normal loop completion, Count > 0",
+	"  Factory.Append ──► `hook-dsh-normalize-dash: normalized N dash char(s) in one stream`",
+];
+
+// The hermes transform class, from the README (verbatim).
+const TransformClass = [
+	"\\u058A\\u05BE\\u1400\\u1806\\u2010-\\u2015\\u2E17\\u2E1A\\u2E3A-\\u2E3B\\u2E40",
+	"\\u2E5D\\u301C\\u3030\\u30A0\\uFE31-\\uFE32\\uFE58\\uFE63\\uFF0D  →  replacement",
+];
+
+// The raw-write tool's normalize parameter, from the README.
+const NormalizeTable = [
+	{
+		Value: "absent or false (default)",
+		Effect: "the content VERBATIM, byte-for-byte",
+	},
+	{
+		Value: 'true or "all"',
+		Effect: "the family's SIX transforms applied in order, daisy-chaining the text: Dashes (→ the module's replacement), Quotes (curly → straight), Ellipsis (U+2026 → ...), Spaces (unicode spaces → \" \"), Invisible (removed), Fullwidth (full-width → half-width)",
+	},
+	{
+		Value: '["dash", ...]',
+		Effect: "ONLY the selected flavors, applied in the family's fixed order (dashes → quotes → ellipsis → spaces → invisible → fullwidth); the parameter's schema declares the union (boolean | \"all\" | the flavor-name array)",
+	},
+];
+
+// The deterministic character mapping highlights (kept from the previous
+// detail page as an enhancement on top of the README content).
+const Mapping = [
+	{ Glyph: "-", Code: "U+2014", Name: "EM DASH", Out: "-", Ascii: "U+002D" },
+	{ Glyph: "-", Code: "U+2013", Name: "EN DASH", Out: "-", Ascii: "U+002D" },
+	{ Glyph: "-", Code: "U+2015", Name: "HORIZONTAL BAR", Out: "-", Ascii: "U+002D" },
+	{ Glyph: "-", Code: "U+2011", Name: "NON-BREAKING HYPHEN", Out: "-", Ascii: "U+002D" },
+	{ Glyph: "-", Code: "U+FF0D", Name: "FULLWIDTH HYPHEN-MINUS", Out: "-", Ascii: "U+002D" },
+];
+
+// The In Action stream example, from the README (literal characters preserved).
+const StreamExample = [
+	"text-delta in (what the model wrote):",
+	"",
+	'  "The refactor is complete — every call site updated, ranges 10–15',
+	'   covered, and the odd U+2015 bar ― swept too."',
+	"",
+	"text-delta out (what reaches the transcript):",
+	"",
+	'  "The refactor is complete - every call site updated, ranges 10-15',
+	'   covered, and the odd U+2015 bar - swept too."',
+];
+
+// The tool-call gate example, from the README.
+const GateExample = [
+	'tool-call-delta, name "edit"        → passes through BY IDENTITY',
+	"                                      (old_string must match real file bytes,",
+	"                                       em dashes and all)",
+	'tool-call-delta, name "raw-write"   → passes through BY IDENTITY',
+	"                                      (the tool owns its normalization",
+	"                                       through its explicit `normalize`",
+	"                                       parameter)",
+	'tool-call-delta, name "write",',
+	'  arguments {"file": "a — b.txt"} → normalized to {"file": "a - b.txt"}',
+];
+
+// The raw-write selection examples, from the README.
+const RawWriteExample = [
+	"raw-write, content",
+	'"The refactor is complete — every call site updated, ranges 10–15 covered, and the odd U+2015 bar ― swept too.",',
+	"normalize absent:",
+	"",
+	"→ the file matches the input byte-for-byte (em dash, en dash and the horizontal bar all survive)",
+	"",
+	'raw-write, same content, normalize: ["dash"]:',
+	"",
+	"→ The refactor is complete - every call site updated, ranges 10-15 covered, and the odd U+2015 bar - swept too.",
+	"(ONLY the dash-family characters are replaced; a curly quote, an ellipsis or a full-width character",
+	"in the same content would survive untouched)",
+	"",
+	'raw-write, content "He said “wait” … then left．", normalize: ["quotes"]:',
+	"",
+	'→ He said "wait" … then left． (ONLY the curly quotes are replaced — the ellipsis and the',
+	"full-width period are untouched by the quotes-only selection)",
+	"",
+	'raw-write, content "He said “wait” … then left．", normalize: true:',
+	"",
+	'→ He said "wait" ... then left. (all six transforms, in the family\'s fixed order — the legacy behavior)',
+];
+
+// The ledger strings, from the README.
+const LedgerStrings = [
+	"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
+	"hook-dsh-normalize-dash: normalized 4 dash char(s) in one stream",
+];
+
+// The six siblings, from the README (this bundle highlighted).
+const Siblings = [
+	{
+		Flavor: "hook-dsh-normalize-dash (this bundle)",
+		Table: "core Dashes class",
+		Sub: "→ replacement (default -)",
+		This: true,
+	},
+	{
+		Flavor: "hook-dsh-normalize-quotes",
+		Table: "core Quotes MAP",
+		Sub: "curly → straight",
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-ellipsis",
+		Table: "core Ellipsis class",
+		Sub: "U+2026 → ...",
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-spaces",
+		Table: "core Spaces class",
+		Sub: 'unicode spaces → " "',
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-invisible",
+		Table: "core Invisible class",
+		Sub: 'removed (default "")',
+		This: false,
+	},
+	{
+		Flavor: "hook-dsh-normalize-fullwidth",
+		Table: "core Fullwidth MAP",
+		Sub: "full-width → half-width",
+		This: false,
+	},
+];
+
+const Config = [
+	{
+		Field: "log",
+		Type: "boolean",
+		Default: "true",
+		Volatile: "yes",
+		Meaning: "write the durable ledger file",
+	},
+	{
+		Field: "logFile",
+		Type: "string",
+		Default: "~/.dsh/hook-dsh-normalize-dash.log",
+		Volatile: "yes",
+		Meaning: "the normalize-dash ledger (separate from the family's logs)",
+	},
+	{
+		Field: "replacement",
+		Type: "string",
+		Default: "-",
+		Volatile: "yes",
+		Meaning:
+			"the transform's only knob - hot-editable, the next stream picks it up with no remount",
+	},
+	{
+		Field: "normalizeReasoning",
+		Type: "boolean",
+		Default: "true",
+		Volatile: "no",
+		Meaning: "normalize reasoning deltas and the assembled reasoning block too",
+	},
+	{
+		Field: "normalizeToolArguments",
+		Type: "boolean",
+		Default: "false",
+		Volatile: "no",
+		Meaning:
+			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit/raw-write name exemptions and the {"__normalize":false raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
+	},
+];
+---
+
+<Base
+	Title="hook-dsh-normalize-dash - @playform / DSH Family"
+	Description="Hook @ DSH @ Normalize @ Dash - the dash normalizer for model output: hooks the llm/stream waterfall and normalizes the unicode dash family to ASCII hyphen-minus, live in the transcript."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				PLUGIN DETAIL
+			</Badge>
+			<Badge>FLAVOR: DASH</Badge>
+			<Badge>CLASS FLAVOR + THE RAW-WRITE TOOL</Badge>
+		</div>
+
+		<section class="page-hero">
+			<h1 class="page-hero__title" style="font-family: var(--font-mono)">
+				hook-dsh-normalize-dash
+			</h1>
+			<p class="page-hero__sub">
+				Hook @ DSH @ Normalize @ Dash • _The DeepSeek Harness Plugin Family for PlayForm._
+				The <strong>dash normalizer for model output</strong> - a DeepSeek Harness plugin
+				that hooks the <code>llm/stream</code> waterfall (the interceptable wrapper around
+				EVERY streaming model call, bound to the LlmRuntime) and normalizes the unicode dash
+				family to ASCII hyphen-minus, live in the transcript: em dashes, en dashes and
+				seventeen exotic relatives → <code>-</code>. Exactly the user's hermes hook (
+				<code>~/.hermes/agent-hooks/normalize-dashes.sh</code>), at exactly the injection
+				point hermes itself does not have. A CLASS flavor of the normalize family: the
+				core's <code>Dashes</code> table plus a configurable <code>replacement</code>
+				(default <code>-</code>). It also registers the family's{" "}
+				<strong>raw-write tool</strong> - a write wrapper with an explicit{" "}
+				<code>normalize</code> parameter (default false = verbatim), exempt from the stream
+				normalization by name like
+				<code>edit</code>.
+			</p>
+		</section>
+
+		<section class="section" style="margin-top: calc(-1 * var(--space-lg))">
+			<div class="snippet-list">
+				<Terminal Command="pnpm add @playform/hook-dsh-normalize-dash" />
+			</div>
+			<div class="workbench-controls" style="margin-top: var(--space-md); margin-bottom: 0">
+				<div class="workbench-controls__group">
+					<span class="workbench-controls__label">Namespace:</span>
+					<span class="hook-tally">@playform/hook-dsh-normalize-dash</span>
+					<span class="workbench-controls__label">Release:</span>
+					<Badge Variant="outline">v0.0.1</Badge>
+				</div>
+				<div class="workbench-controls__group">
+					<span class="workbench-controls__label">Archetype:</span>
+					<Badge Variant="outline">Hook + Tool</Badge>
+					<span class="workbench-controls__label">Event:</span>
+					<Badge>llm/stream</Badge>
+					<span class="workbench-controls__label">Injects:</span>
+					<Badge Variant="active">pluginFactory</Badge>
+				</div>
+			</div>
+		</section>
+
+		<p class="page-hero__sub" style="margin-top: var(--space-md)">
+			The profile wiring for this plugin - the bundles list, the patch entry and the restart -
+			is on the <a href="/setup/">setup page</a>.
+		</p>
+		<section class="section">
+			<SectionHeader
+				Title="Where It Fits"
+				Meta="FAMILY POSITION: 1ST OF 6 STREAM NORMALIZERS"
+			/>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<strong>Family position</strong> (the @-sentence{" "}
+				<strong>Hook @ DSH @ Normalize @ Dash</strong>): a hook child of the{" "}
+				<strong>plugin-dsh-factory</strong> service and the <strong>hook-dsh-core</strong>{" "}
+				machinery; the first of six stream normalizer siblings, all built on the shared
+				machinery:
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Flavor</th>
+							<th>Table</th>
+							<th>Substitution</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Siblings.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Flavor}</strong>
+								</td>
+								<td>{Row.Table}</td>
+								<td>{Row.Sub}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				It is also the factory's <strong>first NON-MANIFEST module</strong>: it injects
+				<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap +
+				shared Ledger/Enabled mappings + its own fields) and <code>Append</code>. It touches
+				no files, so fs/write-intent and fs/observed never see it; it wraps the downstream
+				result and always calls
+				<code>next()</code>, so it composes with other llm/stream listeners regardless of
+				registration order. Untouched chunks pass through by object identity; a rewritten
+				delta/block is a shallow copy with only the text field replaced.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="In the DeepSeek Harness" Meta="WHERE THE FLAVOR OPERATES" />
+			<Seams
+				Seams={[
+					{
+						Seam: "llm/stream - the model stream waterfall",
+						What: "The plugin's listener wraps the interceptable waterfall around EVERY streaming model call (bound to the LlmRuntime): next() is called first and unconditionally, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
+						Outcome:
+							"The live UI and the durable transcript see the normalized stream as it is born.",
+					},
+					{
+						Seam: "The tool layer - the agent's toolset",
+						What: "Besides the listener, the plugin registers the family's raw-write tool into the agent's toolset (ctx.tools.register): a write wrapper around the built-in write operation with an explicit normalize parameter - exempt from stream normalization by name, exactly like edit.",
+						Outcome:
+							"The normalization decision moves to execution time, per call: verbatim by default, the family's transforms on demand.",
+					},
+					{
+						Seam: "ctx.fs - the filesystem service (dsh-fs)",
+						What: "The raw-write exec mirrors the built-in write's path exactly: resolve → the fs/write-intent waterfall → the standing sandbox policy → writeText → the fs/observed emit, so the governance hooks treat its writes like built-in writes.",
+						Outcome: "One write path for the whole agent, plugin tools included.",
+					},
+					{
+						Seam: "The factory service",
+						What: "A non-manifest factory consumer: State for the config (hot-editable cells, no remount) and Append for every ledger line; it touches no files on the stream path.",
+						Outcome:
+							"Composes with other llm/stream listeners regardless of registration order.",
+					},
+					{
+						Seam: "The ledger / session",
+						What: "Two lines through the factory's Append: the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
+						Outcome:
+							"A thrown-away stream writes no ledger line; the count is per stream, visible in your own log.",
+					},
+				]}
+			/>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Problem" Meta="WHY THE DASH FLAVOR EXISTS" />
+			<p class="page-hero__sub">
+				The user's hermes hook rewrites the unicode dash family to ASCII hyphen-minus
+				<strong>in files after the fact</strong> - <code>perl -CSD -pe</code> over whatever
+				was already written. Model output, however, is born in the stream: the live UI and
+				the durable transcript see the em dashes first, no matter what a file hook does
+				later. A DSH plugin can go where hermes cannot: the <code>llm/stream</code>
+				waterfall, where every streaming model call passes through.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
+				Unlike the governance family (hook-dsh-governor-package, hook-dsh-pinner-package,
+				hook-dsh-governor-cargo), whose rewrites are SILENT, this plugin's normalization is
+				<strong>deliberately VISIBLE - it IS the feature</strong>: the rewrite flows into
+				both the live UI and the durable transcript.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="How It Works" Meta="THE STREAM PIPELINE" />
+			<div class="code-block">{Pipeline.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				<strong>Waterfall discipline:</strong> <code>next()</code> is ALWAYS called,
+				unconditionally, first - omitting it short-circuits the waterfall and the model call
+				never happens; <code>options</code> is NEVER touched (a loop-built request arrives
+				deep-frozen and its content is a pure function of the session log); order preserved,
+				no buffering - one chunk in, one chunk out, upstream throws propagate.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
+				<strong>The transform</strong> - exactly the hermes hook's perl pattern (
+				<code>perl -CSD -pe</code> in <code>normalize-dashes.sh</code>), applied per text
+				segment - the core's <code>Dashes</code> class, verbatim:
+			</p>
+			<div class="code-block" style="margin-top: var(--space-sm)">
+				{TransformClass.join("\n")}
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
+				Armenian hyphen, Hebrew maqaf, Canadian syllabics hyphen, Mongolian todo soft
+				hyphen, the U+2010-U+2015 hyphen/dash family (including the em dash and the
+				non-breaking hyphen), double oblique hyphen, hyphen with diaeresis, two-/three-em
+				dash, double hyphen, U+2E5D, wave/wavy dash, katakana-hiragana double hyphen, the
+				vertical presentation dashes, small em dash, small hyphen-minus and the fullwidth
+				hyphen-minus - all become the config <code>replacement</code> (default
+				<code>-</code>, ASCII hyphen-minus U+002D). No context rules - hermes has none.
+				Chunk-boundary-safe: single-character replacement, no lookahead, no multi-character
+				sequences - per-chunk application can never disagree with whole-text application.
+				The replacement is applied with a function replacer, so a custom{" "}
+				<code>replacement</code> containing <code>$</code> patterns is inserted literally.
+				Replaced characters are counted per stream for the ledger line.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The raw-write tool" Meta="NORMALIZATION AT EXECUTION TIME" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Besides the stream listener, the normalize-dash registers the family's
+				<strong>raw-write tool</strong>: a plugin-registered write wrapper that wraps the
+				built-in <code>write</code> operation with an explicit <code>normalize</code>{" "}
+				parameter - the tool is exempt from the stream normalization by name (the core's
+				Stream/Chunk + Stream/Block pass every raw-write call through by identity, exactly
+				like <code>edit</code>), so the content is what the model sent, and the
+				normalization decision happens at execution time:
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>normalize</th>
+							<th>What the exec writes</th>
+						</tr>
+					</thead>
+					<tbody>
+						{NormalizeTable.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Value}</strong>
+								</td>
+								<td>{Row.Effect}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The tool also takes a <strong>govern parameter</strong> - the per-call governance
+				selection over the factory's direct-govern registry, applied after a successful
+				write: absent or false (default) runs NO governance chain (the write still emits
+				fs/observed exactly like a built-in write); true or "all" runs ALL registered
+				governance steps for the target's basename; <code>["canonicalize", ...]</code> runs
+				ONLY the named steps. Governance is best-effort and contained: the steps run through
+				the factory's <code>Govern(target, selection, actor, version)</code> with the
+				written outcome's fresh version - a failing step never affects the write's outcome.
+				The exec mirrors the built-in write's fs path exactly -<code>ctx.fs.resolve</code> →
+				the fs/write-intent waterfall → the standing sandbox policy →{" "}
+				<code>ctx.fs.writeText(...)</code> → the fs/observed emit with the written version.{" "}
+				<code>exec.signal</code> is honored end to end. Inject:
+				<code>["pluginFactory", "fs", "tools"]</code>.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="Deterministic character mapping" Meta="THE DASH CLASS, SAMPLED" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				A sample of the core's <code>Dashes</code> class - the full class is the hermes perl
+				pattern verbatim, every entry mapping to the config
+				<code>replacement</code> (default U+002D):
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Input Glyph</th>
+							<th>Code Point</th>
+							<th>Name</th>
+							<th>Output</th>
+							<th>ASCII</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Mapping.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Glyph}</strong>
+								</td>
+								<td>{Row.Code}</td>
+								<td>{Row.Name}</td>
+								<td>
+									<strong style="color: var(--color-primary)">{Row.Out}</strong>
+								</td>
+								<td>{Row.Ascii}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Config" Meta="SCHEMA + DEFAULTS AT LOAD" />
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Field</th>
+							<th>Type</th>
+							<th>Default</th>
+							<th>Volatile</th>
+							<th>Meaning</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Config.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Field}</strong>
+								</td>
+								<td>{Row.Type}</td>
+								<td>{Row.Default}</td>
+								<td>{Row.Volatile}</td>
+								<td>{Row.Meaning}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				Volatile cells commit without remounting the plugin (the fiber - and with it the
+				llm/stream registration - stays alive); the factory's State builder unwraps them
+				defensively. Example cordis.patch.yml row:
+			</p>
+			<div class="code-block" style="margin-top: var(--space-sm)">
+				{[
+					"- insert:",
+					"      - id: hook-dsh-normalize-dash",
+					'        name: "@playform/hook-dsh-normalize-dash"',
+					"        config:",
+					"            log: true",
+					"            logFile: ~/.dsh/hook-dsh-normalize-dash.log",
+					'            replacement: "-"',
+					"            normalizeReasoning: true",
+				].join("\n")}
+			</div>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="In Action" Meta="ONE STREAM, ONE TRANSFORMATION" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The model emits prose with typographic dashes; the live UI and the transcript
+				receive the ASCII forms:
+			</p>
+			<p class="section-kicker">Before - the model stream as it is born</p>
+			<div class="code-block">{StreamExample.join("\n")}</div>
+			<p class="page-hero__sub" style="margin: var(--space-md) 0">
+				The em dash (U+2014), the en dash (U+2013) and the horizontal bar (U+2015) each
+				become <code>-</code>; the ASCII hyphens that were already there are untouched (the
+				count only counts replacements). The same pass runs over reasoning deltas (
+				<code>normalizeReasoning</code>, default on) and - with the example patch enabling
+				<code>normalizeToolArguments</code> - over tool-call arguments, where the three-way
+				gate keeps the sensitive calls intact:
+			</p>
+			<p class="section-kicker">
+				After - the stream that reaches the transcript (and the gate for sensitive calls)
+			</p>
+			<div class="code-block">{GateExample.join("\n")}</div>
+			<p class="page-hero__sub" style="margin: var(--space-md) 0">
+				And the <code>raw-write</code> tool in the file-writing direction: its content lands
+				verbatim by default, or runs the family's six-fold chain when called with
+				<code>normalize: true</code> - the em dash above would survive the default call and
+				become a hyphen under <code>normalize: true</code>. The selection can also be
+				FINE-GRAINED:
+			</p>
+			<p class="section-kicker">The raw-write tool, per call</p>
+			<div class="code-block">{RawWriteExample.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The order is FIXED by the family (dashes → quotes → ellipsis → spaces → invisible →
+				fullwidth) even when the selection lists the flavors out of order:
+				<code>normalize: ["fullwidth", "dash"]</code> still applies dashes first. And the
+				governance direction, per call: a raw-write to a <code>package.json</code> with
+				<code>govern: true</code> runs the registered chain pass (canonicalize) and the
+				update stage after the write lands; <code>govern: ["pin"]</code> runs only the
+				pinner's chain pass. When a stream finishes normally with replacements made, the
+				ledger gets the count line shown below.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Ledger" Meta="TWO LINES VIA FACTORY APPEND" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Two lines, both written through the factory's <code>Append</code> (the
+				<code>hook-dsh-normalize-dash:</code> prefix is the logger's
+				<code>&lt;State.Module&gt;:</code>; the durable file line is
+				<code>[&lt;ISO&gt;] &lt;message&gt;</code>):
+			</p>
+			<div class="code-block">{LedgerStrings.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The activation line is written by <code>apply()</code>; the count line only follows
+				a normal stream completion and only when N &gt; 0 (a thrown-away stream writes no
+				ledger line).
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<div class="grid grid--3">
+				<Card
+					Variant="white"
+					Name="hook-dsh-core"
+					Href="/plugins/hook-dsh-core/"
+					Desc="Supplies the Dashes table, the Replace replacer and the generic Chunk/Block dispatch this flavor is a thin closure over."
+					Muted
+				>
+					<Badge slot="badge">DSH FAMILY</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="hook-dsh-normalize-quotes"
+					Href="/plugins/hook-dsh-normalize-quotes/"
+					Desc="The second stream normalizer sibling - the Quotes MAP flavor, curly → straight."
+					Muted
+				>
+					<Badge slot="badge">SIBLING FLAVOR</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="plugin-dsh-factory"
+					Href="/plugins/plugin-dsh-factory/"
+					Desc="The parent service: State, Append - plus the named Schema helper (shared: false) for the config."
+					Muted
+				>
+					<Badge slot="badge">PARENT SERVICE</Badge>
+				</Card>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				License: MIT. The workbench and the matrix pages run the same flavors live.
+			</p>
+		</section>
+	</main>
+</Base>

@@ -1,5 +1,309 @@
 ---
 import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Terminal from "@Component/Terminal.astro";
+
+// The twelve packages: grouped Core & Factory / Governance / Normalize, each
+// with its package name, @-sentence identity and one-sentence description.
+const Core = [
+	{
+		Name: "hook-dsh-core",
+		Tone: "primary",
+		Role: "ROLE: CORE",
+		Sentence: "Hook @ DSH @ Core",
+		Desc: "The pure, dependency-free commonalities of the family: the section lists, the exclusion segments, the suppression composer, the policy loader, the refusal guard and the normalize/Stream machinery.",
+	},
+	{
+		Name: "plugin-dsh-factory",
+		Tone: "primary",
+		Role: "ROLE: FACTORY",
+		Sentence: "Plugin @ DSH @ Factory",
+		Desc: "The family's first service: the ledger, the exclusion match, the discovery, the keep-list union, the gate set, the version-guarded fenced write, the wiring, the effects and the schema factory.",
+	},
+];
+
+const Governance = [
+	{
+		Name: "hook-dsh-governor-package",
+		Tone: "ink",
+		Role: "ROLE: GOVERNOR",
+		Sentence: "Hook @ DSH @ Governor @ Package",
+		Desc: "The silent package.json governor: hooks fs/observed, rewrites chain-governed pins to the effective registry's resolved versions, and runs the update stage as a detached, contained continuation.",
+	},
+	{
+		Name: "hook-dsh-pinner-package",
+		Tone: "ink",
+		Role: "ROLE: PINNER",
+		Sentence: "Hook @ DSH @ Pinner @ Package",
+		Desc: "The silent package.json version pinner: hooks fs/observed and deterministically rewrites every ranged dependency version to its static version, protected by a pin-policy keep-list.",
+	},
+	{
+		Name: "hook-dsh-governor-cargo",
+		Tone: "ink",
+		Role: "ROLE: GOVERNOR",
+		Sentence: "Hook @ DSH @ Governor @ Cargo",
+		Desc: "The Cargo.toml governor: the Rust-sided flavor of the package governor - surgical chain-pin rewrites on the raw TOML lines and cargo upgrade driven through the subprocess seam.",
+	},
+];
+
+const Normalize = [
+	{
+		Name: "hook-dsh-normalize-dash",
+		Role: "FLAVOR: DASH",
+		Sentence: "Hook @ DSH @ Normalize @ Dash",
+		Desc: "Normalizes the unicode dash family to ASCII hyphen-minus in model output streams.",
+	},
+	{
+		Name: "hook-dsh-normalize-quotes",
+		Role: "FLAVOR: QUOTES",
+		Sentence: "Hook @ DSH @ Normalize @ Quotes",
+		Desc: "Maps the eight curly quote code points to their ASCII straight counterparts in model output streams.",
+	},
+	{
+		Name: "hook-dsh-normalize-ellipsis",
+		Role: "FLAVOR: ELLIPSIS",
+		Sentence: "Hook @ DSH @ Normalize @ Ellipsis",
+		Desc: "Replaces the horizontal ellipsis (U+2026) with the plain ASCII three-dot sequence in model output streams.",
+	},
+	{
+		Name: "hook-dsh-normalize-spaces",
+		Role: "FLAVOR: SPACES",
+		Sentence: "Hook @ DSH @ Normalize @ Spaces",
+		Desc: "Normalizes the unicode space family (Zs minus the ASCII space) to the plain space in model output streams.",
+	},
+	{
+		Name: "hook-dsh-normalize-invisible",
+		Role: "FLAVOR: INVISIBLE",
+		Sentence: "Hook @ DSH @ Normalize @ Invisible",
+		Desc: "Removes the zero-width/invisible character family (soft hyphen, zero-width spaces and joiners, bidi controls, BOM) from model output streams.",
+	},
+	{
+		Name: "hook-dsh-normalize-fullwidth",
+		Role: "FLAVOR: FULLWIDTH",
+		Sentence: "Hook @ DSH @ Normalize @ Fullwidth",
+		Desc: "Maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterparts in model output streams.",
+	},
+	{
+		Name: "hook-dsh-normalize-file",
+		Role: "FLAVOR: FILE",
+		Sentence: "Hook @ DSH @ Normalize @ File",
+		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing only when something changed.",
+	},
+];
+
+const Flavors = [
+	"FLAVOR: DASH",
+	"FLAVOR: QUOTES",
+	"FLAVOR: ELLIPSIS",
+	"FLAVOR: SPACES",
+	"FLAVOR: INVISIBLE",
+	"FLAVOR: FULLWIDTH",
+	"FLAVOR: FILE",
+];
+
+const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 ---
 
-<Base />
+<Base
+	Title="@playform / DSH Family - Tame the model's output and govern the project's files."
+	Description="The DeepSeek Harness Plugin Family for PlayForm: twelve TypeScript packages - the core, the factory service, the governance trio and the seven-member normalize family. CLASSIC and EFFECT-TS releases."
+>
+	<main class="container container--main">
+		<!-- Eyebrow badges -->
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				ECOSYSTEM: @PLAYFORM
+			</Badge>
+			<Badge>CLASSIC</Badge>
+			<Badge>EFFECT-TS</Badge>
+		</div>
+
+		<!-- Hero -->
+		<section class="hero">
+			<h1 class="hero__title">Tame the model's output and govern the project's files.</h1>
+			<p class="hero__sub">
+				The DeepSeek Harness Plugin Family for PlayForm: every model's output normalized to
+				clean ASCII characters, every manifest pinned and governed under the author's
+				control - twelve TypeScript packages, smoke-arbitrated. Model output, clean and
+				governed.
+			</p>
+			<Terminal Command="pnpm add @playform/hook-dsh-core" />
+			<div class="action-row" style="margin-top: var(--space-md)">
+				<a class="action" href="/plugins/">
+					Explore Plugins
+				</a>
+				<a class="action action--secondary" href="/workbench/">
+					Open the Workbench
+				</a>
+				<a class="action action--secondary" href="/versions/">
+					Two Releases, One Behavior
+				</a>
+				<a class="action action--secondary" href="/setup/">
+					Set It Up in a Profile
+				</a>
+			</div>
+		</section>
+
+		<!-- Plugins -->
+		<section class="section" id="plugins">
+			<SectionHeader Title="Plugins" Meta="12 PACKAGES" />
+
+			<!-- Group 1: Core & Factory -->
+			<p class="section-kicker">Core &amp; Factory</p>
+			<div class="grid grid--3" style="margin-bottom: var(--space-md)">
+				{Core.map((Package) => (
+					<Card
+						Name={Package.Name}
+						Href={`/plugins/${Package.Name}/`}
+						NameTone={Package.Tone as "primary" | "ink"}
+						Sentence={Package.Sentence}
+						Desc={Package.Desc}
+						Muted
+					>
+						<Badge slot="badge" Variant="outline">
+							{Package.Role}
+						</Badge>
+					</Card>
+				))}
+			</div>
+
+			<!-- Group 2: Governance -->
+			<p class="section-kicker">Governance</p>
+			<div class="grid grid--3" style="margin-bottom: var(--space-md)">
+				{Governance.map((Package) => (
+					<Card
+						Name={Package.Name}
+						Href={`/plugins/${Package.Name}/`}
+						Sentence={Package.Sentence}
+						Desc={Package.Desc}
+						Muted
+					>
+						<Badge slot="badge">{Package.Role}</Badge>
+					</Card>
+				))}
+			</div>
+
+			<!-- Group 3: Normalize -->
+			<p class="section-kicker">Normalize</p>
+			<div class="grid grid--3">
+				{Normalize.map((Package) => (
+					<Card
+						Name={Package.Name}
+						Href={`/plugins/${Package.Name}/`}
+						Sentence={Package.Sentence}
+						Desc={Package.Desc}
+						Muted
+					>
+						<Badge slot="badge">{Package.Role}</Badge>
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<!-- Versions -->
+		<section class="section" id="versions">
+			<SectionHeader Title="Versions" Meta="DUAL ENGINE" />
+			<div class="grid grid--2">
+				<Card Variant="white">
+					<div slot="head" class="version-card__head">
+						<span class="version-card__title">CLASSIC RELEASE</span>
+						<svg
+							class="version-card__icon"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							aria-hidden="true"
+						>
+							<path d="M12 3 L21 8 L12 13 L3 8 Z M3 12.5 L12 17.5 L21 12.5 M3 16.5 L12 21.5 L21 16.5"></path>
+						</svg>
+					</div>
+					<p class="version-card__body">
+						The twelve contracts in plain TypeScript - classes, Maps and plain
+						functions, zero runtime framework dependencies. The straightforward
+						integration release.
+					</p>
+					<div class="version-card__facts">
+						<Badge Variant="primary" Dot>
+							PLAIN TYPESCRIPT
+						</Badge>
+						<Badge>ZERO FRAMEWORK DEPS</Badge>
+					</div>
+				</Card>
+				<Card Variant="primary">
+					<div slot="head" class="version-card__head">
+						<span class="version-card__title">EFFECT-TS RELEASE</span>
+						<svg
+							class="version-card__icon"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							aria-hidden="true"
+						>
+							<path d="M13 2 L5 13 H11 L9 22 L19 9 H13 Z"></path>
+						</svg>
+					</div>
+					<p class="version-card__body">
+						The same twelve contracts re-expressed on Effect-TS services and layers -
+						same behavior, same smokes, different runtime plumbing.
+					</p>
+					<div class="version-card__facts">
+						<Badge Variant="active">EFFECT-TS SERVICES &amp; LAYERS</Badge>
+						<Badge Variant="outline">SAME SMOKES</Badge>
+					</div>
+				</Card>
+			</div>
+		</section>
+
+		<!-- Flavors -->
+		<section class="section" id="flavors">
+			<SectionHeader Title="Flavors & Roles" Meta="7 FLAVORS / 2 ROLES" />
+			<div class="flavor-strip">
+				{Flavors.map((Flavor) => (
+					<Badge>{Flavor}</Badge>
+				))}
+				{Roles.map((Role) => (
+					<Badge Variant="active">{Role}</Badge>
+				))}
+			</div>
+		</section>
+
+		<!-- Model independence -->
+		<section class="section">
+			<div class="independence">
+				<div class="independence__label">
+					<svg
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+						aria-hidden="true"
+					>
+						<rect x="5" y="5" width="14" height="14" rx="1"></rect>
+						<path d="M9 2 v3 M15 2 v3 M9 19 v3 M15 19 v3 M2 9 h3 M2 15 h3 M19 9 h3 M19 15 h3"></path>
+						<rect x="9" y="9" width="6" height="6"></rect>
+					</svg>
+					Model Independence
+				</div>
+				<p class="independence__title">Built to serve any LLM.</p>
+				<p class="independence__body">
+					Extensively battle-tested on <strong>DeepSeek V4 Flash</strong> &amp;
+					<strong>GLM 5.3 Flash</strong> token output streams. See the
+					<a href="/models/">models page</a>.
+				</p>
+			</div>
+		</section>
+
+		<!-- Summary notation -->
+		<section class="section">
+			<div class="notation">
+				<p>@playform/dsh-family: the complete deterministic stream governor matrix.</p>
+				<p>@playform/hooks: zero runtime overhead normalizers with zero unicode drift.</p>
+				<p>@playform/runtime: pinned across 12 packages under atomic version gates.</p>
+			</div>
+		</section>
+	</main>
+</Base>

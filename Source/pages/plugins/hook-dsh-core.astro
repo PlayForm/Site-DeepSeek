@@ -1,0 +1,348 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Seams from "@Component/Seams.astro";
+import Terminal from "@Component/Terminal.astro";
+
+// The core's "two halves, one entry" diagram, from the package README.
+const Diagram = [
+	"  @playform/hook-dsh-core (named exports - no plugin, no loader contract)",
+	"     │",
+	"     ├─ GOVERNANCE HALF ──────────────────────────────────► consumed by",
+	"     │    Variable/Section  the four NPM dependency sections   the factory-era hooks",
+	"     │    Variable/Default  the built-in exclusion segments    (governor-package,",
+	"     │    Suppress(module, kind, cause)  suppression composer   pinner-package,",
+	"     │    Policy(append, file, defaults, quiet?)  policy loader  governor-cargo)",
+	"     │    Refusal(append, path, sections, current, next)  refusal guard",
+	"     │    Function/Update(deps) → { Dispatch, Settle }  the update-stage",
+	"     │    envelope: the shared Dispatch/Settle pair - a new governance",
+	"     │    module's update stage reduces to a child runner plus strings",
+	"     │    Activate(fields)  the activation-line composer: the `activated (...)`",
+	"     │    proof line's string mechanics (prefix, `k=v` join with `, `,",
+	"     │    suffix, skip-absent); the field list stays module-side",
+	"     │",
+	"     └─ NORMALIZE HALF ──────────────────────────────────► consumed by",
+	"          Normalize/Dashes     the hermes dash class (verbatim)      the six stream",
+	"          Normalize/Quotes     curly → straight MAP (8 entries)       normalizers",
+	"          Normalize/Ellipsis   U+2026 class                           (normalize-dash, quotes,",
+	"          Normalize/Spaces     Zs-minus-ASCII class                    ellipsis, spaces,",
+	"          Normalize/Invisible  zero-width/format class                 invisible,",
+	"          Normalize/Fullwidth  FF01-FF5E → 21-7E MAP (94 entries)      fullwidth)",
+	"               │",
+	"               ▼",
+	"          Normalize/Replace      class → string, function replacer,",
+	'                                 per-call regex ("gu"), { text, count }',
+	"          Normalize/ReplaceMap   char → char MAP, keys as code-point",
+	"                                 escapes, function replacer, { text, count }",
+	"               │",
+	"               ▼",
+	"          Stream/Chunk     the generic per-chunk dispatch (text-delta,",
+	"                           reasoning-delta?, tool-call-delta?, block-end; everything else",
+	"                           passthrough by identity - count 0 keeps the",
+	"                           original chunk BY IDENTITY; the tool-args gate",
+	"                           is three-way with the flag on: `edit`,",
+	"                           `raw-write` and `normalize-file` calls pass",
+	"                           through BY IDENTITY and a raw-marked call",
+	'                           (`{"__normalize":false` first-key marker,',
+	"                           tracked per call id and passed as `Raw`)",
+	"                           passes through UNNORMALIZED with the marker",
+	"                           stripped - see Stream/Strip)",
+	"          Stream/Block     the generic block-end normalizer (TextBlock",
+	"                           text; ReasoningBlock text + a runtime",
+	"                           thinking string field; ToolCallBlock",
+	"                           arguments? with the same three-way gate);",
+	"                           everything else passthrough by identity",
+];
+
+// The two generic replacers at work, from the README's In Action block.
+const Replacers = [
+	'Replace("first — then 10–15 total", Dashes, "-");',
+	'// -> { text: "first - then 10-15 total", count: 2 }',
+	"",
+	'ReplaceMap("he said ‘hello’ — loudly", Quotes);',
+	"// -> { text: \"he said 'hello' - loudly\", count: 2 }",
+	"//    (the em dash is the Dashes class's job, not the Quotes map's)",
+];
+
+// The suppression and refusal lines a consumer composes with the core's helpers.
+const ConsumerLines = [
+	'Context.logger.warn(Suppress("hook-dsh-governor-package", "listener", String(Error)));',
+	'// -> "hook-dsh-governor-package: listener error (suppressed): cannot get property ..."',
+	"",
+	"if (Refusal(Append, Path, Section, Document, Next)) {",
+	"\treturn null; // the byte-identical line went to the ledger, the write did not happen",
+	'\t// -> `REFUSED rewrite of <path>: non-dependency section "scripts" would change`',
+	"}",
+];
+
+const Related = [
+	{
+		Name: "plugin-dsh-factory",
+		Desc: "The family's parent service - deliberately re-exports NOTHING from the core (its service surface stays stable); the hooks import the core's helpers directly.",
+	},
+	{
+		Name: "hook-dsh-normalize-dash",
+		Desc: "The first of the six stream normalizers - a table plus a closure over Replace, dispatched through Chunk/Block.",
+	},
+	{
+		Name: "hook-dsh-governor-package",
+		Desc: "Consumes the governance half: Suppress in the listener's catch, Policy in the update engine, Refusal in the transform.",
+	},
+];
+---
+
+<Base
+	Title="hook-dsh-core - @playform / DSH Family"
+	Description="Hook @ DSH @ Core - the pure machinery layer of the DeepSeek Harness plugin family: the dependency-free governance helpers and the stream-normalization tables and dispatch, consumed by all eleven other packages."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				PLUGIN DETAIL
+			</Badge>
+			<Badge>ROLE: CORE</Badge>
+			<Badge>NOT A PLUGIN - THE MUSCLE UNDER THE PLUGINS</Badge>
+		</div>
+
+		<section class="page-hero">
+			<h1 class="page-hero__title" style="font-family: var(--font-mono)">
+				hook-dsh-core
+			</h1>
+			<p class="page-hero__sub">
+				Hook @ DSH @ Core • _The DeepSeek Harness Plugin Family for PlayForm._ The pure
+				machinery layer of the DSH plugin family: the dependency-free, harness-free
+				commonalities that both halves of the family are built from - the governance hooks'
+				helpers (Section/Default/Suppress/Policy/Refusal, the update-stage envelope and the
+				activation-line composer) and the stream-normalization family's tables and dispatch
+				(six Normalize tables + Replace/ReplaceMap + Stream/Chunk/Block).
+			</p>
+		</section>
+
+		<section class="section" style="margin-top: calc(-1 * var(--space-lg))">
+			<div class="snippet-list">
+				<Terminal Command="pnpm add @playform/hook-dsh-core" />
+			</div>
+			<div class="workbench-controls" style="margin-top: var(--space-md); margin-bottom: 0">
+				<div class="workbench-controls__group">
+					<span class="workbench-controls__label">Namespace:</span>
+					<span class="hook-tally">@playform/hook-dsh-core</span>
+					<span class="workbench-controls__label">Release:</span>
+					<Badge Variant="outline">v0.0.1</Badge>
+				</div>
+				<div class="workbench-controls__group">
+					<span class="workbench-controls__label">Archetype:</span>
+					<Badge Variant="outline">Library</Badge>
+					<span class="workbench-controls__label">Halves:</span>
+					<Badge>Governance + Normalize</Badge>
+					<span class="workbench-controls__label">Runtime deps:</span>
+					<Badge Variant="active">ZERO</Badge>
+				</div>
+			</div>
+		</section>
+
+		<p class="page-hero__sub" style="margin-top: var(--space-md)">
+			The profile wiring for this plugin - the bundles list, the patch entry and the restart -
+			is on the <a href="/setup/">setup page</a>.
+		</p>
+		<section class="section">
+			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: THE BASE LIBRARY" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<strong>Family position</strong> (the @-sentence <strong>Hook @ DSH @ Core</strong>
+				): the base library of the whole family - parent of none, child of none: zero
+				runtime dependencies, consumed by all eleven other packages.
+			</p>
+			<div class="grid grid--2">
+				<Card
+					Variant="white"
+					Name="The governance half"
+					Desc="Variable/Section, Variable/Default, Suppress, Policy, Refusal, Function/Update and Activate - consumed directly by the factory-era governance hooks (governor-package, pinner-package, governor-cargo)."
+				>
+					<Badge slot="badge">GOVERNANCE</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="The normalize half"
+					Desc="Six tables (Dashes, Quotes, Ellipsis, Spaces, Invisible, Fullwidth), the Replace/ReplaceMap replacers and the generic Stream/Chunk + Stream/Block dispatch - consumed by the six stream normalizers."
+				>
+					<Badge slot="badge">NORMALIZE</Badge>
+				</Card>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The core is <strong>not a plugin bundle</strong>: no cordis.patch.yml, no loader
+				contract, publishable on its own - consumers link it as a plain library dependency,
+				not as a bundle row. The DSH plugin family is the DeepSeek Harness plugin layer of
+				the PlayForm ecosystem: TypeScript-first Source/ → Target/, the deterministic
+				@playform build, prepublishOnly-only - the same conventions as every other @playform
+				package.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="In the DeepSeek Harness" Meta="WHERE THE MACHINERY RUNS" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The core is not a plugin and touches no seam itself - it is the shared machinery the
+				family's plugins are made of, running wherever they run:
+			</p>
+			<Seams
+				Seams={[
+					{
+						Seam: "llm/stream (the model stream)",
+						What: "Supplies the stream-normalization half the six flavors dispatch through: the six character tables, the two generic replacers and the per-chunk/per-block dispatch running inside each flavor's llm/stream listener.",
+						Outcome:
+							"Normalized text reaching the live UI and the durable transcript, byte-predictable per chunk.",
+					},
+					{
+						Seam: "fs/observed + fs/write-intent (the file events)",
+						What: "Supplies the governance half the three governance hooks compose their passes from: the section list, the exclusion fence, the policy loader, the refusal guard and the update-stage envelope.",
+						Outcome:
+							"Governed manifests with the write's tool result unchanged (the author never learns).",
+					},
+					{
+						Seam: "The ledger / session",
+						What: "Owns no ledger strings and writes nothing - every consumer logs through its own Append; the core only supplies the byte-exact mechanics (the suppression composer, the diagnostics, the refusal line, the activated(...) template).",
+						Outcome:
+							"Identical line shapes across all twelve plugins, in each plugin's own ledger.",
+					},
+				]}
+			/>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Problem" Meta="WHY THE CORE EXISTS" />
+			<p class="page-hero__sub">
+				The family's hooks kept re-implementing the same pure functions: the NPM section
+				list, the exclusion segments, the suppression-line composer, the policy loader, the
+				refusal guard - and, for the normalize flavors, the same per-chunk dispatch,
+				block-end normalizer and character tables, copy-pasted per flavor. Every fix had to
+				be applied N times. The core makes each of them exist <strong>once</strong>,
+				importable by any consumer - inside the DeepSeek Harness or entirely outside it.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="How It Works" Meta="TWO HALVES, ONE ENTRY" />
+			<div class="code-block">{Diagram.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The dispatch owns the <strong>structure</strong> (which fields of which chunk
+				types); the flavor owns the <strong>substitution</strong> - a new normalization
+				flavor is a table plus a closure, not a fork of the dispatch. An entire flavor's
+				transform leaf:
+			</p>
+			<div class="code-block" style="margin-top: var(--space-sm)">
+				{[
+					"Replace(Text, Dashes, Replacement); // class flavor",
+					"ReplaceMap(Text, Quotes); // map flavor",
+					'CoreChunk(Input, (Text) => Replace(Text, Dashes, "-"), Reasoning);',
+					"// + a 4th ToolArgs flag (default off) and a 5th Raw flag (the per-call",
+					'// `{"__normalize":false` marker state) for the tool-call cases',
+				].join("\n")}
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				<strong>The helpers, exactly.</strong> <code>Section</code> - the canonical NPM
+				dependency-section list (dependencies, devDependencies, peerDependencies,
+				optionalDependencies). <code>Default</code> - the built-in EXCLUSION segments
+				(node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app).
+				<code>Suppress(module, kind, cause)</code> - the suppression-line composer (
+				<code>module: kind error (suppressed): cause</code>, kind is "listener" or
+				"continuation") - the byte-identical line every contained throw produces
+				(logger-only, never the ledger). <code>Policy(append, file, defaults, quiet?)</code>
+				- the update-policy loader: plain-fs read when given and readable; any failure falls
+				back to the module's built-in defaults with the family's byte-identical diagnostic
+				lines. <code>Refusal(...)</code> - the shared REFUSAL GUARD: only the declared
+				dependency sections may differ; a difference anywhere else composes the
+				byte-identical refusal line and the rewrite is never applied.{" "}
+				<code>Update(dependencies)</code> - the UPDATE-STAGE ENVELOPE (the shared
+				Dispatch/Settle pair: gates, P2 registration, jobs envelope, P5 records, U2
+				refresh). <code>Activate(fields)</code> - the activation-line composer: the{" "}
+				<code>activated (...)</code> proof line's shared string mechanics; the field list
+				stays module-side. <code>Replace</code> /<code>ReplaceMap</code> - the two generic
+				replacers: a fresh per-call regex (no shared lastIndex state), a function replacer
+				($ patterns are never interpreted), and the <code>{"{ text, count }"}</code>{" "}
+				contract where count === 0 means "unchanged" and the caller keeps the original by
+				identity. <code>Chunk</code> / <code>Block</code> - the generic dispatchers,
+				structural in their chunk/block shapes, with the transform injected: pure, total on
+				any string, order-preserving, no buffering.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="In Action" Meta="THE HELPERS IN A CONSUMER'S CODE" />
+			<p class="section-kicker">
+				Before - a governance hook hits a contained throw and a guarded write
+			</p>
+			<div class="code-block">{ConsumerLines.join("\n")}</div>
+			<p class="section-kicker" style="margin-top: var(--space-md)">
+				After - the byte-identical lines every consumer produces
+			</p>
+			<p class="page-hero__sub" style="margin: var(--space-md) 0">
+				And the normalize half, the two generic replacers at work (the inputs carry the real
+				typographic characters the flavor tables match):
+			</p>
+			<p class="section-kicker" style="margin-top: var(--space-md)">
+				Before and after - a stream flavor's transform leaf, called directly
+			</p>
+			<div class="code-block">{Replacers.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				<code>count === 0</code> means "unchanged": the caller keeps the original string by
+				identity instead of allocating a copy. The policy loader, in its Quiet form, reads
+				the same update-policy.json the update engine will honor and returns the built-in
+				defaults - with the diagnostics, or without them.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Config" Meta="NONE - NOT A PLUGIN" />
+			<p class="page-hero__sub">
+				The core registers no Config and needs none - it is not a plugin: no loader
+				contract, no context, no Schemastery schema, nothing to validate at load. Every knob
+				it exposes is a function parameter (<code>Policy</code>'s defaults,{" "}
+				<code>Replace</code>'s replacement, <code>Chunk</code>'s injected transform),
+				decided by the consuming module's own config.
+			</p>
+			<div class="code-block" style="margin-top: var(--space-md)">
+				{[
+					'import { Suppress, Refusal, Section, Default, Policy } from "@playform/hook-dsh-core";',
+					'import { Replace, ReplaceMap, Dashes, Chunk } from "@playform/hook-dsh-core";',
+				].join("\n")}
+			</div>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Ledger" Meta="THE CORE OWNS NO LEDGER STRINGS" />
+			<p class="page-hero__sub">
+				The core owns no ledger strings and writes nothing - no plugin, no logger, no ledger
+				file. The module ledger strings stay MODULE-side: the core supplies the mechanics
+				(the <code>Suppress</code> composer, the <code>Policy</code> diagnostics, the
+				<code>Refusal</code> line, the <code>Activate</code> template), and every consumer
+				logs them through its own Append (the factory's ledger service). Nothing in the core
+				ever composes a <code>&lt;Module&gt;:</code> prefix or an activation proof's field
+				list - the <code>activated (...)</code> template is the mechanics only; the fields
+				are the module's.
+			</p>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="Related plugins" Meta="12 TOTAL" />
+			<div class="grid grid--3">
+				{Related.map((Plugin) => (
+					<Card
+						Variant="white"
+						Name={Plugin.Name}
+						Href={`/plugins/${Plugin.Name}/`}
+						Desc={Plugin.Desc}
+						Muted
+					>
+						<Badge slot="badge">DSH FAMILY</Badge>
+					</Card>
+				))}
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				License: MIT. The unit smoke (core-smoke.mjs in the family's smokes/ directory)
+				exercises every helper with no fake context at all.
+			</p>
+		</section>
+	</main>
+</Base>

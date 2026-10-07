@@ -1,0 +1,498 @@
+---
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import PageHero from "@Component/PageHero.astro";
+
+// The seven flavor hooks of the stream gate, each with its NORM token,
+// human name and before/after rule. The PATH hook ships disarmed by
+// default (it toggles like the rest, mirroring the workbench mock).
+const Hooks = [
+	{
+		Id: "dash",
+		Token: "NORM:DASH",
+		Name: "Hyphen Standardizer",
+		From: "\u2014 \u2013",
+		To: "-",
+		Armed: true,
+	},
+	{
+		Id: "quotes",
+		Token: "NORM:QUOTES",
+		Name: "Curly Quotes",
+		From: "\u201C \u201D \u2018 \u2019",
+		To: "\" '",
+		Armed: true,
+	},
+	{
+		Id: "ellipsis",
+		Token: "NORM:ELLIPSIS",
+		Name: "Ellipsis Expander",
+		From: "\u2026",
+		To: "...",
+		Armed: true,
+	},
+	{
+		Id: "spaces",
+		Token: "NORM:SPACES",
+		Name: "Whitespace Purge",
+		From: "\\u00A0",
+		To: "\\x20",
+		Armed: true,
+	},
+	{
+		Id: "invisible",
+		Token: "STRIP:ZWSP",
+		Name: "Zero-Width Strip",
+		From: "\\u200B\\uFEFF",
+		To: "\u2205",
+		Armed: true,
+	},
+	{
+		Id: "fullwidth",
+		Token: "NORM:FULLWIDTH",
+		Name: "Width Normalizer",
+		From: "\\uFF01..\\uFF5E",
+		To: "Halfwidth",
+		Armed: true,
+	},
+	{
+		Id: "file",
+		Token: "NORM:FILE",
+		Name: "File Content Normalizer",
+		From: "on disk",
+		To: "6 transforms",
+		Armed: false,
+	},
+];
+
+// Seed sentences containing the raw unicode anomalies the hooks fix.
+const Seeds = [
+	"Plan review \u2014 phase one: the config \u201Cdrift\u201D is real\u2026 wait for it\u2026",
+	"Balance\u00A0sheet sync \u2014 \u2018quoted\u2019 values\u00A0kept\u2026",
+	"Latency\u200Bbudget\uFEFF hit \u2014 p99\u00A0holds\u2026",
+	"Batch\u2014two of three\u2013done\u2026 \u201Cclean\u201D\u00A0output only",
+];
+
+// Runtime pipeline profiles, per the workbench mock.
+const Runtimes = [
+	{ Id: "classic", Label: "Classic Pipeline" },
+	{ Id: "effect", Label: "Effect-TS v4 Fiber" },
+];
+
+// Ingest engines, per the workbench mock.
+const Engines = [
+	{ Id: "deepseek", Label: "DeepSeek Engine v4 (120 tps)" },
+	{ Id: "glm", Label: "GLM Engine 5.3" },
+	{ Id: "raw", Label: "Raw Ingest Stream" },
+];
+
+// The pipeline stages the demo mirrors, in the family's real order (each
+// stage is a step the packages' own code takes per chunk).
+const Spans = [
+	"next() first",
+	"CoreChunk dispatch",
+	"per-flavor transform",
+	"yield → transcript",
+	"Append → ledger line",
+];
+---
+
+<Base
+	Title="Workbench - @playform / DSH Family"
+	Description="The interactive Stream Gate & Normalization Workbench: raw LLM token emission passing through the seven flavor hooks into clean ASCII output, live."
+>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				LIVE EMISSION
+			</Badge>
+			<Badge>STREAM GATE</Badge>
+			<Badge>7 FLAVOR HOOKS</Badge>
+		</div>
+
+		<PageHero
+			Title="Interactive Stream Gate & Normalization Workbench"
+			Sub="Runtime matrix: raw LLM token emission transitioning through the stream gate into clean ASCII output. Toggle the flavor hooks, switch the ingest engine, and watch the raw buffer and the canonical sanitized stream diverge."
+		/>
+
+		<!-- Runtime & gate tally -->
+		<section class="workbench-controls">
+			<div class="workbench-controls__group">
+				<span class="workbench-controls__label">Runtime:</span>
+				{Runtimes.map((Runtime, Index) => (
+					<button
+						type="button"
+						class="engine-pill"
+						data-runtime={Runtime.Id}
+						data-active={Index === 1 ? "" : undefined}
+					>
+						{Runtime.Label}
+					</button>
+				))}
+			</div>
+			<div class="workbench-controls__group">
+				<span class="workbench-controls__label">Armed hooks:</span>
+				<span class="hook-tally" data-hook-tally>
+					6 of 7 Active
+				</span>
+			</div>
+		</section>
+
+		<!-- Ingest engine selection -->
+		<section class="workbench-controls">
+			<div class="workbench-controls__group">
+				<span class="workbench-controls__label">Ingest source:</span>
+				{Engines.map((Engine, Index) => (
+					<button
+						type="button"
+						class="engine-pill"
+						data-engine={Engine.Id}
+						data-active={Index === 0 ? "" : undefined}
+					>
+						<span class="dot"></span>
+						{Engine.Label}
+					</button>
+				))}
+			</div>
+			<div class="workbench-controls__group">
+				<button type="button" class="engine-pill" data-action="toggle">
+					Pause Stream
+				</button>
+				<button type="button" class="engine-pill" data-action="clear">
+					Clear
+				</button>
+				<button type="button" class="engine-pill" data-action="burst">
+					10k Burst
+				</button>
+				<button type="button" class="engine-pill engine-pill--active" data-action="copy">
+					Copy Clean
+				</button>
+			</div>
+		</section>
+
+		<!-- Telemetry metrics -->
+		<section class="section">
+			<div class="metric-grid">
+				<div class="metric">
+					<span class="metric__label">Zero-Width Purged</span>
+					<div class="metric__row">
+						<span class="metric__value" data-metric="invisible">
+							0
+						</span>
+						<span class="metric__note">U+200B..F</span>
+					</div>
+				</div>
+				<div class="metric">
+					<span class="metric__label">Curly Quotes Converted</span>
+					<div class="metric__row">
+						<span class="metric__value" data-metric="quotes">
+							0
+						</span>
+						<span class="metric__note">\u201C\u201D \u2192 ""</span>
+					</div>
+				</div>
+				<div class="metric">
+					<span class="metric__label">Dashes Standardized</span>
+					<div class="metric__row">
+						<span class="metric__value" data-metric="dash">
+							0
+						</span>
+						<span class="metric__note">\u2014 \u2013 \u2192 -</span>
+					</div>
+				</div>
+				<div class="metric">
+					<span class="metric__label">Replacements Applied</span>
+					<div class="metric__row">
+						<span class="metric__value" data-metric="replacements">
+							0
+						</span>
+						<span class="metric__note">count &gt; 0 per flavor</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Flavor hook switchboard -->
+		<section class="section">
+			<div class="section-header">
+				<div class="section-header__left">
+					<span class="section-header__marker"></span>
+					<h2 class="section-header__title">Canonical Transformation Flavor Hooks</h2>
+				</div>
+				<div class="workbench-controls__group">
+					<span class="section-header__meta">INTERACTIVE CIRCUIT MATRIX</span>
+					<button type="button" class="engine-pill" data-action="toggle-all">
+						Toggle All
+					</button>
+				</div>
+			</div>
+			<div class="hook-grid">
+				{Hooks.map((Hook) => (
+					<button
+						type="button"
+						class={`hook-card ${Hook.Armed ? "is-armed" : "is-disarmed"}`}
+						data-hook={Hook.Id}
+						data-armed={Hook.Armed ? "true" : "false"}
+					>
+						<div class="hook-card__top">
+							<span class="hook-card__token">{Hook.Token}</span>
+							<span class="hook-card__status"></span>
+						</div>
+						<span class="hook-card__name">{Hook.Name}</span>
+						<span class="hook-card__rule">
+							<span>{Hook.From}</span>
+							<span class="arrow">\u2192</span>
+							<span>{Hook.To}</span>
+						</span>
+					</button>
+				))}
+			</div>
+		</section>
+
+		<!-- Dual terminal view -->
+		<section class="section">
+			<div class="stream-grid">
+				<div class="stream-pane">
+					<div class="stream-pane__bar">
+						<span class="stream-pane__label">
+							<span class="dot dot--raw"></span>
+							RAW LLM INGEST BUFFER
+						</span>
+						<span class="stream-pane__count" data-count="raw">
+							0 bytes
+						</span>
+					</div>
+					<div class="stream-pane__terminal" data-stream="raw"></div>
+				</div>
+				<div class="stream-hub">
+					<div class="stream-hub__core">
+						<svg
+							class="spin"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							aria-hidden="true"
+						>
+							<path d="M21 12 a9 9 0 1 1 -2.6 -6.4 M21 3 v6 h-6"></path>
+						</svg>
+						<span>DEMO</span>
+						<strong>client-side</strong>
+					</div>
+				</div>
+				<div class="stream-pane">
+					<div class="stream-pane__bar">
+						<span class="stream-pane__label">
+							<span class="dot dot--clean"></span>
+							CANONICAL SANITIZED STREAM
+						</span>
+						<span class="stream-pane__count" data-count="clean">
+							0 bytes
+						</span>
+					</div>
+					<div class="stream-pane__terminal" data-stream="clean"></div>
+				</div>
+			</div>
+			<div class="trace-ribbon">
+				<div class="trace-ribbon__chain">
+					<span>The pipeline this demo mirrors:</span>
+					{Spans.map((Span) => (
+						<span class="trace-ribbon__span">{Span}</span>
+					))}
+				</div>
+				<span>
+					Count &gt; 0 only • <strong>count === 0 keeps the chunk by identity</strong> • a
+					thrown-away stream writes no ledger line
+				</span>
+			</div>
+		</section>
+	</main>
+</Base>
+
+<script>
+	// Stream gate simulation: raw token batches enter the left terminal, pass
+	// the armed flavor hooks, and land in the right terminal as clean ASCII.
+	const RawTerminal = document.querySelector<HTMLElement>("[data-stream='raw']")!;
+	const CleanTerminal = document.querySelector<HTMLElement>("[data-stream='clean']")!;
+	const RawCount = document.querySelector<HTMLElement>("[data-count='raw']")!;
+	const CleanCount = document.querySelector<HTMLElement>("[data-count='clean']")!;
+	const Tally = document.querySelector<HTMLElement>("[data-hook-tally]")!;
+	const ToggleButton = document.querySelector<HTMLElement>("[data-action='toggle']")!;
+
+	// The per-hook transform rules, mirrored from the server-rendered cards.
+	const Rules: Record<string, (Text: string) => [string, number]> = {
+		dash: (Text) => [
+			Text.replace(
+				/[\u058A\u05BE\u1400\u1806\u2010-\u2015\u2E17\u2E1A\u2E3A-\u2E3B\u2E40\u2E5D\u301C\u3030\u30A0\uFE31-\uFE32\uFE58\uFE63\uFF0D]/g,
+				"-",
+			),
+			(
+				Text.match(
+					/[\u058A\u05BE\u1400\u1806\u2010-\u2015\u2E17\u2E1A\u2E3A-\u2E3B\u2E40\u2E5D\u301C\u3030\u30A0\uFE31-\uFE32\uFE58\uFE63\uFF0D]/g,
+				) ?? []
+			).length,
+		],
+		quotes: (Text) => [
+			Text.replace(/[\u2018\u2019\u201C\u201D]/g, (Mark) =>
+				Mark === "\u2018" || Mark === "\u2019" ? "'" : '"',
+			),
+			(Text.match(/[\u2018\u2019\u201C\u201D]/g) ?? []).length,
+		],
+		ellipsis: (Text) => [Text.replace(/\u2026/g, "..."), (Text.match(/\u2026/g) ?? []).length],
+		spaces: (Text) => [
+			Text.replace(/[\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]/g, " "),
+			(Text.match(/[\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]/g) ?? []).length,
+		],
+		invisible: (Text) => [
+			Text.replace(/[\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF]/g, ""),
+			(Text.match(/[\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF]/g) ?? []).length,
+		],
+		fullwidth: (Text) => [
+			Text.replace(/[\uFF01-\uFF5E]/g, (Mark) =>
+				String.fromCharCode(Mark.charCodeAt(0) - 0xfee0),
+			),
+			(Text.match(/[\uFF01-\uFF5E]/g) ?? []).length,
+		],
+	};
+
+	const Armed = new Set(
+		[...document.querySelectorAll<HTMLElement>(".hook-card")]
+			.filter((Card) => Card.dataset["armed"] === "true")
+			.map((Card) => Card.dataset["hook"]!),
+	);
+
+	const Metrics: Record<string, number> = {
+		dash: 0,
+		quotes: 0,
+		ellipsis: 0,
+		spaces: 0,
+		invisible: 0,
+		fullwidth: 0,
+	};
+
+	let RawBytes = 0;
+	let CleanBytes = 0;
+	let Paused = false;
+
+	function Transform(Text: string) {
+		let Clean = Text;
+		let Hits = 0;
+		for (const Hook of Armed) {
+			const Rule = Rules[Hook];
+			if (!Rule) continue;
+			const [Next, Count] = Rule(Clean);
+			Clean = Next;
+			Hits += Count;
+			if (Metrics[Hook] !== undefined) Metrics[Hook] += Count;
+		}
+		return [Clean, Hits] as const;
+	}
+
+	function Render() {
+		let Total = 0;
+		for (const [Key, Value] of Object.entries(Metrics)) {
+			Total += Value;
+			const Node = document.querySelector<HTMLElement>(`[data-metric='${Key}']`);
+			if (Node) Node.textContent = Value.toLocaleString("en-US");
+		}
+		const TotalNode = document.querySelector<HTMLElement>("[data-metric='replacements']");
+		if (TotalNode) TotalNode.textContent = Total.toLocaleString("en-US");
+
+		RawCount.textContent = `${RawBytes.toLocaleString("en-US")} bytes`;
+		CleanCount.textContent = `${CleanBytes.toLocaleString("en-US")} bytes`;
+
+		Tally.textContent = `${Armed.size} of 7 Active`;
+		ToggleButton.textContent = Paused ? "Resume Stream" : "Pause Stream";
+	}
+
+	function Push() {
+		if (Paused) return;
+		const Seed = Seeds[Math.floor(Math.random() * Seeds.length)];
+		const [Clean] = Transform(Seed);
+		RawBytes += new TextEncoder().encode(Seed).length;
+		CleanBytes += new TextEncoder().encode(Clean).length;
+
+		RawTerminal.append(`\u21B3 ${Seed}\n`);
+		CleanTerminal.append(`\u21B3 ${Clean}\n`);
+
+		if (RawTerminal.scrollHeight > RawTerminal.clientHeight + 400) {
+			RawTerminal.textContent = RawTerminal.textContent?.split("\n").slice(-6).join("\n");
+			CleanTerminal.textContent = CleanTerminal.textContent?.split("\n").slice(-6).join("\n");
+		}
+		Render();
+	}
+
+	setInterval(Push, 900);
+
+	// Hook toggles.
+	document.querySelectorAll<HTMLElement>(".hook-card").forEach((Card) => {
+		Card.addEventListener("click", () => {
+			const Hook = Card.dataset["hook"]!;
+			if (Armed.has(Hook)) {
+				Armed.delete(Hook);
+				Card.classList.replace("is-armed", "is-disarmed");
+				Card.dataset["armed"] = "false";
+			} else {
+				Armed.add(Hook);
+				Card.classList.replace("is-disarmed", "is-armed");
+				Card.dataset["armed"] = "true";
+			}
+			Render();
+		});
+	});
+
+	// Toggle all hooks.
+	document.querySelector("[data-action='toggle-all']")?.addEventListener("click", () => {
+		const All = Armed.size === 7;
+		document.querySelectorAll<HTMLElement>(".hook-card").forEach((Card) => {
+			const Hook = Card.dataset["hook"]!;
+			if (All) Armed.delete(Hook);
+			else Armed.add(Hook);
+			Card.classList.toggle("is-armed", !All);
+			Card.classList.toggle("is-disarmed", All);
+			Card.dataset["armed"] = String(!All);
+		});
+		Render();
+	});
+
+	// Runtime pills.
+	document.querySelectorAll<HTMLElement>("[data-runtime]").forEach((Pill) => {
+		Pill.addEventListener("click", () => {
+			document
+				.querySelectorAll("[data-runtime]")
+				.forEach((Item) => Item.removeAttribute("data-active"));
+			Pill.setAttribute("data-active", "");
+		});
+	});
+
+	// Engine pills.
+	document.querySelectorAll<HTMLElement>("[data-engine]").forEach((Pill) => {
+		Pill.addEventListener("click", () => {
+			document
+				.querySelectorAll("[data-engine]")
+				.forEach((Item) => Item.removeAttribute("data-active"));
+			Pill.setAttribute("data-active", "");
+		});
+	});
+
+	// Pause / clear / burst / copy actions.
+	ToggleButton.addEventListener("click", () => {
+		Paused = !Paused;
+		Render();
+	});
+
+	document.querySelector("[data-action='clear']")?.addEventListener("click", () => {
+		RawTerminal.textContent = "";
+		CleanTerminal.textContent = "";
+	});
+
+	document.querySelector("[data-action='burst']")?.addEventListener("click", () => {
+		for (let Index = 0; Index < 12; Index += 1) Push();
+	});
+
+	document.querySelector("[data-action='copy']")?.addEventListener("click", () => {
+		if (navigator.clipboard?.writeText) {
+			navigator.clipboard.writeText(CleanTerminal.textContent ?? "");
+		}
+	});
+</script>
