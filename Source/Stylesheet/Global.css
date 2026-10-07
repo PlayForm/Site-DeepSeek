@@ -2117,6 +2117,24 @@ svg {
 	flex-shrink: 0;
 }
 
+/* ---- Concept blocks: the diagram-first restructure units ----
+	Each section that explains dense prose carries a .concept-list of
+	Concept blocks (one independently explainable concept per block). The
+	list separates blocks with the XL gap; .concept-values is the shared
+	marker-list inside a block body. */
+.concept-list {
+	display: grid;
+	gap: var(--space-xl, 3rem);
+	margin-top: var(--space-md);
+}
+
+.concept-values {
+	display: grid;
+	gap: var(--space-sm);
+	margin: 0;
+	padding-left: 1.25rem;
+}
+
 /* ---- Toast (transient action feedback) ---- */
 .toast {
 	position: fixed;

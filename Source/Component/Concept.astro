@@ -1,0 +1,64 @@
+---
+// Concept: one independently explainable concept per block, the unit of
+// the diagram-first restructure. Each block carries a visible diagram
+// placeholder (a stable data-diagram identifier for the future diagram
+// agent), a short descriptive heading, and a body of one or two short
+// paragraphs explaining only that concept.
+interface Props {
+	Id: string;
+	Title: string;
+	Diagram: string;
+}
+
+const { Id, Title, Diagram } = Astro.props;
+---
+
+<section class="concept" aria-labelledby={`${Id}-title`}>
+	<div class="concept__diagram" data-diagram={Id} data-diagram-status="placeholder">
+		<p class="concept__diagram-label">Diagram placeholder - {Title}</p>
+		<p class="concept__diagram-brief">{Diagram}</p>
+	</div>
+	<h3 id={`${Id}-title`} class="concept__title">{Title}</h3>
+	<div class="concept__body">
+		<slot />
+	</div>
+</section>
+
+<style>
+	.concept {
+		display: grid;
+		gap: var(--space-sm);
+		min-width: 0;
+	}
+
+	.concept__diagram {
+		display: grid;
+		gap: var(--space-sm);
+		padding: var(--space-md);
+		margin-bottom: var(--space-sm);
+		border: 1px dashed currentColor;
+		border-radius: var(--radius-md, 0.75rem);
+	}
+
+	.concept__diagram-label,
+	.concept__diagram-brief {
+		margin: 0;
+	}
+
+	.concept__diagram-label {
+		font-weight: 600;
+	}
+
+	.concept__title {
+		margin: 0;
+	}
+
+	.concept__body {
+		display: grid;
+		gap: var(--space-sm);
+	}
+
+	.concept__body :global(p) {
+		margin: 0;
+	}
+</style>

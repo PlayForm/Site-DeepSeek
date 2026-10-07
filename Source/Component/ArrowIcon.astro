@@ -1,0 +1,46 @@
+---
+// ArrowIcon: the family's arrow glyph - an inline SVG sized to the
+// surrounding text (1em), stroked currentColor by default. Tone "accent"
+// paints the Harness Blue where the design calls for the accent color.
+interface Props {
+	Direction?: "right" | "left" | "up" | "down";
+	Tone?: "current" | "accent";
+}
+
+const { Direction = "right", Tone = "current" } = Astro.props;
+
+const Paths: Record<NonNullable<Props["Direction"]>, [string, string]> = {
+	right: ["M4 12 H20", "M13 5 L20 12 L13 19"],
+	left: ["M20 12 H4", "M11 5 L4 12 L11 19"],
+	up: ["M12 20 V4", "M5 11 L12 4 L19 11"],
+	down: ["M12 4 V20", "M5 13 L12 20 L19 13"],
+};
+
+const [Shaft, Head] = Paths[Direction];
+---
+
+<svg
+	class={`arrow-icon arrow-icon--${Tone}`}
+	viewBox="0 0 24 24"
+	fill="none"
+	stroke="currentColor"
+	stroke-width="2"
+	stroke-linecap="round"
+	stroke-linejoin="round"
+	aria-hidden="true"
+>
+	<path d={Shaft}></path>
+	<path d={Head}></path>
+</svg>
+
+<style>
+	.arrow-icon {
+		width: 1em;
+		height: 1em;
+		vertical-align: -0.125em;
+	}
+
+	.arrow-icon--accent {
+		color: var(--color-primary);
+	}
+</style>
