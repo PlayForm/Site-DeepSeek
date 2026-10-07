@@ -133,7 +133,7 @@ const Decisions = [
 	{
 		Decision: "Module-owned ledger strings; the smokes as the arbiter",
 		Rationale:
-			"Byte-identical strings make renames safe and behavior provable - the literal activated (cargo flavor, ...) survives every refactor",
+			"The ledger strings are the family's PUBLIC INTERFACE - the only observable that survives a framework port. Mechanics change, strings never: that is why renames are safe (the terminology rename kept the cargo flavor literal; module ownership stops the blast radius at the module), why the Effect-TS port is provable (byte parity is the proof), and why the smokes are implementation-agnostic - the literal activated (cargo flavor, ...) survives every refactor",
 		Technique:
 			"The transform contract + the smoke harness; renames change mechanics, never strings",
 		Evidence: "the handoff P2/P5; 3c29108, e106a98, 66bfd81",
@@ -202,21 +202,24 @@ const Decisions = [
 		Decision: "Host-era pins; verify from the installed app, never stale node_modules",
 		Rationale:
 			"The @deepseek-ai family pins must match the running host; the registry's latest tag is stale and the profile's old links lie",
-		Technique: "The dependency-pin discipline",
+		Technique: "The package.json dependency fields + the smokes' host-era assertions - verified from the running app, never stale node_modules",
 		Evidence: "the handoff P12",
 	},
 	{
 		Decision: "Dual release: Classic live-first, Effect-TS ships only after parity",
 		Rationale:
-			"Keep the working implementation onboard; the ledger strings stay the contract in BOTH implementations",
-		Technique: "The stream gate, the services + layers, the tracing spans",
-		Evidence: "the monorepo plan; the versions page",
+			"Keep the working implementation onboard; the ledger strings stay the contract in BOTH implementations - and the port exists for register #13's three goals: external traceability, ecosystem interop, and hooking other transformers",
+		Technique:
+			"The stream gate, the Effect services + layers, and the tracing opt-in (no-op default; the OTLP layer attaches only when enableTracing is set - best-effort)",
+		Evidence: "the monorepo plan; the versions page; Runtime.ts (the tracing knob)",
 	},
 	{
-		Decision: "Reversed hierarchical naming + version 0.0.1 + submodules",
-		Rationale: "Names read as @-sentences and group alphabetically; one repository per package",
-		Technique: "Package naming; the monorepo layout",
-		Evidence: "the branding brief",
+		Decision: "Reversed hierarchical naming + version 0.0.1 + submodules (designed, pending register #16)",
+		Rationale:
+			"Kind-first ordering mirrors the consumer topology - the hooks vs the factory service - and role-contiguous grouping keeps the shared-machinery families together (governor-cargo/governor-package, the normalize-* family); the @-sentence is the release identity (the README titles, register #15). The inversion was only safe because the ledger strings are module-owned - the mdash -> normalize-dash rename (register #5) is the proof: the renamed module changed only its own prefix, its identity, by design - every other ledger string stayed",
+		Technique:
+			"The package naming itself + the monorepo layout (one repository per package under submodule structure - designed, register #16, NOT STARTED)",
+		Evidence: "the branding brief; register #5/#15/#16",
 	},
 	{
 		Decision: "The abort signal forwards to the seams, never onto the fiber",
@@ -288,14 +291,28 @@ const Lessons = [
 			<p class="page-hero__sub">
 				The family grew from <strong>five bundles and 231 smoke checks</strong> to
 				<strong>twelve packages</strong> across one commit era - the Oct 3&ndash;6, 2026
-				stretch that ends at <code>5982aa8</code> - with roughly 800 checks across twelve
-				suites as the final count. Every step of the way, the smokes were the arbiter: zero
-				assertion changes across refactors, renames and a framework port. And every real bug
-				- the shadowed patch layers, the silent journal open, the version guard that could
-				only succeed once - was found <strong>live</strong>, not by the smokes. That
-				asymmetry is the story's spine, and the sections below keep it honest: what the
-				suites caught, what only a restart could catch, and which two theories died on the
-				way to the truth.
+				stretch that ends at <code>5982aa8</code> - with <strong>733 checks Classic · 746
+				Effect-TS</strong> across twelve suites as the final count (the suites print their
+				own totals; the <a href="/versions/">versions page</a> breaks the pair down per
+				package). Every step of the way, the smokes were the arbiter: zero assertion
+				rewrites across refactors, renames and a framework port - the Effect-TS port
+				actually <strong>adds 13 checks</strong> (core +3, factory +7, governor +3), so
+				its totals run higher than the Classic's with every shared assertion intact: the
+				port proved parity by extending coverage, not by rewriting assertions. And every
+				real bug - the shadowed patch layers, the silent journal open, the version guard
+				that could only succeed once - was found <strong>live</strong>, not by the smokes.
+				That asymmetry is the story's spine, and the sections below keep it honest: what
+				the suites caught, what only a restart could catch, and which two theories died on
+				the way to the truth.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The spine underneath the counts: the ledger strings are the family's
+				<strong>public interface</strong> - the only observable that survives a framework
+				port - so renames and re-implementations change mechanics, never the bytes the
+				suites assert. Three implementations hold that contract: <strong>Boilerplate</strong>
+				(the live truth, still running on this host), <strong>Classic</strong> (the
+				anonymized release) and <strong>Effect-TS</strong> (the port - built for external
+				traceability, ecosystem interop and hooking other transformers, register #13).
 			</p>
 			<div class="flavor-strip" style="margin-top: var(--space-md)">
 				<Badge Variant="active">12 PACKAGES</Badge>
@@ -448,9 +465,10 @@ const Lessons = [
 				agents building the family saw their own comment prose come out with ASCII hyphens,
 				because their output streams run through the same flavors. The planned cosmetic pass
 				was cancelled by the user - em-dashes live only in the README examples, never in
-				code. The workbench and the matrix pages run exactly these flavors live, and the
-				<a href="/workbench/">workbench</a> lets you watch the gate make its per-call
-				decisions.
+				code. The <a href="/workbench/">workbench</a> and the <a href="/matrix/">matrix</a>
+				pages run exactly these flavors live - the workbench lets you watch the gate make
+				its per-call decisions, the matrix shows the raw-vs-canonical payload pair engine
+				by engine.
 			</p>
 		</section>
 
@@ -569,17 +587,38 @@ const Lessons = [
 				The completed codebase became the boilerplate for two official releases off one
 				source: the Classic implementation stays live-first, and the Effect-TS port ships
 				only after its smokes prove parity - the ledger strings remain the contract in both
-				(<code>register #13</code>). The release prep anonymized and de-personalized every
-				bundle and rebuilt the READMEs on a single skeleton borrowed heavily from the
-				sibling project's conventions. The Effect-TS mapping planned the
-				<strong>parallel-govern toggle in from the start</strong> - concurrency is different
-				there, and designing the toggle first beats retrofitting it. The naming inverted (
-				<code>register #15</code>): packages read as
-				<code>@</code>-sentences - <em>Hook @ DSH @ Governor @ Package</em> - and group
-				alphabetically by kind, role and domain, at version 0.0.1, one repository per
-				package under submodule structure. And the Site you are reading is the last item:
-				the integration showcase, with the <a href="/versions/">versions page</a> carrying
-				the two engines side by side.
+				(<code>register #13</code>). The port exists for a reason beyond the parity
+				discipline: register #13's three goals - <strong>external traceability</strong>,
+				<strong>ecosystem interop</strong>, and hooking other transformers from the same
+				Effect ecosystem into the same governed machinery. The triad's roles stay fixed:
+				<strong>Boilerplate</strong> is the live truth, <strong>Classic</strong> is the
+				anonymized release, <strong>Effect-TS</strong> is the port. The Effect-TS mapping
+				planned the <strong>parallel-govern toggle in from the start</strong> - concurrency
+				is different there, and designing the toggle first beats retrofitting it. Its
+				tracing is an <strong>opt-in knob</strong>: by default the factory runs Effect's
+				no-op Tracer - zero cost, the identical synchronous build - and only when{" "}
+				<code>enableTracing</code> is set does the OTLP exporter attach (the NodeSdk layer,
+				the <code>dsh.*</code> spans leaving to any OTel collector). The exporter packages
+				load dynamically, so an unloadable bundle degrades to the no-op - tracing is
+				best-effort, never allowed to break the plugin - and the spans carry read-only
+				facts, so a traced smoke run still produces byte-identical ledgers.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The release prep anonymized and de-personalized every bundle (the releases are
+				clean: the governor's <code>ncuBin</code> default was re-pinned to a portable
+				PATH-resolved value - the internal Boilerplate baseline keeps the functional real
+				path by design) and rebuilt the READMEs on a single skeleton borrowed heavily from
+				the sibling project's conventions. The naming inverted (<code>register #15</code>):
+				packages read as <code>@</code>-sentences -{" "}
+				<em>Hook @ DSH @ Governor @ Package</em> - and group alphabetically by kind, role
+				and domain: kind-first ordering mirrors the consumer topology - the hooks vs the
+				factory service - and role-contiguous grouping keeps the shared-machinery families
+				together (governor-cargo/governor-package, the normalize-* family), at version
+				0.0.1, with one repository per package under submodule structure designed but{" "}
+				<strong>NOT STARTED</strong> (register #16: no commits yet, everything still in
+				this monorepo). And the Site you are reading is the last item: the integration
+				showcase, with the <a href="/versions/">versions page</a> carrying the two engines
+				side by side.
 			</p>
 			<div class="action-row">
 				<a class="action" href="/versions/">

@@ -26,6 +26,8 @@ const Furnace = [
 	"                                           │                        registry-adjacent → + P3 chain keys",
 	"                                           ├─ Gate(...) ───────────► g1 gates: target → actor → kind →",
 	"                                           │                        Stash idempotence → basename → excluded",
+	"                                           ├─ Write(...) ──────────► the ONE shared executor (intent / policy /",
+	"                                           │                         observe / stash / the content transform)",
 	"                                           ├─ GuardedWrite(...) ──► replaceIfVersion + the P4 sandbox fence",
 	"                                           ├─ Refresh(...) ───────► Stash seed + fs/observed re-emit (same actor)",
 	"                                           ├─ Continue(..., tfm) ─► Inflight → readText → keep-list →",
@@ -37,11 +39,11 @@ const Furnace = [
 	"                                           │                        P5 storage domain (probed, graceful)",
 	"                                           ├─ Journal(state, ...) ─► the P5 package_governance writer",
 	"                                           ├─ Schema(shared?, m) ─► the Schemastery schema factory",
-	"                                           ├─ RegisterGovern(...) ─► the direct-govern registry (per basename)",
-	"                                           ├─ Govern(target, ...) ─► the direct-govern executor",
-	"                                           ├─ GovernSteps(...) ───► the registered steps (the registry view)",
+	"                                           ├─ Seam(state, name) ──► probe-once optional-service accessor",
 	"                                           ├─ UpdateKey(target) ──► the namespaced Inflight key (update stages)",
-	"                                           └─ Seam(state, name) ──► probe-once optional-service accessor",
+	"                                           ├─ RegisterGovern(...) ─► the direct-govern registry (per basename)",
+	"                                           └─ Govern(target, ...) ─► the direct-govern executor (GovernSteps,",
+	"                                                                     the registered steps - the registry view",
 ];
 
 // The consumers table, from the README's Where It Fits.
@@ -310,7 +312,7 @@ const Related = [
 			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
 				<strong>Verification.</strong> tsc --noEmit - zero errors; pnpm run prepublishOnly -
 				minified Target/ (+ .d.ts twins); node factory-smoke.mjs (in the family's smokes/
-				directory) - 30 checks, ALL PASS, covering every primitive, the Gate matrix, both
+				directory) - 34 checks, ALL PASS, covering every primitive, the Gate matrix, both
 				GuardedWrite postures, the full Continue lifecycle, State defaults + cell unwrap,
 				Attach's three effects, Journal's queue/drain/silent-skip, Schema's volatile cells
 				and Seam's probe-once caching.
