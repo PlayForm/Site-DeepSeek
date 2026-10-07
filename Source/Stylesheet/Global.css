@@ -73,7 +73,7 @@
 
 	/* ---- Typography: families ----
 		Inter carries the headings and the body; IBM Plex Mono (the
-		CodeEditorLand/WebSite "Nocturnal Field Record" choice) is reserved
+		the "Nocturnal Field Record" design reference) is reserved
 		for genuine mono needs: code blocks, ledger/terminal text, the seams
 		tables and identifier/data readouts. No JetBrains Mono anywhere. */
 	--font-sans: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -195,7 +195,7 @@ body {
 	line-height: var(--leading-body-md);
 	letter-spacing: var(--tracking-body-md);
 	/* font-size-adjust stabilizes line height across the fallback → mono
-		swap (the CodeEditorLand/WebSite convention). */
+		swap (the "Nocturnal Field Record" convention). */
 	font-size-adjust: 0.48;
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;

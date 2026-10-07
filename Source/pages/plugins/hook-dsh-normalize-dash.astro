@@ -247,8 +247,8 @@ const Config = [
 				that hooks the <code>llm/stream</code> waterfall (the interceptable wrapper around
 				EVERY streaming model call, bound to the LlmRuntime) and normalizes the unicode dash
 				family to ASCII hyphen-minus, live in the transcript: em dashes, en dashes and
-				seventeen exotic relatives → <code>-</code>. Exactly the user's hermes hook (
-				<code>~/.hermes/agent-hooks/normalize-dashes.sh</code>), at exactly the injection
+				seventeen exotic relatives → <code>-</code>. Exactly the hermes normalize-dashes hook, at
+				the injection
 				point hermes itself does not have. A CLASS flavor of the normalize family: the
 				core's <code>Dashes</code> table plus a configurable <code>replacement</code>
 				(default <code>-</code>). It also registers the family's{" "}
@@ -642,7 +642,7 @@ const Config = [
 				</Card>
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: MIT. The workbench and the matrix pages run the same flavors live.
+				License: CC0-1.0. The workbench and the matrix pages run the same flavors live.
 			</p>
 		</section>
 	</main>
