@@ -65,14 +65,6 @@ const Hooks = [
 	},
 ];
 
-// Seed sentences containing the raw unicode anomalies the hooks fix.
-const Seeds = [
-	"Plan review \u2014 phase one: the config \u201Cdrift\u201D is real\u2026 wait for it\u2026",
-	"Balance\u00A0sheet sync \u2014 \u2018quoted\u2019 values\u00A0kept\u2026",
-	"Latency\u200Bbudget\uFEFF hit \u2014 p99\u00A0holds\u2026",
-	"Batch\u2014two of three\u2013done\u2026 \u201Cclean\u201D\u00A0output only",
-];
-
 // Runtime pipeline profiles, per the workbench mock.
 const Runtimes = [
 	{ Id: "classic", Label: "Classic Pipeline" },
@@ -312,6 +304,18 @@ const Spans = [
 <script>
 	// Stream gate simulation: raw token batches enter the left terminal, pass
 	// the armed flavor hooks, and land in the right terminal as clean ASCII.
+	//
+	// Live in the SCRIPT, not the frontmatter: Astro compiles this block into
+	// its own module, so a frontmatter constant is NOT in scope here - the
+	// pre-fix page threw `ReferenceError: Seeds is not defined` on every
+	// stream tick and the terminals never filled.
+	const Seeds = [
+		"Plan review \u2014 phase one: the config \u201Cdrift\u201D is real\u2026 wait for it\u2026",
+		"Balance\u00A0sheet sync \u2014 \u2018quoted\u2019 values\u00A0kept\u2026",
+		"Latency\u200Bbudget\uFEFF hit \u2014 p99\u00A0holds\u2026",
+		"Batch\u2014two of three\u2013done\u2026 \u201Cclean\u201D\u00A0output only",
+	];
+
 	const RawTerminal = document.querySelector<HTMLElement>("[data-stream='raw']")!;
 	const CleanTerminal = document.querySelector<HTMLElement>("[data-stream='clean']")!;
 	const RawCount = document.querySelector<HTMLElement>("[data-count='raw']")!;

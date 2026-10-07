@@ -55,67 +55,71 @@
 	--color-on-secondary-fixed: #001452;
 	--color-on-secondary-fixed-variant: #0038b7;
 
-	/* ---- Typography: families ---- */
+	/* ---- Typography: families ----
+		Inter carries the headings and the body; IBM Plex Mono (the
+		CodeEditorLand/WebSite "Nocturnal Field Record" choice) is reserved
+		for genuine mono needs: code blocks, ledger/terminal text, the seams
+		tables and identifier/data readouts. No JetBrains Mono anywhere. */
 	--font-sans: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
-	--font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+	--font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
 	/* ---- Typography: headline-xl (desktop) ---- */
-	--text-headline-xl: 32px;
-	--leading-headline-xl: 40px;
+	--text-headline-xl: 40px;
+	--leading-headline-xl: 48px;
 	--weight-headline-xl: 600;
 	--tracking-headline-xl: -0.02em;
 
 	/* ---- Typography: headline-xl (mobile) ---- */
-	--text-headline-xl-mobile: 26px;
-	--leading-headline-xl-mobile: 32px;
+	--text-headline-xl-mobile: 32px;
+	--leading-headline-xl-mobile: 40px;
 	--weight-headline-xl-mobile: 600;
 	--tracking-headline-xl-mobile: -0.015em;
 
 	/* ---- Typography: headline-lg ---- */
-	--text-headline-lg: 24px;
-	--leading-headline-lg: 32px;
+	--text-headline-lg: 28px;
+	--leading-headline-lg: 36px;
 	--weight-headline-lg: 600;
 	--tracking-headline-lg: -0.015em;
 
 	/* ---- Typography: headline-md ---- */
-	--text-headline-md: 18px;
-	--leading-headline-md: 24px;
+	--text-headline-md: 20px;
+	--leading-headline-md: 28px;
 	--weight-headline-md: 600;
 	--tracking-headline-md: -0.01em;
 
 	/* ---- Typography: body-lg ---- */
-	--text-body-lg: 15px;
-	--leading-body-lg: 22px;
+	--text-body-lg: 17px;
+	--leading-body-lg: 26px;
 	--weight-body-lg: 400;
 	--tracking-body-lg: 0em;
 
 	/* ---- Typography: body-md ---- */
-	--text-body-md: 13px;
-	--leading-body-md: 18px;
+	--text-body-md: 16px;
+	--leading-body-md: 24px;
 	--weight-body-md: 400;
 	--tracking-body-md: 0em;
 
-	/* ---- Typography: body-sm ---- */
-	--text-body-sm: 12px;
-	--leading-body-sm: 16px;
+	/* ---- Typography: body-sm (smallest sans size) ---- */
+	--text-body-sm: 14px;
+	--leading-body-sm: 21px;
 	--weight-body-sm: 400;
 	--tracking-body-sm: 0.01em;
 
-	/* ---- Typography: label-lg (JetBrains Mono) ---- */
-	--text-label-lg: 13px;
-	--leading-label-lg: 18px;
+	/* ---- Typography: label-lg (IBM Plex Mono) ---- */
+	--text-label-lg: 15px;
+	--leading-label-lg: 22px;
 	--weight-label-lg: 500;
 	--tracking-label-lg: -0.01em;
 
-	/* ---- Typography: label-md (JetBrains Mono) ---- */
-	--text-label-md: 11px;
-	--leading-label-md: 16px;
+	/* ---- Typography: label-md (IBM Plex Mono) ---- */
+	--text-label-md: 14px;
+	--leading-label-md: 20px;
 	--weight-label-md: 500;
 	--tracking-label-md: 0em;
 
-	/* ---- Typography: label-sm (JetBrains Mono) ---- */
-	--text-label-sm: 10px;
-	--leading-label-sm: 14px;
+	/* ---- Typography: label-sm (IBM Plex Mono; smallest allowed size) ---- */
+	--text-label-sm: 13px;
+	--leading-label-sm: 18px;
 	--weight-label-sm: 500;
 	--tracking-label-sm: 0.02em;
 
@@ -162,6 +166,9 @@ body {
 	font-size: var(--text-body-md);
 	line-height: var(--leading-body-md);
 	letter-spacing: var(--tracking-body-md);
+	/* font-size-adjust stabilizes line height across the fallback → mono
+		swap (the CodeEditorLand/WebSite convention). */
+	font-size-adjust: 0.48;
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
 }
@@ -247,8 +254,7 @@ svg {
 }
 
 .site-header__nav a {
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
+	font-size: var(--text-body-sm);
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
 	text-transform: uppercase;
@@ -278,8 +284,7 @@ svg {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
+	font-size: var(--text-body-sm);
 	font-weight: 600;
 }
 
@@ -333,7 +338,6 @@ svg {
 	gap: 6px;
 	padding: 2px var(--space-xs);
 	border-radius: var(--radius-lg);
-	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
@@ -427,7 +431,6 @@ svg {
 }
 
 .terminal__label {
-	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
@@ -446,7 +449,6 @@ svg {
 }
 
 .terminal__status {
-	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
@@ -544,7 +546,6 @@ svg {
 }
 
 .section-header__meta {
-	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
@@ -553,7 +554,6 @@ svg {
 }
 
 .section-kicker {
-	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
@@ -836,9 +836,8 @@ svg {
 }
 
 .site-footer__links a {
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
-	line-height: var(--leading-label-sm);
+	font-size: var(--text-body-sm);
+	line-height: var(--leading-body-sm);
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
 	text-transform: uppercase;
@@ -851,9 +850,8 @@ svg {
 }
 
 .site-footer__note {
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
-	line-height: var(--leading-label-sm);
+	font-size: var(--text-body-sm);
+	line-height: var(--leading-body-sm);
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
 	color: var(--color-on-surface-variant);
@@ -861,9 +859,8 @@ svg {
 }
 
 .site-footer__copy {
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
-	line-height: var(--leading-label-sm);
+	font-size: var(--text-body-sm);
+	line-height: var(--leading-body-sm);
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
 	color: var(--color-outline);
@@ -885,7 +882,6 @@ svg {
 	display: flex;
 	align-items: center;
 	gap: var(--space-xs);
-	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: 600;
@@ -993,7 +989,6 @@ svg {
 }
 
 .filter-bar__label {
-	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
@@ -1006,8 +1001,7 @@ svg {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
+	font-size: var(--text-body-sm);
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
 	padding: var(--space-xs) var(--space-md);
@@ -1039,8 +1033,7 @@ svg {
 }
 
 .hook-tally {
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
+	font-size: var(--text-body-sm);
 	font-weight: 600;
 	color: var(--color-primary);
 }
@@ -1186,8 +1179,7 @@ svg {
 	display: flex;
 	align-items: center;
 	gap: var(--space-xs);
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
+	font-size: var(--text-body-sm);
 	font-weight: 600;
 	letter-spacing: var(--tracking-label-sm);
 	color: var(--color-on-surface);
@@ -1209,8 +1201,7 @@ svg {
 }
 
 .stream-pane__count {
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
+	font-size: var(--text-body-sm);
 	color: var(--color-outline);
 }
 
@@ -1252,8 +1243,7 @@ svg {
 	border-radius: var(--radius-lg);
 	background: var(--color-surface-container-lowest);
 	border: 1px solid var(--color-outline-variant);
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
+	font-size: var(--text-body-sm);
 	color: var(--color-on-surface-variant);
 }
 
@@ -1304,7 +1294,6 @@ svg {
 }
 
 .metric__label {
-	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	letter-spacing: var(--tracking-label-sm);
 	text-transform: uppercase;
@@ -1343,8 +1332,8 @@ svg {
 	border-radius: var(--radius-lg);
 	background: var(--color-surface-container-lowest);
 	border: 1px solid var(--color-outline-variant);
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
+	font-size: var(--text-body-sm);
+	line-height: var(--leading-body-sm);
 	color: var(--color-on-surface-variant);
 }
 
@@ -1360,6 +1349,8 @@ svg {
 	border-radius: var(--radius-default);
 	background: var(--color-primary-fixed);
 	color: var(--color-primary);
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
 }
 
 /* ---- Tables (registry / mapping) ---- */
@@ -1440,7 +1431,6 @@ svg {
 	align-items: center;
 	padding: 2px var(--space-sm);
 	border-radius: var(--radius-default);
-	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	font-weight: 600;
 	letter-spacing: var(--tracking-label-sm);
@@ -1509,7 +1499,6 @@ svg {
 }
 
 .workbench-controls__label {
-	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	letter-spacing: var(--tracking-label-sm);
 	text-transform: uppercase;
