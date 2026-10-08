@@ -6,6 +6,11 @@
 // Every line is the actual wiring the loader reads (or a real claim from
 // the setup page) - nothing invented. Zero elevation: the hairline plane,
 // the #F8FAFC trays.
+//
+// The meta line renders through Mention (Library/FileIcon.ts): a file
+// mention in a meta carries its file-type icon (the .log names as chips).
+import { Mention } from "@Library/FileIcon";
+
 interface Step {
 	/** The step number (1-4). */
 	N: number;
@@ -34,7 +39,7 @@ const { Steps } = Astro.props;
 				STEP {Step.N}
 			</span>
 			<h3 class="install-card__title">{Step.Title}</h3>
-			<span class="install-card__meta">{Step.Meta}</span>
+			<span class="install-card__meta" set:html={Mention(Step.Meta)} />
 			<div class="install-card__screen">{Step.Lines.join("\n")}</div>
 			<p class="install-card__outcome">{Step.Outcome}</p>
 		</article>

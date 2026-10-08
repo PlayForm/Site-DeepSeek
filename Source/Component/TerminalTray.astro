@@ -16,15 +16,25 @@
 interface Props {
 	/** The tray label (mono, uppercase). */
 	Label: string;
-	/** The status dot before the label: raw (orange), clean (blue), live (pulsing blue). */
-	Dot?: "live" | "raw" | "clean" | "none";
-	/** Orange label - the RAW/stream signature. */
+	/** The status dot before the label: raw (orange), clean (blue). The
+	    pulsing live-dot is NOT a tray option: the flat tray markers are
+	    the tray bars' single indicator style (the live-dot's blink
+	    conflicts with them - the user's declutter ruling), so a tray
+	    never renders it. */
+	Dot?: "raw" | "clean" | "none";
+	/** The label's leading RAW word takes the accent-orange token - the
+	    raw/stream signature; the separator and the rest keep the ink. */
 	Orange?: boolean;
 	/** The swap icon before the label (the canonical-sanitized panes). */
 	Icon?: boolean;
 }
 
 const { Label, Dot = "none", Orange = false, Icon = false } = Astro.props;
+
+// Only the RAW word carries the orange (the site's only-RAW rule): a
+// leading RAW word (any case) gets wrapped, any other label renders
+// untouched.
+const RawMatch = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
 ---
 
 <div class="tray">
@@ -33,8 +43,7 @@ const { Label, Dot = "none", Orange = false, Icon = false } = Astro.props;
 		<i class="tray__marker"></i>
 		<i class="tray__marker"></i>
 	</span>
-	<span class={`tray__label${Orange ? " is-orange" : ""}`}>
-		{Dot === "live" && <span class="live-dot"></span>}
+	<span class="tray__label">
 		{Dot === "raw" && <span class="dot dot--raw"></span>}
 		{Dot === "clean" && <span class="dot dot--clean"></span>}
 		{Icon && (
@@ -51,7 +60,16 @@ const { Label, Dot = "none", Orange = false, Icon = false } = Astro.props;
 				<path d="M20 17 H8 M12 13 L8 17 L12 21"></path>
 			</svg>
 		)}
-		{Label}
+		<span class="tray__label-text">
+			{RawMatch ? (
+				<>
+					<span class="tray__label-raw">{RawMatch[0]}</span>
+					{Label.slice(RawMatch[0].length)}
+				</>
+			) : (
+				Label
+			)}
+		</span>
 	</span>
 	<span class="tray__side">
 		<slot />
@@ -99,17 +117,29 @@ const { Label, Dot = "none", Orange = false, Icon = false } = Astro.props;
 		text-transform: uppercase;
 		color: var(--color-on-surface);
 		min-width: 0;
+	}
+
+	/* The label text keeps the row's shrink/ellipsis behavior as its own
+	   flex item (the word + the rest stay one text run inside, so the
+	   shared --gap-icon applies only between the dot/icon and the label). */
+	.tray__label-text {
+		min-width: 0;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+	}
+
+	/* Only the RAW word takes the accent-orange token; the separator and
+	   the rest keep the label's ink (the site's only-RAW rule). */
+	.tray__label-raw {
+		color: var(--color-accent-orange);
 	}
 
 	/* The optical lift: the dots' visual mass centers against the mono
 	   label (the same -0.1875em/0.1875em pair the global stream-pane
 	   label rules use - replicated scoped, because this label row is
 	   this component's own). */
-	.tray__label .dot,
-	.tray__label .live-dot {
+	.tray__label .dot {
 		margin-block: -0.1875em 0.1875em;
 	}
 

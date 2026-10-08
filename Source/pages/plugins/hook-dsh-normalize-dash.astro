@@ -14,6 +14,7 @@ import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families, FamilyPosition } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
+import { Mention } from "@Library/FileIcon";
 
 // The stream pipeline diagram, from the package README.
 const Pipeline = [
@@ -262,16 +263,19 @@ const Config = [
 				</a>
 				) and normalizes the unicode dash family to ASCII hyphen-minus, live in the
 				transcript: em dashes, en dashes and seventeen exotic relatives{" "}
-				<ArrowIcon Direction="right" Tone="accent" /> <code>-</code>.<br />Exactly the hermes
-				normalize-dashes hook, at the injection point hermes itself does not have.<br />A CLASS
+				<ArrowIcon Direction="right" Tone="accent" /> <code>-</code>.</p>
+			<p class="page-hero__sub">Exactly the hermes
+				normalize-dashes hook, at the injection point hermes itself does not have.</p>
+			<p class="page-hero__sub">A CLASS
 				flavor of the normalize family: the core's <code>Dashes</code> table plus a
 				configurable <code>replacement</code>
-				(default <code>-</code>).<br />It also registers the family's{" "}
+				(default <code>-</code>).</p>
+			<p class="page-hero__sub">It also registers the family's{" "}
 				<strong>raw-write tool</strong> - a write wrapper with an explicit{" "}
 				<code>normalize</code> parameter (default false = verbatim), exempt from the stream
 				normalization by name like
 				<code>edit</code>.
-			</p>
+			
 		</section>
 
 		<section class="section">
@@ -454,13 +458,14 @@ const Config = [
 					</p>
 					<p>
 						Model output, however, is born in the stream: the live UI and the durable
-						transcript see the em dashes first, no matter what a file hook does later.<br />A
+						transcript see the em dashes first, no matter what a file hook does later.</p>
+					<p>A
 						DSH plugin can go where hermes cannot: the{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
 							<code>llm/stream</code>
 						</a>{" "}
 						waterfall, where every streaming model call passes through.
-					</p>
+					
 				</Concept>
 				<Concept
 					Id="dash-problem-visible"
@@ -531,7 +536,7 @@ const Config = [
 				>
 					<p>
 						<strong>The transform</strong> - exactly the hermes hook's perl pattern (
-						<code>perl -CSD -pe</code> in <code>normalize-dashes.sh</code>), applied per
+						<code>perl -CSD -pe</code> in <span class="file-mention"><BrandIcon Name="file-shell" Size="0.9em" /><code>normalize-dashes.sh</code></span>), applied per
 						text segment - the core's <code>Dashes</code> class, verbatim:
 					</p>
 				</Concept>
@@ -570,8 +575,9 @@ const Config = [
 					<p>
 						The replacement is applied with a function replacer, so a custom{" "}
 						<code>replacement</code> containing <code>$</code> patterns is inserted
-						literally.<br />Replaced characters are counted per stream for the ledger line.
-					</p>
+						literally.</p>
+					<p>Replaced characters are counted per stream for the ledger line.
+					
 				</Concept>
 			</div>
 		</section>
@@ -673,9 +679,10 @@ const Config = [
 						emit with the written version.
 					</p>
 					<p>
-						<code>exec.signal</code> is honored end to end.<br />Inject:{" "}
+						<code>exec.signal</code> is honored end to end.</p>
+					<p>Inject:{" "}
 						<code>["pluginFactory", "fs", "tools"]</code>.
-					</p>
+					
 				</Concept>
 			</div>
 		</section>
@@ -737,9 +744,9 @@ const Config = [
 									<strong>{Row.Field}</strong>
 								</td>
 								<td>{Row.Type}</td>
-								<td>{Row.Default}</td>
+								<td set:html={Mention(Row.Default)} />
 								<td>{Row.Volatile}</td>
-								<td>{Row.Meaning}</td>
+								<td set:html={Mention(Row.Meaning)} />
 							</tr>
 						))}
 					</tbody>
@@ -768,7 +775,7 @@ const Config = [
 								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
 							)}
 						>
-							cordis.patch.yml
+							<span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span>
 						</a>{" "}
 						row:
 					</p>
@@ -870,7 +877,7 @@ const Config = [
 				>
 					<p>
 						And the governance direction, per call: a raw-write to a{" "}
-						<code>package.json</code> with <code>govern: true</code> runs the registered
+						<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> with <code>govern: true</code> runs the registered
 						chain pass (canonicalize) and the update stage after the write lands;{" "}
 						<code>govern: ["pin"]</code> runs only the pinner's chain pass.
 					</p>

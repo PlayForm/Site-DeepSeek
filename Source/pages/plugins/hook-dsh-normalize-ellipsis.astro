@@ -191,14 +191,16 @@ const LedgerStrings = [
 				) and normalizes the horizontal ellipsis in model output, live in the transcript:
 				every typographic three-dot ellipsis code point becomes the ASCII three-dot sequence
 				- U+2026 to
-				<code>...</code>.<br />A CLASS flavor of the normalize family: the core's
+				<code>...</code>.</p>
+			<p class="page-hero__sub">A CLASS flavor of the normalize family: the core's
 				<code>Ellipsis</code> class plus a configurable <code>replacement</code> string
-				(default <code>...</code>).<br />The family's raw-write tool (registered by
+				(default <code>...</code>).</p>
+			<p class="page-hero__sub">The family's raw-write tool (registered by
 				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
 					hook-dsh-normalize-dash
 				</a>
 				) bypasses this flavor's transforms too - the exemption is family-wide.
-			</p>
+			
 		</section>
 
 		<section class="section">
@@ -376,9 +378,10 @@ const LedgerStrings = [
 					</p>
 					<p>
 						In code blocks, commands and diffs the collapsed form is simply wrong: three
-						literal dots are what every parser, shell and search expects.<br />This flavor
+						literal dots are what every parser, shell and search expects.</p>
+					<p>This flavor
 						makes the ASCII spelling the one that reaches the transcript.
-					</p>
+					
 				</Concept>
 			</div>
 		</section>

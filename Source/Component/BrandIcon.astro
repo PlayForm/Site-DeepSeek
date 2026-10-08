@@ -2,8 +2,11 @@
 // BrandIcon: one shared inline, self-contained SVG icon per name - the
 // OFFICIAL brand marks (the sanctioned color exception on the blue+white
 // site) plus the family's operative-mechanics icons (the site's own
-// Harness-Blue/currentColor stroke family). No runtime fetches, no
-// hotlinked assets: every path is inlined here, so the site builds offline.
+// Harness-Blue/currentColor stroke family) and the FILE-TYPE icon family
+// (the official file_type_* marks from the vscode-icons theme in the
+// site's mono-ink treatment - see Library/FileIcon.ts for the sources and
+// the treatment). No runtime fetches, no hotlinked assets: every path is
+// inlined here, so the site builds offline.
 //
 // BRAND MARKS - OFFICIAL SOURCES (verified at activation):
 //   deepseek - the official DeepSeek whale mark; geometry verbatim from the
@@ -54,15 +57,23 @@
 // original 1.5-on-24 weight (0.0625em).
 //   swap      - exchange arrows: the replacement mechanics (the before/after
 //               showcases, the flavor badges, the stream-demo panes).
-//   file-json - a JSON file: package.json references.
 //   chain     - the link glyph: the governance chains (the seams, the
 //               direct-govern registry).
 //   terminal  - the prompt glyph: the ledger/terminal trays.
+//
+// FILE-TYPE ICONS (the official file_type_* geometry in the mono-ink
+// treatment - Library/FileIcon.ts is the single geometry source): the
+// json braces, the TOML T, the YAML Y, the markdown M, the shell tray,
+// the log page, the TS tile, the JS square and the SVG hexagon. The
+// mechanics note above applies to the icons' optics; the fills follow
+// currentColor so the icons inherit the ink (or the accent) in place.
 //
 // Props: Name (required), Size (em-based CSS length, default 1em),
 // ClassName (extra classes), Label (when set the icon is role="img" +
 // aria-label; otherwise aria-hidden="true" - decorative placements),
 // Tone ("current" | "accent" - mechanics only, mirrors ArrowIcon).
+import { FileIconMark, type FileIconName } from "@Library/FileIcon";
+
 interface Props {
 	Name:
 		| "deepseek"
@@ -74,7 +85,7 @@ interface Props {
 		| "playform"
 		| "zlm"
 		| "swap"
-		| "file-json"
+		| FileIconName
 		| "chain"
 		| "terminal";
 	Size?: string;
@@ -100,9 +111,27 @@ const A11y = Label
 const Cls = `brand-icon brand-icon--${Name}${
 	Tone === "accent" ? " brand-icon--accent" : ""
 }${ClassName ? ` ${ClassName}` : ""}`;
+
+// The file-type family renders from the shared geometry source with the
+// same class/style/a11y contract the JSX marks use.
+const IsFile = [
+	"file-json",
+	"file-toml",
+	"file-yaml",
+	"file-markdown",
+	"file-shell",
+	"file-log",
+	"file-ts",
+	"file-js",
+	"file-svg",
+].includes(Name);
 ---
 
-{Name === "deepseek" && (
+{IsFile && (
+	<Fragment
+		set:html={FileIconMark(Name as FileIconName, Size, ClassName, Label)}
+	/>
+)}{Name === "deepseek" && (
 	<svg class={Cls} style={Style} viewBox="0.163 1.75 26.634 19.6" {...A11y}>
 		<path
 			fill="#4D6BFE"
@@ -177,23 +206,6 @@ const Cls = `brand-icon brand-icon--${Name}${
 	>
 		<path d="M4 7 H16 M12 3 L16 7 L12 11"></path>
 		<path d="M20 17 H8 M12 13 L8 17 L12 21"></path>
-	</svg>
-)}{Name === "file-json" && (
-	<svg
-		class={Cls}
-		style={Style}
-		viewBox="3 1 18 22"
-		fill="none"
-		stroke="currentColor"
-		stroke-width="1.375"
-		stroke-linecap="round"
-		stroke-linejoin="round"
-		{...A11y}
-	>
-		<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-		<path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-		<path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1"></path>
-		<path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1"></path>
 	</svg>
 )}{Name === "chain" && (
 	<svg

@@ -252,7 +252,7 @@ const Knobs = [
 					Diagram="The profile's package.json with the link: dependencies on the left and the dsh.profile.bundles list on the right - the list marking which entries actually activate."
 				>
 					<p>
-						A profile's <BrandIcon Name="file-json" /> package.json lists the bundles as{" "}
+						A profile's <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> lists the bundles as{" "}
 						<code>link:</code> dependencies and in the <code>dsh.profile.bundles</code>{" "}
 						list - the list is what activates them.
 					</p>
@@ -264,7 +264,7 @@ const Knobs = [
 				>
 					<p>
 						The linked checkout must carry its own node_modules, and each bundle needs
-						its own pnpm-workspace.yaml (<code>packages: [.]</code>).
+						its own <span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />pnpm-workspace.yaml</span> (<code>packages: [.]</code>).
 					</p>
 					<p>
 						An install inside a bundle under the profile's workspace acts on the
@@ -298,11 +298,12 @@ const Knobs = [
 					Diagram="A [cordis.patch.yml](Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml) insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
 				>
 					<p>
-						Each bundle ships a <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> whose <code>insert:</code> entries
-						declare the loader row and the config.<br />A bare <code>id:</code> row patches
+						Each bundle ships a <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> whose <code>insert:</code> entries
+						declare the loader row and the config.</p>
+					<p>A bare <code>id:</code> row patches
 						an existing entry; the loader rejects unknown ids with{" "}
 						<code>entry "..." not found</code>.
-					</p>
+					
 				</Concept>
 				<Concept
 					Id="setup-factory-config"
@@ -366,7 +367,7 @@ const Knobs = [
 				>
 					<p>
 						"Did it activate" is answerable from the ledger alone: each plugin writes
-						its activation line to its own <code>~/.dsh/&lt;name&gt;.log</code> at boot.
+						its activation line to its own <span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />~/.dsh/&lt;name&gt;.log</span> at boot.
 					</p>
 					<p>
 						The ledgers and the runtime's inspect providers are the activation assessors
@@ -451,10 +452,11 @@ const Knobs = [
 				>
 					<Badge Variant="outline">DEFAULT OFF</Badge>
 					<p>
-						The default.<br />Tool-call arguments are execution-critical raw JSON - rewriting
+						The default.</p>
+					<p>Tool-call arguments are execution-critical raw JSON - rewriting
 						them is the user's accepted risk, so the schema default is OFF and the
 						example patch turns it on.
-					</p>
+					
 					<p>
 						Even when on, edit and raw-write calls pass through by identity, and a{" "}
 						<code>&#123;"__normalize":false&#125;</code>-marked call passes through
@@ -579,27 +581,27 @@ const Knobs = [
 					<tbody>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-governor-package/Source")}>hook-dsh-governor-package</a></td>
-							<td>~/.dsh/hook-dsh-governor-package.log</td>
+							<td><span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />~/.dsh/hook-dsh-governor-package.log</span></td>
 							<td>activated (anywhere mode, ...)</td>
 						</tr>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source")}>hook-dsh-pinner-package</a></td>
-							<td>~/.dsh/hook-dsh-pinner-package.log</td>
+							<td><span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />~/.dsh/hook-dsh-pinner-package.log</span></td>
 							<td>activated (pinner, ...)</td>
 						</tr>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-governor-cargo/Source")}>hook-dsh-governor-cargo</a></td>
-							<td>~/.dsh/hook-dsh-governor-cargo.log</td>
+							<td><span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />~/.dsh/hook-dsh-governor-cargo.log</span></td>
 							<td>activated (cargo flavor, ...)</td>
 						</tr>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>hook-dsh-normalize-dash</a></td>
-							<td>~/.dsh/hook-dsh-normalize-dash.log</td>
+							<td><span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />~/.dsh/hook-dsh-normalize-dash.log</span></td>
 							<td>activated (replacement=-, reasoning=on, ...)</td>
 						</tr>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-file/Source")}>hook-dsh-normalize-file</a></td>
-							<td>~/.dsh/hook-dsh-normalize-file.log</td>
+							<td><span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />~/.dsh/hook-dsh-normalize-file.log</span></td>
 							<td>activated (replacement=-, ...)</td>
 						</tr>
 					</tbody>

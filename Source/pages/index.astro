@@ -100,10 +100,6 @@ const Normalize = [
 	},
 ];
 
-const Flavors = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDTH", "FILE"];
-
-const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
-
 // The use-case showcases: the pin, the govern and the normalize before/
 // after stories. The pairs are the REAL example content from the plugin
 // pages (byte-exact); the facts are the REAL ledger excerpts and the
@@ -159,9 +155,10 @@ const NormalizeAfter = [
 						The <BrandIcon Name="deepseek" /> DeepSeek Harness Plugin Family for
 						PlayForm: every model's output normalized to clean ASCII characters, every
 						manifest pinned and governed under the author's control - twelve TypeScript
-						packages, smoke-arbitrated.<br />
+						packages, smoke-arbitrated.</p>
+					<p class="hero__sub">
 						Model output, clean and governed.
-					</p>
+					
 					<Terminal Command="pnpm add @playform/hook-dsh-core" Rail />
 					<div class="action-row" style="margin-top: var(--space-md)">
 						<a class="action" href="/plugins/">
@@ -187,14 +184,14 @@ const NormalizeAfter = [
 					every generation appends the next response inside the panes, the
 					oldest lines scroll out, and the page below never shifts. -->
 				<section class="terminal-demo" data-demo>
-					<TerminalTray Label="LIVE STREAM GATE PREVIEW" Dot="live">
+					<TerminalTray Label="LIVE STREAM GATE PREVIEW">
 						<span class="terminal-demo__status" data-demo-status>
 							NORMALIZING · 0 CHARS
 						</span>
 					</TerminalTray>
 					<div class="terminal-demo__stage">
 						<div class="terminal-demo__pane">
-							<span class="terminal-demo__pane-label is-orange">RAW STREAM</span>
+							<span class="terminal-demo__pane-label"><span class="is-orange">RAW</span> STREAM</span>
 							<div class="terminal-demo__screen rail-orange" data-demo-raw></div>
 						</div>
 						<div class="terminal-demo__flow">
@@ -287,9 +284,10 @@ const NormalizeAfter = [
 					</div>
 					<p class="version-card__body">
 						The twelve contracts in plain TypeScript - classes, Maps and plain
-						functions, zero runtime framework dependencies.<br />
+						functions, zero runtime framework dependencies.</p>
+					<p class="version-card__body">
 						The straightforward integration release.
-					</p>
+					
 					<div class="version-card__facts">
 						<Badge Variant="primary" Dot>
 							PLAIN TYPESCRIPT
@@ -311,35 +309,6 @@ const NormalizeAfter = [
 						<Badge Variant="outline">SAME SMOKES</Badge>
 					</div>
 				</Card>
-			</div>
-		</section>
-
-		<!-- Flavors -->
-		<section class="section" id="flavors">
-			<SectionHeader
-				Title="Flavors & Roles"
-				Meta={`${Counts.Normalizers} FLAVORS / ${Counts.Roles} ROLES`}
-			/>
-			<!-- The canonical order: the seven flavors (DASH -> QUOTES ->
-				ELLIPSIS -> SPACES -> INVISIBLE -> FULLWIDTH -> FILE), then
-				the two roles. Each item is its own delineated cell: the
-				stacked FLAVOR label + version chip read inside the cell's
-				box, the grid fills the section width with no blank space. -->
-			<div class="flavor-strip">
-				<div class="flavor-strip__flavors">
-					{Flavors.map((Flavor) => (
-						<span class="flavor-cell">
-							<FlavorBadge Flavor={Flavor} />
-						</span>
-					))}
-				</div>
-				<div class="flavor-strip__roles">
-					{Roles.map((Role) => (
-						<span class="flavor-cell flavor-cell--role">
-							<Badge Variant="active">{Role}</Badge>
-						</span>
-					))}
-				</div>
 			</div>
 		</section>
 
@@ -416,10 +385,11 @@ const NormalizeAfter = [
 				<p class="independence__title">Built to serve any LLM.</p>
 				<p class="independence__body">
 					Extensively battle-tested on <strong>DeepSeek V4 Flash</strong> &amp;
-					<strong>GLM 5.3 Flash</strong> token output streams.<br />
+					<strong>GLM 5.3 Flash</strong> token output streams.</p>
+				<p class="independence__body">
 					See the
 					<a href="/models/">models page</a>.
-				</p>
+				
 			</div>
 		</section>
 
@@ -546,10 +516,10 @@ const NormalizeAfter = [
 	Tick();
 
 	// Hover-to-pause: hovering the gate preview stops the tick loop and
-	// freezes the caret, the live dot and the pipe pulse (the .is-paused
-	// class) so the panes can be read at leisure; leaving resumes with the
-	// next regular tick. Reduced-motion users keep the stock behavior - the
-	// guard already stills the animations, so no listeners are attached.
+	// freezes the caret and the pipe pulse (the .is-paused class) so the
+	// panes can be read at leisure; leaving resumes with the next regular
+	// tick. Reduced-motion users keep the stock behavior - the guard
+	// already stills the animations, so no listeners are attached.
 	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 		Demo.addEventListener("mouseenter", () => {
 			if (Paused) return;

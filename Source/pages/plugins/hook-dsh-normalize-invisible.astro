@@ -209,15 +209,17 @@ const LedgerStrings = [
 				</a>
 				) and normalizes the zero-width/invisible character family in model output, live in
 				the transcript - by REMOVING it: zero-width spaces, joiners, bidi controls and the
-				BOM character simply vanish (the default replacement is the empty string).<br />A CLASS
+				BOM character simply vanish (the default replacement is the empty string).</p>
+			<p class="page-hero__sub">A CLASS
 				flavor of the normalize family: the core's <code>Invisible</code> class plus a
-				configurable <code>replacement</code> string (default <code>""</code> - removal).<br />
+				configurable <code>replacement</code> string (default <code>""</code> - removal).</p>
+			<p class="page-hero__sub">
 				The family's raw-write tool (registered by{" "}
 				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
 					hook-dsh-normalize-dash
 				</a>
 				) bypasses this flavor's transforms too - the exemption is family-wide.
-			</p>
+			
 		</section>
 
 		<section class="section">
@@ -397,9 +399,10 @@ const LedgerStrings = [
 						A zero-width joiner inside a file path, a right-to-left mark inside a
 						command, the U+202E visual-spoofing override in what looks like plain text:
 						none of them show up in the transcript, all of them change what a parser,
-						shell or diff sees.<br />This flavor deletes the whole family before it reaches
+						shell or diff sees.</p>
+					<p>This flavor deletes the whole family before it reaches
 						the transcript.
-					</p>
+					
 				</Concept>
 			</div>
 		</section>
@@ -469,8 +472,9 @@ const LedgerStrings = [
 					<p>
 						The replacement is applied with a function replacer, so a custom{" "}
 						<code>replacement</code> containing <code>$</code> patterns is inserted
-						literally.<br />Replaced characters are counted per stream for the ledger line.
-					</p>
+						literally.</p>
+					<p>Replaced characters are counted per stream for the ledger line.
+					
 				</Concept>
 			</div>
 		</section>
@@ -545,13 +549,15 @@ const LedgerStrings = [
 		<section class="section">
 			<SectionHeader Title="In Action" Meta="ONE STREAM, ONE DELETION" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				One stream, one deletion.<br />The model emits text carrying invisible smugglers; the
+				One stream, one deletion.</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">The model emits text carrying invisible smugglers; the
 				live UI and the transcript receive clean text - and the two lines below look
-				identical in print, because the removed characters are invisible.<br />The incoming line
+				identical in print, because the removed characters are invisible.</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">The incoming line
 				carries, in order: a soft hyphen (U+00AD), a zero-width space (U+200B), a zero-width
 				joiner (U+200D), a left-to-right mark (U+200E), a right-to-left mark (U+200F), a
 				word joiner (U+2060) and a BOM character (U+FEFF):
-			</p>
+			
 			<p class="section-kicker">
 				Before <ArrowIcon Direction="right" Tone="accent" /> after - identical in print,
 				different to a parser
@@ -607,9 +613,10 @@ const LedgerStrings = [
 				Two lines, both written through the factory's <code>Append</code> (the
 				hook-dsh-normalize-invisible: prefix is the logger's
 				<code>&lt;State.Module&gt;:</code>; the durable file line is
-				<code>[&lt;ISO&gt;] &lt;message&gt;</code>).<br />The empty default replacement renders
+				<code>[&lt;ISO&gt;] &lt;message&gt;</code>).</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">The empty default replacement renders
 				as the empty <code>replacement=</code>:
-			</p>
+			
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The activation line is written by <code>apply()</code>; the count line only follows

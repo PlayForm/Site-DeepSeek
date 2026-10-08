@@ -139,14 +139,18 @@ const Related = [
 				{Families.Factory} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin
 				Family for PlayForm._ The
 				<strong>furnace of the DSH governance family</strong> - the first service-provider
-				bundle in the DeepSeek Harness plugin family.<br />Loading it registers one class plugin
+				bundle in the DeepSeek Harness plugin family.</p>
+			<p class="page-hero__sub">Loading it registers one class plugin
 				(export default class PluginFactory extends Service, super(ctx, "pluginFactory"),
 				static inject = ["fs"]) that exposes <code>ctx.pluginFactory</code>: a single
 				service holding every piece of common machinery the family's hooks used to
-				duplicate.<br />One service.<br />{Methods.Word} methods (<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>the direct-govern pair</a>
-				RegisterGovern + Govern and the GovernSteps registry among them).<br />The hooks bring
+				duplicate.</p>
+			<p class="page-hero__sub">One service.</p>
+			<p class="page-hero__sub">{Methods.Word} methods (<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>the direct-govern pair</a>
+				RegisterGovern + Govern and the GovernSteps registry among them).</p>
+			<p class="page-hero__sub">The hooks bring
 				their own metal; the factory pours the mold.
-			</p>
+			
 		</section>
 
 		<section class="section">
@@ -244,11 +248,12 @@ const Related = [
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The pure layer it deliberately does <strong>not</strong> re-export is
 				<strong>hook-dsh-core</strong> (its service surface stays stable); the hooks import
-				the core's helpers directly.<br />The DSH plugin family is the DeepSeek Harness plugin
+				the core's helpers directly.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">The DSH plugin family is the DeepSeek Harness plugin
 				layer of the PlayForm ecosystem: TypeScript-first Source/ → Target/, the
 				deterministic @playform build, prepublishOnly-only - the same conventions as every
 				other @playform package.
-			</p>
+			
 		</section>
 
 		<section class="section">
@@ -379,9 +384,10 @@ const Related = [
 					<p>
 						It does not own the transforms (the consumer supplies the pure function; the
 						factory only drives it inside Continue), nor the update engines (the factory
-						gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with).<br />Full
-						contract: SCHEME.md.
-					</p>
+						gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with).</p>
+					<p>Full
+						contract: <span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME.md</span>.
+					
 				</Concept>
 				<Concept
 					Id="factory-verification"
@@ -390,7 +396,7 @@ const Related = [
 				>
 					<p>
 						<strong>Verification.</strong> tsc --noEmit - zero errors; pnpm run
-						prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs
+						prepublishOnly - minified Target/ (+ <span class="file-mention"><BrandIcon Name="file-ts" Size="0.9em" />.d.ts</span> twins); node <span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" />factory-smoke.mjs</span>
 						(in the family's smokes/ directory) - {Counts.Factory.Classic} checks, ALL
 						PASS.
 					</p>
@@ -470,7 +476,7 @@ const Related = [
 				>
 					<p>
 						The factory's part of that one pass: Gate decided the actor and the path,
-						Discover found the nearest registry.json, Continue ran the transform
+						Discover found the nearest <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />registry.json</span>, Continue ran the transform
 						detached and contained, GuardedWrite carried replaceIfVersion past the P4
 						sandbox fence, Refresh re-emitted the fresh version with the same actor, and
 						Append composed the logger's line from the module's message.
@@ -537,11 +543,13 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0.<br />The published artifact contains only the built output - files
-				whitelists Target/, <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> and the docs; Source/ never ships.<br />There are no
+				License: CC0-1.0.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">The published artifact contains only the built output - files
+				whitelists Target/, <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> and the docs; Source/ never ships.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">There are no
 				build/watch <BrandIcon Name="npm" /> npm scripts: the only npm script is
 				prepublishOnly.
-			</p>
+			
 		</section>
 	</main>
 </Base>

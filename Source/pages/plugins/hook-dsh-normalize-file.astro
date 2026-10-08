@@ -13,6 +13,7 @@ import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families, Ordinal } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
+import { Mention } from "@Library/FileIcon";
 
 // The seven siblings of the normalize family, from the README (this bundle highlighted).
 const Siblings = [
@@ -183,10 +184,13 @@ const Usage = [
 				plugin that registers the normalize family's <code>normalize-file</code> TOOL: the
 				read <ArrowIcon Direction="right" Tone="accent" /> count{" "}
 				<ArrowIcon Direction="right" Tone="accent" /> write pipeline over files ALREADY on
-				disk, beyond the tool layer.<br />One agent-chosen file per call: the target's content is
+				disk, beyond the tool layer.</p>
+			<p class="page-hero__sub">One agent-chosen file per call: the target's content is
 				read, the family's SIX transforms are applied with a per-character count, and only
 				when N &gt; 0 is the rewritten content written back through the factory's ONE shared
-				write executor.<br />N = 0 writes NOTHING - the no-op no-write rule.<br />The family's first
+				write executor.</p>
+			<p class="page-hero__sub">N = 0 writes NOTHING - the no-op no-write rule.</p>
+			<p class="page-hero__sub">The family's first
 				LISTENER-LESS flavor: no
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
 					<code>llm/stream</code>
@@ -195,11 +199,12 @@ const Usage = [
 				<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
 					<code>fs/observed</code>
 				</a>{" "}
-				- nothing runs without an explicit agent action.<br />This bundle's own tool calls are
+				- nothing runs without an explicit agent action.</p>
+			<p class="page-hero__sub">This bundle's own tool calls are
 				name-exempt in the stream gate beside <code>edit</code> and <code>raw-write</code> -
 				its arguments carry a FILE PATH, and a normalized dash inside a filename would
 				corrupt the target.
-			</p>
+			
 		</section>
 
 		<section class="section">
@@ -316,12 +321,12 @@ const Usage = [
 				>
 					<p>
 						The hermes heritage is direct: the{" "}
-						<code>normalize-dashes-for-execute-code.sh</code> hook swept script-created
+						<span class="file-mention"><BrandIcon Name="file-shell" Size="0.9em" /><code>normalize-dashes-for-execute-code.sh</code></span> hook swept script-created
 						files after the fact; DSH makes the same rewrite an explicit, visible,
 						opt-in TOOL call instead of a background hook.
 					</p>
 					<p>
-						<code>normalize-tabs.sh</code> - the repair hook for a repair hook - is the
+						<span class="file-mention"><BrandIcon Name="file-shell" Size="0.9em" /><code>normalize-tabs.sh</code></span> - the repair hook for a repair hook - is the
 						cautionary tale that keeps it that way.
 					</p>
 				</Concept>
@@ -411,16 +416,18 @@ const Usage = [
 					Diagram="Files rewritten behind the agent only at the price of the edit tool's old_string contract - the agent reading bytes X, a background rewriter silently changing them to X', the next edit failing or half-matching - Hermes learning this the hard way with normalize-tabs.sh existing to repair the damage its own after-the-fact rewriting caused."
 				>
 					<p>
-						But the fix cannot be another silent rewriter.<br />Files are rewritten behind
+						But the fix cannot be another silent rewriter.</p>
+					<p>Files are rewritten behind
 						the agent only at the price of the edit tool's <code>old_string</code>{" "}
 						contract: the agent read bytes X, a background rewriter silently changed
 						them to X', and the next edit fails or half-matches.
-					</p>
+					
 					<p>
 						Hermes learned this the hard way - its <code>normalize-tabs.sh</code> exists
-						to repair the damage its own after-the-fact rewriting caused.<br />The tool is
+						to repair the damage its own after-the-fact rewriting caused.</p>
+					<p>The tool is
 						the answer: explicit, visible, discoverable, zero background activity.
-					</p>
+					
 				</Concept>
 			</div>
 		</section>
@@ -504,8 +511,9 @@ const Usage = [
 							<code>Factory.Write</code>
 						</a>
 						's before is read at write time, so a prior normalize-file in the same turn
-						is already reflected.<br />No race.
-					</p>
+						is already reflected.</p>
+					<p>No race.
+					
 				</Concept>
 			</div>
 		</section>
@@ -530,9 +538,9 @@ const Usage = [
 									<strong>{Row.Field}</strong>
 								</td>
 								<td>{Row.Type}</td>
-								<td>{Row.Default}</td>
+								<td set:html={Mention(Row.Default)} />
 								<td>{Row.Volatile}</td>
-								<td>{Row.Meaning}</td>
+								<td set:html={Mention(Row.Meaning)} />
 							</tr>
 						))}
 					</tbody>
@@ -602,9 +610,10 @@ const Usage = [
 				>
 					<p>
 						A file with nothing to replace is a no-op: <code>changed: false</code>, the
-						file stays byte-identical, no write, no count line, no journal record.<br />A
+						file stays byte-identical, no write, no count line, no journal record.</p>
+					<p>A
 						missing, binary or undecodable target is an error result with no write.
-					</p>
+					
 					<p>
 						Because the file's bytes change under you, re-read before editing - the edit
 						tool's <code>old_string</code> must match the new content.

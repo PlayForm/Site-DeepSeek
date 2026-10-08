@@ -206,15 +206,17 @@ const LedgerStrings = [
 				</a>
 				) and normalizes the full-width family in model output, live in the transcript: the
 				entire FULLWIDTH FORMS range U+FF01-U+FF5E maps to its ASCII half-width counterpart
-				U+0021-U+007E - the whole story, letters, punctuation and digits included.<br />A MAP
+				U+0021-U+007E - the whole story, letters, punctuation and digits included.</p>
+			<p class="page-hero__sub">A MAP
 				flavor of the normalize family: the core's <code>Fullwidth</code> char-to-char table
-				owns the substitution - no <code>replacement</code> config knob.<br />The family's
+				owns the substitution - no <code>replacement</code> config knob.</p>
+			<p class="page-hero__sub">The family's
 				raw-write tool (registered by{" "}
 				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
 					hook-dsh-normalize-dash
 				</a>
 				) bypasses this flavor's transforms too - the exemption is family-wide.
-			</p>
+			
 		</section>
 
 		<section class="section">
@@ -449,17 +451,19 @@ const LedgerStrings = [
 					Diagram="No context rules - one character in, its half-width counterpart out; chunk-boundary-safe: single-character substitution, no lookahead - per-chunk application never disagreeing with whole-text application; the mapping values returned through a function replacer so they are inserted literally (no $-pattern interpretation - the table's backslash, circumflex, vertical bar and tilde values being exactly the characters a string replacement would corrupt); replaced characters counted per stream for the ledger line."
 				>
 					<p>
-						No context rules - one character in, its half-width counterpart out.<br />
+						No context rules - one character in, its half-width counterpart out.</p>
+					<p>
 						Chunk-boundary-safe: single-character substitution, no lookahead - per-chunk
 						application can never disagree with whole-text application.
-					</p>
+					
 					<p>
 						The mapping values are returned through a function replacer, so they are
 						inserted literally (no $-pattern interpretation - the table's backslash,
 						circumflex, vertical bar and tilde values are exactly the characters a
-						string replacement would corrupt).<br />Replaced characters are counted per
+						string replacement would corrupt).</p>
+					<p>Replaced characters are counted per
 						stream for the ledger line.
-					</p>
+					
 				</Concept>
 			</div>
 		</section>
@@ -507,7 +511,8 @@ const LedgerStrings = [
 					</p>
 					<p>
 						Volatile cells commit without remounting the plugin; the factory's State
-						builder unwraps them defensively.<br />Example{" "}
+						builder unwraps them defensively.</p>
+					<p>Example{" "}
 						<a
 							href={Link(
 								Links.OurRepo,
@@ -517,7 +522,7 @@ const LedgerStrings = [
 							cordis.patch.yml
 						</a>{" "}
 						row:
-					</p>
+					
 				</Concept>
 			</div>
 			<CodeBlock
@@ -565,11 +570,12 @@ const LedgerStrings = [
 						already half-width are untouched.
 					</p>
 					<p>
-						This is what keeps a pasted path openable and a pasted number parseable.<br />The
+						This is what keeps a pasted path openable and a pasted number parseable.</p>
+					<p>The
 						backslash, circumflex, vertical bar and tilde entries are exactly the
 						characters a naive string replacement would corrupt - hence the function
 						replacer.
-					</p>
+					
 				</Concept>
 				<Concept
 					Id="fullwidth-pass-coverage"

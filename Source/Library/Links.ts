@@ -17,6 +17,12 @@
 // single page or component. Link() is the one function every composed URL
 // flows through; Resolve() is the one gate every string-prop link target
 // passes before it may render as an <a>.
+//
+// THE MENTION LAYER: Linkify renders through Mention (Library/FileIcon.ts),
+// so every string prop that flows through it (the Card Desc, the Concept
+// Diagram briefs, the Seams cells) also renders every file mention with its
+// file-type icon - and the .log filenames as the special log chips. The
+// visible text bytes stay byte-exact; only UI adornment is added.
 
 /** A repository entry: the bare clone URL plus the branch segment links compose with. */
 export interface Repo {
@@ -65,6 +71,8 @@ const Shorthand: Record<string, Repo> = {
 /** The registered origins - the only absolute URLs a string prop may link to. */
 const Safelist = /^(?:https:\/\/(?:github\.com\/deepseek-ai\/deepseek-harness|github\.com\/PlayForm\/DeepSeek)\/)/;
 
+import { Mention } from "@Library/FileIcon";
+
 /**
  * Resolve a string-prop link target to a verified URL, or null when the
  * target is not registered. Accepts the "Harness:<path>" / "Ours:<path>"
@@ -99,6 +107,11 @@ function Escape(Text: string): string {
  * composed through Link() and guarded by Resolve()'s registry safelist, and
  * an unregistered target degrades to its literal text. The props stay plain
  * text in the source; the rendering is a function of the registry.
+ *
+ * Every text segment also passes through Mention (the file-icon + log-chip
+ * renderer), so a filename in a Desc / Diagram / Seam string carries its
+ * file-type icon on the left - the file mentions render the same way on
+ * every string-prop surface.
  */
 export function Linkify(Text: string): string {
 	let Out = "";
@@ -108,12 +121,12 @@ export function Linkify(Text: string): string {
 		const Match = Rest.match(Pattern);
 		if (!Match || Match.index === undefined) break;
 		const Url = Resolve(Match[2]);
-		Out += Escape(Rest.slice(0, Match.index));
+		Out += Mention(Rest.slice(0, Match.index));
 		Out +=
 			Url === null
-				? Escape(Match[0])
-				: `<a href="${Escape(Url)}">${Escape(Match[1])}</a>`;
+				? Mention(Match[0])
+				: `<a href="${Escape(Url)}">${Mention(Match[1])}</a>`;
 		Rest = Rest.slice(Match.index + Match[0].length);
 	}
-	return Out + Escape(Rest);
+	return Out + Mention(Rest);
 }

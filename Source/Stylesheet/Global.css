@@ -397,12 +397,33 @@
 	hairline token so the pattern rides the theme (the faint #E2E8F0
 	lines on white, the #2B3852 lines on the dark canvas). Zero
 	elevation: flat lines, no fade, no blur - the grid is a texture,
-	the surfaces above it stay opaque. */
+	the surfaces above it stay opaque.
+
+	The grid spans the full hero stage, not the content box: the
+	::before layer runs the full viewport width (left: calc(50% -
+	50vw) against the centered container) behind the hero, so the
+	texture leaks past the text's edges on both sides instead of
+	touching them 1-to-1 - on every viewport, from the mobile gutter
+	to the desktop stage margins. The isolation keeps the negative
+	z-index inside the hero: the grid stays behind the content and
+	above the page canvas. */
 .hero--grid {
+	position: relative;
+	isolation: isolate;
+}
+
+.hero--grid::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: calc(50% - 50vw);
+	width: 100vw;
 	background-image:
 		linear-gradient(to right, var(--color-outline-variant) 1px, transparent 1px),
 		linear-gradient(to bottom, var(--color-outline-variant) 1px, transparent 1px);
 	background-size: 24px 24px;
+	z-index: -1;
 }
 
 /* ---- The index stats band: the proof strip under the hero ----
@@ -578,6 +599,47 @@ svg {
 .stream-pane__label .dot,
 .inspect-card__meta .live-dot {
 	margin-block: -0.1875em 0.1875em;
+}
+
+/* ---- File mentions: the file-type icon + filename unit ----
+	Every file mention on the site renders as one inline unit: the official
+	file-type icon (Library/FileIcon.ts - the vscode-icons theme geometry in
+	the mono-ink treatment) on the LEFT, the filename beside it, sharing the
+	optical center through the flex centering (no baseline drift - the icon
+	box and the text sit on the same center line) and the shared --gap-icon
+	between them. The unit is adornment only: the visible text bytes are
+	exactly the filename. */
+.file-mention {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--gap-icon);
+}
+
+/* ---- The log chips: the special .log-file mentions ----
+	Every .log filename mention renders as the markdown-like special mention
+	the user asked for: the light #F8FAFC tray (--color-surface-container-low),
+	the rounded corners (--radius-lg), the log file icon on the side and the
+	mono label at the label-sm floor - the badge voice (chip padding, zero
+	elevation: the 1px hairline + the flat tray, no shadow). The chips flip
+	with the dark theme through the tokens. */
+.log-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--gap-icon);
+	padding: 2px var(--space-xs);
+	border-radius: var(--radius-lg);
+	background: var(--color-surface-container-low);
+	border: 1px solid var(--color-outline-variant);
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	color: var(--color-on-surface);
+}
+
+.log-chip .brand-icon {
+	flex: none;
 }
 
 /* ---- Fixed header ---- */
@@ -1289,10 +1351,17 @@ svg {
 	margin-left: auto;
 }
 
-/* Compact variant: the same cell treatment at the smaller surfaces -
-	the flavor badges inside the card headers and the eyebrow rows. */
+/* Compact variant: the flavor badges inside the card headers and the
+	eyebrow rows - the card contexts. Inside a card the cell's own tray
+	and hairline are redundant: the card already provides the box, so
+	the stack floats backgroundless + borderless on the card's surface
+	with the padding trimmed to the stack's own spacing (the 2px stack
+	gap); the stack layout and the version chip's right alignment stay,
+	the chip keeps its black/white badge form. */
 .flavor-cell--compact {
-	padding: 2px var(--space-sm);
+	padding: 2px;
+	background: transparent;
+	border: none;
 	border-radius: var(--radius-default);
 }
 
@@ -2662,13 +2731,14 @@ svg {
 /* ---- Hover-to-pause: the streams freeze while the cursor reads ----
 	The index preview and the workbench/matrix stages toggle .is-paused
 	on hover: the tick loops suspend (see the page scripts) and the motion
-	language - the live dot, the pipe pulse, the caret blink, the hub
-	spin, the anomaly flash - freezes in place via animation-play-state.
-	Only the word PAUSED carries the accent-orange token (the raw/stream
-	signature); the separator and the rest of the status render in the
-	status's normal color, so the state is unmistakable without the whole
-	line shouting - and the RAW stays orange while the CLEAN stays blue. */
-.terminal-demo.is-paused .live-dot,
+	language - the pipe pulse, the caret blink, the hub spin, the anomaly
+	flash - freezes in place via animation-play-state. The tray bars carry
+	no live-dot (the flat tray markers are their single indicator), so the
+	pause rule covers the stage's remaining motion only. Only the word
+	PAUSED carries the accent-orange token (the raw/stream signature); the
+	separator and the rest of the status render in the status's normal
+	color, so the state is unmistakable without the whole line shouting -
+	and the RAW stays orange while the CLEAN stays blue. */
 .terminal-demo.is-paused .flow-line__pulse,
 .terminal-demo.is-paused .stream-caret,
 .stream-grid.is-paused .dot,
@@ -2974,8 +3044,12 @@ button:focus-visible,
 
 /* ---- The flow divider's RAW side (the CLEAN tag stays Harness Blue) ----
 	Only the RAW word is orange; the arrow that follows keeps the neutral
-	ink-muted, so "only RAW" reads literally. */
-.flow-tag--raw {
+	ink-muted, so "only RAW" reads literally. The raw tag's rule is
+	scoped to the demo's flow container: the container's tag rule
+	(.terminal-demo__flow .flow-tag) is declared above at equal weight,
+	so this later same-weight rule wins the cascade and the RAW word
+	renders orange (never the blue the unscoped rule lost to). */
+.terminal-demo__flow .flow-tag--raw {
 	color: var(--color-accent-orange);
 }
 

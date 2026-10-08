@@ -717,7 +717,7 @@ const Registry = [
 								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
 							)}
 						>
-							cordis.patch.yml
+							<span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span>
 						</a>{" "}
 						patch config REPLACES the entry config wholesale - the schema defaults
 						(mutationTools) were shadowed in deployment, so the raw-write's fs/observed
@@ -822,10 +822,11 @@ const Registry = [
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
 							fs/observed
 						</a>{" "}
-						listeners - sync, after content is on disk, fired by the tool layer only.<br />
+						listeners - sync, after content is on disk, fired by the tool layer only.</p>
+					<p>
 						And the tool registrations into the agent's toolset: raw-write,
 						normalize-file.
-					</p>
+					
 				</Concept>
 				<Concept
 					Id="plugins-arch-delegations"

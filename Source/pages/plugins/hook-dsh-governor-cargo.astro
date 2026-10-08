@@ -97,7 +97,7 @@ const Related = [
 			</Badge>
 			<Badge>ROLE: GOVERNOR</Badge>
 			<Badge>
-				<BrandIcon Name="rust" Size="0.8em" /> GATE: Cargo.toml
+				<BrandIcon Name="file-toml" Size="0.8em" /> GATE: Cargo.toml
 			</Badge>
 		</div>
 
@@ -106,16 +106,18 @@ const Related = [
 			<p class="page-hero__sub">
 				{Families.GovernorCargo} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness
 				Plugin Family for PlayForm._ The{" "}
-				<strong>Cargo.toml flavor of the silent package.json governor</strong> - the same
+				<strong><span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" />Cargo.toml</span> flavor of the silent <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> governor</strong> - the same
 				architecture, the same API-awareness discipline, the same silence toward the author,
 				but for <BrandIcon Name="rust" /> RUST manifests, with the update stage driven by
 				the RUST-SIDE CLI (<code>cargo upgrade</code>, from cargo-edit): Rust does not
 				co-opt into the TypeScript ecosystem, so there is no <BrandIcon Name="npm" />{" "}
 				npm-library equivalent - the update stage operates at the exclusionary level through
-				the cargo CLI.<br />Chain canonicalization + full-version normalization + surgical TOML
-				rewriting + <code>cargo upgrade --exclude</code> - comments survive.<br />Every claim
+				the cargo CLI.</p>
+			<p class="page-hero__sub">Chain canonicalization + full-version normalization + surgical TOML
+				rewriting + <code>cargo upgrade --exclude</code> - comments survive.</p>
+			<p class="page-hero__sub">Every claim
 				below is live-verified (2026-10-03, live).
-			</p>
+			
 		</section>
 
 		<section class="section">
@@ -164,13 +166,15 @@ const Related = [
 					</p>
 					<p>
 						One of three governance hooks, each gating on its own basename and writing
-						its own ledger: governor-package (<code>package.json</code>{" "}
-						<ArrowIcon Direction="right" Tone="accent" /> <code>governor.log</code>),
-						pinner-package (<code>package.json</code>{" "}
-						<ArrowIcon Direction="right" Tone="accent" /> <code>pinner.log</code>), and
-						this bundle (<code>Cargo.toml</code>{" "}
+						its own ledger: governor-package (<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span>{" "}
 						<ArrowIcon Direction="right" Tone="accent" />{" "}
-						hook-dsh-governor-cargo.log, chain pass bare caret /<code>=exact</code>{" "}
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>governor.log</code></span>),
+						pinner-package (<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span>{" "}
+						<ArrowIcon Direction="right" Tone="accent" />{" "}
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>pinner.log</code></span>), and
+						this bundle (<span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" /><code>Cargo.toml</code></span>{" "}
+						<ArrowIcon Direction="right" Tone="accent" />{" "}
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />hook-dsh-governor-cargo.log</span>, chain pass bare caret /<code>=exact</code>{" "}
 						+ <code>cargo upgrade</code>).
 					</p>
 				</Concept>
@@ -181,8 +185,8 @@ const Related = [
 				>
 					<p>
 						The basenames are disjoint: the cargo module never sees a{" "}
-						<code>package.json</code> event and the npm plugins never see a{" "}
-						<code>Cargo.toml</code> event.
+						<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> event and the npm plugins never see a{" "}
+						<span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" /><code>Cargo.toml</code></span> event.
 					</p>
 				</Concept>
 				<Concept
@@ -277,12 +281,12 @@ const Related = [
 				>
 					<p>
 						Rust manifests drift the same way npm manifests do - but{" "}
-						<code>Cargo.toml</code> is a TOML document people decorate with comments,
+						<span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" /><code>Cargo.toml</code></span> is a TOML document people decorate with comments,
 						and there is no in-process library path: the only update tool is the cargo
 						CLI.
 					</p>
 					<p>
-						A governor for <code>Cargo.toml</code> must therefore rewrite surgically
+						A governor for <span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" /><code>Cargo.toml</code></span> must therefore rewrite surgically
 						(never a TOML stringify) and delegate its update stage across the Rust/TS
 						boundary - while still hooking the same <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> event the
 						npm hooks use, so one trigger law covers the whole machine.
@@ -354,10 +358,11 @@ const Related = [
 					Diagram='No shorthand like "1.0" remaining in a governed Cargo.toml - every dependency version expanded to its MOST SPECIFIC form.'
 				>
 					<p>
-						<strong>The full-version normalization directive.</strong><br />No shorthand like
-						"1.0" may remain in a governed Cargo.toml; every dependency version is
+						<strong>The full-version normalization directive.</strong></p>
+					<p>No shorthand like
+						"1.0" may remain in a governed <span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" />Cargo.toml</span>; every dependency version is
 						expanded to its MOST SPECIFIC form:
-					</p>
+					
 				</Concept>
 			</div>
 			<div class="table-wrap">
@@ -397,13 +402,15 @@ const Related = [
 					<p>
 						Handled entry shapes: <code>name = "0.3.4"</code>,{" "}
 						<code>name = {'{ version = "0.3.4", ... }'}</code> (single line or
-						pretty-printed), <code>[dependencies.name]</code> table style.<br />Never
+						pretty-printed), <code>[dependencies.name]</code> table style.</p>
+					<p>Never
 						rewritten: <code>path = "..."</code>, <code>git = "..."</code>, and
-						inherited entries (<code>workspace = true</code>).<br />Non-dependency sections
+						inherited entries (<code>workspace = true</code>).</p>
+					<p>Non-dependency sections
 						are NEVER touched; <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> refuses any plan entry outside an
 						identified dependency table, and Pin aborts (never a partial rewrite) if a
 						planned entry cannot be located in the text.
-					</p>
+					
 				</Concept>
 				<Concept
 					Id="govcargo-rust-side"
@@ -411,14 +418,17 @@ const Related = [
 					Diagram='cargo 1.100.0-nightly + cargo-edit 0.13.13, resolved through cargoBin - --exclude being ONE flag per crate (the comma form silently IGNORED, the exact inverse of ncu&apos;s one-comma-argument reject list) - NO --exact flag in cargo-edit 0.13.13, exact pins enforced at the manifest level by the chain pass (pinStyle: "exact" to =resolved) - cargo upgrade preserving comments and formatting (it edits via toml_edit).'
 				>
 					<p>
-						<strong>The Rust side (live-verified).</strong><br />cargo 1.100.0-nightly +
-						cargo-edit 0.13.13, resolved through <code>cargoBin</code>.<br />{" "}
+						<strong>The Rust side (live-verified).</strong></p>
+					<p>cargo 1.100.0-nightly +
+						cargo-edit 0.13.13, resolved through <code>cargoBin</code>.</p>
+					<p>{" "}
 						<strong>--exclude is ONE flag per crate</strong> - the comma form is
-						silently IGNORED, the exact inverse of ncu's one-comma-argument reject list.<br />{" "}
+						silently IGNORED, the exact inverse of ncu's one-comma-argument reject list.</p>
+					<p>{" "}
 						<strong>There is NO --exact flag</strong> in cargo-edit 0.13.13 - exact pins
 						are enforced at the manifest level by the chain pass (pinStyle: "exact"{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> <code>=resolved</code>).
-					</p>
+					
 					<p>
 						<code>cargo upgrade</code> preserves comments and formatting (it edits via
 						toml_edit).
@@ -479,7 +489,7 @@ const Related = [
 					Diagram='The update-policy.json mapping (same discovery as the npm governor): reject to --exclude <crate> (ONE flag per crate); allow to -p <crate> (repeatable); incompatible/pinned/compatible to --incompatible/--pinned/--compatible; pinStyle with NO CLI equivalent (manifest-level via the chain pass); verifyCommand running after the upgrade via the subprocess seam, exit 127 non-fatal - the built-in default mirroring cargo upgrade&apos;s own semantics: no rejects, incompatible: "ignore", pinned: "ignore", pinStyle: "caret", no verifyCommand (never install implicitly).'
 				>
 					<p>
-						<strong>Update-stage policy mapping</strong> (update-policy.json, same
+						<strong>Update-stage policy mapping</strong> (<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />update-policy.json</span>, same
 						discovery as the npm governor): <code>reject</code>{" "}
 						<ArrowIcon Direction="right" Tone="accent" />{" "}
 						<code>--exclude &lt;crate&gt;</code> (ONE flag per crate);{" "}
@@ -510,13 +520,14 @@ const Related = [
 					Diagram="The author saving a Cargo.toml with comments, a shorthand version, and a chain-governed dep."
 				>
 					<p>
-						One governed write.<br />The author saves a <code>Cargo.toml</code> with
+						One governed write.</p>
+					<p>The author saves a <span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" /><code>Cargo.toml</code></span> with
 						comments, a shorthand version, and a chain-governed dep:
-					</p>
+					
 				</Concept>
 			</div>
 			<p class="section-kicker">
-				<BrandIcon Name="swap" />Before - the Cargo.toml as the author wrote it
+				<BrandIcon Name="swap" />Before - the <span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" />Cargo.toml</span> as the author wrote it
 			</p>
 			<CodeBlock Language="toml" Source={CargoBefore.join("\n")} />
 			<div class="concept-list">
@@ -554,13 +565,15 @@ const Related = [
 					</p>
 					<p>
 						Read the file back to see the governed state; write it again immediately and
-						nothing complains - no <code>FS_STALE_VERSION</code>.<br />Write inside{" "}
+						nothing complains - no <code>FS_STALE_VERSION</code>.</p>
+					<p>Write inside{" "}
 						<code>node_modules</code>/<code>.git</code>/<code>.dsh</code> and the ledger
-						gains <code>skipped (excluded) ...</code> while the file stays untouched.<br />
+						gains <code>skipped (excluded) ...</code> while the file stays untouched.</p>
+					<p>
 						Remove cargo-edit and the pass fails gracefully:{" "}
 						<code>update: cargo-edit unavailable: ...</code>, the manifest untouched,
 						the breaker counting the failure.
-					</p>
+					
 				</Concept>
 			</div>
 		</section>
@@ -575,7 +588,7 @@ const Related = [
 				>
 					<p>
 						One global log (<code>logFile</code>, default{" "}
-						<code>~/.dsh/hook-dsh-governor-cargo.log</code> - SEPARATE from the npm
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />~/.dsh/hook-dsh-governor-cargo.log</span> - SEPARATE from the npm
 						ledgers) records activation, exclusions, chain-pass results, refusals, and
 						every update-stage dispatch.
 					</p>
@@ -642,10 +655,12 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0.<br />Full contract: SCHEME.md.<br />TypeScript-first, built with @playform
+				License: CC0-1.0.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">Full contract: <span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME.md</span>.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">TypeScript-first, built with @playform
 				build (ESBuild + tsc type-check); the published artifact contains only the built
 				output.
-			</p>
+			
 		</section>
 	</main>
 </Base>

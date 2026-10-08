@@ -1,5 +1,9 @@
 ---
 // Section header: the blue marker bar + Inter title + uppercase mono meta.
+// The meta renders through Mention (Library/FileIcon.ts), so a file mention
+// in a meta line carries its file-type icon (the .log names as log chips).
+import { Mention } from "@Library/FileIcon";
+
 interface Props {
 	Title: string;
 	Meta?: string;
@@ -13,5 +17,7 @@ const { Title, Meta } = Astro.props;
 		<span class="section-header__marker"></span>
 		<h2 class="section-header__title">{Title}</h2>
 	</div>
-	{Meta && <span class="section-header__meta">{Meta}</span>}
+	{Meta && (
+		<span class="section-header__meta" set:html={Mention(Meta)} />
+	)}
 </div>

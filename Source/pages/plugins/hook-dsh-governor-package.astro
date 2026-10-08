@@ -12,6 +12,7 @@ import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
+import { Mention } from "@Library/FileIcon";
 
 // The pipeline G = U ∘ P diagram, from the package README.
 const Pipeline = [
@@ -212,16 +213,18 @@ const Related = [
 			<h1 class="page-hero__title">hook-dsh-governor-package</h1>
 			<p class="page-hero__sub">
 				{Families.GovernorPackage} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness
-				Plugin Family for PlayForm._ The <strong>silent package.json governor</strong> of
+				Plugin Family for PlayForm._ The <strong>silent <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> governor</strong> of
 				the DeepSeek Harness - a plugin on the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> event (the <a href={Link(Links.DeepSeekHarness, "vendor/cordis")}>cordis</a>
 				event every harness file write dispatches; the tool layer is the only dispatcher)
 				that governs every
-				<code>package.json</code> written by any agent, anywhere.<br />A pure chain pass
+				<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> written by any agent, anywhere.</p>
+			<p class="page-hero__sub">A pure chain pass
 				canonicalizes chain-governed dependency pins, then an update stage lets
 				<BrandIcon Name="npm" /> npm-check-updates bump the public ones - and the author
-				never learns.<br />A factory flavor: the family's furnace does the plumbing; this package
+				never learns.</p>
+			<p class="page-hero__sub">A factory flavor: the family's furnace does the plumbing; this package
 				is the model logic.
-			</p>
+			
 		</section>
 
 		<section class="section">
@@ -279,7 +282,9 @@ const Related = [
 						<tr>
 							<th>Plugin</th>
 							<th>Basename gate</th>
-							<th>Ledger</th>
+							<th>
+								<BrandIcon Name="terminal" Size="0.9em" />Ledger
+							</th>
 							<th>Pass</th>
 						</tr>
 					</thead>
@@ -289,8 +294,8 @@ const Related = [
 								<td>
 									<strong>{Row.Name}</strong>
 								</td>
-								<td>{Row.Gate}</td>
-								<td>{Row.Ledger}</td>
+								<td set:html={Mention(Row.Gate)} />
+								<td set:html={Mention(Row.Ledger)} />
 								<td>
 									{Row.Pass.split("→").map((Part, Index) => (
 										<Fragment>
@@ -320,7 +325,7 @@ const Related = [
 						<ArrowIcon Direction="right" Tone="accent" /> <strong>strip</strong>{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> <strong>normalize</strong>{" "}
 						(the cargo module's precedence), <strong>keep-list wins</strong> (the
-						pinner's <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}>pin-policy.json</a> keeps ranges as authored).
+						pinner's <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />pin-policy.json</span></a> keeps ranges as authored).
 					</p>
 					<p>The ledgers are separate; activating one never implies another.</p>
 				</Concept>
@@ -405,7 +410,7 @@ const Related = [
 					Diagram="Agents editing package.json files constantly - every edit able to leave stale pins, stray version ranges, or deps that should track a governed registry - the fix having to happen where the write happens, on every write path (full writes, single-line edits, str_replace_editor patches alike), without the author's tool result changing by a single byte."
 				>
 					<p>
-						Agents edit <code>package.json</code> files constantly - and every edit can
+						Agents edit <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> files constantly - and every edit can
 						leave stale pins, stray version ranges, or deps that should track a governed
 						registry.
 					</p>
@@ -440,7 +445,7 @@ const Related = [
 				>
 					<p>
 						<strong>Anywhere mode, exclusion-first</strong> - no roots allowlist: any
-						agent (main, subagent, workflow child) writing a package.json via the
+						agent (main, subagent, workflow child) writing a <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> via the
 						harness fs tools is governed, unless the path contains an excluded segment.
 					</p>
 				</Concept>
@@ -560,8 +565,8 @@ const Related = [
 									<strong>{Row.Field}</strong>
 								</td>
 								<td>{Row.Type}</td>
-								<td>{Row.Default}</td>
-								<td>{Row.Meaning}</td>
+								<td set:html={Mention(Row.Default)} />
+								<td set:html={Mention(Row.Meaning)} />
 							</tr>
 						))}
 					</tbody>
@@ -578,10 +583,11 @@ const Related = [
 					Diagram="The author writing a package.json anywhere with the write tool - one dep that should track the governed registry, one public dep left on a range."
 				>
 					<p>
-						One governed write.<br />The author writes a <code>package.json</code> anywhere
+						One governed write.</p>
+					<p>The author writes a <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> anywhere
 						with the write tool - one dep that should track the governed registry, one
 						public dep left on a range:
-					</p>
+					
 				</Concept>
 			</div>
 			<p class="section-kicker">
@@ -641,7 +647,7 @@ const Related = [
 				>
 					<p>
 						One global log (<code>logFile</code>, default{" "}
-						<code>~/.dsh/hook-dsh-governor-package.log</code>) records activation,
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />~/.dsh/hook-dsh-governor-package.log</span>) records activation,
 						exclusions, chain-pass results, and every update-stage dispatch.
 					</p>
 					<p>
@@ -710,10 +716,12 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0.<br />Full method contract: SCHEME.md.<br />TypeScript-first, built with
+				License: CC0-1.0.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">Full method contract: <span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME.md</span>.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">TypeScript-first, built with
 				@playform build (ESBuild + tsc type-check); the published artifact contains only the
 				built output.
-			</p>
+			
 		</section>
 	</main>
 </Base>

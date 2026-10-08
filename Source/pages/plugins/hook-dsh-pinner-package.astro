@@ -153,13 +153,16 @@ const Related = [
 				Plugin Family for PlayForm._ The <strong>silent version pinner</strong> of the
 				DeepSeek Harness - a plugin on the
 				<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> event that pins every dependency version in a written
-				<code>package.json</code> to its STATIC version:{" "}
-				<code>"@playform/build": "^0.3.4"</code> becomes <code>"0.3.4"</code>.<br />One leading
+				<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> to its STATIC version:{" "}
+				<code>"@playform/build": "^0.3.4"</code> becomes <code>"0.3.4"</code>.</p>
+			<p class="page-hero__sub">One leading
 				range prefix (<code>^</code>,<code>~</code>, or <code>=</code>) is stripped, in
-				every dependency section the config declares - and the author never learns.<br />A
-				factory flavor: pure P-only - no ncu, no jobs, no subprocess, no cooldown.<br />Just the
+				every dependency section the config declares - and the author never learns.</p>
+			<p class="page-hero__sub">A
+				factory flavor: pure P-only - no ncu, no jobs, no subprocess, no cooldown.</p>
+			<p class="page-hero__sub">Just the
 				pin.
-			</p>
+			
 		</section>
 
 		<section class="section">
@@ -205,8 +208,9 @@ const Related = [
 						<figure class="diagram-figure" set:html={FamilySvg} />
 						<p>
 							Show the pinner's relationship to <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>, hook-dsh-core, and
-							the sibling package governor.<br />Label the shared fs/observed seam.
-						</p>
+							the sibling package governor.</p>
+						<p>Label the shared fs/observed seam.
+						
 					</div>
 
 					<h3 id="pinner-family-position" class="concept-block__title">
@@ -216,9 +220,10 @@ const Related = [
 					<p class="page-hero__sub">
 						<strong>{Families.PinnerPackage}</strong> is a hook child of the{" "}
 						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}><code>plugin-dsh-factory</code></a> service and the
-						<code>hook-dsh-core</code> helpers.<br />It is a sibling of the package governor
+						<code>hook-dsh-core</code> helpers.</p>
+					<p class="page-hero__sub">It is a sibling of the package governor
 						on the same <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> seam.
-					</p>
+					
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-composition">
@@ -230,10 +235,11 @@ const Related = [
 						<p class="section-kicker">Diagram - Composition</p>
 						<figure class="diagram-figure" set:html={PinSvg} />
 						<p>
-							Show ^0.3.4 -> pinner -> 0.3.4 -> governor update stage: nothing to do.<br />
+							Show ^0.3.4 -> pinner -> 0.3.4 -> governor update stage: nothing to do.</p>
+						<p>
 							Show the governor's chain pass separately, noting that it may still
 							re-canonicalize chain pins.
-						</p>
+						
 					</div>
 
 					<h3 id="pinner-composition" class="concept-block__title">
@@ -241,10 +247,12 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						The pinner turns <code>^0.3.4</code> into <code>0.3.4</code>.<br />A fully pinned
-						manifest leaves the governor's update stage nothing to do.<br />Its chain pass
+						The pinner turns <code>^0.3.4</code> into <code>0.3.4</code>.</p>
+					<p class="page-hero__sub">A fully pinned
+						manifest leaves the governor's update stage nothing to do.</p>
+					<p class="page-hero__sub">Its chain pass
 						may still re-canonicalize chain pins.
-					</p>
+					
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-keep-list">
@@ -266,9 +274,10 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						The pinner's <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><code>pin-policy.json</code></a> keep-list protects selected
-						dependencies.<br />Their ranges remain exactly as authored.
-					</p>
+						The pinner's <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>pin-policy.json</code></span></a> keep-list protects selected
+						dependencies.</p>
+					<p class="page-hero__sub">Their ranges remain exactly as authored.
+					
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-ledger-independence">
@@ -280,9 +289,12 @@ const Related = [
 						<p class="section-kicker">Diagram - Independent ledgers</p>
 						<figure class="diagram-figure" set:html={LedgersSvg} />
 						<p>
-							Show pinner -> pinner.log and governor -> governor.log as separate
-							paths.<br />Mark activation as independent.
-						</p>
+							Show pinner -&gt;{" "}
+							<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />pinner.log</span> and governor -&gt;{" "}
+							<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />governor.log</span> as separate
+							paths.</p>
+						<p>Mark activation as independent.
+						
 					</div>
 
 					<h3 id="pinner-ledger-independence" class="concept-block__title">
@@ -291,7 +303,8 @@ const Related = [
 
 					<p class="page-hero__sub">
 						The pinner and governor use separate ledgers:
-						<code>pinner.log</code> and <code>governor.log</code>. Activating either
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>pinner.log</code></span> and{" "}
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>governor.log</code></span>. Activating either
 						plugin never implies activation of the other.
 					</p>
 				</section>
@@ -398,10 +411,11 @@ const Related = [
 						<p class="section-kicker">Diagram - Direct governance</p>
 						<figure class="diagram-figure" set:html={DirectGovernSvg} />
 						<p>
-							Show apply-time registration with Factory.RegisterGovern.<br />Then show the
+							Show apply-time registration with Factory.RegisterGovern.</p>
+						<p>Then show the
 							raw-write tool's per-call govern selection reaching the same pin pass
 							through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>, alongside the fs/observed event path.
-						</p>
+						
 					</div>
 
 					<h3 id="pinner-direct-govern" class="concept-block__title">
@@ -457,11 +471,13 @@ const Related = [
 			<SectionHeader Title="The Problem" Meta="WHY THE PINNER EXISTS" />
 			<p class="page-hero__sub">
 				Ranged versions make builds drift: <code>"^0.3.4"</code> today is
-				<code>"0.3.5"</code> next week.<br />Teams that want reproducible installs want static
+				<code>"0.3.5"</code> next week.</p>
+			<p class="page-hero__sub">Teams that want reproducible installs want static
 				versions - but writing them by hand (or remembering to) is exactly the kind of
-				discipline an agent workflow loses.<br />The pinner makes static versions the default
+				discipline an agent workflow loses.</p>
+			<p class="page-hero__sub">The pinner makes static versions the default
 				outcome of every write, invisibly.
-			</p>
+			
 		</section>
 
 		<section class="section">
@@ -508,7 +524,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Idempotence</p>
 						<figure class="diagram-figure" set:html={IdemSvg} />
 						<p>
-							Show a second write of an already-pinned package.json passing the range
+							Show a second write of an already-pinned <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> passing the range
 							law untouched - the no-op rewrite P(P(c)) = P(c).
 						</p>
 					</div>
@@ -532,7 +548,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Keep-list policy</p>
 						<figure class="diagram-figure" set:html={KeepPolicySvg} />
 						<p>
-							Show <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}>pin-policy.json</a> protecting a selected dependency from prefix
+							Show <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />pin-policy.json</span></a> protecting a selected dependency from prefix
 							removal, the union of every readable discovered policy, and the P3
 							chain-keys interlock keeping the governor's ^resolved chain pins
 							unstripped.
@@ -544,13 +560,15 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						A <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><code>pin-policy.json</code></a> (<code>{'{"keep": ["tailwindcss"]}'}</code>)
-						protects packages whose ranges must stay EXACTLY as the author wrote them.<br />
+						A <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>pin-policy.json</code></span></a> (<code>{'{"keep": ["tailwindcss"]}'}</code>)
+						protects packages whose ranges must stay EXACTLY as the author wrote them.</p>
+					<p class="page-hero__sub">
 						The effective keep-list is the union of every readable discovered policy,
 						and the P3 chain-keys interlock means the governor's <code>^resolved</code>{" "}
-						chain pins are never stripped.<br />A file that exists but does not parse is
+						chain pins are never stripped.</p>
+					<p class="page-hero__sub">A file that exists but does not parse is
 						logged and contributes nothing.
-					</p>
+					
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-wildcard-behavior">
@@ -638,9 +656,11 @@ const Related = [
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				The exported Config schema (the factory's Schema helper extended with
 				<code>sections</code>) validates and fills every default at load - invalid
-				configuration fails loudly.<br />New patch entries are declared with
-				<code>insert:</code>.<br />Full example:
-			</p>
+				configuration fails loudly.</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">New patch entries are declared with
+				<code>insert:</code>.</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">Full example:
+			
 			<CodeBlock
 				Language="yaml"
 				Source={[
@@ -661,18 +681,20 @@ const Related = [
 		<section class="section">
 			<SectionHeader Title="In Action" Meta="ONE PINNED WRITE" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				One pinned write.<br />The author drops a <code>package.json</code> with two ranged
+				One pinned write.</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">The author drops a <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> with two ranged
 				versions and a keep-listed package nearby:
-			</p>
+			
 			<p class="section-kicker">
 				<BrandIcon Name="swap" />Before - the manifest as the author wrote it
 			</p>
 			<CodeBlock Language="json" Source={PinnedWrite.join("\n")} />
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">
-				A <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><code>pin-policy.json</code></a> (<code>{'{"keep":["tailwindcss"]}'}</code>) sits
+				A <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>pin-policy.json</code></span></a> (<code>{'{"keep":["tailwindcss"]}'}</code>) sits
 				beside the file, so tailwindcss keeps its range; the other two dependencies are
-				pinned.<br />The transcript shows only what the author wrote; the ledger shows the pin:
-			</p>
+				pinned.</p>
+			<p class="page-hero__sub" style="margin: var(--space-md) 0">The transcript shows only what the author wrote; the ledger shows the pin:
+			
 			<p class="section-kicker">
 				<BrandIcon Name="swap" />After - the pin in the ledger
 			</p>
@@ -680,34 +702,39 @@ const Related = [
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				Read the file back and <code>"@playform/build"</code> is <code>"0.3.4"</code>,
 				<code>"@acme/core"</code> is <code>"1.2.3"</code>, <code>"tailwindcss"</code> is
-				still <code>"^3.0.5"</code>, and <code>"scripts"</code> is byte-identical.<br />Write the
+				still <code>"^3.0.5"</code>, and <code>"scripts"</code> is byte-identical.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">Write the
 				pinned file again and the pass is a no-op with its own line:
-				<code>no changes to pin for ...</code>.<br />Write inside
+				<code>no changes to pin for ...</code>.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">Write inside
 				<code>node_modules</code>/<code>.git</code>/<code>.dsh</code> and the ledger gains
-				<code>skipped (excluded) ...</code> while the file stays untouched.<br />(A non-JSON
-				package.json - or a refusal, if a non-dependency section would change - gets its own
+				<code>skipped (excluded) ...</code> while the file stays untouched.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">(A non-JSON
+				<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> - or a refusal, if a non-dependency section would change - gets its own
 				line, e.g. <code>observed non-JSON package.json ... - skipped</code>, before the
 				silence.)
-			</p>
+			
 		</section>
 
 		<section class="section">
 			<SectionHeader Title="The Ledger" Meta="ONE GLOBAL LOG" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				One global log (<code>logFile</code>, default
-				<code>~/.dsh/hook-dsh-pinner-package.log</code> - SEPARATE from the governor's
+				One global log (<code>logFile</code>, default{" "}
+				<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />~/.dsh/hook-dsh-pinner-package.log</span> - SEPARATE from the governor's
 				ledger) records activation, exclusions, non-JSON skips, refusals, and every pin
-				result.<br />The strings this module composes (the
+				result.</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">The strings this module composes (the
 				hook-dsh-pinner-package: logger prefix is the factory's Append; each
 				line is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file):
-			</p>
+			
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The non-JSON line ends with an em dash followed by <code>skipped</code> - part of
 				the literal string, so its byte-exact form appears only in the In Action excerpt
-				above.<br />The activation line is written by <code>apply()</code> - "did it activate"
+				above.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">The activation line is written by <code>apply()</code> - "did it activate"
 				must be answerable from the ledger alone.
-			</p>
+			
 		</section>
 
 		<!-- The known limits: the documented gaps, stated as they are. -->
@@ -744,10 +771,12 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0.<br />Full contract: SCHEME.md.<br />TypeScript-first, built with @playform
+				License: CC0-1.0.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">Full contract: <span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME.md</span>.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">TypeScript-first, built with @playform
 				build (ESBuild + tsc type-check); the published artifact contains only the built
 				output.
-			</p>
+			
 		</section>
 	</main>
 </Base>

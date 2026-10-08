@@ -53,6 +53,13 @@ const {
 	CleanLabel = "NORMALIZED - what reaches the transcript",
 } = Astro.props;
 
+// The legend's RAW word: only the RAW word takes the accent-orange token
+// - the separator and the rest keep the legend's ink (the site's only-RAW
+// rule, the same treatment the stream pane labels run). The pages' custom
+// labels keep their bytes: a leading RAW word (any case) gets wrapped,
+// any other label renders untouched (the file page's "Before - ...").
+const RawMatch = RawLabel.match(/^RAW(?=[\s-]|$)/i);
+
 // ---- Escape: every character becomes safe HTML text ----
 function Escape(Text: string): string {
 	return Text.replace(/&/g, "&amp;")
@@ -150,13 +157,22 @@ const CleanText = Clean.join("\n");
 	</div>
 
 	<figcaption class="compare__legend">
-		<span class="compare__legend-item is-orange">
+		<span class="compare__legend-item">
 			<span class="dot dot--raw"></span>
-			{RawLabel}
+			<span class="compare__legend-label">
+				{RawMatch ? (
+					<>
+						<span class="compare__legend-raw">{RawMatch[0]}</span>
+						{RawLabel.slice(RawMatch[0].length)}
+					</>
+				) : (
+					RawLabel
+				)}
+			</span>
 		</span>
 		<span class="compare__legend-item">
 			<span class="dot dot--clean"></span>
-			{CleanLabel}
+			<span class="compare__legend-label">{CleanLabel}</span>
 		</span>
 	</figcaption>
 </figure>
@@ -248,8 +264,8 @@ const CleanText = Clean.join("\n");
 		border: 1px solid var(--color-harness-blue);
 	}
 
-	/* The legend: the RAW signature on the left (orange dot + orange
-	   label), the NORMALIZED signature on the right (blue dot). */
+	/* The legend: the RAW signature on the left (orange dot, only the RAW
+	   word orange), the NORMALIZED signature on the right (blue dot). */
 	.compare__legend {
 		display: flex;
 		align-items: center;
@@ -272,12 +288,25 @@ const CleanText = Clean.join("\n");
 		color: var(--color-ink-secondary);
 	}
 
+	/* Only the RAW word takes the accent-orange token; the separator and
+	   the rest keep the item's ink-secondary (the site's only-RAW rule -
+	   the label wrapper keeps the word + the rest one text run, so the
+	   shared --gap-icon stays between the dot and the label only). */
+	.compare__legend-raw {
+		color: var(--color-accent-orange);
+	}
+
+	/* The dots sit on the label's optical center: the plain inline-flex
+	   centering (align-items: center above) lands the dot on the line
+	   box, and at the 13px label size the glyphs' mass sits within half
+	   a pixel of that line center - so no margin lift is needed (the
+	   tray/badge -0.1875em lift would overshoot at this size). Both
+	   panes share the same geometry. */
 	.compare__legend-item .dot {
 		width: 8px;
 		height: 8px;
 		border-radius: var(--radius-full);
 		flex-shrink: 0;
-		margin-block: -0.1875em 0.1875em;
 	}
 
 	.compare__legend-item .dot--raw {
