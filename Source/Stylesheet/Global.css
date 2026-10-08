@@ -2390,6 +2390,24 @@ button:focus-visible,
 	outline-offset: 2px;
 }
 
+/* ---- Diagram proof figures: the pre-rendered Mermaid SVGs. Each diagram is
+	a left-to-right flow; the figure spans its container's width and the
+	viewBox keeps the aspect, so the diagram reads as a shallow horizontal
+	band above its text at every viewport size. ---- */
+.diagram-figure,
+.concept__diagram-figure {
+	margin: 0;
+	min-width: 0;
+}
+
+.diagram-figure svg,
+.concept__diagram-figure svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	max-width: 100%;
+}
+
 /* ---- Filtered cards: instant hide + deterministic fade-in ---- */
 .is-hidden {
 	display: none !important;

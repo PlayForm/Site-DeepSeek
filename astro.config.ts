@@ -15,6 +15,7 @@ export const Aliases = Object.fromEntries(
 		"Asset",
 		"Class",
 		"Component",
+		"Content",
 		"Context",
 		"Element",
 		"Function",

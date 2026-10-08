@@ -4,7 +4,22 @@
 // placeholder (a stable data-diagram identifier for the future diagram
 // agent), a short descriptive heading, and a body of one or two short
 // paragraphs explaining only that concept.
+//
+// The diagram proof-pipeline: a representative set of the placeholders has
+// been pre-rendered by Source/Content/Mermaid/Render.mjs into vendored SVGs
+// (Source/Content/Mermaid/<Id>.svg, no runtime Mermaid, no network). A
+// Concept whose Id has an SVG renders it as `data-diagram-status=
+// "implemented"`; every other block stays a placeholder for the full
+// implementation agent. The brief renders in BOTH states - its may / only /
+// never qualifications are the diagram's contract.
 import { Linkify } from "@Library/Links";
+
+// The vendored diagram SVGs, inlined at build time (raw imports, offline).
+const Diagrams = import.meta.glob("/Source/Content/Mermaid/*.svg", {
+	query: "?raw",
+	import: "default",
+	eager: true,
+});
 
 interface Props {
 	Id: string;
@@ -13,11 +28,22 @@ interface Props {
 }
 
 const { Id, Title, Diagram } = Astro.props;
+const Svg = Diagrams[`/Source/Content/Mermaid/${Id}.svg`] as string | undefined;
 ---
 
 <section class="concept" aria-labelledby={`${Id}-title`}>
-	<div class="concept__diagram" data-diagram={Id} data-diagram-status="placeholder">
-		<p class="concept__diagram-label">Diagram placeholder - {Title}</p>
+	<div
+		class="concept__diagram"
+		data-diagram={Id}
+		data-diagram-status={Svg ? "implemented" : "placeholder"}
+	>
+		{
+			Svg ? (
+				<figure class="concept__diagram-figure" set:html={Svg} />
+			) : (
+				<p class="concept__diagram-label">Diagram placeholder - {Title}</p>
+			)
+		}
 		<!-- The brief renders through Linkify: a [text](target) segment in the
 		     plain-text prop becomes a safe <a>, everything else stays text. -->
 		<p class="concept__diagram-brief" set:html={Linkify(Diagram)} />
@@ -42,6 +68,22 @@ const { Id, Title, Diagram } = Astro.props;
 		margin-bottom: var(--space-md);
 		border: 1px dashed currentColor;
 		border-radius: var(--radius-md, 0.75rem);
+	}
+
+	/* The implemented diagram: a shallow horizontal band spanning the block's
+	   width, above the brief and the body. The SVG scales responsively - the
+	   viewBox keeps its aspect, so a left-to-right diagram stays a wide strip
+	   at every viewport width. */
+	.concept__diagram-figure {
+		margin: 0;
+		min-width: 0;
+	}
+
+	.concept__diagram-figure :global(svg) {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-width: 100%;
 	}
 
 	.concept__diagram-label,

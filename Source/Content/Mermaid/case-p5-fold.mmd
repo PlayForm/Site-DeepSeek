@@ -1,11 +1,4 @@
 flowchart LR
-	subgraph RACE["Before - the detached chains race"]
-		direction LR
-		A["step 1 chain"] --> X["same file<br/>nondeterministic writes"]
-		B["step 2 chain"] --> X
-	end
-	subgraph FOLD["After - the sequential fold"]
-		direction LR
-		S1["step 1"] --> W1["await its chain"] --> S2["step 2"] --> W2["await its chain"] --> S3["step 3"]
-	end
-	RACE ~~~ FOLD
+	A["step 1 chain"] --> X["racing on the same file<br/>nondeterministic writes"]
+	B["step 2 chain"] --> X
+	X -. "the fix - the sequential fold awaits each step's chain before the next reads" .-> S1["step 1"] --> W1["await its chain"] --> S2["step 2"] --> W2["await its chain"] --> S3["step 3"]

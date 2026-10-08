@@ -12,6 +12,18 @@ import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
 
+// The diagram proof set (Source/Content/Mermaid, rendered by Render.mjs):
+// this page's two placeholders that are part of the proof set render their
+// pre-rendered SVGs inline; the rest stay placeholders for the full
+// implementation agent.
+const Diagrams = import.meta.glob("/Source/Content/Mermaid/*.svg", {
+	query: "?raw",
+	import: "default",
+	eager: true,
+}) as Record<string, string>;
+const PinSvg = Diagrams["/Source/Content/Mermaid/pin-then-bump-exact.svg"];
+const KeepSvg = Diagrams["/Source/Content/Mermaid/keep-list-precedence.svg"];
+
 // The pipeline P = Rewrite ∘ Pin ∘ Resolve ∘ Decode diagram, from the package README.
 const Pipeline = [
 	'  fs/observed (target, {kind:"present", version}, actor)',
@@ -195,8 +207,13 @@ const Related = [
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-composition">
-					<div class="diagram-placeholder" data-diagram="pin-then-bump-exact">
-						<p class="section-kicker">Diagram placeholder - Composition</p>
+					<div
+						class="diagram-placeholder"
+						data-diagram="pin-then-bump-exact"
+						data-diagram-status="implemented"
+					>
+						<p class="section-kicker">Diagram - Composition</p>
+						<figure class="diagram-figure" set:html={PinSvg} />
 						<p>
 							Show ^0.3.4 -> pinner -> 0.3.4 -> governor update stage: nothing to do.
 							Show the governor's chain pass separately, noting that it may still
@@ -216,8 +233,13 @@ const Related = [
 				</section>
 
 				<section class="concept-block" aria-labelledby="pinner-keep-list">
-					<div class="diagram-placeholder" data-diagram="keep-list-precedence">
-						<p class="section-kicker">Diagram placeholder - Policy precedence</p>
+					<div
+						class="diagram-placeholder"
+						data-diagram="keep-list-precedence"
+						data-diagram-status="implemented"
+					>
+						<p class="section-kicker">Diagram - Policy precedence</p>
+						<figure class="diagram-figure" set:html={KeepSvg} />
 						<p>
 							Show a keep-listed dependency bypassing prefix removal and retaining its
 							authored range.

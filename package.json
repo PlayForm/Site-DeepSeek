@@ -17,6 +17,8 @@
 	},
 	"scripts": {
 		"Run": "astro dev --host",
+		"Diagrams": "node Source/Content/Mermaid/Render.mjs",
+		"Drift": "node Scripts/Drift-Guard.mjs",
 		"prepublishOnly": "astro build"
 	},
 	"dependencies": {
@@ -55,10 +57,5 @@
 	"publishConfig": {
 		"access": "restricted",
 		"provenance": true
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"puppeteer"
-		]
 	}
 }
