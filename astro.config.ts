@@ -56,7 +56,11 @@ export default defineConfig({
 	},
 	integrations: [
 		// @ts-ignore
-		import.meta.env.MODE === "production"
+		// The service worker for production builds. Gated on NODE_ENV, not
+		// import.meta.env.MODE: at config-eval time during `astro build` MODE
+		// is still "development" (the build command does not set it), so the
+		// old condition never fired and the worker was never generated.
+		process.env["NODE_ENV"] !== "development"
 			? (await import("astrojs-service-worker")).default()
 			: null,
 		(await import("@astrojs/sitemap")).default(),

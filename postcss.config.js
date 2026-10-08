@@ -51,7 +51,14 @@ module.exports = {
 			removeDuplicatedValues: false,
 		}),
 		require("autoprefixer"),
-		require("cssnano")({ preset: "advanced" }),
+		// The advanced preset's discard-unused deletes @font-face rules when it
+	// cannot see the font-family referenced in the same stylesheet - ours are
+	// referenced via the --font-sans/--font-mono custom properties, which it
+	// does not resolve, so the self-hosted faces were being dropped from the
+	// built CSS. Keep the @font-face rules.
+	require("cssnano")({
+		preset: ["advanced", { discardUnused: { fontFace: false } }],
+	}),
 		require("postcss-reporter"),
 	],
 };
