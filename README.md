@@ -89,7 +89,7 @@ Pages at this repo:
 - **Framework preset:** none - it is a static site.
 
 A Git-connected Pages project works with no extra configuration: the build command and the
-output directory above are all Pages needs (no `wrangler.toml` is required).
+output directory above are all Pages needs.
 
 `Public/_headers` ships cache rules for the content-hashed `_astro/` assets, and `Public/404.html`
 provides the styled not-found page that Cloudflare Pages serves automatically.

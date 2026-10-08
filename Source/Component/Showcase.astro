@@ -9,6 +9,14 @@
 //
 // The pair area can also be a slot (the normalize showcase embeds the
 // Compare slider there) - the card keeps its head and its fact footer.
+//
+// The Wide prop turns the card into the full-width use-case row (one card
+// per row, spanning the section's width): the pair-mode cards split
+// two-part at the wide breakpoint - the narrative (kicker, title, lead)
+// on the left, the before/after pair and the ledger fact on the right;
+// the slot-mode card (the Compare slider) keeps the stacked rows so the
+// slider spans the full card width for the drag track. Below the
+// breakpoint every wide card collapses back to the plain stacked column.
 import BrandIcon from "@Component/BrandIcon.astro";
 
 interface Props {
@@ -30,10 +38,25 @@ interface Props {
 	Fact?: string;
 	/** The fact label chip (default "LEDGER"). */
 	FactLabel?: string;
+	/** The wide use-case card: the full-width row (one card per row,
+		spanning the section's width). The pair-mode card splits two-part
+		at the wide breakpoint; the slot-mode card keeps the stacked rows
+		so the Compare slider spans the full card width. */
+	Wide?: boolean;
 }
 
-const { Kicker, Title, Lead, Href, Before, After, Mark = true, Fact, FactLabel = "LEDGER" } =
-	Astro.props;
+const {
+	Kicker,
+	Title,
+	Lead,
+	Href,
+	Before,
+	After,
+	Mark = true,
+	Fact,
+	FactLabel = "LEDGER",
+	Wide = false,
+} = Astro.props;
 
 function Escape(Text: string): string {
 	return Text.replace(/&/g, "&amp;")
@@ -72,16 +95,33 @@ function MarkLine(Raw: string, Other: string): string {
 	return `${Head}<span class="showcase__mark">${Escape(Middle)}</span>${Escape(Tail)}`;
 }
 
+// The JSON key voice: the quoted run before the colon reads in the site's
+// code-keyword color (--color-primary, the same accent the .kw spans carry
+// in the code blocks) - the key token including its quotes, mirroring the
+// Shiki JSON token; the value and the punctuation keep the default ink, so
+// the diff chip stays the only highlight. Runs AFTER MarkLine, so the mark
+// span is already in place and the key regex (which cannot cross a tag's
+// ampersands) only ever sees the plain key run. The visible bytes stay
+// byte-exact.
+function JsonKey(Line: string): string {
+	return Line.replace(
+		/(&quot;[^&]*?&quot;)(?=\s*:)/g,
+		'<span class="showcase__key">$1</span>'
+	);
+}
+
 const HasPair = Before !== undefined && After !== undefined;
 const BeforeHtml = HasPair
-	? Before.map((Line, Index) => MarkLine(Line, After![Index] ?? "")).join("\n")
+	? Before.map((Line, Index) => JsonKey(MarkLine(Line, After![Index] ?? ""))).join("\n")
 	: "";
 const AfterHtml = HasPair
-	? After.map((Line, Index) => MarkLine(Line, Before![Index] ?? "")).join("\n")
+	? After.map((Line, Index) => JsonKey(MarkLine(Line, Before![Index] ?? ""))).join("\n")
 	: "";
 ---
 
-<article class="showcase">
+<article
+	class={`showcase${Wide ? ` showcase--wide${HasPair ? "" : " showcase--slot"}` : ""}`}
+>
 	<div class="showcase__head">
 		<span class="showcase__kicker">
 			<BrandIcon Name="swap" Size="0.8em" />
@@ -99,17 +139,13 @@ const AfterHtml = HasPair
 
 	{HasPair ? (
 		<div class="showcase__pair">
-			<div class="showcase__side">
-				<span class="showcase__side-label">Before</span>
-				<div class="showcase__screen" set:html={BeforeHtml}></div>
-			</div>
+			<span class="showcase__side-label">Before</span>
+			<span class="showcase__side-label">After</span>
+			<div class="showcase__screen" set:html={BeforeHtml}></div>
 			<span class="showcase__flow" aria-hidden="true">
 				<BrandIcon Name="swap" />
 			</span>
-			<div class="showcase__side">
-				<span class="showcase__side-label">After</span>
-				<div class="showcase__screen" set:html={AfterHtml}></div>
-			</div>
+			<div class="showcase__screen" set:html={AfterHtml}></div>
 		</div>
 	) : (
 		<slot />
@@ -182,21 +218,39 @@ const AfterHtml = HasPair
 		margin: 0;
 	}
 
-	/* The pair: two trays flanking the swap arrow - each side its own
-	   labeled box, so the diff reads as a before/after column. */
+	/* The pair: the two labeled trays flanking the swap arrow, laid out as
+	   a two-row grid - row 1 the Before/After labels (the middle cell
+	   empty), row 2 the two trays with the arrow cell between them. The
+	   arrow spans only the tray row, so it sits on the trays' optical
+	   center, not on the label + tray column. The trays stretch to one
+	   height (the 1fr row), the diff reads as a before/after column. */
 	.showcase__pair {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-		gap: var(--space-sm);
+		grid-template-rows: auto 1fr;
+		column-gap: var(--space-sm);
+		row-gap: var(--space-xs);
 		align-items: stretch;
 		min-width: 0;
 	}
 
-	.showcase__side {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-xs);
-		min-width: 0;
+	/* The pair's fixed child order: label, label, screen, flow, screen -
+	   placed on the two-row grid (row 1 the labels, row 2 the trays and
+	   the arrow). */
+	.showcase__pair > :nth-child(1) {
+		grid-area: 1 / 1;
+	}
+	.showcase__pair > :nth-child(2) {
+		grid-area: 1 / 3;
+	}
+	.showcase__pair > :nth-child(3) {
+		grid-area: 2 / 1;
+	}
+	.showcase__pair > :nth-child(4) {
+		grid-area: 2 / 2;
+	}
+	.showcase__pair > :nth-child(5) {
+		grid-area: 2 / 3;
 	}
 
 	.showcase__side-label {
@@ -209,9 +263,12 @@ const AfterHtml = HasPair
 		color: var(--color-ink-muted);
 	}
 
+	/* The tray: the site's code-block voice at the 13px mono floor - the
+	   surface-container-low pad, the radius-md tray, pre whitespace with
+	   tab-size 4 so the indentation and the bytes render untampered, and
+	   overflow-x instead of mid-token wrapping. */
 	.showcase__screen {
-		flex: 1;
-		padding: var(--space-sm) var(--space-md);
+		padding: var(--space-md);
 		border-radius: var(--radius-md);
 		background: var(--color-surface-container-low);
 		font-family: var(--font-mono);
@@ -220,15 +277,24 @@ const AfterHtml = HasPair
 		font-weight: var(--weight-label-sm);
 		letter-spacing: var(--tracking-label-sm);
 		color: var(--color-on-surface);
-		white-space: pre-wrap;
-		word-break: break-word;
+		white-space: pre;
+		overflow-x: auto;
+		tab-size: 4;
 		min-width: 0;
+	}
+
+	/* The JSON key voice: the quoted key run in the site's code-keyword
+	   color (the .kw accent) - the diff chip stays the only highlight.
+	   :global - the span is injected via set:html, so it carries no scope
+	   attribute and the scoped selector would never match. */
+	:global(.showcase__key) {
+		color: var(--color-primary);
 	}
 
 	/* The static diff chip: the changed run, blue subtle fill + primary
 	   ink - the anom geometry minus the flash (a static comparison, not a
-	   live stream). */
-	.showcase__mark {
+	   live stream). :global for the same set:html reason as the key. */
+	:global(.showcase__mark) {
 		background: var(--color-harness-blue-subtle);
 		color: var(--color-primary);
 		font-weight: 600;
@@ -236,6 +302,8 @@ const AfterHtml = HasPair
 		border-radius: var(--radius-sm);
 	}
 
+	/* The swap arrow: centered on the tray row (its own grid cell between
+	   the trays), so its optical center meets the trays' center. */
 	.showcase__flow {
 		display: flex;
 		align-items: center;
@@ -247,7 +315,7 @@ const AfterHtml = HasPair
 	.showcase__fact {
 		display: flex;
 		align-items: center;
-		gap: var(--gap-icon);
+		gap: var(--space-sm);
 		padding-top: var(--space-xs);
 		border-top: 1px solid var(--color-outline-variant);
 		font-family: var(--font-mono);
@@ -259,6 +327,10 @@ const AfterHtml = HasPair
 		min-width: 0;
 	}
 
+	/* The fact chip (LEDGER): the site's chip padding (2px / space-xs,
+	   like .badge) and the row gap above gives the chip its right
+	   breathing room before the ledger text (the --gap-icon stays for the
+	   icon-to-text unit inside the chip). */
 	.showcase__fact-label {
 		display: inline-flex;
 		align-items: center;
@@ -268,7 +340,7 @@ const AfterHtml = HasPair
 		color: var(--color-primary);
 		background: var(--color-harness-blue-subtle);
 		border: 1px solid var(--color-primary-container);
-		padding: 1px var(--space-xs);
+		padding: 2px var(--space-xs);
 		border-radius: var(--radius-default);
 	}
 
@@ -279,5 +351,38 @@ const AfterHtml = HasPair
 	.showcase__fact-text {
 		min-width: 0;
 		word-break: break-word;
+	}
+
+	/* ---- The wide use-case card (the index's full-width rows) ----
+		At the wide breakpoint the pair-mode card becomes a two-part grid:
+		the narrative (kicker, title, lead) on the left, the before/after
+		pair and the ledger fact on the right - the same tokens, the same
+		zero elevation, only the geometry widens. The slot-mode card (the
+		Compare slider) keeps the stacked rows: the head on top, the slider
+		below spanning the full card width for the drag track. Below the
+		breakpoint every wide card collapses back to the plain stacked
+		column (the base .showcase layout above). */
+	@media (min-width: 900px) {
+		.showcase--wide:not(.showcase--slot) {
+			display: grid;
+			grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+			column-gap: var(--space-lg);
+			align-items: start;
+		}
+
+		.showcase--wide:not(.showcase--slot) .showcase__head {
+			grid-column: 1;
+			grid-row: 1;
+		}
+
+		.showcase--wide:not(.showcase--slot) .showcase__pair {
+			grid-column: 2;
+			grid-row: 1;
+		}
+
+		.showcase--wide:not(.showcase--slot) .showcase__fact {
+			grid-column: 2;
+			grid-row: 2;
+		}
 	}
 </style>

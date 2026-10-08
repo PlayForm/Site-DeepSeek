@@ -344,13 +344,18 @@ const NormalizeAfter = [
 		</section>
 
 		<!-- The use cases: what the family accomplishes - the pin, the govern
-			and the normalize before/after stories. The pairs are the real
-			example content from the plugin pages; the fact lines are the real
-			ledger excerpts; the totals strip is the content library's pair. -->
+			and the normalize before/after stories, each a full-width wide
+			card (one card per row, spanning the section's width - the
+			squished three-column grid replaced by the wide stack; the
+			normalize card keeps its Compare slider full-width for the drag).
+			The pairs are the real example content from the plugin pages; the
+			fact lines are the real ledger excerpts; the totals strip is the
+			content library's pair. -->
 		<section class="section" id="use-cases">
 			<SectionHeader Title="The use cases" Meta="PIN · GOVERN · NORMALIZE" />
-			<div class="grid grid--3">
+			<div class="use-cases">
 				<Showcase
+					Wide
 					Kicker="THE PIN"
 					Title="Pinned manifests, deterministically"
 					Lead="The pinner rewrites every ranged dependency version to its static version - protected by the pin-policy keep-list."
@@ -360,6 +365,7 @@ const NormalizeAfter = [
 					Fact={PinFact}
 				/>
 				<Showcase
+					Wide
 					Kicker="THE GOVERN"
 					Title="Governed pins, silently"
 					Lead="The governor canonicalizes chain-governed pins to the effective registry's resolved versions - then runs the update stage detached."
@@ -369,6 +375,7 @@ const NormalizeAfter = [
 					Fact={GovernFact}
 				/>
 				<Showcase
+					Wide
 					Kicker="THE NORMALIZE"
 					Title="Clean output as it is born"
 					Lead="The stream flavors rewrite the model's output at the llm/stream waterfall - live in the UI, durable in the transcript. Drag the handle."
@@ -428,6 +435,19 @@ const NormalizeAfter = [
 		</section>
 	</main>
 </Base>
+
+<style>
+	/* The use-cases section: the three showcase cards as full-width rows -
+		one card per row, spanning the section's width (the squished
+		three-column grid replaced by the wide stack). The cards carry
+		their own wide layout at the 900px breakpoint (Showcase.astro);
+		below it they collapse to the plain stacked column. */
+	.use-cases {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-md);
+	}
+</style>
 
 <script>
 	// The live stream gate preview: the same per-flavor rules the workbench

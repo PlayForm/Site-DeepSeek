@@ -6,9 +6,11 @@
 //     hairlines, zero elevation - no shadows, no gradients;
 //   - the Harness Blue handle (a 2px rule + a flat white grip with a 1px
 //     blue border), the RAW pane with the 2px accent-orange rail;
-//   - drag (pointer capture), keyboard (arrow keys, home/end) and the
-//     reduced-motion static split (no pointer listeners, the global
-//     motion guard already stills any transition).
+//   - drag (pointer capture, frame-paced: one style write per frame,
+//     the easing transitions off for the drag's duration), keyboard
+//     (arrow keys, home/end) and the reduced-motion static split (no
+//     pointer listeners, the global motion guard already stills any
+//     transition).
 //
 // The panes carry the byte-exact example lines the pages already hold -
 // the Raw lines are escaped and the flavor's own character classes are
@@ -225,6 +227,15 @@ const CleanText = Clean.join("\n");
 		transition: left var(--duration-fast) var(--ease-crisp);
 	}
 
+	/* The drag state: while the pointer drags, the split follows the
+	   pointer 1:1 - the easing transitions (which glide the keyboard
+	   steps and the click-jump) are disabled under [data-dragging], so
+	   the handle and the clip never chase the pointer. */
+	.compare__stage[data-dragging] .compare__screen--raw,
+	.compare__stage[data-dragging] .compare__handle {
+		transition: none;
+	}
+
 	.compare__grip {
 		position: absolute;
 		top: 50%;
@@ -296,9 +307,14 @@ const CleanText = Clean.join("\n");
 	// The split-handle slider: pointer drag (with pointer capture), stage
 	// clicks, and the keyboard (arrow keys step by 5, home/end jump to the
 	// ends). The position lives in the --compare-pos CSS var on the stage;
-	// aria-valuenow mirrors it. Reduced-motion users keep the static split
-	// (no pointer listeners are attached - the split still moves with the
-	// keyboard, and the global motion guard already stills the transition).
+	// aria-valuenow mirrors it. The drag is frame-paced: the pointermove
+	// stream is coalesced into one style write per requestAnimationFrame
+	// callback, and the [data-dragging] state on the stage switches the
+	// clip/handle transitions off for the drag's duration (the click-jump
+	// and the keyboard steps keep their glide). Reduced-motion users keep
+	// the static split (no pointer listeners are attached - the split
+	// still moves with the keyboard, and the global motion guard already
+	// stills the transition).
 	document.querySelectorAll<HTMLElement>("[data-compare]").forEach((Stage) => {
 		const Handle = Stage.querySelector<HTMLElement>("[data-handle]");
 		const Initial = Number(Stage.dataset["start"] ?? 50);
@@ -336,30 +352,82 @@ const CleanText = Clean.join("\n");
 		});
 
 		// The drag + the stage click-to-jump: only when motion is allowed.
-		// Reduced-motion users get the static split (the keyboard above
+		// Reduced-motion users keep the static split (the keyboard above
 		// still works - it is not motion). Pressing anywhere on the stage
 		// (the handle or the panes) captures the pointer, so the drag runs
 		// from any starting point; the handle's own press just starts it
 		// on the handle line.
+		//
+		// The pacing: pointermove events can outrun the display (120Hz
+		// mice, high-rate touch), so the drag never writes per event - the
+		// pending client X is coalesced into one requestAnimationFrame
+		// callback, one style write per frame, and the frame's rect read
+		// precedes its write (no read/write interleaving, no forced
+		// reflow). The [data-dragging] state disables the easing
+		// transitions for the duration of the drag, so the split tracks
+		// the pointer 1:1 instead of chasing it; the click-jump and the
+		// keyboard steps keep their glide (the transitions return on
+		// release).
 		if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-			Handle?.addEventListener("pointerdown", (Event) => {
+			let PendingX: number | null = null;
+			let Frame: number | null = null;
+
+			const EndDrag = () => {
+				// Flush the final pending position while the drag state
+				// still disables the transitions (the release must not
+				// glide to the last pointer spot).
+				if (Frame !== null) {
+					cancelAnimationFrame(Frame);
+					Frame = null;
+					const X = PendingX;
+					PendingX = null;
+					if (X !== null) MoveTo(X);
+				}
+				delete Stage.dataset["dragging"];
+			};
+
+			const DragTo = (ClientX: number) => {
+				if (Stage.dataset["dragging"] === undefined) {
+					Stage.dataset["dragging"] = "";
+				}
+				PendingX = ClientX;
+				if (Frame === null) {
+					Frame = requestAnimationFrame(() => {
+						Frame = null;
+						const X = PendingX;
+						PendingX = null;
+						if (X !== null) MoveTo(X);
+					});
+				}
+			};
+
+			const StartDrag = (Event: PointerEvent, Element: HTMLElement) => {
 				Event.preventDefault();
-				(Event.currentTarget as HTMLElement).setPointerCapture(Event.pointerId);
+				Element.setPointerCapture(Event.pointerId);
 				MoveTo(Event.clientX);
+			};
+
+			Handle?.addEventListener("pointerdown", (Event) => {
+				StartDrag(Event, Event.currentTarget as HTMLElement);
 			});
 			Handle?.addEventListener("pointermove", (Event) => {
 				if (!(Event.currentTarget as HTMLElement).hasPointerCapture(Event.pointerId)) return;
-				MoveTo(Event.clientX);
+				DragTo(Event.clientX);
 			});
+			Handle?.addEventListener("pointerup", EndDrag);
+			Handle?.addEventListener("pointercancel", EndDrag);
+			Handle?.addEventListener("lostpointercapture", EndDrag);
 			Stage.addEventListener("pointerdown", (Event) => {
 				if ((Event.target as HTMLElement).closest?.("[data-handle]")) return;
-				Stage.setPointerCapture(Event.pointerId);
-				MoveTo(Event.clientX);
+				StartDrag(Event, Stage);
 			});
 			Stage.addEventListener("pointermove", (Event) => {
 				if (!Stage.hasPointerCapture(Event.pointerId)) return;
-				MoveTo(Event.clientX);
+				DragTo(Event.clientX);
 			});
+			Stage.addEventListener("pointerup", EndDrag);
+			Stage.addEventListener("pointercancel", EndDrag);
+			Stage.addEventListener("lostpointercapture", EndDrag);
 		}
 	});
 </script>
