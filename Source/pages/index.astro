@@ -96,15 +96,7 @@ const Normalize = [
 	},
 ];
 
-const Flavors = [
-	"DASH",
-	"QUOTES",
-	"ELLIPSIS",
-	"SPACES",
-	"INVISIBLE",
-	"FULLWIDTH",
-	"FILE",
-];
+const Flavors = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDTH", "FILE"];
 
 const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 ---
@@ -119,66 +111,82 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 			<Badge Variant="primary" Dot>
 				ECOSYSTEM: <BrandIcon Name="playform" Size="0.9em" /> @PLAYFORM
 			</Badge>
-			<Badge>CLASSIC</Badge>
-			<Badge>EFFECT-TS</Badge>
+			<Badge>
+				<BrandIcon Name="typescript" Size="0.8em" /> CLASSIC
+			</Badge>
+			<Badge>
+				<BrandIcon Name="effect" Size="0.8em" /> EFFECT-TS
+			</Badge>
 		</div>
 
-		<!-- Hero -->
+		<!-- Hero: the two-split stage. The h1 stays above the split; the
+			LEFT column carries the hero text, the install terminal (the
+			site's input surface) and the action buttons; the RIGHT column
+			carries the live stream gate preview, filling its column so the
+			hero has no blank side. -->
 		<section class="hero">
 			<h1 class="hero__title">Tame the model's output and govern the project's files.</h1>
-			<p class="hero__sub">
-				The <BrandIcon Name="deepseek" /> DeepSeek Harness Plugin Family for PlayForm: every model's output normalized to
-				clean ASCII characters, every manifest pinned and governed under the author's
-				control - twelve TypeScript packages, smoke-arbitrated. Model output, clean and
-				governed.
-			</p>
-			<Terminal Command="pnpm add @playform/hook-dsh-core" Rail />
-			<div class="action-row" style="margin-top: var(--space-md)">
-				<a class="action" href="/plugins/">
-					Explore Plugins
-				</a>
-				<a class="action action--secondary" href="/workbench/">
-					Open the Workbench
-				</a>
-				<a class="action action--secondary" href="/versions/">
-					Two Releases, One Behavior
-				</a>
-				<a class="action action--secondary" href="/setup/">
-					Set It Up in a Profile
-				</a>
-			</div>
+			<div class="hero__split">
+				<div class="hero__lead">
+					<p class="hero__sub">
+						The <BrandIcon Name="deepseek" /> DeepSeek Harness Plugin Family for
+						PlayForm: every model's output normalized to clean ASCII characters, every
+						manifest pinned and governed under the author's control - twelve TypeScript
+						packages, smoke-arbitrated. Model output, clean and governed.
+					</p>
+					<Terminal Command="pnpm add @playform/hook-dsh-core" Rail />
+					<div class="action-row" style="margin-top: var(--space-md)">
+						<a class="action" href="/plugins/">
+							Explore Plugins
+						</a>
+						<a class="action action--secondary" href="/workbench/">
+							Open the Workbench
+						</a>
+						<a class="action action--secondary" href="/versions/">
+							Two Releases, One Behavior
+						</a>
+						<a class="action action--secondary" href="/setup/">
+							Set It Up in a Profile
+						</a>
+					</div>
+				</div>
 
-			<!-- Live stream gate preview: the gate as the left-to-right pipeline
-				it is - the RAW STREAM pane on the left feeds the flagged tokens
-				through the middle pipe, and the NORMALIZED OUTPUT pane on the
-				right lands the clean ASCII. Both panes are height-bounded (fixed
-				line budget, overflow hidden): every generation appends the next
-				response inside the panes, the oldest lines scroll out, and the
-				page below never shifts. -->
-			<section class="terminal-demo" data-demo>
-				<div class="terminal-demo__bar">
-					<span class="terminal-demo__label">
-						<span class="live-dot"></span>
-						LIVE STREAM GATE PREVIEW
-					</span>
-					<span class="terminal-demo__status" data-demo-status>NORMALIZING · 0 CHARS</span>
-				</div>
-				<div class="terminal-demo__stage">
-					<div class="terminal-demo__pane">
-						<span class="terminal-demo__pane-label is-orange">RAW STREAM</span>
-						<div class="terminal-demo__screen rail-orange" data-demo-raw></div>
+				<!-- Live stream gate preview (the hero's right column): the gate as
+					the left-to-right pipeline it is - the RAW STREAM pane on the
+					left feeds the flagged tokens through the middle pipe, and the
+					NORMALIZED OUTPUT pane on the right lands the clean ASCII. Both
+					panes are height-bounded (fixed line budget, overflow hidden):
+					every generation appends the next response inside the panes, the
+					oldest lines scroll out, and the page below never shifts. -->
+				<section class="terminal-demo" data-demo>
+					<div class="terminal-demo__bar">
+						<span class="terminal-demo__label">
+							<span class="live-dot"></span>
+							LIVE STREAM GATE PREVIEW
+						</span>
+						<span class="terminal-demo__status" data-demo-status>
+							NORMALIZING · 0 CHARS
+						</span>
 					</div>
-					<div class="terminal-demo__flow">
-						<span class="flow-tag flow-tag--raw">RAW →</span>
-						<span class="flow-line"><span class="flow-line__pulse"></span></span>
-						<span class="flow-tag">CLEAN</span>
+					<div class="terminal-demo__stage">
+						<div class="terminal-demo__pane">
+							<span class="terminal-demo__pane-label is-orange">RAW STREAM</span>
+							<div class="terminal-demo__screen rail-orange" data-demo-raw></div>
+						</div>
+						<div class="terminal-demo__flow">
+							<span class="flow-tag flow-tag--raw">RAW →</span>
+							<span class="flow-line">
+								<span class="flow-line__pulse"></span>
+							</span>
+							<span class="flow-tag">CLEAN</span>
+						</div>
+						<div class="terminal-demo__pane">
+							<span class="terminal-demo__pane-label">NORMALIZED OUTPUT</span>
+							<div class="terminal-demo__screen" data-demo-clean></div>
+						</div>
 					</div>
-					<div class="terminal-demo__pane">
-						<span class="terminal-demo__pane-label">NORMALIZED OUTPUT</span>
-						<div class="terminal-demo__screen" data-demo-clean></div>
-					</div>
-				</div>
-			</section>
+				</section>
+			</div>
 		</section>
 
 		<!-- Plugins -->
@@ -231,7 +239,9 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 						Desc={Package.Desc}
 						Muted
 					>
-						<FlavorBadge slot="badge" Flavor={Package.Flavor} />
+						<span class="flavor-cell flavor-cell--compact" slot="badge">
+							<FlavorBadge Flavor={Package.Flavor} />
+						</span>
 					</Card>
 				))}
 			</div>
@@ -244,16 +254,7 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 				<Card Variant="white">
 					<div slot="head" class="version-card__head">
 						<span class="version-card__title">CLASSIC RELEASE</span>
-						<svg
-							class="version-card__icon"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-							aria-hidden="true"
-						>
-							<path d="M12 3 L21 8 L12 13 L3 8 Z M3 12.5 L12 17.5 L21 12.5 M3 16.5 L12 21.5 L21 16.5"></path>
-						</svg>
+						<BrandIcon Name="typescript" Size="20px" ClassName="version-card__icon" />
 					</div>
 					<p class="version-card__body">
 						The twelve contracts in plain TypeScript - classes, Maps and plain
@@ -286,14 +287,30 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 
 		<!-- Flavors -->
 		<section class="section" id="flavors">
-			<SectionHeader Title="Flavors & Roles" Meta={`${Counts.Normalizers} FLAVORS / ${Counts.Roles} ROLES`} />
+			<SectionHeader
+				Title="Flavors & Roles"
+				Meta={`${Counts.Normalizers} FLAVORS / ${Counts.Roles} ROLES`}
+			/>
+			<!-- The canonical order: the seven flavors (DASH -> QUOTES ->
+				ELLIPSIS -> SPACES -> INVISIBLE -> FULLWIDTH -> FILE), then
+				the two roles. Each item is its own delineated cell: the
+				stacked FLAVOR label + version chip read inside the cell's
+				box, the grid fills the section width with no blank space. -->
 			<div class="flavor-strip">
-				{Flavors.map((Flavor) => (
-					<FlavorBadge Flavor={Flavor} />
-				))}
-				{Roles.map((Role) => (
-					<Badge Variant="active">{Role}</Badge>
-				))}
+				<div class="flavor-strip__flavors">
+					{Flavors.map((Flavor) => (
+						<span class="flavor-cell">
+							<FlavorBadge Flavor={Flavor} />
+						</span>
+					))}
+				</div>
+				<div class="flavor-strip__roles">
+					{Roles.map((Role) => (
+						<span class="flavor-cell flavor-cell--role">
+							<Badge Variant="active">{Role}</Badge>
+						</span>
+					))}
+				</div>
 			</div>
 		</section>
 
@@ -327,7 +344,9 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 		<section class="section">
 			<div class="notation">
 				<p>@playform / DSH Family: the complete deterministic stream governor matrix.</p>
-				<p>the hook-dsh-* hooks: zero runtime overhead normalizers with zero unicode drift.</p>
+				<p>
+					the hook-dsh-* hooks: zero runtime overhead normalizers with zero unicode drift.
+				</p>
 				<p>the twelve packages: pinned under atomic version gates.</p>
 			</div>
 		</section>
@@ -350,8 +369,11 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 	const Raw = document.querySelector<HTMLElement>("[data-demo-raw]")!;
 	const Clean = document.querySelector<HTMLElement>("[data-demo-clean]")!;
 	const Status = document.querySelector<HTMLElement>("[data-demo-status]")!;
+	const Demo = document.querySelector<HTMLElement>("[data-demo]")!;
 	let Chars = 0;
 	let Index = 0;
+	let Paused = false;
+	let Timer: ReturnType<typeof setInterval> | undefined;
 
 	function CleanUp(Text: string) {
 		let Out = Text;
@@ -369,8 +391,7 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 	}
 
 	function Highlight(Text: string) {
-		return Text
-			.replace(/[\u200B-\u200D\uFEFF]/g, '<span class="zwsp">[ZWSP]</span>')
+		return Text.replace(/[\u200B-\u200D\uFEFF]/g, '<span class="zwsp">[ZWSP]</span>')
 			.replace(/\u00A0/g, '<span class="zwsp">[NBSP]</span>')
 			.replace(/[\u2013\u2014\u2015]/g, (Mark) => `<span class="anom">${Mark}</span>`)
 			.replace(/[\u2018\u2019\u201C\u201D]/g, (Mark) => `<span class="anom">${Mark}</span>`)
@@ -398,7 +419,11 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 		Index += 1;
 		const Before = Seed;
 		const After = CleanUp(Seed);
-		Chars += (Before.match(/[\u2013\u2014\u2015\u2018\u2019\u201C\u201D\u2026\u00A0\u200B-\u200D\uFEFF\uFF01-\uFF5E]/g) ?? []).length;
+		Chars += (
+			Before.match(
+				/[\u2013\u2014\u2015\u2018\u2019\u201C\u201D\u2026\u00A0\u200B-\u200D\uFEFF\uFF01-\uFF5E]/g,
+			) ?? []
+		).length;
 
 		AppendResponse(Raw, Highlight(Before));
 		AppendResponse(Clean, After);
@@ -406,6 +431,43 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 		Status.textContent = `NORMALIZING · ${Chars.toLocaleString("en-US")} CHARS`;
 	}
 
-	setInterval(Tick, 1600);
+	function StartStreaming() {
+		if (Timer) return;
+		Timer = setInterval(Tick, 1600);
+	}
+
+	// The interval is cleared, not paused-by-flag: on resume it restarts with
+	// a full 1.6s cadence, so no pending tick can flush and the stream picks
+	// up with the next regular tick.
+	function StopStreaming() {
+		if (Timer) {
+			clearInterval(Timer);
+			Timer = undefined;
+		}
+	}
+
+	StartStreaming();
 	Tick();
+
+	// Hover-to-pause: hovering the gate preview stops the tick loop and
+	// freezes the caret, the live dot and the pipe pulse (the .is-paused
+	// class) so the panes can be read at leisure; leaving resumes with the
+	// next regular tick. Reduced-motion users keep the stock behavior - the
+	// guard already stills the animations, so no listeners are attached.
+	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		Demo.addEventListener("mouseenter", () => {
+			if (Paused) return;
+			Paused = true;
+			Demo.classList.add("is-paused");
+			Status.textContent = "PAUSED · HOVER TO RESUME";
+			StopStreaming();
+		});
+		Demo.addEventListener("mouseleave", () => {
+			if (!Paused) return;
+			Paused = false;
+			Demo.classList.remove("is-paused");
+			Status.textContent = `NORMALIZING · ${Chars.toLocaleString("en-US")} CHARS`;
+			StartStreaming();
+		});
+	}
 </script>

@@ -164,29 +164,40 @@ const Usage = [
 			<Badge Variant="primary" Dot>
 				PLUGIN DETAIL
 			</Badge>
-			<FlavorBadge Flavor="FILE" />
+			<span class="flavor-cell flavor-cell--compact">
+				<FlavorBadge Flavor="FILE" />
+			</span>
 			<Badge>LISTENER-LESS TOOL</Badge>
 		</div>
 
 		<section class="page-hero">
 			<h1 class="page-hero__title">
-				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-file/Source")}>hook-dsh-normalize-file</a>
+				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-file/Source")}>
+					hook-dsh-normalize-file
+				</a>
 			</h1>
 			<p class="page-hero__sub">
-				{Families.File} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family for PlayForm._
-				The <strong>file-content normalizer</strong> - a DeepSeek Harness plugin that
-				registers the normalize family's <code>normalize-file</code> TOOL: the read{" "}
-				<ArrowIcon Direction="right" Tone="accent" /> count{" "}
+				{Families.File} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family
+				for PlayForm._ The <strong>file-content normalizer</strong> - a DeepSeek Harness
+				plugin that registers the normalize family's <code>normalize-file</code> TOOL: the
+				read <ArrowIcon Direction="right" Tone="accent" /> count{" "}
 				<ArrowIcon Direction="right" Tone="accent" /> write pipeline over files ALREADY on
-				disk, beyond the tool layer. One agent-chosen
-				file per call: the target's content is read, the family's SIX transforms are applied
-				with a per-character count, and only when N &gt; 0 is the rewritten content written
-				back through the factory's ONE shared write executor. N = 0 writes NOTHING - the
-				no-op no-write rule. The family's first LISTENER-LESS flavor: no
-				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>, no <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> - nothing runs without an
-				explicit agent action. This bundle's own tool calls are name-exempt in the stream
-				gate beside <code>edit</code> and <code>raw-write</code> - its arguments carry a
-				FILE PATH, and a normalized dash inside a filename would corrupt the target.
+				disk, beyond the tool layer. One agent-chosen file per call: the target's content is
+				read, the family's SIX transforms are applied with a per-character count, and only
+				when N &gt; 0 is the rewritten content written back through the factory's ONE shared
+				write executor. N = 0 writes NOTHING - the no-op no-write rule. The family's first
+				LISTENER-LESS flavor: no
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
+					<code>llm/stream</code>
+				</a>
+				, no{" "}
+				<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
+					<code>fs/observed</code>
+				</a>{" "}
+				- nothing runs without an explicit agent action. This bundle's own tool calls are
+				name-exempt in the stream gate beside <code>edit</code> and <code>raw-write</code> -
+				its arguments carry a FILE PATH, and a normalized dash inside a filename would
+				corrupt the target.
 			</p>
 		</section>
 
@@ -195,7 +206,9 @@ const Usage = [
 				<Terminal Command="pnpm add @playform/hook-dsh-normalize-file" />
 			</div>
 			<div class="inspect-card">
-				<span class="inspect-card__meta"><span class="live-dot"></span>INSPECTED</span>
+				<span class="inspect-card__meta">
+					<span class="live-dot"></span>INSPECTED
+				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
 					<span class="hook-tally">@playform/hook-dsh-normalize-file</span>
@@ -231,9 +244,19 @@ const Usage = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.File}</strong>): a tool-child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service and the{" "}
-						<strong>hook-dsh-core</strong> machinery; the seventh sibling - the one
-						flavor that works on files already on disk instead of model output.
+						<strong>
+							<a
+								href={Link(
+									Links.OurRepo,
+									"Classic/packages/plugin-dsh-factory/Source",
+								)}
+							>
+								plugin-dsh-factory
+							</a>
+						</strong>{" "}
+						service and the <strong>hook-dsh-core</strong> machinery; the seventh
+						sibling - the one flavor that works on files already on disk instead of
+						model output.
 					</p>
 				</Concept>
 			</div>
@@ -256,7 +279,9 @@ const Usage = [
 								<td>
 									{Row.Mechanism.split("→").map((Part, Index) => (
 										<Fragment>
-											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
+											{Index > 0 && (
+												<ArrowIcon Direction="right" Tone="accent" />
+											)}
 											{Part}
 										</Fragment>
 									))}
@@ -291,8 +316,8 @@ const Usage = [
 					<p>
 						The hermes heritage is direct: the{" "}
 						<code>normalize-dashes-for-execute-code.sh</code> hook swept script-created
-						files after the fact; DSH makes the same rewrite an explicit, visible, opt-in
-						TOOL call instead of a background hook.
+						files after the fact; DSH makes the same rewrite an explicit, visible,
+						opt-in TOOL call instead of a background hook.
 					</p>
 					<p>
 						<code>normalize-tabs.sh</code> - the repair hook for a repair hook - is the
@@ -302,7 +327,7 @@ const Usage = [
 				<Concept
 					Id="file-non-manifest"
 					Title="A non-manifest factory consumer - the only one that writes"
-					Diagram="The tool's factory surface: injecting [&quot;pluginFactory&quot;, &quot;fs&quot;, &quot;tools&quot;], using State, Append (the ledger), Journal (the P5 storage record) and - uniquely in the family - Write, the ONE shared write executor - with the tool's writes carrying the call's exec as the actor, so the governance trio's Gate (which pins mutationTools to write/edit/str_replace_editor) never treats them as a trigger."
+					Diagram='The tool&apos;s factory surface: injecting ["pluginFactory", "fs", "tools"], using State, Append (the ledger), Journal (the P5 storage record) and - uniquely in the family - Write, the ONE shared write executor - with the tool&apos;s writes carrying the call&apos;s exec as the actor, so the governance trio&apos;s Gate (which pins mutationTools to write/edit/str_replace_editor) never treats them as a trigger.'
 				>
 					<p>
 						A <strong>non-manifest factory consumer</strong>: it injects{" "}
@@ -369,13 +394,14 @@ const Usage = [
 						Files that never passed through a write tool are invisible to every
 						normalization layer DSH has: <code>raw-write</code>'s{" "}
 						<code>normalize: true</code> is an explicit per-call opt-in for NEW writes,
-						and the six stream flavors only rewrite model output - they never touch disk.
+						and the six stream flavors only rewrite model output - they never touch
+						disk.
 					</p>
 					<p>
 						Left unnormalized, a pre-existing file keeps every typographic dash, curly
-						quote, ellipsis, unicode space, zero-width character and full-width character
-						it was born with - exactly the characters that break parsers, shells, diffs
-						and byte-exact edit matches downstream.
+						quote, ellipsis, unicode space, zero-width character and full-width
+						character it was born with - exactly the characters that break parsers,
+						shells, diffs and byte-exact edit matches downstream.
 					</p>
 				</Concept>
 				<Concept
@@ -384,15 +410,15 @@ const Usage = [
 					Diagram="Files rewritten behind the agent only at the price of the edit tool's old_string contract - the agent reading bytes X, a background rewriter silently changing them to X', the next edit failing or half-matching - Hermes learning this the hard way with normalize-tabs.sh existing to repair the damage its own after-the-fact rewriting caused."
 				>
 					<p>
-						But the fix cannot be another silent rewriter. Files are rewritten behind the
-						agent only at the price of the edit tool's <code>old_string</code> contract:
-						the agent read bytes X, a background rewriter silently changed them to X',
-						and the next edit fails or half-matches.
+						But the fix cannot be another silent rewriter. Files are rewritten behind
+						the agent only at the price of the edit tool's <code>old_string</code>{" "}
+						contract: the agent read bytes X, a background rewriter silently changed
+						them to X', and the next edit fails or half-matches.
 					</p>
 					<p>
 						Hermes learned this the hard way - its <code>normalize-tabs.sh</code> exists
-						to repair the damage its own after-the-fact rewriting caused. The tool is the
-						answer: explicit, visible, discoverable, zero background activity.
+						to repair the damage its own after-the-fact rewriting caused. The tool is
+						the answer: explicit, visible, discoverable, zero background activity.
 					</p>
 				</Concept>
 			</div>
@@ -421,9 +447,9 @@ const Usage = [
 						chain - the core's tables and replacers, applied whole at write time.
 					</p>
 					<p>
-						There is no stream dispatch to gate: the tool registers NO event listener, so
-						the six transforms are applied to the entire file content in one pass, and
-						the count is the ledger's N and the no-op condition in one.
+						There is no stream dispatch to gate: the tool registers NO event listener,
+						so the six transforms are applied to the entire file content in one pass,
+						and the count is the ledger's N and the no-op condition in one.
 					</p>
 				</Concept>
 				<Concept
@@ -432,10 +458,22 @@ const Usage = [
 					Diagram="The write going through Factory.Write and emitting fs/observed - but the governors' Gate requiring the actor tool name in their mutationTools pin, normalize-file never added to any such list, so these writes never trigger a chain pass."
 				>
 					<p>
-						Governance bounded passes: the write goes through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Write.ts")}><code>Factory.Write</code></a>{" "}
-						and emits <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a>, but the governors' Gate requires the
-						actor tool name in their mutationTools pin - <code>normalize-file</code> is
-						never added to any such list, so these writes never trigger a chain pass.
+						Governance bounded passes: the write goes through{" "}
+						<a
+							href={Link(
+								Links.OurRepo,
+								"Classic/packages/plugin-dsh-factory/Source/Function/Write.ts",
+							)}
+						>
+							<code>Factory.Write</code>
+						</a>{" "}
+						and emits{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
+							<code>fs/observed</code>
+						</a>
+						, but the governors' Gate requires the actor tool name in their
+						mutationTools pin - <code>normalize-file</code> is never added to any such
+						list, so these writes never trigger a chain pass.
 					</p>
 				</Concept>
 				<Concept
@@ -456,8 +494,16 @@ const Usage = [
 				>
 					<p>
 						Raw-write read-before-write: tool calls are serialized and{" "}
-						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Write.ts")}><code>Factory.Write</code></a>'s before is read at write time, so a prior
-						normalize-file in the same turn is already reflected. No race.
+						<a
+							href={Link(
+								Links.OurRepo,
+								"Classic/packages/plugin-dsh-factory/Source/Function/Write.ts",
+							)}
+						>
+							<code>Factory.Write</code>
+						</a>
+						's before is read at write time, so a prior normalize-file in the same turn
+						is already reflected. No race.
 					</p>
 				</Concept>
 			</div>
@@ -500,8 +546,10 @@ const Usage = [
 					<p>
 						There are no stream flags (<code>normalizeReasoning</code>,{" "}
 						<code>normalizeToolArguments</code>) and no{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> fields (
-						<code>updateCooldownMs</code>, <code>mutationTools</code>,{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
+							fs/observed
+						</a>{" "}
+						fields (<code>updateCooldownMs</code>, <code>mutationTools</code>,{" "}
 						<code>policyFile</code>, <code>exclude</code>): the minimal{" "}
 						<code>shared: false</code> block plus the two knobs is the whole config
 						surface, because the tool registers no listener of any kind.
@@ -519,7 +567,9 @@ const Usage = [
 
 		<section class="section">
 			<SectionHeader Title="In Action" Meta="ONE CALL, ONE FILE, ONE COUNT" />
-			<p class="section-kicker"><BrandIcon Name="swap" /> Before - the file as it sits on disk</p>
+			<p class="section-kicker">
+				<BrandIcon Name="swap" /> Before - the file as it sits on disk
+			</p>
 			<div class="code-block">{BeforeAfter.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
@@ -582,9 +632,17 @@ const Usage = [
 					Diagram="Each N > 0 write also journaling one normalized record into the shared package_governance v2 domain (event normalized, path = the target's display path, detail byte-identical to the count line) - best-effort: with no storage facility the record buffers or drops and the human ledger stays the complete record."
 				>
 					<p>
-						Each N &gt; 0 write also journals one <code>normalized</code> record into the
-						shared <code>package_governance</code> <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts")}>v2 domain</a> (event{" "}
-						<code>normalized</code>, path = the target's display path, detail
+						Each N &gt; 0 write also journals one <code>normalized</code> record into
+						the shared <code>package_governance</code>{" "}
+						<a
+							href={Link(
+								Links.OurRepo,
+								"Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts",
+							)}
+						>
+							v2 domain
+						</a>{" "}
+						(event <code>normalized</code>, path = the target's display path, detail
 						byte-identical to the count line).
 					</p>
 					<p>

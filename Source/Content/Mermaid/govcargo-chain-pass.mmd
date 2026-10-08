@@ -1,0 +1,8 @@
+flowchart TD
+	G3["G3 chain pass<br/>parse with smol-toml - identification only"]
+	S1["1. CHAIN<br/>dep in registry.effectiveLatest<br/>to the bare resolved version (Cargo's implicit caret)<br/>or =resolved with pinStyle exact - always the FULL form"]
+	S2["2. STRIP<br/>strict-mode unknown deps"]
+	S3["3. NORMALIZE<br/>every other simple version<br/>the keep-list wins to byte-identical"]
+	G3 --> S1
+	G3 --> S2
+	G3 --> S3

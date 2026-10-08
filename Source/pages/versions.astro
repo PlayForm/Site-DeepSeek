@@ -33,8 +33,8 @@ const Invariants = [
 			<Badge Variant="primary" Dot>
 				ECOSYSTEM: @PLAYFORM
 			</Badge>
-			<Badge>CLASSIC</Badge>
-			<Badge>EFFECT-TS</Badge>
+			<Badge><BrandIcon Name="typescript" Size="0.8em" /> CLASSIC</Badge>
+			<Badge><BrandIcon Name="effect" Size="0.8em" /> EFFECT-TS</Badge>
 		</div>
 
 		<PageHero
@@ -47,16 +47,7 @@ const Invariants = [
 				<Card Variant="white">
 					<div slot="head" class="version-card__head">
 						<span class="version-card__title">CLASSIC</span>
-						<svg
-							class="version-card__icon"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-							aria-hidden="true"
-						>
-							<path d="M12 3 L21 8 L12 13 L3 8 Z M3 12.5 L12 17.5 L21 12.5 M3 16.5 L12 21.5 L21 16.5"></path>
-						</svg>
+						<BrandIcon Name="typescript" Size="20px" ClassName="version-card__icon" />
 					</div>
 					<p class="version-card__body">
 						The twelve contracts in plain TypeScript - classes, Maps and plain

@@ -129,6 +129,10 @@ const Spans = [
 						data-runtime={Runtime.Id}
 						data-active={Index === 1 ? "" : undefined}
 					>
+						{Runtime.Id === "classic" && (
+							<BrandIcon Name="typescript" Size="0.8em" />
+						)}
+						{Runtime.Id === "effect" && <BrandIcon Name="effect" Size="0.8em" />}
 						{Runtime.Label}
 					</button>
 				))}
@@ -191,7 +195,9 @@ const Spans = [
 						<span class="metric__value" data-metric="quotes">
 							0
 						</span>
-						<span class="metric__note">\u201C\u201D <ArrowIcon Direction="right" Tone="accent" /> ""</span>
+						<span class="metric__note">
+							\u201C\u201D <ArrowIcon Direction="right" Tone="accent" /> ""
+						</span>
 					</div>
 				</div>
 				<div class="metric">
@@ -200,7 +206,9 @@ const Spans = [
 						<span class="metric__value" data-metric="dash">
 							0
 						</span>
-						<span class="metric__note">\u2014 \u2013 <ArrowIcon Direction="right" Tone="accent" /> -</span>
+						<span class="metric__note">
+							\u2014 \u2013 <ArrowIcon Direction="right" Tone="accent" /> -
+						</span>
 					</div>
 				</div>
 				<div class="metric">
@@ -239,9 +247,9 @@ const Spans = [
 					>
 						<div class="hook-card__top">
 							<span class="hook-card__token">
-							<span class="flavor-prefix">{Hook.Prefix}:</span>
-							{Hook.Token}
-						</span>
+								<span class="flavor-prefix">{Hook.Prefix}:</span>
+								{Hook.Token}
+							</span>
 							<span class="hook-card__status"></span>
 						</div>
 						<span class="hook-card__name">{Hook.Name}</span>
@@ -348,6 +356,7 @@ const Spans = [
 	const CleanCount = document.querySelector<HTMLElement>("[data-count='clean']")!;
 	const Tally = document.querySelector<HTMLElement>("[data-hook-tally]")!;
 	const ToggleButton = document.querySelector<HTMLElement>("[data-action='toggle']")!;
+	const StreamStage = document.querySelector<HTMLElement>(".stream-grid")!;
 
 	// The per-hook transform rules, mirrored from the server-rendered cards.
 	const Rules: Record<string, (Text: string) => [string, number]> = {
@@ -403,6 +412,7 @@ const Spans = [
 	let RawBytes = 0;
 	let CleanBytes = 0;
 	let Paused = false;
+	let HoverPaused = false;
 
 	function Transform(Text: string) {
 		let Clean = Text;
@@ -422,8 +432,7 @@ const Spans = [
 	// Blue tint spans + the explicit [ZWSP]/[NBSP] markers), exactly the
 	// workbench mock's highlight; the clean pane is plain ASCII text.
 	function Highlight(Text: string) {
-		return Text
-			.replace(/[\u200B-\u200D\uFEFF]/g, '<span class="zwsp">[ZWSP]</span>')
+		return Text.replace(/[\u200B-\u200D\uFEFF]/g, '<span class="zwsp">[ZWSP]</span>')
 			.replace(/\u00A0/g, '<span class="zwsp">[NBSP]</span>')
 			.replace(/[\u2013\u2014\u2015]/g, (Mark) => `<span class="anom">${Mark}</span>`)
 			.replace(/[\u2018\u2019\u201C\u201D]/g, (Mark) => `<span class="anom">${Mark}</span>`)
@@ -450,7 +459,7 @@ const Spans = [
 	}
 
 	function Push() {
-		if (Paused) return;
+		if (Paused || HoverPaused) return;
 		const Seed = Seeds[Math.floor(Math.random() * Seeds.length)];
 		const [Clean] = Transform(Seed);
 		RawBytes += new TextEncoder().encode(Seed).length;
@@ -459,14 +468,8 @@ const Spans = [
 		RawTerminal.insertAdjacentHTML("beforeend", `\u21B3 ${Highlight(Seed)}\n`);
 		CleanTerminal.append(`\u21B3 ${Clean}\n`);
 		// The live caret rides the tail of each pane.
-		RawTerminal.insertAdjacentHTML(
-			"beforeend",
-			'<span class="stream-caret"></span>',
-		);
-		CleanTerminal.insertAdjacentHTML(
-			"beforeend",
-			'<span class="stream-caret"></span>',
-		);
+		RawTerminal.insertAdjacentHTML("beforeend", '<span class="stream-caret"></span>');
+		CleanTerminal.insertAdjacentHTML("beforeend", '<span class="stream-caret"></span>');
 
 		if (RawTerminal.scrollHeight > RawTerminal.clientHeight + 400) {
 			RawTerminal.textContent = RawTerminal.textContent?.split("\n").slice(-6).join("\n");
@@ -479,6 +482,26 @@ const Spans = [
 
 	// Prime the panes with three chunks so the gate reads live on load.
 	for (let Index = 0; Index < 3; Index += 1) Push();
+
+	// Hover-to-pause on the dual-terminal stage: hovering the raw/clean
+	// panes suspends the stream ticks (the push guard returns early) and
+	// the .is-paused class freezes the dots, the spin and the caret while
+	// the hub shows the PAUSED tag, so the terminals can be read at
+	// leisure. Leaving resumes with the next regular tick (the interval
+	// itself keeps running; the guard skips its work while hovered).
+	// Reduced-motion users keep the stock behavior - no listeners attached.
+	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		StreamStage.addEventListener("mouseenter", () => {
+			if (HoverPaused) return;
+			HoverPaused = true;
+			StreamStage.classList.add("is-paused");
+		});
+		StreamStage.addEventListener("mouseleave", () => {
+			if (!HoverPaused) return;
+			HoverPaused = false;
+			StreamStage.classList.remove("is-paused");
+		});
+	}
 
 	const Toast = (window as any).__dshToast as ((Message: string) => void) | undefined;
 
@@ -513,7 +536,11 @@ const Spans = [
 			Card.dataset["armed"] = String(!All);
 		});
 		Render();
-		Toast?.(All ? `Disarmed all ${Counts.Normalizers} hooks` : `Armed all ${Counts.Normalizers} normalization hooks`);
+		Toast?.(
+			All
+				? `Disarmed all ${Counts.Normalizers} hooks`
+				: `Armed all ${Counts.Normalizers} normalization hooks`,
+		);
 	});
 
 	// Runtime pills.

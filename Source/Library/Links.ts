@@ -32,18 +32,19 @@ export const BranchOurs = "tree/Current";
 
 /**
  * The registry. Only the Base and Branch values above may name a host; every
- * other URL on the site is composed from these. The site carries no URL of
- * its own yet: astro.config.ts leaves `site` unset (the TODO comment), the
- * built HTML has no canonical or sitemap hrefs, so there is no Links.Site
- * entry to invent - add one here, beside the repos, when the site deploys
- * under a domain.
+ * other URL on the site is composed from these. The site's own base URL is
+ * Site below: the header brand links to it and astro.config.ts mirrors it
+ * (the config cannot import this module at config-eval time, so it repeats
+ * the literal with a comment pointing here).
  */
 export const Links = {
+	/** The site's own base URL - what the deployed site is served from. */
+	Site: "https://deepseek.playform.cloud",
 	/** The DeepSeek Harness repository (deepseek-ai), linked at branch master. */
 	DeepSeekHarness: { Base: "https://github.com/deepseek-ai/deepseek-harness", Branch: BranchDeepSeek },
 	/** The family monorepo - this site's own repository (PlayForm/DeepSeek), at branch Current. */
 	OurRepo: { Base: "https://github.com/PlayForm/DeepSeek", Branch: BranchOurs },
-} as const satisfies Record<string, Repo>;
+} as const satisfies Record<string, Repo | string>;
 
 /**
  * Compose a repository URL: Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")

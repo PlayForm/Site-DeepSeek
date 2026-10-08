@@ -383,7 +383,10 @@ const Lessons = [
 				<Badge Variant="active">{Counts.Packages} PACKAGES</Badge>
 				<Badge Variant="active">{Counts.Suites} SMOKE SUITES</Badge>
 				<Badge>DUAL RELEASE</Badge>
-				<Badge>CLASSIC + EFFECT-TS</Badge>
+				<Badge>
+					<BrandIcon Name="typescript" Size="0.8em" /> CLASSIC +{" "}
+					<BrandIcon Name="effect" Size="0.8em" /> EFFECT-TS
+				</Badge>
 			</div>
 		</section>
 
@@ -999,7 +1002,8 @@ const Lessons = [
 				>
 					<p>
 						The triad's roles stay fixed: <strong>Boilerplate</strong> is the live truth,{" "}
-						<strong>Classic</strong> is the anonymized release,{" "}
+						<BrandIcon Name="typescript" /> <strong>Classic</strong> is the anonymized
+						release,{" "}
 						<BrandIcon Name="effect" /> <strong>Effect-TS</strong> is the port.
 					</p>
 				</Concept>

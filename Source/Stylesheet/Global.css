@@ -268,6 +268,10 @@ svg {
 	min-width: 0;
 }
 
+.site-header__brand:hover {
+	text-decoration: none;
+}
+
 .site-header__glyph {
 	width: 28px;
 	height: 28px;
@@ -470,6 +474,33 @@ svg {
 	display: flex;
 	flex-direction: column;
 	margin-bottom: var(--space-xl);
+}
+
+/* ---- The two-split hero: text + buttons left, live preview right ----
+	Below the shared h1, the hero becomes a two-column grid: the lead
+	column stacks the sub text, the install terminal and the action
+	buttons; the demo column carries the live stream gate preview. The
+	minmax(0, 1fr) floors keep both columns at exactly half the content
+	width - no blank side - and the split collapses to the stacked layout
+	below the laptop breakpoint. */
+.hero__split {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--space-lg);
+	align-items: start;
+	margin-top: var(--space-lg);
+}
+
+@media (min-width: 1024px) {
+	.hero__split {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}
+
+.hero__lead {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
 }
 
 .hero__title {
@@ -847,12 +878,69 @@ svg {
 	gap: var(--space-xs);
 }
 
-/* ---- Flavor strip ---- */
+/* ---- Flavor strip: the responsive cell grid ----
+	The Flavors & Roles strip is a two-tier grid of delineated cells:
+	the seven flavor cells first (in the canonical DASH -> QUOTES ->
+	ELLIPSIS -> SPACES -> INVISIBLE -> FULLWIDTH -> FILE order), then
+	the two role cells. Each cell gives the stacked FLAVOR label plus
+	the version badge its own box, so the stack reads inside the cell
+	and never collapses against the neighboring items. Token gaps, the
+	1px hairline delineation, zero elevation; auto-fit fills the
+	section width with no blank space and steps down to a single
+	column on the narrow viewports. */
 .flavor-strip {
 	display: flex;
-	flex-wrap: wrap;
-	gap: 6px;
+	flex-direction: column;
+	gap: var(--space-sm);
 	padding: var(--space-xs) 0;
+}
+
+.flavor-strip__flavors {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+	gap: var(--space-sm);
+}
+
+.flavor-strip__roles {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+	gap: var(--space-sm);
+}
+
+/* ---- The flavor cell: the delineated box around a FLAVOR stack ----
+	The #F8FAFC tray with the outline-variant hairline matches the
+	default card voice; the stack inside is left-aligned so the label
+	chip and the version chip read as one column inside the box. */
+.flavor-cell {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--space-xs);
+	min-width: 0;
+	padding: var(--space-sm) var(--space-md);
+	background: var(--color-surface-container-low);
+	border: 1px solid var(--color-outline-variant);
+	border-radius: var(--radius-lg);
+}
+
+.flavor-cell .flavor-stack {
+	align-items: flex-start;
+}
+
+/* Compact variant: the same cell treatment at the smaller surfaces -
+	the flavor badges inside the card headers and the eyebrow rows. */
+.flavor-cell--compact {
+	padding: 2px var(--space-sm);
+	border-radius: var(--radius-default);
+}
+
+/* Role variant: the two governance roles keep the cell chrome but
+	carry the Harness Blue tint so the roles read as their own kind. */
+.flavor-cell--role {
+	align-items: center;
+	justify-content: center;
+	background: var(--color-harness-blue-subtle);
+	border-color: var(--color-primary-container);
 }
 
 /* ---- Summary / notation card ---- */
@@ -2057,18 +2145,18 @@ svg {
 	border-radius: var(--radius-default);
 }
 
-/* ---- Live stream gate preview (index hero): the left-to-right pipeline ----
-	RAW STREAM pane on the left, the flow pipe in the middle, NORMALIZED
-	OUTPUT on the right. Both panes are height-bounded (a fixed 96px screen =
-	4 lines of 18px + 24px of padding, overflow hidden): each generation
-	appends the next response inside the panes, the oldest lines scroll out,
-	and the section's footprint on the page never changes. */
+/* ---- Live stream gate preview (index hero's right column): the
+	left-to-right pipeline ---- RAW STREAM pane on the left, the flow pipe
+	in the middle, NORMALIZED OUTPUT on the right. Both panes are
+	height-bounded (a fixed 96px screen = 4 lines of 18px + 24px of
+	padding, overflow hidden): each generation appends the next response
+	inside the panes, the oldest lines scroll out, and the section's
+	footprint on the page never changes. The preview fills its hero column
+	edge to edge - no max-width, no blank right side. */
 .terminal-demo {
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-sm);
-	margin-top: var(--space-md);
-	max-width: 720px;
 	padding: var(--space-md);
 	border-radius: var(--radius-lg);
 	background: var(--color-surface-container-lowest);
@@ -2163,6 +2251,43 @@ svg {
 	letter-spacing: var(--tracking-label-sm);
 	color: var(--color-primary);
 	flex-shrink: 0;
+}
+
+/* ---- Hover-to-pause: the streams freeze while the cursor reads ----
+	The index preview and the workbench/matrix stages toggle .is-paused
+	on hover: the tick loops suspend (see the page scripts) and the motion
+	language - the live dot, the pipe pulse, the caret blink, the hub
+	spin, the anomaly flash - freezes in place via animation-play-state.
+	The paused status text and the PAUSED tag use the accent-orange token,
+	the raw/stream signature, so the paused state is unmistakable while
+	the RAW stays orange and the CLEAN stays blue. */
+.terminal-demo.is-paused .live-dot,
+.terminal-demo.is-paused .flow-line__pulse,
+.terminal-demo.is-paused .stream-caret,
+.stream-grid.is-paused .dot,
+.stream-grid.is-paused .spin,
+.stream-grid.is-paused .stream-caret,
+.stream-grid.is-paused .anom {
+	animation-play-state: paused;
+}
+
+.terminal-demo.is-paused .terminal-demo__status {
+	color: var(--color-accent-orange);
+}
+
+/* The workbench/matrix paused tag: the flow divider announces the paused
+	state between the two panes, replacing nothing - it appears under the
+	hub core while the cursor holds the stage. */
+.stream-grid.is-paused .stream-hub::after {
+	content: "PAUSED · HOVER TO RESUME";
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	color: var(--color-accent-orange);
+	white-space: nowrap;
+	text-transform: uppercase;
 }
 
 /* ---- Concept blocks: the diagram-first restructure units ----

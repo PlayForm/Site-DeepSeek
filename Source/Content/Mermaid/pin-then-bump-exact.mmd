@@ -1,0 +1,6 @@
+flowchart LR
+	R["authored range ^0.3.4"] --> P["pinner<br/>pin-then-bump-exact"]
+	P --> F["fully pinned 0.3.4"]
+	F --> U["governor update stage<br/>nothing to do"]
+	P -. "the chain pass is separate" .-> C["chain pass"]
+	C --> N["may still re-canonicalize chain pins"]

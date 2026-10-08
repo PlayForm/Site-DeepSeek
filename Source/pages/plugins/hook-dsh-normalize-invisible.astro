@@ -186,7 +186,9 @@ const LedgerStrings = [
 			<Badge Variant="primary" Dot>
 				PLUGIN DETAIL
 			</Badge>
-			<FlavorBadge Flavor="INVISIBLE" />
+			<span class="flavor-cell flavor-cell--compact">
+				<FlavorBadge Flavor="INVISIBLE" />
+			</span>
 			<Badge>CLASS FLAVOR - REMOVAL</Badge>
 		</div>
 
@@ -196,15 +198,24 @@ const LedgerStrings = [
 				{Families.Invisible} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin
 				Family for PlayForm._ The{" "}
 				<strong>invisible-character normalizer for model output</strong> - a DeepSeek
-				Harness plugin that hooks the <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a> waterfall (the interceptable
-				wrapper around EVERY streaming model call, bound to the <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>LlmRuntime</a>) and normalizes
-				the zero-width/invisible character family in model output, live in the transcript -
-				by REMOVING it: zero-width spaces, joiners, bidi controls and the BOM character
-				simply vanish (the default replacement is the empty string). A CLASS flavor of the
-				normalize family: the core's <code>Invisible</code> class plus a configurable{" "}
-				<code>replacement</code> string (default <code>""</code> - removal). The family's
-				raw-write tool (registered by <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>hook-dsh-normalize-dash</a>) bypasses this flavor's
-				transforms too - the exemption is family-wide.
+				Harness plugin that hooks the{" "}
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
+					<code>llm/stream</code>
+				</a>{" "}
+				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
+					LlmRuntime
+				</a>
+				) and normalizes the zero-width/invisible character family in model output, live in
+				the transcript - by REMOVING it: zero-width spaces, joiners, bidi controls and the
+				BOM character simply vanish (the default replacement is the empty string). A CLASS
+				flavor of the normalize family: the core's <code>Invisible</code> class plus a
+				configurable <code>replacement</code> string (default <code>""</code> - removal).
+				The family's raw-write tool (registered by{" "}
+				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
+					hook-dsh-normalize-dash
+				</a>
+				) bypasses this flavor's transforms too - the exemption is family-wide.
 			</p>
 		</section>
 
@@ -248,9 +259,18 @@ const LedgerStrings = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.Invisible}</strong>): a hook child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service and the{" "}
-						<strong>hook-dsh-core</strong> machinery; the fifth of the six stream
-						normalizer siblings.
+						<strong>
+							<a
+								href={Link(
+									Links.OurRepo,
+									"Classic/packages/plugin-dsh-factory/Source",
+								)}
+							>
+								plugin-dsh-factory
+							</a>
+						</strong>{" "}
+						service and the <strong>hook-dsh-core</strong> machinery; the fifth of the
+						six stream normalizer siblings.
 					</p>
 				</Concept>
 			</div>
@@ -297,12 +317,27 @@ const LedgerStrings = [
 						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
 						the config is composed by the factory's standalone <code>Schema</code>{" "}
 						helper with
-						<code>shared: false</code> - the minimal block, no <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> dead fields.
+						<code>shared: false</code> - the minimal block, no{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
+							fs/observed
+						</a>{" "}
+						dead fields.
 					</p>
 					<p>
-						It touches no files, so <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/write-intent</a> and <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> never see it; it
-						wraps the downstream result and always calls <code>next()</code>, so it
-						composes with other <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>llm/stream</a> listeners regardless of registration order.
+						It touches no files, so{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
+							fs/write-intent
+						</a>{" "}
+						and{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
+							fs/observed
+						</a>{" "}
+						never see it; it wraps the downstream result and always calls{" "}
+						<code>next()</code>, so it composes with other{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
+							llm/stream
+						</a>{" "}
+						listeners regardless of registration order.
 					</p>
 				</Concept>
 			</div>
@@ -477,7 +512,18 @@ const LedgerStrings = [
 						Volatile cells commit without remounting the plugin; the factory's State
 						builder unwraps them defensively.
 					</p>
-					<p>Example <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> row:</p>
+					<p>
+						Example{" "}
+						<a
+							href={Link(
+								Links.OurRepo,
+								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
+							)}
+						>
+							cordis.patch.yml
+						</a>{" "}
+						row:
+					</p>
 				</Concept>
 			</div>
 			<CodeBlock

@@ -38,8 +38,10 @@ export default defineConfig({
 	srcDir: "./Source",
 	publicDir: "./Public",
 	outDir: "./Target",
-	// TODO Place your site URL here
-	// site: "",
+	// The site's own base URL (sitemap, canonical URLs). Keep in sync with
+	// Links.Site in Source/Library/Links.ts - the URL registry; this config
+	// cannot import that module at config-eval time, so the literal repeats.
+	site: "https://deepseek.playform.cloud",
 	compressHTML: true,
 	prefetch: {
 		defaultStrategy: "hover",

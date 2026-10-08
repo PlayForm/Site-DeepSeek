@@ -1,0 +1,6 @@
+flowchart TD
+	W["write with count N > 0"] --> L["human ledger - the count line"]
+	W --> J["one normalized record<br/>event normalized - path = the target's display path<br/>detail byte-identical to the count line"]
+	J --> S{"storage facility?"}
+	S -- "present" --> V["package_governance v2 domain"]
+	S -- "absent" --> D["buffer or drop<br/>the human ledger stays the complete record"]

@@ -169,7 +169,9 @@ const LedgerStrings = [
 			<Badge Variant="primary" Dot>
 				PLUGIN DETAIL
 			</Badge>
-			<FlavorBadge Flavor="QUOTES" />
+			<span class="flavor-cell flavor-cell--compact">
+				<FlavorBadge Flavor="QUOTES" />
+			</span>
 			<Badge>MAP FLAVOR</Badge>
 		</div>
 
@@ -178,16 +180,24 @@ const LedgerStrings = [
 			<p class="page-hero__sub">
 				{Families.Quotes} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin
 				Family for PlayForm._ The <strong>quote normalizer for model output</strong> - a
-				DeepSeek Harness plugin that hooks the <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a> waterfall (the
-				interceptable wrapper around EVERY streaming model call, bound to the <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>LlmRuntime</a>)
-				and normalizes the curly quote family in model output, live in the transcript: the
+				DeepSeek Harness plugin that hooks the{" "}
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
+					<code>llm/stream</code>
+				</a>{" "}
+				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
+					LlmRuntime
+				</a>
+				) and normalizes the curly quote family in model output, live in the transcript: the
 				eight typographic quote code points each map to their ASCII straight counterpart -
 				U+2018/U+2019/U+201A/U+201B to the ASCII apostrophe, and U+201C/U+201D/U+201E/U+201F
 				to the ASCII double quote. A MAP flavor of the normalize family: the core's{" "}
 				<code>Quotes</code> char-to-char table owns the substitution - no{" "}
 				<code>replacement</code> config knob. The family's raw-write tool (registered by
-				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>hook-dsh-normalize-dash</a>) bypasses this flavor's transforms too - the exemption is
-				family-wide.
+				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
+					hook-dsh-normalize-dash
+				</a>
+				) bypasses this flavor's transforms too - the exemption is family-wide.
 			</p>
 		</section>
 
@@ -231,9 +241,18 @@ const LedgerStrings = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.Quotes}</strong>): a hook child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service and the{" "}
-						<strong>hook-dsh-core</strong> machinery; the second of the six stream
-						normalizer siblings.
+						<strong>
+							<a
+								href={Link(
+									Links.OurRepo,
+									"Classic/packages/plugin-dsh-factory/Source",
+								)}
+							>
+								plugin-dsh-factory
+							</a>
+						</strong>{" "}
+						service and the <strong>hook-dsh-core</strong> machinery; the second of the
+						six stream normalizer siblings.
 					</p>
 				</Concept>
 			</div>
@@ -280,12 +299,27 @@ const LedgerStrings = [
 						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
 						the config is composed by the factory's standalone <code>Schema</code>{" "}
 						helper with
-						<code>shared: false</code> - the minimal block, no <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> dead fields.
+						<code>shared: false</code> - the minimal block, no{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
+							fs/observed
+						</a>{" "}
+						dead fields.
 					</p>
 					<p>
-						It touches no files, so <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/write-intent</a> and <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> never see it; it
-						wraps the downstream result and always calls <code>next()</code>, so it
-						composes with other <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>llm/stream</a> listeners regardless of registration order.
+						It touches no files, so{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
+							fs/write-intent
+						</a>{" "}
+						and{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
+							fs/observed
+						</a>{" "}
+						never see it; it wraps the downstream result and always calls{" "}
+						<code>next()</code>, so it composes with other{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
+							llm/stream
+						</a>{" "}
+						listeners regardless of registration order.
 					</p>
 				</Concept>
 			</div>
@@ -360,9 +394,13 @@ const LedgerStrings = [
 				>
 					<p>
 						<strong>The transform</strong> - exactly the core's <code>Quotes</code> map
-						(<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source")}>@playform/hook-dsh-core</a>'s Normalize/Quotes), applied per text segment
-						through the core's <code>ReplaceMap</code> - eight entries, each typographic
-						quote code point to its ASCII straight counterpart:
+						(
+						<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source")}>
+							@playform/hook-dsh-core
+						</a>
+						's Normalize/Quotes), applied per text segment through the core's{" "}
+						<code>ReplaceMap</code> - eight entries, each typographic quote code point
+						to its ASCII straight counterpart:
 					</p>
 				</Concept>
 			</div>
@@ -453,7 +491,16 @@ const LedgerStrings = [
 					</p>
 					<p>
 						Volatile cells commit without remounting the plugin; the factory's State
-						builder unwraps them defensively. Example <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> row:
+						builder unwraps them defensively. Example{" "}
+						<a
+							href={Link(
+								Links.OurRepo,
+								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
+							)}
+						>
+							cordis.patch.yml
+						</a>{" "}
+						row:
 					</p>
 				</Concept>
 			</div>

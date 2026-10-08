@@ -45,11 +45,31 @@ const CleanPayload = `{
 // smokes directory - each suite asserts the ledger strings byte-identically).
 const Suites = [
 	{ Flavor: "Dash", Package: "hook-dsh-normalize-dash", Checks: String(Counts.Dash.Classic) },
-	{ Flavor: "Quotes", Package: "hook-dsh-normalize-quotes", Checks: String(Counts.Quotes.Classic) },
-	{ Flavor: "Ellipsis", Package: "hook-dsh-normalize-ellipsis", Checks: String(Counts.Ellipsis.Classic) },
-	{ Flavor: "Spaces", Package: "hook-dsh-normalize-spaces", Checks: String(Counts.Spaces.Classic) },
-	{ Flavor: "Invisible", Package: "hook-dsh-normalize-invisible", Checks: String(Counts.Invisible.Classic) },
-	{ Flavor: "Fullwidth", Package: "hook-dsh-normalize-fullwidth", Checks: String(Counts.Fullwidth.Classic) },
+	{
+		Flavor: "Quotes",
+		Package: "hook-dsh-normalize-quotes",
+		Checks: String(Counts.Quotes.Classic),
+	},
+	{
+		Flavor: "Ellipsis",
+		Package: "hook-dsh-normalize-ellipsis",
+		Checks: String(Counts.Ellipsis.Classic),
+	},
+	{
+		Flavor: "Spaces",
+		Package: "hook-dsh-normalize-spaces",
+		Checks: String(Counts.Spaces.Classic),
+	},
+	{
+		Flavor: "Invisible",
+		Package: "hook-dsh-normalize-invisible",
+		Checks: String(Counts.Invisible.Classic),
+	},
+	{
+		Flavor: "Fullwidth",
+		Package: "hook-dsh-normalize-fullwidth",
+		Checks: String(Counts.Fullwidth.Classic),
+	},
 	{ Flavor: "File", Package: "hook-dsh-normalize-file", Checks: String(Counts.File.Classic) },
 ];
 
@@ -92,17 +112,20 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 			<div class="workbench-controls__group">
 				<span class="workbench-controls__label">Architecture:</span>
 				<button type="button" class="engine-pill" data-mode="classic">
-					Dual: CLASSIC
+					<BrandIcon Name="typescript" Size="0.8em" /> Dual: CLASSIC
 				</button>
 				<button type="button" class="engine-pill engine-pill--active" data-mode="effect">
-					EFFECT-TS v4 Tracing (Active)
+					<BrandIcon Name="effect" Size="0.8em" /> EFFECT-TS v4 Tracing (Active)
 				</button>
 			</div>
 		</section>
 
 		<!-- Flavor gate checkboxes -->
 		<section class="section">
-			<SectionHeader Title="Active flavor gate hooks" Meta={`${Counts.Normalizers} OF ${Counts.Normalizers} ARMED`} />
+			<SectionHeader
+				Title="Active flavor gate hooks"
+				Meta={`${Counts.Normalizers} OF ${Counts.Normalizers} ARMED`}
+			/>
 			<div class="hook-grid">
 				{Hooks.map((Hook) => (
 					<label class="hook-card is-armed" data-hook={Hook.Id}>
@@ -153,7 +176,9 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 							// payload emit: deepseek-v4-chunk-9812
 						</span>
 					</div>
-					<div class="stream-pane__terminal" data-raw>{RawPayload}</div>
+					<div class="stream-pane__terminal" data-raw>
+						{RawPayload}
+					</div>
 				</div>
 				<div class="stream-hub">
 					<div class="stream-hub__core">
@@ -199,7 +224,8 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 				</div>
 				<div class="workbench-controls__group">
 					<span class="bench-status hook-tally" data-benchmark-status>
-						{Counts.Suites} suites · {Totals.Pair()} · ALL PASS (the ledger strings, byte-identical)
+						{Counts.Suites} suites · {Totals.Pair()} · ALL PASS (the ledger strings,
+						byte-identical)
 					</span>
 					<button type="button" class="engine-pill" data-action="copy">
 						Copy Normalized Output
@@ -219,8 +245,8 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 				>
 					<p>
 						The inspector above runs the same per-chunk rules the packages run,
-						client-side. The real authority is each flavor's smoke suite, which loads the
-						built package and asserts the ledger strings byte-identically.
+						client-side. The real authority is each flavor's smoke suite, which loads
+						the built package and asserts the ledger strings byte-identically.
 					</p>
 				</Concept>
 			</div>
@@ -279,8 +305,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 	const CleanPane = document.querySelector<HTMLElement>("[data-clean]");
 
 	function Highlight(Text: string) {
-		return Text
-			.replace(/[\u200B-\u200D\uFEFF]/g, '<span class="zwsp">[ZWSP]</span>')
+		return Text.replace(/[\u200B-\u200D\uFEFF]/g, '<span class="zwsp">[ZWSP]</span>')
 			.replace(/\u00A0/g, '<span class="zwsp">[NBSP]</span>')
 			.replace(/[\u2013\u2014\u2015]/g, (Mark) => `<span class="anom">${Mark}</span>`)
 			.replace(/[\u2018\u2019\u201C\u201D]/g, (Mark) => `<span class="anom">${Mark}</span>`)
@@ -359,4 +384,17 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 			(window as any).__dshToast?.(`Architecture: ${Pill.textContent?.trim()}`);
 		});
 	});
+
+	// Hover-to-pause on the inspector stage: the matrix stream is
+	// event-driven (it re-normalizes on hook changes, not on a tick
+	// interval), so the pause freezes the motion language - the hub spin,
+	// the status dots and the caret - via the .is-paused class while the
+	// hub shows the PAUSED tag, so the two panes can be read at leisure.
+	// Reduced-motion users keep the stock behavior - nothing animates, so
+	// no listeners are attached.
+	const Stage = document.querySelector<HTMLElement>(".stream-grid");
+	if (Stage && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		Stage.addEventListener("mouseenter", () => Stage.classList.add("is-paused"));
+		Stage.addEventListener("mouseleave", () => Stage.classList.remove("is-paused"));
+	}
 </script>

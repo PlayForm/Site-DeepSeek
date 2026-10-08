@@ -1,0 +1,7 @@
+flowchart TD
+	IN["stream chunk"] --> G{"Chunk dispatch - the gate"}
+	G -- "text-delta" --> T["normalize the text"]
+	G -- "reasoning-delta (optional, when the caller's flag is on)" --> R["normalize the reasoning text"]
+	G -- "tool-call-delta (optional)" --> C["normalize the tool arguments"]
+	G -- "block-end" --> B["normalize the block content"]
+	G -- "other chunk types" --> I["unchanged - by identity"]

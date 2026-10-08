@@ -5,6 +5,7 @@ import { Head } from "astro-capo";
 import { ClientRouter } from "astro:transitions";
 import BrandIcon from "@Component/BrandIcon.astro";
 import { Copyright } from "@Library/Content";
+import { Links } from "@Library/Links";
 
 const { Title = "", Description = "" } = Astro.props;
 
@@ -72,7 +73,7 @@ function Current(Href: string) {
 		<!-- Fixed header -->
 		<header class="site-header">
 			<div class="site-header__inner">
-				<div class="site-header__brand">
+				<a class="site-header__brand" href={Links.Site}>
 					<svg
 						class="site-header__glyph"
 						viewBox="0 0 24 24"
@@ -89,7 +90,7 @@ function Current(Href: string) {
 					<span class="site-header__title">
 						@playform <span class="sep">/</span> DSH Family
 					</span>
-				</div>
+				</a>
 				<nav class="site-header__nav" aria-label="Primary">
 					{Nav.map((Item) => (
 						<a href={Item.Href} aria-current={Current(Item.Href) ? "page" : undefined}>

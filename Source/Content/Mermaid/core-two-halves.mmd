@@ -1,0 +1,10 @@
+flowchart LR
+	CORE["hook-dsh-core<br/>a library - not a registered plugin"]
+	GOV["Governance helpers"]
+	NORM["Normalization machinery"]
+	GH["The governance hooks consuming it"]
+	NH["The normalize hooks consuming it"]
+	CORE --> GOV
+	CORE --> NORM
+	GOV --> GH
+	NORM --> NH
