@@ -195,7 +195,7 @@ export const Copyright = {
 	/** The copyright year. */
 	Year: 2025,
 	/** The full footer line, byte-exact. */
-	Line: "© 2025 PlayForm Systems. All rights reserved.",
+	Line: "© 2025 PlayForm Cloud",
 } as const;
 
 /** Pluralize a unit the site's voice way: 1 record, 76 records. */
