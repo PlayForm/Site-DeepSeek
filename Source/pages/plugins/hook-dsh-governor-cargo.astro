@@ -109,10 +109,12 @@ const Related = [
 				<strong><span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" />Cargo.toml</span> flavor of the silent <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> governor</strong> - the same
 				architecture, the same API-awareness discipline, the same silence toward the author,
 				but for <BrandIcon Name="rust" /> RUST manifests, with the update stage driven by
-				the RUST-SIDE CLI (<code>cargo upgrade</code>, from cargo-edit): Rust does not
+				the RUST-SIDE CLI (<code>cargo upgrade</code>, from{" "}
+				<code class="code-token">cargo-edit</code>): Rust does not
 				co-opt into the TypeScript ecosystem, so there is no <BrandIcon Name="npm" />{" "}
-				npm-library equivalent - the update stage operates at the exclusionary level through
-				the cargo CLI.</p>
+				<code class="code-token">npm</code>-library equivalent - the update stage operates
+				at the exclusionary level through
+				the <code class="code-token">cargo</code> CLI.</p>
 			<p class="page-hero__sub">Chain canonicalization + full-version normalization + surgical TOML
 				rewriting + <code>cargo upgrade --exclude</code> - comments survive.</p>
 			<p class="page-hero__sub">Every claim
@@ -184,8 +186,9 @@ const Related = [
 					Diagram="The cargo module never seeing a package.json event and the npm plugins never seeing a Cargo.toml event - one trigger law covering the whole machine, npm and Rust alike."
 				>
 					<p>
-						The cargo module never sees a{" "}
-						<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> event and the npm plugins never see a{" "}
+						The <code class="code-token">cargo</code> module never sees a{" "}
+						<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> event and the{" "}
+						<code class="code-token">npm</code> plugins never see a{" "}
 						<span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" /><code>Cargo.toml</code></span> event.
 					</p>
 				</Concept>
@@ -225,7 +228,7 @@ const Related = [
 					Diagram={"Besides the fs/observed event path, its two steps registered with the factory's direct-govern registry at apply (Factory.RegisterGovern(\"Cargo.toml\", \"cargo\" | \"update\", ...)) - so the raw-write tool's per-call govern selection can drive the same chain + normalization pass and update stage directly through Factory.Govern."}
 				>
 					<p>
-						Besides the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> event path, its two steps are registered with the
+						Besides the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a> event path, its two steps are registered with the
 						factory's <BrandIcon Name="chain" /> direct-govern registry at apply (
 						Factory.RegisterGovern("Cargo.toml", "cargo" | "update", ...)).
 					</p>

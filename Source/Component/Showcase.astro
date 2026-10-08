@@ -18,6 +18,7 @@
 // slider spans the full card width for the drag track. Below the
 // breakpoint every wide card collapses back to the plain stacked column.
 import BrandIcon from "@Component/BrandIcon.astro";
+import { Mention } from "@Library/FileIcon";
 
 interface Props {
 	/** The mono kicker - THE PIN / THE GOVERN / THE NORMALIZE. */
@@ -134,7 +135,7 @@ const AfterHtml = HasPair
 		) : (
 			<h3 class="showcase__title">{Title}</h3>
 		)}
-		<p class="showcase__lead">{Lead}</p>
+		<p class="showcase__lead" set:html={Mention(Lead)}></p>
 	</div>
 
 	{HasPair ? (

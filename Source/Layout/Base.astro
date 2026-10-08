@@ -172,24 +172,15 @@ const JsonLd = {
 		<header class="site-header">
 			<div class="site-header__inner">
 				<a class="site-header__brand" href={Links.Site}>
-					<svg
-						class="site-header__glyph"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="1.5"
-						aria-hidden="true"
-					>
-						<circle cx="12" cy="5" r="2.5"></circle>
-						<circle cx="5" cy="18" r="2.5"></circle>
-						<circle cx="19" cy="18" r="2.5"></circle>
-						<path d="M12 7.5 L6.5 15.8 M12 7.5 L17.5 15.8 M7.5 18 L16.5 18"></path>
-					</svg>
+					<!-- The official PlayForm glyph (the Asset mark, via the
+						shared BrandIcon) at the header's glyph size. -->
+					<BrandIcon Name="playform" ClassName="site-header__glyph" Size="28px" />
 					<span class="site-header__title">
 						@playform <span class="sep">/</span> DSH Family
 					</span>
 				</a>
-				<nav class="site-header__nav" aria-label="Primary">
+				<!-- id="site-nav": the target of the hamburger's aria-controls. -->
+				<nav class="site-header__nav" id="site-nav" aria-label="Primary">
 					{Nav.map((Item) => (
 						<a href={Item.Href} aria-current={Current(Item.Href) ? "page" : undefined}>
 							{Item.Label}
@@ -213,9 +204,34 @@ const JsonLd = {
 					<span class="theme-toggle__sep" aria-hidden="true">/</span>
 					<span class="theme-toggle__cell" data-theme-cell="dark">DARK</span>
 				</button>
-				<div class="site-header__avatar" aria-hidden="true">
-					P
-				</div>
+				<!-- The mobile nav toggle: the flat three-line hamburger in
+					the avatar's old slot. The open state lives on the header
+					(data-nav-open, set by the script); aria-expanded mirrors
+					it for AT and aria-controls points at the nav above. The
+					button is .js-gated in CSS - a no-JS document shows no
+					dead control and the nav stays hidden as before. -->
+				<button
+					class="nav-toggle"
+					type="button"
+					data-nav-toggle
+					aria-expanded="false"
+					aria-controls="site-nav"
+					aria-label="Open menu"
+				>
+					<svg
+						class="nav-toggle__icon"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						aria-hidden="true"
+					>
+						<path class="nav-toggle__line" d="M4 7 H20"></path>
+						<path class="nav-toggle__line" d="M4 12 H20"></path>
+						<path class="nav-toggle__line" d="M4 17 H20"></path>
+					</svg>
+				</button>
 			</div>
 		</header>
 
@@ -325,6 +341,42 @@ const JsonLd = {
 					);
 				}
 			} catch {}
+
+			// The mobile nav toggle: the hamburger opens the dropdown tray
+			// on narrow viewports. The open state lives on the header
+			// element (data-nav-open) so the tray CSS stays attribute-driven;
+			// aria-expanded and the label mirror it for AT. Esc, an outside
+			// click and the 768px breakpoint close the tray; a nav-link
+			// click navigates and the view-transition page-load closes it
+			// after the swap.
+			const NavToggle = document.querySelector<HTMLElement>("[data-nav-toggle]");
+			const SiteHeader = NavToggle?.closest<HTMLElement>(".site-header");
+			if (NavToggle && SiteHeader) {
+				const SetNav = (Open: boolean) => {
+					SiteHeader.setAttribute("data-nav-open", String(Open));
+					NavToggle.setAttribute("aria-expanded", String(Open));
+					NavToggle.setAttribute("aria-label", Open ? "Close menu" : "Open menu");
+				};
+				NavToggle.addEventListener("click", () => {
+					SetNav(SiteHeader.getAttribute("data-nav-open") !== "true");
+				});
+				document.addEventListener("keydown", (Event) => {
+					if (Event.key === "Escape" && SiteHeader.getAttribute("data-nav-open") === "true") {
+						SetNav(false);
+					}
+				});
+				document.addEventListener("click", (Event) => {
+					if (SiteHeader.getAttribute("data-nav-open") !== "true") return;
+					if (!(Event.target as HTMLElement).closest(".site-header")) {
+						SetNav(false);
+					}
+				});
+				const Desktop = matchMedia("(min-width: 768px)");
+				Desktop.addEventListener("change", () => {
+					if (Desktop.matches) SetNav(false);
+				});
+				document.addEventListener("astro:page-load", () => SetNav(false));
+			}
 
 			// Section reveals: every main .section fades up as it enters the
 			// viewport (one gesture - the slow duration + snap easing, no

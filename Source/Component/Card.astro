@@ -39,11 +39,11 @@ const CardClass = `card${Variant === "default" ? "" : ` card--${Variant}`}`;
 	{Name ? (
 		<div class="card__top">
 			{Href ? (
-				<a class={`card__name card__name--${NameTone}`} href={Href}>
+				<a class={`card__name card__name--${NameTone}`} href={Href} title={Name}>
 					{Name}
 				</a>
 			) : (
-				<span class={`card__name card__name--${NameTone}`}>{Name}</span>
+				<span class={`card__name card__name--${NameTone}`} title={Name}>{Name}</span>
 			)}
 			<slot name="badge" />
 		</div>
@@ -69,7 +69,7 @@ const CardClass = `card${Variant === "default" ? "" : ` card--${Variant}`}`;
 
 	{Install && (
 		<div class="card__install">
-			<span class="card__install-cmd">
+			<span class="card__install-cmd" title={Install}>
 				<span class="prompt">$</span> {Install}
 			</span>
 			{Copy && (

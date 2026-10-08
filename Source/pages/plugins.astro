@@ -345,7 +345,7 @@ const Registry = [
 						</a>
 						, the tool layer, the{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/subprocess/subprocess")}>
-							subprocess seam
+							<code class="code-token">subprocess</code> seam
 						</a>
 						, the{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/jobs")}>jobs envelope</a>,
@@ -814,19 +814,20 @@ const Registry = [
 					<p>
 						The{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-							llm/stream
+							<code class="code-token">llm/stream</code>
 						</a>{" "}
 						waterfall wrap - next() first, options untouched, per-chunk.
 					</p>
 					<p>
 						The{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							fs/observed
+							<code class="code-token">fs/observed</code>
 						</a>{" "}
 						listeners - sync, after content is on disk, fired by the tool layer only.</p>
 					<p>
-						And the tool registrations into the agent's toolset: raw-write,
-						normalize-file.
+						And the tool registrations into the agent's toolset:{" "}
+						<code class="code-token">raw-write</code>,{" "}
+						<code class="code-token">normalize-file</code>.
 					
 					</p>
 				</Concept>
@@ -843,7 +844,7 @@ const Registry = [
 					<p>
 						The{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/subprocess/subprocess")}>
-							subprocess seam
+							<code class="code-token">subprocess</code> seam
 						</a>{" "}
 						carries the external tools, and the Effect-TS services mirror the same
 						seams.

@@ -443,7 +443,7 @@
 
 @media (min-width: 640px) {
 	.stats-band {
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
 
@@ -661,7 +661,17 @@ svg {
 	in the prose and the table cells (never the terminal lines, the snippet
 	commands or the Shiki code blocks - those live in their own trays). */
 .code-token,
-:where(p, li, dd, dt, td, th, .page-hero__sub, .concept__body, .concept__diagram-brief, .showcase__lead, .card__desc) :where(code) {
+p code,
+li code,
+dd code,
+dt code,
+td code,
+th code,
+.page-hero__sub code,
+.concept__body code,
+.concept__diagram-brief code,
+.showcase__lead code,
+.card__desc code {
 	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
@@ -717,10 +727,16 @@ a .code-token {
 }
 
 .site-header__glyph {
-	width: 28px;
-	height: 28px;
 	flex-shrink: 0;
-	color: var(--color-primary-container);
+}
+
+/* The official PlayForm mark on the dark theme: the Asset's light glyph
+	ships the #151515 stroke for light grounds; its Dark variant swaps the
+	stroke to #EAEAEA (see the BrandIcon sources), so the attribute flip
+	applies that official stroke here - the header mark stays legible on
+	the terminal canvas without touching the official geometry. */
+:root[data-theme="dark"] .site-header__glyph path {
+	stroke: #eaeaea;
 }
 
 .site-header__title {
@@ -767,26 +783,128 @@ a .code-token {
 	background: var(--color-surface-container-low);
 }
 
-.site-header__avatar {
+/* ---- The mobile nav toggle + the dropdown tray ----
+	The hamburger lives in the avatar's old slot (the right edge of the
+	header). The three-line icon is the site's flat stroke voice (the ink
+	lines, zero elevation); the open state morphs the lines into the close
+	X through the crisp transitions. The button is .js-gated: a no-JS
+	document hides the dead control and the nav stays hidden below the
+	breakpoint, exactly as before. The open state rides the header's
+	data-nav-open attribute (set by the script in Base.astro; aria-expanded
+	mirrors it for AT), so the tray needs no document-order tricks. */
+.nav-toggle {
+	display: none;
 	flex-shrink: 0;
-	width: 32px;
-	height: 32px;
-	border-radius: var(--radius-full);
-	/* The solid fill rides the container token (the brand blue in both
-		themes); --color-primary itself lifts to the light accent on the
-		dark theme, so a solid fill of it would wash out the white label. */
-	background: var(--color-primary-container);
-	color: var(--color-on-primary);
-	display: flex;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	border: 0;
+	border-radius: var(--radius-md);
+	background: none;
+	color: var(--color-on-surface);
 	align-items: center;
 	justify-content: center;
-	font-size: var(--text-body-sm);
-	font-weight: 600;
+	cursor: pointer;
+	transition: background-color var(--duration-fast) var(--ease-crisp);
+}
+
+.js .nav-toggle {
+	display: inline-flex;
+}
+
+.nav-toggle:hover {
+	background: var(--color-surface-container-low);
+}
+
+.nav-toggle:active {
+	transform: scale(0.97);
+}
+
+.nav-toggle__icon {
+	display: block;
+	width: 20px;
+	height: 20px;
+}
+
+.nav-toggle__line {
+	transform-box: fill-box;
+	transform-origin: center;
+	transition:
+		transform var(--duration-fast) var(--ease-crisp),
+		opacity var(--duration-fast) var(--ease-crisp);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(1) {
+	transform: translateY(5px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(2) {
+	opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(3) {
+	transform: translateY(-5px) rotate(-45deg);
+}
+
+/* Below the breakpoint the nav becomes a fixed dropdown tray under the
+	header: the flat tray surface (--color-surface-container-lowest), the
+	1px hairline, zero elevation - the site's tray voice - with the same
+	links stacked as full-width rows. The slide-down uses the fast
+	duration + crisp easing; the closed state is visibility-hidden and
+	pointer-events-none, so the tray never intercepts clicks or focus
+	while shut. */
+@media (max-width: 767.98px) {
+	.js .site-header__nav {
+		display: flex;
+		position: fixed;
+		top: var(--header-height);
+		left: 0;
+		right: 0;
+		flex-direction: column;
+		align-items: stretch;
+		gap: var(--space-xs);
+		padding: var(--space-sm) var(--gutter-sm) var(--space-md);
+		background: var(--color-surface-container-lowest);
+		border-bottom: 1px solid var(--color-outline-variant);
+		max-height: calc(100vh - var(--header-height));
+		overflow-y: auto;
+		opacity: 0;
+		transform: translateY(-6px);
+		visibility: hidden;
+		pointer-events: none;
+		transition:
+			opacity var(--duration-fast) var(--ease-crisp),
+			transform var(--duration-fast) var(--ease-crisp),
+			visibility 0s linear var(--duration-fast);
+	}
+
+	.js .site-header__nav a {
+		padding: var(--space-sm) var(--space-md);
+	}
+
+	.js .site-header[data-nav-open] .site-header__nav {
+		opacity: 1;
+		transform: none;
+		visibility: visible;
+		pointer-events: auto;
+		transition-delay: 0s;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.js .site-header__nav,
+	.nav-toggle__line {
+		transition: none;
+	}
 }
 
 @media (min-width: 768px) {
 	.site-header__nav {
 		display: flex;
+	}
+
+	.nav-toggle {
+		display: none;
 	}
 }
 
@@ -1140,28 +1258,39 @@ a .code-token {
 	margin: 0 0 var(--space-xs);
 }
 
-/* ---- Product grids & cards ---- */
+/* ---- Product grids & cards ----
+	The tracks are minmax(0, 1fr): a 1fr track's auto minimum is the
+	item's min-content, so a card whose long mono name or flavor stack
+	cannot wrap would pin the track wider than the viewport and grow a
+	body-level horizontal scrollbar. With the zero minimum the tracks
+	share the container's width and the cards' internal ellipsis /
+	overflow rules take over - the body never scrolls sideways. */
 .grid {
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-sm);
 }
 
 @media (min-width: 640px) {
 	.grid--2 {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 @media (min-width: 900px) {
 	.grid--3 {
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
 
 .card {
 	display: flex;
 	flex-direction: column;
+	/* The grid-item floor: a grid item's automatic minimum is its
+		min-content, which would overflow a shrinkable track; the zero
+		minimum lets the card take the track's width and truncate
+		internally. */
+	min-width: 0;
 	padding: var(--space-md);
 	border-radius: var(--radius-lg);
 	background: var(--color-surface-container-low);
@@ -1404,6 +1533,19 @@ a .code-token {
 	background: transparent;
 	border: none;
 	border-radius: var(--radius-default);
+}
+
+/* The label chip inside a flavor cell must stay inside the cell: the
+	mono FLAVOR: name text is unbreakable, and an auto-sized chip (the
+	stack's align-items: flex-end keeps the chip at its content width)
+	would push the cell past its track and grow a body-level horizontal
+	scrollbar. The 100% cap clamps the chip to the cell's width and the
+	label wraps inside the chip on the tight tracks - the label bytes
+	stay intact, the chip's voice (the orange prefix, the ink name, the
+	13px mono floor) holds. */
+.flavor-cell .badge {
+	min-width: 0;
+	max-width: 100%;
 }
 
 /* Role variant: the two governance roles keep the cell chrome but
@@ -1770,22 +1912,25 @@ a .code-token {
 	color: var(--color-primary);
 }
 
-/* ---- Workbench: hook switchboard ---- */
+/* ---- Workbench: hook switchboard ----
+	The same minmax(0, 1fr) tracks as the product grids: the switch
+	cards' mono tokens must never pin the tracks wider than the
+	viewport. */
 .hook-grid {
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-xs);
 }
 
 @media (min-width: 640px) {
 	.hook-grid {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 @media (min-width: 900px) {
 	.hook-grid {
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
 
@@ -1793,6 +1938,7 @@ a .code-token {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	min-width: 0;
 	gap: var(--space-sm);
 	padding: var(--space-md);
 	border-radius: var(--radius-lg);
@@ -1881,16 +2027,19 @@ a .code-token {
 	flex-shrink: 0;
 }
 
-/* ---- Workbench: dual stream terminals ---- */
+/* ---- Workbench: dual stream terminals ----
+	The flanking panes are minmax(0, 1fr) so the mono terminal lines
+	never pin the grid wider than the viewport; the hub column stays
+	auto (its own content width). */
 .stream-grid {
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-md);
 }
 
 @media (min-width: 900px) {
 	.stream-grid {
-		grid-template-columns: 1fr auto 1fr;
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 	}
 }
 
@@ -2023,22 +2172,25 @@ a .code-token {
 	}
 }
 
-/* ---- Workbench: telemetry metrics ---- */
+/* ---- Workbench: telemetry metrics ----
+	The metric tiles' mono values must not pin the tracks; same
+	minmax(0, 1fr) floor as every other product grid. */
 .metric-grid {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: var(--space-sm);
 }
 
 @media (min-width: 768px) {
 	.metric-grid {
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
 
 .metric {
 	display: flex;
 	flex-direction: column;
+	min-width: 0;
 	gap: 2px;
 	padding: var(--space-md);
 	border-radius: var(--radius-lg);
@@ -2286,16 +2438,17 @@ a .code-token {
 	width: auto;
 }
 
-/* ---- Brand page: spec tables ---- */
+/* ---- Brand page: spec tables ----
+	Same shrinkable-track floor as the product grids. */
 .spec-list {
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-sm);
 }
 
 @media (min-width: 640px) {
 	.spec-list {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
@@ -2723,7 +2876,7 @@ a .code-token {
 
 .terminal-demo__stage {
 	display: grid;
-	grid-template-columns: 1fr auto 1fr;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 	align-items: stretch;
 	gap: var(--space-sm);
 }
@@ -3079,6 +3232,11 @@ button:focus-visible,
 	flex-direction: column;
 	align-items: flex-end;
 	gap: 2px;
+	/* The stack must be able to shrink inside its cell (the card
+		headers' compact cells and the strip cells): without the zero
+		minimum the label chip's mono text would pin the cell wider
+		than its track. */
+	min-width: 0;
 }
 
 .flavor-version {

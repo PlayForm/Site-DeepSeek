@@ -10,6 +10,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import { Steps } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
+import { Mention } from "@Library/FileIcon";
 
 // The install-demo cards: the four profile-wiring steps visualized - the
 // real wiring from the sections below (the bundles list, the insert:
@@ -263,7 +264,8 @@ const Knobs = [
 					Diagram="The profile workspace and a linked bundle side by side - the bundle carrying its own node_modules and pnpm-workspace.yaml, with an install inside the bundle landing in the bundle's own workspace, never the profile's root."
 				>
 					<p>
-						The linked checkout must carry its own node_modules, and each bundle needs
+						The linked checkout must carry its own{" "}
+						<code class="code-token">node_modules</code>, and each bundle needs
 						its own <span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />pnpm-workspace.yaml</span> (<code>packages: [.]</code>).
 					</p>
 					<p>
@@ -281,7 +283,8 @@ const Knobs = [
 						<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code> for a
 						built bundle today, or{" "}
 						<code>pnpm add @playform/&lt;pkg&gt;</code> in the profile directory once
-						the family publishes to npm (the publishing is a later item).
+						the family publishes to <code class="code-token">npm</code> (the publishing
+						is a later item).
 					</p>
 				</Concept>
 			</div>
@@ -317,8 +320,9 @@ const Knobs = [
 					</p>
 					<p>
 						The example below is the deployed combination: the two governance plugins
-						with raw-write added to mutationTools, and the dash flavor with the example
-						patch's opt-in toolArgs.
+						with <code class="code-token">raw-write</code> added to mutationTools, and
+						the dash flavor with the example
+						patch's opt-in <code class="code-token">toolArgs</code>.
 					</p>
 				</Concept>
 			</div>
@@ -402,7 +406,8 @@ const Knobs = [
 				>
 					<p>
 						Every knob below is a real field in the packages' Config schemas; volatile
-						cells (log, logFile, replacement and each plugin's own hot fields) commit
+						cells (log, <code class="code-token">logFile</code>, replacement and each
+						plugin's own hot fields) commit
 						without remounting the plugin.
 					</p>
 				</Concept>
@@ -434,7 +439,8 @@ const Knobs = [
 								class="card__desc card__desc--muted"
 								style="margin-top: var(--space-sm)"
 							>
-								<span class="hook-tally">{Field.Name}</span> - {Field.Effect}
+								<span class="hook-tally" set:html={Mention(Field.Name)} /> -{" "}
+								<span set:html={Mention(Field.Effect)} />
 							</p>
 						))}
 					</Card>

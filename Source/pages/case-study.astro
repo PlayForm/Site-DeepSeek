@@ -408,7 +408,7 @@ const Lessons = [
 				>
 					<p>
 						Three independent hooks - the package governor, the package
-						pinner, the <BrandIcon Name="rust" /> cargo governor - plus the dash
+						pinner, the <BrandIcon Name="rust" /> <code class="code-token">cargo</code> governor - plus the dash
 						normalizer, each carrying its own
 						copy of the same machinery: ledgers, exclusion matching, policy loading,
 						guarded writes, wiring, schemas.
@@ -461,7 +461,7 @@ const Lessons = [
 						The growth happened by insertion (Write landed at the{" "}
 						<span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME</span>'s {Scheme.Write},
 						renumbering everything after it), by alias (GuardedWrite shares {Scheme.Write}) and by
-						uncounted helpers (UpdateKey, {Scheme.UpdateKey}).
+						uncounted helpers (<code class="code-token">UpdateKey</code>, {Scheme.UpdateKey}).
 					</p>
 				</Concept>
 			</div>
@@ -797,7 +797,8 @@ const Lessons = [
 					</p>
 					<p>
 						Read through that vocabulary, the saga is two reasons: the pre-fix
-						rejection was the <strong>actor</strong> reason - the raw-write's actor was
+						rejection was the <strong>actor</strong> reason - the{" "}
+						<code class="code-token">raw-write</code>'s actor was
 						not in the governance bundles' mutation-tool list - and after the
 						governance marker the same flow rejects on the <strong>govern</strong>{" "}
 						reason, by design: the wrapped actor's write is the direct path's business
@@ -874,7 +875,8 @@ const Lessons = [
 					Diagram="The write-path audit finding the built-in write, the raw-write tool and the factory's guarded write all implementing the same five steps, three times - and the merge (91293d2): the factory's Write becoming the shared executor, the guarded write living on as its alias, the update envelope and the activation composer folded into the core the same pass."
 				>
 					<p>
-						The write-path audit found the built-in write, the raw-write tool and the
+						The write-path audit found the built-in write, the{" "}
+						<code class="code-token">raw-write</code> tool and the
 						factory's guarded write all implementing the same five steps, three times.
 					</p>
 					<p>
@@ -893,7 +895,7 @@ const Lessons = [
 						chain steps through the factory's <code>Govern</code> (<code>e69c5d3</code>) -
 						the fold entry,{" "}
 						<span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME</span>
-						{Scheme.Govern} - and a step registry the modules populate (RegisterGovern, {Scheme.RegisterGovern}).
+						{Scheme.Govern} - and a step registry the modules populate (<code class="code-token">RegisterGovern</code>, {Scheme.RegisterGovern}).
 					</p>
 				</Concept>
 				<Concept
@@ -915,7 +917,7 @@ const Lessons = [
 						<tr>
 							<th>Shared step</th>
 							<th>Built-in write</th>
-							<th>raw-write (before)</th>
+							<th><code class="code-token">raw-write</code> (before)</th>
 							<th>Factory guarded write (before)</th>
 						</tr>
 					</thead>
@@ -923,13 +925,13 @@ const Lessons = [
 						{Executors.map((Row) => (
 							<tr>
 								<td>
-									<strong>{Row.Step}</strong>
+									<strong set:html={Mention(Row.Step)} />
 								</td>
 								<td>
 									{Row.Builtin.split("->").map((Part, Index) => (
 										<Fragment>
 											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
-											{Part}
+											<span set:html={Mention(Part)} />
 										</Fragment>
 									))}
 								</td>
@@ -937,11 +939,11 @@ const Lessons = [
 									{Row.Raw.split("->").map((Part, Index) => (
 										<Fragment>
 											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
-											{Part}
+											<span set:html={Mention(Part)} />
 										</Fragment>
 									))}
 								</td>
-								<td>{Row.Factory}</td>
+								<td set:html={Mention(Row.Factory)} />
 							</tr>
 						))}
 					</tbody>

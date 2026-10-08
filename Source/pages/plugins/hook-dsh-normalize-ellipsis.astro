@@ -187,7 +187,7 @@ const LedgerStrings = [
 				</a>{" "}
 				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-					LlmRuntime
+					<code class="code-token">LlmRuntime</code>
 				</a>
 				) and normalizes the horizontal ellipsis in model output, live in the transcript:
 				every typographic three-dot ellipsis code point becomes the ASCII three-dot sequence
@@ -304,23 +304,23 @@ const LedgerStrings = [
 						helper with
 						<code>shared: false</code> - the minimal block, no{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							fs/observed
+							<code class="code-token">fs/observed</code>
 						</a>{" "}
 						dead fields.
 					</p>
 					<p>
 						It touches no files, so{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							fs/write-intent
+							<code class="code-token">fs/write-intent</code>
 						</a>{" "}
 						and{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							fs/observed
+							<code class="code-token">fs/observed</code>
 						</a>{" "}
 						never see it; it wraps the downstream result and always calls{" "}
 						<code>next()</code>, so it composes with other{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-							llm/stream
+							<code class="code-token">llm/stream</code>
 						</a>{" "}
 						listeners regardless of registration order.
 					</p>

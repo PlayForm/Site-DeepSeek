@@ -18,7 +18,7 @@ import { Mention } from "@Library/FileIcon";
 
 // The stream pipeline diagram, from the package README.
 const Pipeline = [
-	"  <code class="code-token">llm/stream</code> waterfall (options, next)     the interceptable wrapper around",
+	"  llm/stream waterfall (options, next)     the interceptable wrapper around",
 	"       │                                   EVERY streaming model call",
 	"       ▼  next() called FIRST, always - options never touched",
 	"  Normalize(upstream, state)               the async generator (Function/Normalize)",
@@ -235,7 +235,7 @@ const Config = [
 
 <Base
 	Title="hook-dsh-normalize-dash - @playform / DSH Family"
-	Description={`${Families.Dash} - the dash normalizer for model output: hooks the <code class="code-token">llm/stream</code> waterfall and normalizes the unicode dash family to ASCII hyphen-minus, live in the transcript.`}
+	Description={`${Families.Dash} - the dash normalizer for model output: hooks the llm/stream waterfall and normalizes the unicode dash family to ASCII hyphen-minus, live in the transcript.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -255,11 +255,11 @@ const Config = [
 				for PlayForm._ The <strong>dash normalizer for model output</strong> - a DeepSeek
 				Harness plugin that hooks the{" "}
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-					<code><code class="code-token">llm/stream</code></code>
+					<code>llm/stream</code>
 				</a>{" "}
 				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-					LlmRuntime
+					<code class="code-token">LlmRuntime</code>
 				</a>
 				) and normalizes the unicode dash family to ASCII hyphen-minus, live in the
 				transcript: em dashes, en dashes and seventeen exotic relatives{" "}
@@ -296,7 +296,7 @@ const Config = [
 					<span class="workbench-controls__label">Archetype:</span>
 					<Badge Variant="outline">Hook + Tool</Badge>
 					<span class="workbench-controls__label">Event:</span>
-					<Badge><code class="code-token">llm/stream</code></Badge>
+					<Badge>llm/stream</Badge>
 					<span class="workbench-controls__label">Injects:</span>
 					<Badge Variant="active">pluginFactory</Badge>
 				</div>
@@ -368,7 +368,7 @@ const Config = [
 				<Concept
 					Id="dash-non-manifest"
 					Title="The first NON-MANIFEST module"
-					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State (cell unwrap + shared Ledger/Enabled mappings + its own fields) and Append - touching no files, so <code class="code-token">fs/write-intent</code> and <code class="code-token">fs/observed</code> never see it."}
+					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State (cell unwrap + shared Ledger/Enabled mappings + its own fields) and Append - touching no files, so fs/write-intent and fs/observed never see it."}
 				>
 					<p>
 						It injects <code>["pluginFactory"]</code> and uses only <code>State</code>{" "}
@@ -410,7 +410,7 @@ const Config = [
 			<Seams
 				Seams={[
 					{
-						Seam: "<code class="code-token">llm/stream</code> - the model stream waterfall",
+						Seam: "llm/stream - the model stream waterfall",
 						What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first and unconditionally, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
 						Outcome:
 							"The live UI and the durable transcript see the normalized stream as it is born.",
@@ -423,14 +423,14 @@ const Config = [
 					},
 					{
 						Seam: "ctx.fs - the filesystem service (dsh-fs)",
-						What: "The raw-write exec mirrors the built-in write's path exactly - resolve, [the <code class="code-token">fs/write-intent</code> waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, writeText, then the [<code class="code-token">fs/observed</code> emit](Harness:packages/fs/fs/src/index.ts) - so the governance hooks treat its writes like built-in writes.",
+						What: "The raw-write exec mirrors the built-in write's path exactly - resolve, [the fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, writeText, then the [fs/observed emit](Harness:packages/fs/fs/src/index.ts) - so the governance hooks treat its writes like built-in writes.",
 						Outcome: "One write path for the whole agent, plugin tools included.",
 					},
 					{
 						Seam: "The factory service",
 						What: "A non-manifest factory consumer: State for the config (hot-editable cells, no remount) and Append for every ledger line; it touches no files on the stream path.",
 						Outcome:
-							"Composes with other [<code class="code-token">llm/stream</code>](Harness:packages/llm/llm/src/index.ts) listeners regardless of registration order.",
+							"Composes with other [llm/stream](Harness:packages/llm/llm/src/index.ts) listeners regardless of registration order.",
 					},
 					{
 						Seam: "The ledger / session",
@@ -461,7 +461,7 @@ const Config = [
 					<p>A
 						DSH plugin can go where a file hook cannot: the{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-							<code><code class="code-token">llm/stream</code></code>
+							<code>llm/stream</code>
 						</a>{" "}
 						waterfall, where every streaming model call passes through.
 					
@@ -643,7 +643,7 @@ const Config = [
 				<Concept
 					Id="dash-govern-parameter"
 					Title="The govern parameter selects the direct chain"
-					Diagram="The per-call governance selection over the factory's direct-govern registry, applied after a successful write: absent or false running NO chain (the write still emitting <code class="code-token">fs/observed</code> exactly like a built-in write), true or all running ALL registered steps for the target's basename, an array running ONLY the named steps - best-effort and contained through Govern(target, selection, actor, version) with the written outcome's fresh version, a failing step never affecting the write's outcome."
+					Diagram="The per-call governance selection over the factory's direct-govern registry, applied after a successful write: absent or false running NO chain (the write still emitting fs/observed exactly like a built-in write), true or all running ALL registered steps for the target's basename, an array running ONLY the named steps - best-effort and contained through Govern(target, selection, actor, version) with the written outcome's fresh version, a failing step never affecting the write's outcome."
 				>
 					<p>
 						The tool also takes a <strong>govern parameter</strong> - the per-call
@@ -667,7 +667,7 @@ const Config = [
 				<Concept
 					Id="dash-fs-path"
 					Title="The mirrored fs path"
-					Diagram={"The exec mirroring the built-in write's fs path exactly: ctx.fs.resolve, the <code class="code-token">fs/write-intent</code> waterfall, the standing sandbox policy, ctx.fs.writeText(...), then the <code class="code-token">fs/observed</code> emit with the written version - with exec.signal honored end to end and the inject list [\"pluginFactory\", \"fs\", \"tools\"]."}
+					Diagram={"The exec mirroring the built-in write's fs path exactly: ctx.fs.resolve, the fs/write-intent waterfall, the standing sandbox policy, ctx.fs.writeText(...), then the fs/observed emit with the written version - with exec.signal honored end to end and the inject list [\"pluginFactory\", \"fs\", \"tools\"]."}
 				>
 					<p>
 						The exec mirrors the built-in write's fs path exactly:{" "}
@@ -768,7 +768,7 @@ const Config = [
 				<Concept
 					Id="dash-volatile"
 					Title="Volatile cells commit without remounting"
-					Diagram="The volatile cells committing without remounting the plugin - the fiber, and with it the <code class="code-token">llm/stream</code> registration, staying alive - with the factory's State builder unwrapping them defensively."
+					Diagram="The volatile cells committing without remounting the plugin - the fiber, and with it the llm/stream registration, staying alive - with the factory's State builder unwrapping them defensively."
 				>
 					<p>
 						They commit without remounting the plugin (the fiber - and with it
