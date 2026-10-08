@@ -49,8 +49,17 @@ const { Steps } = Astro.props;
 <style>
 	.install-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+		grid-template-columns: 1fr;
 		gap: var(--space-sm);
+	}
+
+	/* The four cards sit two per row at the site's 2-column breakpoint and
+		collapse to the single column below it: 2x2 on the desktop widths,
+		never the single 4-across row. */
+	@media (min-width: 640px) {
+		.install-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
 	}
 
 	.install-card {
