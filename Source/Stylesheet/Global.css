@@ -1183,7 +1183,7 @@ a .code-token {
 }
 
 .terminal__line code .prompt {
-	color: var(--color-primary);
+	color: var(--color-ink);
 	user-select: none;
 }
 
@@ -1391,7 +1391,7 @@ a .code-token {
 }
 
 .card__install .prompt {
-	color: var(--color-primary);
+	color: var(--color-ink);
 	user-select: none;
 }
 
@@ -1409,7 +1409,7 @@ a .code-token {
 }
 
 .card--primary .card__install .prompt {
-	color: var(--color-on-primary-container);
+	color: var(--color-ink);
 }
 
 /* ---- Version cards ---- */
