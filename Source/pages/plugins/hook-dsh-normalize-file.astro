@@ -288,7 +288,7 @@ const Usage = [
 											{Index > 0 && (
 												<ArrowIcon Direction="right" Tone="accent" />
 											)}
-											{Part}
+											<span set:html={Mention(Part)} />
 										</Fragment>
 									))}
 								</td>
@@ -596,7 +596,8 @@ const Usage = [
 					Diagram="Every em dash (U+2014) becoming the ASCII hyphen-minus, the curly quotes straight ones, the ellipsis three periods - five characters replaced, so N = 5 and the write happens; the result carrying the outcome, the diff card showing the before/after in the same turn, the ledger getting the count line."
 				>
 					<p>
-						Every em dash (U+2014) becomes the ASCII hyphen-minus, the curly quotes
+						Every em dash (<code class="code-token">U+2014</code>) becomes the ASCII
+						hyphen-minus, the curly quotes
 						become straight ones, the ellipsis becomes three periods; five characters
 						replaced, so N = 5 and the write happens.
 					</p>

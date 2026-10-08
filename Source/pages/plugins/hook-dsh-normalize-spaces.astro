@@ -205,7 +205,7 @@ const LedgerStrings = [
 				</a>
 				) and normalizes the unicode space family in model output, live in the transcript:
 				every visible non-terminator space that is not the ASCII space becomes the plain
-				ASCII space - U+00A0 to
+				ASCII space - <code class="code-token">U+00A0</code> to
 				<code>' '</code>, quads and quirs alike.</p>
 			<p class="page-hero__sub">A CLASS flavor of the normalize family: the
 				core's <code>Spaces</code> class plus a configurable <code>replacement</code> string
@@ -296,7 +296,7 @@ const LedgerStrings = [
 											{Index > 0 && (
 												<ArrowIcon Direction="right" Tone="accent" />
 											)}
-											{Part}
+											<span set:html={Mention(Part)} />
 										</Fragment>
 									))}
 								</td>
@@ -395,7 +395,8 @@ const LedgerStrings = [
 					</p>
 					<p>
 						Markdown renderers and shell quoting do not treat them as spaces; a command
-						with a U+00A0 in it fails for no visible reason.</p>
+						with a <code class="code-token">U+00A0</code> in it fails for no visible
+						reason.</p>
 					<p>This flavor makes the plain
 						ASCII space the one that reaches the transcript.
 					
@@ -436,7 +437,7 @@ const LedgerStrings = [
 					<p>
 						Exactly Unicode's Zs category minus the ASCII space - becomes the config{" "}
 						<code>replacement</code> (default <code>" "</code>, the plain ASCII space
-						U+0020):
+						<code class="code-token">U+0020</code>):
 					</p>
 				</Concept>
 			</div>
@@ -452,7 +453,7 @@ const LedgerStrings = [
 						{Coverage.map((Row) => (
 							<tr>
 								<td>
-									<strong>{Row.Code}</strong>
+									<code class="code-token">{Row.Code}</code>
 								</td>
 								<td>{Row.Name}</td>
 							</tr>
@@ -555,8 +556,9 @@ const LedgerStrings = [
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">The model emits copy-pasted typographic spacing; the
 				live UI and the transcript receive plain ASCII spaces.</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">In the incoming line below
-				the three gaps are the no-break space U+00A0, the em quad U+2003 and the ideographic
-				space U+3000, in that order:
+				the three gaps are the no-break space <code class="code-token">U+00A0</code>, the
+				em quad <code class="code-token">U+2003</code> and the ideographic
+				space <code class="code-token">U+3000</code>, in that order:
 			</p>
 
 			<p class="section-kicker">
@@ -576,11 +578,15 @@ const LedgerStrings = [
 					Diagram="Each non-ASCII space in the Zs-minus-ASCII class - U+00A0, U+2003, U+3000 in the sample - becoming exactly one ASCII space (U+0020), ASCII spaces already there untouched - what makes a pasted command executable again: echo a - b with a hidden no-break space running after the pass, where before the shell saw one mangled word."
 				>
 					<p>
-						Each non-ASCII space in the Zs-minus-ASCII class - U+00A0 between{" "}
-						<code>deploy</code> and <code>the</code>, U+2003 between <code>agent</code>{" "}
-						and <code>to</code>, U+3000 between <code>ring</code> and{" "}
+						Each non-ASCII space in the Zs-minus-ASCII class -{" "}
+						<code class="code-token">U+00A0</code> between{" "}
+						<code>deploy</code> and <code>the</code>,{" "}
+						<code class="code-token">U+2003</code> between <code>agent</code>{" "}
+						and <code>to</code>, <code class="code-token">U+3000</code> between{" "}
+						<code>ring</code> and{" "}
 						<code>buffer</code> in the sample above - becomes exactly one ASCII space
-						(U+0020); ASCII spaces that were already there are untouched.
+						(<code class="code-token">U+0020</code>); ASCII spaces that were already
+						there are untouched.
 					</p>
 					<p>
 						This is what makes a pasted command executable again:{" "}

@@ -675,6 +675,14 @@ svg {
 	white-space: nowrap;
 }
 
+/* A code token inside a link keeps the link affordance: the tray stays,
+	the text takes the Harness Blue (the same treatment the existing
+	<a><code>llm/stream</code></a> links run - GitHub-style linked code). */
+a code,
+a .code-token {
+	color: var(--color-primary);
+}
+
 /* ---- Fixed header ---- */
 .site-header {
 	position: fixed;
@@ -2842,6 +2850,22 @@ svg {
 .concept-list + .sprite-board,
 .concept-list + .action-row {
 	margin-top: var(--space-xl);
+}
+
+/* ---- Heading-after-text clearance ----
+	Wherever a specialized-identity heading (a .section-kicker label
+	above its code or terminal box) follows a text group - a
+	.concept-list whose last block ends in a paragraph, or a lead-in
+	paragraph - the heading carries the md top margin, so the label
+	reads as a box separated from the text on top (heading + text, the
+	consistent spacing). The already-spaced positions keep their md:
+	the paragraph's own bottom margin and the label's top margin are
+	adjacent-sibling margins, so they collapse to the same md token;
+	the label's tight xs pairing with its box below stays as the
+	spacing pass set it. */
+.concept-list + .section-kicker,
+p + .section-kicker {
+	margin-top: var(--space-md);
 }
 
 /* ---- Concept blocks: the diagram-first restructure units ----

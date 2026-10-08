@@ -206,8 +206,10 @@ const LedgerStrings = [
 					LlmRuntime
 				</a>
 				) and normalizes the full-width family in model output, live in the transcript: the
-				entire FULLWIDTH FORMS range U+FF01-U+FF5E maps to its ASCII half-width counterpart
-				U+0021-U+007E - the whole story, letters, punctuation and digits included.</p>
+				entire FULLWIDTH FORMS range <code class="code-token">U+FF01</code>-
+				<code class="code-token">U+FF5E</code> maps to its ASCII half-width counterpart
+				<code class="code-token">U+0021</code>-<code class="code-token">U+007E</code> -
+				the whole story, letters, punctuation and digits included.</p>
 			<p class="page-hero__sub">A MAP
 				flavor of the normalize family: the core's <code>Fullwidth</code> char-to-char table
 				owns the substitution - no <code>replacement</code> config knob.</p>
@@ -297,7 +299,7 @@ const LedgerStrings = [
 											{Index > 0 && (
 												<ArrowIcon Direction="right" Tone="accent" />
 											)}
-											{Part}
+											<span set:html={Mention(Part)} />
 										</Fragment>
 									))}
 								</td>
@@ -436,10 +438,12 @@ const LedgerStrings = [
 						{Ranges.map((Row) => (
 							<tr>
 								<td>
-									<strong>{Row.Code}</strong>
+									<code class="code-token">{Row.Code}</code>
 								</td>
 								<td>{Row.Contents}</td>
-								<td>{Row.Ascii}</td>
+								<td>
+									<code class="code-token">{Row.Ascii}</code>
+								</td>
 							</tr>
 						))}
 					</tbody>
@@ -566,9 +570,15 @@ const LedgerStrings = [
 					Diagram="Every full-width code point in the incoming text - the solidus U+FF0F, the letters U+FF55-U+FF4E, the digits U+FF11-U+FF13 and the exclamation U+FF01 - becoming its U+0021-U+007E half-width counterpart, ASCII characters already half-width untouched - what keeps a pasted path openable and a pasted number parseable."
 				>
 					<p>
-						Every full-width code point in the incoming text - the solidus U+FF0F, the
-						letters U+FF55-U+FF4E, the digits U+FF11-U+FF13 and the exclamation U+FF01 -
-						becomes its U+0021-U+007E half-width counterpart; ASCII characters that were
+						Every full-width code point in the incoming text - the solidus{" "}
+						<code class="code-token">U+FF0F</code>, the
+						letters <code class="code-token">U+FF55</code>-
+						<code class="code-token">U+FF4E</code>, the digits{" "}
+						<code class="code-token">U+FF11</code>-<code class="code-token">U+FF13</code>{" "}
+						and the exclamation <code class="code-token">U+FF01</code> -
+						becomes its <code class="code-token">U+0021</code>-
+						<code class="code-token">U+007E</code> half-width counterpart; ASCII characters
+						that were
 						already half-width are untouched.
 					</p>
 					<p>

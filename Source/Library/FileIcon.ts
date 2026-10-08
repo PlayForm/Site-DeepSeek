@@ -168,8 +168,6 @@ const CodeAlternatives = [
 	"\\b(?:State|Append|Ledger|Enabled|Write|Guard|UpdateKey|LRE|RLE|PDF|LRO|RLO)\\b",
 ].join("|");
 
-const FilePattern = new RegExp(FileAlternatives, "g");
-const CodePattern = new RegExp(CodeAlternatives, "g");
 const MentionPattern = new RegExp(`${FileAlternatives}|${CodeAlternatives}`, "g");
 const IsCodeToken = new RegExp(`^(?:${CodeAlternatives})$`);
 

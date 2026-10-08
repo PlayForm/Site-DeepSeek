@@ -192,7 +192,11 @@ const LedgerStrings = [
 				</a>
 				) and normalizes the curly quote family in model output, live in the transcript: the
 				eight typographic quote code points each map to their ASCII straight counterpart -
-				U+2018/U+2019/U+201A/U+201B to the ASCII apostrophe, and U+201C/U+201D/U+201E/U+201F
+				<code class="code-token">U+2018</code>/<code class="code-token">U+2019</code>/
+				<code class="code-token">U+201A</code>/<code class="code-token">U+201B</code> to
+				the ASCII apostrophe, and <code class="code-token">U+201C</code>/
+				<code class="code-token">U+201D</code>/<code class="code-token">U+201E</code>/
+				<code class="code-token">U+201F</code>
 				to the ASCII double quote.</p>
 			<p class="page-hero__sub">A MAP flavor of the normalize family: the core's{" "}
 				<code>Quotes</code> char-to-char table owns the substitution - no{" "}
@@ -282,7 +286,7 @@ const LedgerStrings = [
 											{Index > 0 && (
 												<ArrowIcon Direction="right" Tone="accent" />
 											)}
-											{Part}
+											<span set:html={Mention(Part)} />
 										</Fragment>
 									))}
 								</td>
@@ -424,11 +428,15 @@ const LedgerStrings = [
 						{QuotesMap.map((Row) => (
 							<tr>
 								<td>
-									<strong>{Row.Code}</strong>
+									<code class="code-token">{Row.Code}</code>
 								</td>
-								<td>{Row.Glyph}</td>
+								<td>
+									<code class="code-token">{Row.Glyph}</code>
+								</td>
 								<td>{Row.Name}</td>
-								<td>{Row.Ascii}</td>
+								<td>
+									<code class="code-token">{Row.Ascii}</code>
+								</td>
 							</tr>
 						))}
 					</tbody>

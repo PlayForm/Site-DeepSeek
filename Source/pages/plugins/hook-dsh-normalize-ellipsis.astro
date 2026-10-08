@@ -191,7 +191,7 @@ const LedgerStrings = [
 				</a>
 				) and normalizes the horizontal ellipsis in model output, live in the transcript:
 				every typographic three-dot ellipsis code point becomes the ASCII three-dot sequence
-				- U+2026 to
+				- <code class="code-token">U+2026</code> to
 				<code>...</code>.</p>
 			<p class="page-hero__sub">A CLASS flavor of the normalize family: the core's
 				<code>Ellipsis</code> class plus a configurable <code>replacement</code> string
@@ -281,7 +281,7 @@ const LedgerStrings = [
 											{Index > 0 && (
 												<ArrowIcon Direction="right" Tone="accent" />
 											)}
-											{Part}
+											<span set:html={Mention(Part)} />
 										</Fragment>
 									))}
 								</td>
@@ -375,7 +375,7 @@ const LedgerStrings = [
 				>
 					<p>
 						Text processors collapse the typographic three-dot run into a single code
-						point - U+2026, the horizontal ellipsis.
+						point - <code class="code-token">U+2026</code>, the horizontal ellipsis.
 					</p>
 					<p>
 						In code blocks, commands and diffs the collapsed form is simply wrong: three
@@ -418,7 +418,8 @@ const LedgerStrings = [
 					Diagram="U+2026 (horizontal ellipsis - the typographic three-dot run collapsed into one code point by text processors) becoming the config replacement (default ..., the ASCII three-dot sequence - the ellipsis's own ASCII spelling) - no context rules, whole-chunk replacement, no lookahead, chunk-boundary-safe."
 				>
 					<p>
-						U+2026 (horizontal ellipsis - the typographic three-dot run collapsed into
+						<code class="code-token">U+2026</code> (horizontal ellipsis - the typographic
+						three-dot run collapsed into
 						one code point by text processors) becomes the config{" "}
 						<code>replacement</code> (default <code>...</code>, the ASCII three-dot
 						sequence - the ellipsis's own ASCII spelling).
@@ -537,7 +538,8 @@ const LedgerStrings = [
 					Diagram="The single U+2026 code point becoming the three-dot ASCII sequence ... - dots that were already ASCII untouched, each replaced code point counting once in the ledger even though it expands to three characters."
 				>
 					<p>
-						The single U+2026 code point becomes the three-dot ASCII sequence{" "}
+						The single <code class="code-token">U+2026</code> code point becomes the
+						three-dot ASCII sequence{" "}
 						<code>...</code>; dots that were already ASCII are untouched.
 					</p>
 					<p>
