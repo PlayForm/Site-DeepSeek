@@ -51,7 +51,7 @@
 	"devDependencies": {
 		"@astrojs/ts-plugin": "1.10.12",
 		"jsdom": "26.1.0",
-		"mermaid": "11.12.0",
+		"mermaid": "12.1.0",
 		"puppeteer": "24.31.0"
 	},
 	"publishConfig": {
