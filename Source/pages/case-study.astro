@@ -379,7 +379,10 @@ const Lessons = [
 					</p>
 				</Concept>
 			</div>
-			<div class="flavor-strip" style="margin-top: var(--space-md)">
+			<!-- The strip follows the text block directly: the shared
+			     text-to-box clearance rule in Global.css (concept-list +
+			     flavor-strip) carries the spacing, so no inline override. -->
+			<div class="flavor-strip">
 				<Badge Variant="active">{Counts.Packages} PACKAGES</Badge>
 				<Badge Variant="active">{Counts.Suites} SMOKE SUITES</Badge>
 				<Badge>DUAL RELEASE</Badge>

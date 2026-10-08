@@ -343,9 +343,12 @@ svg {
 	}
 }
 
-/* ---- Page shell ---- */
+/* ---- Page shell ----
+	The fixed header's height plus a full xl token of breathing room:
+	every page's content starts with comfortable, equal clearance below
+	the header instead of touching its bottom edge. */
 .page {
-	padding-top: var(--header-height);
+	padding-top: calc(var(--header-height) + var(--space-xl));
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -925,6 +928,17 @@ svg {
 
 .flavor-cell .flavor-stack {
 	align-items: flex-start;
+	/* The stack spans the cell so the version chip can reach the cell's
+	   right edge while the label line stays left-aligned. */
+	align-self: stretch;
+}
+
+.flavor-cell .flavor-version {
+	/* The version badge sits on the right of its containing box: the
+	   auto margin absorbs the free space left of the chip, so the chip
+	   aligns to the cell's right edge - the chip's own styling (black
+	   ink background, white text, mono, the padding) stays untouched. */
+	margin-left: auto;
 }
 
 /* Compact variant: the same cell treatment at the smaller surfaces -
@@ -1473,7 +1487,9 @@ svg {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: var(--space-xs) 0;
+	/* Horizontal breathing room on each side, so the DEMO / client-side
+	   core never hugs the divider's edges on desktop. */
+	padding: var(--space-xs) var(--space-sm);
 }
 
 @media (min-width: 900px) {
@@ -2258,9 +2274,10 @@ svg {
 	on hover: the tick loops suspend (see the page scripts) and the motion
 	language - the live dot, the pipe pulse, the caret blink, the hub
 	spin, the anomaly flash - freezes in place via animation-play-state.
-	The paused status text and the PAUSED tag use the accent-orange token,
-	the raw/stream signature, so the paused state is unmistakable while
-	the RAW stays orange and the CLEAN stays blue. */
+	Only the word PAUSED carries the accent-orange token (the raw/stream
+	signature); the separator and the rest of the status render in the
+	status's normal color, so the state is unmistakable without the whole
+	line shouting - and the RAW stays orange while the CLEAN stays blue. */
 .terminal-demo.is-paused .live-dot,
 .terminal-demo.is-paused .flow-line__pulse,
 .terminal-demo.is-paused .stream-caret,
@@ -2271,23 +2288,53 @@ svg {
 	animation-play-state: paused;
 }
 
-.terminal-demo.is-paused .terminal-demo__status {
+/* The index status line flips to the paused text with the PAUSED word
+	wrapped in .status-paused (see the page script); only that word takes
+	the orange - the separator and the rest keep the status's own color. */
+.terminal-demo.is-paused .terminal-demo__status .status-paused {
 	color: var(--color-accent-orange);
 }
 
 /* The workbench/matrix paused tag: the flow divider announces the paused
 	state between the two panes, replacing nothing - it appears under the
-	hub core while the cursor holds the stage. */
-.stream-grid.is-paused .stream-hub::after {
-	content: "PAUSED · HOVER TO RESUME";
+	hub core while the cursor holds the stage. The markup carries the two
+	parts (only the PAUSED word is orange; the separator and the rest keep
+	the on-surface-variant ink), hidden until the stage is paused. */
+.stream-hub__paused {
+	display: none;
 	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
-	color: var(--color-accent-orange);
+	color: var(--color-on-surface-variant);
 	white-space: nowrap;
 	text-transform: uppercase;
+}
+
+.stream-hub__paused-word {
+	color: var(--color-accent-orange);
+}
+
+.stream-grid.is-paused .stream-hub__paused {
+	display: block;
+}
+
+/* ---- Text-to-box clearance ----
+	Wherever a text group (a .concept-list of Concept blocks) ends
+	directly above a box surface - a card grid, a table, a code or
+	terminal block, a strip, a board, an action row - the box carries a
+	full xl top clearance, so prose and hardware never touch: text,
+	spacing, box. The concept-list's internal 2xl gaps and the kicker
+	labels' tight pairing with their boxes stay as the spacing pass set
+	them. */
+.concept-list + .grid,
+.concept-list + .table-wrap,
+.concept-list + .code-block,
+.concept-list + .flavor-strip,
+.concept-list + .sprite-board,
+.concept-list + .action-row {
+	margin-top: var(--space-xl);
 }
 
 /* ---- Concept blocks: the diagram-first restructure units ----
@@ -2526,9 +2573,15 @@ button:focus-visible,
 	border-top: 2px solid var(--color-accent-orange);
 }
 
-/* ---- The flow divider's RAW side (the CLEAN tag stays Harness Blue) ---- */
+/* ---- The flow divider's RAW side (the CLEAN tag stays Harness Blue) ----
+	Only the RAW word is orange; the arrow that follows keeps the neutral
+	ink-muted, so "only RAW" reads literally. */
 .flow-tag--raw {
 	color: var(--color-accent-orange);
+}
+
+.flow-tag--raw .flow-tag__arrow {
+	color: var(--color-ink-muted);
 }
 
 /* ---- Reduced motion: the whole motion language collapses ---- */

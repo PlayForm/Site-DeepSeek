@@ -298,6 +298,13 @@ const Spans = [
 						<span>DEMO</span>
 						<strong>client-side</strong>
 					</div>
+					<!-- The paused tag, split: only the PAUSED word carries the
+					     accent-orange token; the separator and the rest keep the
+					     on-surface-variant ink. Hidden until the stage is paused
+					     (see the .stream-hub__paused rules in Global.css). -->
+					<span class="stream-hub__paused" aria-hidden="true">
+						<span class="stream-hub__paused-word">PAUSED</span> · HOVER TO RESUME
+					</span>
 				</div>
 				<div class="stream-pane">
 					<div class="stream-pane__bar">

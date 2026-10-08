@@ -174,7 +174,7 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 							<div class="terminal-demo__screen rail-orange" data-demo-raw></div>
 						</div>
 						<div class="terminal-demo__flow">
-							<span class="flow-tag flow-tag--raw">RAW →</span>
+							<span class="flow-tag flow-tag--raw">RAW <span class="flow-tag__arrow">→</span></span>
 							<span class="flow-line">
 								<span class="flow-line__pulse"></span>
 							</span>
@@ -459,7 +459,12 @@ const Roles = ["ROLE: GOVERNOR", "ROLE: PINNER"];
 			if (Paused) return;
 			Paused = true;
 			Demo.classList.add("is-paused");
-			Status.textContent = "PAUSED · HOVER TO RESUME";
+			// The split status: only the word PAUSED carries the accent-orange
+			// token - the separator and the rest keep the status's own color
+			// (see the .status-paused rule in Global.css). The string is a
+			// static literal, so innerHTML is safe here.
+			Status.innerHTML =
+				'<span class="status-paused">PAUSED</span> · HOVER TO RESUME';
 			StopStreaming();
 		});
 		Demo.addEventListener("mouseleave", () => {
