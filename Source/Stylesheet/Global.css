@@ -589,9 +589,13 @@ svg {
 	that center (the leading + descent space below the baseline). The
 	net-zero margin pair lifts the icon/dot by 0.1875em of its own size
 	(the negative top margin shifts the content box up inside its centered
-	margin box), so its visual mass centers against the text. */
-.badge .brand-icon,
-.badge .dot,
+	margin box), so its visual mass centers against the text. The badges
+	stay OUT of this rule: their inline mark + text run centers natively -
+	the .badge's align-items: center lands the icon's box (and optical)
+	center directly on the caps' optical center, so the shared lift here
+	would overshoot by ~2px and push the flavor/type badge icons above
+	their text (verified at the pixel level: -2.0..-2.4px with the lift,
+	+0.0..+0.5px without). */
 .engine-pill .brand-icon,
 .engine-pill .dot,
 .version-card__head .brand-icon,

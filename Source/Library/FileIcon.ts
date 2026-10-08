@@ -185,7 +185,10 @@ export function Mention(Text: string): string {
 	let Out = "";
 	let Rest = Text;
 	for (;;) {
-		const Match = Rest.match(TokenPattern);
+		// exec (not match): with the global flag, String.match returns a
+		// plain array without .index - exec keeps the match object.
+		TokenPattern.lastIndex = 0;
+		const Match = TokenPattern.exec(Rest);
 		if (!Match || Match.index === undefined) break;
 		const Token = Match[0];
 		const Start = Match.index;
