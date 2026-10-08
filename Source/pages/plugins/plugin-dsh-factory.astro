@@ -374,7 +374,7 @@ const Related = [
 				<Concept
 					Id="factory-not-owned"
 					Title="What the factory deliberately does NOT own"
-					Diagram='The three ownership boundaries: the consumer ledger strings (every message a hook logs - "skipped (excluded) ...", "observed non-JSON package.json ... - skipped", "REFUSED rewrite ...", "pinned ...", "governed ... → ...", the activated (...) proof - composed and logged by the hook through the factory&apos;s Append), the transforms (the consumer supplies the pure function; the factory only drives it inside Continue), and the update engines (the factory gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with).'
+					Diagram={"The three ownership boundaries: the consumer ledger strings (every message a hook logs - \"skipped (excluded) ...\", \"observed non-JSON package.json ... - skipped\", \"REFUSED rewrite ...\", \"pinned ...\", \"governed ... → ...\", the activated (...) proof - composed and logged by the hook through the factory's Append), the transforms (the consumer supplies the pure function; the factory only drives it inside Continue), and the update engines (the factory gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with)."}
 				>
 					<p>
 						<strong>What the factory deliberately does NOT own:</strong> the consumer
@@ -513,7 +513,7 @@ const Related = [
 				<Concept
 					Id="factory-ledger-boundary"
 					Title="The ownership boundary"
-					Diagram='Every string a hook logs - "skipped (excluded) ...", "governed <path> → <version>", "pinned <path> (N versions)", the activated (...) proof - composed and logged by the hook, through the factory&apos;s Append - the factory&apos;s own composed strings parameterized machinery (the unreadable-policy line taking the policy file name; the suppressed-error lines taking state.Module as the prefix), staying byte-identical when a consumer keeps its historical name.'
+					Diagram={"Every string a hook logs - \"skipped (excluded) ...\", \"governed <path> → <version>\", \"pinned <path> (N versions)\", the activated (...) proof - composed and logged by the hook, through the factory's Append - the factory's own composed strings parameterized machinery (the unreadable-policy line taking the policy file name; the suppressed-error lines taking state.Module as the prefix), staying byte-identical when a consumer keeps its historical name."}
 				>
 					<p>
 						Every string a hook logs - "skipped (excluded) ...", "governed &lt;path&gt;{" "}

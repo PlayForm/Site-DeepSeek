@@ -310,7 +310,7 @@ const LedgerStrings = [
 				<Concept
 					Id="spaces-non-manifest"
 					Title="A non-manifest factory consumer"
-					Diagram="The flavor's factory surface: injecting [&quot;pluginFactory&quot;], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."
+					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."}
 				>
 					<p>
 						A <strong>non-manifest factory consumer</strong>: it injects{" "}
@@ -465,10 +465,10 @@ const LedgerStrings = [
 				<Concept
 					Id="spaces-mechanics"
 					Title="Chunk-boundary-safe, function-replaced, counted"
-					Diagram="No context rules - hermes-style whole-chunk replacement, no lookahead, chunk-boundary-safe; the replacement applied with a function replacer so a custom replacement containing $ patterns is inserted literally; replaced characters counted per stream for the ledger line."
+					Diagram="No context rules - whole-chunk replacement, no lookahead, chunk-boundary-safe; the replacement applied with a function replacer so a custom replacement containing $ patterns is inserted literally; replaced characters counted per stream for the ledger line."
 				>
 					<p>
-						No context rules - hermes-style whole-chunk replacement, no lookahead;
+						No context rules - whole-chunk replacement, no lookahead;
 						chunk-boundary-safe.
 					</p>
 					<p>

@@ -223,7 +223,7 @@ const Related = [
 				<Concept
 					Id="govcargo-direct-govern"
 					Title="The direct-govern registration"
-					Diagram='Besides the fs/observed event path, its two steps registered with the factory&apos;s direct-govern registry at apply (Factory.RegisterGovern("Cargo.toml", "cargo" | "update", ...)) - so the raw-write tool&apos;s per-call govern selection can drive the same chain + normalization pass and update stage directly through Factory.Govern.'
+					Diagram={"Besides the fs/observed event path, its two steps registered with the factory's direct-govern registry at apply (Factory.RegisterGovern(\"Cargo.toml\", \"cargo\" | \"update\", ...)) - so the raw-write tool's per-call govern selection can drive the same chain + normalization pass and update stage directly through Factory.Govern."}
 				>
 					<p>
 						Besides the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> event path, its two steps are registered with the
@@ -302,7 +302,7 @@ const Related = [
 				<Concept
 					Id="govcargo-chain-pass"
 					Title="The G3 chain pass, planned in three steps"
-					Diagram='The same G1/G2 gates and Stash seeding as the npm governor - the G3 chain pass parsing with smol-toml (IDENTIFICATION ONLY) and planning: 1. CHAIN - a dep in registry.effectiveLatest to the bare resolved version (Cargo&apos;s implicit caret) or =resolved with pinStyle "exact", always the FULL form (shorthand padded); 2. STRIP - strict-mode unknown deps; 3. NORMALIZE - every other simple version (the full-version directive below; the keep-list wins to byte-identical).'
+					Diagram={"The same G1/G2 gates and Stash seeding as the npm governor - the G3 chain pass parsing with smol-toml (IDENTIFICATION ONLY) and planning: 1. CHAIN - a dep in registry.effectiveLatest to the bare resolved version (Cargo's implicit caret) or =resolved with pinStyle \"exact\", always the FULL form (shorthand padded); 2. STRIP - strict-mode unknown deps; 3. NORMALIZE - every other simple version (the full-version directive below; the keep-list wins to byte-identical)."}
 				>
 					<p>
 						The same G1/G2 gates and Stash seeding as the npm governor; the G3 chain
@@ -418,7 +418,7 @@ const Related = [
 				<Concept
 					Id="govcargo-rust-side"
 					Title="The Rust side (live-verified)"
-					Diagram='cargo 1.100.0-nightly + cargo-edit 0.13.13, resolved through cargoBin - --exclude being ONE flag per crate (the comma form silently IGNORED, the exact inverse of ncu&apos;s one-comma-argument reject list) - NO --exact flag in cargo-edit 0.13.13, exact pins enforced at the manifest level by the chain pass (pinStyle: "exact" to =resolved) - cargo upgrade preserving comments and formatting (it edits via toml_edit).'
+					Diagram={"cargo 1.100.0-nightly + cargo-edit 0.13.13, resolved through cargoBin - --exclude being ONE flag per crate (the comma form silently IGNORED, the exact inverse of ncu's one-comma-argument reject list) - NO --exact flag in cargo-edit 0.13.13, exact pins enforced at the manifest level by the chain pass (pinStyle: \"exact\" to =resolved) - cargo upgrade preserving comments and formatting (it edits via toml_edit)."}
 				>
 					<p>
 						<strong>The Rust side (live-verified).</strong></p>
@@ -489,7 +489,7 @@ const Related = [
 				<Concept
 					Id="govcargo-policy-mapping"
 					Title="The update-stage policy mapping"
-					Diagram='The update-policy.json mapping (same discovery as the npm governor): reject to --exclude <crate> (ONE flag per crate); allow to -p <crate> (repeatable); incompatible/pinned/compatible to --incompatible/--pinned/--compatible; pinStyle with NO CLI equivalent (manifest-level via the chain pass); verifyCommand running after the upgrade via the subprocess seam, exit 127 non-fatal - the built-in default mirroring cargo upgrade&apos;s own semantics: no rejects, incompatible: "ignore", pinned: "ignore", pinStyle: "caret", no verifyCommand (never install implicitly).'
+					Diagram={"The update-policy.json mapping (same discovery as the npm governor): reject to --exclude <crate> (ONE flag per crate); allow to -p <crate> (repeatable); incompatible/pinned/compatible to --incompatible/--pinned/--compatible; pinStyle with NO CLI equivalent (manifest-level via the chain pass); verifyCommand running after the upgrade via the subprocess seam, exit 127 non-fatal - the built-in default mirroring cargo upgrade's own semantics: no rejects, incompatible: \"ignore\", pinned: \"ignore\", pinStyle: \"caret\", no verifyCommand (never install implicitly)."}
 				>
 					<p>
 						<strong>Update-stage policy mapping</strong> (<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />update-policy.json</span>, same

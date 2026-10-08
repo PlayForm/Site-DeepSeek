@@ -316,12 +316,12 @@ const Usage = [
 					</p>
 				</Concept>
 				<Concept
-					Id="file-hermes"
-					Title="The hermes heritage is direct"
+					Id="file-precedent"
+					Title="The file-hook precedent is direct"
 					Diagram="The normalize-dashes-for-execute-code.sh hook sweeping script-created files after the fact - DSH making the same rewrite an explicit, visible, opt-in TOOL call instead of a background hook, with normalize-tabs.sh (the repair hook for a repair hook) as the cautionary tale that keeps it that way."
 				>
 					<p>
-						The hermes heritage is direct: the{" "}
+						The file-hook precedent is direct: the{" "}
 						<span class="file-mention"><BrandIcon Name="file-shell" Size="0.9em" /><code>normalize-dashes-for-execute-code.sh</code></span> hook swept script-created
 						files after the fact; DSH makes the same rewrite an explicit, visible,
 						opt-in TOOL call instead of a background hook.
@@ -334,7 +334,7 @@ const Usage = [
 				<Concept
 					Id="file-non-manifest"
 					Title="A non-manifest factory consumer - the only one that writes"
-					Diagram='The tool&apos;s factory surface: injecting ["pluginFactory", "fs", "tools"], using State, Append (the ledger), Journal (the P5 storage record) and - uniquely in the family - Write, the ONE shared write executor - with the tool&apos;s writes carrying the call&apos;s exec as the actor, so the governance trio&apos;s Gate (which pins mutationTools to write/edit/str_replace_editor) never treats them as a trigger.'
+					Diagram={"The tool's factory surface: injecting [\"pluginFactory\", \"fs\", \"tools\"], using State, Append (the ledger), Journal (the P5 storage record) and - uniquely in the family - Write, the ONE shared write executor - with the tool's writes carrying the call's exec as the actor, so the governance trio's Gate (which pins mutationTools to write/edit/str_replace_editor) never treats them as a trigger."}
 				>
 					<p>
 						A <strong>non-manifest factory consumer</strong>: it injects{" "}
@@ -414,7 +414,7 @@ const Usage = [
 				<Concept
 					Id="file-problem-rewriter"
 					Title="The fix cannot be another silent rewriter"
-					Diagram="Files rewritten behind the agent only at the price of the edit tool's old_string contract - the agent reading bytes X, a background rewriter silently changing them to X', the next edit failing or half-matching - Hermes learning this the hard way with normalize-tabs.sh existing to repair the damage its own after-the-fact rewriting caused."
+					Diagram="Files rewritten behind the agent only at the price of the edit tool's old_string contract - the agent reading bytes X, a background rewriter silently changing them to X', the next edit failing or half-matching - the cautionary precedent of normalize-tabs.sh, a repair hook for a repair hook, existing to repair the damage after-the-fact rewriting caused."
 				>
 					<p>
 						But the fix cannot be another silent rewriter.</p>
@@ -424,8 +424,9 @@ const Usage = [
 						them to X', and the next edit fails or half-matches.
 					</p>
 					<p>
-						Hermes learned this the hard way - its <span class="file-mention"><BrandIcon Name="file-shell" Size="0.9em" /><code>normalize-tabs.sh</code></span> exists
-						to repair the damage its own after-the-fact rewriting caused.</p>
+						The lesson is real: <span class="file-mention"><BrandIcon Name="file-shell" Size="0.9em" /><code>normalize-tabs.sh</code></span>, a
+						repair hook for a repair hook, exists to repair the damage after-the-fact
+						rewriting caused.</p>
 					<p>The tool is
 						the answer: explicit, visible, discoverable, zero background activity.
 					</p>

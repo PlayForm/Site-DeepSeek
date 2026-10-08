@@ -64,7 +64,7 @@ const Pipeline = [
 	"  Factory.Append ──► `hook-dsh-normalize-dash: normalized N dash char(s) in one stream`",
 ];
 
-// The hermes transform class, from the README (verbatim).
+// The transform class, from the README (verbatim).
 const TransformClass = [
 	"\\u058A\\u05BE\\u1400\\u1806\\u2010-\\u2015\\u2E17\\u2E1A\\u2E3A-\\u2E3B\\u2E40",
 	"\\u2E5D\\u301C\\u3030\\u30A0\\uFE31-\\uFE32\\uFE58\\uFE63\\uFF0D  →  replacement",
@@ -264,8 +264,7 @@ const Config = [
 				) and normalizes the unicode dash family to ASCII hyphen-minus, live in the
 				transcript: em dashes, en dashes and seventeen exotic relatives{" "}
 				<ArrowIcon Direction="right" Tone="accent" /> <code>-</code>.</p>
-			<p class="page-hero__sub">Exactly the hermes
-				normalize-dashes hook, at the injection point hermes itself does not have.</p>
+			<p class="page-hero__sub">The normalize-dashes hook, at the injection point the harness itself does not have.</p>
 			<p class="page-hero__sub">A CLASS
 				flavor of the normalize family: the core's <code>Dashes</code> table plus a
 				configurable <code>replacement</code>
@@ -369,7 +368,7 @@ const Config = [
 				<Concept
 					Id="dash-non-manifest"
 					Title="The first NON-MANIFEST module"
-					Diagram='The flavor&apos;s factory surface: injecting ["pluginFactory"], using only State (cell unwrap + shared Ledger/Enabled mappings + its own fields) and Append - touching no files, so fs/write-intent and fs/observed never see it.'
+					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State (cell unwrap + shared Ledger/Enabled mappings + its own fields) and Append - touching no files, so fs/write-intent and fs/observed never see it."}
 				>
 					<p>
 						It is also the factory's <strong>first NON-MANIFEST module</strong>: it
@@ -448,12 +447,12 @@ const Config = [
 			<SectionHeader Title="The Problem" Meta="WHY THE DASH FLAVOR EXISTS" />
 			<div class="concept-list">
 				<Concept
-					Id="dash-problem-hermes"
-					Title="Hermes rewrites files; model output is born in the stream"
-					Diagram="The hermes hook rewriting the unicode dash family to ASCII hyphen-minus in files after the fact - perl -CSD -pe over whatever was already written - while model output is born in the stream: the live UI and the durable transcript seeing the em dashes first, no matter what a file hook does later."
+					Id="dash-problem-file-hook"
+					Title="File hooks rewrite after the fact; model output is born in the stream"
+					Diagram="The file-hook approach rewriting the unicode dash family to ASCII hyphen-minus in files after the fact - perl -CSD -pe over whatever was already written - while model output is born in the stream: the live UI and the durable transcript seeing the em dashes first, no matter what a file hook does later."
 				>
 					<p>
-						The user's hermes hook rewrites the unicode dash family to ASCII
+						The file-hook approach rewrites the unicode dash family to ASCII
 						hyphen-minus <strong>in files after the fact</strong> -{" "}
 						<code>perl -CSD -pe</code> over whatever was already written.
 					</p>
@@ -461,7 +460,7 @@ const Config = [
 						Model output, however, is born in the stream: the live UI and the durable
 						transcript see the em dashes first, no matter what a file hook does later.</p>
 					<p>A
-						DSH plugin can go where hermes cannot: the{" "}
+						DSH plugin can go where a file hook cannot: the{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
 							<code>llm/stream</code>
 						</a>{" "}
@@ -533,13 +532,13 @@ const Config = [
 				</Concept>
 				<Concept
 					Id="dash-transform"
-					Title="The transform: the hermes perl pattern, verbatim"
-					Diagram="Exactly the hermes hook's perl pattern (perl -CSD -pe in normalize-dashes.sh), applied per text segment - the core's Dashes class, verbatim."
+					Title="The transform: the dash-class pattern, verbatim"
+					Diagram="The core's Dashes class applied per text segment - the same perl pattern (perl -CSD -pe), verbatim."
 				>
 					<p>
-						<strong>The transform</strong> - exactly the hermes hook's perl pattern (
-						<code>perl -CSD -pe</code> in <span class="file-mention"><BrandIcon Name="file-shell" Size="0.9em" /><code>normalize-dashes.sh</code></span>), applied per
-						text segment - the core's <code>Dashes</code> class, verbatim:
+						<strong>The transform</strong> - the core's <code>Dashes</code> class,
+						verbatim - the same perl pattern (<code>perl -CSD -pe</code>), applied per
+						text segment:
 					</p>
 				</Concept>
 			</div>
@@ -562,7 +561,7 @@ const Config = [
 						<code>replacement</code> (default
 						<code>-</code>, ASCII hyphen-minus U+002D).
 					</p>
-					<p>No context rules - hermes has none.</p>
+					<p>No context rules - a class match and replace, no lookahead.</p>
 				</Concept>
 				<Concept
 					Id="dash-boundary-safe"
@@ -663,7 +662,7 @@ const Config = [
 				<Concept
 					Id="dash-fs-path"
 					Title="The mirrored fs path"
-					Diagram='The exec mirroring the built-in write&apos;s fs path exactly: ctx.fs.resolve, the fs/write-intent waterfall, the standing sandbox policy, ctx.fs.writeText(...), then the fs/observed emit with the written version - with exec.signal honored end to end and the inject list ["pluginFactory", "fs", "tools"].'
+					Diagram={"The exec mirroring the built-in write's fs path exactly: ctx.fs.resolve, the fs/write-intent waterfall, the standing sandbox policy, ctx.fs.writeText(...), then the fs/observed emit with the written version - with exec.signal honored end to end and the inject list [\"pluginFactory\", \"fs\", \"tools\"]."}
 				>
 					<p>
 						The exec mirrors the built-in write's fs path exactly:{" "}
@@ -694,7 +693,7 @@ const Config = [
 		<section class="section">
 			<SectionHeader Title="Deterministic character mapping" Meta="THE DASH CLASS, SAMPLED" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				A sample of the core's <code>Dashes</code> class - the full class is the hermes perl
+				A sample of the core's <code>Dashes</code> class - the full class is the dash
 				pattern verbatim, every entry mapping to the config
 				<code>replacement</code> (default U+002D):
 			</p>
@@ -861,7 +860,7 @@ const Config = [
 				<Concept
 					Id="dash-fixed-order"
 					Title="The order is FIXED by the family"
-					Diagram='The family&apos;s fixed order - dashes, quotes, ellipsis, spaces, invisible, fullwidth - applying even when the selection lists the flavors out of order: normalize: ["fullwidth", "dash"] still applying dashes first.'
+					Diagram={"The family's fixed order - dashes, quotes, ellipsis, spaces, invisible, fullwidth - applying even when the selection lists the flavors out of order: normalize: [\"fullwidth\", \"dash\"] still applying dashes first."}
 				>
 					<p>
 						The order is FIXED by the family: dashes{" "}
@@ -877,7 +876,7 @@ const Config = [
 				<Concept
 					Id="dash-governance-per-call"
 					Title="The governance direction, per call"
-					Diagram='A raw-write to a package.json with govern: true running the registered chain pass (canonicalize) and the update stage after the write lands - govern: ["pin"] running only the pinner&apos;s chain pass - and the ledger getting the count line when a stream finishes normally with replacements made.'
+					Diagram={"A raw-write to a package.json with govern: true running the registered chain pass (canonicalize) and the update stage after the write lands - govern: [\"pin\"] running only the pinner's chain pass - and the ledger getting the count line when a stream finishes normally with replacements made."}
 				>
 					<p>
 						And the governance direction, per call: a raw-write to a{" "}

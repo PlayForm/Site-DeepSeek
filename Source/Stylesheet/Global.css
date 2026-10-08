@@ -1423,6 +1423,20 @@ svg {
 	margin: 0;
 }
 
+/* The paragraph-break law: the sentence-lane splits render the source's line
+   break as the blank-line paragraph separation. The hero subs, the section
+   subs and the card descriptions split on newlines into sibling paragraphs,
+   and each consecutive pair carries the paragraph gap (--space-md), so the
+   sentences read as separate paragraphs with the space between. */
+.page-hero > .page-hero__sub + .page-hero__sub,
+.section > .page-hero__sub + .page-hero__sub {
+	margin-top: var(--space-md);
+}
+
+.card__desc + .card__desc {
+	margin-top: var(--space-md);
+}
+
 /* ---- Snippet table (plugins page) ---- */
 .snippet-list {
 	display: flex;
