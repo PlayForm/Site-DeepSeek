@@ -6,3 +6,8 @@ flowchart LR
 	G3 --> S1
 	G3 --> S2
 	G3 --> S3
+	%% Invisible layout links only - no semantics. They stagger the three
+	%% planned steps into successive left-to-right columns so the fan-out
+	%% renders as a wide horizontal band instead of a tall vertical stack.
+	S1 ~~~ S2
+	S2 ~~~ S3

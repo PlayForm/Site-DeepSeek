@@ -28,8 +28,7 @@ import puppeteer from "puppeteer";
 const Here = dirname(fileURLToPath(import.meta.url));
 
 const BrowserPath =
-	process.env["DSH_BROWSER"] ??
-	"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser";
+	process.env["DSH_BROWSER"] ?? "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser";
 
 const mermaidUrl = pathToFileURL(
 	join(Here, "../../../node_modules/mermaid/dist/mermaid.esm.min.mjs"),
@@ -88,7 +87,14 @@ const PageHtml = `<!DOCTYPE html>
 				const { svg } = await mermaid.render(\`dsh-diagram-\${Id}\`, Text);
 				// Mermaid's HTML labels emit void \`<br>\` tags, which are invalid
 				// XML (and break strict SVG parsers). Self-close them.
-				return svg.replace(/<br\\s*>/g, "<br/>");
+				const Fixed = svg.replace(/<br\\s*>/g, "<br/>");
+				// Mermaid caps the diagram at its natural pixel size with an
+				// inline \`style="max-width: ...px;"\`. That cap would keep the
+				// rendered diagram from spanning its container's width, so it
+				// is dropped here: the vendored SVG carries width="100%" plus
+				// the viewBox, and the site's CSS makes it a fluid full-width
+				// band at every viewport size.
+				return Fixed.replace(/(<svg\\b[^>]*?)\\s+style="max-width:[^"]*"/, "$1");
 			};
 			window.__ready = true;
 		</script>
@@ -100,6 +106,49 @@ if (Sources.length === 0) {
 	console.error("No .mmd sources found.");
 	process.exit(1);
 }
+
+// The label-presence law: every label in a source must appear in the rendered
+// SVG's text content. Mermaid renders labels as word-wrapped <tspan> runs, so
+// the check compares whitespace-free forms (line wraps may drop joining
+// spaces). A render that loses text must fail the pipeline, never ship.
+const Unescape = (Text) =>
+	Text.replace(
+		/&gt;|&lt;|&amp;|&quot;|&#39;/g,
+		(Entity) =>
+			({ "&gt;": ">", "&lt;": "<", "&amp;": "&", "&quot;": '"', "&#39;": "'" })[Entity],
+	);
+const Squash = (Text) => Unescape(Text).replace(/\s+/g, "");
+const SourceLabels = (Text) => {
+	const Labels = [];
+	for (const Match of Text.matchAll(
+		/\[\s*"((?:[^"\\]|\\.)*)"\s*\]|\{\s*"((?:[^"\\]|\\.)*)"\s*\}/g,
+	)) {
+		Labels.push(Match[1] ?? Match[2]);
+	}
+	for (const Match of Text.matchAll(/(?:--|-\.-)\s+"((?:[^"\\]|\\.)*)"\s+(?:-->|\.->)/g)) {
+		Labels.push(Match[1]);
+	}
+	for (const Match of Text.matchAll(/--\s*\|\s*"((?:[^"\\]|\\.)*)"\s*\|\s*-->/g)) {
+		Labels.push(Match[1]);
+	}
+	return Labels;
+};
+const SvgHasLabels = (Svg, Labels) => {
+	let Text = "";
+	for (const Match of Svg.matchAll(/<text[^>]*>([\s\S]*?)<\/text>/g)) {
+		for (const Word of Match[1].matchAll(/<tspan[^>]*>([^<]*)<\/tspan>/g)) {
+			Text += Word[1];
+		}
+	}
+	const Squashed = Squash(Text);
+	for (const Label of Labels) {
+		for (const Line of Label.split(/<br\s*\/?>/)) {
+			const Want = Squash(Line);
+			if (Want && !Squashed.includes(Want)) return Want;
+		}
+	}
+	return null;
+};
 
 const HostPath = join(tmpdir(), "dsh-diagram-render.html");
 
@@ -135,7 +184,15 @@ try {
 			// Drop any stale artifact, then write the vendored SVG.
 			await unlink(SvgPath).catch(() => {});
 			await writeFile(SvgPath, `${Svg.trim()}\n`, "utf8");
-			console.log(`rendered ${Id}.svg (${Svg.length} bytes)`);
+			// The label-presence law, enforced at render time.
+			const Missing = SvgHasLabels(Svg, SourceLabels(Text));
+			if (Missing !== null) {
+				Failed += 1;
+				console.error(`MISSING TEXT ${Id}: "${Missing}" not in the SVG`);
+				await unlink(SvgPath).catch(() => {});
+				continue;
+			}
+			console.log(`rendered ${Id}.svg (${Svg.length} bytes) - all labels present`);
 		} catch (Error) {
 			Failed += 1;
 			console.error(`FAILED ${Id}: ${Error.message}`);

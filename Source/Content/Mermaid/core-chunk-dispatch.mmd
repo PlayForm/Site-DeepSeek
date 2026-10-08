@@ -5,3 +5,8 @@ flowchart LR
 	G -- "tool-call-delta (optional)" --> C["normalize the tool arguments"]
 	G -- "block-end" --> B["normalize the block content"]
 	G -- "other chunk types" --> I["unchanged - by identity"]
+	%% Invisible layout links only - no semantics. They stagger the five
+	%% dispatch branches across two left-to-right rows so the fan-out
+	%% renders as a wide horizontal band instead of a tall vertical stack.
+	T ~~~ C
+	R ~~~ B
