@@ -10,6 +10,7 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families } from "@Library/Content";
+import { Link, Links } from "@Library/Links";
 
 // The pipeline P = Rewrite ∘ Pin ∘ Resolve ∘ Decode diagram, from the package README.
 const Pipeline = [
@@ -129,7 +130,7 @@ const Related = [
 				{Families.PinnerPackage} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness
 				Plugin Family for PlayForm._ The <strong>silent version pinner</strong> of the
 				DeepSeek Harness - a plugin on the
-				<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> event that pins every dependency version in a written
+				<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> event that pins every dependency version in a written
 				<code>package.json</code> to its STATIC version:{" "}
 				<code>"@playform/build": "^0.3.4"</code> becomes <code>"0.3.4"</code>. One leading
 				range prefix (<code>^</code>,<code>~</code>, or <code>=</code>) is stripped, in
@@ -176,7 +177,7 @@ const Related = [
 					<div class="diagram-placeholder" data-diagram="family-position">
 						<p class="section-kicker">Diagram placeholder - Family position</p>
 						<p>
-							Show the pinner's relationship to <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a>, hook-dsh-core, and
+							Show the pinner's relationship to <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>, hook-dsh-core, and
 							the sibling package governor. Label the shared fs/observed seam.
 						</p>
 					</div>
@@ -187,9 +188,9 @@ const Related = [
 
 					<p class="page-hero__sub">
 						<strong>{Families.PinnerPackage}</strong> is a hook child of the{" "}
-						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source"><code>plugin-dsh-factory</code></a> service and the
+						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}><code>plugin-dsh-factory</code></a> service and the
 						<code>hook-dsh-core</code> helpers. It is a sibling of the package governor
-						on the same <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> seam.
+						on the same <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> seam.
 					</p>
 				</section>
 
@@ -228,7 +229,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						The pinner's <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts"><code>pin-policy.json</code></a> keep-list protects selected
+						The pinner's <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><code>pin-policy.json</code></a> keep-list protects selected
 						dependencies. Their ranges remain exactly as authored.
 					</p>
 				</section>
@@ -284,7 +285,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source"><code>plugin-dsh-factory</code></a> supplies the gate, discovery, union
+						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}><code>plugin-dsh-factory</code></a> supplies the gate, discovery, union
 						keep-list, guarded write, refresh, continuation, effects, and schema.
 					</p>
 				</section>
@@ -293,7 +294,7 @@ const Related = [
 					<div class="diagram-placeholder" data-diagram="core-helpers">
 						<p class="section-kicker">Diagram placeholder - Core helpers</p>
 						<p>
-							Show hook-dsh-core supplying <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> and suppression composer
+							Show hook-dsh-core supplying <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and suppression composer
 							to the pinner.
 						</p>
 					</div>
@@ -303,7 +304,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						<code>hook-dsh-core</code> supplies <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> and the suppression
+						<code>hook-dsh-core</code> supplies <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and the suppression
 						composer.
 					</p>
 				</section>
@@ -332,7 +333,7 @@ const Related = [
 						<p>
 							Show apply-time registration with Factory.RegisterGovern. Then show the
 							raw-write tool's per-call govern selection reaching the same pin pass
-							through <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts">Factory.Govern</a>, alongside the fs/observed event path.
+							through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>, alongside the fs/observed event path.
 						</p>
 					</div>
 
@@ -341,7 +342,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						Besides the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> event path, the chain pass registers
+						Besides the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> event path, the chain pass registers
 						with the factory's direct-govern registry during <code>apply()</code>:
 						<code>Factory.RegisterGovern("package.json", "pin", ...)</code>.
 					</p>
@@ -349,7 +350,7 @@ const Related = [
 					<p class="page-hero__sub">
 						The raw-write tool's per-call govern selection can drive the same pin pass
 						directly through
-						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts"><code>Factory.Govern</code></a>.
+						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}><code>Factory.Govern</code></a>.
 					</p>
 				</section>
 			</div>
@@ -454,7 +455,7 @@ const Related = [
 					<div class="diagram-placeholder" data-diagram="keep-list-policy">
 						<p class="section-kicker">Diagram placeholder - Keep-list policy</p>
 						<p>
-							Show <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts">pin-policy.json</a> protecting a selected dependency from prefix
+							Show <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}>pin-policy.json</a> protecting a selected dependency from prefix
 							removal, the union of every readable discovered policy, and the P3
 							chain-keys interlock keeping the governor's ^resolved chain pins
 							unstripped.
@@ -466,7 +467,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						A <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts"><code>pin-policy.json</code></a> (<code>{'{"keep": ["tailwindcss"]}'}</code>)
+						A <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><code>pin-policy.json</code></a> (<code>{'{"keep": ["tailwindcss"]}'}</code>)
 						protects packages whose ranges must stay EXACTLY as the author wrote them.
 						The effective keep-list is the union of every readable discovered policy,
 						and the P3 chain-keys interlock means the governor's <code>^resolved</code>{" "}
@@ -576,7 +577,7 @@ const Related = [
 			</p>
 			<CodeBlock Language="json" Source={PinnedWrite.join("\n")} />
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">
-				A <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts"><code>pin-policy.json</code></a> (<code>{'{"keep":["tailwindcss"]}'}</code>) sits
+				A <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><code>pin-policy.json</code></a> (<code>{'{"keep":["tailwindcss"]}'}</code>) sits
 				beside the file, so tailwindcss keeps its range; the other two dependencies are
 				pinned. The transcript shows only what the author wrote; the ledger shows the pin:
 			</p>

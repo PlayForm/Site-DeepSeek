@@ -10,6 +10,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Totals, Versions, Families, Scheme } from "@Library/Content";
+import { Link, Links } from "@Library/Links";
 
 // The class replacer at work, from the README's In Action block (the input
 // carries the real typographic characters the flavor tables match).
@@ -140,7 +141,7 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						The core is <strong>not a plugin bundle</strong>: no{" "}
-						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/cordis.patch.yml"><code>cordis.patch.yml</code></a>, no loader contract, publishable on its own -
+						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><code>cordis.patch.yml</code></a>, no loader contract, publishable on its own -
 						consumers link it as a plain library dependency, not as a bundle row, and
 						there is no <code>dsh plugin add</code> row for it.
 					</p>
@@ -191,10 +192,10 @@ const Related = [
 					Diagram="The llm/stream seam supplying the stream-normalization half, with each flavor's listener running the tables, the replacers and the Chunk/Block dispatch inside itself."
 				>
 					<p class="page-hero__sub">
-						The <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts"><code>llm/stream</code></a> seam supplies the stream-normalization half the
+						The <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a> seam supplies the stream-normalization half the
 						six flavors dispatch through: the six character tables, the two generic
 						replacers and the per-chunk/per-block dispatch running inside each flavor's{" "}
-						<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts"><code>llm/stream</code></a> listener.
+						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a> listener.
 					</p>
 
 					<p class="page-hero__sub">
@@ -209,9 +210,9 @@ const Related = [
 					Diagram="The fs/observed + fs/write-intent seams supplying the governance half, with the three governance hooks composing their passes from the section list, the exclusion fence, the policy loader, the refusal guard and the update-stage envelope."
 				>
 					<p class="page-hero__sub">
-						The <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> + <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/write-intent</code></a> seams supply the
+						The <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> + <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/write-intent</code></a> seams supply the
 						governance half the three governance hooks compose their passes from: the
-						section list, the exclusion fence, the policy loader, <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> and
+						section list, the exclusion fence, the policy loader, <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and
 						the update-stage envelope.
 					</p>
 
@@ -252,7 +253,7 @@ const Related = [
 					<p class="page-hero__sub">
 						The family's hooks kept re-implementing the same pure functions: the NPM
 						section list, the exclusion segments, the suppression-line composer, the
-						policy loader, <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> - and, for the normalize flavors, the same
+						policy loader, <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> - and, for the normalize flavors, the same
 						per-chunk dispatch, block-end normalizer and character tables, copy-pasted
 						per flavor. Every fix had to be applied N times.
 					</p>
@@ -291,7 +292,7 @@ const Related = [
 					Diagram="Show @playform/hook-dsh-core branching into governance helpers and normalization machinery. Connect each half to its consuming hooks. Do not depict the core as a registered plugin."
 				>
 					<p class="page-hero__sub">
-						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source"><code>@playform/hook-dsh-core</code></a> exposes named exports for two
+						<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source")}><code>@playform/hook-dsh-core</code></a> exposes named exports for two
 						responsibilities: governance and normalization.
 					</p>
 
@@ -683,7 +684,7 @@ const Related = [
 					Diagram="The transform calling Refusal before the write: a difference outside the declared dependency sections composing the refusal line and returning null - the rewrite never applied."
 				>
 					<p class="page-hero__sub">
-						Before any write, the transform runs <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> - only the declared
+						Before any write, the transform runs <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> - only the declared
 						dependency sections may differ:
 					</p>
 

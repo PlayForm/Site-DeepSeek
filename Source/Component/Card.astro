@@ -3,6 +3,8 @@
 // Variant "white" is the white surface; "primary" is the solid blue card.
 // Tags feeds the registry filter (data-tags); Copy arms the install row's
 // copy trigger (data-copy), handled by the global Base.astro runtime.
+import { Linkify } from "@Library/Links";
+
 interface Props {
 	Variant?: "default" | "white" | "primary";
 	Name?: string;
@@ -51,7 +53,9 @@ const CardClass = `card${Variant === "default" ? "" : ` card--${Variant}`}`;
 
 	{Sentence && <p class="card__sentence">{Sentence}</p>}
 
-	{Desc && <p class={`card__desc${Muted ? " card__desc--muted" : ""}`}>{Desc}</p>}
+	<!-- The description renders through Linkify: a [text](target) segment in the
+	     plain-text prop becomes a safe <a>, everything else stays text. -->
+	{Desc && <p class={`card__desc${Muted ? " card__desc--muted" : ""}`} set:html={Linkify(Desc)} />}
 
 	<slot />
 

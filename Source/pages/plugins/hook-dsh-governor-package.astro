@@ -11,6 +11,7 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families } from "@Library/Content";
+import { Link, Links } from "@Library/Links";
 
 // The pipeline G = U ∘ P diagram, from the package README.
 const Pipeline = [
@@ -202,7 +203,7 @@ const Related = [
 			<p class="page-hero__sub">
 				{Families.GovernorPackage} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness
 				Plugin Family for PlayForm._ The <strong>silent package.json governor</strong> of
-				the DeepSeek Harness - a plugin on the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> event (the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/vendor/cordis">cordis</a>
+				the DeepSeek Harness - a plugin on the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> event (the <a href={Link(Links.DeepSeekHarness, "vendor/cordis")}>cordis</a>
 				event every harness file write dispatches; the tool layer is the only dispatcher)
 				that governs every
 				<code>package.json</code> written by any agent, anywhere: a pure chain pass
@@ -253,11 +254,11 @@ const Related = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.GovernorPackage}</strong>): a hook child of the{" "}
-						<strong><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a></strong> service and the{" "}
+						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service and the{" "}
 						<strong>hook-dsh-core</strong> helpers; it has no hook children of its own.
 					</p>
 					<p>
-						One of three governance hooks sharing the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> seam,
+						One of three governance hooks sharing the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> seam,
 						each gating on its own basename and writing its own ledger:
 					</p>
 				</Concept>
@@ -309,7 +310,7 @@ const Related = [
 						<ArrowIcon Direction="right" Tone="accent" /> <strong>strip</strong>{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> <strong>normalize</strong>{" "}
 						(the cargo module's precedence), <strong>keep-list wins</strong> (the
-						pinner's <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts">pin-policy.json</a> keeps ranges as authored).
+						pinner's <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}>pin-policy.json</a> keeps ranges as authored).
 					</p>
 					<p>The ledgers are separate; activating one never implies another.</p>
 				</Concept>
@@ -322,7 +323,7 @@ const Related = [
 						Machinery-wise it is a <strong>factory flavor</strong>:{" "}
 						<code>inject: ["fs", "pluginFactory"]</code> - the gates, the discovery, the
 						guarded write, the refresh, the continuation, the effects and the schema
-						come from <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a>; the pure helpers (Suppress, the policy loader)
+						come from <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>; the pure helpers (Suppress, the policy loader)
 						come from hook-dsh-core.
 					</p>
 					<p>
@@ -336,14 +337,14 @@ const Related = [
 					Diagram='Besides the fs/observed event path, its two steps registered with the factory&apos;s direct-govern registry at apply (Factory.RegisterGovern("package.json", "canonicalize" | "update", ...)) - so the raw-write tool&apos;s per-call govern selection can drive the same chain pass and update stage directly through Factory.Govern.'
 				>
 					<p>
-						Besides the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> event path, its two steps are registered with the
+						Besides the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> event path, its two steps are registered with the
 						factory's direct-govern registry at apply (
 						Factory.RegisterGovern(&quot;package.json&quot;, &quot;canonicalize&quot; |
 						&quot;update&quot;, ...)).
 					</p>
 					<p>
 						That lets the raw-write tool's per-call govern selection drive the same
-						chain pass and update stage directly through <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts">Factory.Govern</a>.
+						chain pass and update stage directly through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>.
 					</p>
 				</Concept>
 			</div>
@@ -410,8 +411,8 @@ const Related = [
 					Diagram="fs/observed being the only hook that runs after content is on disk - the fs/write-intent waterfall carrying a version guard but never the content."
 				>
 					<p>
-						<a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> is the only hook that runs <em>after</em> content
-						is on disk - the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/write-intent</code></a> waterfall carries a version
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> is the only hook that runs <em>after</em> content
+						is on disk - the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/write-intent</code></a> waterfall carries a version
 						guard but never the content.
 					</p>
 				</Concept>
@@ -485,7 +486,7 @@ const Related = [
 					<p>
 						The G4 update-stage envelope - the Dispatch/Settle pair of the diagram above
 						(the gates, the jobs envelope, the breaker update, the U2 refresh) - lives
-						in the core (<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source">@playform/hook-dsh-core</a>).
+						in the core (<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source")}>@playform/hook-dsh-core</a>).
 					</p>
 					<p>
 						This module is a thin delegate that injects its own collections, child stage

@@ -4,6 +4,8 @@
 // placeholder (a stable data-diagram identifier for the future diagram
 // agent), a short descriptive heading, and a body of one or two short
 // paragraphs explaining only that concept.
+import { Linkify } from "@Library/Links";
+
 interface Props {
 	Id: string;
 	Title: string;
@@ -16,7 +18,9 @@ const { Id, Title, Diagram } = Astro.props;
 <section class="concept" aria-labelledby={`${Id}-title`}>
 	<div class="concept__diagram" data-diagram={Id} data-diagram-status="placeholder">
 		<p class="concept__diagram-label">Diagram placeholder - {Title}</p>
-		<p class="concept__diagram-brief">{Diagram}</p>
+		<!-- The brief renders through Linkify: a [text](target) segment in the
+		     plain-text prop becomes a safe <a>, everything else stays text. -->
+		<p class="concept__diagram-brief" set:html={Linkify(Diagram)} />
 	</div>
 	<h3 id={`${Id}-title`} class="concept__title">{Title}</h3>
 	<div class="concept__body">

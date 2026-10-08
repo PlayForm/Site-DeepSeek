@@ -3,6 +3,7 @@
 // internals - the actual events, services and facilities the plugin
 // operates through, rendered as a seam table.
 import BrandIcon from "@Component/BrandIcon.astro";
+import { Linkify } from "@Library/Links";
 
 export interface Seam {
 	Seam: string;
@@ -29,13 +30,15 @@ const { Seams } = Astro.props;
 			</tr>
 		</thead>
 		<tbody>
+			<!-- The cells render through Linkify: a [text](target) segment in the
+			     plain-text props becomes a safe <a>, everything else stays text. -->
 			{Seams.map((Row) => (
 				<tr>
 					<td>
-						<strong>{Row.Seam}</strong>
+						<strong set:html={Linkify(Row.Seam)} />
 					</td>
-					<td>{Row.What}</td>
-					<td>{Row.Outcome}</td>
+					<td set:html={Linkify(Row.What)} />
+					<td set:html={Linkify(Row.Outcome)} />
 				</tr>
 			))}
 		</tbody>

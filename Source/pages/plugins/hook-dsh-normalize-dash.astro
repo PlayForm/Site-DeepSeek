@@ -12,6 +12,7 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families, FamilyPosition } from "@Library/Content";
+import { Link, Links } from "@Library/Links";
 
 // The stream pipeline diagram, from the package README.
 const Pipeline = [
@@ -248,8 +249,8 @@ const Config = [
 			<p class="page-hero__sub">
 				{Families.Dash} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin Family
 				for PlayForm._ The <strong>dash normalizer for model output</strong> - a DeepSeek
-				Harness plugin that hooks the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts"><code>llm/stream</code></a> waterfall (the interceptable
-				wrapper around EVERY streaming model call, bound to the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts">LlmRuntime</a>) and normalizes
+				Harness plugin that hooks the <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a> waterfall (the interceptable
+				wrapper around EVERY streaming model call, bound to the <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>LlmRuntime</a>) and normalizes
 				the unicode dash family to ASCII hyphen-minus, live in the transcript: em dashes, en
 				dashes and seventeen exotic relatives <ArrowIcon Direction="right" Tone="accent" />{" "}
 				<code>-</code>. Exactly the hermes normalize-dashes hook, at the injection point
@@ -303,7 +304,7 @@ const Config = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.Dash}</strong>): a hook child of the{" "}
-						<strong><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a></strong> service and the{" "}
+						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service and the{" "}
 						<strong>hook-dsh-core</strong> machinery; the first of six stream normalizer
 						siblings, all built on the shared machinery.
 					</p>
@@ -353,9 +354,9 @@ const Config = [
 						<code>Append</code>.
 					</p>
 					<p>
-						It touches no files, so <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/write-intent</a> and <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> never see it; it
+						It touches no files, so <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/write-intent</a> and <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> never see it; it
 						wraps the downstream result and always calls <code>next()</code>, so it
-						composes with other <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts">llm/stream</a> listeners regardless of registration order.
+						composes with other <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>llm/stream</a> listeners regardless of registration order.
 					</p>
 				</Concept>
 				<Concept
@@ -424,7 +425,7 @@ const Config = [
 					<p>
 						Model output, however, is born in the stream: the live UI and the durable
 						transcript see the em dashes first, no matter what a file hook does later. A
-						DSH plugin can go where hermes cannot: the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts"><code>llm/stream</code></a>{" "}
+						DSH plugin can go where hermes cannot: the <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>{" "}
 						waterfall, where every streaming model call passes through.
 					</p>
 				</Concept>
@@ -434,8 +435,8 @@ const Config = [
 					Diagram="The visibility contrast: the governance family's rewrites being SILENT, this plugin's normalization flowing into both the live UI and the durable transcript."
 				>
 					<p>
-						Unlike the governance family (<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-package/Source">hook-dsh-governor-package</a>,
-						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source">hook-dsh-pinner-package</a>, <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-cargo/Source">hook-dsh-governor-cargo</a>), whose rewrites are
+						Unlike the governance family (<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-governor-package/Source")}>hook-dsh-governor-package</a>,
+						<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source")}>hook-dsh-pinner-package</a>, <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-governor-cargo/Source")}>hook-dsh-governor-cargo</a>), whose rewrites are
 						SILENT, this plugin's normalization is{" "}
 						<strong>deliberately VISIBLE - it IS the feature</strong>: the rewrite flows
 						into both the live UI and the durable transcript.
@@ -578,7 +579,7 @@ const Config = [
 						The tool also takes a <strong>govern parameter</strong> - the per-call
 						governance selection over the factory's direct-govern registry, applied
 						after a successful write: absent or false (default) runs NO governance chain
-						(the write still emits <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> exactly like a built-in write); true or
+						(the write still emits <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> exactly like a built-in write); true or
 						"all" runs ALL registered governance steps for the target's basename;{" "}
 						<code>["canonicalize", ...]</code> runs ONLY the named steps.
 					</p>
@@ -596,10 +597,10 @@ const Config = [
 					<p>
 						The exec mirrors the built-in write's fs path exactly:{" "}
 						<code>ctx.fs.resolve</code> <ArrowIcon Direction="right" Tone="accent" />{" "}
-						the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/write-intent</a> waterfall <ArrowIcon Direction="right" Tone="accent" />{" "}
+						the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/write-intent</a> waterfall <ArrowIcon Direction="right" Tone="accent" />{" "}
 						the standing sandbox policy <ArrowIcon Direction="right" Tone="accent" />{" "}
 						<code>ctx.fs.writeText(...)</code>{" "}
-						<ArrowIcon Direction="right" Tone="accent" /> the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> emit with the
+						<ArrowIcon Direction="right" Tone="accent" /> the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> emit with the
 						written version.
 					</p>
 					<p>
@@ -683,10 +684,10 @@ const Config = [
 				>
 					<p>
 						Volatile cells commit without remounting the plugin (the fiber - and with it
-						the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts">llm/stream</a> registration - stays alive); the factory's State builder
+						the <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>llm/stream</a> registration - stays alive); the factory's State builder
 						unwraps them defensively.
 					</p>
-					<p>Example <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/cordis.patch.yml">cordis.patch.yml</a> row:</p>
+					<p>Example <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> row:</p>
 				</Concept>
 			</div>
 			<CodeBlock

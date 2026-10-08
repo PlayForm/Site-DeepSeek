@@ -19,6 +19,7 @@ import {
 	Decisions,
 	Families,
 } from "@Library/Content";
+import { Link, Links } from "@Library/Links";
 
 // The in-page phase index: anchor links in a badge row under the hero.
 const Index = [
@@ -576,7 +577,7 @@ const Lessons = [
 				>
 					<p>
 						It also surfaced the first live-only failure: the{" "}
-						<BrandIcon Name="deepseek" /> harness's <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/storage/storage-domain">storage domain</a>
+						<BrandIcon Name="deepseek" /> harness's <a href={Link(Links.DeepSeekHarness, "packages/storage/storage-domain")}>storage domain</a>
 						enforces <strong>one open per name</strong>, so the shared journal domain was
 						single-winner per boot.
 					</p>

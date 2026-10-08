@@ -11,6 +11,7 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families } from "@Library/Content";
+import { Link, Links } from "@Library/Links";
 
 // The full-version normalization directive, from the package README.
 const FullVersion = [
@@ -148,9 +149,9 @@ const Related = [
 					<p>
 						<strong>Family position</strong> (the @-sentence{" "}
 						<strong>{Families.GovernorCargo}</strong>): a hook child of the{" "}
-						<strong><a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a></strong> service and the{" "}
+						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service and the{" "}
 						<strong>hook-dsh-core</strong> helpers; the Rust-sided sibling of the two
-						npm governance hooks on the same <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> seam.
+						npm governance hooks on the same <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> seam.
 					</p>
 					<p>
 						One of three governance hooks, each gating on its own basename and writing
@@ -196,7 +197,7 @@ const Related = [
 					<p>
 						Machinery-wise it is a <strong>factory flavor</strong>: gates, discovery,
 						the guarded write, the refresh, the continuation, the effects, the schema
-						and the namespaced UpdateKey come from <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source">plugin-dsh-factory</a>; the policy loader
+						and the namespaced UpdateKey come from <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>; the policy loader
 						and the suppression composer come from hook-dsh-core.
 					</p>
 					<p>
@@ -211,13 +212,13 @@ const Related = [
 					Diagram='Besides the fs/observed event path, its two steps registered with the factory&apos;s direct-govern registry at apply (Factory.RegisterGovern("Cargo.toml", "cargo" | "update", ...)) - so the raw-write tool&apos;s per-call govern selection can drive the same chain + normalization pass and update stage directly through Factory.Govern.'
 				>
 					<p>
-						Besides the <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> event path, its two steps are registered with the
+						Besides the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> event path, its two steps are registered with the
 						factory's <BrandIcon Name="chain" /> direct-govern registry at apply (
 						Factory.RegisterGovern("Cargo.toml", "cargo" | "update", ...)).
 					</p>
 					<p>
 						That lets the raw-write tool's per-call govern selection drive the same
-						chain + normalization pass and update stage directly through <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts">Factory.Govern</a>.
+						chain + normalization pass and update stage directly through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>.
 					</p>
 				</Concept>
 			</div>
@@ -274,7 +275,7 @@ const Related = [
 					<p>
 						A governor for <code>Cargo.toml</code> must therefore rewrite surgically
 						(never a TOML stringify) and delegate its update stage across the Rust/TS
-						boundary - while still hooking the same <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts"><code>fs/observed</code></a> event the
+						boundary - while still hooking the same <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> event the
 						npm hooks use, so one trigger law covers the whole machine.
 					</p>
 				</Concept>
@@ -390,7 +391,7 @@ const Related = [
 						pretty-printed), <code>[dependencies.name]</code> table style. Never
 						rewritten: <code>path = "..."</code>, <code>git = "..."</code>, and
 						inherited entries (<code>workspace = true</code>). Non-dependency sections
-						are NEVER touched; <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-core/Source/Function/Refusal.ts">the refusal guard</a> refuses any plan entry outside an
+						are NEVER touched; <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> refuses any plan entry outside an
 						identified dependency table, and Pin aborts (never a partial rewrite) if a
 						planned entry cannot be located in the text.
 					</p>

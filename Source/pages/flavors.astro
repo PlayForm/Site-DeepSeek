@@ -8,6 +8,7 @@ import FlavorBadge from "@Component/FlavorBadge.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import { Counts, Sprite } from "@Library/Content";
+import { Link, Links } from "@Library/Links";
 
 // The seven normalize flavors: six stream flavors plus the file tool.
 const Flavors = [
@@ -96,7 +97,7 @@ const Flavors = [
 						<Badge Variant="outline">hook-dsh-governor-*</Badge>
 					</div>
 					<p class="card__desc" style="color: var(--color-on-primary-container)">
-						The governance role: silently hooks <a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/fs/fs/src/index.ts">fs/observed</a> and rewrites the project's
+						The governance role: silently hooks <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> and rewrites the project's
 						dependency pins to the governed versions - the package.json governor and the{" "}
 						<BrandIcon Name="rust" /> Cargo.toml governor.
 					</p>

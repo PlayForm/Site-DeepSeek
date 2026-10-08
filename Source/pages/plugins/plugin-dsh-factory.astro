@@ -11,6 +11,7 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families, Methods } from "@Library/Content";
+import { Link, Links } from "@Library/Links";
 
 // The furnace diagram, from the package README.
 const Furnace = [
@@ -142,7 +143,7 @@ const Related = [
 				(export default class PluginFactory extends Service, super(ctx, "pluginFactory"),
 				static inject = ["fs"]) that exposes <code>ctx.pluginFactory</code>: a single
 				service holding every piece of common machinery the family's hooks used to
-				duplicate. One service. {Methods.Word} methods (<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts">the direct-govern pair</a>
+				duplicate. One service. {Methods.Word} methods (<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>the direct-govern pair</a>
 				RegisterGovern + Govern and the GovernSteps registry among them). The hooks bring
 				their own metal; the factory pours the mold.
 			</p>
@@ -537,7 +538,7 @@ const Related = [
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				License: CC0-1.0. The published artifact contains only the built output - files
-				whitelists Target/, <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/plugin-dsh-factory/cordis.patch.yml">cordis.patch.yml</a> and the docs; Source/ never ships. There are no
+				whitelists Target/, <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> and the docs; Source/ never ships. There are no
 				build/watch <BrandIcon Name="npm" /> npm scripts: the only npm script is
 				prepublishOnly.
 			</p>
