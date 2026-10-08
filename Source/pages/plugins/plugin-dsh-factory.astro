@@ -197,7 +197,7 @@ const Related = [
 				<Concept
 					Id="factory-core-boundary"
 					Title="The non-reexport boundary"
-					Diagram="The pure layer the factory deliberately does not re-export - hook-dsh-core (its service surface stays stable) - the hooks importing the core's helpers directly."
+					Diagram="The pure layer the factory deliberately does not re-export - [hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source) (its service surface stays stable) - the hooks importing the core's helpers directly."
 				>
 					<p>
 						The pure layer it deliberately does <strong>not</strong> re-export is{" "}
@@ -261,23 +261,23 @@ const Related = [
 				Seams={[
 					{
 						Seam: "The tool layer (write / edit / str_replace_editor)",
-						What: "The fs/observed events the governance hooks react to are fired by the tool layer only, for every harness write or edit; GuardedWrite and Refresh keep the author's next guarded write from ever failing a stale-version check.",
+						What: "The fs/observed events the governance hooks react to are fired by the tool layer only, for every harness write or edit; [GuardedWrite](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) and Refresh keep the author's next guarded write from ever failing a stale-version check.",
 						Outcome: "One trigger law for the whole machine, any agent, any thread.",
 					},
 					{
 						Seam: "ctx.fs - the filesystem service (dsh-fs)",
-						What: "Every write of a GOVERNED file goes through ctx.fs (the fs/write-intent waterfall, the standing sandbox policy, the fs/observed emit); only the ledger append and auxiliary discovery reads are plain-fs exemptions, documented.",
+						What: "Every write of a GOVERNED file goes through [ctx.fs](Harness:packages/fs/fs) (the [fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, the [fs/observed emit](Harness:packages/fs/fs/src/index.ts)); only the ledger append and auxiliary discovery reads are plain-fs exemptions, documented.",
 						Outcome:
 							"Writes that the observation policy and the sandbox see like built-in writes.",
 					},
 					{
 						Seam: "ctx.jobs - the jobs facility",
-						What: "Attach registers the root's job controller (which serves every owner) and runs the update stages inside the jobs envelope (kind governor-update, unowned), with the detached contained continuation as the probed fallback.",
+						What: "Attach registers the root's job controller (which serves every owner) and runs the update stages inside the [jobs envelope](Harness:packages/jobs) (kind governor-update, unowned), with the detached contained continuation as the probed fallback.",
 						Outcome: "Update stages that never block or abort the author's session.",
 					},
 					{
 						Seam: "The storage domain",
-						What: "Journal writes the package_governance v2 records when the storage facility is present (probed, graceful): the queue drains, or the records buffer/drop and the human ledger stays the complete record.",
+						What: "[Journal](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts) writes the package_governance v2 records when the [storage facility](Harness:packages/storage/storage-domain) is present (probed, graceful): the queue drains, or the records buffer/drop and the human ledger stays the complete record.",
 						Outcome: "A machine-readable governance history beside the human ledger.",
 					},
 					{

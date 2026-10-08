@@ -297,31 +297,31 @@ const LedgerStrings = [
 				Seams={[
 					{
 						Seam: "llm/stream - the model stream waterfall",
-						What: "The plugin's listener wraps the interceptable waterfall around EVERY streaming model call (bound to the LlmRuntime): next() is called first, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
+						What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
 						Outcome:
 							"Straight quotes reach the live UI and the durable transcript as the stream is born.",
 					},
 					{
 						Seam: "The model stream vocabulary (dsh-llm)",
-						What: "The chunk/block shapes it rewrites come from the harness's stream vocabulary (@deepseek-ai/dsh-llm, type-only): text deltas, reasoning deltas and assembled blocks must agree.",
+						What: "The chunk/block shapes it rewrites come from the harness's stream vocabulary ([@deepseek-ai/dsh-llm](Harness:packages/llm/llm), type-only): text deltas, reasoning deltas and assembled blocks must agree.",
 						Outcome:
 							"No inconsistencies between deltas and blocks for downstream consumers.",
 					},
 					{
 						Seam: "The factory service",
-						What: "A non-manifest factory consumer: State for the config and Append for every ledger line; it touches no files, so fs/write-intent and fs/observed never see it.",
+						What: "A non-manifest factory consumer: State for the config and Append for every ledger line; it touches no files, so [fs/write-intent](Harness:packages/fs/fs/src/index.ts) and [fs/observed](Harness:packages/fs/fs/src/index.ts) never see it.",
 						Outcome:
-							"Composes with other llm/stream listeners regardless of registration order.",
+							"Composes with other [llm/stream](Harness:packages/llm/llm/src/index.ts) listeners regardless of registration order.",
 					},
 					{
 						Seam: "The raw-write exemption (family-wide)",
-						What: "The family's raw-write tool (registered by hook-dsh-normalize-dash) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
+						What: "The family's raw-write tool (registered by [hook-dsh-normalize-dash](Ours:Classic/packages/hook-dsh-normalize-dash/Source)) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
 						Outcome:
 							"Per-call control stays with the agent, even with every stream flavor armed.",
 					},
 					{
 						Seam: "The ledger / session",
-						What: "Two lines through the factory's Append: the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
+						What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
 						Outcome: "A thrown-away stream writes no ledger line.",
 					},
 				]}

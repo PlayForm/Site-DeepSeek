@@ -378,7 +378,7 @@ const Config = [
 				Seams={[
 					{
 						Seam: "llm/stream - the model stream waterfall",
-						What: "The plugin's listener wraps the interceptable waterfall around EVERY streaming model call (bound to the LlmRuntime): next() is called first and unconditionally, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
+						What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first and unconditionally, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
 						Outcome:
 							"The live UI and the durable transcript see the normalized stream as it is born.",
 					},
@@ -390,18 +390,18 @@ const Config = [
 					},
 					{
 						Seam: "ctx.fs - the filesystem service (dsh-fs)",
-						What: "The raw-write exec mirrors the built-in write's path exactly - resolve, the fs/write-intent waterfall, the standing sandbox policy, writeText, then the fs/observed emit - so the governance hooks treat its writes like built-in writes.",
+						What: "The raw-write exec mirrors the built-in write's path exactly - resolve, [the fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, writeText, then the [fs/observed emit](Harness:packages/fs/fs/src/index.ts) - so the governance hooks treat its writes like built-in writes.",
 						Outcome: "One write path for the whole agent, plugin tools included.",
 					},
 					{
 						Seam: "The factory service",
 						What: "A non-manifest factory consumer: State for the config (hot-editable cells, no remount) and Append for every ledger line; it touches no files on the stream path.",
 						Outcome:
-							"Composes with other llm/stream listeners regardless of registration order.",
+							"Composes with other [llm/stream](Harness:packages/llm/llm/src/index.ts) listeners regardless of registration order.",
 					},
 					{
 						Seam: "The ledger / session",
-						What: "Two lines through the factory's Append: the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
+						What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
 						Outcome:
 							"A thrown-away stream writes no ledger line; the count is per stream, visible in your own log.",
 					},

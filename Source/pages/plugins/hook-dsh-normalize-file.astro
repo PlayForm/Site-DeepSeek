@@ -327,12 +327,12 @@ const Usage = [
 				Seams={[
 					{
 						Seam: "The tool layer - the agent's toolset",
-						What: "The plugin registers the normalize-file tool into the agent's toolset: the agent calls it like any built-in tool, one agent-chosen file per call. Nothing runs without that explicit action - no llm/stream, no fs/observed listener of any kind.",
+						What: "The plugin registers the normalize-file tool into the agent's toolset: the agent calls it like any built-in tool, one agent-chosen file per call. Nothing runs without that explicit action - no [llm/stream](Harness:packages/llm/llm/src/index.ts), no [fs/observed](Harness:packages/fs/fs/src/index.ts) listener of any kind.",
 						Outcome: "Zero background activity: discoverable, visible, opt-in.",
 					},
 					{
 						Seam: "ctx.fs - the write executor behind the tools (dsh-fs)",
-						What: "Every N > 0 write goes through the factory's ONE shared write executor - the fs/write-intent waterfall, the standing sandbox policy, writeText end to end, and the fs/observed {kind: present, version} emit on the root context with the call's exec as the actor.",
+						What: "Every N > 0 write goes through [the factory's ONE shared write executor](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) - [the fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, writeText end to end, and the [fs/observed](Harness:packages/fs/fs/src/index.ts) {kind: present, version} emit on the root context with the call's exec as the actor.",
 						Outcome:
 							"Byte-identical with the raw-write path; the observation policy sees it like any tool write.",
 					},
@@ -344,12 +344,12 @@ const Usage = [
 					},
 					{
 						Seam: "The storage domain",
-						What: "Each N > 0 write journals one normalized record into the shared package_governance v2 domain (path = the target's display path, detail byte-identical to the count line) - best-effort: with no storage facility the record buffers or drops.",
+						What: "Each N > 0 write journals one normalized record into the shared package_governance v2 domain (path = the target's display path, detail byte-identical to the count line) - best-effort: with no [storage facility](Harness:packages/storage/storage-domain) the record buffers or drops.",
 						Outcome: "A machine-readable history beside the human ledger.",
 					},
 					{
 						Seam: "The ledger / session",
-						What: "Two lines through the factory's Append: the activation proof from apply() and the count line that follows only a successful N > 0 write.",
+						What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the count line that follows only a successful N > 0 write.",
 						Outcome:
 							"A no-op writes no line; a failed read or aborted call writes none either.",
 					},

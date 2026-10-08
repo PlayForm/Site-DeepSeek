@@ -104,7 +104,7 @@ const Related = [
 	},
 	{
 		Name: "hook-dsh-core",
-		Desc: "Supplies the refusal guard (Refusal) and the suppression composer (Suppress) this bundle composes its lines with.",
+		Desc: "Supplies the [refusal guard (Refusal)](Ours:Classic/packages/hook-dsh-core/Source/Function/Refusal.ts) and the suppression composer (Suppress) this bundle composes its lines with.",
 	},
 ];
 ---
@@ -368,12 +368,12 @@ const Related = [
 					},
 					{
 						Seam: "ctx.fs - the filesystem service (dsh-fs)",
-						What: "The pin pass reads the file via ctx.fs.readText and writes via the factory's guarded write (replaceIfVersion + the P4 sandbox fence), with an explicit sandbox policy because the plugin's own exclude list IS its fence.",
+						What: "The pin pass reads the file via ctx.fs.readText and writes via [the factory's guarded write](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) (replaceIfVersion + the P4 sandbox fence), with an explicit sandbox policy because the plugin's own exclude list IS its fence.",
 						Outcome: "No clobber, no recursion; the re-emit re-enters as a no-op.",
 					},
 					{
 						Seam: "The keep-list policy sidecar",
-						What: "ResolvePolicy builds the union keep-list from every readable pin-policy.json: global policyFile → the file's own directory → registry-adjacent; the P3 chain-keys interlock protects the governor's chain pins from ever being stripped.",
+						What: "ResolvePolicy builds the union keep-list from every readable [pin-policy.json](Ours:Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts): global policyFile → the file's own directory → registry-adjacent; the P3 chain-keys interlock protects the governor's chain pins from ever being stripped.",
 						Outcome: "Ranges the author marked as intentional stay exactly as written.",
 					},
 					{

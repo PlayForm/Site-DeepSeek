@@ -137,7 +137,7 @@ const Related = [
 				<Concept
 					Id="core-library-not-bundle"
 					Title="Library consumption, not bundle registration"
-					Diagram="The core as a plain library dependency: no cordis.patch.yml, no loader contract, no dsh plugin add row - publishable on its own and built with the same prepublishOnly sequence as the family bundles."
+					Diagram="The core as a plain library dependency: no [cordis.patch.yml]('Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml'), no loader contract, no dsh plugin add row - publishable on its own and built with the same prepublishOnly sequence as the family bundles."
 				>
 					<p class="page-hero__sub">
 						The core is <strong>not a plugin bundle</strong>: no{" "}
@@ -178,7 +178,7 @@ const Related = [
 				<Concept
 					Id="core-seam-none"
 					Title="No direct seam registration"
-					Diagram="The core outside the plugin loader: no cordis.patch.yml, no seams injected, no registration - the family's plugins carrying the machinery inside their own listeners and passes."
+					Diagram="The core outside the plugin loader: no [cordis.patch.yml]('Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml'), no seams injected, no registration - the family's plugins carrying the machinery inside their own listeners and passes."
 				>
 					<p class="page-hero__sub">
 						The core is not a plugin and touches no seam itself - it is the shared
@@ -189,7 +189,7 @@ const Related = [
 				<Concept
 					Id="core-seam-normalization"
 					Title="Normalization inside consumer listeners"
-					Diagram="The llm/stream seam supplying the stream-normalization half, with each flavor's listener running the tables, the replacers and the Chunk/Block dispatch inside itself."
+					Diagram="The [llm/stream seam](Harness:packages/llm/llm/src/index.ts) supplying the stream-normalization half, with each flavor's listener running the tables, the replacers and the Chunk/Block dispatch inside itself."
 				>
 					<p class="page-hero__sub">
 						The <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a> seam supplies the stream-normalization half the
@@ -207,7 +207,7 @@ const Related = [
 				<Concept
 					Id="core-seam-governance"
 					Title="Governance inside consumer passes"
-					Diagram="The fs/observed + fs/write-intent seams supplying the governance half, with the three governance hooks composing their passes from the section list, the exclusion fence, the policy loader, the refusal guard and the update-stage envelope."
+					Diagram="The [fs/observed + fs/write-intent seams](Harness:packages/fs/fs/src/index.ts) supplying the governance half, with the three governance hooks composing their passes from the section list, the exclusion fence, the policy loader, the refusal guard and the update-stage envelope."
 				>
 					<p class="page-hero__sub">
 						The <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> + <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/write-intent</code></a> seams supply the
@@ -248,7 +248,7 @@ const Related = [
 				<Concept
 					Id="core-problem-repeated"
 					Title="The same pure functions, re-implemented per hook"
-					Diagram="The same pure functions copy-pasted across the family's hooks: the NPM section list, the exclusion segments, the suppression-line composer, the policy loader, the refusal guard - and, for the normalize flavors, the same per-chunk dispatch, block-end normalizer and character tables."
+					Diagram="The same pure functions copy-pasted across the family's hooks: the NPM section list, the exclusion segments, the suppression-line composer, the policy loader, [the refusal guard](Ours:Classic/packages/hook-dsh-core/Source/Function/Refusal.ts) - and, for the normalize flavors, the same per-chunk dispatch, block-end normalizer and character tables."
 				>
 					<p class="page-hero__sub">
 						The family's hooks kept re-implementing the same pure functions: the NPM
@@ -681,7 +681,7 @@ const Related = [
 				<Concept
 					Id="core-in-action-refusal"
 					Title="The refusal guard before any write"
-					Diagram="The transform calling Refusal before the write: a difference outside the declared dependency sections composing the refusal line and returning null - the rewrite never applied."
+					Diagram="The transform calling [Refusal](Ours:Classic/packages/hook-dsh-core/Source/Function/Refusal.ts) before the write: a difference outside the declared dependency sections composing the refusal line and returning null - the rewrite never applied."
 				>
 					<p class="page-hero__sub">
 						Before any write, the transform runs <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> - only the declared
@@ -760,7 +760,7 @@ const Related = [
 				<Concept
 					Id="core-config-imports"
 					Title="Named-export imports"
-					Diagram="The two named-export import lines from @playform/hook-dsh-core - the governance helpers on one line, the normalize helpers on the other."
+					Diagram="The two named-export import lines from [@playform/hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source) - the governance helpers on one line, the normalize helpers on the other."
 				>
 					<p class="page-hero__sub">
 						Named exports only - no plugin, no loader contract:

@@ -68,7 +68,7 @@ const Related = [
 	},
 	{
 		Name: "hook-dsh-pinner-package",
-		Desc: "The keep-list sidecar (pin-policy.json) is shared: discovery global keepFile - the file's own directory - registry-adjacent, the union.",
+		Desc: "The keep-list sidecar ([pin-policy.json](Ours:Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts)) is shared: discovery global keepFile - the file's own directory - registry-adjacent, the union.",
 	},
 	{
 		Name: "plugin-dsh-factory",
@@ -192,7 +192,7 @@ const Related = [
 				<Concept
 					Id="govcargo-factory-flavor"
 					Title="Machinery-wise it is a factory flavor"
-					Diagram="gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey coming from plugin-dsh-factory; the policy loader and the suppression composer from hook-dsh-core; this bundle keeping the Cargo-specific residue: the TOML identification, the surgical pin, the full-version directive, and the cargo upgrade bridge."
+					Diagram="gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey coming from [plugin-dsh-factory](Ours:Classic/packages/plugin-dsh-factory/Source); the policy loader and the suppression composer from [hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source); this bundle keeping the Cargo-specific residue: the TOML identification, the surgical pin, the full-version directive, and the cargo upgrade bridge."
 				>
 					<p>
 						Machinery-wise it is a <strong>factory flavor</strong>: gates, discovery,
@@ -235,18 +235,18 @@ const Related = [
 					},
 					{
 						Seam: "ctx.fs - the filesystem service (dsh-fs)",
-						What: "The surgical TOML rewrite goes through the factory's guarded write (replaceIfVersion + the P4 sandbox fence); smol-toml is used for identification only, never a stringify, so comments survive byte-for-byte.",
+						What: "The surgical TOML rewrite goes through [the factory's guarded write](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) (replaceIfVersion + the P4 sandbox fence); smol-toml is used for identification only, never a stringify, so comments survive byte-for-byte.",
 						Outcome:
 							"Governed manifests that still read exactly like the author's file.",
 					},
 					{
 						Seam: "ctx.subprocess (dsh-subprocess) - the Rust side",
-						What: "The update stage crosses the Rust/TS boundary through the subprocess seam: cargo upgrade driven with a fully-specified argv, collect-mode output piped to the job ring and the ledger.",
+						What: "The update stage crosses the Rust/TS boundary through the [subprocess seam](Harness:packages/subprocess/subprocess): cargo upgrade driven with a fully-specified argv, collect-mode output piped to the job ring and the ledger.",
 						Outcome: "The only update tool Rust has, driven without shell PATH drift.",
 					},
 					{
 						Seam: "ctx.jobs - the jobs facility",
-						What: "The update stage runs in the jobs envelope (kind governor-update, unowned) when a controller serves the context, with the detached contained continuation as the probed fallback.",
+						What: "The update stage runs in the [jobs envelope](Harness:packages/jobs) (kind governor-update, unowned) when a controller serves the context, with the detached contained continuation as the probed fallback.",
 						Outcome: "cargo upgrade never blocks or aborts the author's session.",
 					},
 					{

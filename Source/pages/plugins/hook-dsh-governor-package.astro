@@ -356,24 +356,24 @@ const Related = [
 				Seams={[
 					{
 						Seam: "fs/observed - the file observation event",
-						What: "The governor's one listener hook: fs/observed is the cordis event every harness file write dispatches, fired by the tool layer only - so it runs after content is on disk, on every write path (full writes, single-line edits, str_replace_editor patches alike).",
+						What: "The governor's one listener hook: [fs/observed](Harness:packages/fs/fs/src/index.ts) is the cordis event every harness file write dispatches, fired by the tool layer only - so it runs after content is on disk, on every write path (full writes, single-line edits, str_replace_editor patches alike).",
 						Outcome:
 							"The fix happens where the write happens, without the author's tool result changing by a single byte.",
 					},
 					{
 						Seam: "ctx.fs - the filesystem service (dsh-fs)",
-						What: "All rewrites go through the ctx.fs service (which dispatches no fs/* events - only the tool layer does), carrying replaceIfVersion at the observed version and an explicit sandbox policy because the plugin's own exclude list IS its fence.",
+						What: "All rewrites go through the [ctx.fs](Harness:packages/fs/fs) service (which dispatches no fs/* events - only the tool layer does), carrying replaceIfVersion at the observed version and an explicit sandbox policy because the plugin's own exclude list IS its fence.",
 						Outcome: "No recursion, no clobber; a racing author write fails safely.",
 					},
 					{
 						Seam: "ctx.jobs - the jobs facility",
-						What: "The update stage runs inside the jobs envelope (kind governor-update, unowned) when a controller serves the context - the factory's Attach registers it from the root - with the detached contained continuation as the probed fallback.",
+						What: "The update stage runs inside the [jobs envelope](Harness:packages/jobs) (kind governor-update, unowned) when a controller serves the context - the factory's Attach registers it from the root - with the detached contained continuation as the probed fallback.",
 						Outcome:
 							"ncu runs off the author's critical path and never blocks the session.",
 					},
 					{
 						Seam: "ctx.subprocess (dsh-subprocess, bin mode)",
-						What: "In updateMode bin, the ncu binary is driven through the subprocess seam with a fully-specified argv (ncuBin is absolute - host PATH != shell PATH).",
+						What: "In updateMode bin, the ncu binary is driven through the [subprocess seam](Harness:packages/subprocess/subprocess) with a fully-specified argv (ncuBin is absolute - host PATH != shell PATH).",
 						Outcome: "The external-tool path without shell PATH drift.",
 					},
 					{
@@ -408,7 +408,7 @@ const Related = [
 				<Concept
 					Id="govpkg-why-observed"
 					Title="Why fs/observed"
-					Diagram="fs/observed being the only hook that runs after content is on disk - the fs/write-intent waterfall carrying a version guard but never the content."
+					Diagram="[fs/observed](Harness:packages/fs/fs/src/index.ts) being the only hook that runs after content is on disk - the [fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts) carrying a version guard but never the content."
 				>
 					<p>
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> is the only hook that runs <em>after</em> content
@@ -481,7 +481,7 @@ const Related = [
 				<Concept
 					Id="govpkg-update-envelope"
 					Title="The update envelope lives in the core"
-					Diagram="The G4 update-stage envelope - the Dispatch/Settle pair of the diagram (the gates, the jobs envelope, the breaker update, the U2 refresh) - living in @playform/hook-dsh-core, this module a thin delegate injecting its own collections, child stage and ledger strings, so the flow is not forked per governance module."
+					Diagram="The G4 update-stage envelope - the Dispatch/Settle pair of the diagram (the gates, the jobs envelope, the breaker update, the U2 refresh) - living in [@playform/hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source), this module a thin delegate injecting its own collections, child stage and ledger strings, so the flow is not forked per governance module."
 				>
 					<p>
 						The G4 update-stage envelope - the Dispatch/Settle pair of the diagram above
@@ -502,7 +502,7 @@ const Related = [
 				<Concept
 					Id="govpkg-config-schema"
 					Title="The exported Config schema"
-					Diagram="The exported Config schema (the factory's Schema helper extended with the module's own fields) validating and filling every default at load - invalid configuration failing loudly, new patch entries declared with insert:."
+					Diagram="The exported Config schema (the [factory's Schema helper](Ours:Classic/packages/plugin-dsh-factory/Source) extended with the module's own fields) validating and filling every default at load - invalid configuration failing loudly, new patch entries declared with insert:."
 				>
 					<p>
 						The exported Config schema (the factory's Schema helper extended with the
