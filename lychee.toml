@@ -1,0 +1,66 @@
+# Lychee Link Checker - the DeepSeek Site (pass 2 of 2)
+# Scan the production build (Site/Target) and the generated API docs
+# (Site/docs) for broken links. Run: pnpm lychee (Maintain/Lychee.sh).
+# The repo-sources pass lives in .lychee.toml at the monorepo root.
+
+# Cache
+cache = true
+max_cache_age = "1d"
+
+# Request
+max_concurrency = 10
+max_redirects = 5
+max_retries = 3
+retry_wait_time = 2
+timeout = 30
+method = "get"
+
+# Accepted status codes (429 accepted - see the root config)
+accept = [200, 204, 301, 302, 307, 308, 429]
+
+# Exclude patterns
+exclude = [
+	# Vite/Astro dev-server internals (present when scanning the dev server)
+	"/@id/",
+	"/@vite/",
+	"/@fs/",
+	"/__vite_ping",
+	"service-worker\\.js",
+	"workbox-.*\\.js",
+
+	# Local development links
+	"http://localhost:*",
+	"http://127.0.0.1:*",
+
+	# Email links
+	"mailto:",
+	"tel:",
+
+	# Placeholder/example links
+	"example\\.com",
+
+	# The Angular application shell hydrates its routes client-side; the
+	# static build carries no anchor targets for in-page hashes beyond the
+	# badge sprite, so in-app hash links are verified by hand.
+	"/assets/badges\\.svg#.*",
+
+	# GitHub README/line-number anchors are hydrated client-side (see the
+	# root config for the rationale).
+	"github\\.com/[^\\s)]+#(readme|L\\d+)$",
+]
+
+# Exclude file paths (local file scanning only)
+exclude_path = ["node_modules", ".astro", ".git"]
+
+# Output
+format = "markdown"
+
+# Link behavior
+require_https = false
+scheme = ["http", "https"]
+include_fragments = "anchor-only"
+
+# Headers (must be last - TOML table)
+[header]
+User-Agent = "Mozilla/5.0 (compatible; Lychee/PlayForm)"
+Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"

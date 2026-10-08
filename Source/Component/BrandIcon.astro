@@ -14,10 +14,15 @@
 //              (npm, Inc): npm-logo-red.svg, brand red #C12127, the wide
 //              780x250 lockup (width = 3.12 x height).
 //   rust     - the official Rust gear mark from rust-lang.org
-//              (static/images/rust-logo-blk.svg), paths verbatim.
+//              (static/images/rust-logo-blk.svg), paths verbatim; the
+//              viewBox is cropped to the gear's ink (18 18 106 106) so the
+//              gear reads at the same optical size as the other marks at
+//              the same em (the official 144 canvas carries ~30% padding
+//              that shrank the gear's visual mass).
 //   cargo    - the official Cargo logo ships only as PNG (the cargo book's
 //              Cargo-Logo-Small.png at doc.rust-lang.org), so cargo slots
-//              reuse the official Rust gear mark (the rust-lang project).
+//              reuse the official Rust gear mark (the rust-lang project)
+//              at the same cropped, optically-uniform sizing.
 //   effect   - the official Effect mark from effect.website
 //              (/_astro/effect-logo-black.*.svg): the E-glyph portion of
 //              the official lockup, paths verbatim, official black fill.
@@ -27,15 +32,26 @@
 //              square (#3178c6, rx 1.312 on a 28x28 tile) with the white
 //              TS letters, paths verbatim. The blue+white square is the
 //              official brand asset, kept in its brand colors.
-//   playform - NO existing PlayForm asset in Documentation/Brand/BRANDING.md
-//              or Site/Reference (checked): a minimal geometric "P" monogram
-//              in the Harness Blue (#0052FF), the site's own stroke family.
+//   playform - the official PlayForm mark from the PlayForm Asset
+//              repository (github.com/PlayForm/Asset,
+//              Logo/Glyph/PlayForm.svg, verified at activation): the glyph
+//              portion of the official logo, path verbatim, the official
+//              light stroke #151515 at the official 0.21 opacity (the
+//              brand's watermark-style rendering, stable across the asset
+//              history). The 561x1727 Glyph is the tight official export
+//              for compact placements; the full Logo and Square variants
+//              carry the same geometry on padded canvases, and the Dark
+//              variants swap the stroke to #EAEAEA for dark grounds.
 //   zlm      - DOCUMENTED PLACEHOLDER: no ZLM brand mark exists and the
 //              site + docs contain zero ZLM mentions (verified). Renders a
 //              dashed placeholder box and nothing else - never invents a
 //              logo. Remove the slot when ZLM ships an official mark.
 //
-// MECHANICS ICONS (relatable, NOT brand marks - currentColor, 1.5 stroke):
+// MECHANICS ICONS (relatable, NOT brand marks - currentColor stroke family).
+// Each viewBox is cropped to the icon's ink so every icon reads at the same
+// optical size as the brand marks at the same em, and each stroke-width is
+// compensated for its crop so the rendered stroke keeps the family's
+// original 1.5-on-24 weight (0.0625em).
 //   swap      - exchange arrows: the replacement mechanics (the before/after
 //               showcases, the flavor badges, the stream-demo panes).
 //   file-json - a JSON file: package.json references.
@@ -69,9 +85,13 @@ interface Props {
 
 const { Name, Size = "1em", ClassName = "", Label, Tone = "current" } = Astro.props;
 
-// The npm lockup is a wide 780x250 mark: explicit width keeps the aspect.
-const IsNpm = Name === "npm";
-const Style = `height: ${Size}; width: ${IsNpm ? `calc(${Size} * 3.12)` : "auto"};`;
+// The npm lockup is a wide 780x250 mark and the official playform glyph is
+// a tall 561x1727 mark: explicit widths keep both aspects (the other marks
+// resolve their width from the viewBox aspect).
+const Ratio = Name === "npm" ? 3.12 : Name === "playform" ? 561 / 1727 : null;
+const Style = `height: ${Size}; width: ${
+	Ratio ? `calc(${Size} * ${Ratio})` : "auto"
+};`;
 
 const A11y = Label
 	? { role: "img" as const, "aria-label": Label }
@@ -101,7 +121,7 @@ const Cls = `brand-icon brand-icon--${Name}${
 )}
 
 {(Name === "rust" || Name === "cargo") && (
-	<svg class={Cls} style={Style} viewBox="0 0 144 144" {...A11y}>
+	<svg class={Cls} style={Style} viewBox="18 18 106 106" {...A11y}>
 		<path
 			d="m71.05 23.68c-26.06 0-47.27 21.22-47.27 47.27s21.22 47.27 47.27 47.27 47.27-21.22 47.27-47.27-21.22-47.27-47.27-47.27zm-.07 4.2a3.1 3.11 0 0 1 3.02 3.11 3.11 3.11 0 0 1 -6.22 0 3.11 3.11 0 0 1 3.2-3.11zm7.12 5.12a38.27 38.27 0 0 1 26.2 18.66l-3.67 8.28c-.63 1.43.02 3.11 1.44 3.75l7.06 3.13a38.27 38.27 0 0 1 .08 6.64h-3.93c-.39 0-.55.26-.55.64v1.8c0 4.24-2.39 5.17-4.49 5.4-2 .23-4.21-.84-4.49-2.06-1.18-6.63-3.14-8.04-6.24-10.49 3.85-2.44 7.85-6.05 7.85-10.87 0-5.21-3.57-8.49-6-10.1-3.42-2.25-7.2-2.7-8.22-2.7h-40.6a38.27 38.27 0 0 1 21.41-12.08l4.79 5.02c1.08 1.13 2.87 1.18 4 .09zm-44.2 23.02a3.11 3.11 0 0 1 3.02 3.11 3.11 3.11 0 0 1 -6.22 0 3.11 3.11 0 0 1 3.2-3.11zm74.15.14a3.11 3.11 0 0 1 3.02 3.11 3.11 3.11 0 0 1 -6.22 0 3.11 3.11 0 0 1 3.2-3.11zm-68.29.5h5.42v24.44h-10.94a38.27 38.27 0 0 1 -1.24-14.61l6.7-2.98c1.43-.64 2.08-2.31 1.44-3.74zm22.62.26h12.91c.67 0 4.71.77 4.71 3.8 0 2.51-3.1 3.41-5.65 3.41h-11.98zm0 17.56h9.89c.9 0 4.83.26 6.08 5.28.39 1.54 1.26 6.56 1.85 8.17.59 1.8 2.98 5.4 5.53 5.4h16.14a38.27 38.27 0 0 1 -3.54 4.1l-6.57-1.41c-1.53-.33-3.04.65-3.37 2.18l-1.56 7.28a38.27 38.27 0 0 1 -31.91-.15l-1.56-7.28c-.33-1.53-1.83-2.51-3.36-2.18l-6.43 1.38a38.27 38.27 0 0 1 -3.32-3.92h31.27c.35 0 .59-.06.59-.39v-11.06c0-.32-.24-.39-.59-.39h-9.15zm-14.43 25.33a3.11 3.11 0 0 1 3.02 3.11 3.11 3.11 0 0 1 -6.22 0 3.11 3.11 0 0 1 3.2-3.11zm46.05.14a3.11 3.11 0 0 1 3.02 3.11 3.11 3.11 0 0 1 -6.22 0 3.11 3.11 0 0 1 3.2-3.11z"
 		></path>
@@ -142,18 +162,14 @@ const Cls = `brand-icon brand-icon--${Name}${
 )}
 
 {Name === "playform" && (
-	<svg
-		class={Cls}
-		style={Style}
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="#0052FF"
-		stroke-width="1.75"
-		stroke-linecap="round"
-		stroke-linejoin="round"
-		{...A11y}
-	>
-		<path d="M9 3 h6.5 a4.5 4.5 0 0 1 0 9 H9 M9 3 v18"></path>
+	<svg class={Cls} style={Style} viewBox="0 0 561 1727" {...A11y}>
+		<path
+			d="M432.658 1547.83C467.238 1637.92 369.909 1721.74 285.947 1674.18C236.96 1646.44 219.451 1584.53 246.421 1535.3L247.067 1534.14L354.4 1343.96L432.658 1547.83ZM57.2987 365.834C-16.8553 172.655 171.796 -17.5713 365.585 54.9746C495.115 103.465 556.985 251.094 500.73 377.446L432.645 530.364L259.687 893.073L57.2987 365.834Z"
+			fill="none"
+			stroke="#151515"
+			stroke-opacity="0.21"
+			stroke-width="73.1619"
+		></path>
 	</svg>
 )}
 
@@ -165,10 +181,10 @@ const Cls = `brand-icon brand-icon--${Name}${
 	<svg
 		class={Cls}
 		style={Style}
-		viewBox="0 0 24 24"
+		viewBox="3 2 18 20"
 		fill="none"
 		stroke="currentColor"
-		stroke-width="1.5"
+		stroke-width="1.25"
 		stroke-linecap="round"
 		stroke-linejoin="round"
 		{...A11y}
@@ -182,10 +198,10 @@ const Cls = `brand-icon brand-icon--${Name}${
 	<svg
 		class={Cls}
 		style={Style}
-		viewBox="0 0 24 24"
+		viewBox="3 1 18 22"
 		fill="none"
 		stroke="currentColor"
-		stroke-width="1.5"
+		stroke-width="1.375"
 		stroke-linecap="round"
 		stroke-linejoin="round"
 		{...A11y}
@@ -201,10 +217,10 @@ const Cls = `brand-icon brand-icon--${Name}${
 	<svg
 		class={Cls}
 		style={Style}
-		viewBox="0 0 24 24"
+		viewBox="1 1 22 22"
 		fill="none"
 		stroke="currentColor"
-		stroke-width="1.5"
+		stroke-width="1.375"
 		stroke-linecap="round"
 		stroke-linejoin="round"
 		{...A11y}
@@ -218,10 +234,10 @@ const Cls = `brand-icon brand-icon--${Name}${
 	<svg
 		class={Cls}
 		style={Style}
-		viewBox="0 0 24 24"
+		viewBox="3 6 18 14"
 		fill="none"
 		stroke="currentColor"
-		stroke-width="1.5"
+		stroke-width="0.875"
 		stroke-linecap="round"
 		stroke-linejoin="round"
 		{...A11y}

@@ -1,5 +1,5 @@
 {
-	"$schema": "https://json.schemastore.org/components.json",
+	"$schema": "https://ui.shadcn.com/schema.json",
 	"style": "default",
 	"rsc": false,
 	"tsx": false,

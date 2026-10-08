@@ -47,6 +47,49 @@ const PageHtml = `<!DOCTYPE html>
 		<div id="stage"></div>
 		<script type="module">
 			import mermaid from ${JSON.stringify(mermaidUrl)};
+
+			// THE SPACE LAW. With htmlLabels:false, Mermaid word-wraps every
+			// label into per-word <tspan> runs and writes each word after the
+			// first as " " + word, so the words stay separated ONLY through
+			// those leading spaces. But the SVG whitespace rules treat every
+			// <tspan> as its own chunk: the leading (and trailing) space of a
+			// chunk is collapsed away when the text renders. The joining
+			// spaces therefore vanish from the rendered output - labels read
+			// "Hook@DSH@Core", "Governancehelpers" - AND from Mermaid's own
+			// width measurement (getComputedTextLength collapses the same
+			// way), so every label box is sized too narrow and edge-adjacent
+			// labels spill past the viewBox, clipping their first characters.
+			//
+			// Fix: rewrite the joining space to a no-break space (U+00A0) at
+			// the moment Mermaid writes tspan text. NBSP is not collapsible
+			// whitespace, so it survives chunk boundaries in every SVG
+			// consumer, it measures at full space width (layout stays in sync
+			// with what renders), and it reads as a space when extracted or
+			// copied. Applied only to Mermaid's leaf label tspans that begin
+			// with a space - the .mmd sources stay plain ASCII.
+			const NoBreakSpace = "\u00A0";
+			const TextContent = Object.getOwnPropertyDescriptor(
+				Node.prototype,
+				"textContent",
+			);
+			Object.defineProperty(Node.prototype, "textContent", {
+				configurable: true,
+				get() {
+					return TextContent.get.call(this);
+				},
+				set(Value) {
+					if (
+						typeof Value === "string" &&
+						Value.startsWith(" ") &&
+						this.namespaceURI === "http://www.w3.org/2000/svg" &&
+						this.localName === "tspan"
+					) {
+						Value = NoBreakSpace + Value.slice(1);
+					}
+					TextContent.set.call(this, Value);
+				},
+			});
+
 			mermaid.initialize({
 				startOnLoad: false,
 				securityLevel: "strict",
@@ -85,9 +128,59 @@ const PageHtml = `<!DOCTYPE html>
 				const Stage = document.getElementById("stage");
 				Stage.innerHTML = "";
 				const { svg } = await mermaid.render(\`dsh-diagram-\${Id}\`, Text);
+				// Inject the render so the labels can be measured AS LAID OUT:
+				// the containment law needs real geometry, not string math.
+				Stage.innerHTML = svg;
+				const Svg = Stage.querySelector("svg");
+				if (!Svg) throw new Error("mermaid rendered no <svg>");
+				const View = Svg.viewBox.baseVal;
+				const Boxes = [...Svg.querySelectorAll("text")]
+					.map((T) => T.getBBox())
+					.filter((B) => B.width > 0 || B.height > 0);
+				// The layout reserves the measured label widths, so with the
+				// space law in place every label fits inside the viewBox. If a
+				// label still pokes out (measurement drift), grow the viewBox
+				// to cover every label plus a small margin - a label's first
+				// or last character must never be cropped by the viewport.
+				const Pad = 2;
+				const MinX = Math.min(View.x, ...Boxes.map((B) => B.x));
+				const MinY = Math.min(View.y, ...Boxes.map((B) => B.y));
+				const MaxX = Math.max(View.x + View.width, ...Boxes.map((B) => B.x + B.width));
+				const MaxY = Math.max(View.y + View.height, ...Boxes.map((B) => B.y + B.height));
+				if (
+					MinX < View.x - 0.01 ||
+					MinY < View.y - 0.01 ||
+					MaxX > View.x + View.width + 0.01 ||
+					MaxY > View.y + View.height + 0.01
+				) {
+					Svg.setAttribute(
+						"viewBox",
+						\`\${MinX - Pad} \${MinY - Pad} \${MaxX - MinX + 2 * Pad} \${MaxY - MinY + 2 * Pad}\`,
+					);
+				}
+				// The containment law, enforced on the FINAL geometry: every
+				// label's bounding box must sit fully inside the viewBox.
+				const Final = Svg.viewBox.baseVal;
+				for (const T of Svg.querySelectorAll("text")) {
+					const B = T.getBBox();
+					if (B.width === 0 && B.height === 0) continue;
+					const Outside = Math.max(
+						Final.x - B.x,
+						B.x + B.width - (Final.x + Final.width),
+						Final.y - B.y,
+						B.y + B.height - (Final.y + Final.height),
+					);
+					if (Outside > 0.5) {
+						throw new Error(
+							\`label "\${(T.textContent ?? "").trim()}" sits \${Outside.toFixed(2)}px outside the viewBox\`,
+						);
+					}
+				}
+				const Out = new XMLSerializer().serializeToString(Svg);
+				Stage.innerHTML = "";
 				// Mermaid's HTML labels emit void \`<br>\` tags, which are invalid
 				// XML (and break strict SVG parsers). Self-close them.
-				const Fixed = svg.replace(/<br\\s*>/g, "<br/>");
+				const Fixed = Out.replace(/<br\\s*>/g, "<br/>");
 				// Mermaid caps the diagram at its natural pixel size with an
 				// inline \`style="max-width: ...px;"\`. That cap would keep the
 				// rendered diagram from spanning its container's width, so it
@@ -107,17 +200,54 @@ if (Sources.length === 0) {
 	process.exit(1);
 }
 
-// The label-presence law: every label in a source must appear in the rendered
-// SVG's text content. Mermaid renders labels as word-wrapped <tspan> runs, so
-// the check compares whitespace-free forms (line wraps may drop joining
-// spaces). A render that loses text must fail the pipeline, never ship.
+// The label-presence law, space-exact: every label in a source must appear
+// in the rendered SVG's text content WITH its separators. Mermaid renders
+// labels as word-wrapped <tspan> runs; the joining spaces live in the runs
+// (as U+00A0 - see the Space Law in the page), so the check normalizes those
+// back to plain spaces and compares the single-space form: "Hook @ DSH @
+// Core", never "Hook@DSH@Core". A line wrap is allowed only as an actual
+// line break (wrapped lines are joined with a space, never glued); a label
+// that appears only in the whitespace-free form has had its spaces dropped
+// and fails the pipeline. A render that loses text or spaces must fail,
+// never ship.
 const Unescape = (Text) =>
 	Text.replace(
-		/&gt;|&lt;|&amp;|&quot;|&#39;/g,
+		/&gt;|&lt;|&amp;|&quot;|&apos;|&#39;|&nbsp;|&#160;/g,
 		(Entity) =>
-			({ "&gt;": ">", "&lt;": "<", "&amp;": "&", "&quot;": '"', "&#39;": "'" })[Entity],
+			({
+				"&gt;": ">",
+				"&lt;": "<",
+				"&amp;": "&",
+				"&quot;": '"',
+				"&apos;": "'",
+				"&#39;": "'",
+			})[Entity] ?? " ",
 	);
-const Squash = (Text) => Unescape(Text).replace(/\s+/g, "");
+// The comparison form: entities decoded, no-break spaces read as spaces,
+// all runs of whitespace collapsed to ONE space. Collapsing to a single
+// space keeps the separators visible; only line breaks are free.
+const Normalize = (Text) => Unescape(Text).replace(/\s+/g, " ").trim();
+// The rendered text, line by line: one entry per Mermaid wrap line
+// (text-outer-tspan), built from that line's word runs (text-inner-tspan).
+// Empty placeholder labels (unlabeled edges) contribute nothing.
+const SvgLines = (Svg) => {
+	const Lines = [];
+	for (const TextMatch of Svg.matchAll(/<text[^>]*>([\s\S]*?)<\/text>/g)) {
+		let Line = "";
+		for (const SpanMatch of TextMatch[1].matchAll(
+			/<tspan[^>]*class="text-(outer|inner)-tspan"[^>]*>([^<]*)<\/tspan>/g,
+		)) {
+			if (SpanMatch[1] === "outer") {
+				if (Line) Lines.push(Line);
+				Line = "";
+			} else {
+				Line += SpanMatch[2];
+			}
+		}
+		if (Line) Lines.push(Line);
+	}
+	return Lines;
+};
 const SourceLabels = (Text) => {
 	const Labels = [];
 	for (const Match of Text.matchAll(
@@ -134,17 +264,24 @@ const SourceLabels = (Text) => {
 	return Labels;
 };
 const SvgHasLabels = (Svg, Labels) => {
-	let Text = "";
-	for (const Match of Svg.matchAll(/<text[^>]*>([\s\S]*?)<\/text>/g)) {
-		for (const Word of Match[1].matchAll(/<tspan[^>]*>([^<]*)<\/tspan>/g)) {
-			Text += Word[1];
-		}
-	}
-	const Squashed = Squash(Text);
+	const Lines = SvgLines(Svg);
+	// The space-exact form: rendered lines joined with single spaces. A
+	// label whose words got glued together (spaces dropped at the wrap) can
+	// never match here.
+	const Spaced = Normalize(Lines.join(" "));
 	for (const Label of Labels) {
 		for (const Line of Label.split(/<br\s*\/?>/)) {
-			const Want = Squash(Line);
-			if (Want && !Squashed.includes(Want)) return Want;
+			const Want = Normalize(Line);
+			if (!Want) continue;
+			if (Spaced.includes(Want)) continue;
+			// Present only in the whitespace-free form? Then the spaces were
+			// dropped - the exact defect this law forbids - so report it as
+			// such rather than as missing text.
+			const Squashed = Want.replace(/\s+/g, "");
+			if (Squashed && Spaced.replace(/\s+/g, "").includes(Squashed)) {
+				return `spaces dropped in "${Want}"`;
+			}
+			return `"${Want}" not in the SVG`;
 		}
 	}
 	return null;
@@ -188,7 +325,8 @@ try {
 			const Missing = SvgHasLabels(Svg, SourceLabels(Text));
 			if (Missing !== null) {
 				Failed += 1;
-				console.error(`MISSING TEXT ${Id}: "${Missing}" not in the SVG`);
+				console.error(`MISSING TEXT ${Id}: ${Missing}`);
+				await writeFile("/tmp/debug-"+Id+".svg", Svg, "utf8");
 				await unlink(SvgPath).catch(() => {});
 				continue;
 			}
