@@ -903,7 +903,11 @@ a .code-token {
 		display: flex;
 	}
 
-	.nav-toggle {
+	/* The toggle is a mobile control: on the desktop breakpoint the rule
+		must match the .js-gated selector's weight (.js .nav-toggle is
+		0,2,0 and would otherwise keep the button visible and squeeze
+		the header row past the viewport edge). */
+	.js .nav-toggle {
 		display: none;
 	}
 }
@@ -1539,13 +1543,16 @@ a .code-token {
 	mono FLAVOR: name text is unbreakable, and an auto-sized chip (the
 	stack's align-items: flex-end keeps the chip at its content width)
 	would push the cell past its track and grow a body-level horizontal
-	scrollbar. The 100% cap clamps the chip to the cell's width and the
-	label wraps inside the chip on the tight tracks - the label bytes
-	stay intact, the chip's voice (the orange prefix, the ink name, the
-	13px mono floor) holds. */
+	scrollbar. The 100% cap clamps the chip to the cell's width and
+	flex-wrap lets the chip's parts (the icon, the FLAVOR: prefix, the
+	flavor name) fold onto a second line on the tight tracks - the chip
+	never spills past the cell. The label bytes stay intact and the
+	chip's voice (the orange prefix, the ink name, the 13px mono floor)
+	holds. */
 .flavor-cell .badge {
 	min-width: 0;
 	max-width: 100%;
+	flex-wrap: wrap;
 }
 
 /* Role variant: the two governance roles keep the cell chrome but
