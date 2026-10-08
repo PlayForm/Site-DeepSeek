@@ -33,6 +33,18 @@
 // asked for). The quoted ledger-line content stays untouched: a token
 // inside a double-quoted run never gets an icon. The visible text bytes
 // are preserved exactly - the icons are UI adornments, never text.
+//
+// THE CODE-TOKEN PASS: the same renderer also wraps every technical term
+// in the string into the shared .code-token identity (the mono + the
+// light #F8FAFC tray + the hairline + the rounded - the
+// markdown-fenced-code style): the U+XXXX code-point mentions, the
+// tool/command names (perl, ncu, cargo, pnpm, node, ...), the code
+// identifiers (pluginFactory, normalizeReasoning, the core classes, the
+// events and the seams) and the short quoted literals ("all", "edit",
+// {"__normalize":false). Unlike the file pass, the code-token pass runs
+// INSIDE quoted runs too - a quoted run is a literal, and the user asked
+// for the literals styled. The visible text bytes stay byte-exact; only
+// the presentation changes.
 
 /** The file-type icon names of the family (the BrandIcon Name union). */
 export type FileIconName =
@@ -113,25 +125,55 @@ export function FileIconMark(
  * README.md, .sh, .ts, .mjs, .js, .svg and the .log files). SCHEME and
  * README match bare (the site cites them without the .md).
  */
-const TokenPattern = new RegExp(
-	[
-		"SCHEME(?:\\.md)?",
-		"READMEs?(?:\\.md)?",
-		"~?/\\.dsh/<name>\\.log",
-		"<name>\\.log",
-		"package\\.json",
-		"pin-policy\\.json",
-		"update-policy\\.json",
-		"registry\\.json",
-		"pnpm-workspace\\.yaml",
-		"cordis\\.patch\\.yml",
-		"Cargo\\.toml",
-		"(?:[A-Za-z0-9_~./-]+[A-Za-z0-9_-])\\.(?:json|toml|yaml|yml|md|sh|ts|mjs|js|svg|log)",
-	].join("|"),
-	"g",
-);
+const FileAlternatives = [
+	"SCHEME(?:\\.md)?",
+	"READMEs?(?:\\.md)?",
+	"~?/\\.dsh/<name>\\.log",
+	"<name>\\.log",
+	"package\\.json",
+	"pin-policy\\.json",
+	"update-policy\\.json",
+	"registry\\.json",
+	"pnpm-workspace\\.yaml",
+	"cordis\\.patch\\.yml",
+	"Cargo\\.toml",
+	"(?:[A-Za-z0-9_~./-]+[A-Za-z0-9_-])\\.(?:json|toml|yaml|yml|md|sh|ts|mjs|js|svg|log)",
+].join("|");
 
-/** The icon name a matched token renders with. */
+/**
+ * The code-token alternatives: every technical term the site cites renders
+ * as the shared .code-token identity (the markdown-fenced style). The
+ * U+XXXX code points first, then the {"__normalize":false raw-marker
+ * literal, the short quoted literals ("all", "edit", "cargo" - the
+ * single-word quoted runs, quotes included), the tool/command names, the
+ * events and seams, the identifiers and the core class names. The word
+ * alternatives carry their own \\b boundaries so a term never matches
+ * inside a longer word ("node" never matches "nodes"; "npm" never matches
+ * inside "pnpm"; "cargo" never matches inside "Cargo.toml", which the file
+ * pass above already owns). Capitalized identifiers (State, Append,
+ * Write, ...) only match the technical names - the prose uses the
+ * lowercase English words.
+ */
+const CodeAlternatives = [
+	"U\\+[0-9A-Fa-f]{4,6}",
+	'\\{"__normalize":false',
+	'"[A-Za-z0-9@._-]{1,24}"',
+	"\\b(?:perl|ncu|cargo|pnpm|npm|node|node_modules|subprocess)\\b",
+	"\\b(?:llm/stream|fs/observed|fs/write-intent|raw-write|writeText)\\b",
+	"\\b(?:Factory\\.RegisterGovern|Factory\\.Govern|RegisterGovern|Govern)\\b",
+	"\\b(?:pluginFactory|normalizeReasoning|normalizeToolArguments|argumentsDelta|old_string)\\b",
+	"\\b(?:ctx\\.fs|ctx\\.tools|LlmRuntime|CoreChunk|TextBlock|ReasoningBlock|ToolCallBlock)\\b",
+	"\\b(?:logFile|updateMode|ncuBin|cargoBin|policyFile|keepFile|toolArgs|next\\(\\))\\b",
+	"\\b(?:Dashes|Quotes|Ellipsis|Spaces|Invisible|Fullwidth|ReplaceMap|Replace)\\b",
+	"\\b(?:State|Append|Ledger|Enabled|Write|Guard|UpdateKey|LRE|RLE|PDF|LRO|RLO)\\b",
+].join("|");
+
+const FilePattern = new RegExp(FileAlternatives, "g");
+const CodePattern = new RegExp(CodeAlternatives, "g");
+const MentionPattern = new RegExp(`${FileAlternatives}|${CodeAlternatives}`, "g");
+const IsCodeToken = new RegExp(`^(?:${CodeAlternatives})$`);
+
+/** The icon name a matched file token renders with. */
 function IconFor(Token: string): FileIconName {
 	const Lower = Token.toLowerCase();
 	if (Lower.endsWith(".toml")) return "file-toml";
@@ -171,11 +213,13 @@ function QuotedRuns(Text: string): Array<[number, number]> {
 }
 
 /**
- * Mention: the string-prop renderer for file mentions. Escapes the text,
- * then renders every file mention with its file-type icon on the left
- * (the .log filenames as the special log chip), skipping tokens inside
- * double-quoted runs. The visible text bytes stay byte-exact - the icons
- * are UI adornments outside the strings.
+ * Mention: the string-prop renderer for file mentions and code tokens.
+ * Escapes the text, renders every file mention with its file-type icon on
+ * the left (the .log filenames as the special log chip) - skipping tokens
+ * inside double-quoted runs - and every technical term (the U+XXXX code
+ * points, the tool names, the identifiers, the short quoted literals) as
+ * the shared .code-token identity. The visible text bytes stay byte-exact
+ * - the icons and the trays are UI adornments outside the strings.
  */
 export function Mention(Text: string): string {
 	const Runs = QuotedRuns(Text);
@@ -187,8 +231,8 @@ export function Mention(Text: string): string {
 	for (;;) {
 		// exec (not match): with the global flag, String.match returns a
 		// plain array without .index - exec keeps the match object.
-		TokenPattern.lastIndex = 0;
-		const Match = TokenPattern.exec(Rest);
+		MentionPattern.lastIndex = 0;
+		const Match = MentionPattern.exec(Rest);
 		if (!Match || Match.index === undefined) break;
 		const Token = Match[0];
 		const Start = Match.index;
@@ -196,7 +240,12 @@ export function Mention(Text: string): string {
 		// The absolute index within the ORIGINAL text: the token begins at
 		// Text.length - Rest.length + Start.
 		const Absolute = Text.length - Rest.length + Start;
-		if (IsQuoted(Absolute)) {
+		if (IsCodeToken.test(Token)) {
+			// The code-token pass: the technical terms render as the shared
+			// .code-token identity everywhere, quoted runs included (a
+			// quoted run is a literal, and the literals are tokens too).
+			Out += `<code class="code-token">${Escape(Token)}</code>`;
+		} else if (IsQuoted(Absolute)) {
 			Out += Escape(Token);
 		} else {
 			const Icon = FileIconMark(IconFor(Token));
