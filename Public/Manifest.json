@@ -1,10 +1,24 @@
 {
-	"background_color": "// TODO Set the background color of the app",
-	"categories": [],
-	"display": "minimal-ui",
-	"name": "// TODO Use the same title as in template.html",
-	"orientation": "landscape",
-	"short_name": "// TODO Title but lowercase",
+	"name": "@playform / DSH Family",
+	"short_name": "DSH Family",
+	"description": "The DeepSeek Harness plugin family: deterministic AI engine harnesses for production workloads.",
 	"start_url": "/",
-	"theme_color": "// TODO Use the same theme color from template.html"
+	"display": "standalone",
+	"background_color": "#ffffff",
+	"theme_color": "#0052ff",
+	"lang": "en",
+	"icons": [
+		{
+			"src": "/Brand/Favicon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose": "any"
+		},
+		{
+			"src": "/Brand/Favicon-512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any maskable"
+		}
+	]
 }

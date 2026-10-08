@@ -764,6 +764,28 @@ const Lessons = [
 						fix aimed at the misdiagnosis was harmless, and stayed.
 					</p>
 				</Concept>
+				<Concept
+					Id="case-p5-reasons"
+					Title="The gate's reason vocabulary"
+					Diagram="The g1 gate's seven rejection reasons in decision order - target, govern, actor, kind, idempotent, basename, excluded - with the misdiagnosis landing on the actor reason and the marker moving the same flow to the govern reason."
+				>
+					<p>
+						The gate never rejects vaguely. Its rejections are a fixed vocabulary of
+						seven reasons, checked in order (the factory's g1 gate):{" "}
+						<code>target</code>, <code>govern</code>, <code>actor</code>,{" "}
+						<code>kind</code>, <code>idempotent</code>, <code>basename</code>,{" "}
+						<code>excluded</code>. Naming the reasons is what makes the misdiagnosis
+						story structurally checkable instead of anecdotal.
+					</p>
+					<p>
+						Read through that vocabulary, the saga is two reasons: the pre-fix
+						rejection was the <strong>actor</strong> reason - the raw-write's actor was
+						not in the governance bundles' mutation-tool list - and after the
+						governance marker the same flow rejects on the <strong>govern</strong>{" "}
+						reason, by design: the wrapped actor's write is the direct path's business
+						only.
+					</p>
+				</Concept>
 			</div>
 			<div class="concept-list">
 				<Concept
@@ -1155,8 +1177,15 @@ const Lessons = [
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The state the era ended in: twelve packages, twelve green suites, a clean tree, the
-				full live matrix passed - and a backlog of decisions already designed, waiting for
-				the next era. The install command below is the whole family's front door.
+				full live matrix passed - and the register's open items named, not vague. Four of
+				them carry into the next era: <strong>#14's Classic parallel smoke coverage</strong>
+				- the race-verified scenarios for the parallel-govern toggle; the{" "}
+				<strong>ncuBin re-pin</strong> - LANDED: the governor's default is now the plain{" "}
+				<code>ncu</code> binary resolved from the host PATH, the personal-path constant
+				gone; the <strong>verifyCommand trap</strong> - the documented cordis
+				vendored-forks failure, standing, not a bug; and <strong>#16's submodule
+				structure</strong> - designed, not started, the repositories unversioned by design.
+				The install command below is the whole family's front door.
 			</p>
 			<div class="snippet-list" style="margin-top: var(--space-md)">
 				<Terminal Command="pnpm add @playform/hook-dsh-core" Label="START HERE" />

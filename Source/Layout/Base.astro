@@ -4,7 +4,7 @@ import "@Stylesheet/Base.css";
 import { Head } from "astro-capo";
 import { ClientRouter } from "astro:transitions";
 import BrandIcon from "@Component/BrandIcon.astro";
-import { Copyright } from "@Library/Content";
+import { Copyright, Versions } from "@Library/Content";
 import { Links } from "@Library/Links";
 
 const { Title = "", Description = "" } = Astro.props;
@@ -31,6 +31,51 @@ const Path = Astro.url.pathname;
 function Current(Href: string) {
 	return Href === "/" ? Path === "/" : Path.startsWith(Href.replace(/\/$/, ""));
 }
+
+// The site identity: canonical, Open Graph and Twitter URLs composed from
+// Links.Site (the registry) + the page path; the og:image is the rendered
+// brand asset. The JSON-LD describes the family as a SoftwareApplication
+// with the twelve packages as parts (the values from the content library).
+const SiteUrl = Links.Site.replace(/\/$/, "");
+const Canonical = `${SiteUrl}${Path === "/" ? "/" : Path}`;
+const OgImage = `${SiteUrl}/Brand/OG.png`;
+
+// The twelve release packages (the register #15 names, npm form) - the
+// SoftwareApplication's parts.
+const Packages = [
+	"@playform/hook-dsh-core",
+	"@playform/plugin-dsh-factory",
+	"@playform/hook-dsh-governor-package",
+	"@playform/hook-dsh-pinner-package",
+	"@playform/hook-dsh-governor-cargo",
+	"@playform/hook-dsh-normalize-dash",
+	"@playform/hook-dsh-normalize-quotes",
+	"@playform/hook-dsh-normalize-ellipsis",
+	"@playform/hook-dsh-normalize-spaces",
+	"@playform/hook-dsh-normalize-invisible",
+	"@playform/hook-dsh-normalize-fullwidth",
+	"@playform/hook-dsh-normalize-file",
+];
+
+const JsonLd = {
+	"@context": "https://schema.org",
+	"@type": "SoftwareApplication",
+	name: "@playform / DSH Family",
+	description:
+		"The DeepSeek Harness plugin family: deterministic AI engine harnesses for production workloads - twelve packages, twelve smoke suites.",
+	url: SiteUrl,
+	applicationCategory: "DeveloperApplication",
+	operatingSystem: "Any",
+	softwareVersion: Versions.Release,
+	license: "https://spdx.org/licenses/CC0-1.0",
+	image: OgImage,
+	author: { "@type": "Organization", name: "PlayForm Systems", url: "https://playform.cloud" },
+	hasPart: Packages.map((Name) => ({
+		"@type": "SoftwareApplication",
+		name: Name,
+		softwareVersion: Versions.Release,
+	})),
+};
 ---
 
 <!doctype html>
@@ -50,15 +95,47 @@ function Current(Href: string) {
 		<meta name="format-detection" content="telephone=no" />
 		<meta name="twitter:dnt" content="on" />
 
-		<!-- Links -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<!-- Site identity: canonical + Open Graph + Twitter -->
+		<link rel="canonical" href={Canonical} />
+		<meta property="og:site_name" content="@playform / DSH Family" />
+		<meta property="og:title" content={Title} />
+		<meta property="og:description" content={Description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Canonical} />
+		<meta property="og:image" content={OgImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content="The @playform / DSH Family brand mark" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={Title} />
+		<meta name="twitter:description" content={Description} />
+		<meta name="twitter:image" content={OgImage} />
+
+		<!-- Structured data: the family as a SoftwareApplication -->
+		<script type="application/ld+json" set:html={JSON.stringify(JsonLd)} />
+
+		<!-- Fonts: self-hosted (Public/Font, OFL - see Public/Font/LICENSE.md).
+			Preload the faces above the fold; crossorigin per the font spec. -->
 		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+			rel="preload"
+			href="/Font/inter-latin-var.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="preload"
+			href="/Font/ibm-plex-mono-400-latin.woff2"
+			as="font"
+			type="font/woff2"
 			crossorigin="anonymous"
 		/>
 		<link rel="manifest" href="/Manifest.json" crossorigin="use-credentials" />
+
+		<!-- Brand icons -->
+		<link rel="icon" href="/Brand/Favicon.svg" type="image/svg+xml" />
+		<link rel="icon" href="/Brand/Favicon-32.png" type="image/png" sizes="32x32" />
+		<link rel="apple-touch-icon" href="/Brand/Apple-Touch-Icon.png" />
 
 		<style is:global>
 			@import "@Stylesheet/Global.css";
@@ -66,7 +143,6 @@ function Current(Href: string) {
 
 		<slot name="Head" />
 
-		<!-- Favicon -->
 		<ClientRouter />
 	</Head>
 	<body>

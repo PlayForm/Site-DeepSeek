@@ -176,20 +176,20 @@ const Registry = [
 					<span data-count>{Counts.Packages} RESULTS</span>
 				</Badge>
 			</div>
-			<div class="filter-chips" data-chips>
-				<button type="button" class="filter-chip is-active" data-filter-chip="all">
+			<div class="filter-chips" data-chips role="group" aria-label="Plugin family filters">
+				<button type="button" class="filter-chip is-active" data-filter-chip="all" aria-pressed="true">
 					ALL
 				</button>
-				<button type="button" class="filter-chip" data-filter-chip="core">
+				<button type="button" class="filter-chip" data-filter-chip="core" aria-pressed="false">
 					CORE &amp; FACTORY
 				</button>
-				<button type="button" class="filter-chip" data-filter-chip="governor">
+				<button type="button" class="filter-chip" data-filter-chip="governor" aria-pressed="false">
 					GOVERNOR
 				</button>
-				<button type="button" class="filter-chip" data-filter-chip="pinner">
+				<button type="button" class="filter-chip" data-filter-chip="pinner" aria-pressed="false">
 					PINNER
 				</button>
-				<button type="button" class="filter-chip" data-filter-chip="normalize">
+				<button type="button" class="filter-chip" data-filter-chip="normalize" aria-pressed="false">
 					NORMALIZE
 				</button>
 				<button type="button" class="action--ghost" data-reset>
@@ -928,8 +928,12 @@ const Registry = [
 		Chip.addEventListener("click", () => {
 			document
 				.querySelectorAll<HTMLElement>("[data-filter-chip]")
-				.forEach((Item) => Item.classList.remove("is-active"));
+				.forEach((Item) => {
+					Item.classList.remove("is-active");
+					Item.setAttribute("aria-pressed", "false");
+				});
 			Chip.classList.add("is-active");
+			Chip.setAttribute("aria-pressed", "true");
 			Filter();
 		});
 	});
@@ -941,9 +945,11 @@ const Registry = [
 		}
 		document
 			.querySelectorAll<HTMLElement>("[data-filter-chip]")
-			.forEach((Chip) =>
-				Chip.classList.toggle("is-active", Chip.dataset["filterChip"] === "all"),
-			);
+			.forEach((Chip) => {
+				const Active = Chip.dataset["filterChip"] === "all";
+				Chip.classList.toggle("is-active", Active);
+				Chip.setAttribute("aria-pressed", String(Active));
+			});
 		Filter();
 	});
 

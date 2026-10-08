@@ -155,6 +155,7 @@ const Spans = [
 						class="engine-pill"
 						data-engine={Engine.Id}
 						data-active={Index === 0 ? "" : undefined}
+						aria-pressed={Index === 0}
 					>
 						<span class="dot"></span>
 						{Engine.Label}
@@ -162,7 +163,7 @@ const Spans = [
 				))}
 			</div>
 			<div class="workbench-controls__group">
-				<button type="button" class="engine-pill" data-action="toggle">
+				<button type="button" class="engine-pill" data-action="toggle" aria-pressed="false">
 					Pause Stream
 				</button>
 				<button type="button" class="engine-pill" data-action="clear">
@@ -244,6 +245,7 @@ const Spans = [
 						class={`hook-card ${Hook.Armed ? "is-armed" : "is-disarmed"}`}
 						data-hook={Hook.Id}
 						data-armed={Hook.Armed ? "true" : "false"}
+						aria-pressed={Hook.Armed}
 					>
 						<div class="hook-card__top">
 							<span class="hook-card__token">
@@ -265,6 +267,9 @@ const Spans = [
 
 		<!-- Dual terminal view -->
 		<section class="section">
+			<p class="visually-hidden" role="status" aria-live="polite" data-stream-status>
+				Stream running
+			</p>
 			<div class="stream-grid">
 				<div class="stream-pane rail-orange">
 					<div class="stream-pane__bar">
@@ -513,11 +518,13 @@ const Spans = [
 				Armed.delete(Hook);
 				Card.classList.replace("is-armed", "is-disarmed");
 				Card.dataset["armed"] = "false";
+				Card.setAttribute("aria-pressed", "false");
 				Toast?.(`Disarmed hook ${Hook.toUpperCase()}`);
 			} else {
 				Armed.add(Hook);
 				Card.classList.replace("is-disarmed", "is-armed");
 				Card.dataset["armed"] = "true";
+				Card.setAttribute("aria-pressed", "true");
 				Toast?.(`Armed hook ${Hook.toUpperCase()}`);
 			}
 			Render();
@@ -534,6 +541,7 @@ const Spans = [
 			Card.classList.toggle("is-armed", !All);
 			Card.classList.toggle("is-disarmed", All);
 			Card.dataset["armed"] = String(!All);
+			Card.setAttribute("aria-pressed", String(!All));
 		});
 		Render();
 		Toast?.(
@@ -548,8 +556,12 @@ const Spans = [
 		Pill.addEventListener("click", () => {
 			document
 				.querySelectorAll("[data-runtime]")
-				.forEach((Item) => Item.removeAttribute("data-active"));
+				.forEach((Item) => {
+					Item.removeAttribute("data-active");
+					Item.setAttribute("aria-pressed", "false");
+				});
 			Pill.setAttribute("data-active", "");
+			Pill.setAttribute("aria-pressed", "true");
 			Toast?.(`Runtime: ${Pill.textContent?.trim()}`);
 		});
 	});
@@ -559,8 +571,12 @@ const Spans = [
 		Pill.addEventListener("click", () => {
 			document
 				.querySelectorAll("[data-engine]")
-				.forEach((Item) => Item.removeAttribute("data-active"));
+				.forEach((Item) => {
+					Item.removeAttribute("data-active");
+					Item.setAttribute("aria-pressed", "false");
+				});
 			Pill.setAttribute("data-active", "");
+			Pill.setAttribute("aria-pressed", "true");
 			Toast?.(`Ingest: ${Pill.textContent?.trim()}`);
 		});
 	});
@@ -568,6 +584,9 @@ const Spans = [
 	// Pause / clear / burst / copy actions.
 	ToggleButton.addEventListener("click", () => {
 		Paused = !Paused;
+		ToggleButton.setAttribute("aria-pressed", String(Paused));
+		const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+		if (StreamStatus) StreamStatus.textContent = Paused ? "Stream ingest paused" : "Stream running";
 		Render();
 		Toast?.(Paused ? "Stream ingest paused" : "Stream ingest resumed");
 	});
