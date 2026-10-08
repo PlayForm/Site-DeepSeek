@@ -670,7 +670,7 @@ const Related = [
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">New patch entries are declared with
 				<code>insert:</code>.</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">Full example:
-			
+			</p>
 			<CodeBlock
 				Language="yaml"
 				Source={[
@@ -686,7 +686,6 @@ const Related = [
 					"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
 				].join("\n")}
 			/>
-			</p>
 		</section>
 
 		<section class="section">
@@ -695,7 +694,7 @@ const Related = [
 				One pinned write.</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">The author drops a <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> with two ranged
 				versions and a keep-listed package nearby:
-			
+			</p>
 			<p class="section-kicker">
 				<BrandIcon Name="swap" />Before - the manifest as the author wrote it
 			</p>
@@ -705,10 +704,9 @@ const Related = [
 				beside the file, so tailwindcss keeps its range; the other two dependencies are
 				pinned.</p>
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">The transcript shows only what the author wrote; the ledger shows the pin:
-			
+			</p>
 			<p class="section-kicker">
 				<BrandIcon Name="swap" />After - the pin in the ledger
-			</p>
 			</p>
 			<div class="code-block">{LedgerExcerpt.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
@@ -767,7 +765,6 @@ const Related = [
 				leaves the governor's update stage nothing to do, and the chain pass may still
 				re-canonicalize chain pins - the two passes are idempotent under either
 				activation sequence.
-			</p>
 			</p>
 		</section>
 

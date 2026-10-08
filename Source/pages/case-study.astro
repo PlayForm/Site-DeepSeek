@@ -83,7 +83,7 @@ const Criticals = [
 	{
 		Finding:
 			"The package governor still registered its in-flight key as the plain target key - the same key the factory's continuation uses.\nAn update running under key K plus an external edit could orphan the update's controller.\nThe cargo flavor had fixed the same collision locally a phase earlier.",
-		Fix: "The key helper moved factory-side - the <span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME</span>'s §2.16, UpdateKey(target) yields update:<targetKey> - and both governors adopted it.\nCollision-window smoke cases went into the factory and governor suites the same day.",
+		Fix: "The key helper moved factory-side - the SCHEME's §2.16, UpdateKey(target) yields update:<targetKey> - and both governors adopted it.\nCollision-window smoke cases went into the factory and governor suites the same day.",
 		Badge: "P1",
 		Commit: "1ed3564",
 	},
@@ -521,7 +521,8 @@ const Lessons = [
 						</div>
 						{Item.Fix.split("\n").map((Part, Index) => (
 							<p class="card__desc" slot="after">
-								{Index === 0 && <strong>Fix.</strong>} {Part}
+								{Index === 0 && <strong>Fix.</strong>}{" "}
+								<span set:html={Mention(Part)} />
 							</p>
 						))}
 					</Card>
@@ -661,11 +662,10 @@ const Lessons = [
 						The dash normalizer generalized.</p>
 					<p>The core took over the pure machinery -
 						generic over structural shapes, with no dependency on the host's LLM types.
-					
+					</p>
 					<p>
 						A fragile cross-bundle symlink workaround for a nominal-type clash was
 						replaced by a durable design (<code>98be27b</code>, <code>c2beb06</code>).
-					</p>
 					</p>
 				</Concept>
 				<Concept
@@ -773,14 +773,13 @@ const Lessons = [
 						emitting plugin.</p>
 					<p>The <strong>listener-scope theory</strong>: the listener must
 						be registered at the wrong level.
-					
+					</p>
 					<p>
 						The delivery research refuted both with code, simulation and live policy
 						evidence: <em>the event is delivered; the gate rejects the actor.</em></p>
 					<p>The
 						shared event bus has no scope filter on plain emits - the root registration
 						fix aimed at the misdiagnosis was harmless, and stayed.
-					
 					</p>
 				</Concept>
 				<Concept
@@ -797,7 +796,7 @@ const Lessons = [
 						<code>excluded</code>.</p>
 					<p>Naming the reasons is what makes the misdiagnosis
 						story structurally checkable instead of anecdotal.
-					
+					</p>
 					<p>
 						Read through that vocabulary, the saga is two reasons: the pre-fix
 						rejection was the <strong>actor</strong> reason - the raw-write's actor was
@@ -806,9 +805,7 @@ const Lessons = [
 						reason, by design: the wrapped actor's write is the direct path's business
 						only.
 					</p>
-					</p>
 				</Concept>
-					</p>
 			</div>
 			<div class="concept-list">
 				<Concept
@@ -1193,7 +1190,6 @@ const Lessons = [
 						))}
 					</tbody>
 				</table>
-			</p>
 			</div>
 		</section>
 
