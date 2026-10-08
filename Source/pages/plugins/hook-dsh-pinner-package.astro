@@ -372,7 +372,7 @@ const Related = [
 					},
 					{
 						Seam: "The keep-list policy sidecar",
-						What: "ResolvePolicy builds the union keep-list from every readable <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts">pin-policy.json</a>: global policyFile → the file's own directory → registry-adjacent; the P3 chain-keys interlock protects the governor's chain pins from ever being stripped.",
+						What: "ResolvePolicy builds the union keep-list from every readable pin-policy.json: global policyFile → the file's own directory → registry-adjacent; the P3 chain-keys interlock protects the governor's chain pins from ever being stripped.",
 						Outcome: "Ranges the author marked as intentional stay exactly as written.",
 					},
 					{
@@ -552,13 +552,13 @@ const Related = [
 				Language="yaml"
 				Source={[
 					"- insert:",
-					"      - id: <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source">hook-dsh-pinner-package</a>",
-					'        name: "<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source">@playform/hook-dsh-pinner-package</a>"',
+					"      - id: hook-dsh-pinner-package",
+					'        name: "@playform/hook-dsh-pinner-package"',
 					"        config:",
 					"            log: true",
 					"            logFile: ~/.dsh/hook-dsh-pinner-package.log # SEPARATE ledger (own plugin)",
 					"            mutationTools: [write, edit, str_replace_editor]",
-					'            policyFile: "" # optional global <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts">pin-policy.json</a> (else discovery, else built-in)',
+					'            policyFile: "" # optional global pin-policy.json (else discovery, else built-in)',
 					"            sections: [dependencies, devDependencies, peerDependencies, optionalDependencies]",
 					"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
 				].join("\n")}
@@ -605,7 +605,7 @@ const Related = [
 				<code>~/.dsh/hook-dsh-pinner-package.log</code> - SEPARATE from the governor's
 				ledger) records activation, exclusions, non-JSON skips, refusals, and every pin
 				result. The strings this module composes (the
-				<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source"><code>hook-dsh-pinner-package:</code></a> logger prefix is the factory's Append; each
+				hook-dsh-pinner-package: logger prefix is the factory's Append; each
 				line is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file):
 			</p>
 			<div class="code-block">{LedgerStrings.join("\n")}</div>

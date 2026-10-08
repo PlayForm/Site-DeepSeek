@@ -160,7 +160,7 @@ const Related = [
 						<ArrowIcon Direction="right" Tone="accent" /> <code>pinner.log</code>), and
 						this bundle (<code>Cargo.toml</code>{" "}
 						<ArrowIcon Direction="right" Tone="accent" />{" "}
-						<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-cargo/Source"><code>hook-dsh-governor-cargo.log</code></a>, chain pass bare caret /<code>=exact</code>{" "}
+						hook-dsh-governor-cargo.log, chain pass bare caret /<code>=exact</code>{" "}
 						+ <code>cargo upgrade</code>).
 					</p>
 				</Concept>
@@ -250,7 +250,7 @@ const Related = [
 					},
 					{
 						Seam: "The ledger / session",
-						What: "A separate ledger (<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-cargo/Source">hook-dsh-governor-cargo</a>.log) records activation, exclusions, chain-pass results, refusals and every update dispatch - including the exact cargo upgrade argv and its exit code.",
+						What: "A separate ledger (hook-dsh-governor-cargo.log) records activation, exclusions, chain-pass results, refusals and every update dispatch - including the exact cargo upgrade argv and its exit code.",
 						Outcome: "The Rust-side pass is fully auditable from the ledger alone.",
 					},
 				]}
@@ -446,8 +446,8 @@ const Related = [
 				Language="yaml"
 				Source={[
 					"- insert:",
-					"      - id: <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-cargo/Source">hook-dsh-governor-cargo</a>",
-					'        name: "<a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-governor-cargo/Source">@playform/hook-dsh-governor-cargo</a>"',
+					"      - id: hook-dsh-governor-cargo",
+					'        name: "@playform/hook-dsh-governor-cargo"',
 					"        config:",
 					"            log: true",
 					"            logFile: ~/.dsh/hook-dsh-governor-cargo.log # SEPARATE ledger - never the npm ledgers",
@@ -458,7 +458,7 @@ const Related = [
 					"            cargoBin: /usr/local/bin/cargo # absolute - host PATH != shell PATH",
 					"            updateMode: cargo # the ONLY mode (the Rust-side CLI)",
 					'            policyFile: "" # optional global update-policy.json',
-					'            keepFile: "" # optional global <a href="https://github.com/PlayForm/DeepSeek/tree/Current/Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts">pin-policy.json</a> (the keep-list)',
+					'            keepFile: "" # optional global pin-policy.json (the keep-list)',
 					"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
 				].join("\n")}
 			/>
