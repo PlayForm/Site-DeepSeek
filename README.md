@@ -62,6 +62,8 @@ Pages at this repo:
 
 A Git-connected Pages project works with no extra configuration: the build command and the
 output directory above are all Pages needs (no `wrangler.toml` is required).
+
 `Public/_headers` ships cache rules for the content-hashed `_astro/` assets, and `Public/404.html`
-provides the styled not-found page that Cloudflare Pages serves automatically. Routes are emitted
-directory-style (`plugins/index.html`), which Pages serves natively.
+provides the styled not-found page that Cloudflare Pages serves automatically.
+
+Routes are emitted directory-style (`plugins/index.html`), which Pages serves natively.

@@ -55,9 +55,10 @@ exclude_path = ["node_modules", ".astro", ".git"]
 # Output
 format = "markdown"
 
-# Link behavior
+# Link behavior ("file" is required so the root-relative build links are
+# verified against the build root instead of being skipped)
 require_https = false
-scheme = ["http", "https"]
+scheme = ["http", "https", "file"]
 include_fragments = "anchor-only"
 
 # Headers (must be last - TOML table)
