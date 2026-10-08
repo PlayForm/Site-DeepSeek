@@ -1,0 +1,10 @@
+flowchart LR
+	FIND["the chain pass finds @acme/chain-core in the nearest<br/>registry.json - effective 0.4.5"]
+	CANON["canonicalizing it to ^0.4.5"]
+	PUBLIC["the public dep stays a range until the update stage's<br/>ncu run bumps it"]
+	SHOW["the transcript shows only what the author wrote"]
+	LED["the ledger shows what actually happened"]
+	FIND --> CANON
+	CANON --> PUBLIC
+	CANON --> SHOW
+	CANON --> LED

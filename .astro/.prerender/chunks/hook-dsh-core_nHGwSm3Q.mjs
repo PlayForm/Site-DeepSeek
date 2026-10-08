@@ -1,0 +1,496 @@
+import { C as __exportAll, S as createComponent, a as Links, b as $$BrandIcon, m as Scheme, n as $$Base, o as Counts, r as Link, s as Families, t as $$Badge, v as Totals, y as Versions } from "./Badge_CHteF_GF.mjs";
+import { g as addAttribute, m as maybeRenderHead, o as renderComponent, p as renderTemplate } from "./server_jUwDEDCs.mjs";
+import { t as $$ArrowIcon } from "./ArrowIcon_DQw92EC9.mjs";
+import { t as $$Card } from "./Card_B96geFVd.mjs";
+import { t as $$Concept } from "./Concept_DF89tVee.mjs";
+import { t as $$SectionHeader } from "./SectionHeader_w9WBitnM.mjs";
+import { t as $$Terminal } from "./Terminal_DR1pHPfM.mjs";
+import { t as $$CodeBlock } from "./CodeBlock_BKk4KZdJ.mjs";
+//#region Source/pages/plugins/hook-dsh-core.astro
+var hook_dsh_core_exports = /* @__PURE__ */ __exportAll({
+	default: () => $$HookDshCore,
+	file: () => $$file,
+	url: () => $$url
+});
+var $$HookDshCore = createComponent(($$result, $$props, $$slots) => {
+	const ReplaceLines = ["Replace(\"first — then 10–15 total\", Dashes, \"-\");", "// -> { text: \"first - then 10-15 total\", count: 2 }"];
+	const ReplaceMapLines = [
+		"ReplaceMap(\"he said ‘hello’ — loudly\", Quotes);",
+		"// -> { text: \"he said 'hello' — loudly\", count: 2 }",
+		"//    (the em dash is the Dashes class's job, not the Quotes map's)"
+	];
+	const SuppressionLines = ["Context.logger.warn(Suppress(\"hook-dsh-governor-package\", \"listener\", String(Error)));", "// -> \"hook-dsh-governor-package: listener error (suppressed): cannot get property ...\""];
+	const RefusalLines = [
+		"if (Refusal(Append, Path, Section, Document, Next)) {",
+		"	return null; // the byte-identical line went to the ledger, the write did not happen",
+		"	// -> `REFUSED rewrite of <path>: non-dependency section \"scripts\" would change`",
+		"}"
+	];
+	const Imports = ["import { Suppress, Refusal, Section, Default, Policy } from \"@playform/hook-dsh-core\";", "import { Replace, ReplaceMap, Dashes, Chunk } from \"@playform/hook-dsh-core\";"];
+	const Related = [
+		{
+			Name: "plugin-dsh-factory",
+			Desc: "The family's parent service - deliberately re-exports NOTHING from the core (its service surface stays stable); the hooks import the core's helpers directly."
+		},
+		{
+			Name: "hook-dsh-normalize-dash",
+			Desc: "The first of the six stream normalizers - a table plus a closure over Replace, dispatched through Chunk/Block."
+		},
+		{
+			Name: "hook-dsh-governor-package",
+			Desc: "Consumes the governance half: Suppress in the listener's catch, Policy in the update engine, Refusal in the transform."
+		}
+	];
+	return renderTemplate`${renderComponent($$result, "Base", $$Base, {
+		"Title": "hook-dsh-core - @playform / DSH Family",
+		"Description": `${Families.Core} - the pure machinery layer of the DeepSeek Harness plugin family: the governance helpers and the stream-normalization tables and dispatch (dependency-free in CLASSIC; effect-backed in EFFECT-TS), consumed by all eleven other packages.`
+	}, { "default": ($$result) => renderTemplate` ${maybeRenderHead($$result)}<main class="container container--main"> <div class="eyebrow-row"> ${renderComponent($$result, "Badge", $$Badge, {
+		"Variant": "primary",
+		"Dot": true
+	}, { "default": ($$result) => renderTemplate`
+PLUGIN DETAIL
+` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`ROLE: CORE` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`NOT A PLUGIN - THE MUSCLE UNDER THE PLUGINS` })} </div> <section class="page-hero"> <h1 class="page-hero__title">hook-dsh-core</h1> <p class="page-hero__sub"> ${Families.Core} • ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "deepseek" })} _The DeepSeek Harness Plugin Family
+				for PlayForm._ The pure machinery layer of the DSH plugin family: the harness-free
+				commonalities both halves of the family are built from - one library, two halves,
+				explained as diagram-first concept blocks below.
+</p> </section> <section class="section"> <div class="snippet-list"> ${renderComponent($$result, "Terminal", $$Terminal, { "Command": "pnpm add @playform/hook-dsh-core" })} </div> <div class="inspect-card"> <span class="inspect-card__meta"> <span class="live-dot"></span>INSPECTED
+</span> <div class="workbench-controls__group"> <span class="workbench-controls__label">Namespace:</span> <span class="hook-tally">@playform/hook-dsh-core</span> <span class="workbench-controls__label">Release:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`v${Versions.Release}` })} </div> <div class="workbench-controls__group"> <span class="workbench-controls__label">Archetype:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`Library` })} <span class="workbench-controls__label">Halves:</span> ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`Governance + Normalize` })} <span class="workbench-controls__label">Runtime deps:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "active" }, { "default": ($$result) => renderTemplate`ZERO` })} </div> </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Where It Fits",
+		"Meta": "FAMILY POSITION: THE BASE LIBRARY"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-family-position",
+		"Title": "Family position",
+		"Diagram": `${Families.Core} as the base library of the whole family - parent of none, child of none - with the factory-era governance hooks consuming the governance half and the six stream normalizers consuming the normalize half.`
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <strong>Family position</strong> (the @-sentence${" "} <strong>${Families.Core}</strong>): the base library of the whole family -
+						parent of none, child of none - consumed by all eleven other packages.
+</p> <p class="page-hero__sub">
+The governance half ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} the
+						factory-era governance hooks (governor-package, pinner-package,
+						governor-cargo); the normalize half${" "} ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} the six stream normalizers
+						(normalize-dash, quotes, ellipsis, spaces, invisible, fullwidth).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-library-not-bundle",
+		"Title": "Library consumption, not bundle registration",
+		"Diagram": "The core as a plain library dependency: no [cordis.patch.yml]('Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml'), no loader contract, no dsh plugin add row - publishable on its own and built with the same prepublishOnly sequence as the family bundles."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The core is <strong>not a plugin bundle</strong>: no${" "} <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml"), "href")}><code>cordis.patch.yml</code></a>, no loader contract, publishable on its own -
+						consumers link it as a plain library dependency, not as a bundle row, and
+						there is no <code>dsh plugin add</code> row for it.
+</p> <p class="page-hero__sub">
+The DSH plugin family is the DeepSeek Harness plugin layer of the PlayForm
+						ecosystem: TypeScript-first <code>Source/</code>${" "} ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} <code>Target/</code>, the
+						deterministic @playform build, prepublishOnly-only - the same conventions as
+						every other @playform package.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-runtime-variants",
+		"Title": "CLASSIC versus EFFECT-TS runtime dependencies",
+		"Diagram": `The dual engine distribution: CLASSIC shipping dependency-free, EFFECT-TS shipping the same contracts on effect ${Versions.Effect} as its single runtime dependency - same behavior, same smokes, different runtime plumbing.`
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "typescript" })} CLASSIC ships dependency-free: zero runtime
+						dependencies.<br>The ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "effect" })} EFFECT-TS variant ships the
+						same contracts with <code>effect</code> ${Versions.Effect}${" "}
+as the single runtime dependency - same behavior, same smokes, different
+						runtime plumbing.<br>The inspect card's ZERO is the CLASSIC variant's fact; the${" "} <code>effect</code> ${Versions.Effect} dependency belongs to the EFFECT-TS
+						variant.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In the DeepSeek Harness",
+		"Meta": "WHERE THE MACHINERY RUNS"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-seam-none",
+		"Title": "No direct seam registration",
+		"Diagram": "The core outside the plugin loader: no [cordis.patch.yml]('Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml'), no seams injected, no registration - the family's plugins carrying the machinery inside their own listeners and passes."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The core is not a plugin and touches no seam itself - it is the shared
+						machinery the family's plugins are made of, running wherever they run.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-seam-normalization",
+		"Title": "Normalization inside consumer listeners",
+		"Diagram": "The [llm/stream seam](Harness:packages/llm/llm/src/index.ts) supplying the stream-normalization half, with each flavor's listener running the tables, the replacers and the Chunk/Block dispatch inside itself."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}><code>llm/stream</code></a> seam supplies the stream-normalization half the
+						six flavors dispatch through: the six character tables, the two generic
+						replacers and the per-chunk/per-block dispatch running inside each flavor's${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}><code>llm/stream</code></a> listener.
+</p> <p class="page-hero__sub">
+Outcome: normalized text reaching the live UI and the durable transcript,
+						byte-predictable per chunk.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-seam-governance",
+		"Title": "Governance inside consumer passes",
+		"Diagram": "The [fs/observed + fs/write-intent seams](Harness:packages/fs/fs/src/index.ts) supplying the governance half, with the three governance hooks composing their passes from the section list, the exclusion fence, the policy loader, the refusal guard and the update-stage envelope."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}><code>fs/observed</code></a> + <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}><code>fs/write-intent</code></a> seams supply the
+						governance half the three governance hooks compose their passes from: the
+						section list, the exclusion fence, the policy loader, <a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts"), "href")}>the refusal guard</a> and
+						the update-stage envelope.
+</p> <p class="page-hero__sub">
+Outcome: governed manifests with the write's tool result unchanged (the
+						author never learns).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-seam-logging",
+		"Title": "Consumer-owned logging",
+		"Diagram": "The ledger/session seam: the core supplying the byte-exact mechanics, every consumer logging through its own Append."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The core owns no ledger file or module-specific ledger vocabulary and writes
+						nothing - every consumer logs through its own Append; the core only supplies
+						the byte-exact mechanics (the suppression composer, the diagnostics, the
+						refusal line, the <code>activated (...)</code> template).
+</p> <p class="page-hero__sub">
+Outcome: identical line shapes across all twelve plugins, in each plugin's
+						own ledger.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Problem",
+		"Meta": "WHY THE CORE EXISTS"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-problem-repeated",
+		"Title": "The same pure functions, re-implemented per hook",
+		"Diagram": "The same pure functions copy-pasted across the family's hooks: the NPM section list, the exclusion segments, the suppression-line composer, the policy loader, [the refusal guard](Ours:Classic/packages/hook-dsh-core/Source/Function/Refusal.ts) - and, for the normalize flavors, the same per-chunk dispatch, block-end normalizer and character tables."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The family's hooks kept re-implementing the same pure functions: the NPM
+						section list, the exclusion segments, the suppression-line composer, the
+						policy loader, <a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts"), "href")}>the refusal guard</a> - and, for the normalize flavors, the same
+						per-chunk dispatch, block-end normalizer and character tables, copy-pasted
+						per flavor.<br>Every fix had to be applied N times.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-problem-once",
+		"Title": "Each of them exists once",
+		"Diagram": "The repeated copies converging on the core's single implementations, importable by any consumer."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The core makes each of them exist <strong>once</strong>, importable by any
+						consumer.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-problem-anywhere",
+		"Title": "Inside the harness or entirely outside it",
+		"Diagram": "The same imported helpers running inside a DeepSeek Harness plugin listener and in a standalone script with no harness at all."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The same imports work inside the DeepSeek Harness or entirely outside it.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Core Architecture",
+		"Meta": "TWO HALVES, ONE ENTRY"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-two-halves",
+		"Title": "Two halves, one library",
+		"Diagram": "Show @playform/hook-dsh-core branching into governance helpers and normalization machinery. Connect each half to its consuming hooks. Do not depict the core as a registered plugin."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source"), "href")}><code>@playform/hook-dsh-core</code></a> exposes named exports for two
+						responsibilities: governance and normalization.
+</p> <p class="page-hero__sub">
+Consumers import the helpers directly.<br>The core itself has no plugin loader
+						contract.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-structure-substitution",
+		"Title": "Structure versus substitution",
+		"Diagram": "Show the shared dispatch choosing eligible chunk or block fields, then invoking a flavor-provided transform. Label dispatch as structure and the flavor as substitution."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The dispatch owns the structure: which fields of which chunk and block types
+						are eligible for transformation.
+</p> <p class="page-hero__sub">
+The flavor owns the substitution.<br>A new normalization flavor supplies a
+						table and a transform closure rather than forking the dispatch.
+</p> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "typescript",
+		"Source": [
+			"Replace(Text, Dashes, Replacement);",
+			"ReplaceMap(Text, Quotes);",
+			"CoreChunk(Input, (Text) => Replace(Text, Dashes, \"-\"), Reasoning);"
+		].join("\n")
+	})} ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Governance Helpers",
+		"Meta": "SHARED DEFAULTS, GUARDS, AND COMPOSERS"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-section-list",
+		"Title": "Dependency sections",
+		"Diagram": "Show Section supplying four dependency-section names to a consumer. Keep dependency sections separate from exclusion segments."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>Section</code> supplies the canonical NPM dependency-section list.
+</p> <ul class="concept-values"> <li> <code>dependencies</code> </li> <li> <code>devDependencies</code> </li> <li> <code>peerDependencies</code> </li> <li> <code>optionalDependencies</code> </li> </ul> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-exclusion-defaults",
+		"Title": "Default exclusion segments",
+		"Diagram": "Show Default supplying built-in exclusion segments to the consuming module. Do not depict the core itself listening for filesystem events."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>Default</code> supplies the built-in exclusion segments.
+</p> <ul class="concept-values"> <li> <code>node_modules</code> </li> <li> <code>.git</code> </li> <li> <code>.dsh</code> </li> <li> <code>.pnpm</code> </li> <li> <code>.store</code> </li> <li> <code>DeepSeek Harness.app</code> </li> </ul> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-suppression",
+		"Title": "Suppression-line composition",
+		"Diagram": "Show module, kind, and cause entering Suppress; show the resulting string sent to the consumer's logger, not its ledger."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>Suppress(module, kind, cause)</code> composes the shared
+						suppression-line format.<br>The kind is <code>listener</code> or
+<code>continuation</code>.
+</p> <div class="code-block">${"module: kind error (suppressed): cause"}</div> <p class="page-hero__sub">
+The consumer sends the line to its logger.<br>It is not a ledger entry.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-policy",
+		"Title": "Policy loading and fallback",
+		"Diagram": "Show a supplied readable policy file producing loaded policy; show read or parse failure falling back to module-provided defaults. Mark quiet mode as controlling diagnostics, not policy selection."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>Policy(append, file, defaults, quiet?)</code>
+loads the update policy through a plain-filesystem read when a file is
+						supplied and readable.
+</p> <p class="page-hero__sub">
+Failures fall back to the module's built-in defaults.<br>Quiet mode controls
+						whether the shared diagnostics are emitted.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-refusal",
+		"Title": "Non-dependency refusal guard",
+		"Diagram": "Show current and proposed documents being compared. Differences confined to declared dependency sections pass this guard; a difference elsewhere produces a refusal line and prevents the rewrite."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>Refusal(...)</code> checks that only declared dependency sections
+						differ between the current and proposed documents.
+</p> <p class="page-hero__sub">
+A difference anywhere else produces the shared refusal line.<br>The consumer
+						must not apply that rewrite.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-update-envelope",
+		"Title": "Shared update-stage envelope",
+		"Diagram": "Show Update returning Dispatch and Settle. Group gates, P2 registration, the jobs envelope, P5 records, and U2 refresh as shared responsibilities. Keep the child runner and module-specific strings outside that shared boundary."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>Update(dependencies)</code> supplies the shared
+<code>Dispatch</code> and <code>Settle</code> pair.
+</p> <p class="page-hero__sub">
+The envelope covers gates, P2 registration, the jobs envelope, P5 records,
+						and U2 refresh.<br>The consuming module supplies its child runner and
+						module-specific strings.
+</p> <p class="page-hero__sub">
+The P2 registration sits under the factory's namespaced key - the SCHEME's${" "} ${Scheme.UpdateKey}, UpdateKey(target) yields update:&lt;targetKey&gt; -
+						distinct from the chain pass's plain key.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-activation",
+		"Title": "Activation-line composition",
+		"Diagram": "Show module-provided fields entering Activate and producing activated (...). Label prefix, suffix, comma-separated k=v formatting, and absent-field omission as shared mechanics."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>Activate(fields)</code> composes the
+<code>activated (...)</code> proof line.
+</p> <p class="page-hero__sub">
+The core supplies the formatting mechanics.<br>The field list remains the
+						consuming module's responsibility.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Normalization Helpers",
+		"Meta": "TABLES, REPLACERS, AND RESULT CONTRACT"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-normalization-tables",
+		"Title": "Six normalization tables",
+		"Diagram": "Show Dashes, Quotes, Ellipsis, Spaces, Invisible, and Fullwidth as independent flavor inputs. Distinguish character classes from character maps; do not imply that every flavor applies every table."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The normalization half supplies six character classes or maps, each used by
+						its corresponding flavor.
+</p> <ul class="concept-values"> <li> <code>Dashes</code> - the Hermes dash class
+</li> <li> <code>Quotes</code> - eight curly-to-straight mappings
+</li> <li> <code>Ellipsis</code> - the U+2026 class
+</li> <li> <code>Spaces</code> - Zs characters excluding ASCII space
+</li> <li> <code>Invisible</code> - the zero-width/format class
+</li> <li> <code>Fullwidth</code> - 94 mappings from FF01-FF5E to 21-7E
+</li> </ul> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-replace",
+		"Title": "Character-class replacement",
+		"Diagram": "Show text, a character class, and a replacement string entering Replace and returning text plus count. Annotate the fresh per-call gu regex and function replacer."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>Replace</code> applies a character-class replacement using a fresh
+						per-call
+<code>gu</code> regex.
+</p> <p class="page-hero__sub">
+A function replacer keeps replacement-string dollar patterns from being
+						interpreted.<br>No shared
+<code>lastIndex</code> state is reused.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-replace-map",
+		"Title": "Character-map replacement",
+		"Diagram": "Show source characters looking up replacement characters in a map. Annotate code-point-escaped regex keys, a fresh per-call regex, and a function replacer."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>ReplaceMap</code> applies a character-to-character map, with regex
+						keys represented as code-point escapes.
+</p> <p class="page-hero__sub">
+Like <code>Replace</code>, it uses a fresh per-call regex and a function
+						replacer.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-result-contract",
+		"Title": "Text and replacement count",
+		"Diagram": "Show both replacers returning { text, count }. Show count === 0 leading the dispatch caller to return its original chunk or block object by identity."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+Both replacers return
+<code>${"{ text, count }"}</code>.<code>count === 0</code> signals that no
+						replacement was made.
+</p> <p class="page-hero__sub">
+That signal lets the dispatch caller retain its original chunk or block by
+						identity when nothing changes.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Stream Dispatch",
+		"Meta": "ELIGIBLE FIELDS AND PASSTHROUGH RULES"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-chunk-dispatch",
+		"Title": "Per-chunk dispatch",
+		"Diagram": "Show text-delta, optional reasoning-delta, optional tool-call-delta, and block-end routing through Chunk. Show other chunk types returning unchanged by identity."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>Chunk</code> dispatches eligible chunk fields through an injected
+						transform.
+</p> <p class="page-hero__sub">
+It handles text deltas, optionally reasoning and tool-call deltas, and
+						block-end chunks.<br>Other chunk types pass through by identity.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-block-dispatch",
+		"Title": "Block-end normalization",
+		"Diagram": "Show TextBlock text, ReasoningBlock text and its runtime thinking string, and optional ToolCallBlock arguments. Show other blocks passing through by identity."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>Block</code> normalizes text in
+<code>TextBlock</code> and <code>ReasoningBlock</code>, including the
+						latter's runtime
+<code>thinking</code> string field.
+</p> <p class="page-hero__sub">
+Tool-call arguments are optional and use the same tool-argument gate.<br>Other
+						blocks pass through by identity.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-tool-arguments",
+		"Title": "Tool-argument eligibility",
+		"Diagram": "With ToolArgs enabled, show three outcomes: exempt edit/raw-write/normalize-file calls pass through by identity; raw-marked calls follow the raw path; remaining eligible calls receive normalization. Note that ToolArgs defaults to off."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The fourth <code>CoreChunk</code> argument,
+<code>ToolArgs</code>, defaults to off.
+</p> <p class="page-hero__sub">
+When enabled, <code>edit</code>, <code>raw-write</code>, and${" "} <code>normalize-file</code> calls still pass through by identity.<br>Raw-marked
+						calls use a separate bypass; other eligible calls receive the transform.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-raw-marker",
+		"Title": "Per-call raw marker",
+		"Diagram": "Show the first-key __normalize:false marker being tracked per call id and passed as Raw. Show Stream/Strip removing the marker while leaving the argument content unnormalized."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The first-key marker
+<code>${"{\"__normalize\":false"}</code> identifies a raw-marked call.<br>Its
+						state is tracked per call ID and passed through the fifth argument,
+<code>Raw</code>.
+</p> <p class="page-hero__sub">
+The raw path leaves the argument content unnormalized while${" "} <code>Stream/Strip</code> removes the marker.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-dispatch-properties",
+		"Title": "Dispatch guarantees",
+		"Diagram": "Show eligible content flowing through the injected transform without reordering or buffering. Show unsupported shapes and unchanged results taking identity-preserving passthrough paths."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The dispatchers use structural chunk and block shapes.<br>Their stated contract
+						is pure, total on strings, order-preserving, and unbuffered.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In Action",
+		"Meta": "THE HELPERS IN A CONSUMER'S CODE"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-in-action-suppression",
+		"Title": "Suppression in a consumer's listener",
+		"Diagram": "A governance hook's listener catch composing the Suppress line from module, kind and cause, and sending it to its logger - never the ledger."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+Every contained throw in a governance hook's listener logs the same shape of
+						line through <code>Suppress</code>:
+</p> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "typescript",
+		"Source": SuppressionLines.join("\n")
+	})} ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-in-action-refusal",
+		"Title": "The refusal guard before any write",
+		"Diagram": "The transform calling [Refusal](Ours:Classic/packages/hook-dsh-core/Source/Function/Refusal.ts) before the write: a difference outside the declared dependency sections composing the refusal line and returning null - the rewrite never applied."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+Before any write, the transform runs <a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts"), "href")}>the refusal guard</a> - only the declared
+						dependency sections may differ:
+</p> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "typescript",
+		"Source": RefusalLines.join("\n")
+	})} ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-in-action-replace",
+		"Title": "Class replacement at work",
+		"Diagram": "‘first — then 10–15 total’ entering Replace with the Dashes class and the '-' replacement, returning the normalized text plus count 2."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The class replacer at work, with the real typographic characters the flavor
+						tables match:
+</p> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "typescript",
+		"Source": ReplaceLines.join("\n")
+	})} ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-in-action-replace-map",
+		"Title": "Map replacement at work",
+		"Diagram": "‘he said ‘hello’ — loudly’ entering ReplaceMap with Quotes: the two curly quotes becoming straight, the em dash passing through untouched, count 2."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The map replacer at work - the em dash is the Dashes class's job, not the
+						Quotes map's:
+</p> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "typescript",
+		"Source": ReplaceMapLines.join("\n")
+	})} ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-in-action-unchanged",
+		"Title": "Unchanged means identity",
+		"Diagram": "count === 0 flowing back to the dispatch caller, which returns its original chunk or block object by identity - no copy, no reordering, no buffering."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub"> <code>count === 0</code> means "unchanged": the dispatch caller keeps its
+						original chunk or block <strong>object</strong> by identity instead of
+						allocating anything new.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Config",
+		"Meta": "NONE - NOT A PLUGIN"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-config-none",
+		"Title": "No plugin-level Config",
+		"Diagram": "The loader skipping the core entirely: no Config registration, no context, no Schemastery schema, nothing to validate at load."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The core registers no Config and needs none - it is not a plugin: no loader
+						contract, no context, no Schemastery schema, nothing to validate at load.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-config-parameters",
+		"Title": "Every knob is a function parameter",
+		"Diagram": "Policy's defaults, Replace's replacement and Chunk's injected transform as function parameters, decided by the consuming module's own config."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+Every knob it exposes is a function parameter (<code>Policy</code>'s
+						defaults, <code>Replace</code>'s replacement, <code>Chunk</code>'s injected
+						transform), decided by the consuming module's own config.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-config-imports",
+		"Title": "Named-export imports",
+		"Diagram": "The two named-export import lines from [@playform/hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source) - the governance helpers on one line, the normalize helpers on the other."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+Named exports only - no plugin, no loader contract:
+</p> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "typescript",
+		"Source": Imports.join("\n")
+	})} ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Ledger",
+		"Meta": "THE CORE OWNS NO LEDGER STRINGS"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-ledger-file",
+		"Title": "No core-owned ledger file",
+		"Diagram": "The core with no ledger file, no logger, no plugin - nothing written by the core itself."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The core owns no ledger file or module-specific ledger vocabulary and writes
+						nothing - no plugin, no logger, no ledger file.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-ledger-formatting",
+		"Title": "Shared line formatting only",
+		"Diagram": "The four shared mechanics - the Suppress composer, the Policy diagnostics, the Refusal line, the Activate template - as the core's only contributions to the ledger shapes."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+The core supplies the mechanics (the <code>Suppress</code> composer, the${" "} <code>Policy</code> diagnostics, the <code>Refusal</code> line, the${" "} <code>Activate</code> template), and every consumer logs them through its
+						own Append (the factory's ledger service).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-ledger-module-fields",
+		"Title": "Module-owned names and activation fields",
+		"Diagram": "The module name and the activation field list entering the shared mechanics from the consumer side; the template itself carries no module identity."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+Nothing in the core ever composes a <code>&lt;Module&gt;:</code> prefix or
+						an activation proof's field list - the <code>activated (...)</code> template
+						is the mechanics only; the fields are the module's.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "core-ledger-destinations",
+		"Title": "Logger versus ledger destinations",
+		"Diagram": "The Suppress line going to the consumer's logger; the refusal, policy-diagnostic and activation lines passing through the consumer's Append - the logger line and the durable ledger line composed around the consumer's message."
+	}, { "default": ($$result) => renderTemplate` <p class="page-hero__sub">
+Suppression lines are logger-only - the consumer sends them to its logger,
+						never the ledger.<br>The policy diagnostics, the refusal line and the${" "} <code>activated (...)</code> proof pass through the consumer's own Append,
+						which composes the logger line and the durable ledger line from the
+						consumer's message.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Related plugins",
+		"Meta": `${Counts.Packages} TOTAL`
+	})} <div class="grid grid--3"> ${Related.map((Plugin) => renderTemplate`${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": Plugin.Name,
+		"Href": `/plugins/${Plugin.Name}/`,
+		"Desc": Plugin.Desc,
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`DSH FAMILY` })}` })}`)} </div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+License: CC0-1.0. The unit smoke (core-smoke.mjs in the family's smokes/ directory)
+				exercises every helper with no fake context at all - ${Counts.Core.Classic} checks in
+				CLASSIC, ${Counts.Core.EffectTS} in EFFECT-TS. The family's smoke baseline:${" "} ${Counts.Suites} suites · ${Totals.Pair()}· ALL PASS.
+</p> </section> </main> ` })}`;
+}, "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/hook-dsh-core.astro", void 0);
+var $$file = "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/hook-dsh-core.astro";
+var $$url = "/plugins/hook-dsh-core";
+//#endregion
+//#region \0virtual:astro:page:Source/pages/plugins/hook-dsh-core@_@astro
+var page = () => hook_dsh_core_exports;
+//#endregion
+export { page };

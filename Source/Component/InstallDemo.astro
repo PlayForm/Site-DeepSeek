@@ -1,0 +1,129 @@
+---
+// InstallDemo: the profile-wiring steps visualized - the four install-demo
+// cards (add the bundles, patch the entries, restart, verify the ledgers)
+// as flat terminal-window cards: the step chip, the mono title, the file
+// path meta, the real wiring lines on the tray, and the outcome line.
+// Every line is the actual wiring the loader reads (or a real claim from
+// the setup page) - nothing invented. Zero elevation: the hairline plane,
+// the #F8FAFC trays.
+interface Step {
+	/** The step number (1-4). */
+	N: number;
+	/** The step title. */
+	Title: string;
+	/** The mono meta line - the file the step touches. */
+	Meta: string;
+	/** The wiring lines on the tray (real content). */
+	Lines: string[];
+	/** The outcome line. */
+	Outcome: string;
+}
+
+interface Props {
+	Steps: Step[];
+}
+
+const { Steps } = Astro.props;
+---
+
+<div class="install-grid">
+	{Steps.map((Step) => (
+		<article class="install-card">
+			<span class="install-card__step">
+				<span class="install-card__step-marker" aria-hidden="true"></span>
+				STEP {Step.N}
+			</span>
+			<h3 class="install-card__title">{Step.Title}</h3>
+			<span class="install-card__meta">{Step.Meta}</span>
+			<div class="install-card__screen">{Step.Lines.join("\n")}</div>
+			<p class="install-card__outcome">{Step.Outcome}</p>
+		</article>
+	))}
+</div>
+
+<style>
+	.install-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+		gap: var(--space-sm);
+	}
+
+	.install-card {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+		padding: var(--space-md);
+		border-radius: var(--radius-lg);
+		background: var(--color-surface-container-lowest);
+		border: 1px solid var(--color-outline-variant);
+		min-width: 0;
+	}
+
+	.install-card__step {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--gap-icon);
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		color: var(--color-primary);
+		background: var(--color-surface-container-low);
+		border: 1px solid var(--color-outline-variant);
+		padding: 2px var(--space-xs);
+		border-radius: var(--radius-default);
+		align-self: flex-start;
+	}
+
+	.install-card__step-marker {
+		width: 6px;
+		height: 14px;
+		border-radius: var(--radius-sm);
+		background: var(--color-primary-container);
+		flex-shrink: 0;
+	}
+
+	.install-card__title {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-lg);
+		line-height: var(--leading-label-lg);
+		font-weight: 600;
+		letter-spacing: var(--tracking-label-lg);
+		color: var(--color-on-surface);
+		margin: 0;
+	}
+
+	.install-card__meta {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-ink-muted);
+		word-break: break-word;
+	}
+
+	.install-card__screen {
+		flex: 1;
+		padding: var(--space-sm) var(--space-md);
+		border-radius: var(--radius-md);
+		background: var(--color-surface-container-low);
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-on-surface);
+		white-space: pre-wrap;
+		word-break: break-word;
+	}
+
+	.install-card__outcome {
+		font-size: var(--text-body-sm);
+		line-height: var(--leading-body-sm);
+		color: var(--color-on-surface-variant);
+		margin: 0;
+	}
+</style>

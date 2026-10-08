@@ -1,0 +1,9 @@
+flowchart LR
+	EXEC["the exec - mirrors the built-in write's fs path exactly"]
+	R["ctx.fs.resolve"] --> W["the fs/write-intent waterfall"]
+	W --> S["the standing sandbox policy"]
+	S --> WT["ctx.fs.writeText(...)"]
+	WT --> E["the fs/observed emit<br/>with the written version"]
+	EXEC --> R
+	EXEC --> SIG["exec.signal honored end to end"]
+	EXEC --> INJ["the inject list [pluginFactory, fs, tools]"]

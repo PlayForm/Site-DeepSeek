@@ -4,6 +4,7 @@ import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import PageHero from "@Component/PageHero.astro";
+import TerminalTray from "@Component/TerminalTray.astro";
 import { Counts } from "@Library/Content";
 
 // The seven flavor hooks of the stream gate, each with its NORM token,
@@ -272,15 +273,11 @@ const Spans = [
 			</p>
 			<div class="stream-grid">
 				<div class="stream-pane rail-orange">
-					<div class="stream-pane__bar">
-						<span class="stream-pane__label is-orange">
-							<span class="dot dot--raw"></span>
-							RAW LLM INGEST BUFFER
-						</span>
+					<TerminalTray Label="RAW LLM INGEST BUFFER" Dot="raw" Orange>
 						<span class="stream-pane__count" data-count="raw">
 							0 bytes
 						</span>
-					</div>
+					</TerminalTray>
 					<div class="stream-pane__terminal" data-stream="raw"></div>
 				</div>
 				<div class="stream-hub">
@@ -307,15 +304,11 @@ const Spans = [
 					</span>
 				</div>
 				<div class="stream-pane">
-					<div class="stream-pane__bar">
-						<span class="stream-pane__label">
-							<span class="dot dot--clean"></span>
-							<BrandIcon Name="swap" /> CANONICAL SANITIZED STREAM
-						</span>
+					<TerminalTray Label="CANONICAL SANITIZED STREAM" Dot="clean" Icon>
 						<span class="stream-pane__count" data-count="clean">
 							0 bytes
 						</span>
-					</div>
+					</TerminalTray>
 					<div class="stream-pane__terminal" data-stream="clean"></div>
 				</div>
 			</div>

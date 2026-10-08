@@ -1,0 +1,8 @@
+flowchart LR
+	APPLY["at apply"] --> REG["Factory.RegisterGovern<br/>(package.json, canonicalize | update, ...)"]
+	EVENT["besides the fs/observed event path"]
+	RAW["the raw-write tool's per-call govern selection"] --> GOV["Factory.Govern"]
+	SAME["the same chain pass and update stage"]
+	REG --> SAME
+	GOV --> SAME
+	EVENT --> SAME

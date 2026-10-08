@@ -1,0 +1,6 @@
+flowchart LR
+	MAP["the core's Fullwidth map - Normalize/Fullwidth<br/>@playform/hook-dsh-core"]
+	SEG["applied per text segment"]
+	REP["through the core's ReplaceMap"]
+	STD["the standard fullwidth-to-halfwidth mapping<br/>over the whole range"]
+	MAP --> SEG --> REP --> STD

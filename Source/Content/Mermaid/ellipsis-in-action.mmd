@@ -1,0 +1,8 @@
+flowchart LR
+	IN["the single U+2026 code point"]
+	OUT["the three-dot ASCII sequence ..."]
+	UNTOUCHED["dots that were already ASCII untouched"]
+	COUNT["each replaced code point counts once in the ledger<br/>even though it expands to three characters"]
+	IN --> OUT
+	OUT --> UNTOUCHED
+	OUT --> COUNT

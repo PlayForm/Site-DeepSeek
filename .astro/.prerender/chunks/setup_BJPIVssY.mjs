@@ -1,0 +1,366 @@
+import { C as __exportAll, S as createComponent, a as Links, b as $$BrandIcon, g as Steps, n as $$Base, r as Link, t as $$Badge } from "./Badge_CHteF_GF.mjs";
+import { g as addAttribute, m as maybeRenderHead, o as renderComponent, p as renderTemplate } from "./server_jUwDEDCs.mjs";
+import { t as $$Card } from "./Card_B96geFVd.mjs";
+import { t as $$Concept } from "./Concept_DF89tVee.mjs";
+import { t as $$PageHero } from "./PageHero_BDRlROTw.mjs";
+import { t as $$SectionHeader } from "./SectionHeader_w9WBitnM.mjs";
+import { t as $$CodeBlock } from "./CodeBlock_BKk4KZdJ.mjs";
+//#region Source/pages/setup.astro
+var setup_exports = /* @__PURE__ */ __exportAll({
+	default: () => $$Setup,
+	file: () => $$file,
+	url: () => $$url
+});
+var $$Setup = createComponent(($$result, $$props, $$slots) => {
+	const ProfileExample = [
+		"{",
+		"  \"name\": \"my-dsh-profile\",",
+		"  \"dependencies\": {",
+		"    \"@playform/plugin-dsh-factory\": \"link:../bundles/plugin-dsh-factory\",",
+		"    \"@playform/hook-dsh-governor-package\": \"link:../bundles/hook-dsh-governor-package\",",
+		"    \"@playform/hook-dsh-pinner-package\": \"link:../bundles/hook-dsh-pinner-package\",",
+		"    \"@playform/hook-dsh-normalize-dash\": \"link:../bundles/hook-dsh-normalize-dash\"",
+		"  },",
+		"  \"dsh\": {",
+		"    \"profile\": {",
+		"      \"bundles\": [",
+		"        \"@playform/plugin-dsh-factory\",",
+		"        \"@playform/hook-dsh-governor-package\",",
+		"        \"@playform/hook-dsh-pinner-package\",",
+		"        \"@playform/hook-dsh-normalize-dash\"",
+		"      ]",
+		"    }",
+		"  }",
+		"}"
+	];
+	const PatchExample = [
+		"- insert:",
+		"      - id: plugin-dsh-factory",
+		"        name: \"@playform/plugin-dsh-factory\"",
+		"        config: {}",
+		"- insert:",
+		"      - id: hook-dsh-governor-package",
+		"        name: \"@playform/hook-dsh-governor-package\"",
+		"        config:",
+		"            log: true",
+		"            logFile: ~/.dsh/hook-dsh-governor-package.log",
+		"            updateCooldownMs: 3000",
+		"            strict: false",
+		"            mutationTools: [write, edit, str_replace_editor, raw-write]",
+		"            maxUpdateFailures: 3",
+		"            ncuBin: /usr/local/bin/ncu",
+		"            updateMode: programmatic",
+		"            policyFile: \"\"",
+		"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
+		"- insert:",
+		"      - id: hook-dsh-normalize-dash",
+		"        name: \"@playform/hook-dsh-normalize-dash\"",
+		"        config:",
+		"            log: true",
+		"            logFile: ~/.dsh/hook-dsh-normalize-dash.log",
+		"            replacement: \"-\"",
+		"            normalizeReasoning: true",
+		"            normalizeToolArguments: true"
+	];
+	const VerifyLines = [
+		"hook-dsh-governor-package: activated (anywhere mode, logFile=~/.dsh/hook-dsh-governor-package.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+		"hook-dsh-pinner-package: activated (pinner, logFile=~/.dsh/hook-dsh-pinner-package.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
+		"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)"
+	];
+	const Knobs = [
+		{
+			Group: "The governance trio",
+			Fields: [
+				{
+					Name: "log / logFile",
+					Effect: "the durable ledger file (each plugin keeps its own, separate by default)"
+				},
+				{
+					Name: "mutationTools",
+					Effect: "which actor tools count as triggers - the deployed layers set [write, edit, str_replace_editor, raw-write]"
+				},
+				{
+					Name: "exclude",
+					Effect: "the exclusion segments - the plugin's own fence (node_modules, .git, .dsh, ...)"
+				},
+				{
+					Name: "updateCooldownMs / maxUpdateFailures",
+					Effect: "the update stage's pacing and its circuit breaker (3 failures pause a directory)"
+				},
+				{
+					Name: "updateMode + ncuBin / cargoBin",
+					Effect: "programmatic (library) vs bin (external binary via the subprocess seam); absolute paths because host PATH != shell PATH"
+				},
+				{
+					Name: "strict",
+					Effect: "strip unknown dependencies - explicit only, never a default-delete"
+				},
+				{
+					Name: "policyFile / keepFile / sections",
+					Effect: "the update-policy and keep-list sidecars, and which dependency sections the pinner touches"
+				}
+			]
+		},
+		{
+			Group: "The stream flavors",
+			Fields: [
+				{
+					Name: "log / logFile",
+					Effect: "the flavor's own ledger, separate from the family's logs"
+				},
+				{
+					Name: "replacement",
+					Effect: "the transform's only knob on class flavors (dash - / ellipsis ... / spaces space / invisible empty) - hot-editable, the next stream picks it up with no remount"
+				},
+				{
+					Name: "normalizeReasoning",
+					Effect: "default ON - normalize reasoning deltas and the assembled reasoning block too"
+				},
+				{
+					Name: "normalizeToolArguments",
+					Effect: "default OFF - tool-call arguments are execution-critical raw JSON; the example patch turns it on (opt-in)"
+				}
+			]
+		},
+		{
+			Group: "The file tool",
+			Fields: [
+				{
+					Name: "log / logFile",
+					Effect: "the normalize-file ledger"
+				},
+				{
+					Name: "replacement",
+					Effect: "the dash step's replacement - the transform's only knob"
+				},
+				{
+					Name: "normalize (per call)",
+					Effect: "the raw-write tool's sibling flag: absent/false = verbatim, true = all six transforms, or the flavor-name array"
+				}
+			]
+		}
+	];
+	return renderTemplate`<!-- The meta description stays plain text: no anchor markup, it renders into
+     a content attribute and any <a> there truncates the tag at build. -->${renderComponent($$result, "Base", $$Base, {
+		"Title": "Setup - @playform / DSH Family",
+		"Description": "How to configure the DeepSeek Harness Plugin Family in a profile: the bundle list, the cordis.patch.yml entries, the restart, the activation lines in each ledger - and the full configurable surface with its defaults-off posture."
+	}, { "default": ($$result) => renderTemplate` ${maybeRenderHead($$result)}<main class="container container--main"> <div class="eyebrow-row"> ${renderComponent($$result, "Badge", $$Badge, {
+		"Variant": "primary",
+		"Dot": true
+	}, { "default": ($$result) => renderTemplate`
+SETUP
+` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`${Steps.Count} STEPS` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`PROFILE: ~/.dsh` })} </div> ${renderComponent($$result, "PageHero", $$PageHero, {
+		"Title": "Set up the family in a DeepSeek Harness profile.",
+		"Sub": "Four steps: add the bundles to the profile, add the patch entries, restart, verify the ledgers.\nEvery step below is the actual wiring the loader reads - no separate configuration UI exists."
+	})} <!-- Step 1 --> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Step 1 - Add the bundles to the profile",
+		"Meta": "~/.dsh/profiles/<name>/package.json"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-bundles-list",
+		"Title": "The bundles list is what activates",
+		"Diagram": "The profile's package.json with the link: dependencies on the left and the dsh.profile.bundles list on the right - the list marking which entries actually activate."
+	}, { "default": ($$result) => renderTemplate` <p>
+A profile's ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "file-json" })} package.json lists the bundles as${" "} <code>link:</code> dependencies and in the <code>dsh.profile.bundles</code>${" "}
+list - the list is what activates them.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-workspace-boundary",
+		"Title": "The linked checkout needs its own workspace",
+		"Diagram": "The profile workspace and a linked bundle side by side - the bundle carrying its own node_modules and pnpm-workspace.yaml, with an install inside the bundle landing in the bundle's own workspace, never the profile's root."
+	}, { "default": ($$result) => renderTemplate` <p>
+The linked checkout must carry its own node_modules, and each bundle needs
+						its own pnpm-workspace.yaml (<code>packages: [.]</code>).
+</p> <p>
+An install inside a bundle under the profile's workspace acts on the
+						workspace root and does nothing to the bundle.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-remote-installs",
+		"Title": "Remote installs work the same way",
+		"Diagram": "Two equivalent remote routes into the same bundles list: pnpm add of the package in the profile directory, or dsh plugin --profile add of a tarball."
+	}, { "default": ($$result) => renderTemplate` <p>
+Remote installs work the same way: ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "playform" })}${" "} <code>pnpm add @playform/&lt;pkg&gt;</code> in the profile directory plus
+						the package in the bundles list, or${" "} <code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code>.
+</p> ` })} </div> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "json",
+		"Source": ProfileExample.join("\n")
+	})} </section> <!-- Step 2 --> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Step 2 - The patch entries",
+		"Meta": "cordis.patch.yml"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-patch-rows",
+		"Title": "The insert: entries declare the loader row",
+		"Diagram": "A [cordis.patch.yml](Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml) insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
+	}, { "default": ($$result) => renderTemplate` <p>
+Each bundle ships a <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml"), "href")}>cordis.patch.yml</a> whose <code>insert:</code> entries
+						declare the loader row and the config.<br>A bare <code>id:</code> row patches
+						an existing entry; the loader rejects unknown ids with${" "} <code>entry "..." not found</code>.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-factory-config",
+		"Title": "The factory needs no config",
+		"Diagram": "The factory's insert: row registering the service with an empty config, while the consumers' rows carry the actual configuration."
+	}, { "default": ($$result) => renderTemplate` <p>
+The factory needs no config - it registers the service, and the consumers'
+						rows do the rest.
+</p> <p>
+The example below is the deployed combination: the two governance plugins
+						with raw-write added to mutationTools, and the dash flavor with the example
+						patch's opt-in toolArgs.
+</p> ` })} </div> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "yaml",
+		"Source": PatchExample.join("\n")
+	})} </section> <!-- Step 3 --> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Step 3 - Restart",
+		"Meta": "BUNDLE LAYERS COMPOSE AT HOST BOOT"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-boot-activation",
+		"Title": "Activation is at the next start, not at install time",
+		"Diagram": "Install-time vs boot-time: the file: dependency alone not activating, the bundles list plus the restart loading the entries from each bundle's built Target/."
+	}, { "default": ($$result) => renderTemplate` <p>
+Bundle layers compose when the host boots - activation is at the next start,
+						not at install time.
+</p> <p>
+A <code>file:</code> dependency alone is NOT activation: the bundles list
+						plus the restart is what loads the entries from each bundle's built${" "} <code>Target/</code>.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-dev-loop",
+		"Title": "The dev loop is edit - build - restart",
+		"Diagram": "The loop: edit a linked bundle's source, build its Target, restart the host - the rebuilt Target fresh on every restart."
+	}, { "default": ($$result) => renderTemplate` <p>
+Every rebuild of a linked bundle's Target is fresh on the next restart, so
+						the dev loop is edit - build - restart.
+</p> ` })} </div> </section> <!-- Step 4 --> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Step 4 - Verify",
+		"Meta": "THE LEDGERS' ACTIVATION LINES"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-ledger-verify",
+		"Title": "The ledger answers 'did it activate'",
+		"Diagram": "Each plugin writing its activation line to its own ~/.dsh/<name>.log at boot - the ledger and the runtime's inspect providers as the activation assessors."
+	}, { "default": ($$result) => renderTemplate` <p>
+"Did it activate" is answerable from the ledger alone: each plugin writes
+						its activation line to its own <code>~/.dsh/&lt;name&gt;.log</code> at boot.
+</p> <p>
+The ledgers and the runtime's inspect providers are the activation assessors
+						- the old <code>--dump-config</code> verification path is gone behind the
+						app-managed profile guard.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-effective-config",
+		"Title": "Read the effective config, not the schema",
+		"Diagram": "The bundle patch layers projecting the live effective config - a patch config replacing the entry config wholesale, the schema-advertised defaults shown as possibly-not-running."
+	}, { "default": ($$result) => renderTemplate` <p>
+Read the effective config from the bundle patch layers, not the schema
+						projection alone: a patch config replaces the entry config wholesale, so the
+						defaults the schema advertises may not be what runs.
+</p> ` })} </div> <div class="code-block">${VerifyLines.join("\n")}</div> </section> <!-- The configurable surface --> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The configurable surface",
+		"Meta": "REAL SCHEMA FIELDS"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-real-fields",
+		"Title": "Real schema fields, hot-editable",
+		"Diagram": "The Config schemas behind every knob - the volatile cells (log, logFile, replacement, each plugin's own hot fields) committing without remounting the plugin."
+	}, { "default": ($$result) => renderTemplate` <p>
+Every knob below is a real field in the packages' Config schemas; volatile
+						cells (log, logFile, replacement and each plugin's own hot fields) commit
+						without remounting the plugin.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-full-tables",
+		"Title": "The full tables live on each plugin page",
+		"Diagram": "The plugin pages carrying the full config table for each bundle - the six pages linked from this section."
+	}, { "default": ($$result) => renderTemplate` <p>
+Each plugin's full table lives on its page: the
+<a href="/plugins/hook-dsh-governor-package/">package governor</a>, the
+<a href="/plugins/hook-dsh-pinner-package/">pinner</a>, the${" "} ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "rust" })}${" "} <a href="/plugins/hook-dsh-governor-cargo/">cargo governor</a>, the
+<a href="/plugins/hook-dsh-normalize-dash/">dash flavor</a>, the
+<a href="/plugins/hook-dsh-normalize-file/">normalize-file tool</a> and the
+<a href="/plugins/plugin-dsh-factory/">factory service</a>.
+</p> ` })} </div> <div class="grid grid--3"> ${Knobs.map((Group) => renderTemplate`${renderComponent($$result, "Card", $$Card, { "Variant": "white" }, { "default": ($$result) => renderTemplate` <div class="card__top"> <span class="card__name card__name--ink">${Group.Group}</span> </div> ${Group.Fields.map((Field) => renderTemplate`<p class="card__desc card__desc--muted" style="margin-top: var(--space-sm)"> <span class="hook-tally">${Field.Name}</span> - ${Field.Effect} </p>`)}` })}`)} </div> </section> <!-- Optionality --> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Optional by default",
+		"Meta": "WHAT STAYS OFF UNLESS YOU ASK"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-optional-toolargs",
+		"Title": "normalizeToolArguments: false",
+		"Diagram": "The schema default OFF for tool-call arguments - execution-critical raw JSON - and the two pass-through exemptions (edit/raw-write by identity, the __normalize:false marker) when a patch turns it on."
+	}, { "default": ($$result) => renderTemplate` ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`DEFAULT OFF` })} <p>
+The default.<br>Tool-call arguments are execution-critical raw JSON - rewriting
+						them is the user's accepted risk, so the schema default is OFF and the
+						example patch turns it on.
+</p> <p>
+Even when on, edit and raw-write calls pass through by identity, and a${" "} <code>&#123;"__normalize":false&#125;</code>-marked call passes through
+						unnormalized.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-optional-govern",
+		"Title": "govern: absent",
+		"Diagram": "The raw-write tool with no govern flag emitting [fs/observed](Harness:packages/fs/fs/src/index.ts) exactly like a built-in write - the event path governing it as always, the per-call direct chain running only when asked."
+	}, { "default": ($$result) => renderTemplate` ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`ESCAPE HATCH` })} <p>
+The raw-write tool's escape hatch: with no govern flag the write emits
+<a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}>fs/observed</a> exactly like a built-in write and the event path governs it as
+						always.
+</p> <p>The per-call direct chain only runs when you ask for it.</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-optional-normalize",
+		"Title": "normalize: absent (raw-write)",
+		"Diagram": "The raw-write tool's default posture: content landing verbatim, byte-for-byte - normalization happening only when the call selects it, all six transforms or specific flavors."
+	}, { "default": ($$result) => renderTemplate` ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`VERBATIM BY DEFAULT` })} <p>
+The default posture of the raw-write tool: content lands verbatim,
+						byte-for-byte.
+</p> <p>
+Normalization happens only when the call selects it - all six transforms, or
+						specific flavors.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-optional-tracing",
+		"Title": "Tracing: no-op by default",
+		"Diagram": "The Effect-TS release wrapping every governance stage in spans while shipping Effect's no-op Tracer - the OTLP exporter attaching only when configured, spans never altering ledger strings or timing-sensitive gates."
+	}, { "default": ($$result) => renderTemplate` ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`ZERO COST BY DEFAULT` })} <p> <a${addAttribute(Link(Links.OurRepo, "EffectTS"), "href")}>The Effect-TS release</a> wraps every governance stage in spans (dsh.gate,
+						dsh.discover, dsh.chain-pass, dsh.write) but ships Effect's no-op Tracer as
+						the default - zero cost, no behavior change.
+</p> <p>
+The OTLP exporter attaches only when configured, and spans never alter
+						ledger strings or timing-sensitive gates.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-optional-parallel",
+		"Title": "The parallel-govern toggle",
+		"Diagram": "The direct-govern path running SEQUENTIAL (the awaited fold - the live-verified race fix) against the inherently concurrent event path - the designed per-call toggle riding the same govern flag shape in both releases."
+	}, { "default": ($$result) => renderTemplate` ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`PLANNED · DEFAULT SEQUENTIAL` })} <p> <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts"), "href")}>The direct-govern path</a> is deliberately SEQUENTIAL (the awaited fold - the
+						live-verified race fix); the event path is inherently concurrent.
+</p> <p>
+A per-call toggle to run the steps concurrently is designed (#14) to ride
+						the same govern flag shape in both releases - planned, with the sequential
+						fold as the default.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-optional-best-effort",
+		"Title": "Best-effort everywhere",
+		"Diagram": "The four best-effort postures: storage records buffering or dropping without a facility, excluded paths logging one line and moving on, a no-op write writing nothing, a thrown-away stream writing no ledger line."
+	}, { "default": ($$result) => renderTemplate` ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`SILENCE AS INVARIANT` })} <p>
+Storage records buffer or drop when no storage facility is present (the
+						human ledger stays the complete record); excluded paths log one line and
+						move on; a no-op write writes nothing; a thrown-away stream writes no ledger
+						line.
+</p> <p>Silence is the invariant; the ledger is the receipt.</p> ` })} </div> </section> <!-- The ledgers --> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "One ledger per plugin",
+		"Meta": "~/.dsh/<name>.log"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-separate-ledgers",
+		"Title": "Separate ledgers, separate concerns",
+		"Diagram": "The governor's, the pinner's and the cargo governor's ledgers as three separate files - activating one never implying another."
+	}, { "default": ($$result) => renderTemplate` <p>
+Each plugin writes its own durable ledger - the governor's, the pinner's and
+						the cargo governor's are separate files and separate concerns: activating
+						one never implies another.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "setup-line-format",
+		"Title": "The line format",
+		"Diagram": "One message flowing through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source) into its two forms: [ISO] message in the file, plugin: message on the logger."
+	}, { "default": ($$result) => renderTemplate` <p>
+The line format is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file
+						and <code>&lt;plugin&gt;: &lt;message&gt;</code> on the logger, both
+						composed by the factory's Append around the plugin's own string.
+</p> ` })} </div> <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Plugin</th> <th> ${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "terminal",
+		"Size": "0.9em"
+	})}Ledger
+</th> <th>First line at boot</th> </tr> </thead> <tbody> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-governor-package/Source"), "href")}>hook-dsh-governor-package</a></td> <td>~/.dsh/hook-dsh-governor-package.log</td> <td>activated (anywhere mode, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source"), "href")}>hook-dsh-pinner-package</a></td> <td>~/.dsh/hook-dsh-pinner-package.log</td> <td>activated (pinner, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-governor-cargo/Source"), "href")}>hook-dsh-governor-cargo</a></td> <td>~/.dsh/hook-dsh-governor-cargo.log</td> <td>activated (cargo flavor, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source"), "href")}>hook-dsh-normalize-dash</a></td> <td>~/.dsh/hook-dsh-normalize-dash.log</td> <td>activated (replacement=-, reasoning=on, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-file/Source"), "href")}>hook-dsh-normalize-file</a></td> <td>~/.dsh/hook-dsh-normalize-file.log</td> <td>activated (replacement=-, ...)</td> </tr> </tbody> </table> </div> </section> </main> ` })}`;
+}, "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/setup.astro", void 0);
+var $$file = "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/setup.astro";
+var $$url = "/setup";
+//#endregion
+//#region \0virtual:astro:page:Source/pages/setup@_@astro
+var page = () => setup_exports;
+//#endregion
+export { page };

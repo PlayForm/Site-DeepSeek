@@ -175,6 +175,14 @@
 	--space-2xl: 2rem;
 	--space-3xl: 3rem;
 
+	/* ---- Icon spacing: the ONE icon-to-text gap ----
+		The shared 4pt half-step (0.25rem) between an icon/dot and its label,
+		used by every chip, pill and label row that pairs a glyph with text.
+		The old hard-coded 6px chip gaps (off the 4pt rhythm) and the wide
+		mono space characters in the inline contexts are both replaced by
+		this token, so the icon + label read as one unit everywhere. */
+	--gap-icon: var(--space-xs);
+
 	/* ---- Layout ---- */
 	--header-height: 56px;
 	--content-max-width: 1120px;
@@ -190,6 +198,275 @@
 	--duration-slow: 0.3s;
 	--ease-crisp: cubic-bezier(0.4, 0, 0.2, 1);
 	--ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+	The dark terminal-theme variant: the token-level override
+	------------------------------------------------------------
+	html[data-theme="dark"] flips the whole token set to the
+	terminal palette: the #0B0F19 ink becomes the canvas, the
+	slate surfaces invert into the blue-slate ramps, the Harness
+	Blue lifts to the light #8AB0FF accent for text on dark, the
+	accent-orange lifts to the burnt-light #FF8A4C so the RAW
+	signature keeps its legibility, and the hairline + ink tokens
+	all move to the dark side of the same ramp. The structural
+	rule stays: zero elevation, flat planar contrast, 1px hairlines
+	- only the values change, never the geometry.
+
+	The attribute is set by the head script in Base.astro before
+	first paint: a stored toggle wins, otherwise the OS
+	prefers-color-scheme decides (no stored choice = the media
+	query follows the system live). Every consumer of these tokens
+	- headers, cards, tables, terminals, chips, the toast, the
+	focus rings - inherits the theme with no per-component rules.
+	============================================================ */
+:root[data-theme="dark"] {
+	/* Level 0 canvas: the ink itself (#0B0F19) becomes the surface. */
+	--color-surface: #0b0f19;
+	--color-surface-dim: #0d1322;
+	--color-surface-bright: #0b0f19;
+	--color-surface-container-lowest: #101522;
+	--color-surface-container-low: #161e33;
+	--color-surface-container: #1b2742;
+	--color-surface-container-high: #223052;
+	--color-surface-container-highest: #2a3a63;
+	--color-surface-variant: #2a3a63;
+
+	/* Ink: the near-white blue-ink reads on the dark canvas. */
+	--color-on-surface: #eef0ff;
+	--color-on-surface-variant: #a3aecb;
+	--color-inverse-surface: #eef0ff;
+	--color-inverse-on-surface: #0b0f19;
+
+	/* Outlines: the structural hairline lifts off the canvas. */
+	--color-outline: #8291b3;
+	--color-outline-variant: #2b3852;
+
+	/* The Harness Blue family on dark: the text accent lifts to the
+		light #8AB0FF; the solid fills (--color-primary-container) keep
+		the brand #0052FF so the buttons and the rails read the same in
+		both themes and the white labels keep their AA contrast. */
+	--color-harness-blue: #8ab0ff;
+	--color-harness-blue-deep: #0038b8;
+	--color-harness-blue-pressed: #002fa6;
+	--color-harness-blue-subtle: #1b2742;
+	--color-harness-blue-tint: #16213a;
+	--color-harness-blue-badge: #223052;
+	--color-harness-blue-focus: #4d7cff;
+	--color-ink: #eef0ff;
+	--color-ink-secondary: #a3aecb;
+	--color-ink-muted: #8291b3;
+	--color-border-structural: #2b3852;
+
+	/* Primary aliases: the text-level blue is the lifted accent; the
+		container (solid fills) and its on-colors stay the brand pair. */
+	--color-primary: #8ab0ff;
+	--color-on-primary: #ffffff;
+	--color-primary-container: #0052ff;
+	--color-on-primary-container: #dfe3ff;
+	--color-surface-tint: #8ab0ff;
+	--color-primary-fixed: #223052;
+	--color-primary-fixed-dim: #2a3a63;
+	--color-on-primary-fixed: #eef0ff;
+	--color-on-primary-fixed-variant: #9db9ff;
+	--color-inverse-primary: #0038b8;
+
+	/* Secondary (blue family) on dark. */
+	--color-secondary: #b7c4ff;
+	--color-on-secondary: #ffffff;
+	--color-secondary-container: #3656d6;
+	--color-on-secondary-container: #eef0ff;
+	--color-secondary-fixed: #2b3554;
+	--color-secondary-fixed-dim: #44518a;
+	--color-on-secondary-fixed: #eef0ff;
+	--color-on-secondary-fixed-variant: #9db9ff;
+
+	/* The accent-orange: the burnt light #FF8A4C keeps the RAW /
+		stream / flavor signature legible on the dark canvas (the
+		#BF3003 of the light theme reads rust on #0B0F19). */
+	--color-accent-orange: #ff8a4c;
+}
+
+/* ---- The theme-toggle: the LIGHT / DARK switch in the header ----
+	One mono chip, two cells; the active cell takes the primary accent
+	and the inactive keeps the variant ink. The active state is pure
+	CSS (attribute-driven), so the switch renders correctly before any
+	script runs - the script only flips the attribute and persists. */
+.theme-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xs);
+	flex-shrink: 0;
+	padding: var(--space-xs) var(--space-sm);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--color-outline-variant);
+	background: var(--color-surface-container-lowest);
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	cursor: pointer;
+	transition:
+		border-color var(--duration-fast) var(--ease-crisp),
+		background-color var(--duration-fast) var(--ease-crisp);
+}
+
+.theme-toggle:hover {
+	border-color: var(--color-harness-blue);
+	background: var(--color-surface-container-low);
+}
+
+.theme-toggle:active {
+	transform: scale(0.97);
+}
+
+.theme-toggle__cell {
+	color: var(--color-on-surface-variant);
+	transition: color var(--duration-fast) var(--ease-crisp);
+}
+
+/* The light cell is the active one on the light theme... */
+.theme-toggle__cell[data-theme-cell="light"] {
+	color: var(--color-primary);
+}
+
+/* ...and the dark cell on the dark theme - attribute-driven, no script. */
+:root[data-theme="dark"] .theme-toggle__cell[data-theme-cell="light"] {
+	color: var(--color-on-surface-variant);
+}
+
+:root[data-theme="dark"] .theme-toggle__cell[data-theme-cell="dark"] {
+	color: var(--color-primary);
+}
+
+.theme-toggle__sep {
+	color: var(--color-outline);
+}
+
+/* ---- The scroll-progress rail (the case-study's reading gauge) ----
+	A fixed 2px Harness Blue rail along the viewport's top edge, above
+	the fixed header. The width is driven by the scroll position via
+	scaleX (transform-only, no layout thrash); it is a reading gauge,
+	not a decorative animation, so it stays under reduced motion. */
+.scroll-progress {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 2px;
+	z-index: 60;
+	pointer-events: none;
+}
+
+.scroll-progress__bar {
+	display: block;
+	height: 100%;
+	background: var(--color-primary-container);
+	transform-origin: left;
+	transform: scaleX(0);
+}
+
+/* ---- Section reveals: the scroll-driven entry ----
+	Sections below the fold fade up as they enter the viewport
+	(IntersectionObserver-driven, .js-gated so a no-JS document renders
+	fully visible; reduced-motion users get the full-opacity state from
+	both the script and the media query). The motion uses the machine
+	language's slow duration and snap easing - one gesture, no stagger. */
+.js main .section {
+	transition:
+		opacity var(--duration-slow) var(--ease-snap),
+		transform var(--duration-slow) var(--ease-snap);
+}
+
+.js main .section:not(.is-revealed) {
+	opacity: 0;
+	transform: translateY(10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.js main .section:not(.is-revealed) {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* ---- The hero's engineering-grid texture (the index only) ----
+	A subtle blueprint grid behind the hero: 1px hairlines on a 24px
+	grid (6 steps of the 4pt rhythm), drawn with the structural
+	hairline token so the pattern rides the theme (the faint #E2E8F0
+	lines on white, the #2B3852 lines on the dark canvas). Zero
+	elevation: flat lines, no fade, no blur - the grid is a texture,
+	the surfaces above it stay opaque. */
+.hero--grid {
+	background-image:
+		linear-gradient(to right, var(--color-outline-variant) 1px, transparent 1px),
+		linear-gradient(to bottom, var(--color-outline-variant) 1px, transparent 1px);
+	background-size: 24px 24px;
+}
+
+/* ---- The index stats band: the proof strip under the hero ----
+	The three verified family facts (12 packages / 733 + 746 checks /
+	0.0.1 release) in one hairline band, three cells split by vertical
+	1px rules; mono values + uppercase mono labels, the same flat
+	voice as the metric cards. Stacks with horizontal rules on the
+	narrow viewports. */
+.stats-band {
+	display: grid;
+	grid-template-columns: 1fr;
+	border: 1px solid var(--color-outline-variant);
+	border-radius: var(--radius-lg);
+	background: var(--color-surface-container-lowest);
+	overflow: hidden;
+}
+
+@media (min-width: 640px) {
+	.stats-band {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+.stats-band__cell {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 2px;
+	padding: var(--space-md) var(--space-lg);
+	border-top: 1px solid var(--color-outline-variant);
+}
+
+@media (min-width: 640px) {
+	.stats-band__cell {
+		border-top: 0;
+		border-left: 1px solid var(--color-outline-variant);
+	}
+
+	.stats-band__cell:first-child {
+		border-left: 0;
+	}
+}
+
+.stats-band__value {
+	font-family: var(--font-mono);
+	font-size: var(--text-headline-md);
+	line-height: var(--leading-headline-md);
+	font-weight: 600;
+	letter-spacing: var(--tracking-headline-md);
+	color: var(--color-on-surface);
+}
+
+.stats-band__value .stats-band__plus {
+	color: var(--color-primary);
+}
+
+.stats-band__label {
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	text-transform: uppercase;
+	color: var(--color-outline);
 }
 
 /* ---- Base ---- */
@@ -237,6 +514,63 @@ svg {
 ::selection {
 	background: var(--color-primary-fixed);
 	color: var(--color-on-primary-fixed);
+}
+
+/* ---- Brand icons: the shared optical system ----
+	BrandIcon.astro renders one inline, self-contained SVG icon per name.
+	The base box is em-sized and optically baseline-aligned, so the marks
+	sit in the prose flow like the ArrowIcon glyph does; the icon + label
+	read as one unit everywhere through the shared --gap-icon token. */
+.brand-icon {
+	display: inline-block;
+	vertical-align: -0.125em;
+	flex: none;
+	line-height: 0;
+}
+
+.brand-icon--accent {
+	color: var(--color-primary);
+}
+
+/* The documented ZLM placeholder: a dashed reserved box, nothing more. */
+.brand-icon--zlm {
+	width: 1em;
+	height: 1em;
+	border: 1px dashed var(--color-primary);
+	border-radius: 2px;
+	opacity: 0.45;
+}
+
+/* The inline icon-to-text gap: an icon that opens a label line (the
+	before/after kickers, the seam/ledger table headers) carries the shared
+	4px token instead of the wide mono space character; the mark also rides
+	a slightly higher baseline, because the mono label's visual mass sits
+	above the box center the -0.125em convention gives a full-size box. */
+.section-kicker .brand-icon,
+.table th .brand-icon {
+	margin-right: var(--gap-icon);
+	vertical-align: -0.0625em;
+}
+
+.site-footer__note .brand-icon {
+	margin-right: var(--gap-icon);
+}
+
+/* The optical lift: in the flex chip/label rows the icon's box centers on
+	the row's line box, but the mono label's visual mass sits ~2px above
+	that center (the leading + descent space below the baseline). The
+	net-zero margin pair lifts the icon/dot by 0.1875em of its own size
+	(the negative top margin shifts the content box up inside its centered
+	margin box), so its visual mass centers against the text. */
+.badge .brand-icon,
+.badge .dot,
+.engine-pill .brand-icon,
+.engine-pill .dot,
+.version-card__head .brand-icon,
+.stream-pane__label .brand-icon,
+.stream-pane__label .dot,
+.inspect-card__meta .live-dot {
+	margin-block: -0.1875em 0.1875em;
 }
 
 /* ---- Fixed header ---- */
@@ -328,7 +662,10 @@ svg {
 	width: 32px;
 	height: 32px;
 	border-radius: var(--radius-full);
-	background: var(--color-primary);
+	/* The solid fill rides the container token (the brand blue in both
+		themes); --color-primary itself lifts to the light accent on the
+		dark theme, so a solid fill of it would wash out the white label. */
+	background: var(--color-primary-container);
 	color: var(--color-on-primary);
 	display: flex;
 	align-items: center;
@@ -402,7 +739,7 @@ svg {
 .badge {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: var(--gap-icon);
 	padding: 2px var(--space-xs);
 	border-radius: var(--radius-lg);
 	font-family: var(--font-mono);
@@ -733,8 +1070,8 @@ svg {
 }
 
 .card--primary {
-	background: var(--color-primary);
-	border: 1px solid var(--color-primary);
+	background: var(--color-primary-container);
+	border: 1px solid var(--color-primary-container);
 	color: var(--color-on-primary);
 }
 
@@ -838,6 +1175,10 @@ svg {
 	align-items: center;
 	justify-content: space-between;
 	margin-bottom: var(--space-xs);
+	/* The head's type scale: the icon sizes in em of the title's own
+		label-lg size (Size="1.333em" = the former fixed 20px), so the
+		placement stays em-consistent with the rest of the site. */
+	font-size: var(--text-label-lg);
 }
 
 .version-card__title {
@@ -855,8 +1196,8 @@ svg {
 
 .version-card__icon {
 	flex-shrink: 0;
-	width: 20px;
-	height: 20px;
+	width: auto;
+	height: 1.333em;
 	color: var(--color-primary-container);
 }
 
@@ -1246,7 +1587,7 @@ svg {
 .engine-pill {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: var(--gap-icon);
 	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	font-weight: var(--weight-label-sm);
@@ -1265,6 +1606,10 @@ svg {
 
 .engine-pill:hover {
 	border-color: var(--color-harness-blue);
+}
+
+.engine-pill:active {
+	transform: scale(0.97);
 }
 
 .engine-pill .dot {
@@ -1434,12 +1779,20 @@ svg {
 	justify-content: space-between;
 	gap: var(--space-sm);
 	margin-bottom: var(--space-xs);
+	/* The bar must be able to yield at the narrow widths: without the
+		min-width floor the label + count pair overflows the pane and
+		the count wraps onto a second line. */
+	min-width: 0;
 }
 
 .stream-pane__label {
 	display: flex;
 	align-items: center;
 	gap: var(--space-xs);
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	font-weight: 600;
@@ -1463,6 +1816,10 @@ svg {
 }
 
 .stream-pane__count {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	color: var(--color-outline);
@@ -1672,6 +2029,15 @@ svg {
 	cursor: pointer;
 }
 
+/* The selectable rows are keyboard-reachable (the plugins page script
+	hands each row a tabindex): the focus ring stays the crisp 1px
+	Harness Blue, drawn inside the row so it never clips against the
+	table's tray. */
+.table[data-selectable] tbody tr:focus-visible {
+	outline: 1px solid var(--color-primary-container);
+	outline-offset: -1px;
+}
+
 .table tbody tr.is-selected {
 	background: var(--color-harness-blue-subtle);
 }
@@ -1738,6 +2104,15 @@ svg {
 	font: inherit;
 	line-height: inherit;
 	tab-size: 4;
+}
+
+/* The --shiki-dark bridge: CodeBlock.astro now renders BOTH themes (the
+   light palette inline, the dark palette as a per-token --shiki-dark CSS
+   variable on every span). The dark theme swaps each span's color to its
+   own --shiki-dark variable; the tray keeps the site's dark surface token,
+   so the block reads as one themed unit in both themes. */
+:root[data-theme="dark"] .code-block pre.shiki span {
+	color: var(--shiki-dark) !important;
 }
 
 /* ---- Release tag (package detail spec cards) ---- */
@@ -1960,7 +2335,7 @@ svg {
 .filter-chip {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: var(--gap-icon);
 	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
@@ -1981,6 +2356,10 @@ svg {
 
 .filter-chip:hover {
 	border-color: var(--color-harness-blue);
+}
+
+.filter-chip:active {
+	transform: scale(0.97);
 }
 
 .filter-chip[data-active],
@@ -2081,7 +2460,7 @@ svg {
 .copy-trigger {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: var(--gap-icon);
 	flex-shrink: 0;
 	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
@@ -2105,6 +2484,10 @@ svg {
 	background: var(--color-harness-blue-tint);
 	border-color: var(--color-primary-container);
 	color: var(--color-primary);
+}
+
+.copy-trigger:active {
+	transform: scale(0.97);
 }
 
 .copy-trigger.is-copied {
@@ -2146,7 +2529,7 @@ svg {
 .inspect-card__meta {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: var(--gap-icon);
 	margin-left: auto;
 	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
@@ -2564,6 +2947,15 @@ button:focus-visible,
 	color: var(--color-on-primary);
 }
 
+/* The ink token flips to the light ink on the dark theme (its text usages
+	need it), so the solid version chip re-anchors on the flipped pair: the
+	light on-surface becomes its fill and the canvas its text - the chip
+	stays the inverse solid it is, in both themes. */
+:root[data-theme="dark"] .flavor-version {
+	background: var(--color-on-surface);
+	color: var(--color-surface);
+}
+
 /* ---- The orange top rail: the raw/stream signature ----
 	A 2px flat top rail in the accent-orange token on the raw panes
 	and the input surfaces: the inspect-card's 2px Harness Blue rail
@@ -2584,14 +2976,18 @@ button:focus-visible,
 	color: var(--color-ink-muted);
 }
 
-/* ---- Reduced motion: the whole motion language collapses ---- */
+/* ---- Reduced motion: the whole motion language collapses ----
+	1ms (not the original 0.01ms): the beasties inline pipeline mangles
+	0.01ms into the invalid "NaNs" and drops the declaration, which
+	would leave the built site's animations running for reduced-motion
+	users. 1ms is imperceptible and survives every minifier. */
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,
 	*::after {
-		animation-duration: 0.01ms !important;
+		animation-duration: 1ms !important;
 		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
+		transition-duration: 1ms !important;
 		scroll-behavior: auto !important;
 	}
 }

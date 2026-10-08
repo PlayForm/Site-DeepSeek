@@ -1,0 +1,6 @@
+flowchart LR
+	RAW["the raw-write tool with no govern flag"] --> EMIT["emits fs/observed exactly like<br/>a built-in write"]
+	EVENT["the event path governing it as always"]
+	DIRECT["the per-call direct chain<br/>running only when asked"]
+	EMIT --> EVENT
+	EMIT --> DIRECT

@@ -6,6 +6,7 @@ import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
+import Compare from "@Component/Compare.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -208,9 +209,9 @@ const LedgerStrings = [
 				</a>
 				) and normalizes the zero-width/invisible character family in model output, live in
 				the transcript - by REMOVING it: zero-width spaces, joiners, bidi controls and the
-				BOM character simply vanish (the default replacement is the empty string). A CLASS
+				BOM character simply vanish (the default replacement is the empty string).<br />A CLASS
 				flavor of the normalize family: the core's <code>Invisible</code> class plus a
-				configurable <code>replacement</code> string (default <code>""</code> - removal).
+				configurable <code>replacement</code> string (default <code>""</code> - removal).<br />
 				The family's raw-write tool (registered by{" "}
 				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
 					hook-dsh-normalize-dash
@@ -396,7 +397,7 @@ const LedgerStrings = [
 						A zero-width joiner inside a file path, a right-to-left mark inside a
 						command, the U+202E visual-spoofing override in what looks like plain text:
 						none of them show up in the transcript, all of them change what a parser,
-						shell or diff sees. This flavor deletes the whole family before it reaches
+						shell or diff sees.<br />This flavor deletes the whole family before it reaches
 						the transcript.
 					</p>
 				</Concept>
@@ -468,7 +469,7 @@ const LedgerStrings = [
 					<p>
 						The replacement is applied with a function replacer, so a custom{" "}
 						<code>replacement</code> containing <code>$</code> patterns is inserted
-						literally. Replaced characters are counted per stream for the ledger line.
+						literally.<br />Replaced characters are counted per stream for the ledger line.
 					</p>
 				</Concept>
 			</div>
@@ -544,9 +545,9 @@ const LedgerStrings = [
 		<section class="section">
 			<SectionHeader Title="In Action" Meta="ONE STREAM, ONE DELETION" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				One stream, one deletion. The model emits text carrying invisible smugglers; the
+				One stream, one deletion.<br />The model emits text carrying invisible smugglers; the
 				live UI and the transcript receive clean text - and the two lines below look
-				identical in print, because the removed characters are invisible. The incoming line
+				identical in print, because the removed characters are invisible.<br />The incoming line
 				carries, in order: a soft hyphen (U+00AD), a zero-width space (U+200B), a zero-width
 				joiner (U+200D), a left-to-right mark (U+200E), a right-to-left mark (U+200F), a
 				word joiner (U+2060) and a BOM character (U+FEFF):
@@ -555,7 +556,12 @@ const LedgerStrings = [
 				Before <ArrowIcon Direction="right" Tone="accent" /> after - identical in print,
 				different to a parser
 			</p>
-			<div class="code-block">{StreamExample.join("\n")}</div>
+			<Compare
+				Id="invisible-stream"
+				Flavor="invisible"
+				Raw={StreamExample.slice(0, 4)}
+				Clean={StreamExample.slice(4)}
+			/>
 			<div class="concept-list">
 				<Concept
 					Id="invisible-in-action"
@@ -601,7 +607,7 @@ const LedgerStrings = [
 				Two lines, both written through the factory's <code>Append</code> (the
 				hook-dsh-normalize-invisible: prefix is the logger's
 				<code>&lt;State.Module&gt;:</code>; the durable file line is
-				<code>[&lt;ISO&gt;] &lt;message&gt;</code>). The empty default replacement renders
+				<code>[&lt;ISO&gt;] &lt;message&gt;</code>).<br />The empty default replacement renders
 				as the empty <code>replacement=</code>:
 			</p>
 			<div class="code-block">{LedgerStrings.join("\n")}</div>

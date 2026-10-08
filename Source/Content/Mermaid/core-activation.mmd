@@ -1,0 +1,5 @@
+flowchart LR
+	FIELDS["module-provided fields"] --> ACT["Activate"]
+	ACT --> LINE["activated (...)"]
+	MECH["shared mechanics: prefix - suffix<br/>comma-separated k=v formatting<br/>absent-field omission"]
+	ACT -. "the formatting" .-> MECH

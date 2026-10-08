@@ -1,0 +1,144 @@
+---
+// TerminalTray: the flat terminal-window tray chrome for the stream
+// surfaces (the index hero preview, the workbench and matrix panes, the
+// Compare stage). A terminal window reads as three parts - the tray with
+// the window markers, the mono label, and the right-hand status - all on
+// the zero-elevation plane: flat markers (the first in Harness Blue, the
+// rest in the structural hairline tone), a 1px hairline under the tray,
+// no shadows, no gradients.
+//
+// The label and the dots follow the site's patterns: the mono label at
+// the body-sm size (uppercase, 600) with the shared --gap-icon between a
+// dot and the text, the dot optical lift replicated from the global
+// .stream-pane__label rules (scoped here, because this component's dots
+// sit in their own label row). The right side is a slot - the pages'
+// status/count markup keeps its own classes.
+interface Props {
+	/** The tray label (mono, uppercase). */
+	Label: string;
+	/** The status dot before the label: raw (orange), clean (blue), live (pulsing blue). */
+	Dot?: "live" | "raw" | "clean" | "none";
+	/** Orange label - the RAW/stream signature. */
+	Orange?: boolean;
+	/** The swap icon before the label (the canonical-sanitized panes). */
+	Icon?: boolean;
+}
+
+const { Label, Dot = "none", Orange = false, Icon = false } = Astro.props;
+---
+
+<div class="tray">
+	<span class="tray__markers" aria-hidden="true">
+		<i class="tray__marker tray__marker--first"></i>
+		<i class="tray__marker"></i>
+		<i class="tray__marker"></i>
+	</span>
+	<span class={`tray__label${Orange ? " is-orange" : ""}`}>
+		{Dot === "live" && <span class="live-dot"></span>}
+		{Dot === "raw" && <span class="dot dot--raw"></span>}
+		{Dot === "clean" && <span class="dot dot--clean"></span>}
+		{Icon && (
+			<svg
+				viewBox="3 2 18 20"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="1.25"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				aria-hidden="true"
+			>
+				<path d="M4 7 H16 M12 3 L16 7 L12 11"></path>
+				<path d="M20 17 H8 M12 13 L8 17 L12 21"></path>
+			</svg>
+		)}
+		{Label}
+	</span>
+	<span class="tray__side">
+		<slot />
+	</span>
+</div>
+
+<style>
+	.tray {
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+		padding-bottom: var(--space-xs);
+		margin-bottom: var(--space-xs);
+		border-bottom: 1px solid var(--color-outline-variant);
+		min-width: 0;
+	}
+
+	.tray__markers {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		flex-shrink: 0;
+	}
+
+	.tray__marker {
+		width: 6px;
+		height: 6px;
+		border-radius: 1px;
+		background: var(--color-outline-variant);
+	}
+
+	.tray__marker--first {
+		background: var(--color-primary-container);
+	}
+
+	.tray__label {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--gap-icon);
+		font-family: var(--font-mono);
+		font-size: var(--text-body-sm);
+		line-height: var(--leading-body-sm);
+		font-weight: 600;
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		color: var(--color-on-surface);
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	/* The optical lift: the dots' visual mass centers against the mono
+	   label (the same -0.1875em/0.1875em pair the global stream-pane
+	   label rules use - replicated scoped, because this label row is
+	   this component's own). */
+	.tray__label .dot,
+	.tray__label .live-dot {
+		margin-block: -0.1875em 0.1875em;
+	}
+
+	.tray__label .dot {
+		width: 10px;
+		height: 10px;
+		border-radius: var(--radius-full);
+		flex-shrink: 0;
+	}
+
+	.tray__label .dot--raw {
+		background: var(--color-accent-orange);
+	}
+
+	.tray__label .dot--clean {
+		background: var(--color-primary-container);
+	}
+
+	.tray__label svg {
+		width: 0.8em;
+		height: 0.8em;
+		flex-shrink: 0;
+	}
+
+	.tray__side {
+		margin-left: auto;
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-xs);
+		min-width: 0;
+	}
+</style>

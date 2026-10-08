@@ -1,0 +1,10 @@
+flowchart LR
+	MINIMAL["the minimal config surface"]
+	NOFLAGS["no stream flags<br/>normalizeReasoning - normalizeToolArguments"]
+	NOFS["no fs/observed fields<br/>updateCooldownMs - mutationTools - policyFile - exclude"]
+	BLOCK["the minimal shared: false block plus the two knobs<br/>is the whole config surface - the tool registers<br/>no listener of any kind"]
+	VOL["volatile cells commit without remounting the plugin"]
+	MINIMAL --> NOFLAGS
+	MINIMAL --> NOFS
+	MINIMAL --> BLOCK
+	MINIMAL --> VOL

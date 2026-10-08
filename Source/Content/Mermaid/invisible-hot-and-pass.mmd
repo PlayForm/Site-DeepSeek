@@ -1,0 +1,8 @@
+flowchart LR
+	COUNT["the count line on a normal completion<br/>with replacements made"]
+	HOT["the replacement hot-editable - the default<br/>is the empty string - removes"]
+	MARK["a non-empty value such as ? would mark<br/>each smuggler's position for debugging"]
+	PASS["the same pass runs over reasoning deltas<br/>when normalizeReasoning is on and over<br/>tool-call arguments when the example patch<br/>enables normalizeToolArguments"]
+	EXEMPT["the edit name exempt - raw-marker calls<br/>passing through unnormalized"]
+	COUNT --> HOT --> MARK
+	COUNT --> PASS --> EXEMPT

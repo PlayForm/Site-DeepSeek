@@ -1,0 +1,436 @@
+import { C as __exportAll, S as createComponent, a as Links, b as $$BrandIcon, c as FamilyPosition, n as $$Base, o as Counts, r as Link, s as Families, t as $$Badge, y as Versions } from "./Badge_CHteF_GF.mjs";
+import { g as addAttribute, m as maybeRenderHead, o as renderComponent, p as renderTemplate, s as Fragment } from "./server_jUwDEDCs.mjs";
+import { t as $$ArrowIcon } from "./ArrowIcon_DQw92EC9.mjs";
+import { t as $$Card } from "./Card_B96geFVd.mjs";
+import { t as $$Concept } from "./Concept_DF89tVee.mjs";
+import { t as $$SectionHeader } from "./SectionHeader_w9WBitnM.mjs";
+import { t as $$Terminal } from "./Terminal_DR1pHPfM.mjs";
+import { t as $$FlavorBadge } from "./FlavorBadge_BnYKfk14.mjs";
+import { t as $$CodeBlock } from "./CodeBlock_BKk4KZdJ.mjs";
+import { t as $$Seams } from "./Seams_CCLTae3H.mjs";
+//#region Source/pages/plugins/hook-dsh-normalize-invisible.astro
+var hook_dsh_normalize_invisible_exports = /* @__PURE__ */ __exportAll({
+	default: () => $$HookDshNormalizeInvisible,
+	file: () => $$file,
+	url: () => $$url
+});
+var $$HookDshNormalizeInvisible = createComponent(($$result, $$props, $$slots) => {
+	const Pipeline = [
+		"  llm/stream waterfall (options, next)     the interceptable wrapper around",
+		"       │                                   EVERY streaming model call",
+		"       ▼  next() called FIRST, always - options never touched",
+		"  Normalize(upstream, state)               the async generator",
+		"       │   for await (chunk of upstream)",
+		"       ▼",
+		"  CoreChunk(chunk, transform, reasoning, toolArgs, raw)  the core's per-chunk dispatch",
+		"       │",
+		"       ├─ text-delta ────────► Replace(text, Invisible, \"\")  rewrite the text field",
+		"       ├─ reasoning-delta ───► same, when normalizeReasoning (default ON)",
+		"       ├─ block-end ─────────► the assembled block's text fields -",
+		"       │                       TextBlock.text / ReasoningBlock.text (plus a",
+		"       │                       runtime `thinking` string field) - the deltas",
+		"       │                       AND the block must agree, or consumers see",
+		"       │                       inconsistencies",
+		"       ├─ tool-call-delta ───► Replace(argumentsDelta, Invisible, \"\") when",
+		"       │                       normalizeToolArguments (IMPLEMENTED, default",
+		"       │                       OFF - execution-critical raw JSON, the user's",
+		"       │                       accepted risk; the example patch turns it",
+		"       │                       on) - the assembled ToolCallBlock.arguments",
+		"       │                       follows the same flag via block-end",
+		"       │                       The gate is THREE-WAY with the flag on: a",
+		"       │                       delta/block whose `name` is \"edit\" passes",
+		"       │                       through BY IDENTITY (the edit tool's",
+		"       │                       `old_string` must match the real file bytes),",
+		"       │                       and a call whose arguments open with the",
+		"       │                       `{\"__normalize\":false` marker (FIRST key,",
+		"       │                       tracked per call id) passes through",
+		"       │                       UNNORMALIZED with the marker entry stripped,",
+		"       │                       so the executed call carries no unknown key",
+		"       └─ block-start / usage / finish",
+		"                                ──► PASSTHROUGH BY IDENTITY, ALWAYS",
+		"                                    (usage/finish ordering is the",
+		"                                     adapter contract)",
+		"       │   count === 0 → original chunk BY IDENTITY; rewritten → shallow copy",
+		"       ▼",
+		"  yield ──► downstream consumers = the live UI + the durable transcript",
+		"       │    (order preserved, no buffering; upstream throws propagate)",
+		"       ▼  normal loop completion, Count > 0",
+		"  Factory.Append ──► `hook-dsh-normalize-invisible: normalized N invisible char(s) in one stream`"
+	];
+	const TransformClass = ["[\\u00AD\\u200B\\u200C\\u200D\\u200E\\u200F\\u202A-\\u202E\\u2060\\uFEFF]  →  replacement"];
+	const Coverage = [
+		{
+			Code: "00AD",
+			Name: "soft hyphen"
+		},
+		{
+			Code: "200B",
+			Name: "zero-width space"
+		},
+		{
+			Code: "200C",
+			Name: "zero-width non-joiner"
+		},
+		{
+			Code: "200D",
+			Name: "zero-width joiner"
+		},
+		{
+			Code: "200E",
+			Name: "left-to-right mark"
+		},
+		{
+			Code: "200F",
+			Name: "right-to-left mark"
+		},
+		{
+			Code: "202A-202E",
+			Name: "LRE, RLE, PDF, LRO, RLO (bidi embedding controls; U+202E is the classic visual-spoofing override)"
+		},
+		{
+			Code: "2060",
+			Name: "word joiner"
+		},
+		{
+			Code: "FEFF",
+			Name: "zero-width no-break space (the BOM character)"
+		}
+	];
+	const Siblings = [
+		{
+			Flavor: "hook-dsh-normalize-dash",
+			Table: "core Dashes class",
+			Sub: "→ replacement (default -)",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-quotes",
+			Table: "core Quotes MAP",
+			Sub: "curly → straight",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-ellipsis",
+			Table: "core Ellipsis class",
+			Sub: "U+2026 → ...",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-spaces",
+			Table: "core Spaces class",
+			Sub: "unicode spaces → \" \"",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-invisible (this bundle)",
+			Table: "core Invisible class",
+			Sub: "removed (default \"\")",
+			This: true
+		},
+		{
+			Flavor: "hook-dsh-normalize-fullwidth",
+			Table: "core Fullwidth MAP",
+			Sub: "full-width → half-width",
+			This: false
+		}
+	];
+	const Config = [
+		{
+			Field: "log",
+			Type: "boolean",
+			Default: "true",
+			Volatile: "yes",
+			Meaning: "write the durable ledger file"
+		},
+		{
+			Field: "logFile",
+			Type: "string",
+			Default: "~/.dsh/hook-dsh-normalize-invisible.log",
+			Volatile: "yes",
+			Meaning: "the invisible ledger (separate from the family's logs)"
+		},
+		{
+			Field: "replacement",
+			Type: "string",
+			Default: "\"\"",
+			Volatile: "yes",
+			Meaning: "the transform's only knob - default REMOVAL; hot-editable"
+		},
+		{
+			Field: "normalizeReasoning",
+			Type: "boolean",
+			Default: "true",
+			Volatile: "no",
+			Meaning: "normalize reasoning deltas and the assembled reasoning block too"
+		},
+		{
+			Field: "normalizeToolArguments",
+			Type: "boolean",
+			Default: "false",
+			Volatile: "no",
+			Meaning: "IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit name exemption and the {\"__normalize\":false raw-marker pass-through) - execution-critical raw JSON, the user's accepted risk; the example patch turns it on"
+		}
+	];
+	const StreamExample = [
+		"text-delta in (what the model wrote):",
+		"",
+		"  pass­s​word‍:‎ correct‏⁠﻿",
+		"",
+		"text-delta out (what reaches the transcript):",
+		"",
+		"  \"password: correct\""
+	];
+	const LedgerStrings = ["hook-dsh-normalize-invisible: activated (replacement=, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-invisible.log)", "hook-dsh-normalize-invisible: normalized 7 invisible char(s) in one stream"];
+	return renderTemplate`${renderComponent($$result, "Base", $$Base, {
+		"Title": "hook-dsh-normalize-invisible - @playform / DSH Family",
+		"Description": `${Families.Invisible} - the invisible-character normalizer for model output: hooks the llm/stream waterfall and removes the zero-width/invisible family (soft hyphen, zero-width spaces and joiners, bidi controls, BOM), live in the transcript.`
+	}, { "default": ($$result) => renderTemplate` ${maybeRenderHead($$result)}<main class="container container--main"> <div class="eyebrow-row"> ${renderComponent($$result, "Badge", $$Badge, {
+		"Variant": "primary",
+		"Dot": true
+	}, { "default": ($$result) => renderTemplate`
+PLUGIN DETAIL
+` })} <span class="flavor-cell flavor-cell--compact"> ${renderComponent($$result, "FlavorBadge", $$FlavorBadge, { "Flavor": "INVISIBLE" })} </span> ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`CLASS FLAVOR - REMOVAL` })} </div> <section class="page-hero"> <h1 class="page-hero__title">hook-dsh-normalize-invisible</h1> <p class="page-hero__sub"> ${Families.Invisible} • ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "deepseek" })} _The DeepSeek Harness Plugin
+				Family for PlayForm._ The${" "} <strong>invisible-character normalizer for model output</strong> - a DeepSeek
+				Harness plugin that hooks the${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}> <code>llm/stream</code> </a>${" "}
+waterfall (the interceptable wrapper around EVERY streaming model call, bound to the${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}>
+LlmRuntime
+</a>
+) and normalizes the zero-width/invisible character family in model output, live in
+				the transcript - by REMOVING it: zero-width spaces, joiners, bidi controls and the
+				BOM character simply vanish (the default replacement is the empty string).<br>A CLASS
+				flavor of the normalize family: the core's <code>Invisible</code> class plus a
+				configurable <code>replacement</code> string (default <code>""</code> - removal).<br>
+The family's raw-write tool (registered by${" "} <a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source"), "href")}>
+hook-dsh-normalize-dash
+</a>
+) bypasses this flavor's transforms too - the exemption is family-wide.
+</p> </section> <section class="section"> <div class="snippet-list"> ${renderComponent($$result, "Terminal", $$Terminal, { "Command": "pnpm add @playform/hook-dsh-normalize-invisible" })} </div> <div class="inspect-card"> <span class="inspect-card__meta"> <span class="live-dot"></span>INSPECTED
+</span> <div class="workbench-controls__group"> <span class="workbench-controls__label">Namespace:</span> <span class="hook-tally">@playform/hook-dsh-normalize-invisible</span> <span class="workbench-controls__label">Release:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`v${Versions.Release}` })} </div> <div class="workbench-controls__group"> <span class="workbench-controls__label">Archetype:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`Hook` })} <span class="workbench-controls__label">Event:</span> ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`llm/stream` })} <span class="workbench-controls__label">Table:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "active" }, { "default": ($$result) => renderTemplate`core Invisible class` })} </div> </div> </section> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+The profile wiring for this plugin - the bundles list, the patch entry and the restart -
+			is on the <a href="/setup/">setup page</a>.
+</p> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Where It Fits",
+		"Meta": FamilyPosition(5)
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "invisible-family-position",
+		"Title": "The family position",
+		"Diagram": `${Families.Invisible} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the fifth of the six stream normalizer siblings.`
+	}, { "default": ($$result) => renderTemplate` <p> <strong>Family position</strong> (the @-sentence${" "} <strong>${Families.Invisible}</strong>): a hook child of the${" "} <strong> <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source"), "href")}>
+plugin-dsh-factory
+</a> </strong>${" "}
+service and the <strong>hook-dsh-core</strong> machinery; the fifth of the
+						six stream normalizer siblings.
+</p> ` })} </div> <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Flavor</th> <th>Table</th> <th>Substitution</th> </tr> </thead> <tbody> ${Siblings.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Flavor}</strong> </td> <td>${Row.Table}</td> <td> ${Row.Sub.split("→").map((Part, Index) => renderTemplate`${renderComponent($$result, "Fragment", Fragment, {}, { "default": ($$result) => renderTemplate`${Index > 0 && renderTemplate`${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})}`}${Part}` })}`)} </td> </tr>`)} </tbody> </table> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "invisible-non-manifest",
+		"Title": "A non-manifest factory consumer",
+		"Diagram": "The flavor's factory surface: injecting [&quot;pluginFactory&quot;], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."
+	}, { "default": ($$result) => renderTemplate` <p>
+A <strong>non-manifest factory consumer</strong>: it injects${" "} <code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap
+						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
+						the config is composed by the factory's standalone <code>Schema</code>${" "}
+helper with
+<code>shared: false</code> - the minimal block, no${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}>
+fs/observed
+</a>${" "}
+dead fields.
+</p> <p>
+It touches no files, so${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}>
+fs/write-intent
+</a>${" "}
+and${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}>
+fs/observed
+</a>${" "}
+never see it; it wraps the downstream result and always calls${" "} <code>next()</code>, so it composes with other${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}>
+llm/stream
+</a>${" "}
+listeners regardless of registration order.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In the DeepSeek Harness",
+		"Meta": "WHERE THE FLAVOR OPERATES"
+	})} ${renderComponent($$result, "Seams", $$Seams, { "Seams": [
+		{
+			Seam: "llm/stream - the model stream waterfall",
+			What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
+			Outcome: "The smugglers are deleted before they reach the live UI or the durable transcript."
+		},
+		{
+			Seam: "The model stream vocabulary (dsh-llm)",
+			What: "The chunk/block shapes it rewrites come from the harness's stream vocabulary ([@deepseek-ai/dsh-llm](Harness:packages/llm/llm), type-only): text deltas, reasoning deltas and assembled blocks must agree.",
+			Outcome: "No inconsistencies between deltas and blocks for downstream consumers."
+		},
+		{
+			Seam: "The factory service",
+			What: "A non-manifest factory consumer: State for the config (the replacement is a hot-editable volatile cell) and Append for every ledger line; it touches no files.",
+			Outcome: "Composes with other [llm/stream](Harness:packages/llm/llm/src/index.ts) listeners regardless of registration order."
+		},
+		{
+			Seam: "The raw-write exemption (family-wide)",
+			What: "The family's raw-write tool (registered by [hook-dsh-normalize-dash](Ours:Classic/packages/hook-dsh-normalize-dash/Source)) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
+			Outcome: "Per-call control stays with the agent, even with every stream flavor armed."
+		},
+		{
+			Seam: "The ledger / session",
+			What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() (the empty default renders as replacement=) and the per-stream count line on a normal completion with N > 0.",
+			Outcome: "A thrown-away stream writes no ledger line."
+		}
+	] })} </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Problem",
+		"Meta": "WHY THE INVISIBLE FLAVOR EXISTS"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "invisible-problem",
+		"Title": "The perfect smugglers",
+		"Diagram": "Zero-width and format characters carrying no visible width - a zero-width joiner inside a file path, a right-to-left mark inside a command, the U+202E visual-spoofing override in what looks like plain text: none showing up in the transcript, all of them changing what a parser, shell or diff sees."
+	}, { "default": ($$result) => renderTemplate` <p>
+Zero-width and format characters carry no visible width - which makes them
+						the perfect smugglers.
+</p> <p>
+A zero-width joiner inside a file path, a right-to-left mark inside a
+						command, the U+202E visual-spoofing override in what looks like plain text:
+						none of them show up in the transcript, all of them change what a parser,
+						shell or diff sees.<br>This flavor deletes the whole family before it reaches
+						the transcript.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "How It Works",
+		"Meta": "THE STREAM PIPELINE"
+	})} <div class="code-block">${Pipeline.join("\n")}</div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "invisible-transform",
+		"Title": "The transform: the core's Invisible class",
+		"Diagram": "The core's Invisible class, applied per text segment through the core's generic class-to-string Replace."
+	}, { "default": ($$result) => renderTemplate` <p> <strong>The transform</strong> - the core's <code>Invisible</code> class,
+						applied per text segment through the core's generic class-to-string${" "} <code>Replace</code>:
+</p> ` })} </div> <div class="code-block"> ${TransformClass.join("\n")} </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "invisible-removal",
+		"Title": "All are removed - the default is REMOVAL",
+		"Diagram": "All covered characters removed (default replacement: \"\" - REMOVAL) per text segment."
+	}, { "default": ($$result) => renderTemplate` <p>
+All are removed (default <code>replacement: ""</code> - REMOVAL) per text
+						segment:
+</p> ` })} </div> <div class="table-wrap"> <table class="table"> <thead> <tr> <th>U+ codepoints</th> <th>Characters</th> </tr> </thead> <tbody> ${Coverage.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Code}</strong> </td> <td>${Row.Name}</td> </tr>`)} </tbody> </table> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "invisible-mechanics",
+		"Title": "Chunk-boundary-safe, function-replaced, counted",
+		"Diagram": "No context rules, chunk-boundary-safe - single-character replacement, no lookahead, per-chunk application never disagreeing with whole-text application; the replacement applied with a function replacer so a custom replacement containing $ patterns is inserted literally; replaced characters counted per stream for the ledger line."
+	}, { "default": ($$result) => renderTemplate` <p>
+No context rules, chunk-boundary-safe - single-character replacement, no
+						lookahead, per-chunk application can never disagree with whole-text
+						application.
+</p> <p>
+The replacement is applied with a function replacer, so a custom${" "} <code>replacement</code> containing <code>$</code> patterns is inserted
+						literally.<br>Replaced characters are counted per stream for the ledger line.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Config",
+		"Meta": "SCHEMA + DEFAULTS AT LOAD"
+	})} <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Field</th> <th>Type</th> <th>Default</th> <th>Volatile</th> <th>Meaning</th> </tr> </thead> <tbody> ${Config.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Field}</strong> </td> <td>${Row.Type}</td> <td>${Row.Default}</td> <td>${Row.Volatile}</td> <td>${Row.Meaning}</td> </tr>`)} </tbody> </table> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "invisible-volatile",
+		"Title": "Volatile cells commit without remounting",
+		"Diagram": "The volatile cells committing without remounting the plugin - the factory's State builder unwrapping them defensively."
+	}, { "default": ($$result) => renderTemplate` <p>
+Volatile cells commit without remounting the plugin; the factory's State
+						builder unwraps them defensively.
+</p> <p>
+Example${" "} <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml"), "href")}>
+cordis.patch.yml
+</a>${" "}
+row:
+</p> ` })} </div> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "yaml",
+		"Style": "margin-top: var(--space-sm)",
+		"Source": [
+			"- insert:",
+			"      - id: hook-dsh-normalize-invisible",
+			"        name: \"@playform/hook-dsh-normalize-invisible\"",
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-normalize-invisible.log",
+			"            replacement: \"\""
+		].join("\n")
+	})} </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In Action",
+		"Meta": "ONE STREAM, ONE DELETION"
+	})} <p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+One stream, one deletion.<br>The model emits text carrying invisible smugglers; the
+				live UI and the transcript receive clean text - and the two lines below look
+				identical in print, because the removed characters are invisible.<br>The incoming line
+				carries, in order: a soft hyphen (U+00AD), a zero-width space (U+200B), a zero-width
+				joiner (U+200D), a left-to-right mark (U+200E), a right-to-left mark (U+200F), a
+				word joiner (U+2060) and a BOM character (U+FEFF):
+</p> <p class="section-kicker">
+Before ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} after - identical in print,
+				different to a parser
+</p> <div class="code-block">${StreamExample.join("\n")}</div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "invisible-in-action",
+		"Title": "The smugglers simply vanish",
+		"Diagram": "The smugglers sitting inside the word password and around the colon - a diff seeing a password that does not match the author's text, a parser tokenizing differently, a shell splicing a command - and after the pass all of them simply gone, the output line being what the reader should see."
+	}, { "default": ($$result) => renderTemplate` <p>
+In the incoming line the smugglers sit inside the word <code>password</code>${" "}
+and around the colon; a diff would see a <code>password</code> that does not
+						match the author's text, a parser would tokenize differently, a shell could
+						splice a command.
+</p> <p>
+After the pass all of them are simply gone - the output line is what the
+						reader should see.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "invisible-hot-and-pass",
+		"Title": "Hot-editable, and the same pass elsewhere",
+		"Diagram": "The count line on a normal completion with replacements made - the replacement hot-editable (the default \"\" removes; a non-empty value such as \"?\" would mark each smuggler&apos;s position for debugging), and the same pass running over reasoning deltas when normalizeReasoning is on and over tool-call arguments when the example patch enables normalizeToolArguments - with the edit name exempt and raw-marker calls passing through unnormalized."
+	}, { "default": ($$result) => renderTemplate` <p>
+When a stream finishes normally with replacements made, the ledger gets the
+						count line shown below.
+</p> <p>
+The <code>replacement</code> is hot-editable (the default <code>""</code>${" "}
+removes; a non-empty value such as <code>"?"</code> would mark each
+						smuggler's position for debugging), and the same pass runs over reasoning
+						deltas when <code>normalizeReasoning</code> is on and over tool-call
+						arguments when the example patch enables <code>normalizeToolArguments</code>${" "}
+- with the <code>edit</code> name exempt and raw-marker calls passing
+						through unnormalized.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Ledger",
+		"Meta": "TWO LINES VIA FACTORY APPEND"
+	})} <p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+Two lines, both written through the factory's <code>Append</code> (the
+				hook-dsh-normalize-invisible: prefix is the logger's
+<code>&lt;State.Module&gt;:</code>; the durable file line is
+<code>[&lt;ISO&gt;] &lt;message&gt;</code>).<br>The empty default replacement renders
+				as the empty <code>replacement=</code>:
+</p> <div class="code-block">${LedgerStrings.join("\n")}</div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+The activation line is written by <code>apply()</code>; the count line only follows
+				a normal stream completion and only when N &gt; 0 (a thrown-away stream writes no
+				ledger line).
+</p> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Related plugins",
+		"Meta": `${Counts.Packages} TOTAL`
+	})} <div class="grid grid--3"> ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "hook-dsh-core",
+		"Href": "/plugins/hook-dsh-core/",
+		"Desc": "Supplies the Invisible class, the Replace replacer and the generic Chunk/Block dispatch this flavor is a thin closure over.",
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`DSH FAMILY` })}` })} ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "hook-dsh-normalize-spaces",
+		"Href": "/plugins/hook-dsh-normalize-spaces/",
+		"Desc": "The neighbouring sibling flavor - the unicode space family, normalized to the plain space.",
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`SIBLING FLAVOR` })}` })} ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "plugin-dsh-factory",
+		"Href": "/plugins/plugin-dsh-factory/",
+		"Desc": "The parent service: State, Append - plus the named Schema helper (shared: false) for the config.",
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`PARENT SERVICE` })}` })} </div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+License: CC0-1.0.
+</p> </section> </main> ` })}`;
+}, "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/hook-dsh-normalize-invisible.astro", void 0);
+var $$file = "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/hook-dsh-normalize-invisible.astro";
+var $$url = "/plugins/hook-dsh-normalize-invisible";
+//#endregion
+//#region \0virtual:astro:page:Source/pages/plugins/hook-dsh-normalize-invisible@_@astro
+var page = () => hook_dsh_normalize_invisible_exports;
+//#endregion
+export { page };

@@ -1,0 +1,7 @@
+flowchart LR
+	DONE["the completed codebase"] --> BOILER["the boilerplate"]
+	BOILER --> CLASSIC["Classic - stays live-first"]
+	BOILER --> ET["Effect-TS - ships only after<br/>its smokes prove parity"]
+	CONTRACT["the ledger strings remain<br/>the contract in both - register #13"]
+	CLASSIC --> CONTRACT
+	ET --> CONTRACT

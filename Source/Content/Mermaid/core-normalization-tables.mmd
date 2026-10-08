@@ -1,0 +1,22 @@
+flowchart LR
+	CORE["the normalization half"]
+	DASH["Dashes - a character class"]
+	QUOTES["Quotes - a character map"]
+	ELLIPSIS["Ellipsis - a character class"]
+	SPACES["Spaces - a character class"]
+	INVISIBLE["Invisible - a character class"]
+	FULLWIDTH["Fullwidth - a character map"]
+	FLAVORS["each corresponding flavor<br/>not every flavor applies every table"]
+	CORE --> DASH --> FLAVORS
+	CORE --> QUOTES --> FLAVORS
+	CORE --> ELLIPSIS --> FLAVORS
+	CORE --> SPACES --> FLAVORS
+	CORE --> INVISIBLE --> FLAVORS
+	CORE --> FULLWIDTH --> FLAVORS
+	%% Invisible layout links only - no semantics. They lay the six tables
+	%% out across the band so the fan-out renders wide, not tall.
+	DASH ~~~ QUOTES
+	QUOTES ~~~ ELLIPSIS
+	ELLIPSIS ~~~ SPACES
+	SPACES ~~~ INVISIBLE
+	INVISIBLE ~~~ FULLWIDTH

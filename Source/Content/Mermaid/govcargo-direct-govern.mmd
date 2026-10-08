@@ -1,0 +1,8 @@
+flowchart LR
+	APPLY["at apply"] --> REG["Factory.RegisterGovern<br/>(Cargo.toml, cargo | update, ...)"]
+	EVENT["besides the fs/observed event path"]
+	RAW["the raw-write tool's per-call govern selection"] --> GOV["Factory.Govern"]
+	CHAIN["the same chain + normalization pass<br/>and update stage"]
+	REG --> CHAIN
+	GOV --> CHAIN
+	EVENT --> CHAIN

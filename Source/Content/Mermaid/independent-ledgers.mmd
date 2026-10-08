@@ -1,0 +1,6 @@
+flowchart LR
+	PINNER["the pinner"] --> PL["pinner.log"]
+	GOV["the governor"] --> GL["governor.log"]
+	ACT["activation is independent - activating either<br/>never implies activation of the other"]
+	PINNER -. "activation" .-> ACT
+	GOV -. "activation" .-> ACT

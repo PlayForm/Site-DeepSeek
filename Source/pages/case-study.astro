@@ -227,11 +227,11 @@ const Decisions = [
 		Evidence: "the monorepo plan; the versions page; Runtime.ts (the tracing knob)",
 	},
 	{
-		Decision: `Reversed hierarchical naming + version ${Versions.Release} + submodules (designed, pending register #16)`,
+		Decision: `Reversed hierarchical naming + version ${Versions.Release} + submodules (the .gitmodules draft prepared, not activated - register #16)`,
 		Rationale:
 			"Kind-first ordering mirrors the consumer topology - the hooks vs the factory service - and role-contiguous grouping keeps the shared-machinery families together (governor-cargo/governor-package, the normalize-* family); the @-sentence is the release identity (the README titles, register #15). The inversion was only safe because the ledger strings are module-owned - the mdash -> normalize-dash rename (register #5) is the proof: the renamed module changed only its own prefix, its identity, by design - every other ledger string stayed",
 		Technique:
-			"The package naming itself + the monorepo layout (one repository per package under submodule structure - designed, register #16, NOT STARTED)",
+			"The package naming itself + the monorepo layout (one repository per package under submodule structure - the .gitmodules draft prepared, not activated, register #16)",
 		Evidence: "the branding brief; register #5/#15/#16",
 	},
 	{
@@ -1096,13 +1096,15 @@ const Lessons = [
 				</Concept>
 				<Concept
 					Id="case-p6-submodules"
-					Title="The submodule structure: designed, NOT STARTED"
-					Diagram="One repository per package under submodule structure - register #16: no commits yet, everything still in this monorepo."
+					Title="The submodule structure: prepared, not activated"
+					Diagram="One repository per package under submodule structure - register #16: the .gitmodules draft is prepared and tracked, but git does not read it under that name - nothing is activated, no commits yet, everything still in this monorepo."
 				>
 					<p>
-						One repository per package under submodule structure is designed but{" "}
-						<strong>NOT STARTED</strong> (register #16: no commits yet, everything still
-						in this monorepo).
+						One repository per package under submodule structure is{" "}
+						<strong>prepared, not activated</strong> (register #16: the{" "}
+						<code>.gitmodules.draft</code> exists but git ignores the draft name - the
+						activation is the user's <code>git submodule add</code> once the per-package
+						repositories exist; no commits yet, everything still in this monorepo).
 					</p>
 				</Concept>
 				<Concept
@@ -1187,11 +1189,14 @@ const Lessons = [
 				<code>ncu</code> binary resolved from the host PATH, the personal-path constant
 				gone; the <strong>verifyCommand trap</strong> - the documented cordis
 				vendored-forks failure, standing, not a bug; and <strong>#16's submodule
-				structure</strong> - designed, not started, the repositories unversioned by design.<br />
-				The install command below is the whole family's front door.
+				structure</strong> - prepared (the <code>.gitmodules.draft</code>), not
+				activated, the repositories unversioned by design.<br />
+				The family's front door today is the <a href="/setup/">setup flow</a> (the
+				from-source install); the command below is the npm form, live once the family
+				publishes.
 			</p>
 			<div class="snippet-list" style="margin-top: var(--space-md)">
-				<Terminal Command="pnpm add @playform/hook-dsh-core" Label="START HERE" />
+				<Terminal Command="pnpm add @playform/hook-dsh-core" Label="START HERE · ONCE PUBLISHED" />
 			</div>
 		</section>
 	</main>

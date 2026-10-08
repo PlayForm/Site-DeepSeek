@@ -1,0 +1,6 @@
+flowchart LR
+	LOG["one global log - logFile - default<br/>~/.dsh/hook-dsh-governor-<br/>package.log"]
+	REC["recording activation - exclusions - chain-pass results<br/>and every update-stage dispatch"]
+	ACT["the activation line written by apply()<br/>so did it activate is answerable<br/>from the ledger alone"]
+	LOG --> REC
+	LOG --> ACT

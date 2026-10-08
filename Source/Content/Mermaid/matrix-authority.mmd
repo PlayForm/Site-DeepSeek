@@ -1,0 +1,4 @@
+flowchart LR
+	INSPECTOR["the inspector"] --> RULES["runs the same per-chunk rules<br/>the packages run - client-side"]
+	SMOKE["the flavor's smoke suite"] --> LOAD["loads the built package"]
+	LOAD --> ASSERT["asserting the ledger strings<br/>byte-identically"]

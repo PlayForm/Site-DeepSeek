@@ -1,0 +1,6 @@
+flowchart LR
+	STANDALONE["the standalone named Schema export"]
+	INSTANCE["the instance method"]
+	MODULE["makes the same factory usable at module-evaluation time<br/>before any service instance exists - the loader needs<br/>Config at load"]
+	STANDALONE --> MODULE
+	INSTANCE --> MODULE

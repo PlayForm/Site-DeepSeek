@@ -1,0 +1,16 @@
+flowchart LR
+	BUGS["the real bugs"]
+	P["the shadowed patch layers"]
+	J["the silent journal open"]
+	V["the version guard that could only succeed once"]
+	LIVE["found live - not by the smokes"]
+	SUITES["the suites catch a different class of defect"]
+	RESTART["the restart catches a different class of defect"]
+	BUGS --> P --> LIVE
+	BUGS --> J --> LIVE
+	BUGS --> V --> LIVE
+	LIVE -. "the asymmetry is the story's spine" .-> SUITES
+	LIVE -. "the asymmetry is the story's spine" .-> RESTART
+	%% Invisible layout links only - no semantics.
+	P ~~~ J
+	J ~~~ V

@@ -1,0 +1,8 @@
+flowchart LR
+	ATTACH["the three attachment points"]
+	STREAM["the llm/stream waterfall wrap<br/>next() first - options untouched - per-chunk"]
+	OBS["the fs/observed listeners<br/>sync - after content is on disk<br/>fired by the tool layer only"]
+	TOOLS["the tool registrations into<br/>the agent's toolset<br/>raw-write - normalize-file"]
+	ATTACH --> STREAM
+	ATTACH --> OBS
+	ATTACH --> TOOLS

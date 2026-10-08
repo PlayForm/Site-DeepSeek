@@ -1,0 +1,10 @@
+flowchart LR
+	UPDATE["Update(dependencies) - the shared update-stage envelope"]
+	DISP["Dispatch"]
+	SET["Settle"]
+	RESP["shared responsibilities: gates - P2 registration<br/>the jobs envelope - P5 records - U2 refresh"]
+	MOD["outside the shared boundary:<br/>the child runner - module-specific strings"]
+	UPDATE --> DISP
+	UPDATE --> SET
+	UPDATE --> RESP
+	MOD -. "the consuming module supplies" .-> UPDATE

@@ -1,0 +1,9 @@
+flowchart LR
+	CORE["hook-dsh-core - the dual engine distribution"]
+	CL["CLASSIC - dependency-free<br/>zero runtime dependencies"]
+	ET["EFFECT-TS - the same contracts<br/>on effect 4.0.2 - its single runtime dependency"]
+	SM["same behavior - same smokes<br/>different runtime plumbing"]
+	CORE --> CL
+	CORE --> ET
+	CL --> SM
+	ET --> SM

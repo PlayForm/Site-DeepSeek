@@ -6,6 +6,7 @@ import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
+import Compare from "@Component/Compare.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -190,9 +191,9 @@ const LedgerStrings = [
 				) and normalizes the horizontal ellipsis in model output, live in the transcript:
 				every typographic three-dot ellipsis code point becomes the ASCII three-dot sequence
 				- U+2026 to
-				<code>...</code>. A CLASS flavor of the normalize family: the core's
+				<code>...</code>.<br />A CLASS flavor of the normalize family: the core's
 				<code>Ellipsis</code> class plus a configurable <code>replacement</code> string
-				(default <code>...</code>). The family's raw-write tool (registered by
+				(default <code>...</code>).<br />The family's raw-write tool (registered by
 				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
 					hook-dsh-normalize-dash
 				</a>
@@ -375,7 +376,7 @@ const LedgerStrings = [
 					</p>
 					<p>
 						In code blocks, commands and diffs the collapsed form is simply wrong: three
-						literal dots are what every parser, shell and search expects. This flavor
+						literal dots are what every parser, shell and search expects.<br />This flavor
 						makes the ASCII spelling the one that reaches the transcript.
 					</p>
 				</Concept>
@@ -518,7 +519,12 @@ const LedgerStrings = [
 				Before <ArrowIcon Direction="right" Tone="accent" /> after - the model stream, then
 				what reaches the transcript
 			</p>
-			<div class="code-block">{StreamExample.join("\n")}</div>
+			<Compare
+				Id="ellipsis-stream"
+				Flavor="ellipsis"
+				Raw={StreamExample.slice(0, 4)}
+				Clean={StreamExample.slice(4)}
+			/>
 			<div class="concept-list">
 				<Concept
 					Id="ellipsis-in-action"

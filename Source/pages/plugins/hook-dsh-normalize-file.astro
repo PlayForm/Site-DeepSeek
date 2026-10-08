@@ -5,6 +5,7 @@ import Badge from "@Component/Badge.astro";
 import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import Compare from "@Component/Compare.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -182,10 +183,10 @@ const Usage = [
 				plugin that registers the normalize family's <code>normalize-file</code> TOOL: the
 				read <ArrowIcon Direction="right" Tone="accent" /> count{" "}
 				<ArrowIcon Direction="right" Tone="accent" /> write pipeline over files ALREADY on
-				disk, beyond the tool layer. One agent-chosen file per call: the target's content is
+				disk, beyond the tool layer.<br />One agent-chosen file per call: the target's content is
 				read, the family's SIX transforms are applied with a per-character count, and only
 				when N &gt; 0 is the rewritten content written back through the factory's ONE shared
-				write executor. N = 0 writes NOTHING - the no-op no-write rule. The family's first
+				write executor.<br />N = 0 writes NOTHING - the no-op no-write rule.<br />The family's first
 				LISTENER-LESS flavor: no
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
 					<code>llm/stream</code>
@@ -194,7 +195,7 @@ const Usage = [
 				<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
 					<code>fs/observed</code>
 				</a>{" "}
-				- nothing runs without an explicit agent action. This bundle's own tool calls are
+				- nothing runs without an explicit agent action.<br />This bundle's own tool calls are
 				name-exempt in the stream gate beside <code>edit</code> and <code>raw-write</code> -
 				its arguments carry a FILE PATH, and a normalized dash inside a filename would
 				corrupt the target.
@@ -410,14 +411,14 @@ const Usage = [
 					Diagram="Files rewritten behind the agent only at the price of the edit tool's old_string contract - the agent reading bytes X, a background rewriter silently changing them to X', the next edit failing or half-matching - Hermes learning this the hard way with normalize-tabs.sh existing to repair the damage its own after-the-fact rewriting caused."
 				>
 					<p>
-						But the fix cannot be another silent rewriter. Files are rewritten behind
+						But the fix cannot be another silent rewriter.<br />Files are rewritten behind
 						the agent only at the price of the edit tool's <code>old_string</code>{" "}
 						contract: the agent read bytes X, a background rewriter silently changed
 						them to X', and the next edit fails or half-matches.
 					</p>
 					<p>
 						Hermes learned this the hard way - its <code>normalize-tabs.sh</code> exists
-						to repair the damage its own after-the-fact rewriting caused. The tool is
+						to repair the damage its own after-the-fact rewriting caused.<br />The tool is
 						the answer: explicit, visible, discoverable, zero background activity.
 					</p>
 				</Concept>
@@ -503,7 +504,7 @@ const Usage = [
 							<code>Factory.Write</code>
 						</a>
 						's before is read at write time, so a prior normalize-file in the same turn
-						is already reflected. No race.
+						is already reflected.<br />No race.
 					</p>
 				</Concept>
 			</div>
@@ -568,9 +569,16 @@ const Usage = [
 		<section class="section">
 			<SectionHeader Title="In Action" Meta="ONE CALL, ONE FILE, ONE COUNT" />
 			<p class="section-kicker">
-				<BrandIcon Name="swap" /> Before - the file as it sits on disk
+				<BrandIcon Name="swap" />Before - the file as it sits on disk
 			</p>
-			<div class="code-block">{BeforeAfter.join("\n")}</div>
+			<Compare
+				Id="file-before-after"
+				Flavor="file"
+				Raw={BeforeAfter.slice(0, 4)}
+				Clean={BeforeAfter.slice(4)}
+				RawLabel="Before - what is on disk"
+				CleanLabel="After - what the tool writes back"
+			/>
 			<div class="concept-list">
 				<Concept
 					Id="file-in-action-count"
@@ -594,7 +602,7 @@ const Usage = [
 				>
 					<p>
 						A file with nothing to replace is a no-op: <code>changed: false</code>, the
-						file stays byte-identical, no write, no count line, no journal record. A
+						file stays byte-identical, no write, no count line, no journal record.<br />A
 						missing, binary or undecodable target is an error result with no write.
 					</p>
 					<p>

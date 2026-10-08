@@ -1,0 +1,8 @@
+flowchart LR
+	VER["cargo 1.100.0-nightly + cargo-edit 0.13.13<br/>resolved through cargoBin"]
+	EX["--exclude is ONE flag per crate - the comma form<br/>silently IGNORED - the exact inverse of ncu's<br/>one-comma-argument reject list"]
+	NOEX["NO --exact flag in cargo-edit 0.13.13<br/>exact pins enforced at the manifest level by<br/>the chain pass - pinStyle exact to =resolved"]
+	PRES["cargo upgrade preserves comments and formatting<br/>it edits via toml_edit"]
+	VER --> EX
+	VER --> NOEX
+	VER --> PRES

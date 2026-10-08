@@ -1,0 +1,6 @@
+flowchart LR
+	DEFAULT["the schema default OFF<br/>for tool-call arguments"]
+	CRIT["execution-critical raw JSON"]
+	EXEMPT["the two pass-through exemptions when a patch<br/>turns it on - edit/raw-write by identity<br/>the __normalize:false marker"]
+	DEFAULT --> CRIT
+	DEFAULT --> EXEMPT

@@ -5,10 +5,64 @@ import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import Concept from "@Component/Concept.astro";
+import InstallDemo from "@Component/InstallDemo.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import { Steps } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
+
+// The install-demo cards: the four profile-wiring steps visualized - the
+// real wiring from the sections below (the bundles list, the insert:
+// entries, the restart law, the activation lines - byte-exact where the
+// string is a composed ledger form).
+const DemoSteps = [
+	{
+		N: 1,
+		Title: "Add the bundles",
+		Meta: "~/.dsh/profiles/<name>/package.json",
+		Lines: [
+			'"dependencies": {',
+			'  "@playform/plugin-dsh-factory": "link:../bundles/plugin-dsh-factory",',
+			'  "@playform/hook-dsh-normalize-dash": "link:../bundles/hook-dsh-normalize-dash"',
+			"},",
+			'"dsh": { "profile": { "bundles": [ ... ] } }',
+		],
+		Outcome: "The bundles list is what activates - the link: dependencies alone are not.",
+	},
+	{
+		N: 2,
+		Title: "Add the patch entries",
+		Meta: "cordis.patch.yml",
+		Lines: [
+			"- insert:",
+			"    - id: plugin-dsh-factory",
+			'      name: "@playform/plugin-dsh-factory"',
+			"      config: {}",
+		],
+		Outcome: "Each insert: entry declares the loader row and its config; the loader rejects unknown ids.",
+	},
+	{
+		N: 3,
+		Title: "Restart the harness",
+		Meta: "BUNDLE LAYERS COMPOSE AT HOST BOOT",
+		Lines: [
+			"activation is at the next start,",
+			"not at install time.",
+			"dev loop: edit - build - restart.",
+		],
+		Outcome: "Every rebuilt Target is fresh on the next restart - the bundles list plus the patches load at boot.",
+	},
+	{
+		N: 4,
+		Title: "Verify the ledgers",
+		Meta: "~/.dsh/<name>.log",
+		Lines: [
+			"hook-dsh-governor-package: activated (anywhere mode, logFile=..., updateMode=..., ncuBin=..., exclude=[...], policyFile=(discovery))",
+			"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
+		],
+		Outcome: "The ledger answers 'did it activate' - each plugin writes its activation line at boot.",
+	},
+];
 
 // The profile wiring example, straight from the family's documented setup:
 // the profile's package.json carries the link: dependencies, and the
@@ -72,6 +126,16 @@ const VerifyLines = [
 	"hook-dsh-governor-package: activated (anywhere mode, logFile=~/.dsh/hook-dsh-governor-package.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
 	"hook-dsh-pinner-package: activated (pinner, logFile=~/.dsh/hook-dsh-pinner-package.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
 	"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
+];
+
+// The byte-exact update-stage ledger lines (the verifyCommand trap): the
+// live battery's governed-chain fixture records the running and failure
+// lines; the smokes assert all four forms.
+const TrapLines = [
+	"update: running verifyCommand: pnpm install",
+	"update: verifyCommand failed (status 1)",
+	"update: verifyCommand runner unavailable (exit 127) \u2014 skipped, non-fatal",
+	"update stage FAILED (1) for <dir>; consecutive=2",
 ];
 
 // The configurable surface, grouped by plugin kind. Every row is a real
@@ -168,6 +232,13 @@ const Knobs = [
 			Sub={"Four steps: add the bundles to the profile, add the patch entries, restart, verify the ledgers.\nEvery step below is the actual wiring the loader reads - no separate configuration UI exists."}
 		/>
 
+		<!-- The wiring at a glance: the four install-demo cards visualizing
+			the profile-wiring steps (the detailed sections follow below). -->
+		<section class="section">
+			<SectionHeader Title="The wiring at a glance" Meta="PROFILE · PATCH · RESTART · VERIFY" />
+			<InstallDemo Steps={DemoSteps} />
+		</section>
+
 		<!-- Step 1 -->
 		<section class="section">
 			<SectionHeader
@@ -203,13 +274,14 @@ const Knobs = [
 				<Concept
 					Id="setup-remote-installs"
 					Title="Remote installs work the same way"
-					Diagram="Two equivalent remote routes into the same bundles list: pnpm add of the package in the profile directory, or dsh plugin --profile add of a tarball."
+					Diagram="The tarball route into the same bundles list today - dsh plugin --profile add of a built bundle; the pnpm add route joins once the family publishes to npm (a later item)."
 				>
 					<p>
 						Remote installs work the same way: <BrandIcon Name="playform" />{" "}
-						<code>pnpm add @playform/&lt;pkg&gt;</code> in the profile directory plus
-						the package in the bundles list, or{" "}
-						<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code>.
+						<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code> for a
+						built bundle today, or{" "}
+						<code>pnpm add @playform/&lt;pkg&gt;</code> in the profile directory once
+						the family publishes to npm (the publishing is a later item).
 					</p>
 				</Concept>
 			</div>
@@ -499,7 +571,7 @@ const Knobs = [
 						<tr>
 							<th>Plugin</th>
 							<th>
-								<BrandIcon Name="terminal" Size="0.9em" /> Ledger
+								<BrandIcon Name="terminal" Size="0.9em" />Ledger
 							</th>
 							<th>First line at boot</th>
 						</tr>
@@ -533,6 +605,107 @@ const Knobs = [
 					</tbody>
 				</table>
 			</div>
+		</section>
+
+		<!-- The known gaps: where users hit them, stated as they are - the
+			corrected claims stay, no marketing gloss. -->
+		<section class="section">
+			<SectionHeader Title="Pitfalls" Meta="THE KNOWN GAPS" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The gaps and the working lessons, stated as they are. The narrative form lives on
+				the <a href="/case-study/">case-study page</a>; this section is the
+				setup-relevant inventory.
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Pitfall</th>
+							<th>What actually happens</th>
+							<th>The lesson</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><strong>Load order is not list order</strong></td>
+							<td>
+								The pinner can activate before the governor at boot - the
+								registration order is not controlled.
+							</td>
+							<td>
+								Never rely on the bundles-list order for step ordering; the fold
+								and the fresh-version writes make the order irrelevant. Each
+								ledger answers for its own plugin.
+							</td>
+						</tr>
+						<tr>
+							<td><strong>The verifyCommand trap</strong></td>
+							<td>
+								An update-policy <code>verifyCommand</code> can fail with a
+								non-zero status - on a vendored-fork workspace,{" "}
+								<code>pnpm install</code> has no registry to install from.
+							</td>
+							<td>
+								The documented cordis registry trap: the failure is expected, not
+								a bug. Exit 127 (the runner unavailable) is non-fatal; any other
+								failure trips the circuit breaker (<code>maxUpdateFailures</code>).
+							</td>
+						</tr>
+						<tr>
+							<td><strong>The smoke/live fidelity gap</strong></td>
+							<td>
+								All 733 + 746 smokes green does not prove the profile wiring -
+								every real bug was found live, not by the smokes.
+							</td>
+							<td>
+								The smokes prove the mechanics; the live battery proves the
+								wiring. Verify the ledgers after every restart.
+							</td>
+						</tr>
+						<tr>
+							<td><strong>The timestamp confusion</strong></td>
+							<td>
+								The ledger lines are ISO UTC; the storage records are epoch
+								milliseconds; the local display adds +03.
+							</td>
+							<td>
+								The "missing records" scares were filter mistakes, not lost data -
+								check the timezone before hunting for loss.
+							</td>
+						</tr>
+						<tr>
+							<td><strong>The byte-integrity law</strong></td>
+							<td>
+								A write that emits bytes the file's format forbids corrupts the
+								file - the NUL-byte incident class, the lesson of the URL-registry
+								corruption.
+							</td>
+							<td>
+								Verbatim is the default; the normalize family restores the
+								integrity; the byte-scan is the arbiter.
+							</td>
+						</tr>
+						<tr>
+							<td><strong>The raw-write marker semantics</strong></td>
+							<td>
+								<code>govern</code> absent = no chain (the escape hatch); a
+								marked call passes through only when marked.
+							</td>
+							<td>
+								Markers are stripped before the tool validates - the harness
+								tools reject unknown argument keys (
+								<code>additionalProperties: false</code>).
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="code-block">{TrapLines.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The verifyCommand lines above are byte-exact ledger strings of the update stage's
+				Verify step; the live battery's <code>governed-chain</code> fixture records the
+				running and failure lines, and the smokes assert all four forms.
+			</p>
 		</section>
 	</main>
 </Base>

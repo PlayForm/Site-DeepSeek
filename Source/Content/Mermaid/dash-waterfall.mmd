@@ -1,0 +1,10 @@
+flowchart LR
+	LISTENER["the listener's three invariants"]
+	N1["next() ALWAYS called<br/>unconditionally - first"]
+	N2["options NEVER touched"]
+	N3["order preserved - no buffering<br/>one chunk in - one chunk out<br/>upstream throws propagating"]
+	LISTENER --> N1
+	LISTENER --> N2
+	LISTENER --> N3
+	N1 ~~~ N2
+	N2 ~~~ N3

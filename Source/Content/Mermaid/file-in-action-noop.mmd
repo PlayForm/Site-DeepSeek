@@ -1,0 +1,8 @@
+flowchart LR
+	NOTHING["a file with nothing to replace is a no-op"]
+	CHANGED["changed: false - the file staying byte-identical<br/>no write - no count line - no journal record"]
+	ERROR["a missing - binary or undecodable target<br/>is an error result with no write"]
+	REREAD["re-reading before editing - the file's bytes<br/>change under you"]
+	NOTHING --> CHANGED
+	NOTHING --> ERROR
+	NOTHING --> REREAD

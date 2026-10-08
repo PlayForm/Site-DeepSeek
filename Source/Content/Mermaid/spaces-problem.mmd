@@ -1,0 +1,10 @@
+flowchart LR
+	PICK["model output picks up exotic spaces"]
+	NB["the no-break space from copy-pasted prose"]
+	THIN["the thin space from typographic text"]
+	IDEO["the ideographic space from CJK input"]
+	NOT["markdown renderers and shell quoting<br/>do not treat them as spaces"]
+	FAIL["a command with a U+00A0 in it fails<br/>for no visible reason"]
+	PICK --> NB --> NOT --> FAIL
+	PICK --> THIN --> NOT
+	PICK --> IDEO --> NOT

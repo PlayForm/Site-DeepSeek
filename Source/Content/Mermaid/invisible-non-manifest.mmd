@@ -1,0 +1,17 @@
+flowchart LR
+	FLAVOR["hook-dsh-normalize-invisible<br/>a non-manifest factory consumer"]
+	INJ["injecting [pluginFactory]"]
+	USE["using only State and Append"]
+	CONFIG["the config composed by the factory's standalone<br/>Schema helper with shared: false - the minimal block<br/>no fs/observed dead fields"]
+	NO["touching no files - always calling next()"]
+	COMP["composing with other llm/stream listeners<br/>regardless of registration order"]
+	FLAVOR --> INJ
+	FLAVOR --> USE
+	FLAVOR --> CONFIG
+	FLAVOR --> NO
+	FLAVOR --> COMP
+	%% Invisible layout links only - no semantics.
+	INJ ~~~ USE
+	USE ~~~ CONFIG
+	CONFIG ~~~ NO
+	NO ~~~ COMP

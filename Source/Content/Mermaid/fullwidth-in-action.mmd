@@ -1,0 +1,8 @@
+flowchart LR
+	IN["the solidus U+FF0F - the letters U+FF55-U+FF4E<br/>the digits U+FF11-U+FF13<br/>the exclamation U+FF01"]
+	OUT["each becoming its U+0021-U+007E<br/>half-width counterpart"]
+	TOUCH["ASCII characters already half-width untouched"]
+	KEEP["what keeps a pasted path openable<br/>and a pasted number parseable"]
+	IN --> OUT
+	OUT --> TOUCH
+	OUT --> KEEP

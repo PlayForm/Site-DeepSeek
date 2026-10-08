@@ -162,10 +162,10 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						<BrandIcon Name="typescript" /> CLASSIC ships dependency-free: zero runtime
-						dependencies. The <BrandIcon Name="effect" /> EFFECT-TS variant ships the
+						dependencies.<br />The <BrandIcon Name="effect" /> EFFECT-TS variant ships the
 						same contracts with <code>effect</code> {Versions.Effect}{" "}
 						as the single runtime dependency - same behavior, same smokes, different
-						runtime plumbing. The inspect card's ZERO is the CLASSIC variant's fact; the{" "}
+						runtime plumbing.<br />The inspect card's ZERO is the CLASSIC variant's fact; the{" "}
 						<code>effect</code> {Versions.Effect} dependency belongs to the EFFECT-TS
 						variant.
 					</p>
@@ -256,7 +256,7 @@ const Related = [
 						section list, the exclusion segments, the suppression-line composer, the
 						policy loader, <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> - and, for the normalize flavors, the same
 						per-chunk dispatch, block-end normalizer and character tables, copy-pasted
-						per flavor. Every fix had to be applied N times.
+						per flavor.<br />Every fix had to be applied N times.
 					</p>
 				</Concept>
 
@@ -298,7 +298,7 @@ const Related = [
 					</p>
 
 					<p class="page-hero__sub">
-						Consumers import the helpers directly. The core itself has no plugin loader
+						Consumers import the helpers directly.<br />The core itself has no plugin loader
 						contract.
 					</p>
 				</Concept>
@@ -314,7 +314,7 @@ const Related = [
 					</p>
 
 					<p class="page-hero__sub">
-						The flavor owns the substitution. A new normalization flavor supplies a
+						The flavor owns the substitution.<br />A new normalization flavor supplies a
 						table and a transform closure rather than forking the dispatch.
 					</p>
 
@@ -400,14 +400,14 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						<code>Suppress(module, kind, cause)</code> composes the shared
-						suppression-line format. The kind is <code>listener</code> or
+						suppression-line format.<br />The kind is <code>listener</code> or
 						<code>continuation</code>.
 					</p>
 
 					<div class="code-block">{"module: kind error (suppressed): cause"}</div>
 
 					<p class="page-hero__sub">
-						The consumer sends the line to its logger. It is not a ledger entry.
+						The consumer sends the line to its logger.<br />It is not a ledger entry.
 					</p>
 				</Concept>
 
@@ -423,7 +423,7 @@ const Related = [
 					</p>
 
 					<p class="page-hero__sub">
-						Failures fall back to the module's built-in defaults. Quiet mode controls
+						Failures fall back to the module's built-in defaults.<br />Quiet mode controls
 						whether the shared diagnostics are emitted.
 					</p>
 				</Concept>
@@ -439,7 +439,7 @@ const Related = [
 					</p>
 
 					<p class="page-hero__sub">
-						A difference anywhere else produces the shared refusal line. The consumer
+						A difference anywhere else produces the shared refusal line.<br />The consumer
 						must not apply that rewrite.
 					</p>
 				</Concept>
@@ -456,7 +456,7 @@ const Related = [
 
 					<p class="page-hero__sub">
 						The envelope covers gates, P2 registration, the jobs envelope, P5 records,
-						and U2 refresh. The consuming module supplies its child runner and
+						and U2 refresh.<br />The consuming module supplies its child runner and
 						module-specific strings.
 					</p>
 
@@ -478,7 +478,7 @@ const Related = [
 					</p>
 
 					<p class="page-hero__sub">
-						The core supplies the formatting mechanics. The field list remains the
+						The core supplies the formatting mechanics.<br />The field list remains the
 						consuming module's responsibility.
 					</p>
 				</Concept>
@@ -537,7 +537,7 @@ const Related = [
 
 					<p class="page-hero__sub">
 						A function replacer keeps replacement-string dollar patterns from being
-						interpreted. No shared
+						interpreted.<br />No shared
 						<code>lastIndex</code> state is reused.
 					</p>
 				</Concept>
@@ -593,7 +593,7 @@ const Related = [
 
 					<p class="page-hero__sub">
 						It handles text deltas, optionally reasoning and tool-call deltas, and
-						block-end chunks. Other chunk types pass through by identity.
+						block-end chunks.<br />Other chunk types pass through by identity.
 					</p>
 				</Concept>
 
@@ -610,7 +610,7 @@ const Related = [
 					</p>
 
 					<p class="page-hero__sub">
-						Tool-call arguments are optional and use the same tool-argument gate. Other
+						Tool-call arguments are optional and use the same tool-argument gate.<br />Other
 						blocks pass through by identity.
 					</p>
 				</Concept>
@@ -627,7 +627,7 @@ const Related = [
 
 					<p class="page-hero__sub">
 						When enabled, <code>edit</code>, <code>raw-write</code>, and{" "}
-						<code>normalize-file</code> calls still pass through by identity. Raw-marked
+						<code>normalize-file</code> calls still pass through by identity.<br />Raw-marked
 						calls use a separate bypass; other eligible calls receive the transform.
 					</p>
 				</Concept>
@@ -639,7 +639,7 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						The first-key marker
-						<code>{'{"__normalize":false'}</code> identifies a raw-marked call. Its
+						<code>{'{"__normalize":false'}</code> identifies a raw-marked call.<br />Its
 						state is tracked per call ID and passed through the fifth argument,
 						<code>Raw</code>.
 					</p>
@@ -656,7 +656,7 @@ const Related = [
 					Diagram="Show eligible content flowing through the injected transform without reordering or buffering. Show unsupported shapes and unchanged results taking identity-preserving passthrough paths."
 				>
 					<p class="page-hero__sub">
-						The dispatchers use structural chunk and block shapes. Their stated contract
+						The dispatchers use structural chunk and block shapes.<br />Their stated contract
 						is pure, total on strings, order-preserving, and unbuffered.
 					</p>
 				</Concept>
@@ -818,7 +818,7 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						Suppression lines are logger-only - the consumer sends them to its logger,
-						never the ledger. The policy diagnostics, the refusal line and the{" "}
+						never the ledger.<br />The policy diagnostics, the refusal line and the{" "}
 						<code>activated (...)</code> proof pass through the consumer's own Append,
 						which composes the logger line and the durable ledger line from the
 						consumer's message.

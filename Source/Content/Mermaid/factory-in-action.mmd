@@ -1,0 +1,9 @@
+flowchart LR
+	PASS["the one pass - as the factory performs it"]
+	G["Gate - decides the actor and the path"]
+	D["Discover - finds the nearest registry.json"]
+	C["Continue - runs the transform detached and contained"]
+	W["GuardedWrite - carries replaceIfVersion<br/>past the P4 sandbox fence"]
+	R["Refresh - re-emits the fresh version<br/>with the same actor"]
+	A["Append - composes the logger's line<br/>from the module's message"]
+	PASS --> G --> D --> C --> W --> R --> A

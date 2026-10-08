@@ -6,6 +6,7 @@ import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
+import Compare from "@Component/Compare.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -191,9 +192,9 @@ const LedgerStrings = [
 				) and normalizes the curly quote family in model output, live in the transcript: the
 				eight typographic quote code points each map to their ASCII straight counterpart -
 				U+2018/U+2019/U+201A/U+201B to the ASCII apostrophe, and U+201C/U+201D/U+201E/U+201F
-				to the ASCII double quote. A MAP flavor of the normalize family: the core's{" "}
+				to the ASCII double quote.<br />A MAP flavor of the normalize family: the core's{" "}
 				<code>Quotes</code> char-to-char table owns the substitution - no{" "}
-				<code>replacement</code> config knob. The family's raw-write tool (registered by
+				<code>replacement</code> config knob.<br />The family's raw-write tool (registered by
 				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
 					hook-dsh-normalize-dash
 				</a>
@@ -376,7 +377,7 @@ const LedgerStrings = [
 					</p>
 					<p>
 						Left in model output, a curly quote is a silent correctness hazard - in code
-						blocks, commands and file paths it is simply the wrong character. This
+						blocks, commands and file paths it is simply the wrong character.<br />This
 						flavor makes the straight form the one that reaches the transcript.
 					</p>
 				</Concept>
@@ -435,13 +436,13 @@ const LedgerStrings = [
 					Diagram="No context rules - one character in, its straight counterpart out; chunk-boundary-safe: single-character substitution, no lookahead - per-chunk application never disagreeing with whole-text application; the mapping values returned through a function replacer so they are inserted literally (no $-pattern interpretation); replaced characters counted per stream for the ledger line."
 				>
 					<p>
-						No context rules - one character in, its straight counterpart out.
+						No context rules - one character in, its straight counterpart out.<br />
 						Chunk-boundary-safe: single-character substitution, no lookahead - per-chunk
 						application can never disagree with whole-text application.
 					</p>
 					<p>
 						The mapping values are returned through a function replacer, so they are
-						inserted literally (no $-pattern interpretation). Replaced characters are
+						inserted literally (no $-pattern interpretation).<br />Replaced characters are
 						counted per stream for the ledger line.
 					</p>
 				</Concept>
@@ -491,7 +492,7 @@ const LedgerStrings = [
 					</p>
 					<p>
 						Volatile cells commit without remounting the plugin; the factory's State
-						builder unwraps them defensively. Example{" "}
+						builder unwraps them defensively.<br />Example{" "}
 						<a
 							href={Link(
 								Links.OurRepo,
@@ -529,7 +530,12 @@ const LedgerStrings = [
 				Before <ArrowIcon Direction="right" Tone="accent" /> after - the model stream, then
 				what reaches the transcript
 			</p>
-			<div class="code-block">{StreamExample.join("\n")}</div>
+			<Compare
+				Id="quotes-stream"
+				Flavor="quotes"
+				Raw={StreamExample.slice(0, 4)}
+				Clean={StreamExample.slice(4)}
+			/>
 			<div class="concept-list">
 				<Concept
 					Id="quotes-in-action"

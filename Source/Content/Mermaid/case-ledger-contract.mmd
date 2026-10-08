@@ -1,0 +1,12 @@
+flowchart LR
+	STRINGS["the ledger strings - the public interface<br/>the only observable that survives a framework port"]
+	MECH["renames and re-implementations change<br/>mechanics - never the bytes the suites assert"]
+	B["Boilerplate - the live truth"]
+	C["Classic - the anonymized release"]
+	E["Effect-TS - the port"]
+	STRINGS --> MECH
+	MECH -. "three implementations hold the contract" .-> B
+	MECH -. "three implementations hold the contract" .-> C
+	MECH -. "three implementations hold the contract" .-> E
+	B ~~~ C
+	C ~~~ E

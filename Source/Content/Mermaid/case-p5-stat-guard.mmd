@@ -1,0 +1,11 @@
+flowchart LR
+	BUG["every step writes against the version<br/>observed at the triggering event"]
+	FIRST["only the first write could succeed"]
+	SILENT["the later steps fail the stale-version<br/>check silently"]
+	FIX["the fix - 5982aa8"]
+	STAT["the chain pass stats the target<br/>before its write"]
+	FRESH["takes the fresh version"]
+	CONVERGE["the fold converges in any step order"]
+	BUG --> FIRST
+	BUG --> SILENT
+	FIX --> STAT --> FRESH --> CONVERGE

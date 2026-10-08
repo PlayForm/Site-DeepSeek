@@ -1,0 +1,5 @@
+flowchart LR
+	POLICY["pin-policy.json"] --> PROTECT["protects a selected dependency<br/>from prefix removal"]
+	DISCOVERY["every readable discovered policy"] --> UNION["the union keep-list"]
+	UNION --> PROTECT
+	P3["the P3 chain-keys interlock"] --> KEEP["the governor's ^resolved chain pins<br/>stay unstripped"]

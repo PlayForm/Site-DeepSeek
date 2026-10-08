@@ -6,6 +6,7 @@ import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
+import Compare from "@Component/Compare.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -261,11 +262,11 @@ const Config = [
 				</a>
 				) and normalizes the unicode dash family to ASCII hyphen-minus, live in the
 				transcript: em dashes, en dashes and seventeen exotic relatives{" "}
-				<ArrowIcon Direction="right" Tone="accent" /> <code>-</code>. Exactly the hermes
-				normalize-dashes hook, at the injection point hermes itself does not have. A CLASS
+				<ArrowIcon Direction="right" Tone="accent" /> <code>-</code>.<br />Exactly the hermes
+				normalize-dashes hook, at the injection point hermes itself does not have.<br />A CLASS
 				flavor of the normalize family: the core's <code>Dashes</code> table plus a
 				configurable <code>replacement</code>
-				(default <code>-</code>). It also registers the family's{" "}
+				(default <code>-</code>).<br />It also registers the family's{" "}
 				<strong>raw-write tool</strong> - a write wrapper with an explicit{" "}
 				<code>normalize</code> parameter (default false = verbatim), exempt from the stream
 				normalization by name like
@@ -453,7 +454,7 @@ const Config = [
 					</p>
 					<p>
 						Model output, however, is born in the stream: the live UI and the durable
-						transcript see the em dashes first, no matter what a file hook does later. A
+						transcript see the em dashes first, no matter what a file hook does later.<br />A
 						DSH plugin can go where hermes cannot: the{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
 							<code>llm/stream</code>
@@ -569,7 +570,7 @@ const Config = [
 					<p>
 						The replacement is applied with a function replacer, so a custom{" "}
 						<code>replacement</code> containing <code>$</code> patterns is inserted
-						literally. Replaced characters are counted per stream for the ledger line.
+						literally.<br />Replaced characters are counted per stream for the ledger line.
 					</p>
 				</Concept>
 			</div>
@@ -672,7 +673,7 @@ const Config = [
 						emit with the written version.
 					</p>
 					<p>
-						<code>exec.signal</code> is honored end to end. Inject:{" "}
+						<code>exec.signal</code> is honored end to end.<br />Inject:{" "}
 						<code>["pluginFactory", "fs", "tools"]</code>.
 					</p>
 				</Concept>
@@ -796,9 +797,14 @@ const Config = [
 				receive the ASCII forms:
 			</p>
 			<p class="section-kicker">
-				<BrandIcon Name="swap" /> Before - the model stream as it is born
+				<BrandIcon Name="swap" />Before - the model stream as it is born
 			</p>
-			<div class="code-block">{StreamExample.join("\n")}</div>
+			<Compare
+				Id="dash-stream"
+				Flavor="dash"
+				Raw={StreamExample.slice(0, 5)}
+				Clean={StreamExample.slice(5)}
+			/>
 			<div class="concept-list">
 				<Concept
 					Id="dash-in-action-count"
@@ -819,7 +825,7 @@ const Config = [
 				</Concept>
 			</div>
 			<p class="section-kicker">
-				<BrandIcon Name="swap" /> After - the stream that reaches the transcript (and the
+				<BrandIcon Name="swap" />After - the stream that reaches the transcript (and the
 				gate for sensitive calls)
 			</p>
 			<div class="code-block">{GateExample.join("\n")}</div>
@@ -889,6 +895,25 @@ const Config = [
 				The activation line is written by <code>apply()</code>; the count line only follows
 				a normal stream completion and only when N &gt; 0 (a thrown-away stream writes no
 				ledger line).
+			</p>
+		</section>
+
+		<!-- The known limits: the documented gaps, stated as they are. -->
+		<section class="section">
+			<SectionHeader Title="Known limits" Meta="THE DOCUMENTED GAPS" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<strong>The byte-integrity law.</strong> The NUL-byte incident class: a write
+				that emits bytes the file's format forbids (NUL bytes) corrupts the file - the
+				lesson of the URL-registry corruption. The law: no write path may introduce
+				bytes outside the target's charset. Verbatim is the default; this family's
+				transforms exist to restore the integrity; the byte-scan is the arbiter.
+			</p>
+			<p class="page-hero__sub">
+				<strong>Markers are stripped before the tool validates.</strong> The harness
+				tools reject unknown argument keys (<code>additionalProperties: false</code>):
+				the raw marker (<code>__normalize: false</code>) and the govern selection are
+				consumed by the family's exec, never passed through to the tool schema - any
+				marker convention must be stripped before the tool validates.
 			</p>
 		</section>
 

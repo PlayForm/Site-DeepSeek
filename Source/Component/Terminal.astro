@@ -1,6 +1,9 @@
 ---
 // Terminal install box: hairline panel, white command line, copy button
-// with a transient mono "COPIED" status in primary.
+// with a transient mono "COPIED" status in primary. The npm form (`pnpm add
+// @playform/<pkg>`) is the published-route command - the family is not on
+// npm yet, so the default label carries the timing truthfully ("ONCE
+// PUBLISHED"); today the install is from source (the /setup/ flow).
 interface Props {
 	Command?: string;
 	Label?: string;
@@ -11,7 +14,7 @@ interface Props {
 
 const {
 	Command = "pnpm add @playform/hook-dsh-core",
-	Label = "CLI INSTALL",
+	Label = "CLI INSTALL · ONCE PUBLISHED",
 	Rail = false,
 } = Astro.props;
 ---

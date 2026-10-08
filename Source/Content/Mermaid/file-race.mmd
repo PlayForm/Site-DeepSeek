@@ -1,0 +1,4 @@
+flowchart LR
+	SERIAL["tool calls serialized"] --> BEFORE["Factory.Write's before read at write time"]
+	BEFORE --> REFLECT["a prior normalize-file in the same turn<br/>already reflected"]
+	REFLECT --> NORACE["no race"]

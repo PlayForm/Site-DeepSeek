@@ -1,0 +1,5 @@
+flowchart LR
+	CATCH["a governance hook's listener catch"] --> SUP["Suppress - module - kind - cause"]
+	SUP --> LINE["the shared suppression line"]
+	LINE --> LOG["sent to its logger"]
+	LOG -. "never" .-> LED["the ledger"]

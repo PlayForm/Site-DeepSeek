@@ -1,0 +1,6 @@
+flowchart LR
+	INSTALL["install-time - the file: dependency alone<br/>does not activate"]
+	BOOT["boot-time - the bundles list<br/>plus the restart"]
+	LOAD["loading the entries from each bundle's<br/>built Target/"]
+	INSTALL -. "not activating" .-> BOOT
+	BOOT --> LOAD

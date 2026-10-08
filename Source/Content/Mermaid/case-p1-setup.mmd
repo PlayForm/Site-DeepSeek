@@ -1,0 +1,19 @@
+flowchart LR
+	HOOKS["the package governor - the package pinner<br/>the cargo governor - plus the dash normalizer"]
+	COPY["each carrying its own copy<br/>of the same machinery"]
+	M1["ledgers"]
+	M2["exclusion matching"]
+	M3["policy loading"]
+	M4["guarded writes"]
+	M5["wiring - schemas"]
+	HOOKS --> COPY
+	COPY --> M1
+	COPY --> M2
+	COPY --> M3
+	COPY --> M4
+	COPY --> M5
+	%% Invisible layout links only - no semantics.
+	M1 ~~~ M2
+	M2 ~~~ M3
+	M3 ~~~ M4
+	M4 ~~~ M5

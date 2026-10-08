@@ -1,0 +1,6 @@
+flowchart LR
+	REP["Replace - the class replacer"] --> RES["{ text, count }"]
+	MAP["ReplaceMap - the map replacer"] --> RES
+	RES --> Z{"count === 0?"}
+	Z -- "count === 0" --> ID["the dispatch caller returns its original<br/>chunk or block object by identity"]
+	Z -- "otherwise" --> NORM["the normalized text is the result"]

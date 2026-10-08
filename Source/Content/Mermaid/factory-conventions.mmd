@@ -1,0 +1,12 @@
+flowchart LR
+	FAMILY["the DSH plugin family - the DeepSeek Harness plugin layer<br/>of the PlayForm ecosystem"]
+	T1["TypeScript-first Source/ to Target/"]
+	T2["the deterministic @playform build"]
+	T3["prepublishOnly-only"]
+	SAME["the same conventions as every other<br/>@playform package"]
+	FAMILY --> T1
+	FAMILY --> T2
+	FAMILY --> T3
+	FAMILY --> SAME
+	T1 ~~~ T2
+	T2 ~~~ T3

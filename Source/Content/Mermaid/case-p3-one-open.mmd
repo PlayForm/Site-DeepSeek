@@ -1,0 +1,7 @@
+flowchart LR
+	DOMAIN["the harness's storage domain<br/>enforces one open per name"] --> WINNER["the shared journal domain<br/>single-winner per boot"]
+	WINNER --> P["only the pinner's records land"]
+	WINNER --> G["the governor's and the cargo's<br/>silently never do"]
+	LED["the human ledger files<br/>remain the complete record"]
+	P --> LED
+	G --> LED

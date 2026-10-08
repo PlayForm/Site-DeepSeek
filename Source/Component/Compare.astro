@@ -1,0 +1,365 @@
+---
+// Compare: the draggable before/after split-handle slider - the raw input
+// versus the normalized output, one pane revealing the other under the
+// Harness Blue handle. The site's patterns, applied:
+//   - em-sized icons, token gaps (--gap-icon), the 1px structural
+//     hairlines, zero elevation - no shadows, no gradients;
+//   - the Harness Blue handle (a 2px rule + a flat white grip with a 1px
+//     blue border), the RAW pane with the 2px accent-orange rail;
+//   - drag (pointer capture), keyboard (arrow keys, home/end) and the
+//     reduced-motion static split (no pointer listeners, the global
+//     motion guard already stills any transition).
+//
+// The panes carry the byte-exact example lines the pages already hold -
+// the Raw lines are escaped and the flavor's own character classes are
+// flagged with the site's existing .anom / .zwsp markers (the same
+// highlight the workbench and matrix demos run, per the real transform
+// tables). Flavor "all" applies every class (the family chain).
+import TerminalTray from "@Component/TerminalTray.astro";
+
+interface Props {
+	/** The raw stream lines (byte-exact, from the page's own constants). */
+	Raw: string[];
+	/** The normalized lines (byte-exact, from the page's own constants). */
+	Clean: string[];
+	/** The flavor whose character classes the raw pane flags. */
+	Flavor:
+		| "dash"
+		| "quotes"
+		| "ellipsis"
+		| "spaces"
+		| "invisible"
+		| "fullwidth"
+		| "file"
+		| "all";
+	/** A stable id - the page may mount several Comparers. */
+	Id: string;
+	/** Initial handle position, percent (default 50). */
+	Start?: number;
+	/** The legend labels under the stage. */
+	RawLabel?: string;
+	CleanLabel?: string;
+}
+
+const {
+	Raw,
+	Clean,
+	Flavor,
+	Id,
+	Start = 50,
+	RawLabel = "RAW - what the model wrote",
+	CleanLabel = "NORMALIZED - what reaches the transcript",
+} = Astro.props;
+
+// ---- Escape: every character becomes safe HTML text ----
+function Escape(Text: string): string {
+	return Text.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#39;");
+}
+
+// ---- The flavor character classes, mirrored from the real transform
+// tables the workbench and matrix demos run (and the READMEs they cite).
+// The markers the site already uses ([ZWSP], [NBSP]) plus the explicit
+// marker forms for the other invisible characters the invisible flavor
+// removes - all rendered in the existing .zwsp chip style. ----
+const Classes: Record<string, RegExp> = {
+	dash: /[\u2013\u2014\u2015]/g,
+	quotes: /[\u2018\u2019\u201C\u201D]/g,
+	ellipsis: /\u2026/g,
+	fullwidth: /[\uFF01-\uFF5E]/g,
+};
+
+const SpaceGaps = /[\u00A0]/g;
+const SpaceWide = /[\u1680\u2000-\u200A\u202F\u205F\u3000]/g;
+
+const Invisible: Array<[RegExp, string]> = [
+	[/\u00AD/g, "[SHY]"],
+	[/\u200B/g, "[ZWSP]"],
+	[/\u200C/g, "[ZWNJ]"],
+	[/\u200D/g, "[ZWJ]"],
+	[/\u200E/g, "[LRM]"],
+	[/\u200F/g, "[RLM]"],
+	[/\u2060/g, "[WJ]"],
+	[/\uFEFF/g, "[BOM]"],
+];
+
+// The file tool runs the family chain on disk: its example's visible
+// anomalies are the dash family (the quotes/ellipsis in its before line
+// are already ASCII in the README's literal example).
+const FileClass = /[\u2013\u2014\u2015]/g;
+
+function Highlight(Text: string): string {
+	let Out = Escape(Text);
+	if (Flavor === "dash" || Flavor === "file" || Flavor === "all") {
+		Out = Out.replace(Classes.dash, (Mark) => `<span class="anom">${Mark}</span>`);
+	}
+	if (Flavor === "quotes" || Flavor === "all") {
+		Out = Out.replace(Classes.quotes, (Mark) => `<span class="anom">${Mark}</span>`);
+	}
+	if (Flavor === "ellipsis" || Flavor === "all") {
+		// The real U+2026 glyph stays visible in the raw pane (flagged),
+		// exactly like the index hero's and the workbench's highlight - the
+		// clean pane is where the three-dot sequence appears.
+		Out = Out.replace(Classes.ellipsis, '<span class="anom">\u2026</span>');
+	}
+	if (Flavor === "spaces" || Flavor === "all") {
+		Out = Out.replace(SpaceGaps, '<span class="zwsp">[NBSP]</span>');
+		Out = Out.replace(SpaceWide, (Mark) => `<span class="anom">${Mark}</span>`);
+	}
+	if (Flavor === "invisible" || Flavor === "all") {
+		for (const [Pattern, Marker] of Invisible) {
+			Out = Out.replace(Pattern, `<span class="zwsp">${Marker}</span>`);
+		}
+	}
+	if (Flavor === "fullwidth" || Flavor === "all") {
+		Out = Out.replace(Classes.fullwidth, (Mark) => `<span class="anom">${Mark}</span>`);
+	}
+	return Out;
+}
+
+const RawHtml = Raw.map(Highlight).join("\n");
+const CleanText = Clean.join("\n");
+---
+
+<figure class="compare" id={Id}>
+	<TerminalTray Label="Before / After">
+		<span class="compare__hint" aria-hidden="true">DRAG <span class="compare__keys">← →</span></span>
+	</TerminalTray>
+
+	<div class="compare__stage" data-compare data-start={Start}>
+		<div class="compare__screen compare__screen--clean">{CleanText}</div>
+		<div class="compare__screen compare__screen--raw rail-orange" set:html={RawHtml}></div>
+		<div
+			class="compare__handle"
+			role="slider"
+			tabindex="0"
+			aria-label="Compare the raw input and the normalized output - arrow keys move the split"
+			aria-valuemin="0"
+			aria-valuemax="100"
+			aria-valuenow={Start}
+			aria-orientation="horizontal"
+			data-handle
+		>
+			<span class="compare__grip" aria-hidden="true"></span>
+		</div>
+	</div>
+
+	<figcaption class="compare__legend">
+		<span class="compare__legend-item is-orange">
+			<span class="dot dot--raw"></span>
+			{RawLabel}
+		</span>
+		<span class="compare__legend-item">
+			<span class="dot dot--clean"></span>
+			{CleanLabel}
+		</span>
+	</figcaption>
+</figure>
+
+<style>
+	.compare {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
+		margin: 0;
+		padding: var(--space-md);
+		border-radius: var(--radius-lg);
+		background: var(--color-surface-container-lowest);
+		border: 1px solid var(--color-outline-variant);
+		min-width: 0;
+	}
+
+	/* The stage: the clean pane in flow (it sets the height), the raw pane
+	   clipped above it by the handle position (a CSS var set from the
+	   script), the handle on top. */
+	.compare__stage {
+		position: relative;
+		min-width: 0;
+		touch-action: none;
+		user-select: none;
+	}
+
+	.compare__screen {
+		padding: var(--space-md);
+		border-radius: var(--radius-md);
+		background: var(--color-surface-container-low);
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-on-surface);
+		white-space: pre-wrap;
+		word-break: break-word;
+		min-width: 0;
+	}
+
+	.compare__screen--clean {
+		position: relative;
+	}
+
+	.compare__screen--raw {
+		position: absolute;
+		inset: 0;
+		clip-path: inset(0 calc(100% - var(--compare-pos, 50%)) 0 0);
+		transition: clip-path var(--duration-fast) var(--ease-crisp);
+	}
+
+	/* The handle: the 2px Harness Blue rule with the flat white grip -
+	   zero elevation, the grip's only state change is the border stroke
+	   under the focus ring the global [tabindex]:focus-visible rule
+	   provides. */
+	.compare__handle {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: var(--compare-pos, 50%);
+		width: 2px;
+		margin-left: -1px;
+		background: var(--color-harness-blue);
+		cursor: ew-resize;
+		z-index: 3;
+		transition: left var(--duration-fast) var(--ease-crisp);
+	}
+
+	.compare__grip {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 14px;
+		height: 14px;
+		margin: -7px 0 0 -7px;
+		border-radius: 2px;
+		background: var(--color-surface-container-lowest);
+		border: 1px solid var(--color-harness-blue);
+	}
+
+	/* The legend: the RAW signature on the left (orange dot + orange
+	   label), the NORMALIZED signature on the right (blue dot). */
+	.compare__legend {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-sm);
+		flex-wrap: wrap;
+		margin: 0;
+	}
+
+	.compare__legend-item {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--gap-icon);
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		color: var(--color-ink-secondary);
+	}
+
+	.compare__legend-item .dot {
+		width: 8px;
+		height: 8px;
+		border-radius: var(--radius-full);
+		flex-shrink: 0;
+		margin-block: -0.1875em 0.1875em;
+	}
+
+	.compare__legend-item .dot--raw {
+		background: var(--color-accent-orange);
+	}
+
+	.compare__legend-item .dot--clean {
+		background: var(--color-primary-container);
+	}
+
+	.compare__hint {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-ink-muted);
+		white-space: nowrap;
+	}
+
+	.compare__keys {
+		color: var(--color-primary);
+	}
+</style>
+
+<script>
+	// The split-handle slider: pointer drag (with pointer capture), stage
+	// clicks, and the keyboard (arrow keys step by 5, home/end jump to the
+	// ends). The position lives in the --compare-pos CSS var on the stage;
+	// aria-valuenow mirrors it. Reduced-motion users keep the static split
+	// (no pointer listeners are attached - the split still moves with the
+	// keyboard, and the global motion guard already stills the transition).
+	document.querySelectorAll<HTMLElement>("[data-compare]").forEach((Stage) => {
+		const Handle = Stage.querySelector<HTMLElement>("[data-handle]");
+		const Initial = Number(Stage.dataset["start"] ?? 50);
+
+		const Apply = (Value: number) => {
+			// Round to two decimals: the pointer math carries float noise
+			// (70.0000023%) that would leak into the CSS var otherwise.
+			const Pos = Math.min(100, Math.max(0, Math.round(Value * 100) / 100));
+			Stage.style.setProperty("--compare-pos", `${Pos}%`);
+			Handle?.setAttribute("aria-valuenow", String(Math.round(Pos)));
+		};
+		Apply(Initial);
+
+		const MoveTo = (ClientX: number) => {
+			const Rect = Stage.getBoundingClientRect();
+			if (Rect.width <= 0) return;
+			Apply(((ClientX - Rect.left) / Rect.width) * 100);
+		};
+
+		Handle?.addEventListener("keydown", (Event) => {
+			const Current = Number(Handle.getAttribute("aria-valuenow") ?? Initial);
+			if (Event.key === "ArrowLeft") {
+				Event.preventDefault();
+				Apply(Current - 5);
+			} else if (Event.key === "ArrowRight") {
+				Event.preventDefault();
+				Apply(Current + 5);
+			} else if (Event.key === "Home") {
+				Event.preventDefault();
+				Apply(0);
+			} else if (Event.key === "End") {
+				Event.preventDefault();
+				Apply(100);
+			}
+		});
+
+		// The drag + the stage click-to-jump: only when motion is allowed.
+		// Reduced-motion users get the static split (the keyboard above
+		// still works - it is not motion). Pressing anywhere on the stage
+		// (the handle or the panes) captures the pointer, so the drag runs
+		// from any starting point; the handle's own press just starts it
+		// on the handle line.
+		if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+			Handle?.addEventListener("pointerdown", (Event) => {
+				Event.preventDefault();
+				(Event.currentTarget as HTMLElement).setPointerCapture(Event.pointerId);
+				MoveTo(Event.clientX);
+			});
+			Handle?.addEventListener("pointermove", (Event) => {
+				if (!(Event.currentTarget as HTMLElement).hasPointerCapture(Event.pointerId)) return;
+				MoveTo(Event.clientX);
+			});
+			Stage.addEventListener("pointerdown", (Event) => {
+				if ((Event.target as HTMLElement).closest?.("[data-handle]")) return;
+				Stage.setPointerCapture(Event.pointerId);
+				MoveTo(Event.clientX);
+			});
+			Stage.addEventListener("pointermove", (Event) => {
+				if (!Stage.hasPointerCapture(Event.pointerId)) return;
+				MoveTo(Event.clientX);
+			});
+		}
+	});
+</script>

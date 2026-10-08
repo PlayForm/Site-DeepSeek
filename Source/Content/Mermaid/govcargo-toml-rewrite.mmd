@@ -1,0 +1,11 @@
+flowchart LR
+	SMOL["smol-toml - the ONE runtime dependency<br/>used for PARSING ONLY"]
+	ID["identification of the dep entries in<br/>[dependencies] - [dev-dependencies] - [build-dependencies]<br/>[target cfg(...) dependencies] and its dev/build variants<br/>and [workspace.dependencies] - handled natively"]
+	NEVER["the never-rewritten shapes - path - git<br/>inherited workspace = true"]
+	NON["non-dependency sections NEVER touched"]
+	REFUSE["the refusal guard refuses any plan entry<br/>outside an identified dependency table"]
+	ABORT["Pin aborts - never a partial rewrite - if a planned<br/>entry cannot be located in the text"]
+	SMOL --> ID
+	ID --> NEVER
+	ID --> NON --> REFUSE
+	ID --> ABORT

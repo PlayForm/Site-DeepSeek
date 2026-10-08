@@ -1,0 +1,3 @@
+flowchart LR
+	Z{"count === 0"} --> ID["the dispatch caller returns its original<br/>chunk or block object by identity"]
+	ID --> NO["no copy - no reordering - no buffering"]

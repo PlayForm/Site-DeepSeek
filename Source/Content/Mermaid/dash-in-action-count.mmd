@@ -1,0 +1,10 @@
+flowchart LR
+	IN["the em dash U+2014 - the en dash U+2013<br/>and the horizontal bar U+2015"]
+	PASS["each becoming -"]
+	COUNT["the count only counts replacements<br/>ASCII hyphens already there untouched"]
+	REASON["the same pass runs over reasoning deltas<br/>normalizeReasoning - default on"]
+	TOOL["and over tool-call arguments when the example patch<br/>enables normalizeToolArguments - the three-way gate<br/>keeps the sensitive calls intact"]
+	IN --> PASS
+	PASS --> COUNT
+	PASS --> REASON
+	PASS --> TOOL

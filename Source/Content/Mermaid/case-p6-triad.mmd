@@ -1,0 +1,10 @@
+flowchart LR
+	TRIAD["the three implementations - roles stay fixed"]
+	B["Boilerplate - the live truth"]
+	C["Classic - the anonymized release"]
+	E["Effect-TS - the port"]
+	TRIAD --> B
+	TRIAD --> C
+	TRIAD --> E
+	B ~~~ C
+	C ~~~ E

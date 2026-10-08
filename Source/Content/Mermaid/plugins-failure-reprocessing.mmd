@@ -1,0 +1,10 @@
+flowchart LR
+	REFIRE["a governed write re-fires fs/observed"]
+	INTERLOCK["the interlock re-enters<br/>the listeners - by design"]
+	B1["the Stash idempotence gate"]
+	B2["the P3/U2 refresh re-emitting<br/>with the same actor"]
+	B3["the live battery proving bounded -<br/>self-canonicalizing re-passes"]
+	REFIRE --> INTERLOCK
+	INTERLOCK --> B1
+	INTERLOCK --> B2
+	INTERLOCK --> B3

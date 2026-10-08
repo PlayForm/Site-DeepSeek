@@ -1,0 +1,7 @@
+flowchart LR
+	HERMES["the hermes hook rewrites files after the fact<br/>perl -CSD -pe over whatever was already written"]
+	STREAM["model output is born in the stream"]
+	SEE["the live UI and the durable transcript<br/>see the em dashes first"]
+	NEVER["no matter what a file hook does later"]
+	HERMES -. "after the fact" .-> NEVER
+	STREAM --> SEE

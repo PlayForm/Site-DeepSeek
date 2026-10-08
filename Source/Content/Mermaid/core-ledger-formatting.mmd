@@ -1,0 +1,14 @@
+flowchart LR
+	CORE["the core's only contributions to the ledger shapes"]
+	M1["the Suppress composer"]
+	M2["the Policy diagnostics"]
+	M3["the Refusal line"]
+	M4["the Activate template"]
+	CORE --> M1
+	CORE --> M2
+	CORE --> M3
+	CORE --> M4
+	%% Invisible layout links only - no semantics.
+	M1 ~~~ M2
+	M2 ~~~ M3
+	M3 ~~~ M4

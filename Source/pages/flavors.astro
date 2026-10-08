@@ -1,14 +1,28 @@
 ---
 import Base from "@Layout/Base.astro";
+import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import Compare from "@Component/Compare.astro";
 import Concept from "@Component/Concept.astro";
 import FlavorBadge from "@Component/FlavorBadge.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import { Counts, Sprite } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
+
+// The chain showcase: one raw line carrying every family's anomaly (each
+// character class taken from the flavors' own README examples - the em
+// dash, the curly quotes, the ellipsis, the no-break space, the zero-width
+// space + BOM, the full-width digits), and the clean line after the
+// family's fixed-order chain.
+const ChainRaw = [
+	"Plan review \u2014 phase one: the config \u201Cdrift\u201D is real\u2026 wait for it\u2026 Balance\u00A0sheet sync \u2014 latency\u200Bbudget\uFEFF \u2014 \uFF11\uFF12\uFF13.",
+];
+const ChainClean = [
+	"Plan review - phase one: the config \"drift\" is real... wait for it... Balance sheet sync - latency budget - 123.",
+];
 
 // The seven normalize flavors: six stream flavors plus the file tool.
 const Flavors = [
@@ -87,6 +101,35 @@ const Flavors = [
 					</Card>
 				))}
 			</div>
+		</section>
+
+		<!-- One stream through the whole family: the chain showcase - every
+			flavor's character class in one raw line, the clean line after the
+			fixed-order chain. Drag the handle to compare. -->
+		<section class="section">
+			<SectionHeader Title="One stream through the whole family" Meta="THE SIX-FLAVOR CHAIN" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The six stream flavors compose into one chain: a raw line carrying every family's
+				anomaly - an em dash, curly quotes, an ellipsis, a no-break space, a zero-width
+				space and a BOM, full-width digits - and the clean line after the pass.
+			</p>
+			<Compare
+				Id="flavors-chain"
+				Flavor="all"
+				Raw={ChainRaw}
+				Clean={ChainClean}
+				RawLabel="Raw - every family's anomaly"
+				CleanLabel="Clean - after the six-flavor chain"
+			/>
+			<p class="section-kicker" style="margin-top: var(--space-md)">
+				<BrandIcon Name="swap" />The order is FIXED by the family: dashes{" "}
+				<ArrowIcon Direction="right" Tone="accent" /> quotes{" "}
+				<ArrowIcon Direction="right" Tone="accent" /> ellipsis{" "}
+				<ArrowIcon Direction="right" Tone="accent" /> spaces{" "}
+				<ArrowIcon Direction="right" Tone="accent" /> invisible{" "}
+				<ArrowIcon Direction="right" Tone="accent" /> fullwidth - the same chain the
+				raw-write tool's <code>normalize: true</code> runs.
+			</p>
 		</section>
 
 		<!-- The two roles -->

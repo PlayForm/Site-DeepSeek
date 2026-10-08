@@ -1,0 +1,4 @@
+flowchart LR
+	EDIT["edit a linked bundle's source"] --> BUILD["build its Target"]
+	BUILD --> RESTART["restart the host"]
+	RESTART --> FRESH["the rebuilt Target fresh<br/>on every restart"]

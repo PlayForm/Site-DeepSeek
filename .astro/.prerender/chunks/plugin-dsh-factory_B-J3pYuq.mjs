@@ -1,0 +1,379 @@
+import { C as __exportAll, S as createComponent, a as Links, b as $$BrandIcon, n as $$Base, o as Counts, r as Link, s as Families, t as $$Badge, u as Methods, y as Versions } from "./Badge_CHteF_GF.mjs";
+import { g as addAttribute, m as maybeRenderHead, o as renderComponent, p as renderTemplate } from "./server_jUwDEDCs.mjs";
+import { t as $$ArrowIcon } from "./ArrowIcon_DQw92EC9.mjs";
+import { t as $$Card } from "./Card_B96geFVd.mjs";
+import { t as $$Concept } from "./Concept_DF89tVee.mjs";
+import { t as $$SectionHeader } from "./SectionHeader_w9WBitnM.mjs";
+import { t as $$Terminal } from "./Terminal_DR1pHPfM.mjs";
+import { t as $$CodeBlock } from "./CodeBlock_BKk4KZdJ.mjs";
+import { t as $$Seams } from "./Seams_CCLTae3H.mjs";
+//#region Source/pages/plugins/plugin-dsh-factory.astro
+var plugin_dsh_factory_exports = /* @__PURE__ */ __exportAll({
+	default: () => $$PluginDshFactory,
+	file: () => $$file,
+	url: () => $$url
+});
+var $$PluginDshFactory = createComponent(($$result, $$props, $$slots) => {
+	const Furnace = [
+		"  THE CONSUMERS BRING THEIR OWN METAL         THE FACTORY POURS THE MOLD",
+		`  (model logic: a Config extension,           (${Methods.Count} methods on ctx.pluginFactory,`,
+		"   a pure transform, an update engine          inject: [\"fs\"] - it calls ctx.fs)",
+		"   and every ledger string)",
+		"",
+		"  hook-dsh-governor-package ────►┐",
+		"  hook-dsh-pinner-package ───────┤       ctx.pluginFactory (Service)",
+		"  hook-dsh-governor-cargo ───────┤         │",
+		"  hook-dsh-normalize-dash ───────┤         ├─ Append(state, msg) ──► \"<Module>: <msg>\" on the logger",
+		"  hook-dsh-normalize-quotes ─────┤         │                        + \"[<ISO>] <msg>\" appended to the ledger file",
+		"  hook-dsh-normalize-ellipsis ───┤         ├─ Match(path, list) ───► the exclusion-first segment match",
+		"  hook-dsh-normalize-spaces ─────┤         ├─ Discover(dir) ──────► nearest registry.json walk-up",
+		"  hook-dsh-normalize-invisible ──┤         ├─ Parse(path) ─────────► contained JSON read (null on any failure)",
+		"  hook-dsh-normalize-fullwidth ──┘         ├─ ResolvePolicy(...) ──► union keep-list: global policy → <dir>/",
+		"                                           │                        registry-adjacent → + P3 chain keys",
+		"                                           ├─ Gate(...) ───────────► g1 gates: target → actor → kind →",
+		"                                           │                        Stash idempotence → basename → excluded",
+		"                                           ├─ Write(...) ──────────► the ONE shared executor (intent / policy /",
+		"                                           │                         observe / stash / the content transform)",
+		"                                           ├─ GuardedWrite(...) ──► replaceIfVersion + the P4 sandbox fence",
+		"                                           ├─ Refresh(...) ───────► Stash seed + fs/observed re-emit (same actor)",
+		"                                           ├─ Continue(..., tfm) ─► Inflight → readText → keep-list →",
+		"                                           │                        the model's transform → GuardedWrite →",
+		"                                           │                        message → Refresh → contained throws",
+		"                                           ├─ State(ctx, cfg, s) ─► cell unwrap + shared fields + extras",
+		"                                           ├─ Wire(ctx, st, obs) ─► the fiber-owned fs/observed registration",
+		"                                           ├─ Attach(ctx, {...}) ─► P1 jobs controller / P2 inflight disposal /",
+		"                                           │                        P5 storage domain (probed, graceful)",
+		"                                           ├─ Journal(state, ...) ─► the P5 package_governance writer",
+		"                                           ├─ Schema(shared?, m) ─► the Schemastery schema factory",
+		"                                           ├─ Seam(state, name) ──► probe-once optional-service accessor",
+		"                                           ├─ UpdateKey(target) ──► the namespaced Inflight key (update stages)",
+		"                                           ├─ RegisterGovern(...) ─► the direct-govern registry (per basename)",
+		"                                           └─ Govern(target, ...) ─► the direct-govern executor (GovernSteps,",
+		"                                                                     the registered steps - the registry view"
+	];
+	const Consumers = [
+		{
+			Name: "hook-dsh-governor-package",
+			Inject: "[\"fs\", \"pluginFactory\"]",
+			Uses: "Gate, Discover/Parse, Continue, GuardedWrite, Refresh, State, Wire, Attach, Journal, Append, UpdateKey"
+		},
+		{
+			Name: "hook-dsh-pinner-package",
+			Inject: "[\"fs\", \"pluginFactory\"]",
+			Uses: "Gate, Discover, Continue (pin pass), State, Wire, Attach, Journal, Append"
+		},
+		{
+			Name: "hook-dsh-governor-cargo",
+			Inject: "[\"fs\", \"pluginFactory\"]",
+			Uses: "Gate, Discover/Parse, Continue (TOML surgery), State, Wire, Attach, Journal, Append, UpdateKey, Seam"
+		},
+		{
+			Name: "hook-dsh-normalize-dash + the five hook-dsh-normalize-* flavors",
+			Inject: "[\"pluginFactory\"]",
+			Uses: "State, Append - plus the named Schema export (shared: false) for their config"
+		}
+	];
+	const InAction = [
+		"// Source/Function/Transform.ts of a consumer (condensed to its shape):",
+		"export default (Current, Section, Keep) => {",
+		"	const Document = JSON.parse(Current); // Current: the RAW file text",
+		"	const Outcome = Pin(Document, Section, Keep); // the module's own logic",
+		"	switch (true) {",
+		"		case !Outcome: // nothing to pin",
+		"			return null; // every no-op path logs itself, then null",
+		"		default:",
+		"			return {",
+		"				next: Outcome.Next, // written as JSON.stringify(next, null, 2) + \"\\n\"",
+		"				count: Outcome.Pinned,",
+		"				message: `pinned ${Path} (${Outcome.Pinned} versions)`,",
+		"			}; // Continue: GuardedWrite → Refresh → Append → journal",
+		"	}",
+		"};",
+		"",
+		"transcript:  the write tool result shows exactly what the author wrote",
+		"pinner.log:  [2026-10-03T09:16:01.880Z] pinned <project>/acme/tool/package.json (7 versions)"
+	];
+	const LedgerLines = ["logger:  <State.Module>: <message>      (State.Module = the consumer's historical prefix)", "ledger:  [<ISO timestamp>] <message>    (appendFileSync, best-effort, when log is enabled)"];
+	const Related = [
+		{
+			Name: "hook-dsh-core",
+			Desc: "The pure layer the factory deliberately does not re-export - the hooks import the core's helpers directly."
+		},
+		{
+			Name: "hook-dsh-governor-package",
+			Desc: "A governance hook child: injects the service and supplies its own transform, update engine and ledger strings."
+		},
+		{
+			Name: "hook-dsh-normalize-dash",
+			Desc: "The factory's first NON-MANIFEST module: injects only the service and uses State/Append and the named Schema export."
+		}
+	];
+	return renderTemplate`${renderComponent($$result, "Base", $$Base, {
+		"Title": "plugin-dsh-factory - @playform / DSH Family",
+		"Description": `${Families.Factory} - the furnace of the DSH governance family: the first service-provider bundle in the DeepSeek Harness plugin family, one service holding every piece of common machinery the family's hooks used to duplicate.`
+	}, { "default": ($$result) => renderTemplate` ${maybeRenderHead($$result)}<main class="container container--main"> <div class="eyebrow-row"> ${renderComponent($$result, "Badge", $$Badge, {
+		"Variant": "primary",
+		"Dot": true
+	}, { "default": ($$result) => renderTemplate`
+PLUGIN DETAIL
+` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`ROLE: FACTORY` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`SERVICE PROVIDER` })} </div> <section class="page-hero"> <h1 class="page-hero__title">plugin-dsh-factory</h1> <p class="page-hero__sub"> ${Families.Factory} • ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "deepseek" })} _The DeepSeek Harness Plugin
+				Family for PlayForm._ The
+<strong>furnace of the DSH governance family</strong> - the first service-provider
+				bundle in the DeepSeek Harness plugin family.<br>Loading it registers one class plugin
+				(export default class PluginFactory extends Service, super(ctx, "pluginFactory"),
+				static inject = ["fs"]) that exposes <code>ctx.pluginFactory</code>: a single
+				service holding every piece of common machinery the family's hooks used to
+				duplicate.<br>One service.<br>${Methods.Word} methods (<a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts"), "href")}>the direct-govern pair</a>
+RegisterGovern + Govern and the GovernSteps registry among them).<br>The hooks bring
+				their own metal; the factory pours the mold.
+</p> </section> <section class="section"> <div class="snippet-list"> ${renderComponent($$result, "Terminal", $$Terminal, { "Command": "pnpm add @playform/plugin-dsh-factory" })} </div> <div class="inspect-card"> <span class="inspect-card__meta"> <span class="live-dot"></span>INSPECTED
+</span> <div class="workbench-controls__group"> <span class="workbench-controls__label">Namespace:</span> <span class="hook-tally">@playform/plugin-dsh-factory</span> <span class="workbench-controls__label">Release:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`v${Versions.Release}` })} </div> <div class="workbench-controls__group"> <span class="workbench-controls__label">Archetype:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`Service` })} <span class="workbench-controls__label">Injects:</span> ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`fs` })} <span class="workbench-controls__label">Exposes:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "active" }, { "default": ($$result) => renderTemplate`ctx.pluginFactory` })} </div> </div> </section> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+The profile wiring for this plugin - the bundles list, the patch entry and the restart -
+			is on the <a href="/setup/">setup page</a>.
+</p> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Where It Fits",
+		"Meta": "FAMILY POSITION: THE PARENT SERVICE"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-family-position",
+		"Title": "The family position",
+		"Diagram": `${Families.Factory} as the family's parent service - every other package consuming it (the three governance hooks injecting the service; the six normalize flavors consuming State/Append and the Schema helper) - its own parent the filesystem service (inject: ["fs"]).`
+	}, { "default": ($$result) => renderTemplate` <p> <strong>Family position</strong> (the @-sentence${" "} <strong>${Families.Factory}</strong>): the family's parent service - every
+						other package consumes it (the three governance hooks inject the service;
+						the six normalize flavors consume State/Append and the Schema helper); its
+						own parent is the filesystem service (inject: ["fs"]).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-core-boundary",
+		"Title": "The non-reexport boundary",
+		"Diagram": "The pure layer the factory deliberately does not re-export - [hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source) (its service surface stays stable) - the hooks importing the core's helpers directly."
+	}, { "default": ($$result) => renderTemplate` <p>
+The pure layer it deliberately does <strong>not</strong> re-export is${" "} <strong>hook-dsh-core</strong> (its service surface stays stable); the hooks
+						import the core's helpers directly.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-conventions",
+		"Title": "The ecosystem conventions",
+		"Diagram": "The DSH plugin family as the DeepSeek Harness plugin layer of the PlayForm ecosystem - TypeScript-first Source/ to Target/, the deterministic @playform build, prepublishOnly-only - the same conventions as every other @playform package."
+	}, { "default": ($$result) => renderTemplate` <p>
+The DSH plugin family is the DeepSeek Harness plugin layer of the PlayForm
+						ecosystem: TypeScript-first Source/${" "} ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} Target/, the deterministic
+						@playform build, prepublishOnly-only - the same conventions as every other
+						@playform package.
+</p> ` })} </div> <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Consumer</th> <th>Injects</th> <th>Uses</th> </tr> </thead> <tbody> ${Consumers.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Name}</strong> </td> <td>${Row.Inject}</td> <td>${Row.Uses}</td> </tr>`)} </tbody> </table> </div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+The pure layer it deliberately does <strong>not</strong> re-export is
+<strong>hook-dsh-core</strong> (its service surface stays stable); the hooks import
+				the core's helpers directly.<br>The DSH plugin family is the DeepSeek Harness plugin
+				layer of the PlayForm ecosystem: TypeScript-first Source/ → Target/, the
+				deterministic @playform build, prepublishOnly-only - the same conventions as every
+				other @playform package.
+</p> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In the DeepSeek Harness",
+		"Meta": "THE SERVICE BEHIND THE SEAMS"
+	})} <p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+The factory is the family's bridge into the harness internals - it sits under every
+				consumer and drives the actual facilities:
+</p> ${renderComponent($$result, "Seams", $$Seams, { "Seams": [
+		{
+			Seam: "The tool layer (write / edit / str_replace_editor)",
+			What: "The fs/observed events the governance hooks react to are fired by the tool layer only, for every harness write or edit; [GuardedWrite](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) and Refresh keep the author's next guarded write from ever failing a stale-version check.",
+			Outcome: "One trigger law for the whole machine, any agent, any thread."
+		},
+		{
+			Seam: "ctx.fs - the filesystem service (dsh-fs)",
+			What: "Every write of a GOVERNED file goes through [ctx.fs](Harness:packages/fs/fs) (the [fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, the [fs/observed emit](Harness:packages/fs/fs/src/index.ts)); only the ledger append and auxiliary discovery reads are plain-fs exemptions, documented.",
+			Outcome: "Writes that the observation policy and the sandbox see like built-in writes."
+		},
+		{
+			Seam: "ctx.jobs - the jobs facility",
+			What: "Attach registers the root's job controller (which serves every owner) and runs the update stages inside the [jobs envelope](Harness:packages/jobs) (kind governor-update, unowned), with the detached contained continuation as the probed fallback.",
+			Outcome: "Update stages that never block or abort the author's session."
+		},
+		{
+			Seam: "The storage domain",
+			What: "[Journal](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts) writes the package_governance v2 records when the [storage facility](Harness:packages/storage/storage-domain) is present (probed, graceful): the queue drains, or the records buffer/drop and the human ledger stays the complete record.",
+			Outcome: "A machine-readable governance history beside the human ledger."
+		},
+		{
+			Seam: "Sessions / the ledger",
+			What: "Append composes the two wrappers - <State.Module>: <message> on the logger and [<ISO>] <message> in the durable ledger file - around every consumer message.",
+			Outcome: "\"Did it activate / what happened\" is answerable from the ledger alone."
+		}
+	] })} </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Problem",
+		"Meta": "THREE CONSUMERS, ONE MACHINE"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-problem-copies",
+		"Title": "The triplicated machinery",
+		"Diagram": "Three independent consumers of the same machinery already existing - the governor, the pinner and the cargo governor each maintaining their own copy of: the ledger (Append), the exclusion match (Match), the registry / policy walk-up discovery (Discover/Parse), the union keep-list resolution with the P3 chain-keys interlock, the g1 gate set, the version-guarded write with the P4 sandbox fence, the P3/U2 observation-policy refresh, the detached contained continuation scaffolding, the State construction with defensive cell unwrap, the ctx.on wiring, the P1/P2/P5 lifecycle effects, the Schemastery schema shape, and the probe-once optional-service accessor."
+	}, { "default": ($$result) => renderTemplate` <p>
+Three independent consumers of the <em>same</em> machinery already existed.
+						The governor, the pinner and the cargo governor each maintained their own
+						copy of:
+</p> <ul class="concept-values"> <li>
+the ledger (Append), the exclusion match (Match), the registry / policy
+							walk-up discovery (Discover/Parse), the union keep-list resolution with
+							the P3 chain-keys interlock, the g1 gate set, the version-guarded write
+							with the P4 sandbox fence, the P3/U2 observation-policy refresh, the
+							detached contained continuation scaffolding, the State construction with
+							defensive cell unwrap, the ctx.on wiring, the P1/P2/P5 lifecycle
+							effects, the Schemastery schema shape, and the probe-once
+							optional-service accessor.
+</li> </ul> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-problem-triple",
+		"Title": "The triple-application cost",
+		"Diagram": "Every bug fix or hardening pass - the sandbox fence, the stale-version leak, the in-flight disposal - having to be applied three times; the factory making it apply once."
+	}, { "default": ($$result) => renderTemplate` <p>
+Every bug fix or hardening pass - the sandbox fence, the stale-version leak,
+						the in-flight disposal - had to be applied three times.
+</p> <p>
+The factory makes it apply <strong>once</strong>.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "How It Works",
+		"Meta": "THE FURNACE"
+	})} <div class="code-block">${Furnace.join("\n")}</div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+A consumer never re-implements the mold - it injects the service (inject:
+				["pluginFactory"], the loader holds it PENDING until the factory exists) and
+				supplies only its own three parts:
+</p> <div class="grid grid--3" style="margin-top: var(--space-sm)"> ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "1. A Config extension",
+		"Desc": "export const Config = Schema({ logFile: ... }, { myField: ... }) via the standalone named Schema export - usable at module-evaluation time, before any service instance exists; shared: false emits the minimal block for non-manifest modules."
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`CONFIG` })}` })} ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "2. A transform",
+		"Desc": "The pure (current, section, keep) => { next, count, message? } | null function. current is the RAW file text (null when the read failed); the consumer decodes, applies its logic, logs its own no-op/refusal lines and returns null for every no-op path."
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`TRANSFORM` })}` })} ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "3. An update engine (optional)",
+		"Desc": "ncu/cargo dispatch, cooldowns, circuit breakers, the first-wins update-policy path pick: model logic, built on GuardedWrite/Refresh/Seam/Journal/UpdateKey."
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`UPDATE ENGINE` })}` })} </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-not-owned",
+		"Title": "What the factory deliberately does NOT own",
+		"Diagram": "The three ownership boundaries: the consumer ledger strings (every message a hook logs - \"skipped (excluded) ...\", \"observed non-JSON package.json ... - skipped\", \"REFUSED rewrite ...\", \"pinned ...\", \"governed ... → ...\", the activated (...) proof - composed and logged by the hook through the factory&apos;s Append), the transforms (the consumer supplies the pure function; the factory only drives it inside Continue), and the update engines (the factory gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with)."
+	}, { "default": ($$result) => renderTemplate` <p> <strong>What the factory deliberately does NOT own:</strong> the consumer
+						ledger strings - every message a hook logs - "skipped (excluded) ...",
+						"observed non-JSON package.json ... - skipped", "REFUSED rewrite ...",
+						"pinned ...", "governed ... → ...", the activated (...) proof - is composed
+						and logged by the hook through the factory's Append.
+</p> <p>
+It does not own the transforms (the consumer supplies the pure function; the
+						factory only drives it inside Continue), nor the update engines (the factory
+						gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with).<br>Full
+						contract: SCHEME.md.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-verification",
+		"Title": "Verification",
+		"Diagram": `The three gates: tsc --noEmit - zero errors; pnpm run prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs (in the family's smokes/ directory) - ${Counts.Factory.Classic} checks, ALL PASS.`
+	}, { "default": ($$result) => renderTemplate` <p> <strong>Verification.</strong> tsc --noEmit - zero errors; pnpm run
+						prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs
+						(in the family's smokes/ directory) - ${Counts.Factory.Classic} checks, ALL
+						PASS.
+</p> <p>
+The coverage: every primitive, the Gate matrix, both GuardedWrite postures,
+						the full Continue lifecycle, State defaults + cell unwrap, Attach's three
+						effects, Journal's queue/drain/silent-skip, Schema's volatile cells and
+						Seam's probe-once caching.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Config",
+		"Meta": "NONE - IT IS THE CONFIG MACHINERY"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-config-machinery",
+		"Title": "No schema of its own - it IS the config machinery",
+		"Diagram": "The factory registering no Config schema of its own - its Schema(shared?, m) instance method being the Schemastery schema factory every consumer builds its schema with."
+	}, { "default": ($$result) => renderTemplate` <p>
+The factory registers no Config schema of its own - it <strong>is</strong>${" "}
+the config machinery.
+</p> <p>
+Its <code>Schema(shared?, m)</code> instance method is the Schemastery
+						schema factory every consumer builds its schema with.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-config-entrypoints",
+		"Title": "The two Schema entry points",
+		"Diagram": "The standalone named Schema export making the same factory usable at module-evaluation time, before any service instance exists (the loader needs Config at load) - alongside the instance method."
+	}, { "default": ($$result) => renderTemplate` <p>
+The standalone named <code>Schema</code> export makes the same factory
+						usable at module-evaluation time, before any service instance exists (the
+						loader needs Config at load).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-config-blocks",
+		"Title": "shared: false vs the shared defaults",
+		"Diagram": "shared: false emitting the minimal block (no logFile/updateCooldownMs/mutationTools/policyFile/exclude) for non-manifest modules like the normalize flavors - the shared defaults carrying the family's block - volatile cells (log, logFile and any consumer's own hot fields) committing without remounting the plugin, the factory's State builder unwrapping them defensively."
+	}, { "default": ($$result) => renderTemplate` <p> <code>shared: false</code> emits the minimal block (no
+						logFile/updateCooldownMs/mutationTools/policyFile/exclude) for non-manifest
+						modules like the normalize flavors; the shared defaults carry the family's
+						block.
+</p> <p>
+Volatile cells (log, logFile and any consumer's own hot fields) commit
+						without remounting the plugin; the factory's State builder unwraps them
+						defensively.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In Action",
+		"Meta": "A GOVERNED WRITE, END TO END"
+	})} <p class="section-kicker">
+The consumer supplies the transform - the only code in the chain it writes
+</p> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "typescript",
+		"Source": InAction.join("\n")
+	})} <p class="section-kicker" style="margin-top: var(--space-md)"> ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "swap" })}After - the write the factory performed, as the author and
+				the ledger see it
+</p> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-in-action",
+		"Title": "The factory's part of that one pass",
+		"Diagram": "The one pass as the factory performs it: Gate deciding the actor and the path, Discover finding the nearest registry.json, Continue running the transform detached and contained, GuardedWrite carrying replaceIfVersion past the P4 sandbox fence, Refresh re-emitting the fresh version with the same actor, Append composing the logger's line from the module's message."
+	}, { "default": ($$result) => renderTemplate` <p>
+The factory's part of that one pass: Gate decided the actor and the path,
+						Discover found the nearest registry.json, Continue ran the transform
+						detached and contained, GuardedWrite carried replaceIfVersion past the P4
+						sandbox fence, Refresh re-emitted the fresh version with the same actor, and
+						Append composed the logger's line from the module's message.
+</p> <p>The consumer composed the only string in the chain.</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Ledger",
+		"Meta": "TWO WRAPPERS, CONSUMER'S MESSAGE"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-ledger-service",
+		"Title": "A service, not a module",
+		"Diagram": "The factory registering no activation line and owning no ledger strings - its Append(state, message) being the family's one ledger mechanism, composing exactly two wrappers around the CONSUMER's message."
+	}, { "default": ($$result) => renderTemplate` <p>
+The factory registers no activation line and owns no ledger strings - it is
+						a service, not a module.
+</p> <p>
+Its <code>Append(state, message)</code> is the family's one ledger
+						mechanism, and it composes exactly two wrappers around the CONSUMER's
+						message:
+</p> ` })} </div> <div class="code-block">${LedgerLines.join("\n")}</div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "factory-ledger-boundary",
+		"Title": "The ownership boundary",
+		"Diagram": "Every string a hook logs - \"skipped (excluded) ...\", \"governed <path> → <version>\", \"pinned <path> (N versions)\", the activated (...) proof - composed and logged by the hook, through the factory&apos;s Append - the factory&apos;s own composed strings parameterized machinery (the unreadable-policy line taking the policy file name; the suppressed-error lines taking state.Module as the prefix), staying byte-identical when a consumer keeps its historical name."
+	}, { "default": ($$result) => renderTemplate` <p>
+Every string a hook logs - "skipped (excluded) ...", "governed &lt;path&gt;${" "}
+→ &lt;version&gt;", "pinned &lt;path&gt; (N versions)", the activated (...)
+						proof - is composed and logged by the hook, through the factory's Append.
+</p> <p>
+The factory's own composed strings are parameterized machinery (the
+						unreadable-policy line takes the policy file name; the suppressed-error
+						lines take state.Module as the prefix) and stay byte-identical when a
+						consumer keeps its historical name.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Related plugins",
+		"Meta": `${Counts.Packages} TOTAL`
+	})} <div class="grid grid--3"> ${Related.map((Plugin) => renderTemplate`${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": Plugin.Name,
+		"Href": `/plugins/${Plugin.Name}/`,
+		"Desc": Plugin.Desc,
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`DSH FAMILY` })}` })}`)} </div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+License: CC0-1.0.<br>The published artifact contains only the built output - files
+				whitelists Target/, <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml"), "href")}>cordis.patch.yml</a> and the docs; Source/ never ships.<br>There are no
+				build/watch ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "npm" })} npm scripts: the only npm script is
+				prepublishOnly.
+</p> </section> </main> ` })}`;
+}, "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/plugin-dsh-factory.astro", void 0);
+var $$file = "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/plugin-dsh-factory.astro";
+var $$url = "/plugins/plugin-dsh-factory";
+//#endregion
+//#region \0virtual:astro:page:Source/pages/plugins/plugin-dsh-factory@_@astro
+var page = () => plugin_dsh_factory_exports;
+//#endregion
+export { page };

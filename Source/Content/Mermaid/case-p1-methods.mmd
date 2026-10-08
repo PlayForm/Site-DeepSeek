@@ -1,0 +1,11 @@
+flowchart LR
+	TABLE["the factory's seam table<br/>growing from 15 to 19 methods"]
+	INS["by insertion - Write lands at<br/>the SCHEME's §2.7 - renumbering<br/>everything after it"]
+	AL["by alias - GuardedWrite shares §2.7"]
+	HELP["by uncounted helpers - UpdateKey §2.16"]
+	TABLE --> INS
+	TABLE --> AL
+	TABLE --> HELP
+	%% Invisible layout links only - no semantics.
+	INS ~~~ AL
+	AL ~~~ HELP

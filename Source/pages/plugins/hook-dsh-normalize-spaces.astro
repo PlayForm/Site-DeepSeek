@@ -6,6 +6,7 @@ import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
+import Compare from "@Component/Compare.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -204,9 +205,9 @@ const LedgerStrings = [
 				) and normalizes the unicode space family in model output, live in the transcript:
 				every visible non-terminator space that is not the ASCII space becomes the plain
 				ASCII space - U+00A0 to
-				<code>' '</code>, quads and quirs alike. A CLASS flavor of the normalize family: the
+				<code>' '</code>, quads and quirs alike.<br />A CLASS flavor of the normalize family: the
 				core's <code>Spaces</code> class plus a configurable <code>replacement</code> string
-				(default <code>" "</code>, the plain ASCII space). The family's raw-write tool
+				(default <code>" "</code>, the plain ASCII space).<br />The family's raw-write tool
 				(registered by{" "}
 				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
 					hook-dsh-normalize-dash
@@ -391,7 +392,7 @@ const LedgerStrings = [
 					</p>
 					<p>
 						Markdown renderers and shell quoting do not treat them as spaces; a command
-						with a U+00A0 in it fails for no visible reason. This flavor makes the plain
+						with a U+00A0 in it fails for no visible reason.<br />This flavor makes the plain
 						ASCII space the one that reaches the transcript.
 					</p>
 				</Concept>
@@ -467,7 +468,7 @@ const LedgerStrings = [
 					<p>
 						The replacement is applied with a function replacer, so a custom{" "}
 						<code>replacement</code> containing <code>$</code> patterns is inserted
-						literally. Replaced characters are counted per stream for the ledger line.
+						literally.<br />Replaced characters are counted per stream for the ledger line.
 					</p>
 				</Concept>
 			</div>
@@ -543,8 +544,8 @@ const LedgerStrings = [
 		<section class="section">
 			<SectionHeader Title="In Action" Meta="ONE STREAM, ONE TRANSFORMATION" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				One stream, one transformation. The model emits copy-pasted typographic spacing; the
-				live UI and the transcript receive plain ASCII spaces. In the incoming line below
+				One stream, one transformation.<br />The model emits copy-pasted typographic spacing; the
+				live UI and the transcript receive plain ASCII spaces.<br />In the incoming line below
 				the three gaps are the no-break space U+00A0, the em quad U+2003 and the ideographic
 				space U+3000, in that order:
 			</p>
@@ -552,7 +553,12 @@ const LedgerStrings = [
 				Before <ArrowIcon Direction="right" Tone="accent" /> after - the model stream, then
 				what reaches the transcript
 			</p>
-			<div class="code-block">{StreamExample.join("\n")}</div>
+			<Compare
+				Id="spaces-stream"
+				Flavor="spaces"
+				Raw={StreamExample.slice(0, 4)}
+				Clean={StreamExample.slice(4)}
+			/>
 			<div class="concept-list">
 				<Concept
 					Id="spaces-in-action"
@@ -580,7 +586,7 @@ const LedgerStrings = [
 					<p>
 						When a stream finishes normally with replacements made, the ledger gets the
 						count line shown below (note the <code>replacement= </code> field renders
-						the default as a bare space). The <code>replacement</code> is hot-editable
+						the default as a bare space).<br />The <code>replacement</code> is hot-editable
 						(say to <code>_</code> for debugging).
 					</p>
 					<p>
@@ -600,7 +606,7 @@ const LedgerStrings = [
 				Two lines, both written through the factory's <code>Append</code> (the
 				hook-dsh-normalize-spaces: prefix is the logger's
 				<code>&lt;State.Module&gt;:</code>; the durable file line is
-				<code>[&lt;ISO&gt;] &lt;message&gt;</code>). In the activation line,
+				<code>[&lt;ISO&gt;] &lt;message&gt;</code>).<br />In the activation line,
 				<code>replacement= </code> is followed by the ASCII space itself - the default
 				renders as a trailing blank:
 			</p>

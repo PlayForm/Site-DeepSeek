@@ -1,0 +1,22 @@
+flowchart LR
+	DEFAULT["Default - the built-in exclusion segments"]
+	S1["node_modules"]
+	S2[".git"]
+	S3[".dsh"]
+	S4[".pnpm"]
+	S5[".store"]
+	S6["DeepSeek Harness.app"]
+	MOD["the consuming module"]
+	DEFAULT --> S1 --> MOD
+	DEFAULT --> S2 --> MOD
+	DEFAULT --> S3 --> MOD
+	DEFAULT --> S4 --> MOD
+	DEFAULT --> S5 --> MOD
+	DEFAULT --> S6 --> MOD
+	%% Invisible layout links only - no semantics. They lay the six segments
+	%% out across the band so the fan-out renders wide, not tall.
+	S1 ~~~ S2
+	S2 ~~~ S3
+	S3 ~~~ S4
+	S4 ~~~ S5
+	S5 ~~~ S6

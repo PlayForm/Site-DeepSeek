@@ -61,6 +61,15 @@ const LedgerStrings = [
 	"update: cargo-edit unavailable: <cause>",
 ];
 
+// The byte-exact update-stage ledger lines (the verifyCommand class): the
+// smoke-asserted forms of the Verify step's outcomes.
+const TrapLines = [
+	"update: running verifyCommand: cargo check",
+	"update: verifyCommand ok",
+	"update: verifyCommand runner unavailable (exit 127) \u2014 skipped, non-fatal",
+	"update: verifyCommand failed (status 3)",
+];
+
 const Related = [
 	{
 		Name: "hook-dsh-governor-package",
@@ -103,8 +112,8 @@ const Related = [
 				the RUST-SIDE CLI (<code>cargo upgrade</code>, from cargo-edit): Rust does not
 				co-opt into the TypeScript ecosystem, so there is no <BrandIcon Name="npm" />{" "}
 				npm-library equivalent - the update stage operates at the exclusionary level through
-				the cargo CLI. Chain canonicalization + full-version normalization + surgical TOML
-				rewriting + <code>cargo upgrade --exclude</code> - comments survive. Every claim
+				the cargo CLI.<br />Chain canonicalization + full-version normalization + surgical TOML
+				rewriting + <code>cargo upgrade --exclude</code> - comments survive.<br />Every claim
 				below is live-verified (2026-10-03, live).
 			</p>
 		</section>
@@ -345,7 +354,7 @@ const Related = [
 					Diagram='No shorthand like "1.0" remaining in a governed Cargo.toml - every dependency version expanded to its MOST SPECIFIC form.'
 				>
 					<p>
-						<strong>The full-version normalization directive.</strong> No shorthand like
+						<strong>The full-version normalization directive.</strong><br />No shorthand like
 						"1.0" may remain in a governed Cargo.toml; every dependency version is
 						expanded to its MOST SPECIFIC form:
 					</p>
@@ -388,9 +397,9 @@ const Related = [
 					<p>
 						Handled entry shapes: <code>name = "0.3.4"</code>,{" "}
 						<code>name = {'{ version = "0.3.4", ... }'}</code> (single line or
-						pretty-printed), <code>[dependencies.name]</code> table style. Never
+						pretty-printed), <code>[dependencies.name]</code> table style.<br />Never
 						rewritten: <code>path = "..."</code>, <code>git = "..."</code>, and
-						inherited entries (<code>workspace = true</code>). Non-dependency sections
+						inherited entries (<code>workspace = true</code>).<br />Non-dependency sections
 						are NEVER touched; <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> refuses any plan entry outside an
 						identified dependency table, and Pin aborts (never a partial rewrite) if a
 						planned entry cannot be located in the text.
@@ -402,10 +411,10 @@ const Related = [
 					Diagram='cargo 1.100.0-nightly + cargo-edit 0.13.13, resolved through cargoBin - --exclude being ONE flag per crate (the comma form silently IGNORED, the exact inverse of ncu&apos;s one-comma-argument reject list) - NO --exact flag in cargo-edit 0.13.13, exact pins enforced at the manifest level by the chain pass (pinStyle: "exact" to =resolved) - cargo upgrade preserving comments and formatting (it edits via toml_edit).'
 				>
 					<p>
-						<strong>The Rust side (live-verified).</strong> cargo 1.100.0-nightly +
-						cargo-edit 0.13.13, resolved through <code>cargoBin</code>.{" "}
+						<strong>The Rust side (live-verified).</strong><br />cargo 1.100.0-nightly +
+						cargo-edit 0.13.13, resolved through <code>cargoBin</code>.<br />{" "}
 						<strong>--exclude is ONE flag per crate</strong> - the comma form is
-						silently IGNORED, the exact inverse of ncu's one-comma-argument reject list.{" "}
+						silently IGNORED, the exact inverse of ncu's one-comma-argument reject list.<br />{" "}
 						<strong>There is NO --exact flag</strong> in cargo-edit 0.13.13 - exact pins
 						are enforced at the manifest level by the chain pass (pinStyle: "exact"{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> <code>=resolved</code>).
@@ -501,13 +510,13 @@ const Related = [
 					Diagram="The author saving a Cargo.toml with comments, a shorthand version, and a chain-governed dep."
 				>
 					<p>
-						One governed write. The author saves a <code>Cargo.toml</code> with
+						One governed write.<br />The author saves a <code>Cargo.toml</code> with
 						comments, a shorthand version, and a chain-governed dep:
 					</p>
 				</Concept>
 			</div>
 			<p class="section-kicker">
-				<BrandIcon Name="swap" /> Before - the Cargo.toml as the author wrote it
+				<BrandIcon Name="swap" />Before - the Cargo.toml as the author wrote it
 			</p>
 			<CodeBlock Language="toml" Source={CargoBefore.join("\n")} />
 			<div class="concept-list">
@@ -523,7 +532,7 @@ const Related = [
 				</Concept>
 			</div>
 			<p class="section-kicker">
-				<BrandIcon Name="swap" /> After - the same file, surgically rewritten
+				<BrandIcon Name="swap" />After - the same file, surgically rewritten
 			</p>
 			<CodeBlock Language="toml" Source={CargoAfter.join("\n")} />
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">
@@ -545,9 +554,9 @@ const Related = [
 					</p>
 					<p>
 						Read the file back to see the governed state; write it again immediately and
-						nothing complains - no <code>FS_STALE_VERSION</code>. Write inside{" "}
+						nothing complains - no <code>FS_STALE_VERSION</code>.<br />Write inside{" "}
 						<code>node_modules</code>/<code>.git</code>/<code>.dsh</code> and the ledger
-						gains <code>skipped (excluded) ...</code> while the file stays untouched.
+						gains <code>skipped (excluded) ...</code> while the file stays untouched.<br />
 						Remove cargo-edit and the pass fails gracefully:{" "}
 						<code>update: cargo-edit unavailable: ...</code>, the manifest untouched,
 						the breaker counting the failure.
@@ -594,6 +603,29 @@ const Related = [
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 		</section>
 
+		<!-- The known limits: the documented gaps, stated as they are. -->
+		<section class="section">
+			<SectionHeader Title="Known limits" Meta="THE DOCUMENTED GAPS" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<strong>The verifyCommand trap (the cargo flavor).</strong> The update stage's
+				verifyCommand can fail with a non-zero status: on a fixture workspace without a
+				buildable target, <code>cargo check</code> fails and the ledger records the
+				failure - the same cordis registry trap class as the npm sibling's, the expected
+				outcome, not a bug. Exit 127 (the runner unavailable) is non-fatal; any other
+				failure fails the stage and counts toward the circuit breaker.
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<strong>The fixture paths.</strong> The fixture ledgers carry the neutralized
+				display forms (<code>&lt;repo-root&gt;/</code>, <code>$DSH_HOME/</code>); the
+				personal absolute paths exist only in the internal Boilerplate copies.
+			</p>
+			<div class="code-block">{TrapLines.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The lines are byte-exact ledger strings of the update stage's Verify step,
+				smoke-asserted in both releases.
+			</p>
+		</section>
+
 		<section class="section">
 			<SectionHeader Title="Related plugins" Meta={`${Counts.Packages} TOTAL`} />
 			<div class="grid grid--3">
@@ -610,7 +642,7 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0. Full contract: SCHEME.md. TypeScript-first, built with @playform
+				License: CC0-1.0.<br />Full contract: SCHEME.md.<br />TypeScript-first, built with @playform
 				build (ESBuild + tsc type-check); the published artifact contains only the built
 				output.
 			</p>

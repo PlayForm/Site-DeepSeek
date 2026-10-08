@@ -1,0 +1,6 @@
+flowchart LR
+	STREAM["the six stream flavors cover only what<br/>the model is emitting right now"]
+	RAW["the raw-write tool's normalize: true covers only<br/>content being written"]
+	GAP["this flavor covers the gap in between<br/>pre-existing files - git-cloned material - script-created files<br/>anything already on disk that the agent did not just write"]
+	STREAM -. "not disk" .-> GAP
+	RAW -. "not disk" .-> GAP

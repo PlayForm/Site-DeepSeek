@@ -1,0 +1,11 @@
+flowchart LR
+	DRIFT["Rust manifests drift the same way npm manifests do"]
+	TOML["Cargo.toml is a TOML document people decorate<br/>with comments"]
+	NOLIB["no in-process library path - the only update tool<br/>is the cargo CLI"]
+	SURG["a governor for Cargo.toml has to rewrite surgically<br/>never a TOML stringify"]
+	BOUND["and delegate its update stage across<br/>the Rust/TS boundary"]
+	SAME["while still hooking the same fs/observed event<br/>the npm hooks use - so one trigger law<br/>covers the whole machine"]
+	DRIFT --> TOML
+	DRIFT --> NOLIB --> SURG
+	SURG --> BOUND
+	DRIFT --> SAME

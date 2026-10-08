@@ -6,6 +6,7 @@ import BrandIcon from "@Component/BrandIcon.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import TerminalTray from "@Component/TerminalTray.astro";
 import { Counts, Totals } from "@Library/Content";
 
 // The flavor gate hooks of the inspector, with their before/after notes.
@@ -178,15 +179,11 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 			</div>
 			<div class="stream-grid">
 				<div class="stream-pane rail-orange">
-					<div class="stream-pane__bar">
-						<span class="stream-pane__label is-orange">
-							<span class="dot dot--raw"></span>
-							RAW MODEL EMISSION
-						</span>
+					<TerminalTray Label="RAW MODEL EMISSION" Dot="raw" Orange>
 						<span class="stream-pane__count">
 							// payload emit: deepseek-v4-chunk-9812
 						</span>
-					</div>
+					</TerminalTray>
 					<div class="stream-pane__terminal" data-raw>
 						{RawPayload}
 					</div>
@@ -215,13 +212,9 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 					</span>
 				</div>
 				<div class="stream-pane">
-					<div class="stream-pane__bar">
-						<span class="stream-pane__label">
-							<span class="dot dot--clean"></span>
-							<BrandIcon Name="swap" /> CANONICAL NORMALIZED OUTPUT
-						</span>
+					<TerminalTray Label="CANONICAL NORMALIZED OUTPUT" Dot="clean" Icon>
 						<span class="stream-pane__count">valid ast ready</span>
-					</div>
+					</TerminalTray>
 					<div class="stream-pane__terminal" data-clean>
 						{CleanPayload}
 					</div>

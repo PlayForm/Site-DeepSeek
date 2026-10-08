@@ -1,0 +1,8 @@
+flowchart LR
+	ACT["the activation line - written by apply()"]
+	COUNT["the count line - follows only a<br/>successful write with N greater than zero"]
+	NOOP["a no-op writes no line"]
+	FAIL["a failed read or an aborted call writes none either"]
+	ACT --> COUNT
+	COUNT --> NOOP
+	COUNT --> FAIL

@@ -1,0 +1,5 @@
+flowchart LR
+	SRC["source characters"] --> MAP["the character map<br/>code-point-escaped regex keys"]
+	MAP --> LOOK["look up replacement characters"]
+	LOOK --> REP["ReplaceMap - a fresh per-call regex<br/>a function replacer"]
+	REP --> OUT["text plus count"]

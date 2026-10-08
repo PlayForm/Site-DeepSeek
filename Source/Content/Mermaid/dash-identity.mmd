@@ -1,0 +1,4 @@
+flowchart LR
+	CHUNK["a stream chunk"] --> G{"rewritten?"}
+	G -- "untouched" --> ID["passes through by object identity"]
+	G -- "rewritten" --> COPY["a shallow copy<br/>with only the text field replaced"]

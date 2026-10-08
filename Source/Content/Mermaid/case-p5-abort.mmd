@@ -1,0 +1,10 @@
+flowchart LR
+	EXEC["the write executor originally mapped the caller's<br/>abort signal onto the run promise's options"]
+	PRE["a pre-aborted signal<br/>interrupts the whole fiber"]
+	SEEN["the caller sees all fibers interrupted<br/>without error"]
+	EXPECT["instead of the Classic<br/>aborted-before-write behavior"]
+	FIX["the fix - the signal mapping dropped"]
+	SEAMS["the signal forwards to the seams only"]
+	EXEC --> PRE --> SEEN
+	SEEN -. "not" .-> EXPECT
+	EXEC -. "fixes" .-> FIX --> SEAMS

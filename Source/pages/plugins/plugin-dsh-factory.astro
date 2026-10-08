@@ -139,12 +139,12 @@ const Related = [
 				{Families.Factory} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin
 				Family for PlayForm._ The
 				<strong>furnace of the DSH governance family</strong> - the first service-provider
-				bundle in the DeepSeek Harness plugin family. Loading it registers one class plugin
+				bundle in the DeepSeek Harness plugin family.<br />Loading it registers one class plugin
 				(export default class PluginFactory extends Service, super(ctx, "pluginFactory"),
 				static inject = ["fs"]) that exposes <code>ctx.pluginFactory</code>: a single
 				service holding every piece of common machinery the family's hooks used to
-				duplicate. One service. {Methods.Word} methods (<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>the direct-govern pair</a>
-				RegisterGovern + Govern and the GovernSteps registry among them). The hooks bring
+				duplicate.<br />One service.<br />{Methods.Word} methods (<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>the direct-govern pair</a>
+				RegisterGovern + Govern and the GovernSteps registry among them).<br />The hooks bring
 				their own metal; the factory pours the mold.
 			</p>
 		</section>
@@ -244,7 +244,7 @@ const Related = [
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The pure layer it deliberately does <strong>not</strong> re-export is
 				<strong>hook-dsh-core</strong> (its service surface stays stable); the hooks import
-				the core's helpers directly. The DSH plugin family is the DeepSeek Harness plugin
+				the core's helpers directly.<br />The DSH plugin family is the DeepSeek Harness plugin
 				layer of the PlayForm ecosystem: TypeScript-first Source/ → Target/, the
 				deterministic @playform build, prepublishOnly-only - the same conventions as every
 				other @playform package.
@@ -379,7 +379,7 @@ const Related = [
 					<p>
 						It does not own the transforms (the consumer supplies the pure function; the
 						factory only drives it inside Continue), nor the update engines (the factory
-						gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with). Full
+						gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with).<br />Full
 						contract: SCHEME.md.
 					</p>
 				</Concept>
@@ -459,7 +459,7 @@ const Related = [
 			</p>
 			<CodeBlock Language="typescript" Source={InAction.join("\n")} />
 			<p class="section-kicker" style="margin-top: var(--space-md)">
-				<BrandIcon Name="swap" /> After - the write the factory performed, as the author and
+				<BrandIcon Name="swap" />After - the write the factory performed, as the author and
 				the ledger see it
 			</p>
 			<div class="concept-list">
@@ -537,8 +537,8 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0. The published artifact contains only the built output - files
-				whitelists Target/, <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> and the docs; Source/ never ships. There are no
+				License: CC0-1.0.<br />The published artifact contains only the built output - files
+				whitelists Target/, <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> and the docs; Source/ never ships.<br />There are no
 				build/watch <BrandIcon Name="npm" /> npm scripts: the only npm script is
 				prepublishOnly.
 			</p>

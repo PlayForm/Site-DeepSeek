@@ -1,0 +1,8 @@
+flowchart LR
+	RAW["a raw-write to a package.json"]
+	TRUE["govern: true - runs the registered chain pass<br/>canonicalize - and the update stage<br/>after the write lands"]
+	PIN["govern: [pin] - runs only<br/>the pinner's chain pass"]
+	LED["the ledger gets the count line when a stream<br/>finishes normally with replacements made"]
+	RAW --> TRUE
+	RAW --> PIN
+	RAW --> LED

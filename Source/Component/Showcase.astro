@@ -1,0 +1,283 @@
+---
+// Showcase: the use-case card of the functionality narrative - what the
+// family accomplishes, shown as a before/after story. The pair renders
+// the real example lines with the changed run marked (the first differing
+// segment per line, wrapped in a static blue chip), and the footer carries
+// the REAL fact - a ledger line or the totals pair, byte-exact from the
+// pages' own constants. Zero elevation: the hairline plane, the #F8FAFC
+// trays, no shadows.
+//
+// The pair area can also be a slot (the normalize showcase embeds the
+// Compare slider there) - the card keeps its head and its fact footer.
+import BrandIcon from "@Component/BrandIcon.astro";
+
+interface Props {
+	/** The mono kicker - THE PIN / THE GOVERN / THE NORMALIZE. */
+	Kicker: string;
+	/** The Inter title of the use case. */
+	Title: string;
+	/** One narrative sentence. */
+	Lead: string;
+	/** Optional plugin page the title links to. */
+	Href?: string;
+	/** The before lines (real example content, byte-exact). */
+	Before?: string[];
+	/** The after lines (real example content, byte-exact). */
+	After?: string[];
+	/** Mark the differing runs (default true; the normalize card passes false). */
+	Mark?: boolean;
+	/** The real fact line (ledger excerpt / totals pair). */
+	Fact?: string;
+	/** The fact label chip (default "LEDGER"). */
+	FactLabel?: string;
+}
+
+const { Kicker, Title, Lead, Href, Before, After, Mark = true, Fact, FactLabel = "LEDGER" } =
+	Astro.props;
+
+function Escape(Text: string): string {
+	return Text.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#39;");
+}
+
+// Mark the differing run of one line against its counterpart: the common
+// prefix and the common suffix stay plain, the middle run gets the chip
+// (only when it is non-empty - a fully-common line or a line whose only
+// difference is the counterpart's insertion stays plain).
+function MarkLine(Raw: string, Other: string): string {
+	let Prefix = 0;
+	while (
+		Prefix < Raw.length &&
+		Prefix < Other.length &&
+		Raw[Prefix] === Other[Prefix]
+	) {
+		Prefix += 1;
+	}
+	if (Prefix === Raw.length && Prefix === Other.length) return Escape(Raw);
+	let Suffix = 0;
+	while (
+		Suffix < Raw.length - Prefix &&
+		Suffix < Other.length - Prefix &&
+		Raw[Raw.length - 1 - Suffix] === Other[Other.length - 1 - Suffix]
+	) {
+		Suffix += 1;
+	}
+	const Middle = Raw.slice(Prefix, Raw.length - Suffix);
+	const Tail = Raw.slice(Raw.length - Suffix);
+	const Head = Escape(Raw.slice(0, Prefix));
+	if (Middle.length === 0) return `${Head}${Escape(Tail)}`;
+	return `${Head}<span class="showcase__mark">${Escape(Middle)}</span>${Escape(Tail)}`;
+}
+
+const HasPair = Before !== undefined && After !== undefined;
+const BeforeHtml = HasPair
+	? Before.map((Line, Index) => MarkLine(Line, After![Index] ?? "")).join("\n")
+	: "";
+const AfterHtml = HasPair
+	? After.map((Line, Index) => MarkLine(Line, Before![Index] ?? "")).join("\n")
+	: "";
+---
+
+<article class="showcase">
+	<div class="showcase__head">
+		<span class="showcase__kicker">
+			<BrandIcon Name="swap" Size="0.8em" />
+			{Kicker}
+		</span>
+		{Href ? (
+			<a class="showcase__title" href={Href}>
+				{Title}
+			</a>
+		) : (
+			<h3 class="showcase__title">{Title}</h3>
+		)}
+		<p class="showcase__lead">{Lead}</p>
+	</div>
+
+	{HasPair ? (
+		<div class="showcase__pair">
+			<div class="showcase__side">
+				<span class="showcase__side-label">Before</span>
+				<div class="showcase__screen" set:html={BeforeHtml}></div>
+			</div>
+			<span class="showcase__flow" aria-hidden="true">
+				<BrandIcon Name="swap" />
+			</span>
+			<div class="showcase__side">
+				<span class="showcase__side-label">After</span>
+				<div class="showcase__screen" set:html={AfterHtml}></div>
+			</div>
+		</div>
+	) : (
+		<slot />
+	)}
+
+	{Fact && (
+		<div class="showcase__fact">
+			<span class="showcase__fact-label">
+				<BrandIcon Name="terminal" Size="0.9em" />
+				{FactLabel}
+			</span>
+			<span class="showcase__fact-text">{Fact}</span>
+		</div>
+	)}
+</article>
+
+<style>
+	.showcase {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
+		padding: var(--space-md);
+		border-radius: var(--radius-lg);
+		background: var(--color-surface-container-lowest);
+		border: 1px solid var(--color-outline-variant);
+		min-width: 0;
+	}
+
+	.showcase__head {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+	}
+
+	.showcase__kicker {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--gap-icon);
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		color: var(--color-primary);
+	}
+
+	.showcase__kicker .brand-icon {
+		color: var(--color-primary);
+	}
+
+	.showcase__title {
+		font-size: var(--text-headline-md);
+		line-height: var(--leading-headline-md);
+		font-weight: var(--weight-headline-md);
+		letter-spacing: var(--tracking-headline-md);
+		color: var(--color-on-surface);
+		margin: 0;
+	}
+
+	a.showcase__title:hover {
+		text-decoration: none;
+		color: var(--color-primary);
+	}
+
+	.showcase__lead {
+		font-size: var(--text-body-sm);
+		line-height: var(--leading-body-sm);
+		color: var(--color-on-surface-variant);
+		margin: 0;
+	}
+
+	/* The pair: two trays flanking the swap arrow - each side its own
+	   labeled box, so the diff reads as a before/after column. */
+	.showcase__pair {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+		gap: var(--space-sm);
+		align-items: stretch;
+		min-width: 0;
+	}
+
+	.showcase__side {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+		min-width: 0;
+	}
+
+	.showcase__side-label {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		color: var(--color-ink-muted);
+	}
+
+	.showcase__screen {
+		flex: 1;
+		padding: var(--space-sm) var(--space-md);
+		border-radius: var(--radius-md);
+		background: var(--color-surface-container-low);
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-on-surface);
+		white-space: pre-wrap;
+		word-break: break-word;
+		min-width: 0;
+	}
+
+	/* The static diff chip: the changed run, blue subtle fill + primary
+	   ink - the anom geometry minus the flash (a static comparison, not a
+	   live stream). */
+	.showcase__mark {
+		background: var(--color-harness-blue-subtle);
+		color: var(--color-primary);
+		font-weight: 600;
+		padding: 0 2px;
+		border-radius: var(--radius-sm);
+	}
+
+	.showcase__flow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--color-primary);
+		flex-shrink: 0;
+	}
+
+	.showcase__fact {
+		display: flex;
+		align-items: center;
+		gap: var(--gap-icon);
+		padding-top: var(--space-xs);
+		border-top: 1px solid var(--color-outline-variant);
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-ink-secondary);
+		min-width: 0;
+	}
+
+	.showcase__fact-label {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--gap-icon);
+		flex-shrink: 0;
+		text-transform: uppercase;
+		color: var(--color-primary);
+		background: var(--color-harness-blue-subtle);
+		border: 1px solid var(--color-primary-container);
+		padding: 1px var(--space-xs);
+		border-radius: var(--radius-default);
+	}
+
+	.showcase__fact-label .brand-icon {
+		color: var(--color-primary);
+	}
+
+	.showcase__fact-text {
+		min-width: 0;
+		word-break: break-word;
+	}
+</style>

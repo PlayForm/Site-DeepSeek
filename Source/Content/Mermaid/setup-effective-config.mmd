@@ -1,0 +1,6 @@
+flowchart LR
+	LAYERS["the bundle patch layers<br/>project the live effective config"]
+	REPLACE["a patch config replaces<br/>the entry config wholesale"]
+	NOTRUN["the schema-advertised defaults shown<br/>as possibly-not-running"]
+	LAYERS --> REPLACE
+	LAYERS --> NOTRUN

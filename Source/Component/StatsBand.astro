@@ -1,0 +1,30 @@
+---
+// StatsBand: the index's proof strip under the hero - the three verified
+// family facts (12 packages / 733 + 746 checks / 0.0.1 release) in one
+// hairline band, mono values + uppercase mono labels. Every figure comes
+// from the content library (Content.ts), the same source the pages and the
+// drift-guard arbiter verify - no literals duplicated here.
+import { Counts, Totals, Versions } from "@Library/Content";
+
+const Cells = [
+	{ Value: String(Counts.Packages), Label: "PACKAGES", Pair: undefined },
+	{ Value: `${Totals.Classic}`, Label: "CHECKS · CLASSIC + EFFECT-TS", Pair: Totals.EffectTS },
+	{ Value: Versions.Release, Label: "RELEASE VERSION", Pair: undefined },
+];
+---
+
+<section class="section">
+	<div class="stats-band" aria-label="The family at a glance">
+		{Cells.map((Cell) => (
+			<div class="stats-band__cell">
+				<span class="stats-band__value">
+					{Cell.Value}
+					{Cell.Pair !== undefined && (
+						<span class="stats-band__plus"> + {Cell.Pair}</span>
+					)}
+				</span>
+				<span class="stats-band__label">{Cell.Label}</span>
+			</div>
+		))}
+	</div>
+</section>

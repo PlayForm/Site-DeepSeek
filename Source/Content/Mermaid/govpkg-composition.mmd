@@ -1,0 +1,10 @@
+flowchart LR
+	COMP["the three-way composition<br/>when several are activated"]
+	PIN["pin to bump-exact - a fully pinned manifest<br/>leaving ncu nothing to do - the chain pass<br/>may still re-canonicalize chain pins"]
+	PREC["chain → strip → normalize<br/>the cargo module's precedence"]
+	KEEP["keep-list wins - the pinner's pin-policy.json<br/>keeping ranges as authored"]
+	SEP["the ledgers separate - activating one<br/>never implies another"]
+	COMP --> PIN
+	COMP --> PREC
+	COMP --> KEEP
+	COMP --> SEP

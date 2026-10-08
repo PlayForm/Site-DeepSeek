@@ -167,6 +167,16 @@ const LedgerStrings = [
 	"update: DONE / update: FAILED",
 ];
 
+// The byte-exact update-stage ledger lines (the verifyCommand trap): the
+// live battery's governed-chain fixture records the running and failure
+// lines; the smokes assert all four forms.
+const TrapLines = [
+	"update: running verifyCommand: pnpm install",
+	"update: verifyCommand failed (status 1)",
+	"update: verifyCommand runner unavailable (exit 127) \u2014 skipped, non-fatal",
+	"update stage FAILED (1) for <dir>; consecutive=2",
+];
+
 const Related = [
 	{
 		Name: "plugin-dsh-factory",
@@ -206,10 +216,10 @@ const Related = [
 				the DeepSeek Harness - a plugin on the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> event (the <a href={Link(Links.DeepSeekHarness, "vendor/cordis")}>cordis</a>
 				event every harness file write dispatches; the tool layer is the only dispatcher)
 				that governs every
-				<code>package.json</code> written by any agent, anywhere: a pure chain pass
+				<code>package.json</code> written by any agent, anywhere.<br />A pure chain pass
 				canonicalizes chain-governed dependency pins, then an update stage lets
 				<BrandIcon Name="npm" /> npm-check-updates bump the public ones - and the author
-				never learns. A factory flavor: the family's furnace does the plumbing; this package
+				never learns.<br />A factory flavor: the family's furnace does the plumbing; this package
 				is the model logic.
 			</p>
 		</section>
@@ -568,14 +578,14 @@ const Related = [
 					Diagram="The author writing a package.json anywhere with the write tool - one dep that should track the governed registry, one public dep left on a range."
 				>
 					<p>
-						One governed write. The author writes a <code>package.json</code> anywhere
+						One governed write.<br />The author writes a <code>package.json</code> anywhere
 						with the write tool - one dep that should track the governed registry, one
 						public dep left on a range:
 					</p>
 				</Concept>
 			</div>
 			<p class="section-kicker">
-				<BrandIcon Name="swap" /> Before - the manifest as the author wrote it
+				<BrandIcon Name="swap" />Before - the manifest as the author wrote it
 			</p>
 			<CodeBlock Language="json" Source={GovernedWrite.join("\n")} />
 			<div class="concept-list">
@@ -597,7 +607,7 @@ const Related = [
 				</Concept>
 			</div>
 			<p class="section-kicker">
-				<BrandIcon Name="swap" /> After - the ledger line for the same pass
+				<BrandIcon Name="swap" />After - the ledger line for the same pass
 			</p>
 			<div class="code-block">{LedgerExcerpt.join("\n")}</div>
 			<div class="concept-list">
@@ -659,6 +669,31 @@ const Related = [
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 		</section>
 
+		<!-- The known limits: the documented gaps, stated as they are. -->
+		<section class="section">
+			<SectionHeader Title="Known limits" Meta="THE DOCUMENTED GAPS" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<strong>The verifyCommand trap.</strong> The update stage's verifyCommand can fail
+				with a non-zero status: on a vendored-fork workspace the forks are not on the
+				public registry, so a <code>verifyCommand: pnpm install</code> fails and the
+				ledger records the failure - the documented cordis registry trap, the expected
+				outcome, not a bug. Exit 127 (the runner unavailable) is non-fatal; any other
+				failure fails the stage and counts toward the circuit breaker (
+				<code>maxUpdateFailures</code>, default 3).
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<strong>The fixture paths.</strong> The live battery's fixture ledgers carry the
+				neutralized display forms (<code>&lt;repo-root&gt;/</code>,{" "}
+				<code>$DSH_HOME/</code>); the personal absolute paths exist only in the internal
+				Boilerplate copies - never copy a live battery into a release archive as-is.
+			</p>
+			<div class="code-block">{TrapLines.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The lines are byte-exact ledger strings of the update stage's Verify step; the
+				smokes assert all four forms in both releases.
+			</p>
+		</section>
+
 		<section class="section">
 			<SectionHeader Title="Related plugins" Meta={`${Counts.Packages} TOTAL`} />
 			<div class="grid grid--3">
@@ -675,7 +710,7 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0. Full method contract: SCHEME.md. TypeScript-first, built with
+				License: CC0-1.0.<br />Full method contract: SCHEME.md.<br />TypeScript-first, built with
 				@playform build (ESBuild + tsc type-check); the published artifact contains only the
 				built output.
 			</p>

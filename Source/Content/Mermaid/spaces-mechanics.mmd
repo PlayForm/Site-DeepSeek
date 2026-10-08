@@ -1,0 +1,10 @@
+flowchart LR
+	MECH["chunk-boundary-safe - function-replaced - counted"]
+	N1["no context rules - hermes-style whole-chunk<br/>replacement - no lookahead - chunk-boundary-safe"]
+	N2["applied with a function replacer - a custom<br/>replacement containing $ patterns<br/>is inserted literally"]
+	N3["replaced characters counted per stream<br/>for the ledger line"]
+	MECH --> N1
+	MECH --> N2
+	MECH --> N3
+	N1 ~~~ N2
+	N2 ~~~ N3

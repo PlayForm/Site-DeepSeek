@@ -81,9 +81,31 @@ const JsonLd = {
 <!doctype html>
 <html lang="en" class="no-js" dir="ltr">
 	<Head>
-		<script>
+		<script is:inline>
 			document.documentElement.classList.remove("no-js");
 			document.documentElement.classList.add("js");
+		</script>
+		<script is:inline>
+			// The theme bridge, set BEFORE first paint: a stored toggle wins;
+			// without one the OS prefers-color-scheme decides. Every later
+			// toggle (the header switch) only flips this attribute and the
+			// tokens follow - see the [data-theme="dark"] block in Global.css.
+			// is:inline: Astro hoists plain head scripts into bundled modules
+			// (which never execute in time), so this one must stay a blocking
+			// inline script to beat the first paint.
+			(() => {
+				const Key = "dsh-theme";
+				let Theme = null;
+				try {
+					Theme = localStorage.getItem(Key);
+				} catch {}
+				if (Theme !== "dark" && Theme !== "light") {
+					Theme = matchMedia("(prefers-color-scheme: dark)").matches
+						? "dark"
+						: "light";
+				}
+				document.documentElement.setAttribute("data-theme", Theme);
+			})();
 		</script>
 		<!-- Meta -->
 		<title>{Title}</title>
@@ -174,11 +196,37 @@ const JsonLd = {
 						</a>
 					))}
 				</nav>
+				<!-- The light/dark switch: the LIGHT / DARK two-cell mono chip.
+					The active cell is attribute-driven pure CSS (the cells are
+					correct before any script runs); the script only flips the
+					html[data-theme] attribute and persists the choice. -->
+				<button
+					class="theme-toggle"
+					type="button"
+					data-theme-toggle
+					role="switch"
+					aria-checked="false"
+					aria-label="Toggle dark theme"
+					title="Toggle dark theme"
+				>
+					<span class="theme-toggle__cell" data-theme-cell="light">LIGHT</span>
+					<span class="theme-toggle__sep" aria-hidden="true">/</span>
+					<span class="theme-toggle__cell" data-theme-cell="dark">DARK</span>
+				</button>
 				<div class="site-header__avatar" aria-hidden="true">
 					P
 				</div>
 			</div>
 		</header>
+
+		<!-- The case-study reading gauge: the 2px scroll-progress rail along
+			the viewport's top edge, rendered only on the case study (the one
+			long-form page whose scroll position is worth gauging). -->
+		{Path.startsWith("/case-study") && (
+			<div class="scroll-progress" data-scroll-progress aria-hidden="true">
+				<span class="scroll-progress__bar"></span>
+			</div>
+		)}
 
 		<div class="page">
 			<slot />
@@ -199,7 +247,7 @@ const JsonLd = {
 				))}
 			</div>
 			<p class="site-footer__note">
-				<BrandIcon Name="playform" /> @playform: deterministic AI engine harnesses for production workloads. CC0-1.0 licensed.
+				<BrandIcon Name="playform" />@playform: deterministic AI engine harnesses for production workloads. CC0-1.0 licensed.
 			</p>
 			<p class="site-footer__copy">{Copyright.Line}</p>
 		</footer>
@@ -243,6 +291,119 @@ const JsonLd = {
 					if (Label && Original) Label.textContent = Original;
 				}, 1400);
 			});
+		</script>
+
+		<script>
+			// The theme switch: flips the html[data-theme] attribute, persists
+			// the choice to localStorage, and keeps aria-checked in sync. The
+			// cell highlighting is attribute-driven CSS (no script needed);
+			// with no stored choice the OS prefers-color-scheme stays live.
+			const ThemeToggle = document.querySelector<HTMLElement>("[data-theme-toggle]");
+			const ApplyTheme = (Theme: string) => {
+				document.documentElement.setAttribute("data-theme", Theme);
+				if (ThemeToggle) {
+					ThemeToggle.setAttribute("aria-checked", String(Theme === "dark"));
+				}
+			};
+			const CurrentTheme = () =>
+				document.documentElement.getAttribute("data-theme") === "dark"
+					? "dark"
+					: "light";
+			ApplyTheme(CurrentTheme());
+			ThemeToggle?.addEventListener("click", () => {
+				const Next = CurrentTheme() === "dark" ? "light" : "dark";
+				ApplyTheme(Next);
+				try {
+					localStorage.setItem("dsh-theme", Next);
+				} catch {}
+			});
+			try {
+				if (!localStorage.getItem("dsh-theme")) {
+					matchMedia("(prefers-color-scheme: dark)").addEventListener(
+						"change",
+						(Event) => ApplyTheme(Event.matches ? "dark" : "light"),
+					);
+				}
+			} catch {}
+
+			// Section reveals: every main .section fades up as it enters the
+			// viewport (one gesture - the slow duration + snap easing, no
+			// stagger). Reduced-motion users get the full-opacity state from
+			// the script, and the .js-gated CSS renders everything visible
+			// without JavaScript at all. Re-arms on every view transition.
+			// A scroll fallback catches the fast-scroll / anchor-jump cases
+			// (an instant scroll can outrun the observer's sampling, leaving
+			// sections that are in view unrevealed): any unrevealed section
+			// whose top has crossed the reveal line is revealed on scroll.
+			const InitReveals = () => {
+				const Sections = document.querySelectorAll<HTMLElement>("main .section");
+				if (!Sections.length) return;
+				if (
+					!("IntersectionObserver" in window) ||
+					matchMedia("(prefers-reduced-motion: reduce)").matches
+				) {
+					Sections.forEach((Section) => Section.classList.add("is-revealed"));
+					return;
+				}
+				const Pending = new Set<HTMLElement>(Sections);
+				const Reveal = (Section: HTMLElement) => {
+					Section.classList.add("is-revealed");
+					Pending.delete(Section);
+				};
+				const Observer = new IntersectionObserver(
+					(Entries) => {
+						Entries.forEach((Entry) => {
+							if (Entry.isIntersecting) {
+								Reveal(Entry.target as HTMLElement);
+								Observer.unobserve(Entry.target);
+							}
+						});
+					},
+					{ rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+				);
+				const Line = window.innerHeight * 0.92;
+				const OnScroll = () => {
+					Pending.forEach((Section) => {
+						if (Section.getBoundingClientRect().top < Line) {
+							Reveal(Section);
+							Observer.unobserve(Section);
+						}
+					});
+					if (!Pending.size) {
+						window.removeEventListener("scroll", OnScroll);
+					}
+				};
+				window.addEventListener("scroll", OnScroll, { passive: true });
+				Sections.forEach((Section) => Observer.observe(Section));
+				OnScroll();
+			};
+			document.addEventListener("astro:page-load", InitReveals);
+			InitReveals();
+
+			// The case-study reading gauge: a 2px rail along the top edge,
+			// scaleX-driven from the scroll position (transform-only, no
+			// layout thrash, rAF-throttled). A reading gauge, not a
+			// decorative animation - it stays under reduced motion.
+			const Progress = document.querySelector<HTMLElement>("[data-scroll-progress]");
+			if (Progress) {
+				const Update = () => {
+					const Max = document.documentElement.scrollHeight - window.innerHeight;
+					Progress.style.transform = `scaleX(${
+						Max > 0 ? Math.min(1, window.scrollY / Max) : 0
+					})`;
+				};
+				let Pending = false;
+				const OnScroll = () => {
+					if (Pending) return;
+					Pending = true;
+					requestAnimationFrame(() => {
+						Update();
+						Pending = false;
+					});
+				};
+				window.addEventListener("scroll", OnScroll, { passive: true });
+				Update();
+			}
 		</script>
 
 		<script>

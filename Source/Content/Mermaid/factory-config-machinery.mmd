@@ -1,0 +1,5 @@
+flowchart LR
+	FACTORY["the factory registers no Config schema of its own"]
+	SCHEMA["its Schema(shared?, m) instance method<br/>is the Schemastery schema factory"]
+	EVERY["every consumer builds its schema with it"]
+	FACTORY --> SCHEMA --> EVERY

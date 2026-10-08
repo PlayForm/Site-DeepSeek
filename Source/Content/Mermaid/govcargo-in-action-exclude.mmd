@@ -1,0 +1,11 @@
+flowchart LR
+	FLAGS["the policy's chain deps plus rejects<br/>becoming one --exclude flag per crate"]
+	PROT["serde and tokio protected from the CLI bump<br/>tokio by the chain - serde by the normalization pass<br/>already writing its full form"]
+	REREAD["reading the file back to see the governed state"]
+	AGAIN["writing again immediately with nothing complaining<br/>no FS_STALE_VERSION"]
+	EXCL["writing inside node_modules/.git/.dsh and the ledger<br/>gaining skipped (excluded) ... while the file stays untouched"]
+	GRACE["removing cargo-edit and the pass failing gracefully<br/>update: cargo-edit unavailable: ... - the manifest untouched<br/>the breaker counting the failure"]
+	FLAGS --> PROT
+	PROT --> REREAD --> AGAIN
+	PROT --> EXCL
+	PROT --> GRACE

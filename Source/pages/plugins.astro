@@ -144,7 +144,7 @@ const Registry = [
 
 <Base
 	Title="Plugins - @playform / DSH Family"
-	Description="The twelve plugins of the DeepSeek Harness Plugin Family for PlayForm, each with its @-sentence identity and its pnpm install snippet."
+	Description="The twelve plugins of the DeepSeek Harness Plugin Family for PlayForm, each with its @-sentence identity and its install snippet (the pnpm add form, live once published)."
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -157,7 +157,7 @@ const Registry = [
 		<PageHero
 			Title="Plugins"
 			Sub={
-				'The twelve TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity: the scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.'
+				'The twelve TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity: the scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.\nThe install rows show the npm form (pnpm add @playform/<pkg>) - live once the family publishes to npm; today the install is from source, wired into a profile via the /setup/ flow.'
 			}
 		/>
 
@@ -953,13 +953,22 @@ const Registry = [
 		Filter();
 	});
 
-	// Registry row selection: one selected row at a time.
+	// Registry row selection: one selected row at a time. Each row gets a
+	// tabindex (keyboard reach) and selects on Enter / Space like a button;
+	// the :focus-visible ring lives in Global.css (crisp 1px Harness Blue).
 	document.querySelectorAll<HTMLElement>("[data-selectable] tbody tr").forEach((Row) => {
+		Row.tabIndex = 0;
 		Row.addEventListener("click", () => {
 			Row.parentElement
 				?.querySelectorAll<HTMLElement>("tr.is-selected")
 				.forEach((Item) => Item.classList.remove("is-selected"));
 			Row.classList.add("is-selected");
+		});
+		Row.addEventListener("keydown", (Event) => {
+			if (Event.key === "Enter" || Event.key === " ") {
+				Event.preventDefault();
+				Row.click();
+			}
 		});
 	});
 

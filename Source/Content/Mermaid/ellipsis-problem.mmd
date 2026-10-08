@@ -1,0 +1,7 @@
+flowchart LR
+	COLLAPSE["text processors collapse the typographic<br/>three-dot run into a single code point"]
+	U["U+2026 - the horizontal ellipsis"]
+	EXPECT["code blocks - commands and diffs<br/>expect three literal dots"]
+	WRONG["the collapsed typographic run<br/>is simply wrong downstream"]
+	COLLAPSE --> U --> WRONG
+	EXPECT -. "while" .-> WRONG

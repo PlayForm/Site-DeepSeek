@@ -1,0 +1,10 @@
+flowchart LR
+	PORT["the port - register #13's three goals"]
+	G1["external traceability"]
+	G2["ecosystem interop"]
+	G3["hooking other transformers from the same<br/>Effect ecosystem into the same governed machinery"]
+	PORT --> G1
+	PORT --> G2
+	PORT --> G3
+	G1 ~~~ G2
+	G2 ~~~ G3

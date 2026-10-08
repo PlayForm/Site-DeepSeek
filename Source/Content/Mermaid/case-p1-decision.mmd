@@ -1,0 +1,8 @@
+flowchart LR
+	COPIES["the copied machinery across the bundles"] --> CONS["the consolidation<br/>49e5b3d - 859f16a - 018919c"]
+	CONS --> FACTORY["one factory service"]
+	FACTORY --> M["15 methods"]
+	FACTORY --> T["one transform contract"]
+	FACTORY --> L["the ledger strings owned<br/>by the modules themselves"]
+	M ~~~ T
+	T ~~~ L

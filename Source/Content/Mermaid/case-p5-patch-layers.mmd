@@ -1,0 +1,8 @@
+flowchart LR
+	DEFAULT["the schema default - included raw-write"]
+	SHADOW["a patch layer's config replaces<br/>the entry config wholesale"]
+	LIVE["the deployed value<br/>[write, edit, str_replace_editor]<br/>no raw-write"]
+	EXPLICIT["the bundles' own patch layers<br/>set it explicitly"]
+	DEFAULT -. "shadowed - the default is not the live value" .-> SHADOW
+	SHADOW --> LIVE
+	EXPLICIT --> LIVE

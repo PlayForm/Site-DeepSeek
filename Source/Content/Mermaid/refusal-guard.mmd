@@ -1,0 +1,4 @@
+flowchart LR
+	CHANGE["a non-dependency section change"] --> GUARD{"the refusal guard"}
+	GUARD -- "a non-dependency section would change" --> REF["REFUSED"]
+	REF --> LOG["logged instead of applied"]

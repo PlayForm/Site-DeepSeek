@@ -1,0 +1,13 @@
+flowchart LR
+	QUEUE["the rest of the queue - executed in one session"]
+	Q1["the module terminology rename - 3c29108"]
+	Q2["the standalone schema helper - 060e3b6"]
+	Q3["the core extraction - 1fef4ca"]
+	Q4["the granularization splits - 711d5b2"]
+	QUEUE --> Q1
+	QUEUE --> Q2
+	QUEUE --> Q3
+	QUEUE --> Q4
+	Q1 ~~~ Q2
+	Q2 ~~~ Q3
+	Q3 ~~~ Q4

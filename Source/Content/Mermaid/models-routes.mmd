@@ -1,0 +1,5 @@
+flowchart LR
+	V4["DeepSeek V4 Flash"] --> PIPELINE["the same normalization pipeline"]
+	GLM["GLM 5.3 Flash"] --> PIPELINE
+	TWO["token output streams<br/>two vendors - one harness"]
+	PIPELINE --> TWO

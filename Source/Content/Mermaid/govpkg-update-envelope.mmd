@@ -1,0 +1,7 @@
+flowchart LR
+	CORE["the G4 update-stage envelope lives in the core"]
+	DISP["the Dispatch/Settle pair - the gates - the jobs envelope<br/>the breaker update - the U2 refresh"]
+	DELEGATE["this module is a thin delegate - injecting its own<br/>collections - child stage and ledger strings"]
+	NOFORK["so the flow is not forked per governance module"]
+	CORE --> DISP
+	CORE --> DELEGATE --> NOFORK

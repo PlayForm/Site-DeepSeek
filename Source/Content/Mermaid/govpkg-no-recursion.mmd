@@ -1,0 +1,7 @@
+flowchart LR
+	WRITE["the governor's rewrites go through the ctx.fs service"]
+	NOEVENT["which dispatches no fs/* events<br/>only the tool layer does"]
+	CONT["the update stage is a continuation<br/>not an author tool call"]
+	NOREC["no recursion"]
+	WRITE --> NOEVENT --> NOREC
+	WRITE --> CONT --> NOREC

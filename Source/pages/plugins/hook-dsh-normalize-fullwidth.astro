@@ -6,6 +6,7 @@ import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
+import Compare from "@Component/Compare.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -205,9 +206,9 @@ const LedgerStrings = [
 				</a>
 				) and normalizes the full-width family in model output, live in the transcript: the
 				entire FULLWIDTH FORMS range U+FF01-U+FF5E maps to its ASCII half-width counterpart
-				U+0021-U+007E - the whole story, letters, punctuation and digits included. A MAP
+				U+0021-U+007E - the whole story, letters, punctuation and digits included.<br />A MAP
 				flavor of the normalize family: the core's <code>Fullwidth</code> char-to-char table
-				owns the substitution - no <code>replacement</code> config knob. The family's
+				owns the substitution - no <code>replacement</code> config knob.<br />The family's
 				raw-write tool (registered by{" "}
 				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
 					hook-dsh-normalize-dash
@@ -448,7 +449,7 @@ const LedgerStrings = [
 					Diagram="No context rules - one character in, its half-width counterpart out; chunk-boundary-safe: single-character substitution, no lookahead - per-chunk application never disagreeing with whole-text application; the mapping values returned through a function replacer so they are inserted literally (no $-pattern interpretation - the table's backslash, circumflex, vertical bar and tilde values being exactly the characters a string replacement would corrupt); replaced characters counted per stream for the ledger line."
 				>
 					<p>
-						No context rules - one character in, its half-width counterpart out.
+						No context rules - one character in, its half-width counterpart out.<br />
 						Chunk-boundary-safe: single-character substitution, no lookahead - per-chunk
 						application can never disagree with whole-text application.
 					</p>
@@ -456,7 +457,7 @@ const LedgerStrings = [
 						The mapping values are returned through a function replacer, so they are
 						inserted literally (no $-pattern interpretation - the table's backslash,
 						circumflex, vertical bar and tilde values are exactly the characters a
-						string replacement would corrupt). Replaced characters are counted per
+						string replacement would corrupt).<br />Replaced characters are counted per
 						stream for the ledger line.
 					</p>
 				</Concept>
@@ -506,7 +507,7 @@ const LedgerStrings = [
 					</p>
 					<p>
 						Volatile cells commit without remounting the plugin; the factory's State
-						builder unwraps them defensively. Example{" "}
+						builder unwraps them defensively.<br />Example{" "}
 						<a
 							href={Link(
 								Links.OurRepo,
@@ -545,7 +546,12 @@ const LedgerStrings = [
 				Before <ArrowIcon Direction="right" Tone="accent" /> after - the model stream, then
 				what reaches the transcript
 			</p>
-			<div class="code-block">{StreamExample.join("\n")}</div>
+			<Compare
+				Id="fullwidth-stream"
+				Flavor="fullwidth"
+				Raw={StreamExample.slice(0, 4)}
+				Clean={StreamExample.slice(4)}
+			/>
 			<div class="concept-list">
 				<Concept
 					Id="fullwidth-in-action"
@@ -559,7 +565,7 @@ const LedgerStrings = [
 						already half-width are untouched.
 					</p>
 					<p>
-						This is what keeps a pasted path openable and a pasted number parseable. The
+						This is what keeps a pasted path openable and a pasted number parseable.<br />The
 						backslash, circumflex, vertical bar and tilde entries are exactly the
 						characters a naive string replacement would corrupt - hence the function
 						replacer.
