@@ -10,5 +10,14 @@ const { Title, Sub } = Astro.props;
 
 <section class="page-hero">
 	<h1 class="page-hero__title">{Title}</h1>
-	{Sub && <p class="page-hero__sub">{Sub}</p>}
+	{Sub && (
+		<p class="page-hero__sub">
+			{Sub.split("\n").map((Line, Index) => (
+				<>
+					{Index > 0 && <br />}
+					{Line}
+				</>
+			))}
+		</p>
+	)}
 </section>

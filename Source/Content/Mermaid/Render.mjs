@@ -229,19 +229,38 @@ const Unescape = (Text) =>
 const Normalize = (Text) => Unescape(Text).replace(/\s+/g, " ").trim();
 // The rendered text, line by line: one entry per Mermaid wrap line
 // (text-outer-tspan), built from that line's word runs (text-inner-tspan).
-// Empty placeholder labels (unlabeled edges) contribute nothing.
+// The word runs are nested INSIDE their outer tspan (not siblings of it),
+// so a flat `class="text-(outer|inner)-tspan">...<\/tspan>` scan cannot
+// see either tag - the outer opener would never match (its child is a
+// tag, not text, so wrap lines glue together) and the inner opener would
+// never close. Walk BOTH tag kinds by position instead: an outer opening
+// starts a new line, the inner runs that follow inside it supply its
+// words. Empty placeholder labels (unlabeled edges) contribute nothing.
 const SvgLines = (Svg) => {
 	const Lines = [];
-	for (const TextMatch of Svg.matchAll(/<text[^>]*>([\s\S]*?)<\/text>/g)) {
-		let Line = "";
-		for (const SpanMatch of TextMatch[1].matchAll(
-			/<tspan[^>]*class="text-(outer|inner)-tspan"[^>]*>([^<]*)<\/tspan>/g,
+	for (const TextMatch of Svg.matchAll(/<text[\s>][^>]*>([\s\S]*?)<\/text>/g)) {
+		const Tokens = [];
+		for (const Match of TextMatch[1].matchAll(
+			/<tspan[^>]*class="text-inner-tspan"[^>]*>([^<]*)<\/tspan>/g,
 		)) {
-			if (SpanMatch[1] === "outer") {
+			Tokens.push({ At: Match.index, Outer: false, Text: Match[1] });
+		}
+		for (const Match of TextMatch[1].matchAll(
+			/<tspan[^>]*class="text-outer-tspan"[^>]*>([^<]*)/g,
+		)) {
+			// Direct text after an outer opener only exists on plain
+			// (non-nested) labels; nested labels capture an empty string
+			// here because their first word is an inner tspan tag.
+			Tokens.push({ At: Match.index, Outer: true, Text: Match[1] });
+		}
+		Tokens.sort((A, B) => A.At - B.At);
+		let Line = "";
+		for (const Token of Tokens) {
+			if (Token.Outer) {
 				if (Line) Lines.push(Line);
-				Line = "";
+				Line = Token.Text.trim() === "" ? "" : Token.Text;
 			} else {
-				Line += SpanMatch[2];
+				Line += Token.Text;
 			}
 		}
 		if (Line) Lines.push(Line);

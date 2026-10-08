@@ -54,8 +54,9 @@ const CardClass = `card${Variant === "default" ? "" : ` card--${Variant}`}`;
 	{Sentence && <p class="card__sentence">{Sentence}</p>}
 
 	<!-- The description renders through Linkify: a [text](target) segment in the
-	     plain-text prop becomes a safe <a>, everything else stays text. -->
-	{Desc && <p class={`card__desc${Muted ? " card__desc--muted" : ""}`} set:html={Linkify(Desc)} />}
+	     plain-text prop becomes a safe <a>, everything else stays text. Newlines
+	     in the prop become visible sentence breaks (<br />). -->
+	{Desc && <p class={`card__desc${Muted ? " card__desc--muted" : ""}`} set:html={Linkify(Desc).replace(/\n/g, "<br />")} />}
 
 	<slot />
 
