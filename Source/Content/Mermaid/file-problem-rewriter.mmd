@@ -3,7 +3,7 @@ flowchart LR
 	READ["the agent reads bytes X"]
 	CHANGE["a background rewriter silently changes them to X'"]
 	FAIL["the next edit fails or half-matches"]
-	LESSON["Hermes learned this the hard way - normalize-tabs.sh<br/>exists to repair the damage its own after-the-fact<br/>rewriting caused"]
+	LESSON["the lesson is real - normalize-tabs.sh<br/>exists to repair the damage its own after-the-fact<br/>rewriting caused"]
 	READ --> CHANGE --> FAIL
 	COST --> FAIL
 	FAIL -. "the lesson" .-> LESSON

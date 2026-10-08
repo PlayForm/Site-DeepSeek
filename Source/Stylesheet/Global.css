@@ -682,7 +682,15 @@ th code,
 	border-radius: var(--radius-default);
 	padding: 1px 0.375em;
 	color: var(--color-on-surface);
-	white-space: nowrap;
+	/* The wrap law for the tokens: no nowrap (a long token or a
+	   slash-joined token run - the browser never breaks after "/" -
+	   would overflow its paragraph and inflate a grid item's min-content
+	   past the viewport). overflow-wrap: anywhere keeps short tokens on
+	   one line and breaks a token that cannot fit at any character; it
+	   also collapses the token's min-content contribution (unlike
+	   break-word), so a concept/paragraph box never grows past its
+	   container because of a long technical term. */
+	overflow-wrap: anywhere;
 }
 
 /* A code token inside a link keeps the link affordance: the tray stays,
@@ -882,7 +890,7 @@ a .code-token {
 		padding: var(--space-sm) var(--space-md);
 	}
 
-	.js .site-header[data-nav-open] .site-header__nav {
+	.js .site-header[data-nav-open="true"] .site-header__nav {
 		opacity: 1;
 		transform: none;
 		visibility: visible;

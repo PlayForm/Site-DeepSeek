@@ -7,21 +7,18 @@
 // rest in the structural hairline tone), a 1px hairline under the tray,
 // no shadows, no gradients.
 //
-// The label and the dots follow the site's patterns: the mono label at
-// the body-sm size (uppercase, 600) with the shared --gap-icon between a
-// dot and the text, the dot optical lift replicated from the global
-// .stream-pane__label rules (scoped here, because this component's dots
-// sit in their own label row). The right side is a slot - the pages'
-// status/count markup keeps its own classes.
+// The label follows the site's patterns: the mono label at the body-sm
+// size (uppercase, 600) with the shared --gap-icon between an icon and
+// the text. The right side is a slot - the pages' status/count markup
+// keeps its own classes.
+//
+// The tray markers are the tray bars' single indicator style - the flat
+// markers carry the raw/clean state (the first in Harness Blue, the rest
+// in the structural hairline tone), and the tray bars never render a
+// status dot (the user's declutter ruling: markers only, no dots).
 interface Props {
 	/** The tray label (mono, uppercase). */
 	Label: string;
-	/** The status dot before the label: raw (orange), clean (blue). The
-	    pulsing live-dot is NOT a tray option: the flat tray markers are
-	    the tray bars' single indicator style (the live-dot's blink
-	    conflicts with them - the user's declutter ruling), so a tray
-	    never renders it. */
-	Dot?: "raw" | "clean" | "none";
 	/** The label's leading RAW word takes the accent-orange token - the
 	    raw/stream signature; the separator and the rest keep the ink. */
 	Orange?: boolean;
@@ -29,7 +26,7 @@ interface Props {
 	Icon?: boolean;
 }
 
-const { Label, Dot = "none", Orange = false, Icon = false } = Astro.props;
+const { Label, Orange = false, Icon = false } = Astro.props;
 
 // Only the RAW word carries the orange (the site's only-RAW rule): a
 // leading RAW word (any case) gets wrapped, any other label renders
@@ -44,8 +41,6 @@ const RawMatch = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
 		<i class="tray__marker"></i>
 	</span>
 	<span class="tray__label">
-		{Dot === "raw" && <span class="dot dot--raw"></span>}
-		{Dot === "clean" && <span class="dot dot--clean"></span>}
 		{Icon && (
 			<svg
 				viewBox="3 2 18 20"
@@ -121,7 +116,7 @@ const RawMatch = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
 
 	/* The label text keeps the row's shrink/ellipsis behavior as its own
 	   flex item (the word + the rest stay one text run inside, so the
-	   shared --gap-icon applies only between the dot/icon and the label). */
+	   shared --gap-icon applies only between the icon and the label). */
 	.tray__label-text {
 		min-width: 0;
 		overflow: hidden;
@@ -135,29 +130,9 @@ const RawMatch = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
 		color: var(--color-accent-orange);
 	}
 
-	/* The optical lift: the dots' visual mass centers against the mono
-	   label (the same -0.1875em/0.1875em pair the global stream-pane
-	   label rules use - replicated scoped, because this label row is
-	   this component's own). */
-	.tray__label .dot {
-		margin-block: -0.1875em 0.1875em;
-	}
-
-	.tray__label .dot {
-		width: 10px;
-		height: 10px;
-		border-radius: var(--radius-full);
-		flex-shrink: 0;
-	}
-
-	.tray__label .dot--raw {
-		background: var(--color-accent-orange);
-	}
-
-	.tray__label .dot--clean {
-		background: var(--color-primary-container);
-	}
-
+	/* The swap icon sits on the label's optical center: the inline-flex
+	   centering (align-items: center above) lands the icon on the line
+	   box's center, with the icon sized in ems against the label. */
 	.tray__label svg {
 		width: 0.8em;
 		height: 0.8em;

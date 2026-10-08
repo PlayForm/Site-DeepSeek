@@ -57,12 +57,23 @@ const Svg = Diagrams[`/Source/Content/Mermaid/${Id}.svg`] as string | undefined;
 <style>
 	.concept {
 		display: grid;
+		/* The track law: minmax(0, 1fr) so the diagram's intrinsic
+		   min-content (a wide SVG's natural width) can never pin the
+		   concept's track past the viewport - the same zero-minimum
+		   floor the product grids use. */
+		grid-template-columns: minmax(0, 1fr);
 		gap: var(--space-md);
 		min-width: 0;
 	}
 
 	.concept__diagram {
 		display: grid;
+		/* The track law: an auto track's base size is the items'
+		   min-content contribution, and a wide diagram SVG's intrinsic
+		   width would pin the track past the viewport (the same
+		   minmax(0, 1fr) floor the product grids use); the zero minimum
+		   lets the figure shrink and the svg's max-width cap the scale. */
+		grid-template-columns: minmax(0, 1fr);
 		gap: var(--space-md);
 		padding: var(--space-lg);
 		margin-bottom: var(--space-md);
@@ -90,6 +101,16 @@ const Svg = Diagrams[`/Source/Content/Mermaid/${Id}.svg`] as string | undefined;
 	.concept__diagram-brief,
 	.concept__title {
 		margin: 0;
+	}
+
+	/* The wrap law for the concept prose: a slash-joined technical run
+	   (the browser never breaks after "/") or a long identifier in a
+	   body paragraph would pin the body's auto track past the viewport.
+	   overflow-wrap: anywhere keeps the prose's normal wrapping and
+	   breaks only a word that cannot fit. */
+	.concept__diagram-brief,
+	.concept__body :global(p) {
+		overflow-wrap: anywhere;
 	}
 
 	.concept__diagram-label {
