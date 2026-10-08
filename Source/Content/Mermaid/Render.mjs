@@ -20,7 +20,8 @@
 // themselves declare). The renderer adds no semantics - it draws the source.
 
 import { readdir, readFile, writeFile, unlink, rm } from "node:fs/promises";
-import { dirname, join, tmpdir } from "node:path";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import puppeteer from "puppeteer";
 
@@ -31,7 +32,7 @@ const BrowserPath =
 	"/Applications/Brave Browser.app/Contents/MacOS/Brave Browser";
 
 const mermaidUrl = pathToFileURL(
-	join(Here, "node_modules/mermaid/dist/mermaid.esm.min.mjs"),
+	join(Here, "../../../node_modules/mermaid/dist/mermaid.esm.min.mjs"),
 ).href;
 
 const PageHtml = `<!DOCTYPE html>
@@ -50,6 +51,14 @@ const PageHtml = `<!DOCTYPE html>
 			mermaid.initialize({
 				startOnLoad: false,
 				securityLevel: "strict",
+				// Plain SVG <text> labels (not HTML-in-foreignObject): every
+				// context renders them - inline HTML, <img>, strict parsers.
+				// With htmlLabels the labels live inside <foreignObject> divs,
+				// which many SVG consumers drop or fail to render. Both the
+				// top-level and the flowchart key must be false: the flowchart
+				// renderer reads the top-level flag, the CSS builder the
+				// flowchart one.
+				htmlLabels: false,
 				theme: "base",
 				themeVariables: {
 					fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
@@ -70,7 +79,8 @@ const PageHtml = `<!DOCTYPE html>
 					clusterBorder: "#e2e8f0",
 					edgeLabelBackground: "#ffffff",
 				},
-				flowchart: { htmlLabels: true, curve: "basis" },
+				// (kept false in sync with the top-level flag - see above)
+				flowchart: { htmlLabels: false, curve: "basis" },
 			});
 			window.__render = async (Id, Text) => {
 				const Stage = document.getElementById("stage");
@@ -91,6 +101,8 @@ if (Sources.length === 0) {
 	process.exit(1);
 }
 
+const HostPath = join(tmpdir(), "dsh-diagram-render.html");
+
 const Browser = await puppeteer.launch({
 	headless: true,
 	executablePath: BrowserPath,
@@ -98,8 +110,15 @@ const Browser = await puppeteer.launch({
 });
 try {
 	const Page = await Browser.newPage();
+	Page.on("pageerror", (Error) => console.error(`page error: ${Error.message}`));
+	Page.on("console", (Message) => {
+		if (Message.type() === "error") console.error(`page console: ${Message.text()}`);
+	});
 	await Page.setViewport({ width: 1600, height: 1200 });
-	await Page.setContent(PageHtml, { waitUntil: "load" });
+	// The page must be served from a file:// URL: a module script on an
+	// about:blank origin (setContent) is not allowed to import local files.
+	await writeFile(HostPath, PageHtml, "utf8");
+	await Page.goto(pathToFileURL(HostPath).href, { waitUntil: "load" });
 	await Page.waitForFunction("window.__ready === true", { timeout: 30000 });
 
 	let Failed = 0;
@@ -132,4 +151,5 @@ try {
 	}
 } finally {
 	await Browser.close();
+	await rm(HostPath, { force: true }).catch(() => {});
 }

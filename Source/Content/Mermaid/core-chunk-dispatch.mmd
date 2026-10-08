@@ -1,4 +1,4 @@
-flowchart TD
+flowchart LR
 	IN["stream chunk"] --> G{"Chunk dispatch - the gate"}
 	G -- "text-delta" --> T["normalize the text"]
 	G -- "reasoning-delta (optional, when the caller's flag is on)" --> R["normalize the reasoning text"]

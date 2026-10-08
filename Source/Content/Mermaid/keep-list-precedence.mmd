@@ -1,4 +1,4 @@
-flowchart TD
+flowchart LR
 	D["dependency on the pin-policy keep-list"] --> K{"keep-listed?"}
 	K -- "yes" --> S["prefix removal bypassed"]
 	S --> R["authored range retained - byte-identical"]

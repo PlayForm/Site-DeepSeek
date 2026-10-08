@@ -1,4 +1,4 @@
-flowchart TD
+flowchart LR
 	O["v2 journal open"] --> M{"per-record layout"}
 	M -- "v1 record" --> A["auto-migrate"]
 	M -- "invalid record" --> B["backup-and-skip"]
