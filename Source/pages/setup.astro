@@ -165,7 +165,7 @@ const Knobs = [
 
 		<PageHero
 			Title="Set up the family in a DeepSeek Harness profile."
-			Sub="Four steps: add the bundles to the profile, add the patch entries, restart, verify the ledgers. Every step below is the actual wiring the loader reads - no separate configuration UI exists."
+			Sub={"Four steps: add the bundles to the profile, add the patch entries, restart, verify the ledgers.\nEvery step below is the actual wiring the loader reads - no separate configuration UI exists."}
 		/>
 
 		<!-- Step 1 -->
@@ -227,7 +227,7 @@ const Knobs = [
 				>
 					<p>
 						Each bundle ships a <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> whose <code>insert:</code> entries
-						declare the loader row and the config. A bare <code>id:</code> row patches
+						declare the loader row and the config.<br />A bare <code>id:</code> row patches
 						an existing entry; the loader rejects unknown ids with{" "}
 						<code>entry "..." not found</code>.
 					</p>
@@ -379,7 +379,7 @@ const Knobs = [
 				>
 					<Badge Variant="outline">DEFAULT OFF</Badge>
 					<p>
-						The default. Tool-call arguments are execution-critical raw JSON - rewriting
+						The default.<br />Tool-call arguments are execution-critical raw JSON - rewriting
 						them is the user's accepted risk, so the schema default is OFF and the
 						example patch turns it on.
 					</p>

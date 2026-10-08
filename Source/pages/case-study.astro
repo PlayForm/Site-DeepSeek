@@ -67,22 +67,22 @@ const Originals = [
 const Criticals = [
 	{
 		Finding:
-			"The pinner's tsc went red - TS2339 four times plus TS2310, a type that recursively references itself as a base. The factory's built declarations shipped unresolved @Interface/* aliases; any consumer whose tsconfig maps the same paths resolves them to its own files. Runtime unaffected: the smoke still passed 28/28.",
-		Fix: "Relative specifiers everywhere and named type exports from the factory entry - then the type-import flip deleted the consumers' local structural mirrors outright (~208 lines). Type-only imports are erased, so the consumers' only-Config-imports-the-factory posture survives the flip untouched.",
+			"The pinner's tsc went red - TS2339 four times plus TS2310, a type that recursively references itself as a base.\nThe factory's built declarations shipped unresolved @Interface/* aliases; any consumer whose tsconfig maps the same paths resolves them to its own files.\nRuntime unaffected: the smoke still passed 28/28.",
+		Fix: "Relative specifiers everywhere and named type exports from the factory entry - then the type-import flip deleted the consumers' local structural mirrors outright (~208 lines).\nType-only imports are erased, so the consumers' only-Config-imports-the-factory posture survives the flip untouched.",
 		Badge: "TYPE-ONLY",
 		Commit: "28ebc30 + c6a72ce",
 	},
 	{
 		Finding:
 			"The build was nondeterministic: the build tool's TypeScript hook ran tsc then tsc-alias through an exec() that was never awaited, so the emitted declaration specifier style depended on timing - rebuilding did not reproduce the committed state.",
-		Fix: "Each bundle's prepublishOnly now runs the build with the racy hook neutralized, then explicit sequential tsc && tsc-alias - and a red tsc fails the build instead of shipping. Rebuild twice, get an identical tree.",
+		Fix: "Each bundle's prepublishOnly now runs the build with the racy hook neutralized, then explicit sequential tsc && tsc-alias - and a red tsc fails the build instead of shipping.\nRebuild twice, get an identical tree.",
 		Badge: "P0",
 		Commit: "28ebc30",
 	},
 	{
 		Finding:
-			"The package governor still registered its in-flight key as the plain target key - the same key the factory's continuation uses. An update running under key K plus an external edit could orphan the update's controller. The cargo flavor had fixed the same collision locally a phase earlier.",
-		Fix: "The key helper moved factory-side - the SCHEME's §2.16, UpdateKey(target) yields update:<targetKey> - and both governors adopted it. Collision-window smoke cases went into the factory and governor suites the same day.",
+			"The package governor still registered its in-flight key as the plain target key - the same key the factory's continuation uses.\nAn update running under key K plus an external edit could orphan the update's controller.\nThe cargo flavor had fixed the same collision locally a phase earlier.",
+		Fix: "The key helper moved factory-side - the SCHEME's §2.16, UpdateKey(target) yields update:<targetKey> - and both governors adopted it.\nCollision-window smoke cases went into the factory and governor suites the same day.",
 		Badge: "P1",
 		Commit: "1ed3564",
 	},
@@ -248,23 +248,23 @@ const Decisions = [
 const Lessons = [
 	{
 		Name: "The smoke/live fidelity gap",
-		Desc: "Every real bug - the patch layers, the v2 journal open, the version guard, the delivery puzzle - was found LIVE, not by the smokes. The smokes prove the mechanics; the live battery proves the wiring. Neither report is complete without the other.",
+		Desc: "Every real bug - the patch layers, the v2 journal open, the version guard, the delivery puzzle - was found LIVE, not by the smokes.\nThe smokes prove the mechanics; the live battery proves the wiring.\nNeither report is complete without the other.",
 	},
 	{
 		Name: "Load order is not list order",
-		Desc: "The pinner activated before the governor at the decisive boot - never rely on the bundle-list order for step ordering. The fold plus the fresh-version writes make the order irrelevant.",
+		Desc: "The pinner activated before the governor at the decisive boot - never rely on the bundle-list order for step ordering.\nThe fold plus the fresh-version writes make the order irrelevant.",
 	},
 	{
 		Name: "Timestamps are epoch UTC",
-		Desc: "The storage timestamps are epoch milliseconds; the local display adds +03. The missing-records scares were filter mistakes, not lost data - one hour of arithmetic saved an hour of dread.",
+		Desc: "The storage timestamps are epoch milliseconds; the local display adds +03.\nThe missing-records scares were filter mistakes, not lost data - one hour of arithmetic saved an hour of dread.",
 	},
 	{
 		Name: "The subagent quirks",
-		Desc: "One file per response keeps agents alive; agents that batch die more often. Agents crash mid-flight without a closing message - recover from the on-disk state. And the subagents' own streams get normalized: their comment prose came out hyphenated.",
+		Desc: "One file per response keeps agents alive; agents that batch die more often.\nAgents crash mid-flight without a closing message - recover from the on-disk state.\nAnd the subagents' own streams get normalized: their comment prose came out hyphenated.",
 	},
 	{
 		Name: "Verify the live effective config",
-		Desc: "The meta-lesson of the patch-layer saga: a schema projection is not the truth. The patch layer replaces the entry config wholesale - read the composed layers, never just the defaults.",
+		Desc: "The meta-lesson of the patch-layer saga: a schema projection is not the truth.\nThe patch layer replaces the entry config wholesale - read the composed layers, never just the defaults.",
 	},
 ];
 ---
@@ -284,7 +284,7 @@ const Lessons = [
 
 		<PageHero
 			Title="The case study: how this family got built."
-			Sub="The development story of the twelve packages, told as it happened - the phases, the misdiagnoses named before the fixes, and the decisions that survive in the shipped seams. Every challenge below is stated with what actually happened."
+			Sub={"The development story of the twelve packages, told as it happened - the phases, the misdiagnoses named before the fixes, and the decisions that survive in the shipped seams.\nEvery challenge below is stated with what actually happened."}
 		/>
 
 		<!-- The phase index -->
@@ -518,7 +518,7 @@ const Lessons = [
 							<Badge>{Item.Commit}</Badge>
 						</div>
 						<p class="card__desc" slot="after" style="margin-top: var(--space-sm)">
-							<strong>Fix.</strong> {Item.Fix}
+							<strong>Fix.</strong> {Item.Fix.split("\n").map((Part, Index) => (<Fragment>{Index > 0 && <br />}{Part}</Fragment>))}
 						</p>
 					</Card>
 				))}
@@ -608,7 +608,7 @@ const Lessons = [
 						The boot-window race came next (<code>aa53c91</code>): records journaled
 						before any open completes now buffer in a capped, drop-when-full pre-bind
 						queue and drain with their timestamps preserved - a three-stage routing of
-						shared sink, pre-bind buffer, then per-state fallback. The third boot
+						shared sink, pre-bind buffer, then per-state fallback.<br />The third boot
 						confirmed both live:
 					</p>
 				</Concept>
@@ -622,7 +622,7 @@ const Lessons = [
 					Diagram="The same file before and after the fix - one module's activations becoming all four, with the interlock cascade and the dispatched update stage recording themselves in the same place."
 				>
 					<p>
-						Before the fix, that file showed one module's activations. After it, all four
+						Before the fix, that file showed one module's activations.<br />After it, all four
 						- and the interlock cascade and the dispatched update stage record themselves
 						in the same place.
 					</p>
@@ -650,7 +650,7 @@ const Lessons = [
 					Diagram="The core taking over the pure machinery - generic over structural shapes, no dependency on the host's LLM types - replacing the fragile cross-bundle symlink workaround for the nominal-type clash with a durable design (98be27b, c2beb06)."
 				>
 					<p>
-						The dash normalizer generalized. The core took over the pure machinery -
+						The dash normalizer generalized.<br />The core took over the pure machinery -
 						generic over structural shapes, with no dependency on the host's LLM types.
 					</p>
 					<p>
@@ -709,7 +709,7 @@ const Lessons = [
 					</p>
 					<p>
 						The agents building the family saw their own comment prose come out with
-						ASCII hyphens, because their output streams run through the same flavors. The
+						ASCII hyphens, because their output streams run through the same flavors.<br />The
 						planned cosmetic pass was cancelled by the user - em-dashes live only in the
 						README examples, never in code.
 					</p>
@@ -755,14 +755,14 @@ const Lessons = [
 				>
 					<p>
 						Then the live tests showed its writes never triggered the governance chain -
-						and the diagnosis took three rounds, two of them wrong. The{" "}
+						and the diagnosis took three rounds, two of them wrong.<br />The{" "}
 						<strong>emit-context theory</strong>: the event must be scoped to the
-						emitting plugin. The <strong>listener-scope theory</strong>: the listener must
+						emitting plugin.<br />The <strong>listener-scope theory</strong>: the listener must
 						be registered at the wrong level.
 					</p>
 					<p>
 						The delivery research refuted both with code, simulation and live policy
-						evidence: <em>the event is delivered; the gate rejects the actor.</em> The
+						evidence: <em>the event is delivered; the gate rejects the actor.</em><br />The
 						shared event bus has no scope filter on plain emits - the root registration
 						fix aimed at the misdiagnosis was harmless, and stayed.
 					</p>
@@ -773,11 +773,11 @@ const Lessons = [
 					Diagram="The g1 gate's seven rejection reasons in decision order - target, govern, actor, kind, idempotent, basename, excluded - with the misdiagnosis landing on the actor reason and the marker moving the same flow to the govern reason."
 				>
 					<p>
-						The gate never rejects vaguely. Its rejections are a fixed vocabulary of
+						The gate never rejects vaguely.<br />Its rejections are a fixed vocabulary of
 						seven reasons, checked in order (the factory's g1 gate):{" "}
 						<code>target</code>, <code>govern</code>, <code>actor</code>,{" "}
 						<code>kind</code>, <code>idempotent</code>, <code>basename</code>,{" "}
-						<code>excluded</code>. Naming the reasons is what makes the misdiagnosis
+						<code>excluded</code>.<br />Naming the reasons is what makes the misdiagnosis
 						story structurally checkable instead of anecdotal.
 					</p>
 					<p>
@@ -804,7 +804,7 @@ const Lessons = [
 					<p>
 						The bundles' own patch layers set <code>mutationTools</code> explicitly, and a
 						patch layer's config <strong>replaces the entry config wholesale</strong>,
-						shadowing the default. The inspection tooling projected the{" "}
+						shadowing the default.<br />The inspection tooling projected the{" "}
 						<em>schema</em>, so the projected list looked correct while the live value
 						was not - the verification blind spot in one sentence.
 					</p>
@@ -1134,7 +1134,7 @@ const Lessons = [
 				Meta={`${Decisions.Count} DECISIONS, WHERE THEY LIVE, WHAT PROVED THEM`}
 			/>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				Every decision below survives in a shipped seam. The technique column names where it
+				Every decision below survives in a shipped seam.<br />The technique column names where it
 				lives; the evidence column links the narrative to the commit era.
 			</p>
 			<div class="table-wrap">
@@ -1180,14 +1180,14 @@ const Lessons = [
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The state the era ended in: twelve packages, twelve green suites, a clean tree, the
-				full live matrix passed - and the register's open items named, not vague. Four of
+				full live matrix passed - and the register's open items named, not vague.<br />Four of
 				them carry into the next era: <strong>#14's Classic parallel smoke coverage</strong>
 				- the race-verified scenarios for the parallel-govern toggle; the{" "}
 				<strong>ncuBin re-pin</strong> - LANDED: the governor's default is now the plain{" "}
 				<code>ncu</code> binary resolved from the host PATH, the personal-path constant
 				gone; the <strong>verifyCommand trap</strong> - the documented cordis
 				vendored-forks failure, standing, not a bug; and <strong>#16's submodule
-				structure</strong> - designed, not started, the repositories unversioned by design.
+				structure</strong> - designed, not started, the repositories unversioned by design.<br />
 				The install command below is the whole family's front door.
 			</p>
 			<div class="snippet-list" style="margin-top: var(--space-md)">
