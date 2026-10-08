@@ -1,46 +1,45 @@
-// Links.ts - the family's URL registry: the single place the repository base
-// URLs and the branch segments appear, plus the Link() composer and the
-// Linkify() string-prop renderer built on top of them.
+// Links.ts - the family's URL registry: the single source for every external
+// URL the site composes. The base URLs appear HERE and nowhere else; the
+// markup reads as a function of a URL - "Link(Repo, Path)" - so a page never
+// repeats a full address.
 //
-// The registry serves three surfaces:
-//   - the .astro pages, which compose every href through Link() so no page
-//     repeats a base URL (the markup reads as a function of a URL: the
-//     DeepSeek Harness repo + a specific part of its internals -> the link);
-//   - the string props (Concept's Diagram, Card's Desc, Seams' What / Seam /
-//     Outcome), which stay plain text in the source and carry a lightweight
-//     inline-link syntax that Linkify() turns into safe <a> elements;
-//   - the future transforms: every URL-scheme decision - a redirect service,
-//     tracking parameters, version bumps, the branch segments, the hosting
-//     scheme itself - applies HERE, in the two constants and in Link(),
-//     site-wide, without touching a single page.
+//   import { Link, Links } from "@Library/Links";
+//   <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
+//     -> https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts
 //
-// The site's own URL is deliberately absent: astro.config.ts carries the
-// `site` option as a TODO (no canonical or sitemap hrefs are emitted), so
-// there is nothing to register yet. When a domain lands, it gets its entry
-// here, next to the two repositories, and nowhere else.
+// THE TRANSFORM POINT (the reason this file exists): any future URL transform
+// - a redirect service, tracking parameters, version bumps, a scheme change -
+// is applied HERE, at one point: edit the constants below, or wrap the return
+// of Link()/Resolve(), and the whole site follows. No page changes. The
+// markdown mirrors this at file scope: each URL repeated in a document gets
+// one reference definition at that file's bottom, so the definitions are the
+// document's local registry and the full URL appears once per file.
+//
+// The site's own URL is deliberately absent: astro.config.ts has no `site`
+// option set (the built pages carry no canonical or sitemap URLs to compose),
+// so there is nothing to register yet - add it here when the site gets one.
+// This module is browser-safe (constants + pure string functions only).
 
 /** A repository entry: the bare base URL plus the branch segment links compose with. */
 export interface Repo {
-	/** The bare repository URL - no branch, no trailing slash. */
+	/** The repository's base URL - no branch segment, no trailing slash. */
 	Base: string;
-	/** The branch segment inserted between the base and the path ("tree/master" form, never "blob"). */
+	/** The branch segment links compose with: the exact "tree/<branch>" form, never blob. */
 	Branch: string;
 }
 
-/** The branch segment of the deepseek-ai tree links. */
+/** The branch segments - the exact "tree/<branch>" forms the linking verified, never blob. */
 export const BranchDeepSeek = "tree/master";
-
-/** The branch segment of our own tree links. */
 export const BranchOurs = "tree/Current";
 
-/** The registered repositories - the only base URLs the site knows. */
+/** The registry: the only place the base URLs appear. */
 export const Links = {
-	/** The DeepSeek Harness repository (the upstream we link into). */
+	/** The DeepSeek Harness repository (deepseek-ai), linked at branch master. */
 	DeepSeekHarness: {
 		Base: "https://github.com/deepseek-ai/deepseek-harness",
 		Branch: BranchDeepSeek,
 	},
-	/** Our own monorepo (this site's source of truth). */
+	/** The family's own repository (PlayForm/DeepSeek), linked at branch Current. */
 	OurRepo: {
 		Base: "https://github.com/PlayForm/DeepSeek",
 		Branch: BranchOurs,
@@ -48,18 +47,36 @@ export const Links = {
 } as const satisfies Record<string, Repo>;
 
 /**
- * Compose a repository link: Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")
- * -> "https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/llm/llm/src/index.ts".
- *
- * THE TRANSFORM POINT: a future URL transform (redirect service, tracking,
- * version bumps, scheme changes) is applied here, once, and every composed
- * link on the site follows.
+ * Compose a full link: the repository's branch segment plus the path.
+ * Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts") is the whole
+ * contract - pages compose, the registry owns the addresses.
  */
 export function Link(Repo: Repo, Path: string): string {
 	return `${Repo.Base}/${Repo.Branch}/${Path}`;
 }
 
-/** Escape text for safe HTML interpolation: everything is escaped, nothing passes through. */
+/**
+ * The prop shorthand for Link(): "Harness:<path>" and "Ours:<path>" resolve
+ * through the registry, so a string prop never carries a base URL either.
+ * A full URL is accepted only when its origin is one of the registry's own
+ * repositories (the safelist) - anything else resolves to null and renders
+ * as plain text, never as a link.
+ */
+export function Resolve(Target: string): string | null {
+	const Colon = Target.indexOf(":");
+	if (Colon > 0) {
+		const Path = Target.slice(Colon + 1);
+		if (Target.slice(0, Colon) === "Harness") return Link(Links.DeepSeekHarness, Path);
+		if (Target.slice(0, Colon) === "Ours") return Link(Links.OurRepo, Path);
+	}
+	const Allowed = [Links.DeepSeekHarness.Base, Links.OurRepo.Base];
+	if (Allowed.some((Base) => Target === Base || Target.startsWith(`${Base}/`))) {
+		return Target;
+	}
+	return null;
+}
+
+/** Escape text for safe interpolation into HTML (the renderer's only escape hatch). */
 function Escape(Text: string): string {
 	return Text.replace(/&/g, "&amp;")
 		.replace(/</g, "&lt;")
@@ -68,42 +85,27 @@ function Escape(Text: string): string {
 		.replace(/'/g, "&#39;");
 }
 
-/** Resolve a Linkify target to a registered URL, or null when the target is not safelisted. */
-function Resolve(Target: string): string | null {
-	// The registry shorthand: "DeepSeekHarness:packages/llm/llm/src/index.ts"
-	// composes through Link(), so the prop strings never repeat a base URL.
-	const Shorthand = /^(DeepSeekHarness|OurRepo):(.+)$/.exec(Target);
-	if (Shorthand) {
-		return Link(Links[Shorthand[1] as keyof typeof Links], Shorthand[2]);
-	}
-	// A full URL is allowed only when it points into a registered repository.
-	if (
-		/^https:\/\//i.test(Target) &&
-		Object.values(Links).some((Repo) => Target.startsWith(`${Repo.Base}/`))
-	) {
-		return Target;
-	}
-	return null;
-}
-
 /**
- * Render a string prop as safe HTML: the [text](target) segments become <a>
- * elements, everything else - and the link labels themselves - is escaped.
- * The target accepts the registry shorthand ("DeepSeekHarness:path",
- * "OurRepo:path") or a full URL into a registered repository; anything else
- * renders as plain escaped text, so an unregistered or hostile target can
- * never produce a link.
+ * Linkify: the string-prop renderer. The Concept/Card/Seams props stay
+ * editable plain text in the source; a "[label](target)" segment inside them
+ * becomes one safe <a> at render - the label escaped, the target resolved
+ * through the registry (Resolve), the href escaped, everything else escaped.
+ * A segment whose target does not resolve renders as its literal text.
  */
 export function Linkify(Text: string): string {
-	const Pattern = /\[([^\]]+)\]\(([^()\s]+)\)/g;
 	let Out = "";
-	let At = 0;
-	for (const Match of Text.matchAll(Pattern)) {
-		Out += Escape(Text.slice(At, Match.index));
-		const Href = Resolve(Match[2]);
-		Out += Href ? `<a href="${Escape(Href)}">${Escape(Match[1])}</a>` : Escape(Match[0]);
-		At = Match.index + Match[0].length;
+	let Rest = Text;
+	const Pattern = /\[([^\]]+)\]\(([^)\s]+)\)/;
+	for (;;) {
+		const Match = Rest.match(Pattern);
+		if (!Match || Match.index === undefined) break;
+		const Url = Resolve(Match[2]);
+		Out += Escape(Rest.slice(0, Match.index));
+		Out +=
+			Url === null
+				? Escape(Match[0])
+				: `<a href="${Escape(Url)}">${Escape(Match[1])}</a>`;
+		Rest = Rest.slice(Match.index + Match[0].length);
 	}
-	Out += Escape(Text.slice(At));
-	return Out;
+	return Out + Escape(Rest);
 }

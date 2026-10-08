@@ -150,7 +150,9 @@ const Knobs = [
 
 <Base
 	Title="Setup - @playform / DSH Family"
-	Description="How to configure the DeepSeek Harness Plugin Family in a profile: the bundle list, the <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> entries, the restart, the activation lines in each ledger - and the full configurable surface with its defaults-off posture."
+	<!-- The meta description stays plain text: no anchor markup, it renders into
+	     a content attribute and any <a> there truncates the tag at build. -->
+	Description="How to configure the DeepSeek Harness Plugin Family in a profile: the bundle list, the cordis.patch.yml entries, the restart, the activation lines in each ledger - and the full configurable surface with its defaults-off posture."
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -221,7 +223,7 @@ const Knobs = [
 				<Concept
 					Id="setup-patch-rows"
 					Title="The insert: entries declare the loader row"
-					Diagram="A cordis.patch.yml insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
+					Diagram="A [cordis.patch.yml](Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml) insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
 				>
 					<p>
 						Each bundle ships a <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> whose <code>insert:</code> entries
@@ -390,7 +392,7 @@ const Knobs = [
 				<Concept
 					Id="setup-optional-govern"
 					Title="govern: absent"
-					Diagram="The raw-write tool with no govern flag emitting fs/observed exactly like a built-in write - the event path governing it as always, the per-call direct chain running only when asked."
+					Diagram="The raw-write tool with no govern flag emitting [fs/observed](Harness:packages/fs/fs/src/index.ts) exactly like a built-in write - the event path governing it as always, the per-call direct chain running only when asked."
 				>
 					<Badge Variant="outline">ESCAPE HATCH</Badge>
 					<p>
@@ -482,7 +484,7 @@ const Knobs = [
 				<Concept
 					Id="setup-line-format"
 					Title="The line format"
-					Diagram="One message flowing through the factory's Append into its two forms: [ISO] message in the file, plugin: message on the logger."
+					Diagram="One message flowing through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source) into its two forms: [ISO] message in the file, plugin: message on the logger."
 				>
 					<p>
 						The line format is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file
