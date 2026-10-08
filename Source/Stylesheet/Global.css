@@ -543,10 +543,17 @@ svg {
 
 /* The inline icon-to-text gap: an icon that opens a label line (the
 	before/after kickers, the seam/ledger table headers) carries the shared
-	4px token instead of the wide mono space character; the mark also rides
-	a slightly higher baseline, because the mono label's visual mass sits
-	above the box center the -0.125em convention gives a full-size box. */
-.section-kicker .brand-icon,
+	4px token instead of the wide mono space character. The kicker icon
+	rides the measured optical center of the mono caps: the swap glyph is
+	viewBox-centered, so the -0.15em vertical-align puts its visual mass on
+	the caps' center (the former -0.0625em floated the mark ~1.2px high,
+	above the label's optical center). The table-header branch keeps its
+	own lighter lift. */
+.section-kicker .brand-icon {
+	margin-right: var(--gap-icon);
+	vertical-align: -0.15em;
+}
+
 .table th .brand-icon {
 	margin-right: var(--gap-icon);
 	vertical-align: -0.0625em;
