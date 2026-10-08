@@ -83,7 +83,7 @@ const Criticals = [
 	{
 		Finding:
 			"The package governor still registered its in-flight key as the plain target key - the same key the factory's continuation uses.\nAn update running under key K plus an external edit could orphan the update's controller.\nThe cargo flavor had fixed the same collision locally a phase earlier.",
-		Fix: "The key helper moved factory-side - the SCHEME's §2.16, UpdateKey(target) yields update:<targetKey> - and both governors adopted it.\nCollision-window smoke cases went into the factory and governor suites the same day.",
+		Fix: "The key helper moved factory-side - the <span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME</span>'s §2.16, UpdateKey(target) yields update:<targetKey> - and both governors adopted it.\nCollision-window smoke cases went into the factory and governor suites the same day.",
 		Badge: "P1",
 		Commit: "1ed3564",
 	},
@@ -457,7 +457,8 @@ const Lessons = [
 						from {History.OriginMethods} to {Methods.Count} methods as later phases moved machinery in.
 					</p>
 					<p>
-						The growth happened by insertion (Write landed at the SCHEME's {Scheme.Write},
+						The growth happened by insertion (Write landed at the{" "}
+						<span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME</span>'s {Scheme.Write},
 						renumbering everything after it), by alias (GuardedWrite shares {Scheme.Write}) and by
 						uncounted helpers (UpdateKey, {Scheme.UpdateKey}).
 					</p>
@@ -887,7 +888,8 @@ const Lessons = [
 					<p>
 						Then the fine-grained control (<code>e69c5d3</code>):{" "}
 						<code>normalize</code> selects the transforms, <code>govern</code> selects the
-						chain steps through the factory's <code>Govern</code> - the fold entry, SCHEME
+						chain steps through the factory's <code>Govern</code> - the fold entry,{" "}
+						<span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME</span>
 						{Scheme.Govern} - and a step registry the modules populate (RegisterGovern, {Scheme.RegisterGovern}).
 					</p>
 				</Concept>
@@ -1086,7 +1088,7 @@ const Lessons = [
 						functional real path by design.
 					</p>
 					<p>
-						The READMEs were rebuilt on a single skeleton borrowed heavily from the
+						The <span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />READMEs</span> were rebuilt on a single skeleton borrowed heavily from the
 						sibling project's conventions.
 					</p>
 				</Concept>

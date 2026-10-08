@@ -14,6 +14,7 @@ import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families, FamilyPosition } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
+import { Mention } from "@Library/FileIcon";
 
 // The eight-entry Quotes MAP, from the package README.
 const QuotesMap = [
@@ -474,9 +475,9 @@ const LedgerStrings = [
 									<strong>{Row.Field}</strong>
 								</td>
 								<td>{Row.Type}</td>
-								<td>{Row.Default}</td>
+								<td set:html={Mention(Row.Default)} />
 								<td>{Row.Volatile}</td>
-								<td>{Row.Meaning}</td>
+								<td set:html={Mention(Row.Meaning)} />
 							</tr>
 						))}
 					</tbody>
@@ -505,7 +506,7 @@ const LedgerStrings = [
 								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
 							)}
 						>
-							cordis.patch.yml
+							<span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span>
 						</a>{" "}
 						row:
 					
