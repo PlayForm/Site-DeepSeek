@@ -334,7 +334,7 @@ const Lessons = [
 					Diagram={`Zero assertion rewrites across refactors, renames and a framework port - the Effect-TS port ADDING ${History.EffectDelta} checks (core +${History.Deltas.Core}, factory +${History.Deltas.Factory}, governor +${History.Deltas.Governor}), its totals running higher with every shared assertion intact.`}
 				>
 					<p>
-						Every step of the way, the smokes were the arbiter: zero assertion rewrites
+						Zero assertion rewrites
 						across refactors, renames and a framework port.
 					</p>
 					<p>
@@ -407,7 +407,7 @@ const Lessons = [
 					Diagram="Three independent hooks - the package governor, the package pinner, the cargo governor - plus the dash normalizer, each carrying its own copy of the same machinery: ledgers, exclusion matching, policy loading, guarded writes, wiring, schemas."
 				>
 					<p>
-						The setup: three independent hooks - the package governor, the package
+						Three independent hooks - the package governor, the package
 						pinner, the <BrandIcon Name="rust" /> cargo governor - plus the dash
 						normalizer, each carrying its own
 						copy of the same machinery: ledgers, exclusion matching, policy loading,
@@ -420,8 +420,9 @@ const Lessons = [
 					Diagram={`The consolidation (49e5b3d, 859f16a, 018919c) onto one factory service - ${History.OriginMethods} methods, one transform contract, and the ledger strings owned by the modules themselves.`}
 				>
 					<p>
-						The decision (<code>49e5b3d</code>, <code>859f16a</code>,{" "}
-						<code>018919c</code>): consolidate onto <strong>one factory service</strong>{" "}
+						Consolidate onto <strong>one factory service</strong>{" "}
+						(<code>49e5b3d</code>, <code>859f16a</code>,{" "}
+						<code>018919c</code>)
 						- {History.OriginMethods} methods, one transform contract, and the ledger strings owned by the
 						modules themselves.
 					</p>
@@ -432,7 +433,7 @@ const Lessons = [
 					Diagram="The Wire / Attach / Continue seam trio, and a transform leaf the factory drives but never absorbs - each hook's transforms staying its identity."
 				>
 					<p>
-						The technique: the <code>Wire</code>/<code>Attach</code>/
+						The <code>Wire</code>/<code>Attach</code>/
 						<code>Continue</code> seam trio, and a transform leaf the factory drives but
 						never absorbs - each hook's transforms stay its identity.
 					</p>
@@ -443,7 +444,7 @@ const Lessons = [
 					Diagram={`Five bundles green, ${History.OriginChecks} checks, and every ledger string byte-identical to pre-refactor behavior, smoke-asserted.`}
 				>
 					<p>
-						The outcome: five bundles green, {History.OriginChecks} checks, and every ledger string
+						Five bundles green, {History.OriginChecks} checks, and every ledger string
 						byte-identical to pre-refactor behavior, smoke-asserted.
 					</p>
 				</Concept>
@@ -575,7 +576,7 @@ const Lessons = [
 					Diagram="The first live battery exercising everything the smokes had proven: the governor + pinner interlock on one manifest write, the update stages as real jobs, the cargo's actual cargo upgrade with the full argv, the dash normalizer counting replacements in live streams."
 				>
 					<p>
-						The first live battery exercised everything the smokes had proven: the
+						It exercised everything the smokes had proven: the
 						governor&nbsp;+&nbsp;pinner interlock on one manifest write, the update stages
 						as real jobs, the cargo's actual <code>cargo upgrade</code> with the full
 						argv, the dash normalizer counting replacements in live streams.
@@ -587,7 +588,7 @@ const Lessons = [
 					Diagram="The harness's storage domain enforcing one open per name - the shared journal domain single-winner per boot, only the pinner's records landing while the governor's and the cargo's silently never did, the human ledger files remaining the complete record."
 				>
 					<p>
-						It also surfaced the first live-only failure: the{" "}
+						The{" "}
 						<BrandIcon Name="deepseek" /> harness's <a href={Link(Links.DeepSeekHarness, "packages/storage/storage-domain")}>storage domain</a>
 						enforces <strong>one open per name</strong>, so the shared journal domain was
 						single-winner per boot.
@@ -629,7 +630,7 @@ const Lessons = [
 					Diagram="The same file before and after the fix - one module's activations becoming all four, with the interlock cascade and the dispatched update stage recording themselves in the same place."
 				>
 					<p>
-						Before the fix, that file showed one module's activations.</p>
+						That file showed one module's activations.</p>
 					<p>After it, all four
 						- and the interlock cascade and the dispatched update stage record themselves
 						in the same place.
@@ -642,7 +643,8 @@ const Lessons = [
 					Diagram="The update stage's awaited promise resolving at the dispatch while the background job keeps running - the caller never awaiting the job."
 				>
 					<p>
-						The update stage's awaited promise resolves at the dispatch: the background
+						The update stage's awaited promise resolves the moment the dispatch fires;
+						the background
 						job keeps running, and the caller never awaits the job.
 					</p>
 				</Concept>
@@ -659,8 +661,7 @@ const Lessons = [
 					Diagram="The core taking over the pure machinery - generic over structural shapes, no dependency on the host's LLM types - replacing the fragile cross-bundle symlink workaround for the nominal-type clash with a durable design (98be27b, c2beb06)."
 				>
 					<p>
-						The dash normalizer generalized.</p>
-					<p>The core took over the pure machinery -
+						The core took over the pure machinery -
 						generic over structural shapes, with no dependency on the host's LLM types.
 					</p>
 					<p>
@@ -685,8 +686,8 @@ const Lessons = [
 					Diagram="The tool-args gate (1d827ad) and its three-way refinement (9d6e195): edit calls passing by identity - the old-string must match the real file bytes - and a per-call marker letting a single call opt out entirely, smoke-verified but not reachable from the structured tool interface at the time."
 				>
 					<p>
-						Then the tool-args gate (<code>1d827ad</code>), and its three-way refinement (
-						<code>9d6e195</code>): edit calls pass by identity - the old-string must
+						Edit calls pass by identity (<code>1d827ad</code>,{" "}
+						<code>9d6e195</code>) - the old-string must
 						match the real file bytes - and a per-call marker lets a single call opt out
 						entirely.
 					</p>
@@ -714,10 +715,6 @@ const Lessons = [
 					Diagram="The agents building the family seeing their own comment prose come out with ASCII hyphens, because their output streams run through the same flavors - and the planned cosmetic pass cancelled by the user: em-dashes live only in the README examples, never in code."
 				>
 					<p>
-						One beat belongs to the family's self-awareness: the system normalizes
-						itself.
-					</p>
-					<p>
 						The agents building the family saw their own comment prose come out with
 						ASCII hyphens, because their output streams run through the same flavors.</p>
 					<p>The
@@ -732,10 +729,11 @@ const Lessons = [
 					Diagram="The workbench letting you watch the gate make its per-call decisions, and the matrix showing the raw-vs-canonical payload pair engine by engine."
 				>
 					<p>
-						The <a href="/workbench/">workbench</a> and the{" "}
-						<a href="/matrix/">matrix</a> pages run exactly these flavors live - the
-						workbench lets you watch the gate make its per-call decisions, the matrix
-						shows the raw-vs-canonical payload pair engine by engine.
+						The
+						<a href="/workbench/">workbench</a> lets you watch the gate make its
+						per-call decisions, and the{" "}
+						<a href="/matrix/">matrix</a> shows the raw-vs-canonical payload pair engine
+						by engine.
 					</p>
 				</Concept>
 			</div>
@@ -754,7 +752,7 @@ const Lessons = [
 					Diagram="The raw-write tool (bb9a6fd): a write wrapper with an explicit normalize parameter, exempt from stream normalization by name like edit, mirroring the built-in write's filesystem path so the governance hooks see its writes."
 				>
 					<p>
-						The raw-write tool landed first (<code>bb9a6fd</code>): a write wrapper with
+						It landed first (<code>bb9a6fd</code>): a write wrapper with
 						an explicit normalize parameter, exempt from stream normalization by name
 						like edit, mirroring the built-in write's filesystem path so the governance
 						hooks see its writes.
@@ -766,7 +764,7 @@ const Lessons = [
 					Diagram="The live tests showing the writes never triggered the governance chain - the emit-context theory and the listener-scope theory both refuted by delivery research with code, simulation and live policy evidence: the event is delivered; the gate rejects the actor."
 				>
 					<p>
-						Then the live tests showed its writes never triggered the governance chain -
+						The live tests showed its writes never triggered the governance chain -
 						and the diagnosis took three rounds, two of them wrong.</p>
 					<p>The{" "}
 						<strong>emit-context theory</strong>: the event must be scoped to the
@@ -834,7 +832,7 @@ const Lessons = [
 					Diagram="The fix (affa730) being one line in three patch files - and it becoming the family's standing lesson about verifying the live effective config."
 				>
 					<p>
-						The fix (<code>affa730</code>) was one line in three patch files, and it
+						It was one line in three patch files (<code>affa730</code>), and it
 						became the family's standing lesson about verifying the live effective
 						config.
 					</p>
@@ -862,7 +860,7 @@ const Lessons = [
 					Diagram="The fix (756d566): a per-record layout that auto-migrates the v1 records, backup-and-skip for invalid ones, and a loud failure line on any open failure - because the silence is what made it undiagnosable."
 				>
 					<p>
-						The fix (<code>756d566</code>): a per-record layout that auto-migrates the v1
+						A per-record layout (<code>756d566</code>) that auto-migrates the v1
 						records, backup-and-skip for invalid ones, and a{" "}
 						<strong>loud failure line</strong> on any open failure - because the silence
 						is what made it undiagnosable.
@@ -891,9 +889,9 @@ const Lessons = [
 					Diagram={`The control split (e69c5d3): normalize selecting the transforms, govern selecting the chain steps through the factory's Govern - the fold entry, SCHEME ${Scheme.Govern} - and a step registry the modules populate (RegisterGovern, ${Scheme.RegisterGovern}).`}
 				>
 					<p>
-						Then the fine-grained control (<code>e69c5d3</code>):{" "}
 						<code>normalize</code> selects the transforms, <code>govern</code> selects the
-						chain steps through the factory's <code>Govern</code> - the fold entry,{" "}
+						chain steps through the factory's <code>Govern</code> (<code>e69c5d3</code>) -
+						the fold entry,{" "}
 						<span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME</span>
 						{Scheme.Govern} - and a step registry the modules populate (RegisterGovern, {Scheme.RegisterGovern}).
 					</p>
@@ -904,9 +902,9 @@ const Lessons = [
 					Diagram="The governance marker (2c8764e, 83ba8e5) inverting the event path into a direct path: the raw-write's actor carrying the govern selection, so direct governance is the only channel and no flag means no chain - the escape hatch."
 				>
 					<p>
-						The governance marker (<code>2c8764e</code>, <code>83ba8e5</code>) inverts
-						the event path into a direct path: the raw-write's actor carries the govern
-						selection, so direct governance is the only channel and{" "}
+						The raw-write's actor carries the govern
+						selection (<code>2c8764e</code>, <code>83ba8e5</code>), so direct governance
+						is the only channel and{" "}
 						<strong>no flag means no chain</strong> - the escape hatch.
 					</p>
 				</Concept>
@@ -970,7 +968,7 @@ const Lessons = [
 					Diagram="The deeper bug: every step writing against the version observed at the triggering event, so only the first write could succeed and the later steps failed the stale-version check silently - and the fix (5982aa8): the chain pass statting the target before its write and taking the fresh version, the fold converging in any step order."
 				>
 					<p>
-						Then the deeper bug: every step wrote against the version observed at the
+						Every step wrote against the version observed at the
 						triggering event, so <strong>only the first write could succeed</strong> and
 						the later steps failed the stale-version check silently.
 					</p>
@@ -987,7 +985,7 @@ const Lessons = [
 					Diagram="The write executor originally mapping the caller's abort signal onto the run promise's options - a pre-aborted signal interrupting the whole fiber, the caller seeing all fibers interrupted without error instead of the Classic aborted-before-write behavior - and the fix dropping the signal mapping so the signal forwards to the seams only."
 				>
 					<p>
-						One more fix belongs to the Effect-TS port: the write executor originally
+						The write executor originally
 						mapped the caller's abort signal onto the run promise's options, so a{" "}
 						<strong>pre-aborted signal interrupted the whole fiber</strong> and the
 						caller saw <em>all fibers interrupted without error</em> instead of the
@@ -1046,7 +1044,7 @@ const Lessons = [
 					Diagram="The three implementations and their fixed roles: Boilerplate as the live truth, Classic as the anonymized release, Effect-TS as the port."
 				>
 					<p>
-						The triad's roles stay fixed: <strong>Boilerplate</strong> is the live truth,{" "}
+						<strong>Boilerplate</strong> is the live truth,{" "}
 						<BrandIcon Name="typescript" /> <strong>Classic</strong> is the anonymized
 						release,{" "}
 						<BrandIcon Name="effect" /> <strong>Effect-TS</strong> is the port.
@@ -1087,7 +1085,7 @@ const Lessons = [
 					Diagram="The clean releases: the governor's ncuBin default re-pinned to a portable PATH-resolved value (the internal Boilerplate baseline keeping the functional real path by design), and the READMEs rebuilt on a single shared skeleton."
 				>
 					<p>
-						The release prep anonymized and de-personalized every bundle: the releases are
+						The releases are
 						clean - the governor's <code>ncuBin</code> default was re-pinned to a portable
 						PATH-resolved value, while the internal Boilerplate baseline keeps the
 						functional real path by design.
@@ -1102,7 +1100,7 @@ const Lessons = [
 					Diagram={`Packages reading as @-sentences - ${Families.GovernorPackage} - and grouping alphabetically by kind, role and domain: kind-first ordering mirroring the consumer topology (the hooks vs the factory service), role-contiguous grouping keeping the shared-machinery families together (governor-cargo/governor-package, the normalize-* family), at version ${Versions.Release}.`}
 				>
 					<p>
-						The naming inverted (<code>register #15</code>): packages read as{" "}
+						Packages read as{" "}
 						<code>@</code>-sentences - <em>{Families.GovernorPackage}</em> - and
 						group alphabetically by kind, role and domain.
 					</p>
@@ -1119,11 +1117,11 @@ const Lessons = [
 					Diagram="One repository per package under submodule structure - register #16: the .gitmodules draft is prepared and tracked, but git does not read it under that name - nothing is activated, no commits yet, everything still in this monorepo."
 				>
 					<p>
-						One repository per package under submodule structure is{" "}
-						<strong>prepared, not activated</strong> (register #16: the{" "}
-						<code>.gitmodules.draft</code> exists but git ignores the draft name - the
+						The{" "}
+						<code>.gitmodules.draft</code> exists but git ignores the draft name (register
+						#16) - the
 						activation is the user's <code>git submodule add</code> once the per-package
-						repositories exist; no commits yet, everything still in this monorepo).
+						repositories exist; no commits yet, everything still in this monorepo.
 					</p>
 				</Concept>
 				<Concept
@@ -1132,7 +1130,7 @@ const Lessons = [
 					Diagram="The integration showcase - the versions page carrying the two engines side by side."
 				>
 					<p>
-						And the Site you are reading is the last item: the integration showcase, with
+						The integration showcase, with
 						the <a href="/versions/">versions page</a> carrying the two engines side by
 						side.
 					</p>

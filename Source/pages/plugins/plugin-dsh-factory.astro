@@ -192,8 +192,7 @@ const Related = [
 					Diagram={`${Families.Factory} as the family's parent service - every other package consuming it (the three governance hooks injecting the service; the six normalize flavors consuming State/Append and the Schema helper) - its own parent the filesystem service (inject: ["fs"]).`}
 				>
 					<p>
-						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>{Families.Factory}</strong>): the family's parent service - every
+						The family's parent service ({Families.Factory}) - every
 						other package consumes it (the three governance hooks inject the service;
 						the six normalize flavors consume State/Append and the Schema helper); its
 						own parent is the filesystem service (inject: ["fs"]).
@@ -246,16 +245,6 @@ const Related = [
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The pure layer it deliberately does <strong>not</strong> re-export is
-				<strong>hook-dsh-core</strong> (its service surface stays stable); the hooks import
-				the core's helpers directly.</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">The DSH plugin family is the DeepSeek Harness plugin
-				layer of the PlayForm ecosystem: TypeScript-first Source/ → Target/, the
-				deterministic @playform build, prepublishOnly-only - the same conventions as every
-				other @playform package.
-			
-			</p>
 		</section>
 
 		<section class="section">
@@ -377,10 +366,10 @@ const Related = [
 					Diagram={"The three ownership boundaries: the consumer ledger strings (every message a hook logs - \"skipped (excluded) ...\", \"observed non-JSON package.json ... - skipped\", \"REFUSED rewrite ...\", \"pinned ...\", \"governed ... → ...\", the activated (...) proof - composed and logged by the hook through the factory's Append), the transforms (the consumer supplies the pure function; the factory only drives it inside Continue), and the update engines (the factory gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with)."}
 				>
 					<p>
-						<strong>What the factory deliberately does NOT own:</strong> the consumer
+						The consumer
 						ledger strings - every message a hook logs - "skipped (excluded) ...",
 						"observed non-JSON package.json ... - skipped", "REFUSED rewrite ...",
-						"pinned ...", "governed ... → ...", the activated (...) proof - is composed
+						"pinned ...", "governed ... → ...", the activated (...) proof - are composed
 						and logged by the hook through the factory's Append.
 					</p>
 					<p>
@@ -398,7 +387,7 @@ const Related = [
 					Diagram={`The three gates: tsc --noEmit - zero errors; pnpm run prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs (in the family's smokes/ directory) - ${Counts.Factory.Classic} checks, ALL PASS.`}
 				>
 					<p>
-						<strong>Verification.</strong> tsc --noEmit - zero errors; pnpm run
+						tsc --noEmit - zero errors; pnpm run
 						prepublishOnly - minified Target/ (+ <span class="file-mention"><BrandIcon Name="file-ts" Size="0.9em" />.d.ts</span> twins); node <span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" />factory-smoke.mjs</span>
 						(in the family's smokes/ directory) - {Counts.Factory.Classic} checks, ALL
 						PASS.
@@ -478,7 +467,7 @@ const Related = [
 					Diagram="The one pass as the factory performs it: Gate deciding the actor and the path, Discover finding the nearest registry.json, Continue running the transform detached and contained, GuardedWrite carrying replaceIfVersion past the P4 sandbox fence, Refresh re-emitting the fresh version with the same actor, Append composing the logger's line from the module's message."
 				>
 					<p>
-						The factory's part of that one pass: Gate decided the actor and the path,
+						Gate decided the actor and the path,
 						Discover found the nearest <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />registry.json</span>, Continue ran the transform
 						detached and contained, GuardedWrite carried replaceIfVersion past the P4
 						sandbox fence, Refresh re-emitted the fresh version with the same actor, and

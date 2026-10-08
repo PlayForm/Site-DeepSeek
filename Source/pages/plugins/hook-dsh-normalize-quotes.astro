@@ -244,8 +244,7 @@ const LedgerStrings = [
 					Diagram={`${Families.Quotes} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the second of the six stream normalizer siblings.`}
 				>
 					<p>
-						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>{Families.Quotes}</strong>): a hook child of the{" "}
+						A hook child of the{" "}
 						<strong>
 							<a
 								href={Link(
@@ -256,8 +255,8 @@ const LedgerStrings = [
 								plugin-dsh-factory
 							</a>
 						</strong>{" "}
-						service and the <strong>hook-dsh-core</strong> machinery; the second of the
-						six stream normalizer siblings.
+						service ({Families.Quotes}) and the <strong>hook-dsh-core</strong> machinery;
+						the second of the six stream normalizer siblings.
 					</p>
 				</Concept>
 			</div>
@@ -299,7 +298,7 @@ const LedgerStrings = [
 					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."}
 				>
 					<p>
-						A <strong>non-manifest factory consumer</strong>: it injects{" "}
+						It injects{" "}
 						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap
 						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
 						the config is composed by the factory's standalone <code>Schema</code>{" "}
@@ -500,7 +499,7 @@ const LedgerStrings = [
 						(MAP flavor).
 					</p>
 					<p>
-						Volatile cells commit without remounting the plugin; the factory's State
+						They commit without remounting the plugin; the factory's State
 						builder unwraps them defensively.</p>
 					<p>Example{" "}
 						<a

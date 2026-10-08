@@ -159,9 +159,8 @@ const Related = [
 					Diagram={`${Families.GovernorCargo} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - the Rust-sided sibling of the two npm governance hooks on the same fs/observed seam, one of three governance hooks, each gating on its own basename and writing its own ledger.`}
 				>
 					<p>
-						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>{Families.GovernorCargo}</strong>): a hook child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service and the{" "}
+						A hook child of the{" "}
+						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.GovernorCargo}) and the{" "}
 						<strong>hook-dsh-core</strong> helpers; the Rust-sided sibling of the two
 						npm governance hooks on the same <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> seam.
 					</p>
@@ -185,7 +184,7 @@ const Related = [
 					Diagram="The cargo module never seeing a package.json event and the npm plugins never seeing a Cargo.toml event - one trigger law covering the whole machine, npm and Rust alike."
 				>
 					<p>
-						The basenames are disjoint: the cargo module never sees a{" "}
+						The cargo module never sees a{" "}
 						<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> event and the npm plugins never see a{" "}
 						<span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" /><code>Cargo.toml</code></span> event.
 					</p>
@@ -196,7 +195,7 @@ const Related = [
 					Diagram="chain > strip > normalize (this module's precedence), keep-list wins over normalization - never over the chain."
 				>
 					<p>
-						Composition semantics: <strong>chain</strong>{" "}
+						<strong>chain</strong>{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> <strong>strip</strong>{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> <strong>normalize</strong>{" "}
 						(this module's precedence), <strong>keep-list wins</strong> over
@@ -209,7 +208,7 @@ const Related = [
 					Diagram="gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey coming from [plugin-dsh-factory](Ours:Classic/packages/plugin-dsh-factory/Source); the policy loader and the suppression composer from [hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source); this bundle keeping the Cargo-specific residue: the TOML identification, the surgical pin, the full-version directive, and the cargo upgrade bridge."
 				>
 					<p>
-						Machinery-wise it is a <strong>factory flavor</strong>: gates, discovery,
+						Gates, discovery,
 						the guarded write, the refresh, the continuation, the effects, the schema
 						and the namespaced UpdateKey come from <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>; the policy loader
 						and the suppression composer come from hook-dsh-core.
@@ -359,8 +358,7 @@ const Related = [
 					Diagram='No shorthand like "1.0" remaining in a governed Cargo.toml - every dependency version expanded to its MOST SPECIFIC form.'
 				>
 					<p>
-						<strong>The full-version normalization directive.</strong></p>
-					<p>No shorthand like
+						No shorthand like
 						"1.0" may remain in a governed <span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" />Cargo.toml</span>; every dependency version is
 						expanded to its MOST SPECIFIC form:
 					
@@ -421,8 +419,7 @@ const Related = [
 					Diagram={"cargo 1.100.0-nightly + cargo-edit 0.13.13, resolved through cargoBin - --exclude being ONE flag per crate (the comma form silently IGNORED, the exact inverse of ncu's one-comma-argument reject list) - NO --exact flag in cargo-edit 0.13.13, exact pins enforced at the manifest level by the chain pass (pinStyle: \"exact\" to =resolved) - cargo upgrade preserving comments and formatting (it edits via toml_edit)."}
 				>
 					<p>
-						<strong>The Rust side (live-verified).</strong></p>
-					<p>cargo 1.100.0-nightly +
+						cargo 1.100.0-nightly +
 						cargo-edit 0.13.13, resolved through <code>cargoBin</code>.</p>
 					<p>{" "}
 						<strong>--exclude is ONE flag per crate</strong> - the comma form is
@@ -460,7 +457,7 @@ const Related = [
 					Diagram="The exported Config schema validating and filling every default at load - new patch entries declared with insert:."
 				>
 					<p>
-						The exported Config schema validates and fills every default at load; new
+						It validates and fills every default at load; new
 						patch entries are declared with <code>insert:</code>. Full example:
 					</p>
 				</Concept>
@@ -523,8 +520,7 @@ const Related = [
 					Diagram="The author saving a Cargo.toml with comments, a shorthand version, and a chain-governed dep."
 				>
 					<p>
-						One governed write.</p>
-					<p>The author saves a <span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" /><code>Cargo.toml</code></span> with
+						The author saves a <span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" /><code>Cargo.toml</code></span> with
 						comments, a shorthand version, and a chain-governed dep:
 					
 					</p>
@@ -592,7 +588,7 @@ const Related = [
 					Diagram='One global log (logFile, default ~/.dsh/hook-dsh-governor-cargo.log - SEPARATE from the npm ledgers) recording activation, exclusions, chain-pass results, refusals, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
 				>
 					<p>
-						One global log (<code>logFile</code>, default{" "}
+						<code>logFile</code> (default{" "}
 						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />~/.dsh/hook-dsh-governor-cargo.log</span> - SEPARATE from the npm
 						ledgers) records activation, exclusions, chain-pass results, refusals, and
 						every update-stage dispatch.

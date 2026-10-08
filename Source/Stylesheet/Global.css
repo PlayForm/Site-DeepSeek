@@ -646,6 +646,35 @@ svg {
 	flex: none;
 }
 
+/* ---- Code tokens: the markdown-fenced identity for technical terms ----
+	Every code-point mention (U+XXXX), tool name, identifier, regex and
+	literal the site cites renders as one inline code token: the IBM Plex
+	Mono at the label-sm floor, the light #F8FAFC tray
+	(--color-surface-container-low), the rounded corners (--radius-default),
+	the 1px structural hairline (zero elevation) and the ink text - the
+	GitHub-markdown-fenced-code identity the user asked for: the technical
+	terms visually separated from the reading text, not just text the user
+	reads. The tokens flip with the dark theme through the tokens; the
+	visible bytes are always the plain term (adornment only). The utility
+	class .code-token is the canonical form (the renderer and the markup
+	emit it); the base <code> upgrade covers the existing inline code tags
+	in the prose and the table cells (never the terminal lines, the snippet
+	commands or the Shiki code blocks - those live in their own trays). */
+.code-token,
+:where(p, li, dd, dt, td, th, .page-hero__sub, .concept__body, .concept__diagram-brief, .showcase__lead, .card__desc) :where(code) {
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	background: var(--color-surface-container-low);
+	border: 1px solid var(--color-outline-variant);
+	border-radius: var(--radius-default);
+	padding: 1px 0.375em;
+	color: var(--color-on-surface);
+	white-space: nowrap;
+}
+
 /* ---- Fixed header ---- */
 .site-header {
 	position: fixed;

@@ -249,8 +249,7 @@ const Usage = [
 					Diagram={`${Families.File} as a tool-child of the plugin-dsh-factory service and the hook-dsh-core machinery - the seventh sibling, the one flavor that works on files already on disk instead of model output.`}
 				>
 					<p>
-						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>{Families.File}</strong>): a tool-child of the{" "}
+						A tool-child of the{" "}
 						<strong>
 							<a
 								href={Link(
@@ -261,9 +260,9 @@ const Usage = [
 								plugin-dsh-factory
 							</a>
 						</strong>{" "}
-						service and the <strong>hook-dsh-core</strong> machinery; the seventh
-						sibling - the one flavor that works on files already on disk instead of
-						model output.
+						service ({Families.File}) and the <strong>hook-dsh-core</strong> machinery;
+						the seventh sibling - the one flavor that works on files already on disk
+						instead of model output.
 					</p>
 				</Concept>
 			</div>
@@ -321,7 +320,7 @@ const Usage = [
 					Diagram="The normalize-dashes-for-execute-code.sh hook sweeping script-created files after the fact - DSH making the same rewrite an explicit, visible, opt-in TOOL call instead of a background hook, with normalize-tabs.sh (the repair hook for a repair hook) as the cautionary tale that keeps it that way."
 				>
 					<p>
-						The file-hook precedent is direct: the{" "}
+						The{" "}
 						<span class="file-mention"><BrandIcon Name="file-shell" Size="0.9em" /><code>normalize-dashes-for-execute-code.sh</code></span> hook swept script-created
 						files after the fact; DSH makes the same rewrite an explicit, visible,
 						opt-in TOOL call instead of a background hook.
@@ -337,7 +336,7 @@ const Usage = [
 					Diagram={"The tool's factory surface: injecting [\"pluginFactory\", \"fs\", \"tools\"], using State, Append (the ledger), Journal (the P5 storage record) and - uniquely in the family - Write, the ONE shared write executor - with the tool's writes carrying the call's exec as the actor, so the governance trio's Gate (which pins mutationTools to write/edit/str_replace_editor) never treats them as a trigger."}
 				>
 					<p>
-						A <strong>non-manifest factory consumer</strong>: it injects{" "}
+						It injects{" "}
 						<code>["pluginFactory", "fs", "tools"]</code> and uses <code>State</code>{" "}
 						(cell unwrap + shared Ledger/Enabled mappings + its own field),{" "}
 						<code>Append</code> (the ledger), <code>Journal</code> (the P5 storage
@@ -398,7 +397,7 @@ const Usage = [
 					Diagram="Files that never passed through a write tool being invisible to every normalization layer DSH has - raw-write's normalize: true an explicit per-call opt-in for NEW writes, the six stream flavors only rewriting model output, never touching disk - a pre-existing file keeping every typographic character it was born with, exactly the characters that break parsers, shells, diffs and byte-exact edit matches downstream."
 				>
 					<p>
-						Files that never passed through a write tool are invisible to every
+						They are invisible to every
 						normalization layer DSH has: <code>raw-write</code>'s{" "}
 						<code>normalize: true</code> is an explicit per-call opt-in for NEW writes,
 						and the six stream flavors only rewrite model output - they never touch
@@ -468,7 +467,7 @@ const Usage = [
 					Diagram="The write going through Factory.Write and emitting fs/observed - but the governors' Gate requiring the actor tool name in their mutationTools pin, normalize-file never added to any such list, so these writes never trigger a chain pass."
 				>
 					<p>
-						Governance bounded passes: the write goes through{" "}
+						The write goes through{" "}
 						<a
 							href={Link(
 								Links.OurRepo,
