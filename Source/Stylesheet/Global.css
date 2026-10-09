@@ -716,23 +716,18 @@ svg {
 	margin-block: -0.1875em 0.1875em;
 }
 
-/* The live-dot: the fixed 8px dot leaves the 0.1875em lift (that step is
-	tuned for the 1em brand-icon boxes above; on the smaller dot it
-	overshoots) and takes its own measured corrections. In the INSPECTED
-	chip (.inspect-card__meta) the flex row without any lift lands the dot
-	+0.4px below the label's ink center - the same half-pixel net-zero pair
-	as the span.engine-pill fix centers it (measured: -2.0px with the
-	0.1875em lift, -0.1px with the half-pixel pair, both themes, all
-	widths). In the registry telemetry count the dot gets no shared
-	correction at all (its 16px line box centers the ink higher), so it
-	sits +1.1px low - the 1px pair re-centers it (measured: +1.1px ->
-	+0.1px, both themes, all widths). */
+/* The INSPECTED chip's live-dot: the fixed 8px dot leaves the 0.1875em
+	lift (that step is tuned for the 1em brand-icon boxes above; on the
+	smaller dot it overshoots) and takes its own measured correction. The
+	flex row without any lift lands the dot +0.7px below the label's ink
+	center (the 13px mono caps' ink center sits above the line-box center),
+	so a 1/16em net-zero margin pair re-centers it (measured with the real
+	webfonts: -1.8px with the 0.1875em lift, +0.7px with no lift, -0.1px
+	with the 1/16em pair; both themes, all widths). The registry telemetry
+	count's dot needs no correction: its flex row already lands it within
+	0.2px of the count's ink center. */
 .inspect-card__meta .live-dot {
-	margin-block: -0.5px 0.5px;
-}
-
-.registry-telemetry__count .live-dot {
-	margin-block: -1px 1px;
+	margin-block: -0.0625em 0.0625em;
 }
 
 /* The span pills: the engine-pill states that render as <span> (the
