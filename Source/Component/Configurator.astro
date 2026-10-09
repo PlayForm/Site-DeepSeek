@@ -1055,7 +1055,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 	to stay collision-free. The palettes are the site's shiki palettes - the
 	github-light colors inline, the github-dark colors under the data-theme
 	swap, exactly the --shiki-dark bridge Global.css runs for CodeBlock. -->
-<style>
+<style is:global>
 	.cfg-tok-com {
 		color: #6e7781;
 	}
