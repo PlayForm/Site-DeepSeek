@@ -291,7 +291,9 @@ const LedgerStrings = [
 											{Index > 0 && (
 												<ArrowIcon Direction="right" Tone="accent" />
 											)}
-											<span set:html={Mention(Part)} />
+											{Part.trim() && (
+												<span set:html={Mention(Part.trim())} />
+											)}
 										</Fragment>
 									))}
 								</td>

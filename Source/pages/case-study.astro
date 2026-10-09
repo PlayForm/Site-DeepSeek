@@ -930,7 +930,9 @@ const Lessons = [
 									{Row.Builtin.split("->").map((Part, Index) => (
 										<Fragment>
 											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
-											<span set:html={Mention(Part)} />
+											{Part.trim() && (
+												<span set:html={Mention(Part.trim())} />
+											)}
 										</Fragment>
 									))}
 								</td>
@@ -938,7 +940,9 @@ const Lessons = [
 									{Row.Raw.split("->").map((Part, Index) => (
 										<Fragment>
 											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
-											<span set:html={Mention(Part)} />
+											{Part.trim() && (
+												<span set:html={Mention(Part.trim())} />
+											)}
 										</Fragment>
 									))}
 								</td>
@@ -1174,7 +1178,9 @@ const Lessons = [
 									{Row.Rationale.split("->").map((Part, Index) => (
 										<Fragment>
 											{Index > 0 && <ArrowIcon Direction="right" Tone="accent" />}
-											<span set:html={Mention(Part)} />
+											{Part.trim() && (
+												<span set:html={Mention(Part.trim())} />
+											)}
 										</Fragment>
 									))}
 								</td>
