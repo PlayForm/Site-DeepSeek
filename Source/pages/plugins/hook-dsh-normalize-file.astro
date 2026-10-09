@@ -174,9 +174,7 @@ const Usage = [
 
 		<section class="page-hero">
 			<h1 class="page-hero__title">
-				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-file/Source")}>
-					hook-dsh-normalize-file
-				</a>
+				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-file/Source")}>hook-dsh-normalize-file</a>
 			</h1>
 			<p class="page-hero__sub">
 				{Families.File} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin Family
@@ -192,13 +190,9 @@ const Usage = [
 			<p class="page-hero__sub">N = 0 writes NOTHING - the no-op no-write rule.</p>
 			<p class="page-hero__sub">The family's first
 				LISTENER-LESS flavor: no
-				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-					<code>llm/stream</code>
-				</a>
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>
 				, no{" "}
-				<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-					<code>fs/observed</code>
-				</a>{" "}
+				<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a>{" "}
 				- nothing runs without an explicit agent action.</p>
 			<p class="page-hero__sub">This bundle's own tool calls are
 				name-exempt in the stream gate beside <code>edit</code> and <code>raw-write</code> -
@@ -256,9 +250,7 @@ const Usage = [
 									Links.OurRepo,
 									"Classic/packages/plugin-dsh-factory/Source",
 								)}
-							>
-								plugin-dsh-factory
-							</a>
+							>plugin-dsh-factory</a>
 						</strong>{" "}
 						service ({Families.File}) and the <strong>hook-dsh-core</strong> machinery;
 						the seventh sibling - the one flavor that works on files already on disk
@@ -473,13 +465,9 @@ const Usage = [
 								Links.OurRepo,
 								"Classic/packages/plugin-dsh-factory/Source/Function/Write.ts",
 							)}
-						>
-							<code>Factory.Write</code>
-						</a>{" "}
+						><code>Factory.Write</code></a>{" "}
 						and emits{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							<code>fs/observed</code>
-						</a>
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a>
 						, but the governors' Gate requires the actor tool name in their
 						mutationTools pin - <code>normalize-file</code> is never added to any such
 						list, so these writes never trigger a chain pass.
@@ -508,9 +496,7 @@ const Usage = [
 								Links.OurRepo,
 								"Classic/packages/plugin-dsh-factory/Source/Function/Write.ts",
 							)}
-						>
-							<code>Factory.Write</code>
-						</a>
+						><code>Factory.Write</code></a>
 						's before is read at write time, so a prior normalize-file in the same turn
 						is already reflected.</p>
 					<p>No race.
@@ -557,9 +543,7 @@ const Usage = [
 					<p>
 						There are no stream flags (<code>normalizeReasoning</code>,{" "}
 						<code>normalizeToolArguments</code>) and no{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							fs/observed
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a>{" "}
 						fields (<code>updateCooldownMs</code>, <code>mutationTools</code>,{" "}
 						<code>policyFile</code>, <code>exclude</code>): the minimal{" "}
 						<code>shared: false</code> block plus the two knobs is the whole config
@@ -659,9 +643,7 @@ const Usage = [
 								Links.OurRepo,
 								"Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts",
 							)}
-						>
-							v2 domain
-						</a>{" "}
+						>v2 domain</a>{" "}
 						(event <code>normalized</code>, path = the target's display path, detail
 						byte-identical to the count line).
 					</p>

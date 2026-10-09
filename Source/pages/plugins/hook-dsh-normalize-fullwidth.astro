@@ -198,13 +198,9 @@ const LedgerStrings = [
 				{Families.Fullwidth} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin
 				Family for PlayForm.</em> The <strong>fullwidth normalizer for model output</strong> - a
 				DeepSeek Harness plugin that hooks the{" "}
-				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-					<code>llm/stream</code>
-				</a>{" "}
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>{" "}
 				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
-				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-					<code class="code-token">LlmRuntime</code>
-				</a>
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>
 				) and normalizes the full-width family in model output, live in the transcript: the
 				entire FULLWIDTH FORMS range <code class="code-token">U+FF01</code>-
 				<code class="code-token">U+FF5E</code> maps to its ASCII half-width counterpart
@@ -215,9 +211,7 @@ const LedgerStrings = [
 				owns the substitution - no <code>replacement</code> config knob.</p>
 			<p class="page-hero__sub">The family's
 				raw-write tool (registered by{" "}
-				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
-					hook-dsh-normalize-dash
-				</a>
+				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>hook-dsh-normalize-dash</a>
 				) bypasses this flavor's transforms too - the exemption is family-wide.
 			
 			</p>
@@ -268,9 +262,7 @@ const LedgerStrings = [
 									Links.OurRepo,
 									"Classic/packages/plugin-dsh-factory/Source",
 								)}
-							>
-								plugin-dsh-factory
-							</a>
+							>plugin-dsh-factory</a>
 						</strong>{" "}
 						service ({Families.Fullwidth}) and the <strong>hook-dsh-core</strong>{" "}
 						machinery; the sixth of the six stream normalizer siblings.
@@ -321,25 +313,17 @@ const LedgerStrings = [
 						the config is composed by the factory's standalone <code>Schema</code>{" "}
 						helper with
 						<code>shared: false</code> - the minimal block, no{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							<code class="code-token">fs/observed</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
 						dead fields.
 					</p>
 					<p>
 						It touches no files, so{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							<code class="code-token">fs/write-intent</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/write-intent</code></a>{" "}
 						and{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							<code class="code-token">fs/observed</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
 						never see it; it wraps the downstream result and always calls{" "}
 						<code>next()</code>, so it composes with other{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-							<code class="code-token">llm/stream</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						listeners regardless of registration order.
 					</p>
 				</Concept>
@@ -416,9 +400,7 @@ const LedgerStrings = [
 					<p>
 						<strong>The transform</strong> - exactly the core's <code>Fullwidth</code>{" "}
 						map (
-						<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source")}>
-							@playform/hook-dsh-core
-						</a>
+						<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source")}>@playform/hook-dsh-core</a>
 						's Normalize/Fullwidth), applied per text segment through the core's{" "}
 						<code>ReplaceMap</code> - the standard fullwidth-to-halfwidth mapping over
 						the whole range:
@@ -523,9 +505,7 @@ const LedgerStrings = [
 								Links.OurRepo,
 								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
 							)}
-						>
-							<span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span>
-						</a>{" "}
+						><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a>{" "}
 						row:
 					
 					</p>

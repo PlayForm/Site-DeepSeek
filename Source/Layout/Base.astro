@@ -171,20 +171,16 @@ const JsonLd = {
 		<!-- Fixed header -->
 		<header class="site-header">
 			<div class="site-header__inner">
-				<a class="site-header__brand" href={Links.Site}>
-					<!-- The official PlayForm glyph (the Asset mark, via the
+				<a class="site-header__brand" href={Links.Site}><!-- The official PlayForm glyph (the Asset mark, via the
 						shared BrandIcon) at the header's glyph size. -->
 					<BrandIcon Name="playform" ClassName="site-header__glyph" Size="28px" />
 					<span class="site-header__title">
 						DSH Family <span class="sep">@</span> PlayForm
-					</span>
-				</a>
+					</span></a>
 				<!-- id="site-nav": the target of the hamburger's aria-controls. -->
 				<nav class="site-header__nav" id="site-nav" aria-label="Primary">
 					{Nav.map((Item) => (
-						<a href={Item.Href} aria-current={Current(Item.Href) ? "page" : undefined}>
-							{Item.Label}
-						</a>
+						<a href={Item.Href} aria-current={Current(Item.Href) ? "page" : undefined}>{Item.Label}</a>
 					))}
 				</nav>
 				<!-- The light/dark switch: the LIGHT / DARK two-cell mono chip.

@@ -291,11 +291,9 @@ const Lessons = [
 		<!-- The phase index -->
 		<div class="eyebrow-row" style="margin-bottom: var(--space-lg)">
 			{Index.map((Item) => (
-				<a href={Item.Href} style="text-decoration: none">
-					<Badge Variant={Item.Primary ? "primary" : "muted"} Dot={Item.Primary}>
+				<a href={Item.Href} style="text-decoration: none"><Badge Variant={Item.Primary ? "primary" : "muted"} Dot={Item.Primary}>
 						{Item.Label}
-					</Badge>
-				</a>
+					</Badge></a>
 			))}
 		</div>
 
@@ -1140,12 +1138,8 @@ const Lessons = [
 				</Concept>
 			</div>
 			<div class="action-row">
-				<a class="action" href="/versions/">
-					The two releases
-				</a>
-				<a class="action action--secondary" href="/plugins/">
-					The twelve packages
-				</a>
+				<a class="action" href="/versions/">The two releases</a>
+				<a class="action action--secondary" href="/plugins/">The twelve packages</a>
 			</div>
 		</section>
 

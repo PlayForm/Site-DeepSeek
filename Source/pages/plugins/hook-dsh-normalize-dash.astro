@@ -254,13 +254,9 @@ const Config = [
 				{Families.Dash} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin Family
 				for PlayForm.</em> The <strong>dash normalizer for model output</strong> - a DeepSeek
 				Harness plugin that hooks the{" "}
-				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-					<code>llm/stream</code>
-				</a>{" "}
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>{" "}
 				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
-				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-					<code class="code-token">LlmRuntime</code>
-				</a>
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>
 				) and normalizes the unicode dash family to ASCII hyphen-minus, live in the
 				transcript: em dashes, en dashes and seventeen exotic relatives{" "}
 				<ArrowIcon Direction="right" Tone="accent" /> <code>-</code>.</p>
@@ -323,9 +319,7 @@ const Config = [
 									Links.OurRepo,
 									"Classic/packages/plugin-dsh-factory/Source",
 								)}
-							>
-								plugin-dsh-factory
-							</a>
+							>plugin-dsh-factory</a>
 						</strong>{" "}
 						service ({Families.Dash}) and the <strong>hook-dsh-core</strong> machinery;
 						the first of six stream normalizer siblings, all built on the shared
@@ -377,18 +371,12 @@ const Config = [
 					</p>
 					<p>
 						It touches no files, so{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							<code class="code-token">fs/write-intent</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/write-intent</code></a>{" "}
 						and{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							<code class="code-token">fs/observed</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
 						never see it; it wraps the downstream result and always calls{" "}
 						<code>next()</code>, so it composes with other{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-							<code class="code-token">llm/stream</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						listeners regardless of registration order.
 					</p>
 				</Concept>
@@ -460,9 +448,7 @@ const Config = [
 						transcript see the em dashes first, no matter what a file hook does later.</p>
 					<p>A
 						DSH plugin can go where a file hook cannot: the{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-							<code>llm/stream</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>{" "}
 						waterfall, where every streaming model call passes through.
 					
 					</p>
@@ -479,27 +465,21 @@ const Config = [
 								Links.OurRepo,
 								"Classic/packages/hook-dsh-governor-package/Source",
 							)}
-						>
-							hook-dsh-governor-package
-						</a>
+						>hook-dsh-governor-package</a>
 						,
 						<a
 							href={Link(
 								Links.OurRepo,
 								"Classic/packages/hook-dsh-pinner-package/Source",
 							)}
-						>
-							hook-dsh-pinner-package
-						</a>
+						>hook-dsh-pinner-package</a>
 						,{" "}
 						<a
 							href={Link(
 								Links.OurRepo,
 								"Classic/packages/hook-dsh-governor-cargo/Source",
 							)}
-						>
-							hook-dsh-governor-cargo
-						</a>
+						>hook-dsh-governor-cargo</a>
 						), whose rewrites are SILENT, this plugin's normalization is{" "}
 						<strong>deliberately VISIBLE - it IS the feature</strong>: the rewrite flows
 						into both the live UI and the durable transcript.
@@ -650,9 +630,7 @@ const Config = [
 						governance selection over the factory's direct-govern registry, applied
 						after a successful write: absent or false (default) runs NO governance chain
 						(the write still emits{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							<code class="code-token">fs/observed</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
 						exactly like a built-in write); true or <code class="code-token">"all"</code> runs ALL
 						registered governance
 						steps for the target's basename; <code>["canonicalize", ...]</code> runs
@@ -673,16 +651,12 @@ const Config = [
 						The exec mirrors the built-in write's fs path exactly:{" "}
 						<code>ctx.fs.resolve</code> <ArrowIcon Direction="right" Tone="accent" />{" "}
 						the{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							<code class="code-token">fs/write-intent</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/write-intent</code></a>{" "}
 						waterfall <ArrowIcon Direction="right" Tone="accent" /> the standing sandbox
 						policy <ArrowIcon Direction="right" Tone="accent" />{" "}
 						<code>ctx.fs.writeText(...)</code>{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> the{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							<code class="code-token">fs/observed</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
 						emit with the written version.
 					</p>
 					<p>
@@ -773,9 +747,7 @@ const Config = [
 					<p>
 						They commit without remounting the plugin (the fiber - and with it
 						the{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-							<code class="code-token">llm/stream</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						registration - stays alive); the factory's State builder unwraps them
 						defensively.
 					</p>
@@ -786,9 +758,7 @@ const Config = [
 								Links.OurRepo,
 								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
 							)}
-						>
-							<span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span>
-						</a>{" "}
+						><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a>{" "}
 						row:
 					</p>
 				</Concept>

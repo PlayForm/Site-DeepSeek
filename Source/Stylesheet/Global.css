@@ -992,6 +992,24 @@ a .code-token {
 	}
 }
 
+/* The 768-803px band: the row gains the full nav (min-width: 768px) while
+	its desktop budget still needs the >=804px width - the nav's side
+	padding plus the full gutter overflow the right edge and push the
+	flex-shrink-0 theme-toggle (the rightmost element) partially past the
+	viewport, invisible + unclickable. Inside this band only, the row is
+	tightened to fit: the nav links drop one padding step and the gutter
+	drops to --gutter-sm; the <768 tray layout and the >=804 desktop
+	layout are untouched. */
+@media (min-width: 768px) and (max-width: 803.98px) {
+	.site-header__inner {
+		padding: 0 var(--gutter-sm);
+	}
+
+	.site-header__nav a {
+		padding: var(--space-xs) var(--space-sm);
+	}
+}
+
 /* ---- Page shell ----
 	The fixed header's height plus a full xl token of breathing room:
 	every page's content starts with comfortable, equal clearance below

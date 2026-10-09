@@ -44,9 +44,7 @@ const CardClass = `card${Variant === "default" ? "" : ` card--${Variant}`}`;
 	{Name ? (
 		<div class="card__top">
 			{Href ? (
-				<a class={`card__name card__name--${NameTone}`} href={Href} title={Name}>
-					{Icon && (<><BrandIcon Name={Icon} Size="0.9em" />{" "}</>)}{Name}
-				</a>
+				<a class={`card__name card__name--${NameTone}`} href={Href} title={Name}>{Icon && (<><BrandIcon Name={Icon} Size="0.9em" />{" "}</>)}{Name}</a>
 			) : (
 				<span class={`card__name card__name--${NameTone}`} title={Name}>
 					{Icon && (<><BrandIcon Name={Icon} Size="0.9em" />{" "}</>)}{Name}

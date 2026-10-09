@@ -337,23 +337,15 @@ const Registry = [
 					<p>
 						Every plugin operates inside the <BrandIcon Name="deepseek" /> DeepSeek
 						Harness through a fixed set of seams - the{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-							model stream waterfall
-						</a>
+						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>model stream waterfall</a>
 						, the{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							filesystem events
-						</a>
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>filesystem events</a>
 						, the tool layer, the{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/subprocess/subprocess")}>
-							<code class="code-token">subprocess</code> seam
-						</a>
+						<a href={Link(Links.DeepSeekHarness, "packages/subprocess/subprocess")}><code class="code-token">subprocess</code> seam</a>
 						, the{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/jobs")}>jobs envelope</a>,
 						the{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/storage/storage-domain")}>
-							storage domain
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/storage/storage-domain")}>storage domain</a>{" "}
 						and the session ledger.
 					</p>
 					<p>
@@ -378,15 +370,11 @@ const Registry = [
 										Links.DeepSeekHarness,
 										"packages/llm/llm/src/index.ts",
 									)}
-								>
-									<strong>llm/stream</strong>
-								</a>{" "}
+								><strong>llm/stream</strong></a>{" "}
 								(the model stream waterfall)
 							</td>
 							<td>
-								<a href={Link(Links.DeepSeekHarness, "packages/llm/llm")}>
-									@deepseek-ai/dsh-llm
-								</a>{" "}
+								<a href={Link(Links.DeepSeekHarness, "packages/llm/llm")}>@deepseek-ai/dsh-llm</a>{" "}
 								(type-only stream vocabulary)
 							</td>
 							<td>The six stream flavors</td>
@@ -398,9 +386,7 @@ const Registry = [
 										Links.DeepSeekHarness,
 										"packages/fs/fs/src/index.ts",
 									)}
-								>
-									<strong>fs/observed + fs/write-intent</strong>
-								</a>
+								><strong>fs/observed + fs/write-intent</strong></a>
 							</td>
 							<td>
 								ctx.fs -{" "}
@@ -418,9 +404,7 @@ const Registry = [
 								the registered tools)
 							</td>
 							<td>
-								<a href={Link(Links.DeepSeekHarness, "packages/fs/tool-fs")}>
-									dsh-tool-fs
-								</a>
+								<a href={Link(Links.DeepSeekHarness, "packages/fs/tool-fs")}>dsh-tool-fs</a>
 								; ctx.tools.register
 							</td>
 							<td>raw-write (normalize + govern flags); normalize-file</td>
@@ -435,9 +419,7 @@ const Registry = [
 										Links.DeepSeekHarness,
 										"packages/subprocess/subprocess",
 									)}
-								>
-									dsh-subprocess
-								</a>{" "}
+								>dsh-subprocess</a>{" "}
 								(fully-specified argv, no shell PATH drift)
 							</td>
 							<td>The <code class="code-token">cargo</code> governor's{" "}
@@ -460,9 +442,7 @@ const Registry = [
 										Links.DeepSeekHarness,
 										"packages/storage/storage-domain",
 									)}
-								>
-									<strong>The storage domain</strong>
-								</a>
+								><strong>The storage domain</strong></a>
 							</td>
 							<td>ctx.get("storageDomain") - the package_governance v2 records</td>
 							<td>Factory Journal; the normalize-file normalized events</td>
@@ -521,9 +501,7 @@ const Registry = [
 											Links.OurRepo,
 											"Classic/packages/hook-dsh-normalize-dash/Source",
 										)}
-									>
-										hook-dsh-normalize-dash
-									</a>
+									>hook-dsh-normalize-dash</a>
 								</strong>
 							</td>
 							<td>{Counts.Dash.Classic}</td>
@@ -536,9 +514,7 @@ const Registry = [
 											Links.OurRepo,
 											"Classic/packages/plugin-dsh-factory/Source",
 										)}
-									>
-										plugin-dsh-factory
-									</a>
+									>plugin-dsh-factory</a>
 								</strong>
 							</td>
 							<td>{Counts.Factory.Classic}</td>
@@ -549,9 +525,7 @@ const Registry = [
 											Links.OurRepo,
 											"Classic/packages/hook-dsh-normalize-quotes/Source",
 										)}
-									>
-										hook-dsh-normalize-quotes
-									</a>
+									>hook-dsh-normalize-quotes</a>
 								</strong>
 							</td>
 							<td>{Counts.Quotes.Classic}</td>
@@ -564,9 +538,7 @@ const Registry = [
 											Links.OurRepo,
 											"Classic/packages/hook-dsh-governor-package/Source",
 										)}
-									>
-										hook-dsh-governor-package
-									</a>
+									>hook-dsh-governor-package</a>
 								</strong>
 							</td>
 							<td>{Counts.Governor.Classic}</td>
@@ -577,9 +549,7 @@ const Registry = [
 											Links.OurRepo,
 											"Classic/packages/hook-dsh-normalize-ellipsis/Source",
 										)}
-									>
-										hook-dsh-normalize-ellipsis
-									</a>
+									>hook-dsh-normalize-ellipsis</a>
 								</strong>
 							</td>
 							<td>{Counts.Ellipsis.Classic}</td>
@@ -592,9 +562,7 @@ const Registry = [
 											Links.OurRepo,
 											"Classic/packages/hook-dsh-pinner-package/Source",
 										)}
-									>
-										hook-dsh-pinner-package
-									</a>
+									>hook-dsh-pinner-package</a>
 								</strong>
 							</td>
 							<td>{Counts.Pinner.Classic}</td>
@@ -605,9 +573,7 @@ const Registry = [
 											Links.OurRepo,
 											"Classic/packages/hook-dsh-normalize-spaces/Source",
 										)}
-									>
-										hook-dsh-normalize-spaces
-									</a>
+									>hook-dsh-normalize-spaces</a>
 								</strong>
 							</td>
 							<td>{Counts.Spaces.Classic}</td>
@@ -620,9 +586,7 @@ const Registry = [
 											Links.OurRepo,
 											"Classic/packages/hook-dsh-governor-cargo/Source",
 										)}
-									>
-										hook-dsh-governor-cargo
-									</a>
+									>hook-dsh-governor-cargo</a>
 								</strong>
 							</td>
 							<td>{Counts.Cargo.Classic}</td>
@@ -633,9 +597,7 @@ const Registry = [
 											Links.OurRepo,
 											"Classic/packages/hook-dsh-normalize-invisible/Source",
 										)}
-									>
-										hook-dsh-normalize-invisible
-									</a>
+									>hook-dsh-normalize-invisible</a>
 								</strong>
 							</td>
 							<td>{Counts.Invisible.Classic}</td>
@@ -648,9 +610,7 @@ const Registry = [
 											Links.OurRepo,
 											"Classic/packages/hook-dsh-normalize-file/Source",
 										)}
-									>
-										hook-dsh-normalize-file
-									</a>
+									>hook-dsh-normalize-file</a>
 								</strong>
 							</td>
 							<td>{Counts.File.Classic}</td>
@@ -661,9 +621,7 @@ const Registry = [
 											Links.OurRepo,
 											"Classic/packages/hook-dsh-normalize-fullwidth/Source",
 										)}
-									>
-										hook-dsh-normalize-fullwidth
-									</a>
+									>hook-dsh-normalize-fullwidth</a>
 								</strong>
 							</td>
 							<td>{Counts.Fullwidth.Classic}</td>
@@ -718,9 +676,7 @@ const Registry = [
 								Links.OurRepo,
 								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
 							)}
-						>
-							<span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span>
-						</a>{" "}
+						><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a>{" "}
 						patch config REPLACES the entry config wholesale - the schema defaults
 						(mutationTools) were shadowed in deployment, so the raw-write's fs/observed
 						never triggered the chain.
@@ -749,9 +705,7 @@ const Registry = [
 								Links.OurRepo,
 								"Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts",
 							)}
-						>
-							the sequential fold
-						</a>{" "}
+						>the sequential fold</a>{" "}
 						awaits each step's chain, and the chain pass stats the target before its
 						write (the fresh-version pattern) - the fold converges in any step order.
 					</p>
@@ -769,9 +723,7 @@ const Registry = [
 								Links.OurRepo,
 								"Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts",
 							)}
-						>
-							v2 domain
-						</a>{" "}
+						>v2 domain</a>{" "}
 						open failed SILENTLY against the v1 file (the exact-equality version check)
 						- the silence made it undiagnosable.
 					</p>
@@ -814,16 +766,12 @@ const Registry = [
 				>
 					<p>
 						The{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-							<code class="code-token">llm/stream</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						waterfall wrap - next() first, options untouched, per-chunk.
 					</p>
 					<p>
 						The{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							<code class="code-token">fs/observed</code>
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
 						listeners - sync, after content is on disk, fired by the tool layer only.</p>
 					<p>
 						And the tool registrations into the agent's toolset:{" "}
@@ -844,9 +792,7 @@ const Registry = [
 					</p>
 					<p>
 						The{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/subprocess/subprocess")}>
-							<code class="code-token">subprocess</code> seam
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/subprocess/subprocess")}><code class="code-token">subprocess</code> seam</a>{" "}
 						carries the external tools, and the Effect-TS services mirror the same
 						seams.
 					</p>
