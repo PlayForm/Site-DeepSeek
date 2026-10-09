@@ -824,13 +824,15 @@ const Related = [
 
 	/* The descriptive-title treatment (the shared law in Global.css):
 	   the headline-lg scale above the body prose, the muted
-	   on-surface-variant tone, and the info icon on the LEFT through the
-	   --gap-icon token - the icon inherits the same muted tone via
-	   currentColor, so icon + title read as one grayed unit. */
+	   on-surface-variant tone, and the info icon on the LEFT - the icon
+	   inherits the same muted tone via currentColor, so icon + title
+	   read as one grayed unit. The gap is the wider sm step (8px), the
+	   same icon-to-text spacing the Concept titles carry: the icon
+	   pushes the text inward on both themes. */
 	.concept-block__title {
 		display: flex;
 		align-items: center;
-		gap: var(--gap-icon);
+		gap: var(--space-sm);
 		margin: 0;
 		color: var(--color-on-surface-variant);
 		font-size: var(--text-headline-lg);
