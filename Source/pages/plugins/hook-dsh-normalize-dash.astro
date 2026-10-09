@@ -48,7 +48,7 @@ const Pipeline = [
 	"       │                       file bytes; the raw-write tool owns its",
 	"       │                       normalization through the explicit `normalize`",
 	"       │                       parameter), and a call whose arguments open",
-	'       │                       with the `{"__normalize":false` marker (FIRST',
+	'       │                       with the `{"__normalize":false\}` marker (FIRST',
 	"       │                       key, tracked per call id) passes through",
 	"       │                       UNNORMALIZED with the marker entry stripped,",
 	"       │                       so the executed call carries no unknown key",
@@ -228,7 +228,7 @@ const Config = [
 		Default: "false",
 		Volatile: "no",
 		Meaning:
-			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit/raw-write name exemptions and the {"__normalize":false raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
+			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit/raw-write name exemptions and the {"__normalize":false\} raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
 	},
 ];
 ---
