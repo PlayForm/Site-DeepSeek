@@ -29,6 +29,11 @@ interface Props {
 }
 
 const { Steps } = Astro.props;
+
+// The wiring lines render in a pre element: the HTML minification
+// pass collapses newlines in regular element text, which would
+// merge the multi-line wiring into one line under white-space:
+// pre-wrap. A pre's content survives the minifier byte-exact.
 ---
 
 <div class="install-grid">
@@ -40,10 +45,6 @@ const { Steps } = Astro.props;
 			</span>
 			<h3 class="install-card__title">{Step.Title}</h3>
 			<span class="install-card__meta" set:html={Mention(Step.Meta)} />
-			// The wiring lines render in a pre element: the HTML minification
-			// pass collapses newlines in regular element text, which would
-			// merge the multi-line wiring into one line under white-space:
-			// pre-wrap. A pre's content survives the minifier byte-exact.
 			<pre class="install-card__screen">{Step.Lines.join("\n")}</pre>
 			<p class="install-card__outcome">{Step.Outcome}</p>
 		</article>

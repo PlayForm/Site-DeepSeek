@@ -645,11 +645,88 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 			return Lines.join("\n");
 		};
 
+		// The token styling: a lightweight line tokenizer for the generated
+		// blocks - the shiki palettes (github-light inline, github-dark under
+		// the data-theme swap) as CSS classes, so the client-side dynamic
+		// content carries the same code rendering as the site's CodeBlock.
+		// The visible text bytes are untouched: the spans wrap the exact
+		// characters, so textContent (what the copy button copies) stays
+		// byte-identical to the generated output.
+		const Escape = (Text: string) =>
+			Text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		const Wrap = (Kind: string, Text: string) =>
+			`<span class="cfg-tok-${Kind}">${Escape(Text)}</span>`;
+
+		const HighlightJsonLine = (Line: string) => {
+			const Match = Line.match(/^(\s*)"([^"]*)"(:)?(.*)$/);
+			if (!Match) return Escape(Line);
+			if (Match[3] !== ":") {
+				// A quoted string item (the bundles array) plus its tail.
+				return Escape(Match[1]) + Wrap("str", `"${Match[2]}"`) + Escape(Match[4]);
+			}
+			const Value = Match[4].match(
+				/^(\s*)("(?:[^"\\]|\\.)*"|\{\}|\[\]|true|false|null|-?\d+)(.*)$/,
+			);
+			let Rest = Escape(Match[4]);
+			if (Value) {
+				const Token = Value[2];
+				const Kind =
+					Token.startsWith('"') ? "str" : Token === "{}" || Token === "[]" ? "punc" : "const";
+				Rest =
+					Escape(Value[1]) +
+					(Kind === "punc" ? Escape(Token) : Wrap(Kind, Token)) +
+					Escape(Value[3]);
+			}
+			return Escape(Match[1]) + Wrap("key", `"${Match[2]}"`) + ":" + Rest;
+		};
+
+		const HighlightYamlLine = (Line: string) => {
+			const Match = Line.match(/^(\s*)(- )?([A-Za-z][\w.-]*)(:.*)$/);
+			if (!Match) return Escape(Line);
+			const Value = Match[4].slice(1);
+			let Rest = Escape(Match[4]);
+			const Quoted = Value.match(/^(\s*)("(?:[^"\\]|\\.)*")(.*)$/);
+			if (Quoted) {
+				Rest = ":" + Escape(Quoted[1]) + Wrap("str", Quoted[2]) + Escape(Quoted[3]);
+			} else if (/^(\s*)(true|false)(\s*,?\s*)$/.test(Value)) {
+				Rest = ":" + Wrap("const", Value);
+			} else if (/^(\s*)\[.*\](\s*,?\s*)$/.test(Value)) {
+				Rest = ":" + Wrap("str", Value);
+			} else if (/^(\s*)\{\}(,?)$/.test(Value)) {
+				Rest = ":" + Wrap("const", Value);
+			}
+			return (
+				Escape(Match[1]) +
+				(Match[2] ? Escape(Match[2]) : "") +
+				Wrap("key", Match[3]) +
+				Rest
+			);
+		};
+
+		const Highlight = (Text: string, Kind: string) => {
+			let Mode = Kind === "wiring" ? "json" : Kind;
+			return Text.split("\n")
+				.map((Line) => {
+					if (Kind === "wiring" && Line === "# cordis.patch.yml") Mode = "yaml";
+					if (Line.startsWith("#")) return Wrap("com", Line);
+					if (Mode === "cmd") {
+						const Match = Line.match(/^(cd|pnpm)(\s.*)$/);
+						return Match ? Wrap("cmd", Match[1]) + Escape(Match[2]) : Escape(Line);
+					}
+					if (Mode === "json") return HighlightJsonLine(Line);
+					if (Mode === "yaml") return HighlightYamlLine(Line);
+					// The log mode: the verification lines' leading plugin id.
+					const Match = Line.match(/^([\w-]+)(:.*)$/);
+					return Match ? Wrap("key", Match[1]) + Escape(Match[2]) : Escape(Line);
+				})
+				.join("\n");
+		};
+
 		const Render = () => {
 			const { Engine, Pkgs, Profile } = State();
-			if (Outs.install) Outs.install.textContent = Install(Engine, Pkgs, Profile);
-			if (Outs.wiring) Outs.wiring.textContent = Wiring(Engine, Pkgs, Profile);
-			if (Outs.verify) Outs.verify.textContent = Verify(Engine, Pkgs);
+			if (Outs.install) Outs.install.innerHTML = Highlight(Install(Engine, Pkgs, Profile), "install");
+			if (Outs.wiring) Outs.wiring.innerHTML = Highlight(Wiring(Engine, Pkgs, Profile), "wiring");
+			if (Outs.verify) Outs.verify.innerHTML = Highlight(Verify(Engine, Pkgs), "verify");
 			Chips.forEach((Chip) => {
 				const Name = ChipNames[Chip.dataset["pkg"] ?? ""];
 				if (Name) Name.textContent = `${Chip.dataset["pkg"]} · ${Engines[Engine].Slots[Chip.dataset["pkg"] ?? ""].Pkg}`;
@@ -858,8 +935,12 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 
 	.cfg__chip:has(input:checked) {
 		border-color: var(--color-primary);
-		color: var(--color-on-surface);
+		color: var(--color-on-primary);
 		background: var(--color-primary-container);
+	}
+
+	.cfg__chip:has(input:checked) input {
+		accent-color: var(--color-on-primary);
 	}
 
 	.cfg__chip input {
@@ -966,5 +1047,53 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 		.cfg__groups {
 			grid-template-columns: 1fr;
 		}
+	}
+</style>
+
+<!-- The token classes are runtime-generated (the client-side highlighter),
+	so they carry no Astro scope hash: this block is global, prefixed cfg-tok
+	to stay collision-free. The palettes are the site's shiki palettes - the
+	github-light colors inline, the github-dark colors under the data-theme
+	swap, exactly the --shiki-dark bridge Global.css runs for CodeBlock. -->
+<style>
+	.cfg-tok-com {
+		color: #6e7781;
+	}
+
+	.cfg-tok-key {
+		color: #0550ae;
+	}
+
+	.cfg-tok-str {
+		color: #0a3069;
+	}
+
+	.cfg-tok-const {
+		color: #0550ae;
+	}
+
+	.cfg-tok-cmd {
+		color: #cf222e;
+		font-weight: 600;
+	}
+
+	:root[data-theme="dark"] .cfg-tok-com {
+		color: #8b949e;
+	}
+
+	:root[data-theme="dark"] .cfg-tok-key {
+		color: #79c0ff;
+	}
+
+	:root[data-theme="dark"] .cfg-tok-str {
+		color: #a5d6ff;
+	}
+
+	:root[data-theme="dark"] .cfg-tok-const {
+		color: #79c0ff;
+	}
+
+	:root[data-theme="dark"] .cfg-tok-cmd {
+		color: #ff7b72;
 	}
 </style>
