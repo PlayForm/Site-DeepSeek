@@ -1470,6 +1470,15 @@ a .code-token {
 	color: var(--color-on-primary);
 }
 
+/* The effect mark's official black is baked into the SVG paths
+	(fill="#000"), so the color rule above can't reach it; the CSS fill
+	overrides the presentation attribute and flips the mark to the
+	on-primary white inside the solid blue card - the card's white-on-blue
+	convention. The light contexts keep the official black. */
+.card--primary .brand-icon--effect path {
+	fill: var(--color-on-primary);
+}
+
 .version-card__body {
 	font-size: var(--text-body-md);
 	line-height: var(--leading-body-md);
@@ -1685,6 +1694,15 @@ a .code-token {
 	align-items: center;
 	gap: var(--space-xs);
 	text-align: center;
+}
+
+/* The .container gutter rules (the base rule above and the media-query
+	block at the bottom of the file) resolve later in the cascade and zero
+	this element's top padding, so the links touch the top border line;
+	the stronger two-class selector restores the token-based clearance
+	below the border at every width. */
+.site-footer.container {
+	padding-top: var(--space-lg);
 }
 
 .site-footer__links {
