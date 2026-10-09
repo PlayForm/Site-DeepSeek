@@ -467,6 +467,11 @@
 .hero--grid {
 	position: relative;
 	isolation: isolate;
+	/* The bottom breathing room: the row of hero action buttons sits at
+	   the hero's foot, so a full xl of bottom padding keeps the buttons
+	   clear of the stats band AND extends the ::before grid texture
+	   behind/below the row - the grid draws out under the buttons. */
+	padding-bottom: var(--space-xl);
 }
 
 .hero--grid::before {
@@ -2011,6 +2016,21 @@ a .code-token {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--space-sm);
+}
+
+/* The hero's action row: one full-width line UNDER the split. On the
+	desktop stage (1024px+) the four buttons share a single row - the
+	full container width gives the longest label room - while the
+	narrow viewports keep the wrap. The lg top margin clears the row
+	from the split's columns above it. */
+.hero__actions {
+	margin-top: var(--space-lg);
+}
+
+@media (min-width: 1024px) {
+	.hero__actions {
+		flex-wrap: nowrap;
+	}
 }
 
 .action {

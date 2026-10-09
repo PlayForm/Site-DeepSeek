@@ -144,10 +144,13 @@ const NormalizeAfter = [
 		</div>
 
 		<!-- Hero: the two-split stage. The h1 stays above the split; the
-			LEFT column carries the hero text, the install terminal (the
-			site's input surface) and the action buttons; the RIGHT column
-			carries the live stream gate preview, filling its column so the
-			hero has no blank side. -->
+			LEFT column carries the hero text and the install terminal (the
+			site's input surface); the RIGHT column carries the live stream
+			gate preview, filling its column so the hero has no blank side.
+			The action buttons sit in a single full-width row UNDER the
+			split, so all four share one line at desktop widths and the
+			hero's bottom padding lets the engineering grid draw out
+			behind/below them. -->
 		<section class="hero hero--grid">
 			<h1 class="hero__title">Tame the model's output and govern the project's files.</h1>
 			<div class="hero__split">
@@ -200,6 +203,17 @@ const NormalizeAfter = [
 						</div>
 					</div>
 				</section>
+			</div>
+
+			<!-- The action row: all four buttons share ONE full-width line
+				under the split (they leave the lead column so the desktop row
+				has room for the longest label); the hero's bottom padding
+				extends the engineering grid behind/below the row. -->
+			<div class="action-row hero__actions">
+				<a class="action" href="/plugins/">Explore Plugins</a>
+				<a class="action action--secondary" href="/workbench/">Open the Workbench</a>
+				<a class="action action--secondary" href="/versions/">Two Releases, One Behavior</a>
+				<a class="action action--secondary" href="/setup/">Set It Up in a Profile</a>
 			</div>
 		</section>
 
