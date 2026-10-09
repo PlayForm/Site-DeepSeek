@@ -613,19 +613,20 @@ svg {
 	box and the text sit on the same center line) and the shared --gap-icon
 	between them. The unit is adornment only: the visible text bytes are
 	exactly the filename.
-	The unit's baseline is the FILENAME's text baseline: the icon is ordered
-	last inside the reversed flex row (order: 1 - the icon still renders on
-	the left), so the flex container's first baseline set comes from the
-	filename's glyphs and the unit rides the prose baseline by the default
-	vertical-align: baseline - the filename never drifts off the paragraph
-	line (verified at the pixel level: the icon-first order floated the
-	filename 2.2-5.3px above the text baseline across the prose contexts,
-	0.0px with the reversed order). */
+	The unit's baseline is the FILENAME's text baseline: baseline-source:
+	last takes the flex container's LAST baseline set - the filename's
+	glyphs (the icon is the first item, and the icon-first baseline set
+	floated the filename 2.2-5.3px above the text baseline across the
+	prose contexts, 0.0px with the last set - verified at the pixel
+	level), so the unit rides the prose baseline by the default
+	vertical-align: baseline and the filename never drifts off the line.
+	Browsers without baseline-source (pre-Chrome 136) keep the icon-first
+	baseline - the pre-fix behavior, never worse. */
 .file-mention {
 	display: inline-flex;
-	flex-direction: row-reverse;
 	align-items: center;
 	gap: var(--gap-icon);
+	baseline-source: last;
 }
 
 /* ---- The log chips: the special .log-file mentions ----
@@ -649,20 +650,14 @@ svg {
 	font-weight: var(--weight-label-sm);
 	letter-spacing: var(--tracking-label-sm);
 	color: var(--color-on-surface);
-	/* The reversed flex row with the icon ordered last gives the chip the
-		same filename-baseline rule as .file-mention: the mono label's text
-		baseline defines the chip's baseline, so the chip sits on the prose
-		baseline at any label size. */
-	flex-direction: row-reverse;
+	/* The same filename-baseline rule as .file-mention: baseline-source:
+		last takes the mono label's text baseline as the chip's baseline, so
+		the chip sits on the prose baseline at any label size. */
+	baseline-source: last;
 }
 
-/* The icon rides the label's line: ordered last inside the reversed row
-	(the same baseline rule as .file-mention - the label's text baseline
-	defines the unit's) and kept from shrinking by the flex centering. */
-.file-mention > .brand-icon,
-.log-chip > .brand-icon {
+.log-chip .brand-icon {
 	flex: none;
-	order: 1;
 }
 
 /* ---- Code tokens: the markdown-fenced identity for technical terms ----
