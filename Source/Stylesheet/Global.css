@@ -1683,8 +1683,8 @@ a .code-token {
 	The Flavors & Roles strip is a two-tier grid of delineated cells:
 	the seven flavor cells first (in the canonical DASH -> QUOTES ->
 	ELLIPSIS -> SPACES -> INVISIBLE -> FULLWIDTH -> FILE order), then
-	the two role cells. Each cell gives the inline FLAVOR label plus
-	the version badge its own box, so the row reads inside the cell
+	the two role cells. Each cell gives the stacked FLAVOR label plus
+	the version badge its own box, so the stack reads inside the cell
 	and never collapses against the neighboring items. Token gaps, the
 	1px hairline delineation, zero elevation; auto-fit fills the
 	section width with no blank space and steps down to a single
@@ -1708,10 +1708,10 @@ a .code-token {
 	gap: var(--space-sm);
 }
 
-/* ---- The flavor cell: the delineated box around a FLAVOR row ----
+/* ---- The flavor cell: the delineated box around a FLAVOR stack ----
 	The #F8FAFC tray with the outline-variant hairline matches the
-	default card voice; the row inside is left-aligned so the label
-	chip and the version chip read as one inline line inside the box. */
+	default card voice; the stack inside is left-aligned so the label
+	chip and the version chip read as one column inside the box. */
 .flavor-cell {
 	display: flex;
 	flex-direction: column;
@@ -1725,18 +1725,43 @@ a .code-token {
 }
 
 .flavor-cell .flavor-stack {
-	/* The row spans the cell so it can shrink on the tight tracks;
-	   the chips stay centered on each other vertically (row layout). */
+	align-items: flex-start;
+	/* The stack spans the cell so the version chip can reach the cell's
+	   right edge while the label line stays left-aligned. */
 	align-self: stretch;
+}
+
+.flavor-cell .flavor-version {
+	/* The version badge sits on the right of its containing box: the
+	   auto margin absorbs the free space left of the chip, so the chip
+	   aligns to the cell's right edge - the chip's own styling (black
+	   ink background, white text, mono, the padding) stays untouched. */
+	margin-left: auto;
+}
+
+/* The plugin pages' eyebrow rows: the ONE context where the label and
+	the version stand on the same line - the badges row is horizontal
+	with room to spare, so the two chips read as one inline unit (the
+	user's ruling: inline only where the space allows; the boxes stay
+	stacked). The margin-left override keeps the chips adjacent (the
+	cell's right-edge alignment above would separate them). */
+.eyebrow-row .flavor-stack {
+	flex-direction: row;
+	align-items: center;
+	gap: var(--space-xs);
+}
+
+.eyebrow-row .flavor-cell .flavor-version {
+	margin-left: 0;
 }
 
 /* Compact variant: the flavor badges inside the card headers and the
 	eyebrow rows - the card contexts. Inside a card the cell's own tray
 	and hairline are redundant: the card already provides the box, so
-	the row floats backgroundless + borderless on the card's surface
-	with the padding trimmed to the row's own spacing (the token row
-	gap); the row layout stays, the chip keeps its black/white badge
-	form. */
+	the stack floats backgroundless + borderless on the card's surface
+	with the padding trimmed to the stack's own spacing (the 2px stack
+	gap); the stack layout stays (the eyebrow-row rule above sets the
+	inline exception), the chip keeps its black/white badge form. */
 .flavor-cell--compact {
 	padding: 2px;
 	background: transparent;
@@ -1746,7 +1771,7 @@ a .code-token {
 
 /* The label chip inside a flavor cell must stay inside the cell: the
 	mono FLAVOR: name text is unbreakable, and an auto-sized chip (the
-	row's default stretch keeps the chip at its content width)
+	stack's align-items: flex-end keeps the chip at its content width)
 	would push the cell past its track and grow a body-level horizontal
 	scrollbar. The 100% cap clamps the chip to the cell's width and
 	flex-wrap lets the chip's parts (the icon, the FLAVOR: prefix, the
@@ -3528,18 +3553,20 @@ button:focus-visible,
 	color: var(--color-accent-orange);
 }
 
-/* ---- The flavor label row: the label chip + the version badge NEXT TO
-	it - the user's two-part FLAVOR structure, set side by side (the
-	user's ruling: the version stands next to the label, not under it).
-	The row is a semantic flex row with a token gap (never a <br>); the
-	version badge is a solid chip in the black ink token with white text
-	(#FFFFFF on #0B0F19 is AAA contrast), mono, the 13px floor held. */
+/* ---- The flavor label stack: the label chip + the version badge
+	underneath - the user's two-part FLAVOR structure. The stack is a
+	semantic flex column with a CSS gap (never a <br>); the version
+	badge is a solid chip in the black ink token with white text
+	(#FFFFFF on #0B0F19 is AAA contrast), mono, the 13px floor held.
+	STACKED by default: the boxes and the cards don't have the width
+	to hold both chips on one line - the inline exception is scoped
+	to the eyebrow rows (see the rule after the flavor cells). */
 .flavor-stack {
 	display: flex;
-	flex-direction: row;
-	align-items: center;
-	gap: var(--space-xs);
-	/* The row must be able to shrink inside its cell (the card
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 2px;
+	/* The stack must be able to shrink inside its cell (the card
 		headers' compact cells and the strip cells): without the zero
 		minimum the label chip's mono text would pin the cell wider
 		than its track. */

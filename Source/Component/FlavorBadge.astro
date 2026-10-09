@@ -1,14 +1,17 @@
 ---
-// FlavorBadge: the "FLAVOR: X" label as the user's two-part row - the
+// FlavorBadge: the "FLAVOR: X" label as the user's two-part stack - the
 // FLAVOR prefix in the accent-orange token, the flavor name in the
 // badge's own ink, and the release-version badge (v0.0.1 from the
-// content library) beside it in the black ink color (the user's ruling:
-// the version stands next to the label, not under it). The row is a
-// semantic flex row with a token gap - never a <br> - and both chips
-// stay mono at the 13px floor. Variant "flavor" is the plugins-page
+// content library) underneath in the black ink color. The stack is a
+// semantic flex column with a CSS gap - never a <br> - and both chips
+// stay mono at the 13px floor. STACKED by default (the boxes and the
+// cards don't hold both chips on one line); the plugin pages' eyebrow
+// rows flip the stack to an inline row via the scoped .eyebrow-row
+// rules in Global.css (the one context with room for both chips).
+// Variant "flavor" is the plugins-page
 // NORM metadata chip; Icon adds the swap arrow before the prefix. The
-// row is announced as one labelled unit (role="group", the flavor + the
-// version in its aria-label).
+// stack is announced as one labelled unit (role="group", the flavor +
+// the version in its aria-label).
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import { Versions } from "@Library/Content";
