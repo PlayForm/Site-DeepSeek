@@ -1125,6 +1125,16 @@ a .code-token {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	/* The body-scrollbar fix: the hero's full-bleed grid backdrop sizes
+		itself with 100vw, which counts the vertical scrollbar while the
+		layout viewport does not, so on a real browser its right overhang
+		(~half a scrollbar) forces a horizontal scrollbar on the whole
+		body. Clipping the full-width shell trims only that invisible
+		overhang — the .page box is exactly the layout viewport, so
+		everything at or inside the viewport edge renders identically;
+		the vertical axis stays unclipped, so no scroll container is
+		created and sticky/fixed behavior is untouched. */
+	overflow-x: clip;
 }
 
 .container {
