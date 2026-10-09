@@ -15,7 +15,7 @@
 //   - the package, suite, normalizer and stream-flavor counts, derived from
 //     the Classic release tree's package directories;
 //   - the factory's callable-method count, read from the §2 method sections
-//     of Classic/packages/plugin-dsh-factory/SCHEME.md plus one for the
+//     of Classic/packages/dsh-plugin-factory/SCHEME.md plus one for the
 //     shared §2.7 (Write + GuardedWrite), per the scheme's own heading.
 //
 // BUILD-TIME ONLY: this module reads the filesystem with node:fs and is
@@ -182,13 +182,13 @@ for (const [Key, Suite] of SuiteKeys) {
 
 /** The Classic release tree's normalize packages (the dash..file seven). */
 const NormalizePackages = ClassicPackages.filter((Package) =>
-	Package.Dir.startsWith("hook-dsh-normalize-"),
+	Package.Dir.startsWith("normalize-"),
 );
 
 /** The factory's callable-method count: the SCHEME's §2 sections + the shared §2.7. */
 function ReadMethodCount(): number | null {
 	const Scheme = ReadText(
-		join(Root, "Classic", "packages", "plugin-dsh-factory", "SCHEME.md"),
+		join(Root, "Classic", "packages", "dsh-plugin-factory", "SCHEME.md"),
 	);
 	if (!Scheme) return null;
 	const Sections = [...Scheme.matchAll(/^### 2\.\d+ /gm)].length;

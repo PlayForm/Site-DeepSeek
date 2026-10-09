@@ -52,10 +52,10 @@ const OgImage = `${SiteUrl}/Brand/OG.png`;
 // order, with any package missing from the list appended alphabetically.
 const CanonicalPackages = [
 	"@playform/hook-dsh-core",
-	"@playform/plugin-dsh-factory",
-	"@playform/hook-dsh-governor-package",
-	"@playform/hook-dsh-pinner-package",
-	"@playform/hook-dsh-governor-cargo",
+	"@playform/dsh-plugin-factory",
+	"@playform/hook-dsh-package-governor",
+	"@playform/hook-dsh-package-pinner",
+	"@playform/hook-dsh-cargo-governor",
 	"@playform/hook-dsh-normalize-dash",
 	"@playform/hook-dsh-normalize-quotes",
 	"@playform/hook-dsh-normalize-ellipsis",
@@ -196,7 +196,10 @@ const JsonLd = {
 				<!-- The light/dark switch: the LIGHT / DARK two-cell mono chip.
 					The active cell is attribute-driven pure CSS (the cells are
 					correct before any script runs); the script only flips the
-					html[data-theme] attribute and persists the choice. -->
+					html[data-theme] attribute and persists the choice. The
+					trailing mode cell states the persistence: OS while the
+					theme follows the operating system, PIN once a stored
+					choice pins it (the script keeps it in sync). -->
 				<button
 					class="theme-toggle"
 					type="button"
@@ -209,6 +212,7 @@ const JsonLd = {
 					<span class="theme-toggle__cell" data-theme-cell="light">LIGHT</span>
 					<span class="theme-toggle__sep" aria-hidden="true">/</span>
 					<span class="theme-toggle__cell" data-theme-cell="dark">DARK</span>
+					<span class="theme-toggle__mode" data-theme-mode>OS</span>
 				</button>
 				<!-- The mobile nav toggle: the flat three-line hamburger in
 					the avatar's old slot. The open state lives on the header
@@ -331,13 +335,36 @@ const JsonLd = {
 				document.documentElement.getAttribute("data-theme") === "dark"
 					? "dark"
 					: "light";
+			// The persistence indicator: "OS" while the theme follows the
+			// operating system (no stored choice), "PIN" once a stored
+			// choice pins it. The title states the same in words.
+			const ThemeMode = document.querySelector<HTMLElement>("[data-theme-mode]");
+			const SyncMode = () => {
+				let Pinned = false;
+				try {
+					Pinned = !!localStorage.getItem("dsh-theme");
+				} catch {}
+				if (ThemeMode) ThemeMode.textContent = Pinned ? "PIN" : "OS";
+				if (ThemeToggle) {
+					if (Pinned) {
+						ThemeToggle.setAttribute("data-pinned", "");
+					} else {
+						ThemeToggle.removeAttribute("data-pinned");
+					}
+					ThemeToggle.title = Pinned
+						? "Toggle dark theme (pinned in this browser)"
+						: "Toggle dark theme (following the OS setting)";
+				}
+			};
 			ApplyTheme(CurrentTheme());
+			SyncMode();
 			ThemeToggle?.addEventListener("click", () => {
 				const Next = CurrentTheme() === "dark" ? "light" : "dark";
 				ApplyTheme(Next);
 				try {
 					localStorage.setItem("dsh-theme", Next);
 				} catch {}
+				SyncMode();
 			});
 			try {
 				if (!localStorage.getItem("dsh-theme")) {
@@ -462,6 +489,104 @@ const JsonLd = {
 				window.addEventListener("scroll", OnScroll, { passive: true });
 				Update();
 			}
+		</script>
+
+		<script>
+			// The diagram overlay: hover/focus on a pre-baked Mermaid node
+			// highlights the RELATED nodes - the node itself, its direct
+			// neighbors (read from the edge ids L_FROM_TO_0 between the node
+			// ids flowchart-FROM-N / flowchart-TO-N) and the connecting
+			// edges - while the rest of the diagram recedes slightly. The
+			// styles are the token-based rules in Global.css (.diagram-nav),
+			// so the highlight follows both themes. The linked nodes (the
+			// tree/Current anchors Library/DiagramNav.ts bakes at build
+			// time) are keyboard-focusable, so focus drives the same
+			// highlight.
+			const SetupDiagram = (Svg: SVGSVGElement) => {
+				if (Svg.dataset["diagramNav"]) return;
+				Svg.dataset["diagramNav"] = "true";
+
+				const Nodes = new Map<string, SVGGElement>();
+				Svg.querySelectorAll<SVGGElement>("g.node").forEach((Node) => {
+					const Id = Node.getAttribute("id") ?? "";
+					const Key = Id.match(/^flowchart-(.+)-\d+$/)?.[1];
+					if (Key) Nodes.set(Key, Node);
+				});
+				if (!Nodes.size) return;
+
+				// Adjacency from the edge paths' data-id (L_FROM_TO_0): split
+				// the body at the point where both halves name known nodes.
+				const Edges = new Map<SVGPathElement, [string, string]>();
+				Svg.querySelectorAll<SVGPathElement>(".edgePaths path[data-id]").forEach(
+					(Path) => {
+						const Body = (Path.getAttribute("data-id") ?? "")
+							.replace(/^L_/, "")
+							.replace(/_\d+$/, "");
+						for (let Split = 1; Split < Body.length; Split += 1) {
+							const From = Body.slice(0, Split);
+							const To = Body.slice(Split);
+							if (Nodes.has(From) && Nodes.has(To)) {
+								Edges.set(Path, [From, To]);
+								return;
+							}
+						}
+					},
+				);
+
+				const Pair = (A: string, B: string) => (A < B ? `${A}|${B}` : `${B}|${A}`);
+				const Adjacent = new Map<string, Set<string>>();
+				const Connectors = new Map<string, SVGPathElement[]>();
+				Edges.forEach(([From, To], Path) => {
+					if (!Adjacent.has(From)) Adjacent.set(From, new Set());
+					if (!Adjacent.has(To)) Adjacent.set(To, new Set());
+					Adjacent.get(From)!.add(To);
+					Adjacent.get(To)!.add(From);
+					const Key = Pair(From, To);
+					if (!Connectors.has(Key)) Connectors.set(Key, []);
+					Connectors.get(Key)!.push(Path);
+				});
+
+				const Clear = () => {
+					Svg.classList.remove("diagram-nav--active");
+					Svg.querySelectorAll("[data-related]").forEach((Node) =>
+						Node.removeAttribute("data-related"),
+					);
+				};
+				const Highlight = (Key: string) => {
+					Clear();
+					Svg.classList.add("diagram-nav--active");
+					Nodes.get(Key)?.setAttribute("data-related", "");
+					Adjacent.get(Key)?.forEach((Other) => {
+						Nodes.get(Other)?.setAttribute("data-related", "");
+						Connectors.get(Pair(Key, Other))?.forEach((Path) =>
+							Path.setAttribute("data-related", ""),
+						);
+					});
+				};
+
+				Nodes.forEach((Node, Key) => {
+					Node.addEventListener("pointerenter", () => Highlight(Key));
+					Node.addEventListener("pointerleave", Clear);
+					Node.addEventListener("focusin", () => Highlight(Key));
+					Node.addEventListener("focusout", Clear);
+				});
+
+				// The linked nodes are anchors WRAPPING the node groups, so a
+				// focus event bubbles up from the anchor, never through the
+				// inner g.node - the anchors get their own focus listeners
+				// (same highlight, same clear).
+				Svg.querySelectorAll("a.diagram-node-link > g.node").forEach((Node) => {
+					const Entry = [...Nodes.entries()].find(([, El]) => El === Node);
+					if (!Entry) return;
+					const Key = Entry[0];
+					Node.parentElement?.addEventListener("focusin", () => Highlight(Key));
+					Node.parentElement?.addEventListener("focusout", Clear);
+				});
+			};
+			const InitDiagrams = () =>
+				document.querySelectorAll<SVGSVGElement>("svg.flowchart").forEach(SetupDiagram);
+			document.addEventListener("astro:page-load", InitDiagrams);
+			InitDiagrams();
 		</script>
 
 		<script>

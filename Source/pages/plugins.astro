@@ -24,40 +24,40 @@ const Core = [
 		Install: "pnpm add @playform/hook-dsh-core",
 	},
 	{
-		Name: "plugin-dsh-factory",
+		Name: "dsh-plugin-factory",
 		Tone: "primary",
 		Role: "ROLE: FACTORY",
 		Tags: "core factory service plugin",
 		Sentence: Families.Factory,
 		Desc: "The family's first service: the ledger, the exclusion match, the discovery, the keep-list union, the gate set, the version-guarded fenced write, the refresh, the detached contained continuation, the State builder, the wiring, the effects, the schema factory and the probe-once seam.",
-		Install: "pnpm add @playform/plugin-dsh-factory",
+		Install: "pnpm add @playform/dsh-plugin-factory",
 	},
 ];
 
 const Governance = [
 	{
-		Name: "hook-dsh-governor-package",
+		Name: "hook-dsh-package-governor",
 		Role: "ROLE: GOVERNOR",
 		Tags: "governor manifest package hook",
 		Sentence: Families.GovernorPackage,
 		Desc: "The silent package.json governor: hooks [fs/observed](Harness:packages/fs/fs/src/index.ts), rewrites chain-governed pins to the effective registry's resolved versions, and runs the update stage as a detached, contained continuation.",
-		Install: "pnpm add @playform/hook-dsh-governor-package",
+		Install: "pnpm add @playform/hook-dsh-package-governor",
 	},
 	{
-		Name: "hook-dsh-pinner-package",
+		Name: "hook-dsh-package-pinner",
 		Role: "ROLE: PINNER",
 		Tags: "pinner manifest package hook",
 		Sentence: Families.PinnerPackage,
-		Desc: "The silent package.json version pinner: hooks [fs/observed](Harness:packages/fs/fs/src/index.ts) and deterministically rewrites every ranged dependency version to its static version, protected by a [pin-policy keep-list](Ours:Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts).",
-		Install: "pnpm add @playform/hook-dsh-pinner-package",
+		Desc: "The silent package.json version pinner: hooks [fs/observed](Harness:packages/fs/fs/src/index.ts) and deterministically rewrites every ranged dependency version to its static version, protected by a [pin-policy keep-list](Ours:Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts).",
+		Install: "pnpm add @playform/hook-dsh-package-pinner",
 	},
 	{
-		Name: "hook-dsh-governor-cargo",
+		Name: "hook-dsh-cargo-governor",
 		Role: "ROLE: GOVERNOR",
 		Tags: "governor cargo manifest hook",
 		Sentence: Families.GovernorCargo,
 		Desc: "The Cargo.toml governor: the Rust-sided flavor of the package governor - surgical chain-pin rewrites on the raw TOML lines and cargo upgrade driven through the [subprocess seam](Harness:packages/subprocess/subprocess).",
-		Install: "pnpm add @playform/hook-dsh-governor-cargo",
+		Install: "pnpm add @playform/hook-dsh-cargo-governor",
 	},
 ];
 
@@ -514,9 +514,9 @@ const Registry = [
 									<a
 										href={Link(
 											Links.OurRepo,
-											"Classic/packages/plugin-dsh-factory/Source",
+											"Classic/packages/dsh-plugin-factory/Source",
 										)}
-									>plugin-dsh-factory</a>
+									>dsh-plugin-factory</a>
 								</strong>
 							</td>
 							<td>{Counts.Factory.Classic}</td>
@@ -538,9 +538,9 @@ const Registry = [
 									<a
 										href={Link(
 											Links.OurRepo,
-											"Classic/packages/hook-dsh-governor-package/Source",
+											"Classic/packages/hook-dsh-package-governor/Source",
 										)}
-									>hook-dsh-governor-package</a>
+									>hook-dsh-package-governor</a>
 								</strong>
 							</td>
 							<td>{Counts.Governor.Classic}</td>
@@ -562,9 +562,9 @@ const Registry = [
 									<a
 										href={Link(
 											Links.OurRepo,
-											"Classic/packages/hook-dsh-pinner-package/Source",
+											"Classic/packages/hook-dsh-package-pinner/Source",
 										)}
-									>hook-dsh-pinner-package</a>
+									>hook-dsh-package-pinner</a>
 								</strong>
 							</td>
 							<td>{Counts.Pinner.Classic}</td>
@@ -586,9 +586,9 @@ const Registry = [
 									<a
 										href={Link(
 											Links.OurRepo,
-											"Classic/packages/hook-dsh-governor-cargo/Source",
+											"Classic/packages/hook-dsh-cargo-governor/Source",
 										)}
-									>hook-dsh-governor-cargo</a>
+									>hook-dsh-cargo-governor</a>
 								</strong>
 							</td>
 							<td>{Counts.Cargo.Classic}</td>
@@ -668,7 +668,7 @@ const Registry = [
 				<Concept
 					Id="plugins-failure-shadowing"
 					Title="The patch-layer config shadowing"
-					Diagram="The bundle's [cordis.patch.yml](Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml) patch config replacing the entry config wholesale - the schema defaults (mutationTools) shadowed in deployment, the raw-write's fs/observed never triggering the chain - and the fix adding raw-write to the three patch layers with the LIVE effective config verified from the bundle layers."
+					Diagram="The bundle's [cordis.patch.yml](Ours:Classic/packages/dsh-plugin-factory/cordis.patch.yml) patch config replacing the entry config wholesale - the schema defaults (mutationTools) shadowed in deployment, the raw-write's fs/observed never triggering the chain - and the fix adding raw-write to the three patch layers with the LIVE effective config verified from the bundle layers."
 				>
 					<Badge Variant="outline"><Fragment set:html={DotSep("LIVE-FOUND · FIXED")} /></Badge>
 					<p>
@@ -676,7 +676,7 @@ const Registry = [
 						<a
 							href={Link(
 								Links.OurRepo,
-								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
+								"Classic/packages/dsh-plugin-factory/cordis.patch.yml",
 							)}
 						><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a>{" "}
 						patch config REPLACES the entry config wholesale - the schema defaults
@@ -705,7 +705,7 @@ const Registry = [
 						<a
 							href={Link(
 								Links.OurRepo,
-								"Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts",
+								"Classic/packages/dsh-plugin-factory/Source/Function/Govern.ts",
 							)}
 						>the sequential fold</a>{" "}
 						awaits each step's chain, and the chain pass stats the target before its
@@ -723,7 +723,7 @@ const Registry = [
 						<a
 							href={Link(
 								Links.OurRepo,
-								"Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts",
+								"Classic/packages/dsh-plugin-factory/Source/Function/Journal.ts",
 							)}
 						>v2 domain</a>{" "}
 						open failed SILENTLY against the v1 file (the exact-equality version check)
@@ -785,7 +785,7 @@ const Registry = [
 				<Concept
 					Id="plugins-arch-delegations"
 					Title="Delegations - who does the work"
-					Diagram="The work splitting across the family: the [factory's Direct-govern steps](Ours:Classic/packages/plugin-dsh-factory/Source) (per basename, the raw-write govern selection), the [core's Dispatch/Settle envelope builder](Ours:Classic/packages/hook-dsh-core/Source) (a new update stage reducing to a child runner plus strings), the [subprocess seam](Harness:packages/subprocess/subprocess) for the external tools, and the Effect-TS services mirroring the same seams."
+					Diagram="The work splitting across the family: the [factory's Direct-govern steps](Ours:Classic/packages/dsh-plugin-factory/Source) (per basename, the raw-write govern selection), the [core's Dispatch/Settle envelope builder](Ours:Classic/packages/hook-dsh-core/Source) (a new update stage reducing to a child runner plus strings), the [subprocess seam](Harness:packages/subprocess/subprocess) for the external tools, and the Effect-TS services mirroring the same seams."
 				>
 					<p>
 						The factory's Direct-govern steps (per basename, the raw-write govern

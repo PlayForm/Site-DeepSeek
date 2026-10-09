@@ -1,53 +1,15 @@
-flowchart LR
+flowchart TB
 	TRIGGER["fs/observed (target, {kind:present, version}, actor)<br/>fired by the TOOL LAYER ONLY, for every<br/>harness write/edit, any thread"]
-	TRIGGER --> SG1
-
-	subgraph SG1["G1 Factory.Gate"]
-		direction TB
-		G1A["displayPath"] --> G1B["actor ∈ mutationTools"] --> G1C["kind present"] --> G1D["Stash idempotence"] --> G1E["basename package.json"] --> G1F["excluded?"]
-	end
-
-	G1F -. "excluded" .-> SKIP["ledger skipped (excluded) (path)<br/>(every other gate<br/>outcome is silent)"]
-
-	SG1 --> SG2
-
-	subgraph SG2["G2 Factory.Discover + Factory.Parse"]
-		direction TB
-		G2A["nearest registry.json walk-up"]
-	end
-
-	G2A -. "none / unreadable" .-> SKIP2["ledger line,<br/>the chain pass is skipped"]
-
-	SG2 --> SEED["Stash seed (targetKey, version) -<br/>our own re-emits re-enter as no-ops"]
-
-	SEED -- "detached, contained (Factory.Continue -<br/>the listener never awaits)" --> SG3
-
-	subgraph SG3["G3 CHAIN PASS (the pure transform)"]
-		direction TB
-		G3A["read"] --> G3B["chain-governed pins<br/>(dep ∈ registry.effectiveLatest)<br/>canonicalized to ^resolved"] --> G3C["strict: strip unknown,<br/>explicit only,<br/>never a default"] --> G3D["GuardedWrite<br/>(replaceIfVersion + the P4 fence)"] --> G3E["ledger governed<br/>(path) → (version)"] --> G3F["Refresh<br/>(P3 re-emit, same actor)"]
-	end
-
-	SG3NOTE["the factory's Continue also computes the<br/>union keep-list with the P3 chain keys,<br/>deliberately ignored by this transform"]
-	SG3 ~~~ SG3NOTE
-
-	SG3 -- "chained off the settled continuation" --> SG4
-
-	subgraph SG4["G4 UPDATE STAGE"]
-		direction TB
-		G4A["passage gate"] --> G4B["Filter<br/>(nothing public? skip)"] --> G4C["first-wins<br/>update-policy pick"] --> G4D["Dispatch"]
-	end
-
-	G4D --> LADDER["breaker → in-flight → cooldown"]
-	LADDER -- "or" --> FALLBACK["the detached fallback"]
-	LADDER --> JOBS["the jobs envelope<br/>(kind governor-update, unowned)"]
-	JOBS --> PROG["updateMode programmatic:<br/>ncu.run({packageFile, upgrade, silent, dep,<br/>concurrency, target, reject ∪ chain deps,<br/>allow, filter}) - no external binary"]
-	JOBS --> BIN["updateMode bin:<br/>the ncu binary (ncuBin)<br/>via ctx.subprocess"]
-
-	subgraph SGT["Verify → Settle → Refresh"]
-		direction LR
-		VERIFY["Verify (verifyCommand,<br/>exit 127 non-fatal)"] --> SETTLE["Settle"] --> REFRESH["Refresh<br/>(U2: re-stat + re-emit<br/>the fresh version)"]
-	end
-
-	PROG --> VERIFY
-	BIN --> VERIFY
-	REFRESH --> END["SILENCE: the tool result shows exactly what<br/>the author wrote. The governed state is<br/>discoverable only by a subsequent read,<br/>or in the ledger."]
+	TRIGGER --> G1["G1 Factory.Gate: displayPath → actor ∈ mutationTools<br/>→ kind present → Stash idempotence →<br/>basename package.json → excluded?"]
+	G1 -. "excluded" .-> SKIP["ledger skipped (excluded) (path)<br/>(every other gate outcome is silent)"]
+	G1 --> G2["G2 Factory.Discover + Factory.Parse:<br/>nearest registry.json walk-up"]
+	G2 -. "none / unreadable" .-> SKIP2["ledger line, the chain pass is skipped"]
+	G2 --> SEED["Stash seed (targetKey, version) - our own<br/>re-emits re-enter as no-ops"]
+	SEED -- "detached, contained (Factory.Continue - the listener never awaits)" --> G3["G3 CHAIN PASS (the pure transform): read →<br/>chain-governed pins (dep ∈ registry.effectiveLatest)<br/>canonicalized to ^resolved, strict: strip unknown<br/>(explicit only, never a default) → GuardedWrite<br/>(replaceIfVersion + the P4 fence) → ledger<br/>governed (path) → (version) → Refresh (P3 re-emit, same actor)"]
+	G3 -.- NOTE["the factory's Continue also computes the union keep-list<br/>with the P3 chain keys - deliberately ignored by this transform"]
+	G3 -- "chained off the settled continuation" --> G4["G4 UPDATE STAGE: passage gate → Filter (nothing public? skip)<br/>→ first-wins update-policy pick → Dispatch: breaker → in-flight<br/>→ cooldown → the jobs envelope (kind governor-update, unowned)<br/>or the detached fallback"]
+	G4 --> PROG["updateMode programmatic: ncu.run({packageFile, upgrade, silent, dep,<br/>concurrency, target, reject ∪ chain deps, allow, filter}) - no external binary"]
+	G4 --> BIN["updateMode bin: the ncu binary (ncuBin) via ctx.subprocess"]
+	PROG --> VER["Verify (verifyCommand, exit 127 non-fatal) → Settle →<br/>Refresh (U2: re-stat + re-emit the fresh version)"]
+	BIN --> VER
+	VER --> END["SILENCE: the tool result shows exactly what the author wrote.<br/>The governed state is discoverable only by a subsequent read - or in the ledger."]

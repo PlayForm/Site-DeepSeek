@@ -4,6 +4,7 @@ import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
+import Configurator from "@Component/Configurator.astro";
 import Concept from "@Component/Concept.astro";
 import InstallDemo from "@Component/InstallDemo.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -23,7 +24,7 @@ const DemoSteps = [
 		Meta: "~/.dsh/profiles/<name>/package.json",
 		Lines: [
 			'"dependencies": {',
-			'  "@playform/plugin-dsh-factory": "link:../bundles/plugin-dsh-factory",',
+			'  "@playform/dsh-plugin-factory": "link:../bundles/dsh-plugin-factory",',
 			'  "@playform/hook-dsh-normalize-dash": "link:../bundles/hook-dsh-normalize-dash"',
 			"},",
 			'"dsh": { "profile": { "bundles": [ ... ] } }',
@@ -36,8 +37,8 @@ const DemoSteps = [
 		Meta: "cordis.patch.yml",
 		Lines: [
 			"- insert:",
-			"    - id: plugin-dsh-factory",
-			'      name: "@playform/plugin-dsh-factory"',
+			"    - id: dsh-plugin-factory",
+			'      name: "@playform/dsh-plugin-factory"',
 			"      config: {}",
 		],
 		Outcome: "Each insert: entry declares the loader row and its config; the loader rejects unknown ids.",
@@ -58,7 +59,7 @@ const DemoSteps = [
 		Title: "Verify the ledgers",
 		Meta: "~/.dsh/<name>.log",
 		Lines: [
-			"hook-dsh-governor-package: activated (anywhere mode, logFile=..., updateMode=..., ncuBin=..., exclude=[...], policyFile=(discovery))",
+			"hook-dsh-package-governor: activated (anywhere mode, logFile=..., updateMode=..., ncuBin=..., exclude=[...], policyFile=(discovery))",
 			"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
 		],
 		Outcome: "The ledger answers 'did it activate' - each plugin writes its activation line at boot.",
@@ -72,17 +73,17 @@ const ProfileExample = [
 	"{",
 	'  "name": "my-dsh-profile",',
 	'  "dependencies": {',
-	'    "@playform/plugin-dsh-factory": "link:../bundles/plugin-dsh-factory",',
-	'    "@playform/hook-dsh-governor-package": "link:../bundles/hook-dsh-governor-package",',
-	'    "@playform/hook-dsh-pinner-package": "link:../bundles/hook-dsh-pinner-package",',
+	'    "@playform/dsh-plugin-factory": "link:../bundles/dsh-plugin-factory",',
+	'    "@playform/hook-dsh-package-governor": "link:../bundles/hook-dsh-package-governor",',
+	'    "@playform/hook-dsh-package-pinner": "link:../bundles/hook-dsh-package-pinner",',
 	'    "@playform/hook-dsh-normalize-dash": "link:../bundles/hook-dsh-normalize-dash"',
 	"  },",
 	'  "dsh": {',
 	'    "profile": {',
 	'      "bundles": [',
-	'        "@playform/plugin-dsh-factory",',
-	'        "@playform/hook-dsh-governor-package",',
-	'        "@playform/hook-dsh-pinner-package",',
+	'        "@playform/dsh-plugin-factory",',
+	'        "@playform/hook-dsh-package-governor",',
+	'        "@playform/hook-dsh-package-pinner",',
 	'        "@playform/hook-dsh-normalize-dash"',
 	"      ]",
 	"    }",
@@ -94,15 +95,15 @@ const ProfileExample = [
 // files (the deployed mutationTools values include raw-write).
 const PatchExample = [
 	"- insert:",
-	"      - id: plugin-dsh-factory",
-	'        name: "@playform/plugin-dsh-factory"',
+	"      - id: dsh-plugin-factory",
+	'        name: "@playform/dsh-plugin-factory"',
 	"        config: {}",
 	"- insert:",
-	"      - id: hook-dsh-governor-package",
-	'        name: "@playform/hook-dsh-governor-package"',
+	"      - id: hook-dsh-package-governor",
+	'        name: "@playform/hook-dsh-package-governor"',
 	"        config:",
 	"            log: true",
-	"            logFile: ~/.dsh/hook-dsh-governor-package.log",
+	"            logFile: ~/.dsh/hook-dsh-package-governor.log",
 	"            updateCooldownMs: 3000",
 	"            strict: false",
 	"            mutationTools: [write, edit, str_replace_editor, raw-write]",
@@ -124,8 +125,8 @@ const PatchExample = [
 
 // The verify step: the activation lines each ledger gains at boot.
 const VerifyLines = [
-	"hook-dsh-governor-package: activated (anywhere mode, logFile=~/.dsh/hook-dsh-governor-package.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
-	"hook-dsh-pinner-package: activated (pinner, logFile=~/.dsh/hook-dsh-pinner-package.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
+	"hook-dsh-package-governor: activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+	"hook-dsh-package-pinner: activated (pinner, logFile=~/.dsh/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
 	"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
 ];
 
@@ -233,6 +234,15 @@ const Knobs = [
 			Sub={"Four steps: add the bundles to the profile, add the patch entries, restart, verify the ledgers.\nEvery step below is the actual wiring the loader reads - no separate configuration UI exists."}
 		/>
 
+		<!-- The configurator: the selection (the 12 package toggles + the
+			engine + the profile name) generating the wiring live - the
+			install commands, the profile wiring and the verification
+			ledgers, from the same data the steps below document. -->
+		<section class="section">
+			<SectionHeader Title="The configurator" Meta="SELECT · GENERATE · COPY" />
+			<Configurator />
+		</section>
+
 		<!-- The wiring at a glance: the four install-demo cards visualizing
 			the profile-wiring steps (the detailed sections follow below). -->
 		<section class="section">
@@ -298,10 +308,10 @@ const Knobs = [
 				<Concept
 					Id="setup-patch-rows"
 					Title="The insert: entries declare the loader row"
-					Diagram="A [cordis.patch.yml](Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml) insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
+					Diagram="A [cordis.patch.yml](Ours:Classic/packages/dsh-plugin-factory/cordis.patch.yml) insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
 				>
 					<p>
-						Each bundle ships a <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> whose <code>insert:</code> entries
+						Each bundle ships a <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> whose <code>insert:</code> entries
 						declare the loader row and the config.</p>
 					<p>A bare <code>id:</code> row patches
 						an existing entry; the loader rejects unknown ids with{" "}
@@ -418,13 +428,13 @@ const Knobs = [
 				>
 					<p>
 						Each plugin's full table lives on its page: the
-						<a href="/plugins/hook-dsh-governor-package/">package governor</a>, the
-						<a href="/plugins/hook-dsh-pinner-package/">pinner</a>, the{" "}
+						<a href="/plugins/hook-dsh-package-governor/">package governor</a>, the
+						<a href="/plugins/hook-dsh-package-pinner/">pinner</a>, the{" "}
 						<BrandIcon Name="rust" />{" "}
-						<a href="/plugins/hook-dsh-governor-cargo/">cargo governor</a>, the
+						<a href="/plugins/hook-dsh-cargo-governor/">cargo governor</a>, the
 						<a href="/plugins/hook-dsh-normalize-dash/">dash flavor</a>, the
 						<a href="/plugins/hook-dsh-normalize-file/">normalize-file tool</a> and the
-						<a href="/plugins/plugin-dsh-factory/">factory service</a>.
+						<a href="/plugins/dsh-plugin-factory/">factory service</a>.
 					</p>
 				</Concept>
 			</div>
@@ -522,7 +532,7 @@ const Knobs = [
 				>
 					<Badge Variant="outline"><Fragment set:html={DotSep("PLANNED · DEFAULT SEQUENTIAL")} /></Badge>
 					<p>
-						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>The direct-govern path</a> is deliberately SEQUENTIAL (the awaited fold - the
+						<a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source/Function/Govern.ts")}>The direct-govern path</a> is deliberately SEQUENTIAL (the awaited fold - the
 						live-verified race fix); the event path is inherently concurrent.
 					</p>
 					<p>
@@ -566,7 +576,7 @@ const Knobs = [
 				<Concept
 					Id="setup-line-format"
 					Title="The line format"
-					Diagram="One message flowing through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source) into its two forms: [ISO] message in the file, plugin: message on the logger."
+					Diagram="One message flowing through [the factory's Append](Ours:Classic/packages/dsh-plugin-factory/Source) into its two forms: [ISO] message in the file, plugin: message on the logger."
 				>
 					<p>
 						<code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file
@@ -588,18 +598,18 @@ const Knobs = [
 					</thead>
 					<tbody>
 						<tr>
-							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-governor-package/Source")}>hook-dsh-governor-package</a></td>
-							<td>~/.dsh/hook-dsh-governor-package.log</td>
+							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-governor/Source")}>hook-dsh-package-governor</a></td>
+							<td>~/.dsh/hook-dsh-package-governor.log</td>
 							<td>activated (anywhere mode, ...)</td>
 						</tr>
 						<tr>
-							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source")}>hook-dsh-pinner-package</a></td>
-							<td>~/.dsh/hook-dsh-pinner-package.log</td>
+							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source")}>hook-dsh-package-pinner</a></td>
+							<td>~/.dsh/hook-dsh-package-pinner.log</td>
 							<td>activated (pinner, ...)</td>
 						</tr>
 						<tr>
-							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-governor-cargo/Source")}>hook-dsh-governor-cargo</a></td>
-							<td>~/.dsh/hook-dsh-governor-cargo.log</td>
+							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-cargo-governor/Source")}>hook-dsh-cargo-governor</a></td>
+							<td>~/.dsh/hook-dsh-cargo-governor.log</td>
 							<td>activated (cargo flavor, ...)</td>
 						</tr>
 						<tr>

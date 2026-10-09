@@ -138,9 +138,26 @@ const CleanText = Clean.join("\n");
 		<span class="compare__hint" aria-hidden="true">DRAG <span class="compare__keys">← →</span></span>
 	</TerminalTray>
 
+	<!-- The panes' state, announced: the split position updates this polite
+	     live region at a sane rate (throttled in the script below - at most
+	     one announcement per 600ms, plus a forced one on drag release) so
+	     the raw/clean balance is perceivable without per-frame chatter. -->
+	<p class="visually-hidden" role="status" aria-live="polite" data-compare-status>
+		Raw 50% • normalized 50%
+	</p>
+
 	<div class="compare__stage" data-compare data-start={Start}>
 		<pre class="compare__screen compare__screen--clean">{CleanText}</pre>
 		<pre class="compare__screen compare__screen--raw rail-orange" set:html={RawHtml}></pre>
+		<!-- The step markers: the 25 / 50 / 75 snap positions as flat
+		     hairline ticks on the stage's top and bottom edges
+		     (pointer-events: none - the drag and the click pass
+		     through; the script snaps onto them on release). -->
+		<div class="compare__steps" aria-hidden="true">
+			<i style="left: 25%"></i>
+			<i style="left: 50%"></i>
+			<i style="left: 75%"></i>
+		</div>
 		<div
 			class="compare__handle"
 			role="slider"
@@ -253,6 +270,35 @@ const CleanText = Clean.join("\n");
 		transition: none;
 	}
 
+	/* The step markers: the 25 / 50 / 75 snap positions as flat 1px
+	   hairline ticks at the stage's top and bottom edges (a gradient
+	   paints the two 6px ticks and leaves the middle transparent -
+	   zero elevation, the structural hairline tone). Pointer events
+	   pass through; the script snaps onto these positions on drag
+	   release (free 0.00% tracking during the drag itself). */
+	.compare__steps {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 2;
+	}
+
+	.compare__steps i {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 1px;
+		background: linear-gradient(
+			to bottom,
+			var(--color-outline-variant) 0,
+			var(--color-outline-variant) 6px,
+			transparent 6px,
+			transparent calc(100% - 6px),
+			var(--color-outline-variant) calc(100% - 6px),
+			var(--color-outline-variant) 100%
+		);
+	}
+
 	.compare__grip {
 		position: absolute;
 		top: 50%;
@@ -348,6 +394,21 @@ const CleanText = Clean.join("\n");
 	document.querySelectorAll<HTMLElement>("[data-compare]").forEach((Stage) => {
 		const Handle = Stage.querySelector<HTMLElement>("[data-handle]");
 		const Initial = Number(Stage.dataset["start"] ?? 50);
+		// The accessible state: the handle's aria-valuetext names both
+		// panes' shares, and the figure's polite live region echoes the
+		// same split at a sane rate (throttled; forced on drag release).
+		const Status = Stage.closest("figure")?.querySelector<HTMLElement>(
+			"[data-compare-status]",
+		);
+		let LastAnnounce = 0;
+
+		const Announce = (Force = false) => {
+			const Now = Date.now();
+			if (!Status || (!Force && Now - LastAnnounce < 600)) return;
+			LastAnnounce = Now;
+			const Percent = Math.round(Number(Handle?.getAttribute("aria-valuenow") ?? 50));
+			Status.textContent = `Raw ${Percent}% • normalized ${100 - Percent}%`;
+		};
 
 		const Apply = (Value: number) => {
 			// Round to two decimals: the pointer math carries float noise
@@ -355,6 +416,11 @@ const CleanText = Clean.join("\n");
 			const Pos = Math.min(100, Math.max(0, Math.round(Value * 100) / 100));
 			Stage.style.setProperty("--compare-pos", `${Pos}%`);
 			Handle?.setAttribute("aria-valuenow", String(Math.round(Pos)));
+			Handle?.setAttribute(
+				"aria-valuetext",
+				`Raw ${Math.round(Pos)}%, normalized ${100 - Math.round(Pos)}%`,
+			);
+			Announce();
 		};
 		Apply(Initial);
 
@@ -362,6 +428,23 @@ const CleanText = Clean.join("\n");
 			const Rect = Stage.getBoundingClientRect();
 			if (Rect.width <= 0) return;
 			Apply(((ClientX - Rect.left) / Rect.width) * 100);
+		};
+
+		// The snap points: the 25 / 50 / 75 step markers. Applied on drag
+		// RELEASE only - during the drag the split tracks the pointer
+		// freely (the 0.00% tracking stays untouched); when the pointer
+		// lifts within 4% of a snap position, the split glides onto it
+		// (the eased transitions are back by then, so the snap reads as
+		// one glide - the demos land on the instructive splits).
+		const SnapPoints = [25, 50, 75];
+		const Snap = () => {
+			const Now = Number(Handle?.getAttribute("aria-valuenow") ?? Initial);
+			for (const Point of SnapPoints) {
+				if (Math.abs(Now - Point) <= 4) {
+					Apply(Point);
+					return;
+				}
+			}
 		};
 
 		Handle?.addEventListener("keydown", (Event) => {
@@ -413,7 +496,15 @@ const CleanText = Clean.join("\n");
 					PendingX = null;
 					if (X !== null) MoveTo(X);
 				}
+				// The drag state lifts before the snap: the eased
+				// transitions are back on, so the snap onto the nearest
+				// 25 / 50 / 75 step (within 4%, after the free-drag
+				// flush) reads as one glide instead of a jump.
 				delete Stage.dataset["dragging"];
+				Snap();
+				// The drag's final state is announced regardless of the
+				// throttle window (the pointer stream itself is silent).
+				Announce(true);
 			};
 
 			const DragTo = (ClientX: number) => {

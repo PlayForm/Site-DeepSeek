@@ -140,7 +140,7 @@ const Spans = [
 			</div>
 			<div class="workbench-controls__group">
 				<span class="workbench-controls__label">Armed hooks:</span>
-				<span class="hook-tally" data-hook-tally>
+				<span class="hook-tally" data-hook-tally data-total={Counts.Normalizers}>
 					{Counts.StreamFlavors} of {Counts.Normalizers} Active
 				</span>
 			</div>
@@ -346,9 +346,13 @@ const Spans = [
 	// Live in the SCRIPT, not the frontmatter: Astro compiles this block into
 	// its own module, so a frontmatter constant is NOT in scope here - the
 	// pre-fix page threw `ReferenceError: Seeds is not defined` on every
-	// stream tick and the terminals never filled. The library import below is
-	// the in-scope route: the hook tally counts come from Content.ts.
-	import { Counts } from "@Library/Content";
+	// stream tick and the terminals never filled. The normalizer total comes
+	// from the server-rendered tally element's data-total attribute: the
+	// script must NOT import @Library/Content, because Content.ts reaches
+	// the filesystem through Live.ts (node:fs/node:path) at build time, and
+	// bundling that into this browser module crashes it at eval (the
+	// `(0, e.join) is not a function` page error that killed the stream
+	// ticks entirely).
 	const Seeds = [
 		"Plan review \u2014 phase one: the config \u201Cdrift\u201D is real\u2026 wait for it\u2026",
 		"Balance\u00A0sheet sync \u2014 \u2018quoted\u2019 values\u00A0kept\u2026",
@@ -396,8 +400,14 @@ const Spans = [
 	const RawCount = document.querySelector<HTMLElement>("[data-count='raw']")!;
 	const CleanCount = document.querySelector<HTMLElement>("[data-count='clean']")!;
 	const Tally = document.querySelector<HTMLElement>("[data-hook-tally]")!;
+	// The normalizer total, from the server-rendered tally (data-total):
+	// the script's replacement for the removed client-side Content import.
+	const Total = Number(Tally.dataset["total"] ?? "0");
 	const ToggleButton = document.querySelector<HTMLElement>("[data-action='toggle']")!;
 	const StreamStage = document.querySelector<HTMLElement>(".stream-grid")!;
+	// The last time the accessible stream status carried a byte summary:
+	// the announcement throttle's window marker (Render()).
+	let LastStatusAt = Date.now();
 
 	// The per-hook transform rules, mirrored from the server-rendered cards.
 	const Rules: Record<string, (Text: string) => [string, number]> = {
@@ -494,7 +504,20 @@ const Spans = [
 		RawCount.textContent = `${RawBytes.toLocaleString("en-US")} bytes`;
 		CleanCount.textContent = `${CleanBytes.toLocaleString("en-US")} bytes`;
 
-		Tally.textContent = `${Armed.size} of ${Counts.Normalizers} Active`;
+		// The raw/clean panes' updates, announced at a sane rate: the
+		// stream status line (role=status, polite) carries a throttled
+		// byte-count summary - at most one announcement per 5 seconds,
+		// and never while the stream is paused or hover-paused - so the
+		// ingest is perceivable without a per-tick announcement storm
+		// (the pane content itself is deliberately NOT a live region).
+		const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+		const Now = Date.now();
+		if (StreamStatus && !Paused && !HoverPaused && Now - LastStatusAt >= 5000) {
+			LastStatusAt = Now;
+			StreamStatus.textContent = `Stream running\u2003raw ${RawBytes.toLocaleString("en-US")} bytes\u2003normalized ${CleanBytes.toLocaleString("en-US")} bytes`;
+		}
+
+		Tally.textContent = `${Armed.size} of ${Total} Active`;
 		ToggleButton.textContent = Paused ? "Resume Stream" : "Pause Stream";
 		ToggleButton.classList.toggle("engine-pill--active", Paused);
 	}
@@ -546,15 +569,23 @@ const Spans = [
 	// itself keeps running; the guard skips its work while hovered).
 	// Reduced-motion users keep the stock behavior - no listeners attached.
 	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		// The pause/resume is announced through the visually-hidden
+		// stream status element (role=status, aria-live=polite above the
+		// stage) - the hover-pause state change reaches assistive tech
+		// even though the visible PAUSED tag is aria-hidden.
 		StreamStage.addEventListener("mouseenter", () => {
 			if (HoverPaused) return;
 			HoverPaused = true;
 			StreamStage.classList.add("is-paused");
+			const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+			if (StreamStatus) StreamStatus.textContent = "Stream paused";
 		});
 		StreamStage.addEventListener("mouseleave", () => {
 			if (!HoverPaused) return;
 			HoverPaused = false;
 			StreamStage.classList.remove("is-paused");
+			const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+			if (StreamStatus) StreamStatus.textContent = "Stream running";
 		});
 	}
 
@@ -583,7 +614,7 @@ const Spans = [
 
 	// Toggle all hooks.
 	document.querySelector("[data-action='toggle-all']")?.addEventListener("click", () => {
-		const All = Armed.size === Counts.Normalizers;
+		const All = Armed.size === Total;
 		document.querySelectorAll<HTMLElement>(".hook-card").forEach((Card) => {
 			const Hook = Card.dataset["hook"]!;
 			if (All) Armed.delete(Hook);
@@ -596,8 +627,8 @@ const Spans = [
 		Render();
 		Toast?.(
 			All
-				? `Disarmed all ${Counts.Normalizers} hooks`
-				: `Armed all ${Counts.Normalizers} normalization hooks`,
+				? `Disarmed all ${Total} hooks`
+				: `Armed all ${Total} normalization hooks`,
 		);
 	});
 

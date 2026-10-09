@@ -5,7 +5,9 @@
 // content library) underneath in the black ink color. The stack is a
 // semantic flex column with a CSS gap - never a <br> - and both lines
 // stay mono at the 13px floor. Variant "flavor" is the plugins-page
-// NORM metadata chip; Icon adds the swap arrow before the prefix.
+// NORM metadata chip; Icon adds the swap arrow before the prefix. The
+// stack is announced as one labelled unit (role="group", the flavor + the
+// version in its aria-label).
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import { Versions } from "@Library/Content";
@@ -19,7 +21,11 @@ interface Props {
 const { Flavor, Variant = "muted", Icon = false } = Astro.props;
 ---
 
-<span class="flavor-stack">
+// The stack is one labelled unit for assistive tech: role="group" with an
+// aria-label naming the flavor AND the release version together, so a
+// screen reader announces "Flavor DASH, version 0.0.1" as one chip instead
+// of two loose text runs (the visible content is unchanged).
+<span class="flavor-stack" role="group" aria-label={`Flavor ${Flavor}, version ${Versions.Release}`}>
 	<Badge Variant={Variant}>
 		{Icon && <BrandIcon Name="swap" Size="0.8em" />}
 		<span class="flavor-prefix">FLAVOR:</span> {Flavor}

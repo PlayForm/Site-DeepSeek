@@ -24,7 +24,7 @@ const Core = [
 		Desc: "The pure, dependency-free commonalities of the family: the section lists, the exclusion segments, the suppression composer, the policy loader, the refusal guard and the normalize/Stream machinery.",
 	},
 	{
-		Name: "plugin-dsh-factory",
+		Name: "dsh-plugin-factory",
 		Tone: "primary",
 		Role: "ROLE: FACTORY",
 		Sentence: Families.Factory,
@@ -34,21 +34,21 @@ const Core = [
 
 const Governance = [
 	{
-		Name: "hook-dsh-governor-package",
+		Name: "hook-dsh-package-governor",
 		Tone: "ink",
 		Role: "ROLE: GOVERNOR",
 		Sentence: Families.GovernorPackage,
 		Desc: "The silent package.json governor: hooks fs/observed, rewrites chain-governed pins to the effective registry's resolved versions, and runs the update stage as a detached, contained continuation.",
 	},
 	{
-		Name: "hook-dsh-pinner-package",
+		Name: "hook-dsh-package-pinner",
 		Tone: "ink",
 		Role: "ROLE: PINNER",
 		Sentence: Families.PinnerPackage,
 		Desc: "The silent package.json version pinner: hooks fs/observed and deterministically rewrites every ranged dependency version to its static version, protected by a pin-policy keep-list.",
 	},
 	{
-		Name: "hook-dsh-governor-cargo",
+		Name: "hook-dsh-cargo-governor",
 		Tone: "ink",
 		Role: "ROLE: GOVERNOR",
 		Sentence: Families.GovernorCargo,
@@ -178,7 +178,7 @@ const NormalizeAfter = [
 					oldest lines scroll out, and the page below never shifts. -->
 				<section class="terminal-demo" data-demo>
 					<TerminalTray Label="LIVE STREAM GATE PREVIEW">
-						<span class="terminal-demo__status" data-demo-status>
+						<span class="terminal-demo__status" data-demo-status role="status" aria-live="polite">
 							NORMALIZING<span class="dot-sep" aria-hidden="true"></span>0 CHARS
 						</span>
 					</TerminalTray>
@@ -322,7 +322,7 @@ const NormalizeAfter = [
 					Kicker="THE PIN"
 					Title="Pinned manifests, deterministically"
 					Lead="The pinner rewrites every ranged dependency version to its static version - protected by the pin-policy keep-list."
-					Href="/plugins/hook-dsh-pinner-package/"
+					Href="/plugins/hook-dsh-package-pinner/"
 					Before={PinBefore}
 					After={PinAfter}
 					Fact={PinFact}
@@ -332,7 +332,7 @@ const NormalizeAfter = [
 					Kicker="THE GOVERN"
 					Title="Governed pins, silently"
 					Lead="The governor canonicalizes chain-governed pins to the effective registry's resolved versions - then runs the update stage detached."
-					Href="/plugins/hook-dsh-governor-package/"
+					Href="/plugins/hook-dsh-package-governor/"
 					Before={GovernBefore}
 					After={GovernAfter}
 					Fact={GovernFact}
@@ -395,7 +395,7 @@ const NormalizeAfter = [
 			<div class="notation">
 				<p>DSH Family @ PlayForm: the complete deterministic stream governor matrix.</p>
 				<p>
-					the hook-dsh-* hooks: zero runtime overhead normalizers with zero unicode drift.
+					the dsh-hook-* hooks: zero runtime overhead normalizers with zero unicode drift.
 				</p>
 				<p>the twelve packages: pinned under atomic version gates.</p>
 			</div>

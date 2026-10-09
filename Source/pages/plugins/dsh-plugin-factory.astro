@@ -20,9 +20,9 @@ const Furnace = [
 	'   a pure transform, an update engine          inject: ["fs"] - it calls ctx.fs)',
 	"   and every ledger string)",
 	"",
-	"  hook-dsh-governor-package ────►┐",
-	"  hook-dsh-pinner-package ───────┤       ctx.pluginFactory (Service)",
-	"  hook-dsh-governor-cargo ───────┤         │",
+	"  hook-dsh-package-governor ────►┐",
+	"  hook-dsh-package-pinner ───────┤       ctx.pluginFactory (Service)",
+	"  hook-dsh-cargo-governor ───────┤         │",
 	'  hook-dsh-normalize-dash ───────┤         ├─ Append(state, msg) ──► "<Module>: <msg>" on the logger',
 	'  hook-dsh-normalize-quotes ─────┤         │                        + "[<ISO>] <msg>" appended to the ledger file',
 	"  hook-dsh-normalize-ellipsis ───┤         ├─ Match(path, list) ───► the exclusion-first segment match",
@@ -55,22 +55,22 @@ const Furnace = [
 // The consumers table, from the README's Where It Fits.
 const Consumers = [
 	{
-		Name: "hook-dsh-governor-package",
+		Name: "hook-dsh-package-governor",
 		Inject: '["fs", "pluginFactory"]',
 		Uses: "Gate, Discover/Parse, Continue, GuardedWrite, Refresh, State, Wire, Attach, Journal, Append, UpdateKey",
 	},
 	{
-		Name: "hook-dsh-pinner-package",
+		Name: "hook-dsh-package-pinner",
 		Inject: '["fs", "pluginFactory"]',
 		Uses: "Gate, Discover, Continue (pin pass), State, Wire, Attach, Journal, Append",
 	},
 	{
-		Name: "hook-dsh-governor-cargo",
+		Name: "hook-dsh-cargo-governor",
 		Inject: '["fs", "pluginFactory"]',
 		Uses: "Gate, Discover/Parse, Continue (TOML surgery), State, Wire, Attach, Journal, Append, UpdateKey, Seam",
 	},
 	{
-		Name: "hook-dsh-normalize-dash + the five hook-dsh-normalize-* flavors",
+		Name: "hook-dsh-normalize-dash + the five dsh-hook-normalize-* flavors",
 		Inject: '["pluginFactory"]',
 		Uses: "State, Append - plus the named Schema export (shared: false) for their config",
 	},
@@ -110,7 +110,7 @@ const Related = [
 		Desc: "The pure layer the factory deliberately does not re-export - the hooks import the core's helpers directly.",
 	},
 	{
-		Name: "hook-dsh-governor-package",
+		Name: "hook-dsh-package-governor",
 		Desc: "A governance hook child: injects the service and supplies its own transform, update engine and ledger strings.",
 	},
 	{
@@ -121,7 +121,7 @@ const Related = [
 ---
 
 <Base
-	Title="plugin-dsh-factory - DSH Family @ PlayForm"
+	Title="dsh-plugin-factory - DSH Family @ PlayForm"
 	Description={`${Families.Factory} - the furnace of the DSH governance family: the first service-provider bundle in the DeepSeek Harness plugin family, one service holding every piece of common machinery the family's hooks used to duplicate.`}
 >
 	<main class="container container--main">
@@ -134,7 +134,7 @@ const Related = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">plugin-dsh-factory</h1>
+			<h1 class="page-hero__title">dsh-plugin-factory</h1>
 			<p class="page-hero__sub">
 				{Families.Factory} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin
 				Family for PlayForm.</em> The
@@ -146,7 +146,7 @@ const Related = [
 				service holding every piece of common machinery the family's hooks used to
 				duplicate.</p>
 			<p class="page-hero__sub">One service.</p>
-			<p class="page-hero__sub">{Methods.Word} methods (<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>the direct-govern pair</a>
+			<p class="page-hero__sub">{Methods.Word} methods (<a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source/Function/Govern.ts")}>the direct-govern pair</a>
 				RegisterGovern + Govern and the GovernSteps registry among them).</p>
 			<p class="page-hero__sub">The hooks bring
 				their own metal; the factory pours the mold.
@@ -156,7 +156,7 @@ const Related = [
 
 		<section class="section">
 			<div class="snippet-list">
-				<Terminal Command="pnpm add @playform/plugin-dsh-factory" />
+				<Terminal Command="pnpm add @playform/dsh-plugin-factory" />
 			</div>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
@@ -164,7 +164,7 @@ const Related = [
 				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
-					<span class="hook-tally">@playform/plugin-dsh-factory</span>
+					<span class="hook-tally">@playform/dsh-plugin-factory</span>
 					<span class="workbench-controls__label">Release:</span>
 					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
@@ -257,7 +257,7 @@ const Related = [
 				Seams={[
 					{
 						Seam: "The tool layer (write / edit / str_replace_editor)",
-						What: "The fs/observed events the governance hooks react to are fired by the tool layer only, for every harness write or edit; [GuardedWrite](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) and Refresh keep the author's next guarded write from ever failing a stale-version check.",
+						What: "The fs/observed events the governance hooks react to are fired by the tool layer only, for every harness write or edit; [GuardedWrite](Ours:Classic/packages/dsh-plugin-factory/Source/Function/Write.ts) and Refresh keep the author's next guarded write from ever failing a stale-version check.",
 						Outcome: "One trigger law for the whole machine, any agent, any thread.",
 					},
 					{
@@ -273,7 +273,7 @@ const Related = [
 					},
 					{
 						Seam: "The storage domain",
-						What: "[Journal](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts) writes the package_governance v2 records when the [storage facility](Harness:packages/storage/storage-domain) is present (probed, graceful): the queue drains, or the records buffer/drop and the human ledger stays the complete record.",
+						What: "[Journal](Ours:Classic/packages/dsh-plugin-factory/Source/Function/Journal.ts) writes the package_governance v2 records when the [storage facility](Harness:packages/storage/storage-domain) is present (probed, graceful): the queue drains, or the records buffer/drop and the human ledger stays the complete record.",
 						Outcome: "A machine-readable governance history beside the human ledger.",
 					},
 					{
@@ -537,7 +537,7 @@ const Related = [
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				License: CC0-1.0.</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">The published artifact contains only the built output - files
-				whitelists Target/, <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> and the docs; Source/ never ships.</p>
+				whitelists Target/, <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> and the docs; Source/ never ships.</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">There are no
 				build/watch <BrandIcon Name="npm" Size="0.75em" /> npm scripts: the only npm script is
 				prepublishOnly.

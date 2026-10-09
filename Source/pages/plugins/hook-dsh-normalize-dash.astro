@@ -309,7 +309,7 @@ const Config = [
 				<Concept
 					Id="dash-family-position"
 					Title="The family position"
-					Diagram={`${Families.Dash} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the first of six stream normalizer siblings, all built on the shared machinery.`}
+					Diagram={`${Families.Dash} as a hook child of the dsh-plugin-factory service and the hook-dsh-core machinery - the first of six stream normalizer siblings, all built on the shared machinery.`}
 				>
 					<p>
 						A hook child of the{" "}
@@ -317,9 +317,9 @@ const Config = [
 							<a
 								href={Link(
 									Links.OurRepo,
-									"Classic/packages/plugin-dsh-factory/Source",
+									"Classic/packages/dsh-plugin-factory/Source",
 								)}
-							>plugin-dsh-factory</a>
+							>dsh-plugin-factory</a>
 						</strong>{" "}
 						service ({Families.Dash}) and the <strong>hook-dsh-core</strong> machinery;
 						the first of six stream normalizer siblings, all built on the shared
@@ -422,7 +422,7 @@ const Config = [
 					},
 					{
 						Seam: "The ledger / session",
-						What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
+						What: "Two lines through [the factory's Append](Ours:Classic/packages/dsh-plugin-factory/Source): the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
 						Outcome:
 							"A thrown-away stream writes no ledger line; the count is per stream, visible in your own log.",
 					},
@@ -463,23 +463,23 @@ const Config = [
 						<a
 							href={Link(
 								Links.OurRepo,
-								"Classic/packages/hook-dsh-governor-package/Source",
+								"Classic/packages/hook-dsh-package-governor/Source",
 							)}
-						>hook-dsh-governor-package</a>
+						>hook-dsh-package-governor</a>
 						,
 						<a
 							href={Link(
 								Links.OurRepo,
-								"Classic/packages/hook-dsh-pinner-package/Source",
+								"Classic/packages/hook-dsh-package-pinner/Source",
 							)}
-						>hook-dsh-pinner-package</a>
+						>hook-dsh-package-pinner</a>
 						,{" "}
 						<a
 							href={Link(
 								Links.OurRepo,
-								"Classic/packages/hook-dsh-governor-cargo/Source",
+								"Classic/packages/hook-dsh-cargo-governor/Source",
 							)}
-						>hook-dsh-governor-cargo</a>
+						>hook-dsh-cargo-governor</a>
 						), whose rewrites are SILENT, this plugin's normalization is{" "}
 						<strong>deliberately VISIBLE - it IS the feature</strong>: the rewrite flows
 						into both the live UI and the durable transcript.
@@ -756,7 +756,7 @@ const Config = [
 						<a
 							href={Link(
 								Links.OurRepo,
-								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
+								"Classic/packages/dsh-plugin-factory/cordis.patch.yml",
 							)}
 						><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a>{" "}
 						row:
@@ -931,8 +931,8 @@ const Config = [
 				</Card>
 				<Card
 					Variant="white"
-					Name="plugin-dsh-factory"
-					Href="/plugins/plugin-dsh-factory/"
+					Name="dsh-plugin-factory"
+					Href="/plugins/dsh-plugin-factory/"
 					Desc="The parent service: State, Append - plus the named Schema helper (shared: false) for the config."
 					Muted
 				>

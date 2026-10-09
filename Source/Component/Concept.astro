@@ -14,6 +14,7 @@
 // never qualifications are the diagram's contract.
 import { Linkify } from "@Library/Links";
 import { DotSep } from "@Library/FileIcon";
+import { Enhance } from "@Library/DiagramNav";
 import BrandIcon from "@Component/BrandIcon.astro";
 
 // The vendored diagram SVGs, inlined at build time (raw imports, offline).
@@ -31,6 +32,12 @@ interface Props {
 
 const { Id, Title, Diagram } = Astro.props;
 const Svg = Diagrams[`/Source/Content/Mermaid/${Id}.svg`] as string | undefined;
+// The diagrams as navigation: nodes naming a registered artifact (a plugin
+// package, the factory's cordis.patch.yml) become tree/Current links into
+// the monorepo (Library/DiagramNav.ts - the same registry Linkify uses).
+// The hover highlight of the related nodes is the shared overlay script in
+// Layout/Base.astro (it targets every svg.flowchart on the site).
+const NavSvg = Svg ? Enhance(Svg) : undefined;
 ---
 
 <section class="concept" aria-labelledby={`${Id}-title`}>
@@ -41,7 +48,7 @@ const Svg = Diagrams[`/Source/Content/Mermaid/${Id}.svg`] as string | undefined;
 	>
 		{
 			Svg ? (
-				<figure class="concept__diagram-figure" set:html={Svg} />
+				<figure class="concept__diagram-figure" set:html={NavSvg} />
 			) : (
 				<p class="concept__diagram-label">Diagram placeholder - {Title}</p>
 			)

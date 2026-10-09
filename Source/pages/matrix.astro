@@ -178,6 +178,13 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 					))}
 				</span>
 			</div>
+			<!-- The pause/resume is announced through this visually-hidden
+			     status element (role=status, aria-live=polite) - the
+			     hover-pause state change reaches assistive tech even
+			     though the visible PAUSED tag is aria-hidden. -->
+			<p class="visually-hidden" role="status" aria-live="polite" data-stream-status>
+				Stream running
+			</p>
 			<div class="stream-grid">
 				<div class="stream-pane rail-orange">
 					<TerminalTray Label="RAW MODEL EMISSION" Orange>
@@ -416,7 +423,17 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 	// no listeners are attached.
 	const Stage = document.querySelector<HTMLElement>(".stream-grid");
 	if (Stage && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-		Stage.addEventListener("mouseenter", () => Stage.classList.add("is-paused"));
-		Stage.addEventListener("mouseleave", () => Stage.classList.remove("is-paused"));
+		// The pause/resume is announced through the visually-hidden
+		// stream status element (role=status, aria-live=polite).
+		Stage.addEventListener("mouseenter", () => {
+			Stage.classList.add("is-paused");
+			const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+			if (StreamStatus) StreamStatus.textContent = "Stream paused";
+		});
+		Stage.addEventListener("mouseleave", () => {
+			Stage.classList.remove("is-paused");
+			const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+			if (StreamStatus) StreamStatus.textContent = "Stream running";
+		});
 	}
 </script>

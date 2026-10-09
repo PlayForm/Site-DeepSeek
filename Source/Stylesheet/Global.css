@@ -107,17 +107,18 @@
 	--font-sans: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
 	--font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-	/* ---- Typography: headline-xl (desktop) ---- */
-	--text-headline-xl: 40px;
-	--leading-headline-xl: 48px;
+	/* ---- Typography: headline-xl (the fluid display size) ----
+		The hero display scales smoothly with the viewport via clamp()
+		- no breakpoint jump between the old 32px mobile and 40px
+		desktop steps anymore: 32px at a 360px viewport, 40px from
+		~1200px up, interpolating in between. The line-height is
+		unitless (1.2) so it tracks the clamp. The tracking is the
+		tighter display value (-0.03em) - the hero-size type only;
+		the label/body tracking tokens are untouched. */
+	--text-headline-xl: clamp(2rem, 1.775rem + 0.95vw, 2.5rem);
+	--leading-headline-xl: 1.2;
 	--weight-headline-xl: 600;
-	--tracking-headline-xl: -0.02em;
-
-	/* ---- Typography: headline-xl (mobile) ---- */
-	--text-headline-xl-mobile: 32px;
-	--leading-headline-xl-mobile: 40px;
-	--weight-headline-xl-mobile: 600;
-	--tracking-headline-xl-mobile: -0.015em;
+	--tracking-headline-xl: -0.03em;
 
 	/* ---- Typography: headline-lg ---- */
 	--text-headline-lg: 28px;
@@ -305,6 +306,24 @@
 		theme reads rust on dark, the same lift rule the accent-orange
 		runs). */
 	--color-pin-red: #e57373;
+
+	/* ---- Dark-mode code-token contrast audit (the 13px floor) ----
+		Every token text color measured against the dark tray surfaces
+		(#101522 / #161E33 / #1B2742 / #16213A tint / #1B2742 subtle),
+		WCAG 2.1 relative luminance at the 13px mono floor (AA text:
+		4.5:1):
+		  on-surface #EEF0FF      14.6–16.1:1 (trays), 13.1:1 (container)
+		  on-surface-variant      7.5–8.2:1 (trays),   6.7:1 (container)
+		  ink-muted / outline     5.3–5.8:1 (trays),   4.7:1 (container)
+		  primary #8AB0FF         7.4–7.7:1 (trays),   6.9:1 (container)
+		  accent-orange #FF8A4C   7.1–7.8:1 (trays),   6.4:1 (container)
+		  pin-red #E57373         5.6–6.1:1 (trays),   5.0:1 (container)
+		  Shiki github-dark token spans: the theme's own dark palette
+		  (the --shiki-dark bridge in CodeBlock.astro), its foreground
+		  #E1E4E8 ≈ 13:1 on the #161E33 trays.
+		All token texts clear the 4.5:1 floor with margin - the audit
+		yields no overrides; the tokens stand. Re-measure if any dark
+		token changes. */
 }
 
 /* ---- The theme-toggle: the LIGHT / DARK switch in the header ----
@@ -362,6 +381,23 @@
 
 .theme-toggle__sep {
 	color: var(--color-outline);
+}
+
+/* The persistence indicator: the third cell states how the current theme
+	was chosen - "OS" while the theme follows the operating system
+	(no stored choice), "PIN" once a stored choice pins it. Muted ink by
+	default, the Harness Blue when pinned (the active choice is visible,
+	not just the active theme). Static "OS" without JavaScript is
+	correct: no script means nothing can be stored. */
+.theme-toggle__mode {
+	padding-left: var(--space-xs);
+	border-left: 1px solid var(--color-outline-variant);
+	color: var(--color-ink-muted);
+	transition: color var(--duration-fast) var(--ease-crisp);
+}
+
+.theme-toggle[data-pinned] .theme-toggle__mode {
+	color: var(--color-primary);
 }
 
 /* ---- The scroll-progress rail (the case-study's reading gauge) ----
@@ -510,6 +546,26 @@
 	color: var(--color-outline);
 }
 
+/* ---- Tabular numerals: the mono data aligns columnar ----
+	The counts, the totals and the ledger digits set with
+	font-variant-numeric: tabular-nums: every digit gets the same
+	advance width, so the ticking values (the stream counts, the
+	stats band, the ledger lines, the version chips) keep their
+	columns aligned while the numbers change. The mono face carries
+	most of this already; the declaration pins it against any
+	proportional-digit fallback and extends it to the numeric runs
+	that render in the sans stack. */
+.stats-band__value,
+.stream-pane__count,
+.terminal-demo__status,
+.showcase__fact,
+.hook-tally,
+.registry-telemetry__count,
+.flavor-version,
+.compare__hint {
+	font-variant-numeric: tabular-nums;
+}
+
 /* ---- Base ---- */
 * {
 	box-sizing: border-box;
@@ -600,8 +656,25 @@ svg {
 	vertical-align: -0.0625em;
 }
 
+/* The footer's brand mark: the note runs at --text-body-sm, so the
+	1em-default glyph renders at 14px - too faint to read as the brand,
+	dark theme especially (the note text swamps it). The token-based em
+	step scales the box to 1.25em (17.5px) without touching the note's
+	own size; vertical-align keeps the base -0.125em, which scales with
+	the larger font-size and stays baseline-optical.
+
+	The dark-theme stroke: the playform mark ships the Asset's light
+	variant stroke (#151515), which vanishes on the dark ground - the
+	header mark already flips to the official Dark variant stroke
+	(#EAEAEA, see the .site-header__glyph rule), so the footer mark
+	applies the same official stroke here. */
 .site-footer__note .brand-icon {
 	margin-right: var(--gap-icon);
+	font-size: 1.25em;
+}
+
+:root[data-theme="dark"] .site-footer__note .brand-icon path {
+	stroke: #eaeaea;
 }
 
 /* The wide npm lockup in the prose flow: the 3.12-aspect official wordmark
@@ -1212,10 +1285,10 @@ a .code-token {
 	   the badges on both themes (the token flips nothing - pure space). */
 	padding-top: var(--space-xl);
 	margin: 0 0 var(--space-sm);
-	font-size: var(--text-headline-xl-mobile);
-	line-height: var(--leading-headline-xl-mobile);
-	font-weight: var(--weight-headline-xl-mobile);
-	letter-spacing: var(--tracking-headline-xl-mobile);
+	font-size: var(--text-headline-xl);
+	line-height: var(--leading-headline-xl);
+	font-weight: var(--weight-headline-xl);
+	letter-spacing: var(--tracking-headline-xl);
 	max-width: 40ch;
 }
 
@@ -1228,12 +1301,9 @@ a .code-token {
 }
 
 @media (min-width: 768px) {
-	.hero__title {
-		font-size: var(--text-headline-xl);
-		line-height: var(--leading-headline-xl);
-		letter-spacing: var(--tracking-headline-xl);
-	}
-
+	/* The title's size/line/tracking come from the fluid headline-xl
+	   tokens (the clamp above) - no breakpoint jump to override here;
+	   only the sub-copy steps up. */
 	.hero__sub {
 		font-size: var(--text-body-lg);
 		line-height: var(--leading-body-lg);
@@ -2132,7 +2202,11 @@ a .code-token {
 }
 
 .hook-card.is-armed .hook-card__status {
-	background: var(--color-primary-container);
+	/* The armed hook is a live-writing state: the dot shares the
+	   accent-orange token with the PAUSED word and the RAW signature
+	   (the one live-writing meaning - see the hover-pause rules
+	   below), not the Harness Blue. The pulse animation stays. */
+	background: var(--color-accent-orange);
 	animation: dsh-pulse-dot 2s var(--ease-crisp) infinite;
 }
 
@@ -2648,12 +2722,16 @@ a .code-token {
 	the end of this file).
 	============================================================ */
 
-/* ---- Live status dot (armed hooks, inspected chips, pins) ---- */
+/* ---- Live status dot (the live-writing marker: the registry
+	telemetry's LIVE count dot) ----
+	The dot marks something actively writing right now, so it shares
+	the accent-orange token with the PAUSED word, the armed-hook dot
+	and the RAW signature - the one live-writing meaning. */
 .live-dot {
 	width: 8px;
 	height: 8px;
 	border-radius: var(--radius-full);
-	background: var(--color-harness-blue);
+	background: var(--color-accent-orange);
 	flex-shrink: 0;
 	animation: dsh-pulse-dot 2s var(--ease-crisp) infinite;
 }
@@ -3126,7 +3204,10 @@ a .code-token {
 	state between the two panes, replacing nothing - it appears under the
 	hub core while the cursor holds the stage. The markup carries the two
 	parts (only the PAUSED word is orange; the separator and the rest keep
-	the on-surface-variant ink), hidden until the stage is paused. */
+	the on-surface-variant ink), hidden until the stage is paused. The
+	entrance is eased (the machine language's slow duration + snap easing
+	via a one-shot keyframe, so the tag fades/slides in on pause instead
+	of popping; the layout behavior of the display toggle is unchanged). */
 .stream-hub__paused {
 	display: none;
 	font-family: var(--font-mono);
@@ -3145,6 +3226,56 @@ a .code-token {
 
 .stream-grid.is-paused .stream-hub__paused {
 	display: block;
+	animation: dsh-paused-in var(--duration-slow) var(--ease-snap);
+}
+
+@keyframes dsh-paused-in {
+	from {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+}
+
+/* ---- Hover-pause cursor affordance ----
+	Hovering is what pauses the streams, so the affordance travels with
+	the cursor: over the live stream stages the pointer renders as a flat
+	two-bar pause glyph in the accent-orange live-writing tone (the
+	outline keeps it legible on both the light and the dark canvas), with
+	the hot spot on the glyph's center. Fine pointers only - touch has no
+	cursor to replace. */
+@media (hover: hover) and (pointer: fine) {
+	.terminal-demo,
+	.stream-grid {
+		cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cg fill='%23bf3003' stroke='%23ffffff' stroke-width='1'%3E%3Crect x='6' y='5' width='4.5' height='14' rx='1.5'/%3E%3Crect x='13.5' y='5' width='4.5' height='14' rx='1.5'/%3E%3C/g%3E%3C/svg%3E")
+				12 12,
+			pointer;
+	}
+}
+
+/* ---- The tray's first marker: the live-writing pulse ----
+	While the stage is live-writing, the first tray marker breathes
+	softly - an opacity pulse only (no scale, no color change: the flat
+	marker language holds, the pulse just marks "this tray is writing").
+	The pause freezes it with the rest of the stage motion; the global
+	reduced-motion guard kills it outright. */
+.terminal-demo .tray__marker--first,
+.stream-grid .tray__marker--first {
+	animation: dsh-marker-pulse 2.4s var(--ease-crisp) infinite;
+}
+
+.terminal-demo.is-paused .tray__marker--first,
+.stream-grid.is-paused .tray__marker--first {
+	animation-play-state: paused;
+}
+
+@keyframes dsh-marker-pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.4;
+	}
 }
 
 /* ---- Text-to-box clearance ----
@@ -3467,6 +3598,59 @@ button:focus-visible,
 
 .flow-tag--raw .flow-tag__arrow {
 	color: var(--color-ink-muted);
+}
+
+/* ---- The linked brand marks: the hover affordance ----
+	When a brand mark sits inside a link (the header brand glyph, the
+	registry cards' icon + name anchors), hovering or focusing the link
+	eases the mark's opacity down one step - the same fast token
+	transition the link text runs, in both themes. The marks stay
+	aria-hidden decorative (the link's own text carries the name), so
+	this is purely a visual affordance. */
+.brand-icon {
+	transition: opacity var(--duration-fast) var(--ease-crisp);
+}
+
+a:hover .brand-icon,
+a:focus-visible .brand-icon {
+	opacity: 0.75;
+}
+
+/* ---- The interactive diagrams: the related-node highlight ----
+	The pre-baked Mermaid SVGs (svg.flowchart) get a tiny overlay script
+	(Layout/Base.astro): hovering or focusing a node adds [data-related]
+	to the node, its direct neighbors and the connecting edges, and
+	.diagram-nav--active to the svg; everything unrelated recedes
+	slightly. The !important marks are required to outweigh the Mermaid
+	style rules baked into each SVG (their selectors are #id-scoped, so
+	plain class rules would lose the cascade). The highlight color is
+	the theme's Harness Blue token, so it tracks both themes. */
+svg.flowchart a.diagram-node-link {
+	cursor: pointer;
+}
+
+svg.flowchart g.node,
+svg.flowchart .edgePaths path {
+	transition: opacity var(--duration-fast) var(--ease-crisp);
+}
+
+svg.flowchart g[data-related] > rect,
+svg.flowchart g[data-related] > polygon,
+svg.flowchart g[data-related] > circle {
+	stroke: var(--color-harness-blue) !important;
+	stroke-width: 2.5px !important;
+}
+
+svg.flowchart path[data-related] {
+	stroke: var(--color-harness-blue) !important;
+}
+
+svg.flowchart.diagram-nav--active g.node:not([data-related]) {
+	opacity: 0.45;
+}
+
+svg.flowchart.diagram-nav--active .edgePaths path:not([data-related]) {
+	opacity: 0.3;
 }
 
 /* ---- Reduced motion: the whole motion language collapses ----

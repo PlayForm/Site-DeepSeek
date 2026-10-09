@@ -1,0 +1,970 @@
+---
+// Configurator: the setup page's interactive configurator - the selection
+// (the 12 package toggles + the ENGINE choice + the profile name) generating
+// the setup page's own output live: the one-click INSTALL-ALL command block,
+// the profile wiring (the bundles list JSON + the cordis.patch.yml inserts)
+// and the verification lines (the activation ledgers).
+//
+// THE FIDELITY: every generated fragment is the real wiring. The patch
+// insert blocks are the packages' actual cordis.patch.yml `insert:` bodies
+// (both trees - the Classic @playform/dsh-* names and the EffectTS
+// @playform/ets-* names per SPLICE-ETS.md), the verification lines are the
+// ledger forms the packages write (the governor's and the pinner's are the
+// page's byte-exact strings; the remaining flavors follow the same format),
+// and the command block is the published npm route (`pnpm add
+// @playform/<pkg>` inside ~/.dsh) - ONCE PUBLISHED, per the site's standing
+// qualifier, since the npm publishing is still pending.
+//
+// THE STATE: the selection persists in the URL query (?engine=&p=&profile= -
+// shareable) and in localStorage; the URL wins on load. The default state is
+// server-rendered (the pre blocks carry the correct output before any
+// script runs); the client script reassembles the output from the per-slot
+// fragments embedded as JSON - the assembly is a join, so the generated
+// bytes are the fragments' bytes.
+//
+// Fragment assembly happens twice (frontmatter for the default render, the
+// client script for the live updates) - both are pure joins over the same
+// embedded fragments, so the two implementations cannot diverge in content,
+// only in the joiner code, which is kept trivial.
+
+import { DotSep } from "@Library/FileIcon";
+
+/** The npm name of one slot per engine, with its wiring fragments. */
+interface Slot {
+	/** The npm package name. */
+	Pkg: string;
+	/** The cordis.patch.yml insert block (the real file's body), or null. */
+	Patch: string | null;
+	/** The activation ledger line, or null (the library bundles). */
+	Line: string | null;
+	/** The explanatory ledger note, or null. */
+	Note: string | null;
+}
+
+/** The canonical slot order (the Builtins' rosters follow it). */
+const Order = [
+	"core",
+	"factory",
+	"governor",
+	"pinner",
+	"cargo",
+	"dash",
+	"quotes",
+	"ellipsis",
+	"spaces",
+	"invisible",
+	"fullwidth",
+	"file",
+] as const;
+
+type SlotKey = (typeof Order)[number];
+
+const Exclusions = "[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]";
+
+/** The Classic tree's slots (@playform/dsh-*), from the real patch files. */
+const ClassicSlots: Record<SlotKey, Slot> = {
+	core: {
+		Pkg: "@playform/hook-dsh-core",
+		Patch: null,
+		Line: null,
+		Note: "# the core: a library bundle - no patch entry, no ledger line",
+	},
+	factory: {
+		Pkg: "@playform/dsh-plugin-factory",
+		Patch: [
+			"- insert:",
+			"      - id: dsh-plugin-factory",
+			'        name: "@playform/dsh-plugin-factory"',
+			"        config: {}",
+		].join("\n"),
+		Line: null,
+		Note: "# the factory: the service registers silently - the consumers print the lines",
+	},
+	governor: {
+		Pkg: "@playform/hook-dsh-package-governor",
+		Patch: [
+			"- insert:",
+			"      - id: hook-dsh-package-governor",
+			'        name: "@playform/hook-dsh-package-governor"',
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-package-governor.log",
+			"            updateCooldownMs: 3000",
+			"            strict: false",
+			"            mutationTools: [write, edit, str_replace_editor, raw-write]",
+			"            maxUpdateFailures: 3",
+			"            ncuBin: /usr/local/bin/ncu",
+			"            updateMode: programmatic",
+			'            policyFile: ""',
+			`            exclude: ${Exclusions}`,
+		].join("\n"),
+		Line: "hook-dsh-package-governor: activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+		Note: null,
+	},
+	pinner: {
+		Pkg: "@playform/hook-dsh-package-pinner",
+		Patch: [
+			"- insert:",
+			"      - id: hook-dsh-package-pinner",
+			'        name: "@playform/hook-dsh-package-pinner"',
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-package-pinner.log",
+			"            mutationTools: [write, edit, str_replace_editor, raw-write]",
+			'            policyFile: ""',
+			"            sections: [dependencies, devDependencies, peerDependencies, optionalDependencies]",
+			`            exclude: ${Exclusions}`,
+		].join("\n"),
+		Line: "hook-dsh-package-pinner: activated (pinner, logFile=~/.dsh/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
+		Note: null,
+	},
+	cargo: {
+		Pkg: "@playform/hook-dsh-cargo-governor",
+		Patch: [
+			"- insert:",
+			"      - id: hook-dsh-cargo-governor",
+			'        name: "@playform/hook-dsh-cargo-governor"',
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-cargo-governor.log",
+			"            updateCooldownMs: 3000",
+			"            strict: false",
+			"            mutationTools: [write, edit, str_replace_editor, raw-write]",
+			"            maxUpdateFailures: 3",
+			"            cargoBin: cargo",
+			"            updateMode: cargo",
+			'            policyFile: ""',
+			'            keepFile: ""',
+			`            exclude: ${Exclusions}`,
+		].join("\n"),
+		Line: `hook-dsh-cargo-governor: activated (cargo flavor, logFile=~/.dsh/hook-dsh-cargo-governor.log, updateMode=cargo, cargoBin=cargo, exclude=${Exclusions}, policyFile=(discovery))`,
+		Note: null,
+	},
+	dash: {
+		Pkg: "@playform/hook-dsh-normalize-dash",
+		Patch: [
+			"- insert:",
+			"      - id: hook-dsh-normalize-dash",
+			'        name: "@playform/hook-dsh-normalize-dash"',
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-normalize-dash.log",
+			'            replacement: "-"',
+			"            normalizeReasoning: true",
+			"            normalizeToolArguments: true",
+		].join("\n"),
+		Line: "hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
+		Note: null,
+	},
+	quotes: {
+		Pkg: "@playform/hook-dsh-normalize-quotes",
+		Patch: [
+			"- insert:",
+			"      - id: hook-dsh-normalize-quotes",
+			'        name: "@playform/hook-dsh-normalize-quotes"',
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-normalize-quotes.log",
+			"            normalizeReasoning: true",
+			"            normalizeToolArguments: true",
+		].join("\n"),
+		Line: "hook-dsh-normalize-quotes: activated (reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-quotes.log)",
+		Note: null,
+	},
+	ellipsis: {
+		Pkg: "@playform/hook-dsh-normalize-ellipsis",
+		Patch: [
+			"- insert:",
+			"      - id: hook-dsh-normalize-ellipsis",
+			'        name: "@playform/hook-dsh-normalize-ellipsis"',
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-normalize-ellipsis.log",
+			'            replacement: "..."',
+			"            normalizeReasoning: true",
+			"            normalizeToolArguments: true",
+		].join("\n"),
+		Line: "hook-dsh-normalize-ellipsis: activated (replacement=..., reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-ellipsis.log)",
+		Note: null,
+	},
+	spaces: {
+		Pkg: "@playform/hook-dsh-normalize-spaces",
+		Patch: [
+			"- insert:",
+			"      - id: hook-dsh-normalize-spaces",
+			'        name: "@playform/hook-dsh-normalize-spaces"',
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-normalize-spaces.log",
+			'            replacement: " "',
+			"            normalizeReasoning: true",
+			"            normalizeToolArguments: true",
+		].join("\n"),
+		Line: 'hook-dsh-normalize-spaces: activated (replacement=" ", reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-spaces.log)',
+		Note: null,
+	},
+	invisible: {
+		Pkg: "@playform/hook-dsh-normalize-invisible",
+		Patch: [
+			"- insert:",
+			"      - id: hook-dsh-normalize-invisible",
+			'        name: "@playform/hook-dsh-normalize-invisible"',
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-normalize-invisible.log",
+			'            replacement: ""',
+			"            normalizeReasoning: true",
+			"            normalizeToolArguments: true",
+		].join("\n"),
+		Line: 'hook-dsh-normalize-invisible: activated (replacement="", reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-invisible.log)',
+		Note: null,
+	},
+	fullwidth: {
+		Pkg: "@playform/hook-dsh-normalize-fullwidth",
+		Patch: [
+			"- insert:",
+			"      - id: hook-dsh-normalize-fullwidth",
+			'        name: "@playform/hook-dsh-normalize-fullwidth"',
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-normalize-fullwidth.log",
+			"            normalizeReasoning: true",
+			"            normalizeToolArguments: true",
+		].join("\n"),
+		Line: "hook-dsh-normalize-fullwidth: activated (reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-fullwidth.log)",
+		Note: null,
+	},
+	file: {
+		Pkg: "@playform/hook-dsh-normalize-file",
+		Patch: [
+			"- insert:",
+			"      - id: hook-dsh-normalize-file",
+			'        name: "@playform/hook-dsh-normalize-file"',
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-normalize-file.log",
+			'            replacement: "-"',
+		].join("\n"),
+		Line: "hook-dsh-normalize-file: activated (replacement=-, logFile=~/.dsh/hook-dsh-normalize-file.log)",
+		Note: null,
+	},
+};
+
+/**
+ * The EffectTS tree's slots (@playform/ets-*): same config bodies, the ets
+ * names per SPLICE-ETS.md. The names are mapped EXPLICITLY - the governance
+ * plugins carry the ets- prefix with the word order kept (package-governor-
+ * dsh-hook -> ets-hook-dsh-package-governor), so a prefix swap is not
+ * enough - the name is spelled out per package.
+ */
+const EtsNames: Record<SlotKey, string> = {
+	core: "ets-hook-dsh-core",
+	factory: "ets-dsh-plugin-factory",
+	governor: "ets-hook-dsh-package-governor",
+	pinner: "ets-hook-dsh-package-pinner",
+	cargo: "ets-hook-dsh-cargo-governor",
+	dash: "ets-hook-dsh-normalize-dash",
+	quotes: "ets-hook-dsh-normalize-quotes",
+	ellipsis: "ets-hook-dsh-normalize-ellipsis",
+	spaces: "ets-hook-dsh-normalize-spaces",
+	invisible: "ets-hook-dsh-normalize-invisible",
+	fullwidth: "ets-hook-dsh-normalize-fullwidth",
+	file: "ets-hook-dsh-normalize-file",
+};
+
+function RenameEts(Slots: Record<SlotKey, Slot>): Record<SlotKey, Slot> {
+	const Out: Record<SlotKey, Slot> = {} as Record<SlotKey, Slot>;
+	for (const Key of Order) {
+		const Slot = Slots[Key];
+		const Classic = Slot.Pkg.replace("@playform/", "");
+		const Id = EtsNames[Key];
+		const Swap = (Text: string) =>
+			Text.split(Classic).join(Id);
+		Out[Key] = {
+			Pkg: `@playform/${Id}`,
+			Patch: Slot.Patch ? Swap(Slot.Patch) : null,
+			Line: Slot.Line ? Swap(Slot.Line) : null,
+			Note: Slot.Note,
+		};
+	}
+	return Out;
+}
+
+const EffectTSSlots = RenameEts(ClassicSlots);
+
+const Engines: Record<string, { Slots: Record<SlotKey, Slot>; Base: string | null }> = {
+	classic: { Slots: ClassicSlots, Base: null },
+	ets: {
+		Slots: EffectTSSlots,
+		Base: "@playform/ets-dsh-hook",
+	},
+};
+
+/** The toggle groups: the four package families in roster order. */
+const Groups: { Name: string; Keys: SlotKey[] }[] = [
+	{ Name: "CORE", Keys: ["core"] },
+	{ Name: "FACTORY", Keys: ["factory"] },
+	{ Name: "GOVERNANCE TRIO", Keys: ["governor", "pinner", "cargo"] },
+	{
+		Name: "NORMALIZE · 7",
+		Keys: ["dash", "quotes", "ellipsis", "spaces", "invisible", "fullwidth", "file"],
+	},
+];
+
+/** The default state: the wiring the setup page's examples document. */
+const DefaultEngine = "classic";
+const DefaultPkgs: SlotKey[] = ["factory", "governor", "pinner", "dash"];
+const DefaultProfile = "my-dsh-profile";
+
+/** The generated output: the three blocks assembled from the fragments. */
+function CleanProfile(Profile: string): string {
+	const Name = Profile.replace(/["\\\n\r]/g, "").trim();
+	return Name || DefaultProfile;
+}
+
+/** The INSTALL-ALL block: one `pnpm add` per selected package, inside ~/.dsh. */
+function InstallOutput(
+	Engine: string,
+	Pkgs: SlotKey[],
+	Profile: string,
+): string {
+	const Name = CleanProfile(Profile);
+	const Slots = Engines[Engine].Slots;
+	const Lines = [
+		`# inside ~/.dsh/profiles/${Name}`,
+		`cd ~/.dsh/profiles/${Name}`,
+		...Pkgs.map((Key) => `pnpm add ${Slots[Key].Pkg}`),
+	];
+	const Base = Engines[Engine].Base;
+	if (Base && Pkgs.length > 0) {
+		Lines.push(`# the base ${Base} rides in transitively - the shared plumbing`);
+	}
+	if (Pkgs.length === 0) {
+		Lines.push("# nothing selected - toggle the packages above");
+	}
+	return Lines.join("\n");
+}
+
+/** The wiring block: the bundles list JSON + the cordis.patch.yml inserts. */
+function WiringOutput(Engine: string, Pkgs: SlotKey[], Profile: string): string {
+	const Name = CleanProfile(Profile);
+	const Slots = Engines[Engine].Slots;
+	const PatchKeys = Pkgs.filter((Key) => Slots[Key].Patch);
+	const Deps =
+		Pkgs.length > 0
+			? Pkgs.map(
+					(Key) =>
+						`    "${Slots[Key].Pkg}": "link:../bundles/${Slots[Key].Pkg.replace("@playform/", "")}"`,
+				).join(",\n")
+			: "";
+	const Bundles =
+		PatchKeys.length > 0
+			? PatchKeys.map((Key) => `        "${Slots[Key].Pkg}"`).join(",\n")
+			: "";
+	const Json = [
+		"{",
+		`  "name": "${Name}",`,
+		Pkgs.length > 0 ? '  "dependencies": {' : '  "dependencies": {},',
+		...(Pkgs.length > 0 ? [Deps] : []),
+		...(Pkgs.length > 0 ? ["  },"] : []),
+		'  "dsh": {',
+		'    "profile": {',
+		PatchKeys.length > 0 ? '      "bundles": [' : '      "bundles": [],',
+		...(PatchKeys.length > 0 ? [Bundles] : []),
+		...(PatchKeys.length > 0 ? ["      ]"] : []),
+		"    }",
+		"  }",
+		"}",
+	].join("\n");
+	const Patch = PatchKeys.map((Key) => Slots[Key].Patch).join("\n");
+	const Parts = [Json];
+	if (PatchKeys.length > 0) {
+		Parts.push("", "# cordis.patch.yml", Patch);
+	} else {
+		Parts.push("", "# cordis.patch.yml - no insert entries: nothing plugin-shaped is selected");
+	}
+	return Parts.join("\n");
+}
+
+/** The verification block: the activation ledger lines after the restart. */
+function VerifyOutput(Engine: string, Pkgs: SlotKey[]): string {
+	const Slots = Engines[Engine].Slots;
+	const Lines: string[] = [];
+	for (const Key of Pkgs) {
+		if (Slots[Key].Note) Lines.push(Slots[Key].Note as string);
+		if (Slots[Key].Line) Lines.push(Slots[Key].Line as string);
+	}
+	if (Lines.length === 0) {
+		Lines.push("# nothing to verify yet - select a plugin package");
+	}
+	return Lines.join("\n");
+}
+
+const InitialPkgs = DefaultPkgs;
+const Initial = {
+	Install: InstallOutput(DefaultEngine, InitialPkgs, DefaultProfile),
+	Wiring: WiringOutput(DefaultEngine, InitialPkgs, DefaultProfile),
+	Verify: VerifyOutput(DefaultEngine, InitialPkgs),
+};
+
+/** The embedded data payload: the fragments + the defaults, as JSON. */
+const Data = {
+	Order,
+	Groups,
+	Defaults: { Engine: DefaultEngine, Pkgs: DefaultPkgs, Profile: DefaultProfile },
+	Engines: Object.fromEntries(
+		Object.entries(Engines).map(([Name, Engine]) => [
+			Name,
+			{
+				Base: Engine.Base,
+				Slots: Object.fromEntries(
+					Order.map((Key) => [
+						Key,
+						{
+							Pkg: Engine.Slots[Key].Pkg,
+							Patch: Engine.Slots[Key].Patch,
+							Line: Engine.Slots[Key].Line,
+							Note: Engine.Slots[Key].Note,
+						},
+					]),
+				),
+			},
+		]),
+	),
+};
+
+/**
+ * The payload travels base64-encoded: the build's HTML compression collapses
+ * whitespace at the text level, which would strip the leading spaces inside
+ * the fragment strings and corrupt the generated YAML/JSON. Base64 carries
+ * the bytes untouched; the client decodes before JSON.parse.
+ */
+const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
+---
+
+<div class="cfg" data-configurator>
+	<script type="application/json" data-configurator-data set:html={Payload} />
+
+	<!-- THE SELECTION: the engine choice + the profile name + the 12 toggles -->
+	<div class="cfg__controls">
+		<div class="cfg__engine" role="group" aria-label="The engine">
+			<button type="button" class="cfg__engine-btn is-active" data-engine="classic" aria-pressed="true">
+				CLASSIC
+			</button>
+			<button type="button" class="cfg__engine-btn" data-engine="ets" aria-pressed="false">
+				EFFECT-TS
+			</button>
+		</div>
+		<label class="cfg__profile">
+			<span class="cfg__profile-label">PROFILE NAME</span>
+			<input class="cfg__profile-input" type="text" data-profile value={DefaultProfile}
+				spellcheck="false" autocomplete="off" aria-label="The profile name" />
+		</label>
+	</div>
+	<div class="cfg__groups">
+		{Groups.map((Group) => (
+			<div class="cfg__group">
+				<span class="cfg__group-name">{Group.Name}</span>
+				<div class="cfg__chips">
+					{Group.Keys.map((Key) => (
+						<label class="cfg__chip" data-chip={Key}>
+							<input type="checkbox" data-pkg={Key} checked={InitialPkgs.includes(Key)}
+								aria-label={Key} />
+							<span class="cfg__chip-name" data-chip-name={Key}>{Key}</span>
+						</label>
+					))}
+				</div>
+			</div>
+		))}
+	</div>
+
+	<!-- THE GENERATED OUTPUT: the three live blocks, each copyable -->
+	<div class="cfg__outputs">
+		<div class="cfg__panel">
+			<div class="cfg__bar">
+				<span class="cfg__title">
+					<Fragment set:html={DotSep("1 · INSTALL-ALL · PUBLISHED ROUTE · ONCE ON NPM")} />
+				</span>
+				<span class="cfg__status">COPIED</span>
+				<button type="button" class="cfg__copy" aria-label="Copy the install commands">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+						<rect x="9" y="9" width="11" height="11" rx="2"></rect>
+						<path d="M5 15 H4 a1 1 0 0 1 -1 -1 V4 a1 1 0 0 1 1 -1 H14 a1 1 0 0 1 1 1 v1"></path>
+					</svg>
+				</button>
+			</div>
+			<pre class="cfg__code" data-out="install">{Initial.Install}</pre>
+		</div>
+		<div class="cfg__panel">
+			<div class="cfg__bar">
+				<span class="cfg__title">
+					<Fragment set:html={DotSep("2 · PROFILE WIRING · PACKAGE.JSON + CORDIS.PATCH.YML")} />
+				</span>
+				<span class="cfg__status">COPIED</span>
+				<button type="button" class="cfg__copy" aria-label="Copy the profile wiring">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+						<rect x="9" y="9" width="11" height="11" rx="2"></rect>
+						<path d="M5 15 H4 a1 1 0 0 1 -1 -1 V4 a1 1 0 0 1 1 -1 H14 a1 1 0 0 1 1 1 v1"></path>
+					</svg>
+				</button>
+			</div>
+			<pre class="cfg__code" data-out="wiring">{Initial.Wiring}</pre>
+		</div>
+		<div class="cfg__panel">
+			<div class="cfg__bar">
+				<span class="cfg__title">
+					<Fragment set:html={DotSep("3 · VERIFY · THE ACTIVATION LEDGERS · ONE PER PLUGIN")} />
+				</span>
+				<span class="cfg__status">COPIED</span>
+				<button type="button" class="cfg__copy" aria-label="Copy the verification lines">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+						<rect x="9" y="9" width="11" height="11" rx="2"></rect>
+						<path d="M5 15 H4 a1 1 0 0 1 -1 -1 V4 a1 1 0 0 1 1 -1 H14 a1 1 0 0 1 1 1 v1"></path>
+					</svg>
+				</button>
+			</div>
+			<pre class="cfg__code" data-out="verify">{Initial.Verify}</pre>
+		</div>
+	</div>
+
+	<p class="cfg__note">
+		The commands are the published npm route - run them inside <code>~/.dsh</code> once
+		the family is on npm; today the install is from source (the steps below). The
+		selection persists in the URL and in localStorage - share the URL to hand over the
+		exact setup.
+	</p>
+</div>
+
+<script>
+	// The configurator's client logic: read the state (URL query wins, then
+	// localStorage, then the defaults), apply it to the controls, and
+	// reassemble the three output blocks from the embedded fragments. The
+	// assembly mirrors the frontmatter's joiners - pure string joins, no
+	// transformation of the fragment bytes.
+	document.querySelectorAll<HTMLElement>("[data-configurator]").forEach((Root) => {
+		const DataEl = Root.querySelector("[data-configurator-data]");
+		if (!DataEl || !(DataEl instanceof HTMLScriptElement)) return;
+		const Data = JSON.parse(atob(DataEl.textContent.trim()));
+		const Engines = Data.Engines as Record<
+			string,
+			{ Base: string | null; Slots: Record<string, { Pkg: string; Patch: string | null; Line: string | null; Note: string | null }> }
+		>;
+		const Defaults = Data.Defaults as { Engine: string; Pkgs: string[]; Profile: string };
+		const ProfileInput = Root.querySelector<HTMLInputElement>("[data-profile]")!;
+		const EngineBtns = [...Root.querySelectorAll<HTMLButtonElement>("[data-engine]")];
+		const Chips = [...Root.querySelectorAll<HTMLInputElement>("[data-pkg]")];
+		const ChipNames: Record<string, HTMLElement | null> = {};
+		Chips.forEach((Chip) => {
+			ChipNames[Chip.dataset["pkg"] ?? ""] = Root.querySelector(
+				`[data-chip-name="${CSS.escape(Chip.dataset["pkg"] ?? "")}"]`,
+			);
+		});
+		const Outs: Record<string, HTMLElement | null> = {
+			install: Root.querySelector('[data-out="install"]'),
+			wiring: Root.querySelector('[data-out="wiring"]'),
+			verify: Root.querySelector('[data-out="verify"]'),
+		};
+
+		const CleanProfile = (Profile: string) => {
+			const Name = Profile.replace(/["\\\n\r]/g, "").trim();
+			return Name || Defaults.Profile;
+		};
+
+		const State = () => {
+			const Engine = EngineBtns.find((Button) => Button.getAttribute("aria-pressed") === "true")
+				?.dataset["engine"];
+			const Pkgs = Chips.filter((Chip) => Chip.checked).map((Chip) => Chip.dataset["pkg"] ?? "");
+			return { Engine: Engine ?? Defaults.Engine, Pkgs, Profile: CleanProfile(ProfileInput.value) };
+		};
+
+		const Install = (Engine: string, Pkgs: string[], Profile: string) => {
+			const Slots = Engines[Engine].Slots;
+			const Lines = [
+				`# inside ~/.dsh/profiles/${Profile}`,
+				`cd ~/.dsh/profiles/${Profile}`,
+				...Pkgs.map((Key) => `pnpm add ${Slots[Key].Pkg}`),
+			];
+			const Base = Engines[Engine].Base;
+			if (Base && Pkgs.length > 0) {
+				Lines.push(`# the base ${Base} rides in transitively - the shared plumbing`);
+			}
+			if (Pkgs.length === 0) {
+				Lines.push("# nothing selected - toggle the packages above");
+			}
+			return Lines.join("\n");
+		};
+
+		const Wiring = (Engine: string, Pkgs: string[], Profile: string) => {
+			const Slots = Engines[Engine].Slots;
+			const PatchKeys = Pkgs.filter((Key) => Slots[Key].Patch);
+			const Deps =
+				Pkgs.length > 0
+					? Pkgs.map(
+							(Key) =>
+								`    "${Slots[Key].Pkg}": "link:../bundles/${Slots[Key].Pkg.replace("@playform/", "")}"`,
+						).join(",\n")
+					: "";
+			const Bundles =
+				PatchKeys.length > 0
+					? PatchKeys.map((Key) => `        "${Slots[Key].Pkg}"`).join(",\n")
+					: "";
+			const Json = [
+				"{",
+				`  "name": "${Profile}",`,
+				Pkgs.length > 0 ? '  "dependencies": {' : '  "dependencies": {},',
+				...(Pkgs.length > 0 ? [Deps] : []),
+				...(Pkgs.length > 0 ? ["  },"] : []),
+				'  "dsh": {',
+				'    "profile": {',
+				PatchKeys.length > 0 ? '      "bundles": [' : '      "bundles": [],',
+				...(PatchKeys.length > 0 ? [Bundles] : []),
+				...(PatchKeys.length > 0 ? ["      ]"] : []),
+				"    }",
+				"  }",
+				"}",
+			].join("\n");
+			const Parts = [Json];
+			if (PatchKeys.length > 0) {
+				Parts.push("", "# cordis.patch.yml", PatchKeys.map((Key) => Slots[Key].Patch).join("\n"));
+			} else {
+				Parts.push("", "# cordis.patch.yml - no insert entries: nothing plugin-shaped is selected");
+			}
+			return Parts.join("\n");
+		};
+
+		const Verify = (Engine: string, Pkgs: string[]) => {
+			const Slots = Engines[Engine].Slots;
+			const Lines: string[] = [];
+			for (const Key of Pkgs) {
+				if (Slots[Key].Note) Lines.push(Slots[Key].Note);
+				if (Slots[Key].Line) Lines.push(Slots[Key].Line);
+			}
+			if (Lines.length === 0) {
+				Lines.push("# nothing to verify yet - select a plugin package");
+			}
+			return Lines.join("\n");
+		};
+
+		const Render = () => {
+			const { Engine, Pkgs, Profile } = State();
+			if (Outs.install) Outs.install.textContent = Install(Engine, Pkgs, Profile);
+			if (Outs.wiring) Outs.wiring.textContent = Wiring(Engine, Pkgs, Profile);
+			if (Outs.verify) Outs.verify.textContent = Verify(Engine, Pkgs);
+			Chips.forEach((Chip) => {
+				const Name = ChipNames[Chip.dataset["pkg"] ?? ""];
+				if (Name) Name.textContent = `${Chip.dataset["pkg"]} · ${Engines[Engine].Slots[Chip.dataset["pkg"] ?? ""].Pkg}`;
+			});
+			try {
+				const Query = new URLSearchParams();
+				Query.set("engine", Engine);
+				Query.set("p", Pkgs.join(","));
+				Query.set("profile", Profile);
+				history.replaceState(null, "", `?${Query.toString()}`);
+				localStorage.setItem(
+					"dsh-configurator",
+					JSON.stringify({ Engine, Pkgs, Profile }),
+				);
+			} catch {}
+		};
+
+		const SetEngine = (Engine: string) => {
+			EngineBtns.forEach((Button) => {
+				const Active = Button.dataset["engine"] === Engine;
+				Button.classList.toggle("is-active", Active);
+				Button.setAttribute("aria-pressed", String(Active));
+			});
+		};
+
+		// Restore: the URL query wins, then localStorage, then the defaults.
+		try {
+			const Query = new URLSearchParams(location.search);
+			const Engine = Query.get("engine") ?? "";
+			if (Engines[Engine]) SetEngine(Engine);
+			const Pkgs = (Query.get("p") ?? "").split(",").filter((Key) => Key && Engines[Object.keys(Engines)[0] || "classic"].Slots[Key]);
+			if (Query.has("p")) Chips.forEach((Chip) => (Chip.checked = Pkgs.includes(Chip.dataset["pkg"] ?? "")));
+			const Profile = Query.get("profile");
+			if (Profile !== null) ProfileInput.value = Profile;
+			if (!Engine && !Query.has("p") && Profile === null) {
+				const Saved = localStorage.getItem("dsh-configurator");
+				if (Saved) {
+					const State = JSON.parse(Saved);
+					if (State.Engine && Engines[State.Engine]) SetEngine(State.Engine);
+					if (Array.isArray(State.Pkgs)) {
+						Chips.forEach((Chip) => (Chip.checked = State.Pkgs.includes(Chip.dataset["pkg"] ?? "")));
+					}
+					if (typeof State.Profile === "string") ProfileInput.value = State.Profile;
+				}
+			}
+		} catch {}
+
+		EngineBtns.forEach((Button) =>
+			Button.addEventListener("click", () => {
+				SetEngine(Button.dataset["engine"] ?? Defaults.Engine);
+				Render();
+			}),
+		);
+		Chips.forEach((Chip) => Chip.addEventListener("change", Render));
+		ProfileInput.addEventListener("input", Render);
+		Render();
+
+		// The copy triggers: copy the block's own pre content, flash the
+		// transient mono COPIED status, and toast through the global channel.
+		Root.querySelectorAll<HTMLElement>(".cfg__panel").forEach((Panel) => {
+			const Button = Panel.querySelector<HTMLButtonElement>(".cfg__copy");
+			const Code = Panel.querySelector<HTMLElement>(".cfg__code");
+			const Status = Panel.querySelector<HTMLElement>(".cfg__status");
+			if (!Button || !Code || !Status) return;
+			Button.addEventListener("click", () => {
+				if (navigator.clipboard?.writeText) {
+					navigator.clipboard.writeText(Code.textContent ?? "").catch(() => {});
+				}
+				Button.classList.add("is-copied");
+				Status.classList.add("is-visible");
+				(window as any).__dshToast?.(`Copied: ${(Code.textContent ?? "").split("\n")[0]}`);
+				setTimeout(() => {
+					Button.classList.remove("is-copied");
+					Status.classList.remove("is-visible");
+				}, 1500);
+			});
+		});
+	});
+</script>
+
+<style>
+	/* The configurator's surfaces: the site's token-driven flat panels -
+		hairlines, mono labels, zero elevation - so both themes follow. */
+	.cfg {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-md);
+		padding: var(--space-md);
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-lg);
+		background: var(--color-surface-container-lowest);
+	}
+
+	.cfg__controls {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-md);
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.cfg__engine {
+		display: inline-flex;
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-default);
+		overflow: hidden;
+	}
+
+	.cfg__engine-btn {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		padding: 6px var(--space-md);
+		background: transparent;
+		color: var(--color-on-surface-variant);
+		border: none;
+		cursor: pointer;
+	}
+
+	.cfg__engine-btn + .cfg__engine-btn {
+		border-left: 1px solid var(--color-outline-variant);
+	}
+
+	.cfg__engine-btn.is-active {
+		background: var(--color-primary-container);
+		color: var(--color-on-primary);
+		font-weight: 700;
+	}
+
+	.cfg__profile {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-sm);
+	}
+
+	.cfg__profile-label {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-ink-secondary);
+	}
+
+	.cfg__profile-input {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-on-surface);
+		background: var(--color-surface-container-low);
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-default);
+		padding: 6px var(--space-sm);
+		min-width: 14rem;
+	}
+
+	.cfg__profile-input:focus {
+		outline: 2px solid var(--color-primary);
+		outline-offset: -1px;
+	}
+
+	.cfg__groups {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-sm);
+	}
+
+	.cfg__group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+		padding: var(--space-sm);
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-md);
+		background: var(--color-surface-container-low);
+	}
+
+	.cfg__group-name {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		font-weight: 700;
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-primary);
+	}
+
+	.cfg__chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-xs);
+	}
+
+	.cfg__chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-on-surface-variant);
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-default);
+		padding: 4px var(--space-xs);
+		cursor: pointer;
+		background: var(--color-surface-container-lowest);
+	}
+
+	.cfg__chip:has(input:checked) {
+		border-color: var(--color-primary);
+		color: var(--color-on-surface);
+		background: var(--color-primary-container);
+	}
+
+	.cfg__chip input {
+		accent-color: var(--color-primary);
+		margin: 0;
+	}
+
+	.cfg__outputs {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-sm);
+	}
+
+	.cfg__panel {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-md);
+		overflow: hidden;
+		background: var(--color-surface-container-low);
+	}
+
+	.cfg__bar {
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+		padding: 6px var(--space-sm);
+		border-bottom: 1px solid var(--color-outline-variant);
+	}
+
+	.cfg__title {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-ink-secondary);
+		flex: 1;
+		min-width: 0;
+	}
+
+	.cfg__status {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		font-weight: 700;
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-primary);
+		opacity: 0;
+		transition: opacity 120ms ease;
+	}
+
+	.cfg__status.is-visible {
+		opacity: 1;
+	}
+
+	.cfg__copy {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-default);
+		background: var(--color-surface-container-lowest);
+		color: var(--color-on-surface-variant);
+		cursor: pointer;
+		flex-shrink: 0;
+	}
+
+	.cfg__copy svg {
+		width: 14px;
+		height: 14px;
+	}
+
+	.cfg__copy.is-copied {
+		border-color: var(--color-primary);
+		color: var(--color-primary);
+	}
+
+	.cfg__code {
+		margin: 0;
+		padding: var(--space-sm) var(--space-md);
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-on-surface);
+		white-space: pre-wrap;
+		word-break: break-word;
+		overflow-x: auto;
+	}
+
+	.cfg__note {
+		margin: 0;
+		font-size: var(--text-body-sm);
+		line-height: var(--leading-body-sm);
+		color: var(--color-ink-muted);
+	}
+
+	.cfg__note code {
+		font-family: var(--font-mono);
+	}
+
+	@media (max-width: 640px) {
+		.cfg__groups {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

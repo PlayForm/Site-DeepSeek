@@ -42,7 +42,7 @@ const CargoAfter = [
 
 // The In Action ledger excerpt, from the README.
 const LedgerExcerpt = [
-	"[2026-10-03T09:15:22.411Z] activated (cargo flavor, logFile=~/.dsh/hook-dsh-governor-cargo.log, updateMode=cargo, cargoBin=/usr/local/bin/cargo, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery), keepFile=(discovery))",
+	"[2026-10-03T09:15:22.411Z] activated (cargo flavor, logFile=~/.dsh/hook-dsh-cargo-governor.log, updateMode=cargo, cargoBin=/usr/local/bin/cargo, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery), keepFile=(discovery))",
 	"[2026-10-03T09:16:01.880Z] governed <project>/acme/engine/Cargo.toml → 42",
 	"[2026-10-03T09:16:34.120Z] update stage dispatched for <project>/acme/engine (cargo via /usr/local/bin/cargo, built-in default policy)",
 	'[2026-10-03T09:16:41.502Z] update: cargo upgrade --manifest-path <project>/acme/engine/Cargo.toml --exclude serde tokio → {"exitCode":0}',
@@ -58,7 +58,7 @@ const LedgerStrings = [
 	"update stage dispatched for <dir> (cargo via ..., policy ...)",
 	'update: cargo upgrade <argv> → {"exitCode":0}',
 	"update: DONE / update: FAILED",
-	"update: cargo-edit unavailable: <cause>",
+	"update: cargo-edit unavailable: ...",
 ];
 
 // The byte-exact update-stage ledger lines (the verifyCommand class): the
@@ -72,22 +72,22 @@ const TrapLines = [
 
 const Related = [
 	{
-		Name: "hook-dsh-governor-package",
+		Name: "hook-dsh-package-governor",
 		Desc: "The npm sibling: same architecture, same API-awareness discipline, same silence - with the update stage driven by ncu.",
 	},
 	{
-		Name: "hook-dsh-pinner-package",
-		Desc: "The keep-list sidecar ([pin-policy.json](Ours:Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts)) is shared: discovery global keepFile - the file's own directory - registry-adjacent, the union.",
+		Name: "hook-dsh-package-pinner",
+		Desc: "The keep-list sidecar ([pin-policy.json](Ours:Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts)) is shared: discovery global keepFile - the file's own directory - registry-adjacent, the union.",
 	},
 	{
-		Name: "plugin-dsh-factory",
+		Name: "dsh-plugin-factory",
 		Desc: "Gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey come from the furnace.",
 	},
 ];
 ---
 
 <Base
-	Title="hook-dsh-governor-cargo - DSH Family @ PlayForm"
+	Title="hook-dsh-cargo-governor - DSH Family @ PlayForm"
 	Description={`${Families.GovernorCargo} - the Cargo.toml flavor of the silent package.json governor: surgical TOML rewriting on the raw lines and cargo upgrade driven through the subprocess seam.`}
 >
 	<main class="container container--main">
@@ -102,7 +102,7 @@ const Related = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">hook-dsh-governor-cargo</h1>
+			<h1 class="page-hero__title">hook-dsh-cargo-governor</h1>
 			<p class="page-hero__sub">
 				{Families.GovernorCargo} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness
 				Plugin Family for PlayForm.</em> The{" "}
@@ -125,7 +125,7 @@ const Related = [
 
 		<section class="section">
 			<div class="snippet-list">
-				<Terminal Command="pnpm add @playform/hook-dsh-governor-cargo" />
+				<Terminal Command="pnpm add @playform/hook-dsh-cargo-governor" />
 			</div>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
@@ -133,7 +133,7 @@ const Related = [
 				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
-					<span class="hook-tally">@playform/hook-dsh-governor-cargo</span>
+					<span class="hook-tally">@playform/hook-dsh-cargo-governor</span>
 					<span class="workbench-controls__label">Release:</span>
 					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
@@ -158,11 +158,11 @@ const Related = [
 				<Concept
 					Id="govcargo-family-position"
 					Title="The family position"
-					Diagram={`${Families.GovernorCargo} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - the Rust-sided sibling of the two npm governance hooks on the same fs/observed seam, one of three governance hooks, each gating on its own basename and writing its own ledger.`}
+					Diagram={`${Families.GovernorCargo} as a hook child of the dsh-plugin-factory service and the hook-dsh-core helpers - the Rust-sided sibling of the two npm governance hooks on the same fs/observed seam, one of three governance hooks, each gating on its own basename and writing its own ledger.`}
 				>
 					<p>
 						A hook child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.GovernorCargo}) and the{" "}
+						<strong><a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source")}>dsh-plugin-factory</a></strong> service ({Families.GovernorCargo}) and the{" "}
 						<strong>hook-dsh-core</strong> helpers; the Rust-sided sibling of the two
 						npm governance hooks on the same <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> seam.
 					</p>
@@ -176,7 +176,7 @@ const Related = [
 						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>pinner.log</code></span>), and
 						this bundle (<span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" /><code>Cargo.toml</code></span>{" "}
 						<ArrowIcon Direction="right" Tone="accent" />{" "}
-						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />hook-dsh-governor-cargo.log</span>, chain pass bare caret /<code>=exact</code>{" "}
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />hook-dsh-cargo-governor.log</span>, chain pass bare caret /<code>=exact</code>{" "}
 						+ <code>cargo upgrade</code>).
 					</p>
 				</Concept>
@@ -208,12 +208,12 @@ const Related = [
 				<Concept
 					Id="govcargo-factory-flavor"
 					Title="Machinery-wise it is a factory flavor"
-					Diagram="gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey coming from [plugin-dsh-factory](Ours:Classic/packages/plugin-dsh-factory/Source); the policy loader and the suppression composer from [hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source); this bundle keeping the Cargo-specific residue: the TOML identification, the surgical pin, the full-version directive, and the cargo upgrade bridge."
+					Diagram="gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey coming from [dsh-plugin-factory](Ours:Classic/packages/dsh-plugin-factory/Source); the policy loader and the suppression composer from [hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source); this bundle keeping the Cargo-specific residue: the TOML identification, the surgical pin, the full-version directive, and the cargo upgrade bridge."
 				>
 					<p>
 						Gates, discovery,
 						the guarded write, the refresh, the continuation, the effects, the schema
-						and the namespaced UpdateKey come from <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>; the policy loader
+						and the namespaced UpdateKey come from <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source")}>dsh-plugin-factory</a>; the policy loader
 						and the suppression composer come from hook-dsh-core.
 					</p>
 					<p>
@@ -234,7 +234,7 @@ const Related = [
 					</p>
 					<p>
 						That lets the raw-write tool's per-call govern selection drive the same
-						chain + normalization pass and update stage directly through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>.
+						chain + normalization pass and update stage directly through <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source/Function/Govern.ts")}>Factory.Govern</a>.
 					</p>
 				</Concept>
 			</div>
@@ -251,7 +251,7 @@ const Related = [
 					},
 					{
 						Seam: "ctx.fs - the filesystem service (dsh-fs)",
-						What: "The surgical TOML rewrite goes through [the factory's guarded write](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) (replaceIfVersion + the P4 sandbox fence); smol-toml is used for identification only, never a stringify, so comments survive byte-for-byte.",
+						What: "The surgical TOML rewrite goes through [the factory's guarded write](Ours:Classic/packages/dsh-plugin-factory/Source/Function/Write.ts) (replaceIfVersion + the P4 sandbox fence); smol-toml is used for identification only, never a stringify, so comments survive byte-for-byte.",
 						Outcome:
 							"Governed manifests that still read exactly like the author's file.",
 					},
@@ -267,7 +267,7 @@ const Related = [
 					},
 					{
 						Seam: "The ledger / session",
-						What: "A separate ledger (hook-dsh-governor-cargo.log) records activation, exclusions, chain-pass results, refusals and every update dispatch - including the exact cargo upgrade argv and its exit code.",
+						What: "A separate ledger (hook-dsh-cargo-governor.log) records activation, exclusions, chain-pass results, refusals and every update dispatch - including the exact cargo upgrade argv and its exit code.",
 						Outcome: "The Rust-side pass is fully auditable from the ledger alone.",
 					},
 				]}
@@ -469,11 +469,11 @@ const Related = [
 				Language="yaml"
 				Source={[
 					"- insert:",
-					"      - id: hook-dsh-governor-cargo",
-					'        name: "@playform/hook-dsh-governor-cargo"',
+					"      - id: hook-dsh-cargo-governor",
+					'        name: "@playform/hook-dsh-cargo-governor"',
 					"        config:",
 					"            log: true",
-					"            logFile: ~/.dsh/hook-dsh-governor-cargo.log # SEPARATE ledger - never the npm ledgers",
+					"            logFile: ~/.dsh/hook-dsh-cargo-governor.log # SEPARATE ledger - never the npm ledgers",
 					"            updateCooldownMs: 3000",
 					"            strict: false # strip unknown deps - explicit only, never a default",
 					"            mutationTools: [write, edit, str_replace_editor]",
@@ -588,11 +588,11 @@ const Related = [
 				<Concept
 					Id="govcargo-ledger-log"
 					Title="One global log, SEPARATE from the npm ledgers"
-					Diagram='One global log (logFile, default ~/.dsh/hook-dsh-governor-cargo.log - SEPARATE from the npm ledgers) recording activation, exclusions, chain-pass results, refusals, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
+					Diagram='One global log (logFile, default ~/.dsh/hook-dsh-cargo-governor.log - SEPARATE from the npm ledgers) recording activation, exclusions, chain-pass results, refusals, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
 				>
 					<p>
 						<code>logFile</code> (default{" "}
-						~/.dsh/hook-dsh-governor-cargo.log - SEPARATE from the npm
+						~/.dsh/hook-dsh-cargo-governor.log - SEPARATE from the npm
 						ledgers) records activation, exclusions, chain-pass results, refusals, and
 						every update-stage dispatch.
 					</p>

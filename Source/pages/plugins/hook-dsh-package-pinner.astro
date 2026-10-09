@@ -11,6 +11,7 @@ import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
+import { Enhance } from "@Library/DiagramNav";
 
 // The diagram set (Source/Content/Mermaid, rendered by Render.mjs): every
 // one of this page's placeholders renders its pre-rendered SVG inline.
@@ -19,20 +20,25 @@ const Diagrams = import.meta.glob("/Source/Content/Mermaid/*.svg", {
 	import: "default",
 	eager: true,
 }) as Record<string, string>;
-const PinSvg = Diagrams["/Source/Content/Mermaid/pin-then-bump-exact.svg"];
-const KeepSvg = Diagrams["/Source/Content/Mermaid/keep-list-precedence.svg"];
-const FamilySvg = Diagrams["/Source/Content/Mermaid/family-position.svg"];
-const LedgersSvg = Diagrams["/Source/Content/Mermaid/independent-ledgers.svg"];
-const InjectSvg = Diagrams["/Source/Content/Mermaid/injected-services.svg"];
-const FactoryRespSvg = Diagrams["/Source/Content/Mermaid/factory-responsibilities.svg"];
-const CoreHelpersSvg = Diagrams["/Source/Content/Mermaid/core-helpers.svg"];
-const OwnedSvg = Diagrams["/Source/Content/Mermaid/pinner-owned-logic.svg"];
-const DirectGovernSvg = Diagrams["/Source/Content/Mermaid/direct-govern-entry.svg"];
-const IdemSvg = Diagrams["/Source/Content/Mermaid/idempotence.svg"];
-const KeepPolicySvg = Diagrams["/Source/Content/Mermaid/keep-list-policy.svg"];
-const WildcardSvg = Diagrams["/Source/Content/Mermaid/wildcard-behavior.svg"];
-const RefusalSvg = Diagrams["/Source/Content/Mermaid/refusal-guard.svg"];
-const VersionCoherSvg = Diagrams["/Source/Content/Mermaid/version-coherence.svg"];
+// Every SVG passes through Enhance (Library/DiagramNav.ts): the nodes
+// naming a registered artifact of the family become tree/Current links
+// into the monorepo; the related-node hover highlight is the shared
+// overlay script in Layout/Base.astro.
+const Enh = (Id: string) => Enhance(Diagrams[`/Source/Content/Mermaid/${Id}.svg`] ?? "");
+const PinSvg = Enh("pin-then-bump-exact");
+const KeepSvg = Enh("keep-list-precedence");
+const FamilySvg = Enh("family-position");
+const LedgersSvg = Enh("independent-ledgers");
+const InjectSvg = Enh("injected-services");
+const FactoryRespSvg = Enh("factory-responsibilities");
+const CoreHelpersSvg = Enh("core-helpers");
+const OwnedSvg = Enh("pinner-owned-logic");
+const DirectGovernSvg = Enh("direct-govern-entry");
+const IdemSvg = Enh("idempotence");
+const KeepPolicySvg = Enh("keep-list-policy");
+const WildcardSvg = Enh("wildcard-behavior");
+const RefusalSvg = Enh("refusal-guard");
+const VersionCoherSvg = Enh("version-coherence");
 
 // The pipeline P = Rewrite ∘ Pin ∘ Resolve ∘ Decode diagram, from the package README.
 const Pipeline = [
@@ -88,7 +94,7 @@ const RangeLaw = [
 
 // The In Action ledger excerpt, from the README.
 const LedgerExcerpt = [
-	"[2026-10-03T09:15:22.411Z] activated (pinner, logFile=~/.dsh/hook-dsh-pinner-package.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
+	"[2026-10-03T09:15:22.411Z] activated (pinner, logFile=~/.dsh/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
 	"[2026-10-03T09:16:01.880Z] pinned <project>/acme/tool/package.json (2 versions)",
 ];
 
@@ -117,11 +123,11 @@ const LedgerStrings = [
 
 const Related = [
 	{
-		Name: "plugin-dsh-factory",
+		Name: "dsh-plugin-factory",
 		Desc: "The family's furnace: the gate, the discovery, the union keep-list, the guarded write, the refresh, the continuation, the effects and the schema come from it.",
 	},
 	{
-		Name: "hook-dsh-governor-package",
+		Name: "hook-dsh-package-governor",
 		Desc: "The sibling governor on the same seam: pin → bump-exact, since a fully pinned manifest leaves the governor's update stage nothing to do.",
 	},
 	{
@@ -132,7 +138,7 @@ const Related = [
 ---
 
 <Base
-	Title="hook-dsh-pinner-package - DSH Family @ PlayForm"
+	Title="hook-dsh-package-pinner - DSH Family @ PlayForm"
 	Description={`${Families.PinnerPackage} - the silent version pinner of the DeepSeek Harness: hooks fs/observed and pins every dependency version in a written package.json to its static version.`}
 >
 	<main class="container container--main">
@@ -147,7 +153,7 @@ const Related = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">hook-dsh-pinner-package</h1>
+			<h1 class="page-hero__title">hook-dsh-package-pinner</h1>
 			<p class="page-hero__sub">
 				{Families.PinnerPackage} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness
 				Plugin Family for PlayForm.</em> The <strong>silent version pinner</strong> of the
@@ -168,7 +174,7 @@ const Related = [
 
 		<section class="section">
 			<div class="snippet-list">
-				<Terminal Command="pnpm add @playform/hook-dsh-pinner-package" />
+				<Terminal Command="pnpm add @playform/hook-dsh-package-pinner" />
 			</div>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
@@ -176,7 +182,7 @@ const Related = [
 				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
-					<span class="hook-tally">@playform/hook-dsh-pinner-package</span>
+					<span class="hook-tally">@playform/hook-dsh-package-pinner</span>
 					<span class="workbench-controls__label">Release:</span>
 					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
@@ -208,7 +214,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Family position</p>
 						<figure class="diagram-figure" set:html={FamilySvg} />
 						<p>
-							Show the pinner's relationship to <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>, hook-dsh-core, and
+							Show the pinner's relationship to <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source")}>dsh-plugin-factory</a>, hook-dsh-core, and
 							the sibling package governor.</p>
 						<p>Label the shared fs/observed seam.
 						
@@ -222,7 +228,7 @@ const Related = [
 
 					<p class="page-hero__sub">
 						<strong>{Families.PinnerPackage}</strong> is a hook child of the{" "}
-						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}><code>plugin-dsh-factory</code></a> service and the
+						<a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source")}><code>dsh-plugin-factory</code></a> service and the
 						<code>hook-dsh-core</code> helpers.</p>
 					<p class="page-hero__sub">It is a sibling of the package governor
 						on the same <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> seam.
@@ -282,7 +288,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						The pinner's <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>pin-policy.json</code></span></a> keep-list protects selected
+						The pinner's <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>pin-policy.json</code></span></a> keep-list protects selected
 						dependencies.</p>
 					<p class="page-hero__sub">Their ranges remain exactly as authored.
 					
@@ -363,7 +369,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}><code>plugin-dsh-factory</code></a> supplies the gate, discovery, union
+						<a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source")}><code>dsh-plugin-factory</code></a> supplies the gate, discovery, union
 						keep-list, guarded write, refresh, continuation, effects, and schema.
 					</p>
 				</section>
@@ -429,7 +435,7 @@ const Related = [
 							Show apply-time registration with Factory.RegisterGovern.</p>
 						<p>Then show the
 							raw-write tool's per-call govern selection reaching the same pin pass
-							through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>, alongside the fs/observed event path.
+							through <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source/Function/Govern.ts")}>Factory.Govern</a>, alongside the fs/observed event path.
 						
 						</p>
 					</div>
@@ -448,7 +454,7 @@ const Related = [
 					<p class="page-hero__sub">
 						The raw-write tool's per-call govern selection can drive the same pin pass
 						directly through
-						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}><code>Factory.Govern</code></a>.
+						<a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source/Function/Govern.ts")}><code>Factory.Govern</code></a>.
 					</p>
 				</section>
 			</div>
@@ -466,12 +472,12 @@ const Related = [
 					},
 					{
 						Seam: "ctx.fs - the filesystem service (dsh-fs)",
-						What: "The pin pass reads the file via ctx.fs.readText and writes via [the factory's guarded write](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) (replaceIfVersion + the P4 sandbox fence), with an explicit sandbox policy because the plugin's own exclude list IS its fence.",
+						What: "The pin pass reads the file via ctx.fs.readText and writes via [the factory's guarded write](Ours:Classic/packages/dsh-plugin-factory/Source/Function/Write.ts) (replaceIfVersion + the P4 sandbox fence), with an explicit sandbox policy because the plugin's own exclude list IS its fence.",
 						Outcome: "No clobber, no recursion; the re-emit re-enters as a no-op.",
 					},
 					{
 						Seam: "The keep-list policy sidecar",
-						What: "ResolvePolicy builds the union keep-list from every readable [pin-policy.json](Ours:Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts): global policyFile → the file's own directory → registry-adjacent; the P3 chain-keys interlock protects the governor's chain pins from ever being stripped.",
+						What: "ResolvePolicy builds the union keep-list from every readable [pin-policy.json](Ours:Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts): global policyFile → the file's own directory → registry-adjacent; the P3 chain-keys interlock protects the governor's chain pins from ever being stripped.",
 						Outcome: "Ranges the author marked as intentional stay exactly as written.",
 					},
 					{
@@ -567,7 +573,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Keep-list policy</p>
 						<figure class="diagram-figure" set:html={KeepPolicySvg} />
 						<p>
-							Show <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />pin-policy.json</span></a> protecting a selected dependency from prefix
+							Show <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />pin-policy.json</span></a> protecting a selected dependency from prefix
 							removal, the union of every readable discovered policy, and the P3
 							chain-keys interlock keeping the governor's ^resolved chain pins
 							unstripped.
@@ -580,7 +586,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						A <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>pin-policy.json</code></span></a> (<code>{'{"keep": ["tailwindcss"]}'}</code>)
+						A <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>pin-policy.json</code></span></a> (<code>{'{"keep": ["tailwindcss"]}'}</code>)
 						protects packages whose ranges must stay EXACTLY as the author wrote them.</p>
 					<p class="page-hero__sub">
 						The effective keep-list is the union of every readable discovered policy,
@@ -689,11 +695,11 @@ const Related = [
 				Language="yaml"
 				Source={[
 					"- insert:",
-					"      - id: hook-dsh-pinner-package",
-					'        name: "@playform/hook-dsh-pinner-package"',
+					"      - id: hook-dsh-package-pinner",
+					'        name: "@playform/hook-dsh-package-pinner"',
 					"        config:",
 					"            log: true",
-					"            logFile: ~/.dsh/hook-dsh-pinner-package.log # SEPARATE ledger (own plugin)",
+					"            logFile: ~/.dsh/hook-dsh-package-pinner.log # SEPARATE ledger (own plugin)",
 					"            mutationTools: [write, edit, str_replace_editor]",
 					'            policyFile: "" # optional global pin-policy.json (else discovery, else built-in)',
 					"            sections: [dependencies, devDependencies, peerDependencies, optionalDependencies]",
@@ -714,7 +720,7 @@ const Related = [
 			</p>
 			<CodeBlock Language="json" Source={PinnedWrite.join("\n")} />
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">
-				A <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>pin-policy.json</code></span></a> (<code>{'{"keep":["tailwindcss"]}'}</code>) sits
+				A <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>pin-policy.json</code></span></a> (<code>{'{"keep":["tailwindcss"]}'}</code>) sits
 				beside the file, so tailwindcss keeps its range; the other two dependencies are
 				pinned.</p>
 			<p class="page-hero__sub" style="margin: var(--space-md) 0">The transcript shows only what the author wrote; the ledger shows the pin:
@@ -745,11 +751,11 @@ const Related = [
 			<SectionHeader Title="The Ledger" Meta="ONE GLOBAL LOG" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				One global log (<code>logFile</code>, default{" "}
-				~/.dsh/hook-dsh-pinner-package.log - SEPARATE from the governor's
+				~/.dsh/hook-dsh-package-pinner.log - SEPARATE from the governor's
 				ledger) records activation, exclusions, non-JSON skips, refusals, and every pin
 				result.</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">The strings this module composes (the
-				hook-dsh-pinner-package: logger prefix is the factory's Append; each
+				hook-dsh-package-pinner: logger prefix is the factory's Append; each
 				line is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file):
 			
 			</p>

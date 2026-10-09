@@ -14,66 +14,31 @@ import { Counts, Versions, Families } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
 import { Mention } from "@Library/FileIcon";
 
-// The pipeline G = U ∘ P diagram, from the package README.
-const Pipeline = [
-	'  fs/observed (target, {kind:"present", version}, actor)',
-	"  ── fired by the TOOL LAYER ONLY, for every harness write/edit, any thread ──►",
-	"       │",
-	"       ▼",
-	'  G1  Factory.Gate ── displayPath → actor ∈ mutationTools → kind "present" →',
-	'  │                    Stash idempotence → basename "package.json" → excluded?',
-	"  │     excluded ──► ledger `skipped (excluded) <path>`   (every other gate",
-	"  ▼                  outcome is silent)                      outcome proceeds)",
-	"  G2  Factory.Discover + Factory.Parse ── nearest registry.json walk-up",
-	"  │     (none / unreadable ──► ledger line, the chain pass is skipped)",
-	"  ▼",
-	"  Stash seed (targetKey, version) ── our own re-emits re-enter as no-ops",
-	"       │",
-	"       ▼  detached, contained  (Factory.Continue - the listener never awaits)",
-	"  G3  CHAIN PASS (the pure transform) ── read → chain-governed pins",
-	"  │      (dep ∈ registry.effectiveLatest) canonicalized to ^<resolved>",
-	"  │      (strict: strip unknown - explicit only, never a default) →",
-	"  │      GuardedWrite (replaceIfVersion + the P4 fence) → ledger",
-	"  │      `governed <path> → <version>` → Refresh (P3 re-emit, same actor)",
-	"  │      (the factory's Continue also computes the union keep-list with the",
-	"  │       P3 chain keys - deliberately ignored by this transform)",
-	"  ▼  chained off the settled continuation",
-	"  G4  UPDATE STAGE ── passage gate → Filter (nothing public? skip) →",
-	"  │     first-wins update-policy pick → Dispatch:",
-	"  │     breaker → in-flight → cooldown → the jobs envelope",
-	'  │     (kind "governor-update", unowned) or the detached fallback',
-	'  │          ├─ updateMode "programmatic": ncu.run({packageFile, upgrade,',
-	"  │          │    silent, dep, concurrency, target, reject ∪ chain deps,",
-	"  │          │    allow, filter}) - no external binary",
-	'  │          └─ updateMode "bin": the ncu binary (ncuBin) via ctx.subprocess',
-	"  │     → Verify (verifyCommand, exit 127 non-fatal) → Settle →",
-	"  │       Refresh (U2: re-stat + re-emit the fresh version)",
-	"  ▼",
-	"  SILENCE: the tool result shows exactly what the author wrote.",
-	"  The governed state is discoverable only by a subsequent read - or in",
-	"  the ledger.",
-];
+// The pipeline G = U ∘ P diagram: drawn as the govpkg-pipeline Mermaid
+// flowchart (Source/Content/Mermaid/govpkg-pipeline.mmd, rendered by
+// Render.mjs and inlined by the Concept below) - the same gate flow the
+// README shows as ASCII art, as graph mechanics.
 
 // The three governance hooks sharing the fs/observed seam, from the README.
 const Siblings = [
 	{
-		Name: "hook-dsh-governor-package (this bundle)",
+		Name: "hook-dsh-package-governor (this bundle)",
 		Gate: "package.json",
 		Ledger: "governor.log",
 		Pass: "chain pass (→ ^resolved) + update stage (ncu)",
 		This: true,
 	},
 	{
-		Name: "hook-dsh-pinner-package",
+		Name: "hook-dsh-package-pinner",
 		Gate: "package.json",
 		Ledger: "pinner.log",
 		Pass: "pin pass (^0.3.4 → 0.3.4; keep-list wins)",
 		This: false,
 	},
 	{
-		Name: "hook-dsh-governor-cargo",
+		Name: "hook-dsh-cargo-governor",
 		Gate: "Cargo.toml",
-		Ledger: "hook-dsh-governor-cargo.log",
+		Ledger: "hook-dsh-cargo-governor.log",
 		Pass: "chain pass (bare caret / =exact) + cargo upgrade",
 		This: false,
 	},
@@ -85,7 +50,7 @@ const Config = [
 	{
 		Field: "logFile",
 		Type: "string",
-		Default: "~/.dsh/hook-dsh-governor-package.log",
+		Default: "~/.dsh/hook-dsh-package-governor.log",
 		Meaning: "the governor's global ledger",
 	},
 	{
@@ -140,7 +105,7 @@ const Config = [
 
 // The In Action ledger excerpt, from the README (byte-exact strings).
 const LedgerExcerpt = [
-	"[2026-10-03T09:15:22.411Z] activated (anywhere mode, logFile=~/.dsh/hook-dsh-governor-package.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+	"[2026-10-03T09:15:22.411Z] activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
 	"[2026-10-03T09:16:01.880Z] governed <project>/acme/tool/package.json → 42",
 	"[2026-10-03T09:16:34.120Z] update stage dispatched for <project>/acme/tool (mode=programmatic, ncu via /usr/local/bin/ncu, built-in default policy)",
 	"[2026-10-03T09:16:41.502Z] update: DONE — pins bumped per policy",
@@ -180,22 +145,22 @@ const TrapLines = [
 
 const Related = [
 	{
-		Name: "plugin-dsh-factory",
+		Name: "dsh-plugin-factory",
 		Desc: "The family's furnace: the gates, the discovery, the guarded write, the refresh, the continuation, the effects and the schema come from it.",
 	},
 	{
-		Name: "hook-dsh-pinner-package",
+		Name: "hook-dsh-package-pinner",
 		Desc: "The sibling pin pass on the same seam: pins ^0.3.4 to 0.3.4; a fully pinned manifest leaves this module's update stage nothing to do.",
 	},
 	{
-		Name: "hook-dsh-governor-cargo",
+		Name: "hook-dsh-cargo-governor",
 		Desc: "The Rust-sided sibling: same architecture for Cargo.toml, with the update stage driven by cargo upgrade.",
 	},
 ];
 ---
 
 <Base
-	Title="hook-dsh-governor-package - DSH Family @ PlayForm"
+	Title="hook-dsh-package-governor - DSH Family @ PlayForm"
 	Description={`${Families.GovernorPackage} - the silent package.json governor of the DeepSeek Harness: hooks fs/observed, canonicalizes chain-governed dependency pins, and runs the update stage as a detached, contained continuation.`}
 >
 	<main class="container container--main">
@@ -210,7 +175,7 @@ const Related = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">hook-dsh-governor-package</h1>
+			<h1 class="page-hero__title">hook-dsh-package-governor</h1>
 			<p class="page-hero__sub">
 				{Families.GovernorPackage} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness
 				Plugin Family for PlayForm.</em> The <strong>silent <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> governor</strong> of
@@ -230,7 +195,7 @@ const Related = [
 
 		<section class="section">
 			<div class="snippet-list">
-				<Terminal Command="pnpm add @playform/hook-dsh-governor-package" />
+				<Terminal Command="pnpm add @playform/hook-dsh-package-governor" />
 			</div>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
@@ -238,7 +203,7 @@ const Related = [
 				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
-					<span class="hook-tally">@playform/hook-dsh-governor-package</span>
+					<span class="hook-tally">@playform/hook-dsh-package-governor</span>
 					<span class="workbench-controls__label">Release:</span>
 					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
@@ -263,11 +228,11 @@ const Related = [
 				<Concept
 					Id="govpkg-family-position"
 					Title="The family position"
-					Diagram={`${Families.GovernorPackage} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - no hook children of its own - one of three governance hooks sharing the fs/observed seam, each gating on its own basename and writing its own ledger.`}
+					Diagram={`${Families.GovernorPackage} as a hook child of the dsh-plugin-factory service and the hook-dsh-core helpers - no hook children of its own - one of three governance hooks sharing the fs/observed seam, each gating on its own basename and writing its own ledger.`}
 				>
 					<p>
 						A hook child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.GovernorPackage}) and the{" "}
+						<strong><a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source")}>dsh-plugin-factory</a></strong> service ({Families.GovernorPackage}) and the{" "}
 						<strong>hook-dsh-core</strong> helpers; it has no hook children of its own.
 					</p>
 					<p>
@@ -325,19 +290,19 @@ const Related = [
 						<ArrowIcon Direction="right" Tone="accent" /> <strong>strip</strong>{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> <strong>normalize</strong>{" "}
 						(the cargo module's precedence), <strong>keep-list wins</strong> (the
-						pinner's <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-pinner-package/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />pin-policy.json</span></a> keeps ranges as authored).
+						pinner's <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />pin-policy.json</span></a> keeps ranges as authored).
 					</p>
 					<p>The ledgers are separate; activating one never implies another.</p>
 				</Concept>
 				<Concept
 					Id="govpkg-factory-flavor"
 					Title="Machinery-wise it is a factory flavor"
-					Diagram='inject: ["fs", "pluginFactory"] - the gates, the discovery, the guarded write, the refresh, the continuation, the effects and the schema coming from plugin-dsh-factory; the pure helpers (Suppress, the policy loader) coming from hook-dsh-core; this bundle keeping only its own vocabulary: the Config extension, the chain pass, the update engine and every ledger string.'
+					Diagram='inject: ["fs", "pluginFactory"] - the gates, the discovery, the guarded write, the refresh, the continuation, the effects and the schema coming from dsh-plugin-factory; the pure helpers (Suppress, the policy loader) coming from hook-dsh-core; this bundle keeping only its own vocabulary: the Config extension, the chain pass, the update engine and every ledger string.'
 				>
 					<p>
 						<code>inject: ["fs", "pluginFactory"]</code> - the gates, the discovery, the
 						guarded write, the refresh, the continuation, the effects and the schema
-						come from <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>; the pure helpers (Suppress, the policy loader)
+						come from <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source")}>dsh-plugin-factory</a>; the pure helpers (Suppress, the policy loader)
 						come from hook-dsh-core.
 					</p>
 					<p>
@@ -358,7 +323,7 @@ const Related = [
 					</p>
 					<p>
 						That lets the raw-write tool's per-call govern selection drive the same
-						chain pass and update stage directly through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>.
+						chain pass and update stage directly through <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source/Function/Govern.ts")}>Factory.Govern</a>.
 					</p>
 				</Concept>
 			</div>
@@ -442,13 +407,12 @@ const Related = [
 					Diagram="The full pipeline as mechanics: fs/observed firing for every harness write (the tool layer only, any thread), the G1 gate deciding exclusion-first (the excluded path takes the ledger line; every other gate outcome is silent), the G2 registry discovery, the detached contained G3 chain pass (the pure transform ending in the GuardedWrite and the P3 re-emit), and the G4 update stage (the passage gate, the first-wins policy pick, the programmatic-or-bin dispatch, the verify and the U2 refresh) - ending in silence: the tool result shows exactly what the author wrote."
 				>
 					<p>
-						The same flow the ledger dump above shows as text, drawn as the gates it
+						The flow the README shows as an ASCII ladder, drawn as the gates it
 						runs: exclusion first, then the chain pass, then the update stage - the
 						author never learns.
 					</p>
 				</Concept>
 			</div>
-			<div class="code-block">{Pipeline.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
 					Id="govpkg-anywhere-mode"
@@ -529,7 +493,7 @@ const Related = [
 				<Concept
 					Id="govpkg-config-schema"
 					Title="The exported Config schema"
-					Diagram="The exported Config schema (the [factory's Schema helper](Ours:Classic/packages/plugin-dsh-factory/Source) extended with the module's own fields) validating and filling every default at load - invalid configuration failing loudly, new patch entries declared with insert:."
+					Diagram="The exported Config schema (the [factory's Schema helper](Ours:Classic/packages/dsh-plugin-factory/Source) extended with the module's own fields) validating and filling every default at load - invalid configuration failing loudly, new patch entries declared with insert:."
 				>
 					<p>
 						The factory's Schema helper, extended with the
@@ -545,11 +509,11 @@ const Related = [
 				Language="yaml"
 				Source={[
 					"- insert:",
-					"      - id: hook-dsh-governor-package",
-					'        name: "@playform/hook-dsh-governor-package"',
+					"      - id: hook-dsh-package-governor",
+					'        name: "@playform/hook-dsh-package-governor"',
 					"        config:",
 					"            log: true",
-					"            logFile: ~/.dsh/hook-dsh-governor-package.log # global ledger",
+					"            logFile: ~/.dsh/hook-dsh-package-governor.log # global ledger",
 					"            updateCooldownMs: 3000",
 					"            strict: false # explicit only; never default-delete unknown deps",
 					"            mutationTools: [write, edit, str_replace_editor]",
@@ -655,11 +619,11 @@ const Related = [
 				<Concept
 					Id="govpkg-ledger-log"
 					Title="One global log"
-					Diagram='One global log (logFile, default ~/.dsh/hook-dsh-governor-package.log) recording activation, exclusions, chain-pass results, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
+					Diagram='One global log (logFile, default ~/.dsh/hook-dsh-package-governor.log) recording activation, exclusions, chain-pass results, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
 				>
 					<p>
 						<code>logFile</code> (default{" "}
-						~/.dsh/hook-dsh-governor-package.log) records activation,
+						~/.dsh/hook-dsh-package-governor.log) records activation,
 						exclusions, chain-pass results, and every update-stage dispatch.
 					</p>
 					<p>

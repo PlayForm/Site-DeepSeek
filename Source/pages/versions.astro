@@ -27,31 +27,25 @@ const Invariants = [
 /*
  * THE OPERATING SET - the page's signature block. What is operating NOW:
  * the two release trees, their actual package names and versions, the
- * Effect-TS pin, and the state line. The ets-* splice (SPLICE-ETS.md) is
- * DOCUMENTATION ONLY - planned, not operating - so it appears as the
- * pending row, clearly marked.
+ * Effect-TS pin, and the state line. The ets-* splice (SPLICE-ETS.md) has
+ * EXECUTED - the two trees carry unique names: the Classic tree the plain
+ * @playform/dsh-* forms, the EffectTS tree the @playform/ets-* forms plus
+ * the base @playform/ets-dsh-hook.
  */
 const OperatingSet = [
 	{
 		State: "OPERATING",
 		Tree: "CLASSIC",
-		Detail: "@playform/hook-dsh-* x 12",
+		Detail: "@playform/*-dsh-hook x 12 + @playform/dsh-plugin-factory",
 		Version: Versions.Release,
 		Note: "plain TypeScript - classes, Maps, plain functions",
 	},
 	{
 		State: "OPERATING",
 		Tree: "EFFECT-TS",
-		Detail: "@playform/hook-dsh-* x 12",
+		Detail: "@playform/ets-*-dsh-hook x 12 + @playform/ets-dsh-plugin-factory + @playform/ets-dsh-hook",
 		Version: Versions.Release,
-		Note: `Effect-TS services & layers - effect pinned at ${Versions.Effect}`,
-	},
-	{
-		State: "PENDING",
-		Tree: "ETS-* SPLICE",
-		Detail: "@playform/ets-hook-dsh-* + @playform/ets-dsh-hook",
-		Version: "PLANNED",
-		Note: "the namespace split per Documentation/Plans/SPLICE-ETS.md - documentation only, not operating",
+		Note: `Effect-TS services & layers - effect pinned at ${Versions.Effect}; the base @playform/ets-dsh-hook carries the shared plumbing`,
 	},
 ];
 
@@ -186,7 +180,7 @@ const Changelog = `## 0.0.1
 				</Card>
 				<Card
 					Variant="white"
-					Name="plugin-dsh-factory"
+					Name="dsh-plugin-factory"
 					Desc={SuiteCount(
 						Counts.Factory,
 						"a fake ctx + a REAL instance, every primitive, the Gate matrix, both GuardedWrite postures, the full Continue lifecycle.",
@@ -196,21 +190,21 @@ const Changelog = `## 0.0.1
 				</Card>
 				<Card
 					Variant="white"
-					Name="hook-dsh-governor-package"
+					Name="hook-dsh-package-governor"
 					Desc={SuiteCount(Counts.Governor, "the gates, the chain pass, the update envelope, every ledger line byte-exact.")}
 				>
 					<Badge slot="badge">SMOKE</Badge>
 				</Card>
 				<Card
 					Variant="white"
-					Name="hook-dsh-pinner-package"
+					Name="hook-dsh-package-pinner"
 					Desc={SuiteCount(Counts.Pinner, "the range law, the keep-list union, the refusals, every ledger line byte-exact.")}
 				>
 					<Badge slot="badge">SMOKE</Badge>
 				</Card>
 				<Card
 					Variant="white"
-					Name="hook-dsh-governor-cargo"
+					Name="hook-dsh-cargo-governor"
 					Desc={SuiteCount(Counts.Cargo, "the TOML identification, the surgical pin, the full-version directive, the cargo bridge.")}
 				>
 					<Badge slot="badge">

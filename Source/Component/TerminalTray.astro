@@ -34,7 +34,7 @@ const { Label, Orange = false, Icon = false } = Astro.props;
 const RawMatch = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
 ---
 
-<div class="tray">
+<div class="tray" role="group" aria-label={Label}>
 	<span class="tray__markers" aria-hidden="true">
 		<i class="tray__marker tray__marker--first"></i>
 		<i class="tray__marker"></i>

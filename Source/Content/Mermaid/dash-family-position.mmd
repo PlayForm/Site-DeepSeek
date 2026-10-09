@@ -1,4 +1,4 @@
 flowchart LR
-	DASH["Hook @ DSH @ Normalize @ Dash"] --> FACTORY["plugin-dsh-factory - the service"]
+	DASH["Hook @ DSH @ Normalize @ Dash"] --> FACTORY["dsh-plugin-factory - the service"]
 	DASH --> CORE["hook-dsh-core - the machinery"]
 	DASH -. "the first of six stream normalizer siblings<br/>all built on the shared machinery" .-> SIB["the six stream normalizer siblings"]
