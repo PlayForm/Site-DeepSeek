@@ -356,6 +356,33 @@ const Spans = [
 		"Batch\u2014two of three\u2013done\u2026 \u201Cclean\u201D\u00A0output only",
 	];
 
+	// The ingest engines drive the simulation: each source has its own token
+	// pool and its own pacing, so switching the pill visibly changes what the
+	// raw buffer receives (and what the gate has to clean). The DeepSeek
+	// engine is the governed high-tps stream (the base seeds, 900 ms ticks);
+	// the GLM flash engine emits shorter, quicker bursts (450 ms); the raw
+	// ingest stream is the unnormalized feed the gate exists for - heavily
+	// dirty tokens (fullwidth, stray invisibles, doubled marks) at a slower
+	// 1400 ms cadence.
+	const GLMSeeds = [
+		"Flash route \u2014 cache warm\u2026 tokens 1.2k/s",
+		"Stream\u00A0resume \u2014 \u2018delta\u2019 chunk ok\u2026",
+		"Spec\u200Btrim \u2014 budget\u00A0held\u2026",
+	];
+	const RawSeeds = [
+		"Ｒaw\u00A0ingest\u00A0—\u200B\u200B \u201Cunchanged\u201D\u2026\u2026 tokens",
+		"\uFF24eep\u00A0\uFF53eed \u2018dirty\u2019\u2014\u2014\uFEFF\u2026 pass\u2013through",
+		"Buffer\u200B\u200Bdrift\u00A0\u2014 \u201C\u201Cdoubled\u201D\u201D\u2026 marks",
+	];
+	const EngineSeeds: Record<string, string[]> = {
+		deepseek: Seeds,
+		glm: GLMSeeds,
+		raw: RawSeeds,
+	};
+	const EngineTicks: Record<string, number> = { deepseek: 900, glm: 450, raw: 1400 };
+	let Engine = "deepseek";
+	let TickMs = EngineTicks[Engine]!;
+
 	const RawTerminal = document.querySelector<HTMLElement>("[data-stream='raw']")!;
 	const CleanTerminal = document.querySelector<HTMLElement>("[data-stream='clean']")!;
 	const RawCount = document.querySelector<HTMLElement>("[data-count='raw']")!;
@@ -466,7 +493,8 @@ const Spans = [
 
 	function Push() {
 		if (Paused || HoverPaused) return;
-		const Seed = Seeds[Math.floor(Math.random() * Seeds.length)];
+		const Pool = EngineSeeds[Engine] ?? Seeds;
+		const Seed = Pool[Math.floor(Math.random() * Pool.length)];
 		const [Clean] = Transform(Seed);
 		RawBytes += new TextEncoder().encode(Seed).length;
 		CleanBytes += new TextEncoder().encode(Clean).length;
@@ -484,7 +512,15 @@ const Spans = [
 		Render();
 	}
 
-	setInterval(Push, 900);
+	// The tick interval is rescheduled when the ingest engine changes (the
+	// per-engine pacing above), so a selected engine's cadence takes over
+	// the stream immediately.
+	let Timer = 0;
+	function Schedule() {
+		clearInterval(Timer);
+		Timer = setInterval(Push, TickMs);
+	}
+	Schedule();
 
 	// Prime the panes with three chunks so the gate reads live on load.
 	for (let Index = 0; Index < 3; Index += 1) Push();
@@ -567,7 +603,8 @@ const Spans = [
 		});
 	});
 
-	// Engine pills.
+	// Engine pills: the selection drives the simulation - the pool and the
+	// pacing above switch immediately, then the highlight + toast follow.
 	document.querySelectorAll<HTMLElement>("[data-engine]").forEach((Pill) => {
 		Pill.addEventListener("click", () => {
 			document
@@ -578,6 +615,12 @@ const Spans = [
 				});
 			Pill.setAttribute("data-active", "");
 			Pill.setAttribute("aria-pressed", "true");
+			const Id = Pill.dataset["engine"]!;
+			if (EngineSeeds[Id]) {
+				Engine = Id;
+				TickMs = EngineTicks[Id] ?? 900;
+				Schedule();
+			}
 			Toast?.(`Ingest: ${Pill.textContent?.trim()}`);
 		});
 	});

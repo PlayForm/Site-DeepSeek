@@ -604,6 +604,16 @@ svg {
 	margin-right: var(--gap-icon);
 }
 
+/* The wide npm lockup in the prose flow: the 3.12-aspect official wordmark
+   reads oversized at the full em box (its ink runs nearly edge-to-edge,
+   unlike the padded square/round marks), so the prose mentions carry a
+   reduced em size (0.75em, set at the usage) and the shared --gap-icon
+   breathing room on BOTH sides - the same inline-unit law as the file
+   mentions, so the mark sits in the sentence like the other brand marks. */
+.page-hero__sub .brand-icon--npm {
+	margin-inline: var(--gap-icon);
+}
+
 /* The optical lift: in the flex chip/label rows the icon's box centers on
 	the row's line box, but the mono label's visual mass sits ~2px above
 	that center (the leading + descent space below the baseline). The
@@ -1147,6 +1157,10 @@ a .code-token {
 
 .hero__title {
 	color: var(--color-on-surface);
+	/* The top breathing room: the tagline sits directly under the
+	   hero's badge row, so a full xl of top padding clears the h1 from
+	   the badges on both themes (the token flips nothing - pure space). */
+	padding-top: var(--space-xl);
 	margin: 0 0 var(--space-sm);
 	font-size: var(--text-headline-xl-mobile);
 	line-height: var(--leading-headline-xl-mobile);
