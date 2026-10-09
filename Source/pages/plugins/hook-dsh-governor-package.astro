@@ -435,6 +435,19 @@ const Related = [
 
 		<section class="section">
 			<SectionHeader Title="How It Works" Meta="THE PIPELINE G = U ∘ P" />
+			<div class="concept-list">
+				<Concept
+					Id="govpkg-pipeline"
+					Title="The pipeline, gate by gate"
+					Diagram="The full pipeline as mechanics: fs/observed firing for every harness write (the tool layer only, any thread), the G1 gate deciding exclusion-first (the excluded path takes the ledger line; every other gate outcome is silent), the G2 registry discovery, the detached contained G3 chain pass (the pure transform ending in the GuardedWrite and the P3 re-emit), and the G4 update stage (the passage gate, the first-wins policy pick, the programmatic-or-bin dispatch, the verify and the U2 refresh) - ending in silence: the tool result shows exactly what the author wrote."
+				>
+					<p>
+						The same flow the ledger dump above shows as text, drawn as the gates it
+						runs: exclusion first, then the chain pass, then the update stage - the
+						author never learns.
+					</p>
+				</Concept>
+			</div>
 			<div class="code-block">{Pipeline.join("\n")}</div>
 			<div class="concept-list">
 				<Concept

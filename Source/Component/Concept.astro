@@ -111,17 +111,16 @@ const Svg = Diagrams[`/Source/Content/Mermaid/${Id}.svg`] as string | undefined;
 	}
 
 	/* The descriptive-title layout: the info icon opens the title on the
-	   LEFT through the shared --gap-icon token; the flex centering keeps
-	   the icon on the title's optical center line, and the muted tone +
-	   headline-lg scale come from the shared Global.css law. The gap is
-	   the wider sm step (8px) rather than the bare 4px icon token: the
-	   user asked for the icon to push the text more inward, so the
-	   icon-to-text spacing between the circled-i and the title reads as
-	   one deliberate unit in both themes. */
+	   LEFT; the flex centering keeps the icon on the title's optical
+	   center line, and the muted tone + headline-lg scale come from the
+	   shared Global.css law. The gap is the md step (12px), stepped up
+	   twice from the bare 4px icon token at the user's feel: the icon
+	   pushes the text more inward, so the circled-i + title read as one
+	   deliberate unit in both themes. */
 	.concept__title {
 		display: flex;
 		align-items: center;
-		gap: var(--space-sm);
+		gap: var(--space-md);
 	}
 
 	/* The wrap law for the concept prose: a slash-joined technical run

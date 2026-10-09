@@ -283,3 +283,18 @@ export function Mention(Text: string): string {
 	}
 	return Out + Escape(Rest);
 }
+/**
+ * DotSep: the separator-dot renderer. Every "·" separator in a rendered
+ * string (the metas, the kickers, the badges, the labels) becomes the
+ * site's designed separator: a GRAYED-OUT, BIGGER dot - a small filled
+ * circle (the .dot-sep span in Global.css, the outline gray, ~1.5x the
+ * middle-dot glyph, vertically centered) instead of the typographic
+ * middle dot. The surrounding spaces are consumed (the span's margins
+ * own the gap), so the visible word bytes stay byte-exact - only the
+ * separator glyph is replaced. For HTML contexts only (the output is
+ * markup); the JS status strings that must remain textContent keep
+ * their own handling.
+ */
+export function DotSep(Text: string): string {
+	return Text.replace(/\s*·\s*/g, '<span class="dot-sep" aria-hidden="true"></span>');
+}

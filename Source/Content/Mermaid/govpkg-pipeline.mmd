@@ -1,11 +1,11 @@
 flowchart LR
 	TRIGGER["fs/observed (target, {kind:present, version}, actor)<br/>fired by the TOOL LAYER ONLY, for every harness<br/>write/edit, any thread"]
 	G1["G1 Factory.Gate - displayPath → actor ∈ mutationTools<br/>→ kind present → Stash idempotence →<br/>basename package.json → excluded?"]
-	SKIP["ledger skipped (excluded) <path><br/>(every other gate outcome is silent)"]
+	SKIP["ledger skipped (excluded) - the excluded path<br/>(every other gate outcome is silent)"]
 	G2["G2 Factory.Discover + Factory.Parse -<br/>nearest registry.json walk-up"]
 	SKIP2["ledger line,<br/>the chain pass is skipped"]
 	SEED["Stash seed (targetKey, version) - our own<br/>re-emits re-enter as no-ops"]
-	G3["G3 CHAIN PASS (the pure transform) - read → chain-governed pins<br/>(dep ∈ registry.effectiveLatest) canonicalized to ^<resolved><br/>(strict: strip unknown - explicit only, never a default) →<br/>GuardedWrite (replaceIfVersion + the P4 fence) → ledger<br/>`governed <path> → <version>` → Refresh (P3 re-emit, same actor)"]
+	G3["G3 CHAIN PASS (the pure transform) - read → chain-governed pins<br/>(dep ∈ registry.effectiveLatest) canonicalized to ^resolved<br/>(strict: strip unknown - explicit only, never a default) →<br/>GuardedWrite (replaceIfVersion + the P4 fence) → ledger<br/>governed (path to version) → Refresh (P3 re-emit, same actor)"]
 	G4["G4 UPDATE STAGE - passage gate → Filter (nothing public? skip)<br/>→ first-wins update-policy pick → Dispatch: breaker → in-flight<br/>→ cooldown → the jobs envelope (kind governor-update, unowned)<br/>or the detached fallback"]
 	PROG["programmatic: ncu.run({packageFile, upgrade, silent, dep,<br/>concurrency, target, reject ∪ chain deps, allow, filter})<br/>- no external binary"]
 	BIN["bin: the ncu binary (ncuBin) via ctx.subprocess"]

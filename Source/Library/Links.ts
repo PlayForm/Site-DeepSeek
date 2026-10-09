@@ -41,11 +41,21 @@ export const BranchOurs = "tree/Current";
  * other URL on the site is composed from these. The site's own base URL is
  * Site below: the header brand links to it and astro.config.ts mirrors it
  * (the config cannot import this module at config-eval time, so it repeats
- * the literal with a comment pointing here).
+ * the expression with a comment pointing here).
+ *
+ * Site is environment-keyed: in development (NODE_ENV, the same key the
+ * service-worker gate in astro.config.ts uses) every URL the site emits is
+ * http://localhost:9999 so all links, canonicals and og:url resolve against
+ * the dev server; the build (NODE_ENV unset) keeps the canonical
+ * https://deepseek.playform.cloud, so the published SEO surface - canonical
+ * tags, og:url, the sitemap and the JSON-LD - never leaks localhost.
  */
 export const Links = {
-	/** The site's own base URL - what the deployed site is served from. */
-	Site: "https://deepseek.playform.cloud",
+	/** The site's own base URL - what the site is served from (dev or deployed). */
+	Site:
+		process.env["NODE_ENV"] === "development"
+			? "http://localhost:9999"
+			: "https://deepseek.playform.cloud",
 	/** The DeepSeek Harness repository (deepseek-ai), linked at branch master. */
 	DeepSeekHarness: { Base: "https://github.com/deepseek-ai/deepseek-harness", Branch: BranchDeepSeek },
 	/** The family monorepo - this site's own repository (PlayForm/DeepSeek), at branch Current. */

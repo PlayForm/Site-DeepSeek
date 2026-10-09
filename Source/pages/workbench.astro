@@ -84,7 +84,7 @@ const Runtimes = [
 
 // Ingest engines, per the workbench mock.
 const Engines = [
-	{ Id: "deepseek", Label: "DeepSeek Engine v4 (120 tps)" },
+	{ Id: "deepseek", Label: "DeepSeek Engine v4" },
 	{ Id: "glm", Label: "GLM Engine 5.3" },
 	{ Id: "raw", Label: "Raw Ingest Stream" },
 ];
@@ -499,8 +499,7 @@ const Spans = [
 		ToggleButton.classList.toggle("engine-pill--active", Paused);
 	}
 
-	function Push() {
-		if (Paused || HoverPaused) return;
+	function PushChunk() {
 		const Pool = EngineSeeds[Engine] ?? Seeds;
 		const Seed = Pool[Math.floor(Math.random() * Pool.length)];
 		const [Clean] = Transform(Seed);
@@ -520,6 +519,12 @@ const Spans = [
 		Render();
 	}
 
+	function Push() {
+		if (Paused || HoverPaused) return;
+		const Batch = RuntimeBatch[Runtime] ?? 1;
+		for (let Index = 0; Index < Batch; Index += 1) PushChunk();
+	}
+
 	// The tick interval is rescheduled when the ingest engine changes (the
 	// per-engine pacing above), so a selected engine's cadence takes over
 	// the stream immediately.
@@ -531,7 +536,7 @@ const Spans = [
 	Schedule();
 
 	// Prime the panes with three chunks so the gate reads live on load.
-	for (let Index = 0; Index < 3; Index += 1) Push();
+	for (let Index = 0; Index < 3; Index += 1) PushChunk();
 
 	// Hover-to-pause on the dual-terminal stage: hovering the raw/clean
 	// panes suspends the stream ticks (the push guard returns early) and
@@ -596,7 +601,9 @@ const Spans = [
 		);
 	});
 
-	// Runtime pills.
+	// Runtime pills: the selection drives the simulation (the per-runtime
+	// batch size above) and the stream status line, then the highlight +
+	// toast follow.
 	document.querySelectorAll<HTMLElement>("[data-runtime]").forEach((Pill) => {
 		Pill.addEventListener("click", () => {
 			document
@@ -607,6 +614,14 @@ const Spans = [
 				});
 			Pill.setAttribute("data-active", "");
 			Pill.setAttribute("aria-pressed", "true");
+			const Id = Pill.dataset["runtime"]!;
+			if (RuntimeBatch[Id]) {
+				Runtime = Id;
+				const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+				if (StreamStatus && !Paused && !HoverPaused) {
+					StreamStatus.textContent = `Stream running · ${Pill.textContent?.trim()}`;
+				}
+			}
 			Toast?.(`Runtime: ${Pill.textContent?.trim()}`);
 		});
 	});
