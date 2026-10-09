@@ -1,9 +1,9 @@
 ---
 // Terminal install box: hairline panel, white command line, copy button
-// with a transient mono "COPIED" status in primary. The npm form (`pnpm add
-// @playform/<pkg>`) is the published-route command - the family is not on
-// npm yet, so the default label carries the timing truthfully ("ONCE
-// PUBLISHED"); today the install is from source (the /setup/ flow).
+// with a transient mono "COPIED" status in primary. The npm form (`npm
+// install @playform/<pkg>@0.0.1`) is the published-route command - the
+// family is on npm (v0.0.1, all 25 packages, provenance-verified), so the
+// label states the release version.
 import { DotSep } from "@Library/FileIcon";
 
 interface Props {
@@ -15,8 +15,8 @@ interface Props {
 }
 
 const {
-	Command = "pnpm add @playform/hook-dsh-core",
-	Label = "CLI INSTALL · ONCE PUBLISHED",
+	Command = "npm install @playform/hook-dsh-core@0.0.1",
+	Label = "CLI INSTALL · NPM · 0.0.1",
 	Rail = false,
 } = Astro.props;
 ---

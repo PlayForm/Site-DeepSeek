@@ -11,9 +11,9 @@
 // @playform/ets-* names per SPLICE-ETS.md), the verification lines are the
 // ledger forms the packages write (the governor's and the pinner's are the
 // page's byte-exact strings; the remaining flavors follow the same format),
-// and the command block is the published npm route (`pnpm add
-// @playform/<pkg>` inside ~/.dsh) - ONCE PUBLISHED, per the site's standing
-// qualifier, since the npm publishing is still pending.
+// and the command block is the published npm route (`npm install
+// @playform/<pkg>@0.0.1` inside ~/.dsh) - the family is on npm since the
+// v0.0.1 release (2026-10-09, provenance via OIDC trusted publishing).
 //
 // THE STATE: the selection persists in the URL query (?engine=&p=&profile= -
 // shareable) and in localStorage; the URL wins on load. The default state is
@@ -322,7 +322,7 @@ function CleanProfile(Profile: string): string {
 	return Name || DefaultProfile;
 }
 
-/** The INSTALL-ALL block: one `pnpm add` per selected package, inside ~/.dsh. */
+/** The INSTALL-ALL block: one `npm install` per selected package, inside ~/.dsh. */
 function InstallOutput(
 	Engine: string,
 	Pkgs: SlotKey[],
@@ -333,7 +333,7 @@ function InstallOutput(
 	const Lines = [
 		`# inside ~/.dsh/profiles/${Name}`,
 		`cd ~/.dsh/profiles/${Name}`,
-		...Pkgs.map((Key) => `pnpm add ${Slots[Key].Pkg}`),
+		...Pkgs.map((Key) => `npm install ${Slots[Key].Pkg}@0.0.1`),
 	];
 	const Base = Engines[Engine].Base;
 	if (Base && Pkgs.length > 0) {
@@ -483,7 +483,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 		<div class="cfg__panel">
 			<div class="cfg__bar">
 				<span class="cfg__title">
-					<Fragment set:html={DotSep("1 · INSTALL-ALL · PUBLISHED ROUTE · ONCE ON NPM")} />
+					<Fragment set:html={DotSep("1 · INSTALL-ALL · PUBLISHED ROUTE · NPM · 0.0.1")} />
 				</span>
 				<span class="cfg__status">COPIED</span>
 				<button type="button" class="cfg__copy" aria-label="Copy the install commands">
@@ -528,8 +528,8 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 	</div>
 
 	<p class="cfg__note">
-		The commands are the published npm route - run them inside <code>~/.dsh</code> once
-		the family is on npm; today the install is from source (the steps below). The
+		The commands are the published npm route - the family is on npm since the v0.0.1
+		release; run them inside <code>~/.dsh</code> against the registry. The
 		selection persists in the URL and in localStorage - share the URL to hand over the
 		exact setup.
 	</p>
@@ -582,7 +582,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 			const Lines = [
 				`# inside ~/.dsh/profiles/${Profile}`,
 				`cd ~/.dsh/profiles/${Profile}`,
-				...Pkgs.map((Key) => `pnpm add ${Slots[Key].Pkg}`),
+				...Pkgs.map((Key) => `npm install ${Slots[Key].Pkg}@0.0.1`),
 			];
 			const Base = Engines[Engine].Base;
 			if (Base && Pkgs.length > 0) {

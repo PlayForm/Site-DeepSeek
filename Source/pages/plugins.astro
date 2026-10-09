@@ -21,7 +21,7 @@ const Core = [
 		Tags: "core factory service hook",
 		Sentence: Families.Core,
 		Desc: "The pure commonalities of the family (dependency-free in CLASSIC; effect-backed in EFFECT-TS): the section lists, the exclusion segments, the suppression composer, the policy loader, the refusal guard and the normalize/Stream machinery.",
-		Install: "pnpm add @playform/hook-dsh-core",
+		Install: "npm install @playform/hook-dsh-core@0.0.1",
 	},
 	{
 		Name: "plugin-dsh-factory",
@@ -30,7 +30,7 @@ const Core = [
 		Tags: "core factory service plugin",
 		Sentence: Families.Factory,
 		Desc: "The family's first service: the ledger, the exclusion match, the discovery, the keep-list union, the gate set, the version-guarded fenced write, the refresh, the detached contained continuation, the State builder, the wiring, the effects, the schema factory and the probe-once seam.",
-		Install: "pnpm add @playform/plugin-dsh-factory",
+		Install: "npm install @playform/plugin-dsh-factory@0.0.1",
 	},
 ];
 
@@ -41,7 +41,7 @@ const Governance = [
 		Tags: "governor manifest package hook",
 		Sentence: Families.GovernorPackage,
 		Desc: "The silent package.json governor: hooks [fs/observed](Harness:packages/fs/fs/src/index.ts), rewrites chain-governed pins to the effective registry's resolved versions, and runs the update stage as a detached, contained continuation.",
-		Install: "pnpm add @playform/hook-dsh-package-governor",
+		Install: "npm install @playform/hook-dsh-package-governor@0.0.1",
 	},
 	{
 		Name: "hook-dsh-package-pinner",
@@ -49,7 +49,7 @@ const Governance = [
 		Tags: "pinner manifest package hook",
 		Sentence: Families.PinnerPackage,
 		Desc: "The silent package.json version pinner: hooks [fs/observed](Harness:packages/fs/fs/src/index.ts) and deterministically rewrites every ranged dependency version to its static version, protected by a [pin-policy keep-list](Ours:Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts).",
-		Install: "pnpm add @playform/hook-dsh-package-pinner",
+		Install: "npm install @playform/hook-dsh-package-pinner@0.0.1",
 	},
 	{
 		Name: "hook-dsh-cargo-governor",
@@ -57,7 +57,7 @@ const Governance = [
 		Tags: "governor cargo manifest hook",
 		Sentence: Families.GovernorCargo,
 		Desc: "The Cargo.toml governor: the Rust-sided flavor of the package governor - surgical chain-pin rewrites on the raw TOML lines and cargo upgrade driven through the [subprocess seam](Harness:packages/subprocess/subprocess).",
-		Install: "pnpm add @playform/hook-dsh-cargo-governor",
+		Install: "npm install @playform/hook-dsh-cargo-governor@0.0.1",
 	},
 ];
 
@@ -68,7 +68,7 @@ const Normalize = [
 		Tags: "normalize flavor dash stream hook",
 		Sentence: Families.Dash,
 		Desc: "The dash flavor: normalizes the unicode dash family to ASCII hyphen-minus in model output streams, mirroring the core's dash class at the injection point a file hook lacks.",
-		Install: "pnpm add @playform/hook-dsh-normalize-dash",
+		Install: "npm install @playform/hook-dsh-normalize-dash@0.0.1",
 	},
 	{
 		Name: "hook-dsh-normalize-quotes",
@@ -76,7 +76,7 @@ const Normalize = [
 		Tags: "normalize flavor quotes stream hook",
 		Sentence: Families.Quotes,
 		Desc: "The quotes flavor: maps the eight curly quote code points to their ASCII straight counterparts in model output streams.",
-		Install: "pnpm add @playform/hook-dsh-normalize-quotes",
+		Install: "npm install @playform/hook-dsh-normalize-quotes@0.0.1",
 	},
 	{
 		Name: "hook-dsh-normalize-ellipsis",
@@ -84,7 +84,7 @@ const Normalize = [
 		Tags: "normalize flavor ellipsis stream hook",
 		Sentence: Families.Ellipsis,
 		Desc: "The ellipsis flavor: replaces the horizontal ellipsis (U+2026) with the plain ASCII three-dot sequence in model output streams.",
-		Install: "pnpm add @playform/hook-dsh-normalize-ellipsis",
+		Install: "npm install @playform/hook-dsh-normalize-ellipsis@0.0.1",
 	},
 	{
 		Name: "hook-dsh-normalize-spaces",
@@ -92,7 +92,7 @@ const Normalize = [
 		Tags: "normalize flavor spaces stream hook",
 		Sentence: Families.Spaces,
 		Desc: "The spaces flavor: normalizes the unicode space family (Zs minus the ASCII space) to the plain space in model output streams.",
-		Install: "pnpm add @playform/hook-dsh-normalize-spaces",
+		Install: "npm install @playform/hook-dsh-normalize-spaces@0.0.1",
 	},
 	{
 		Name: "hook-dsh-normalize-invisible",
@@ -100,7 +100,7 @@ const Normalize = [
 		Tags: "normalize flavor invisible stream hook",
 		Sentence: Families.Invisible,
 		Desc: "The invisible flavor: removes the zero-width/invisible character family (soft hyphen, zero-width spaces and joiners, bidi controls, BOM) from model output streams.",
-		Install: "pnpm add @playform/hook-dsh-normalize-invisible",
+		Install: "npm install @playform/hook-dsh-normalize-invisible@0.0.1",
 	},
 	{
 		Name: "hook-dsh-normalize-fullwidth",
@@ -108,7 +108,7 @@ const Normalize = [
 		Tags: "normalize flavor fullwidth stream hook",
 		Sentence: Families.Fullwidth,
 		Desc: "The fullwidth flavor: maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterparts in model output streams.",
-		Install: "pnpm add @playform/hook-dsh-normalize-fullwidth",
+		Install: "npm install @playform/hook-dsh-normalize-fullwidth@0.0.1",
 	},
 	{
 		Name: "hook-dsh-normalize-file",
@@ -116,7 +116,7 @@ const Normalize = [
 		Tags: "normalize flavor file stream hook tool",
 		Sentence: Families.File,
 		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing only when something changed.",
-		Install: "pnpm add @playform/hook-dsh-normalize-file",
+		Install: "npm install @playform/hook-dsh-normalize-file@0.0.1",
 	},
 ];
 
@@ -145,7 +145,7 @@ const Registry = [
 
 <Base
 	Title="Plugins - DSH Family @ PlayForm"
-	Description="The twelve plugins of the DeepSeek Harness Plugin Family for PlayForm, each with its @-sentence identity and its install snippet (the pnpm add form, live once published)."
+	Description="The twelve plugins of the DeepSeek Harness Plugin Family for PlayForm, each with its @-sentence identity and its install snippet (the npm install form, pinned at the release version)."
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -158,7 +158,7 @@ const Registry = [
 		<PageHero
 			Title="Plugins"
 			Sub={
-				'The twelve TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity: the scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.\nThe install rows show the npm form (pnpm add @playform/<pkg>) - live once the family publishes to npm; today the install is from source, wired into a profile via the /setup/ flow.'
+				'The twelve TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity: the scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.\nThe install rows show the published npm form (npm install @playform/<pkg>@0.0.1) - all twelve packages are on npm at the v0.0.1 release; the /setup/ flow wires them into a profile.'
 			}
 		/>
 

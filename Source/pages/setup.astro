@@ -286,15 +286,15 @@ const Knobs = [
 				<Concept
 					Id="setup-remote-installs"
 					Title="Remote installs work the same way"
-					Diagram="The tarball route into the same bundles list today - dsh plugin --profile add of a built bundle; the pnpm add route joins once the family publishes to npm (a later item)."
+					Diagram="The tarball route into the same bundles list - dsh plugin --profile add of a built bundle; the npm install route against the registry is the other path in, live since the v0.0.1 release."
 				>
 					<p>
 						<BrandIcon Name="playform" />{" "}
 						<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code> for a
 						built bundle today, or{" "}
-						<code>pnpm add @playform/&lt;pkg&gt;</code> in the profile directory once
-						the family publishes to <code class="code-token">npm</code> (the publishing
-						is a later item).
+						<code>npm install @playform/&lt;pkg&gt;@0.0.1</code> in the profile directory - the
+						family is live on <code class="code-token">npm</code> since the v0.0.1
+						release (provenance via OIDC trusted publishing).
 					</p>
 				</Concept>
 			</div>
