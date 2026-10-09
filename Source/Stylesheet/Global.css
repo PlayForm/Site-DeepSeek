@@ -712,9 +712,27 @@ svg {
 	without the lift the measured offset is +0.1..+0.4px. */
 .version-card__head .brand-icon,
 .stream-pane__label .brand-icon,
-.stream-pane__label .dot,
-.inspect-card__meta .live-dot {
+.stream-pane__label .dot {
 	margin-block: -0.1875em 0.1875em;
+}
+
+/* The live-dot: the fixed 8px dot leaves the 0.1875em lift (that step is
+	tuned for the 1em brand-icon boxes above; on the smaller dot it
+	overshoots) and takes its own measured corrections. In the INSPECTED
+	chip (.inspect-card__meta) the flex row without any lift lands the dot
+	+0.4px below the label's ink center - the same half-pixel net-zero pair
+	as the span.engine-pill fix centers it (measured: -2.0px with the
+	0.1875em lift, -0.1px with the half-pixel pair, both themes, all
+	widths). In the registry telemetry count the dot gets no shared
+	correction at all (its 16px line box centers the ink higher), so it
+	sits +1.1px low - the 1px pair re-centers it (measured: +1.1px ->
+	+0.1px, both themes, all widths). */
+.inspect-card__meta .live-dot {
+	margin-block: -0.5px 0.5px;
+}
+
+.registry-telemetry__count .live-dot {
+	margin-block: -1px 1px;
 }
 
 /* The span pills: the engine-pill states that render as <span> (the
