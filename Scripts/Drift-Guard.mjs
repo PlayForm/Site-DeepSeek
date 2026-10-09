@@ -180,12 +180,12 @@ for (const [Tree, Packages] of Object.entries(Trees)) {
 // --- 3b. The splice's name forms: the new shapes on, the stale forms gone ---
 // The post-splice convention: the Classic tree the hook-dsh-* packages plus
 // the plugin-dsh-factory, the EffectTS tree the same names under the ets-
-// prefix plus the ets-plugin-dsh-factory and the shared ets-dsh-hook base.
+// prefix plus the ets-plugin-dsh-factory and the shared ets-base-dsh base.
 const NameForm = {
 	Classic: (Dir) => Dir === "plugin-dsh-factory" || /^hook-dsh-[a-z0-9-]+$/.test(Dir),
 	EffectTS: (Dir) =>
 		Dir === "ets-plugin-dsh-factory" ||
-		Dir === "ets-dsh-hook" ||
+		Dir === "ets-base-dsh" ||
 		/^ets-hook-dsh-[a-z0-9-]+$/.test(Dir),
 };
 for (const [Tree, Packages] of Object.entries(Trees)) {
@@ -201,7 +201,7 @@ for (const [Tree, Packages] of Object.entries(Trees)) {
 const StaleForm = (Text) => {
 	const Stem = Text.replace(/^@playform\//, "");
 	return (
-		(/[a-z0-9]-dsh-hook$/.test(Stem) && Stem !== "ets-dsh-hook") ||
+		(/[a-z0-9]-dsh-hook$/.test(Stem) && Stem !== "ets-base-dsh") ||
 		Stem === "dsh-plugin-factory" ||
 		Stem === "ets-dsh-plugin-factory" ||
 		/(^|\/)dsh-hook-/.test(Stem)
@@ -217,10 +217,10 @@ for (const [Tree, Packages] of Object.entries(Trees)) {
 // The EffectTS tree mirrors the Classic tree: the ets- prefixed same names,
 // plus the two ets-only packages (the base and the factory).
 Check(
-	"EffectTS/packages = ets- + the Classic names, plus the ets-dsh-hook base",
+	"EffectTS/packages = ets- + the Classic names, plus the ets-base-dsh base",
 	[
 		...Trees.Classic.map((Package) => `ets-${Package.Dir}`),
-		"ets-dsh-hook",
+		"ets-base-dsh",
 	].sort(),
 	Trees.EffectTS.map((Package) => Package.Dir),
 );

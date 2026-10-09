@@ -30,7 +30,7 @@ const Invariants = [
  * Effect-TS pin, and the state line. The ets-* splice (SPLICE-ETS.md) has
  * EXECUTED - the two trees carry unique names: the Classic tree the plain
  * @playform/dsh-* forms, the EffectTS tree the @playform/ets-* forms plus
- * the base @playform/ets-dsh-hook.
+ * the base @playform/ets-base-dsh.
  */
 const OperatingSet = [
 	{
@@ -43,9 +43,9 @@ const OperatingSet = [
 	{
 		State: "OPERATING",
 		Tree: "EFFECT-TS",
-		Detail: "@playform/ets-hook-dsh-* x 12 + @playform/ets-plugin-dsh-factory + @playform/ets-dsh-hook",
+		Detail: "@playform/ets-hook-dsh-* x 12 + @playform/ets-plugin-dsh-factory + @playform/ets-base-dsh",
 		Version: Versions.Release,
-		Note: `Effect-TS services & layers - effect pinned at ${Versions.Effect}; the base @playform/ets-dsh-hook carries the shared plumbing`,
+		Note: `Effect-TS services & layers - effect pinned at ${Versions.Effect}; the base @playform/ets-base-dsh carries the shared plumbing`,
 	},
 ];
 
