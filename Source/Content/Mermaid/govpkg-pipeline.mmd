@@ -7,7 +7,7 @@ flowchart LR
 		G1A["displayPath"] --> G1B["actor ∈ mutationTools"] --> G1C["kind present"] --> G1D["Stash idempotence"] --> G1E["basename package.json"] --> G1F["excluded?"]
 	end
 
-	G1F -. "excluded" .-> SKIP["ledger skipped (excluded) &lt;path&gt;<br/>(every other gate<br/>outcome is silent)"]
+	G1F -. "excluded" .-> SKIP["ledger skipped (excluded) (path)<br/>(every other gate<br/>outcome is silent)"]
 
 	SG1 --> SG2
 
@@ -24,10 +24,10 @@ flowchart LR
 
 	subgraph SG3["G3 CHAIN PASS (the pure transform)"]
 		direction TB
-		G3A["read"] --> G3B["chain-governed pins<br/>(dep ∈ registry.effectiveLatest)<br/>canonicalized to ^resolved"] --> G3C["strict: strip unknown<br/>- explicit only,<br/>never a default"] --> G3D["GuardedWrite<br/>(replaceIfVersion + the P4 fence)"] --> G3E["ledger governed<br/>&lt;path&gt; → &lt;version&gt;"] --> G3F["Refresh<br/>(P3 re-emit, same actor)"]
+		G3A["read"] --> G3B["chain-governed pins<br/>(dep ∈ registry.effectiveLatest)<br/>canonicalized to ^resolved"] --> G3C["strict: strip unknown,<br/>explicit only,<br/>never a default"] --> G3D["GuardedWrite<br/>(replaceIfVersion + the P4 fence)"] --> G3E["ledger governed<br/>(path) → (version)"] --> G3F["Refresh<br/>(P3 re-emit, same actor)"]
 	end
 
-	SG3NOTE["the factory's Continue also computes the<br/>union keep-list with the P3 chain keys<br/>- deliberately ignored by this transform"]
+	SG3NOTE["the factory's Continue also computes the<br/>union keep-list with the P3 chain keys,<br/>deliberately ignored by this transform"]
 	SG3 ~~~ SG3NOTE
 
 	SG3 -- "chained off the settled continuation" --> SG4
@@ -50,4 +50,4 @@ flowchart LR
 
 	PROG --> VERIFY
 	BIN --> VERIFY
-	REFRESH --> END["SILENCE: the tool result shows exactly what<br/>the author wrote. The governed state is<br/>discoverable only by a subsequent read -<br/>or in the ledger."]
+	REFRESH --> END["SILENCE: the tool result shows exactly what<br/>the author wrote. The governed state is<br/>discoverable only by a subsequent read,<br/>or in the ledger."]
