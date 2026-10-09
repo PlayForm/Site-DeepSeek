@@ -36,14 +36,14 @@ const OperatingSet = [
 	{
 		State: "OPERATING",
 		Tree: "CLASSIC",
-		Detail: "@playform/*-dsh-hook x 12 + @playform/dsh-plugin-factory",
+		Detail: "@playform/hook-dsh-* x 12 + @playform/dsh-plugin-factory",
 		Version: Versions.Release,
 		Note: "plain TypeScript - classes, Maps, plain functions",
 	},
 	{
 		State: "OPERATING",
 		Tree: "EFFECT-TS",
-		Detail: "@playform/ets-*-dsh-hook x 12 + @playform/ets-dsh-plugin-factory + @playform/ets-dsh-hook",
+		Detail: "@playform/ets-hook-dsh-* x 12 + @playform/ets-dsh-plugin-factory + @playform/ets-dsh-hook",
 		Version: Versions.Release,
 		Note: `Effect-TS services & layers - effect pinned at ${Versions.Effect}; the base @playform/ets-dsh-hook carries the shared plumbing`,
 	},

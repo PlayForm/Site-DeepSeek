@@ -182,7 +182,7 @@ for (const [Key, Suite] of SuiteKeys) {
 
 /** The Classic release tree's normalize packages (the dash..file seven). */
 const NormalizePackages = ClassicPackages.filter((Package) =>
-	Package.Dir.startsWith("normalize-"),
+	/(^|-)normalize(-|$)/.test(Package.Dir),
 );
 
 /** The factory's callable-method count: the SCHEME's §2 sections + the shared §2.7. */

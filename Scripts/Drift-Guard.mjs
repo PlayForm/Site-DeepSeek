@@ -178,10 +178,15 @@ for (const [Tree, Packages] of Object.entries(Trees)) {
 }
 
 // --- 3b. The splice's name forms: the new shapes on, the stale forms gone ---
+// The post-splice convention: the Classic tree the hook-dsh-* packages plus
+// the dsh-plugin-factory, the EffectTS tree the same names under the ets-
+// prefix plus the ets-dsh-plugin-factory and the shared ets-dsh-hook base.
 const NameForm = {
-	Classic: (Dir) => Dir === "dsh-plugin-factory" || /^[a-z0-9-]+-dsh-hook$/.test(Dir),
+	Classic: (Dir) => Dir === "dsh-plugin-factory" || /^hook-dsh-[a-z0-9-]+$/.test(Dir),
 	EffectTS: (Dir) =>
-		Dir === "ets-dsh-plugin-factory" || Dir === "ets-dsh-hook" || /^ets-[a-z0-9-]+-dsh-hook$/.test(Dir),
+		Dir === "ets-dsh-plugin-factory" ||
+		Dir === "ets-dsh-hook" ||
+		/^ets-hook-dsh-[a-z0-9-]+$/.test(Dir),
 };
 for (const [Tree, Packages] of Object.entries(Trees)) {
 	Check(
@@ -190,9 +195,16 @@ for (const [Tree, Packages] of Object.entries(Trees)) {
 		Packages.every((Package) => NameForm[Tree](Package.Dir)),
 	);
 }
-// The stale pre-splice forms (hook-dsh-*, ets-hook-dsh-*) must be gone
-// from the names and the directories alike.
-const StaleForm = (Text) => Text.includes("hook-dsh-") || Text.includes("-hook-dsh");
+// The stale pre-splice forms (the *-dsh-hook word order, the ets-* spellings
+// without the shared hook-dsh- body) must be gone from the names and the
+// directories alike.
+const StaleForm = (Text) => {
+	const Stem = Text.replace(/^@playform\//, "");
+	return (
+		(/[a-z0-9]-dsh-hook$/.test(Stem) && Stem !== "ets-dsh-hook") ||
+		/(^|\/)dsh-hook-/.test(Stem)
+	);
+};
 for (const [Tree, Packages] of Object.entries(Trees)) {
 	Check(
 		`${Tree}/packages: zero stale pre-splice name forms`,
@@ -200,6 +212,16 @@ for (const [Tree, Packages] of Object.entries(Trees)) {
 		Packages.filter((Package) => StaleForm(Package.Dir) || StaleForm(Package.Name ?? "")).length,
 	);
 }
+// The EffectTS tree mirrors the Classic tree: the ets- prefixed same names,
+// plus the two ets-only packages (the base and the factory).
+Check(
+	"EffectTS/packages = ets- + the Classic names, plus the ets-dsh-hook base",
+	[
+		...Trees.Classic.map((Package) => `ets-${Package.Dir}`),
+		"ets-dsh-hook",
+	].sort(),
+	Trees.EffectTS.map((Package) => Package.Dir),
+);
 
 // --- 4. The additive Effect-TS deltas (core +3, factory +7, governor +3) ---
 const Deltas = { Core: 3, Factory: 7, Governor: 3 };
@@ -233,17 +255,19 @@ if (Live) {
 	Check("Live.Release = the unanimous release version", Release, Live.Release);
 	Check("Live.Effect = the unanimous effect pin", Effect, Live.Effect);
 	Check("Live.SuitePairs = the parsed README manifests", Counts, Live.SuitePairs);
+	// The normalize tokens are matched dash-delimited, so the guard follows
+	// the naming convention rather than one spelling of it.
+	const IsNormalize = (Dir) => /(^|-)normalize(-|$)/.test(Dir);
+	const IsFileTool = (Dir) => /(^|-)file(-|$)/.test(Dir);
 	Check("Live.Packages = the Classic package directories", ClassicDirs.length, Live.Packages);
 	Check(
 		"Live.Normalizers = the normalize-* directories",
-		ClassicDirs.filter((Dir) => Dir.startsWith("normalize-")).length,
+		ClassicDirs.filter(IsNormalize).length,
 		Live.Normalizers,
 	);
 	Check(
 		"Live.StreamFlavors = the stream flavors (the file tool excluded)",
-		ClassicDirs.filter(
-			(Dir) => Dir.startsWith("normalize-") && Dir !== "normalize-file-dsh-hook",
-		).length,
+		ClassicDirs.filter((Dir) => IsNormalize(Dir) && !IsFileTool(Dir)).length,
 		Live.StreamFlavors,
 	);
 	Check(
