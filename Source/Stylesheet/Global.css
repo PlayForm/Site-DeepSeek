@@ -714,6 +714,20 @@ svg {
 	0.2px of the count's ink center. */
 .inspect-card__meta .live-dot {
 	margin-block: -0.0625em 0.0625em;
+	/* The horizontal push: the 8px dot alone leaves the shared
+		--gap-icon (0.25rem) too tight against the mono caps label, so the
+		dot carries its own extra --space-xs margin-inline-end and the
+		dot-to-text gap lands at 0.5rem total. Horizontal only - the
+		margin-block pair above stays as measured. */
+	margin-inline-end: var(--space-xs);
+}
+
+/* The registry telemetry count's dot takes the same push: its flex row
+	gap is the shared --gap-icon (0.25rem) and the dot adds --space-xs,
+	so the PACKAGES count separates from the dot at 0.5rem total
+	(horizontal only; the row's vertical centering needed no correction). */
+.registry-telemetry__count .live-dot {
+	margin-inline-end: var(--space-xs);
 }
 
 /* The span pills: the engine-pill states that render as <span> (the
