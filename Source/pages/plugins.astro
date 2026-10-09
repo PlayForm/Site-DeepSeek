@@ -8,6 +8,7 @@ import FlavorBadge from "@Component/FlavorBadge.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import { Counts, Totals, Migration, Families } from "@Library/Content";
+import { DotSep } from "@Library/FileIcon";
 import { Link, Links } from "@Library/Links";
 
 // The twelve plugins, each with its @-sentence identity, install snippet
@@ -669,7 +670,7 @@ const Registry = [
 					Title="The patch-layer config shadowing"
 					Diagram="The bundle's [cordis.patch.yml](Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml) patch config replacing the entry config wholesale - the schema defaults (mutationTools) shadowed in deployment, the raw-write's fs/observed never triggering the chain - and the fix adding raw-write to the three patch layers with the LIVE effective config verified from the bundle layers."
 				>
-					<Badge Variant="outline">LIVE-FOUND · FIXED</Badge>
+					<Badge Variant="outline"><Fragment set:html={DotSep("LIVE-FOUND · FIXED")} /></Badge>
 					<p>
 						The bundle{" "}
 						<a
@@ -693,7 +694,7 @@ const Registry = [
 					Title="The same-observed-version guard race"
 					Diagram="The multi-step direct-govern fold with every step writing the SAME observed version - only the first write succeeding, the later steps failing the stale-version check silently - and the fix: the sequential fold awaiting each step's chain with the chain pass statting the target before its write."
 				>
-					<Badge Variant="outline">LIVE-FOUND · FIXED</Badge>
+					<Badge Variant="outline"><Fragment set:html={DotSep("LIVE-FOUND · FIXED")} /></Badge>
 					<p>
 						In the multi-step direct-govern fold every step wrote with the SAME observed
 						version - only the first write could succeed, the later steps failed the
@@ -716,7 +717,7 @@ const Registry = [
 					Title="The P5 v2 storage open failure"
 					Diagram={`The package_governance v2 domain open failing SILENTLY against the v1 file on the exact-equality version check - and the fix: per-record layout, compatibleVersions [${Migration.CompatibleVersions.join(", ")}], backup-and-skip for invalid records, and a loud failure line.`}
 				>
-					<Badge Variant="outline">LIVE-FOUND · FIXED</Badge>
+					<Badge Variant="outline"><Fragment set:html={DotSep("LIVE-FOUND · FIXED")} /></Badge>
 					<p>
 						The package_governance{" "}
 						<a
@@ -738,7 +739,7 @@ const Registry = [
 					Title="The cross-module re-processing bound"
 					Diagram="A governed write re-firing [fs/observed](Harness:packages/fs/fs/src/index.ts) with the interlock re-entering the listeners by design - and the three bounds keeping the re-pass safe: the Stash idempotence gate, the P3/U2 refresh re-emitting with the same actor, and the live battery proving bounded, self-canonicalizing re-passes."
 				>
-					<Badge Variant="outline">BOUNDED BY DESIGN · VERIFIED LIVE</Badge>
+					<Badge Variant="outline"><Fragment set:html={DotSep("BOUNDED BY DESIGN · VERIFIED LIVE")} /></Badge>
 					<p>
 						A governed write re-fires fs/observed - the interlock re-enters the
 						listeners by design.

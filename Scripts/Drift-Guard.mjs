@@ -142,6 +142,40 @@ Check(
 	ExtractNumber(/EffectDelta: (\d+)/),
 );
 
+// --- 5. The live data layer: Source/Library/Live.ts reads the same sources ---
+// The site build pulls its figures through Library/Live.ts (build-time, no
+// runtime fetching); check that the snapshot matches the repo directly.
+const { Live } = await import(new URL("../Source/Library/Live.ts", import.meta.url).href);
+const { readdirSync } = await import("node:fs");
+// Directory-only listing, mirroring Live.ts (stray files like .DS_Store excluded).
+const ListDirs = (Path) =>
+	readdirSync(Path, { withFileTypes: true })
+		.filter((Entry) => Entry.isDirectory())
+		.map((Entry) => Entry.name)
+		.sort();
+Check("Live.Release = the unanimous release version", Release, Live.Release);
+Check("Live.Effect = the unanimous effect pin", Effect, Live.Effect);
+Check("Live.SuitePairs = the parsed README manifests", Counts, Live.SuitePairs);
+const ClassicDirs = ListDirs(join(Root, "Classic", "packages"));
+Check("Live.Packages = the Classic package directories", ClassicDirs.length, Live.Packages);
+Check(
+	"Live.Normalizers = the normalize-* directories",
+	ClassicDirs.filter((Dir) => Dir.startsWith("hook-dsh-normalize-")).length,
+	Live.Normalizers,
+);
+Check(
+	"Live.StreamFlavors = the stream flavors (the file tool excluded)",
+	ClassicDirs.filter(
+		(Dir) => Dir.startsWith("hook-dsh-normalize-") && Dir !== "hook-dsh-normalize-file",
+	).length,
+	Live.StreamFlavors,
+);
+Check(
+	"Live.PackageNames = the Classic npm names",
+	ClassicDirs,
+	Live.PackageNames.map((Name) => Name.replace("@playform/", "")),
+);
+
 // --- Verdict ---
 if (Failures > 0) {
 	console.error(`\nDRIFT DETECTED: ${Failures} check(s) failed - the content library no longer matches the repo.`);

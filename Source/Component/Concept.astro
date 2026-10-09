@@ -13,6 +13,7 @@
 // implementation agent. The brief renders in BOTH states - its may / only /
 // never qualifications are the diagram's contract.
 import { Linkify } from "@Library/Links";
+import { DotSep } from "@Library/FileIcon";
 import BrandIcon from "@Component/BrandIcon.astro";
 
 // The vendored diagram SVGs, inlined at build time (raw imports, offline).
@@ -47,7 +48,7 @@ const Svg = Diagrams[`/Source/Content/Mermaid/${Id}.svg`] as string | undefined;
 		}
 		<!-- The brief renders through Linkify: a [text](target) segment in the
 		     plain-text prop becomes a safe <a>, everything else stays text. -->
-		<p class="concept__diagram-brief" set:html={Linkify(Diagram)} />
+		<p class="concept__diagram-brief" set:html={DotSep(Linkify(Diagram))} />
 		<!-- Optional vendor mark projected into the diagram area (e.g. the
 		     Zhipu AI mark beside the two-routes diagram on the models page). -->
 		<span class="concept__diagram-brand"><slot name="diagram-brand" /></span>

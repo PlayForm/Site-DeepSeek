@@ -5,6 +5,7 @@ import { Head } from "astro-capo";
 import { ClientRouter } from "astro:transitions";
 import BrandIcon from "@Component/BrandIcon.astro";
 import { Copyright, Versions } from "@Library/Content";
+import { Live } from "@Library/Live";
 import { Links } from "@Library/Links";
 
 const { Title = "", Description = "" } = Astro.props;
@@ -46,8 +47,10 @@ const Canonical = `${SiteUrl}${Path === "/" ? "/" : Path}`;
 const OgImage = `${SiteUrl}/Brand/OG.png`;
 
 // The twelve release packages (the register #15 names, npm form) - the
-// SoftwareApplication's parts.
-const Packages = [
+// SoftwareApplication's parts. The names are LIVE: Library/Live.ts reads the
+// Classic tree's package.json files at build time, kept in this canonical
+// order, with any package missing from the list appended alphabetically.
+const CanonicalPackages = [
 	"@playform/hook-dsh-core",
 	"@playform/plugin-dsh-factory",
 	"@playform/hook-dsh-governor-package",
@@ -60,6 +63,10 @@ const Packages = [
 	"@playform/hook-dsh-normalize-invisible",
 	"@playform/hook-dsh-normalize-fullwidth",
 	"@playform/hook-dsh-normalize-file",
+];
+const Packages = [
+	...CanonicalPackages.filter((Name) => Live.PackageNames.includes(Name)),
+	...Live.PackageNames.filter((Name) => !CanonicalPackages.includes(Name)),
 ];
 
 const JsonLd = {

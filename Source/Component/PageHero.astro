@@ -17,7 +17,11 @@ const { Title, Sub } = Astro.props;
 	{Sub &&
 		Sub.split("\n").map((Line, Index) =>
 			Index === 1 && Astro.slots.has("sub-1") ? (
-				<slot name="sub-1" />
+				// The slot content MUST render inside the paragraph element:
+				// .page-hero is a flex column, so bare slot children (icons,
+				// text runs) would each become their own flex item and shatter
+				// the line into stacked fragments.
+				<p class="page-hero__sub"><slot name="sub-1" /></p>
 			) : (
 				<p class="page-hero__sub">{Line}</p>
 			)

@@ -10,6 +10,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Totals, Versions, Families, Scheme } from "@Library/Content";
+import { DotSep } from "@Library/FileIcon";
 import { Link, Links } from "@Library/Links";
 
 // The class replacer at work, from the README's In Action block (the input
@@ -881,7 +882,7 @@ const Related = [
 				<BrandIcon Name="typescript" />{" "}
 				CLASSIC, {Counts.Core.EffectTS} in <BrandIcon Name="effect" />{" "}
 				EFFECT-TS. The family's smoke baseline:{" "}
-				{Counts.Suites} suites · {Totals.Pair()}· ALL PASS.
+				<Fragment set:html={DotSep(`${Counts.Suites} suites · ${Totals.Pair()}· ALL PASS.`)} />
 			</p>
 		</section>
 	</main>

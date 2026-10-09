@@ -7,6 +7,7 @@ import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import { Counts, Totals, Versions, SuiteCount, NormalizeFamily } from "@Library/Content";
+import { DotSep } from "@Library/FileIcon";
 
 const Invariants = [
 	{
@@ -22,16 +23,75 @@ const Invariants = [
 		Desc: "The @-sentence identity holds in both trees: the scope stays @playform, the family/type marker leads.",
 	},
 ];
+
+/*
+ * THE OPERATING SET - the page's signature block. What is operating NOW:
+ * the two release trees, their actual package names and versions, the
+ * Effect-TS pin, and the state line. The ets-* splice (SPLICE-ETS.md) is
+ * DOCUMENTATION ONLY - planned, not operating - so it appears as the
+ * pending row, clearly marked.
+ */
+const OperatingSet = [
+	{
+		State: "OPERATING",
+		Tree: "CLASSIC",
+		Detail: "@playform/hook-dsh-* x 12",
+		Version: Versions.Release,
+		Note: "plain TypeScript - classes, Maps, plain functions",
+	},
+	{
+		State: "OPERATING",
+		Tree: "EFFECT-TS",
+		Detail: "@playform/hook-dsh-* x 12",
+		Version: Versions.Release,
+		Note: `Effect-TS services & layers - effect pinned at ${Versions.Effect}`,
+	},
+	{
+		State: "PENDING",
+		Tree: "ETS-* SPLICE",
+		Detail: "@playform/ets-hook-dsh-* + @playform/ets-dsh-hook",
+		Version: "PLANNED",
+		Note: "the namespace split per Documentation/Plans/SPLICE-ETS.md - documentation only, not operating",
+	},
+];
+
+/*
+ * THE RECORD - the changelog. The monorepo root CHANGELOG.md, verbatim
+ * (byte-exact - it is the record). Site/CHANGELOG.md carries only the
+ * one-line "Initial version"; the root file is the narrative source.
+ */
+const ChangelogSource = "the monorepo CHANGELOG.md - verbatim";
+const Changelog = `## 0.0.1
+
+### Added
+
+- The initial release of the DeepSeek Harness Plugin Family for PlayForm:
+  the twelve packages in the three implementations (the Boilerplate
+  reference, the Classic release, the Effect-TS release), the Site, and
+  the archived fixtures.
+- The governance trio (governor, pinner, cargo) with the direct-govern
+  fold and the fine-grained raw-write flags.
+- The stream-normalization family (dash, quotes, ellipsis, spaces,
+  invisible, fullwidth) with the three-way tool-args gate and the
+  raw-marker opt-out.
+- The file-content normalizer (normalize-file) and the raw-write tool
+  with the normalize/govern selections.
+- The shared factory machinery (the write executor, the govern fold,
+  the P5 storage journal, the activation composer).
+- The site (the static landing with the products, versions, flavors,
+  models, setup, case study, and workbench pages).
+- The skills (instructional-writing, plugin-system, smoke-writing) and
+  the documentation tree.`;
 ---
 
 <Base
 	Title="Versions - DSH Family @ PlayForm"
-	Description="The dual engine distribution of the DeepSeek Harness Plugin Family: CLASSIC in plain TypeScript, EFFECT-TS on Effect-TS services and layers - same twelve contracts, same smokes, both at {Versions.Release}."
+	Description={`The release and operating-state overview of the DeepSeek Harness Plugin Family: what is operating now (the dual trees at ${Versions.Release}, effect pinned ${Versions.Effect}), what changed at this release, and the shared invariants - not a listing.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
 			<Badge Variant="primary" Dot>
-				ECOSYSTEM: @PLAYFORM
+				RELEASE &amp; OPERATING STATE
 			</Badge>
 			<Badge><BrandIcon Name="typescript" Size="0.8em" /> CLASSIC</Badge>
 			<Badge><BrandIcon Name="effect" Size="0.8em" /> EFFECT-TS</Badge>
@@ -39,83 +99,68 @@ const Invariants = [
 
 		<PageHero
 			Title="Versions"
-			Sub={"The dual engine distribution: the same twelve contracts, built twice.\nCLASSIC in plain TypeScript, EFFECT-TS on Effect-TS services and layers - same behavior, same smokes, different runtime plumbing.\nBoth releases are at version {Versions.Release}."}
+			Sub={`This page is the release and operating-state overview - not a listing.\nIt answers three questions: what is operating right now (the dual trees and the Effect-TS pin), what changed at this release (the record below), and what both trees hold (the invariants).\nThe plugin pages list the products; this page states the state of the family.\nBoth releases are at version ${Versions.Release}.`}
 		>
 			<Fragment slot="sub-1">
+				The dual engine distribution: the same twelve contracts, built twice -{" "}
 				<BrandIcon Name="typescript" />{" "}CLASSIC in plain TypeScript,{" "}
 				<BrandIcon Name="effect" />{" "}EFFECT-TS on Effect-TS services and layers - same behavior, same smokes, different runtime plumbing.
 			</Fragment>
 		</PageHero>
 
-		<section class="section">
-			<div class="grid grid--2">
-				<Card Variant="white">
-					<div slot="head" class="version-card__head">
-						<span class="version-card__title">CLASSIC</span>
-						<BrandIcon Name="typescript" Size="1.333em" ClassName="version-card__icon" />
+		<!-- THE OPERATING SET - the signature block: what is operating NOW -->
+		<section class="section section--opset">
+			<SectionHeader Title="The operating set" Meta="WHAT IS OPERATING NOW" />
+			<div class="opset">
+				<div class="opset__spine">OPERATING SET · {Versions.Release}</div>
+				{OperatingSet.map((Row) => (
+					<div class={`opset__row opset__row--${Row.State === "OPERATING" ? "live" : "pending"}`}>
+						<span class="opset__state">{Row.State}</span>
+						<span class="opset__tree">{Row.Tree}</span>
+						<span class="opset__detail">{Row.Detail}</span>
+						<span class="opset__version">{Row.Version}</span>
+						<span class="opset__note">{Row.Note}</span>
 					</div>
-					<p class="version-card__body">
-						The twelve contracts in plain TypeScript - classes, Maps and plain
-						functions, zero runtime framework dependencies.</p>
-					<p class="version-card__body">
-						The release built from
-						<strong style="font-weight: 500; color: var(--color-on-surface)">
-							Classic/
-						</strong>
-						and verified by its twelve smoke suites.
-					</p>
-
-					<div class="version-card__facts">
-						<Badge Variant="primary" Dot>
-							<BrandIcon Name="typescript" Size="0.8em" /> PLAIN TYPESCRIPT
-						</Badge>
-						<Badge>CLASSES · MAPS · FUNCTIONS</Badge>
-						<Badge>ZERO FRAMEWORK DEPS</Badge>
-						<Badge Variant="outline">{Versions.Release}</Badge>
-					</div>
-				</Card>
-				<Card Variant="primary">
-					<div slot="head" class="version-card__head">
-						<span class="version-card__title">EFFECT-TS</span>
-						<BrandIcon Name="effect" Size="1.333em" ClassName="version-card__icon" />
-					</div>
-					<p class="version-card__body">
-						The same twelve contracts re-expressed on Effect-TS services and layers -
-						same behavior, same smokes, different runtime plumbing.</p>
-					<p class="version-card__body">
-						Built from
-						<strong style="font-weight: 500; color: var(--color-on-primary)">
-							EffectTS/
-						</strong>
-						.
-					</p>
-
-					<div class="version-card__facts">
-						<Badge Variant="active"><BrandIcon Name="effect" Size="0.8em" /> EFFECT-TS SERVICES &amp; LAYERS</Badge>
-						<Badge Variant="outline">SAME TWELVE CONTRACTS</Badge>
-						<Badge Variant="outline">SAME SMOKES</Badge>
-						<Badge Variant="outline">{Versions.Release}</Badge>
-					</div>
-				</Card>
+				))}
+				<div class="opset__foot">
+					STATE: DUAL TREE · IDENTICAL TWELVE CONTRACTS · {Totals.Meta()}
+				</div>
 			</div>
 		</section>
 
-		<!-- Shared invariants -->
+		<!-- THE RECORD - the changelog as the page's narrative spine -->
+		<section class="section">
+			<SectionHeader Title="The record" Meta="THE CHANGELOG" />
+			<div class="record">
+				<div class="record__cite">
+					<span class="record__source">{ChangelogSource}</span>
+					<span class="record__also">Site/CHANGELOG.md: &ldquo;Initial version&rdquo;</span>
+				</div>
+				<pre class="record__text">{Changelog}</pre>
+				<p class="record__wording">
+					The text above is the record, byte-exact from the repository file - this
+					page maintains the changelog, so the release history lives where the
+					operating state lives.
+				</p>
+			</div>
+		</section>
+
+		<!-- Shared invariants - the state rail, not the listing boxes -->
 		<section class="section">
 			<SectionHeader Title="Shared invariants" Meta="WHAT BOTH RELEASES HOLD" />
-			<div class="grid grid--3">
+			<ul class="state-rail">
 				{Invariants.map((Invariant) => (
-					<Card Muted>
-						<p class="card__sentence">{Invariant.Id}</p>
-						<p class="card__desc card__desc--muted">{Invariant.Desc}</p>
-					</Card>
+					<li class="state-rail__entry">
+						<span class="state-rail__id">{Invariant.Id}</span>
+						<p class="state-rail__desc">{Invariant.Desc}</p>
+					</li>
 				))}
-			</div>
+			</ul>
 		</section>
 
 		<!-- The smoke baseline -->
 		<section class="section">
-			<SectionHeader Title="The smoke baseline" Meta={Totals.Meta()} />
+			<SectionHeader Title="The smoke baseline" Meta="THE ARBITER OF THE OPERATING STATE" />
 			<div class="concept-list">
 				<Concept
 					Id="versions-arbiter"
@@ -192,10 +237,200 @@ const Invariants = [
 						The real
 						defects - the patch-layer shadowing, the P5 v2 open, the version-guard race -
 						were found live, not by the smokes.
-					
+
+
 					</p>
 				</Concept>
 			</div>
 		</section>
 	</main>
 </Base>
+
+<style>
+	/* ---- THE VERSIONS PAGE IDENTITY - the state page, not the listing ----
+		The plugin pages speak in the delineated boxes; this page speaks in
+		the state treatments: a solid Harness Blue operating-set band, a
+		paper record for the changelog, a ruled rail for the invariants.
+		Zero elevation everywhere - flat planar contrast and hairlines only.
+		Every color and spacing value is a token, so both themes follow. */
+
+	/* ---- The operating set: the solid blue status band ----
+		Full-width solid #0052FF (the brand container, identical in both
+		themes), white-on-blue mono ledger rows, translucent hairline
+		separators, zero elevation. This is the page's signature block. */
+	.opset {
+		border-radius: var(--radius-lg);
+		background: var(--color-primary-container);
+		color: var(--color-on-primary);
+		font-family: var(--font-mono);
+		overflow: hidden;
+	}
+
+	.opset__spine {
+		padding: var(--space-sm) var(--space-md);
+		font-size: var(--text-label-sm);
+		font-weight: 600;
+		letter-spacing: var(--tracking-label-sm);
+		border-bottom: 1px solid var(--color-on-primary-fixed-dim);
+	}
+
+	.opset__row {
+		display: grid;
+		grid-template-columns: 6.5rem 8.5rem 1fr auto;
+		grid-template-areas:
+			"state tree detail version"
+			"state tree note    note";
+		column-gap: var(--space-sm);
+		align-items: baseline;
+		padding: var(--space-sm) var(--space-md);
+		border-bottom: 1px solid var(--color-on-primary-fixed-dim);
+	}
+
+	.opset__row:last-of-type {
+		border-bottom: none;
+	}
+
+	.opset__state {
+		grid-area: state;
+		font-size: var(--text-label-sm);
+		font-weight: 700;
+		letter-spacing: var(--tracking-label-sm);
+	}
+
+	.opset__row--pending .opset__state {
+		opacity: 0.72;
+	}
+
+	.opset__tree {
+		grid-area: tree;
+		font-size: var(--text-label-lg);
+		font-weight: 600;
+	}
+
+	.opset__detail {
+		grid-area: detail;
+		font-size: var(--text-label-sm);
+	}
+
+	.opset__version {
+		grid-area: version;
+		font-size: var(--text-label-sm);
+		font-weight: 700;
+		text-align: right;
+	}
+
+	.opset__note {
+		grid-area: note;
+		grid-column: 3 / 5;
+		font-size: var(--text-label-sm);
+		opacity: 0.8;
+	}
+
+	.opset__foot {
+		padding: var(--space-sm) var(--space-md);
+		font-size: var(--text-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		border-top: 1px solid var(--color-on-primary-fixed-dim);
+	}
+
+	/* ---- The record: the changelog as a paper document ----
+		No boxes: the changelog sits on the flat tray with a single
+		structural left rule, the verbatim text in the record face. */
+	.record {
+		border-left: 2px solid var(--color-primary);
+		background: var(--color-surface-container-low);
+		border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+		padding: var(--space-md);
+	}
+
+	.record__cite {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-sm);
+		justify-content: space-between;
+		margin-bottom: var(--space-sm);
+	}
+
+	.record__source,
+	.record__also {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-ink-secondary);
+	}
+
+	.record__text {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-label-md);
+		line-height: var(--leading-label-md);
+		color: var(--color-on-surface);
+		white-space: pre-wrap;
+	}
+
+	.record__wording {
+		margin: var(--space-sm) 0 0;
+		font-size: var(--text-body-md);
+		line-height: var(--leading-body-md);
+		color: var(--color-ink-muted);
+	}
+
+	/* ---- The state rail: the invariants as a ruled list ----
+		The listing boxes are replaced by one ruled column: a blue marker
+		rail, hairline separators, the invariant id leading each entry. */
+	.state-rail {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-left: 2px solid var(--color-primary);
+	}
+
+	.state-rail__entry {
+		display: grid;
+		grid-template-columns: 8.5rem 1fr;
+		column-gap: var(--space-md);
+		align-items: baseline;
+		padding: var(--space-sm) var(--space-md);
+	}
+
+	.state-rail__entry + .state-rail__entry {
+		border-top: 1px solid var(--color-border-structural);
+	}
+
+	.state-rail__id {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		font-weight: 700;
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-primary);
+	}
+
+	.state-rail__desc {
+		margin: 0;
+		font-size: var(--text-body-md);
+		line-height: var(--leading-body-md);
+		color: var(--color-on-surface-variant);
+	}
+
+	/* The narrow viewports: the band rows and the rail collapse to one
+		column so nothing clips. */
+	@media (max-width: 48rem) {
+		.opset__row {
+			grid-template-columns: 1fr auto;
+			grid-template-areas:
+				"state  version"
+				"tree   tree"
+				"detail detail"
+				"note   note";
+		}
+
+		.opset__version {
+			text-align: right;
+		}
+
+		.state-rail__entry {
+			grid-template-columns: 1fr;
+			row-gap: var(--space-xs);
+		}
+	}
+</style>

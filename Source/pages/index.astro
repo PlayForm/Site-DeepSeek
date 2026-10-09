@@ -11,6 +11,7 @@ import StatsBand from "@Component/StatsBand.astro";
 import Terminal from "@Component/Terminal.astro";
 import TerminalTray from "@Component/TerminalTray.astro";
 import { Counts, Families, Totals } from "@Library/Content";
+import { DotSep } from "@Library/FileIcon";
 
 // The twelve packages: grouped Core & Factory / Governance / Normalize, each
 // with its package name, @-sentence identity and one-sentence description.
@@ -178,7 +179,7 @@ const NormalizeAfter = [
 				<section class="terminal-demo" data-demo>
 					<TerminalTray Label="LIVE STREAM GATE PREVIEW">
 						<span class="terminal-demo__status" data-demo-status>
-							NORMALIZING · 0 CHARS
+							NORMALIZING<span class="dot-sep" aria-hidden="true"></span>0 CHARS
 						</span>
 					</TerminalTray>
 					<div class="terminal-demo__stage">
@@ -354,7 +355,7 @@ const NormalizeAfter = [
 				</Showcase>
 			</div>
 			<p class="section-kicker" style="margin-top: var(--space-md)">
-				{Totals.Meta()} · the ledger strings, byte-identical
+				<Fragment set:html={DotSep(`${Totals.Meta()} · the ledger strings, byte-identical`)} />
 			</p>
 		</section>
 
@@ -490,7 +491,7 @@ const NormalizeAfter = [
 		AppendResponse(Raw, Highlight(Before));
 		AppendResponse(Clean, After);
 
-		Status.textContent = `NORMALIZING · ${Chars.toLocaleString("en-US")} CHARS`;
+		Status.innerHTML = `NORMALIZING<span class="dot-sep" aria-hidden="true"></span>${Chars.toLocaleString("en-US")} CHARS`;
 	}
 
 	function StartStreaming() {
@@ -526,14 +527,14 @@ const NormalizeAfter = [
 			// (see the .status-paused rule in Global.css). The string is a
 			// static literal, so innerHTML is safe here.
 			Status.innerHTML =
-				'<span class="status-paused">PAUSED</span> · HOVER TO RESUME';
+				'<span class="status-paused">PAUSED</span><span class="dot-sep" aria-hidden="true"></span>HOVER TO RESUME';
 			StopStreaming();
 		});
 		Demo.addEventListener("mouseleave", () => {
 			if (!Paused) return;
 			Paused = false;
 			Demo.classList.remove("is-paused");
-			Status.textContent = `NORMALIZING · ${Chars.toLocaleString("en-US")} CHARS`;
+			Status.innerHTML = `NORMALIZING<span class="dot-sep" aria-hidden="true"></span>${Chars.toLocaleString("en-US")} CHARS`;
 			StartStreaming();
 		});
 	}

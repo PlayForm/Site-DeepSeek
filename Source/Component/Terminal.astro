@@ -4,6 +4,8 @@
 // @playform/<pkg>`) is the published-route command - the family is not on
 // npm yet, so the default label carries the timing truthfully ("ONCE
 // PUBLISHED"); today the install is from source (the /setup/ flow).
+import { DotSep } from "@Library/FileIcon";
+
 interface Props {
 	Command?: string;
 	Label?: string;
@@ -31,7 +33,7 @@ const {
 			>
 				<path d="M4 17 L9 12 L4 7 M10 17 H20"></path>
 			</svg>
-			{Label}
+			<Fragment set:html={DotSep(Label)} />
 		</span>
 		<span class="terminal__status">COPIED</span>
 	</div>

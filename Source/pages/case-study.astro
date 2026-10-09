@@ -20,7 +20,7 @@ import {
 	Families,
 } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
-import { Mention } from "@Library/FileIcon";
+import { DotSep, Mention } from "@Library/FileIcon";
 
 // The in-page phase index: anchor links in a badge row under the hero.
 const Index = [
@@ -318,7 +318,7 @@ const Lessons = [
 						The family grew from <strong>five bundles and {History.OriginChecks} smoke checks</strong> to{" "}
 						<strong>twelve packages</strong> across one commit era - the Oct
 						3&ndash;6, 2026 stretch that ends at <code>5982aa8</code> - with{" "}
-						<strong>{Totals.PairHyphen()}</strong> across twelve suites as
+						<strong><Fragment set:html={DotSep(Totals.PairHyphen())} /></strong> across twelve suites as
 						the final count.
 					</p>
 					<p>

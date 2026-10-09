@@ -301,7 +301,7 @@ const Spans = [
 					     on-surface-variant ink. Hidden until the stage is paused
 					     (see the .stream-hub__paused rules in Global.css). -->
 					<span class="stream-hub__paused" aria-hidden="true">
-						<span class="stream-hub__paused-word">PAUSED</span> · HOVER TO RESUME
+						<span class="stream-hub__paused-word">PAUSED</span><span class="dot-sep" aria-hidden="true"></span>HOVER TO RESUME
 					</span>
 				</div>
 				<div class="stream-pane">
@@ -619,7 +619,7 @@ const Spans = [
 				Runtime = Id;
 				const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
 				if (StreamStatus && !Paused && !HoverPaused) {
-					StreamStatus.textContent = `Stream running · ${Pill.textContent?.trim()}`;
+					StreamStatus.innerHTML = `Stream running<span class="dot-sep" aria-hidden="true"></span>${Pill.textContent?.trim()}`;
 				}
 			}
 			Toast?.(`Runtime: ${Pill.textContent?.trim()}`);

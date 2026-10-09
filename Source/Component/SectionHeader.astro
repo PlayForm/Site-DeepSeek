@@ -2,7 +2,7 @@
 // Section header: the blue marker bar + Inter title + uppercase mono meta.
 // The meta renders through Mention (Library/FileIcon.ts), so a file mention
 // in a meta line carries its file-type icon (the .log names as log chips).
-import { Mention } from "@Library/FileIcon";
+import { DotSep, Mention } from "@Library/FileIcon";
 
 interface Props {
 	Title: string;
@@ -11,6 +11,9 @@ interface Props {
 
 const { Title, Meta } = Astro.props;
 
+// The separator dots: the meta's "·" separators become the designed
+// .dot-sep circle (the DotSep renderer) - LAST in the chain, so the wrap
+// only ever sees the plain "·" glyphs.
 // The identity-word treatment: whole-word PIN / GOVERN / NORMALIZE tokens
 // in the meta take their stage colors via the shared global .word-* spans
 // (pin-red / the Harness Blue / the ink-muted gray) - only the identity
@@ -41,6 +44,6 @@ function IdentityWords(Text: string): string {
 		<h2 class="section-header__title">{Title}</h2>
 	</div>
 	{Meta && (
-		<span class="section-header__meta" set:html={IdentityWords(Mention(Meta))} />
+		<span class="section-header__meta" set:html={DotSep(IdentityWords(Mention(Meta)))} />
 	)}
 </div>

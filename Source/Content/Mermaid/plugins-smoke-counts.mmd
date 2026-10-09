@@ -1,6 +1,6 @@
 flowchart LR
-	CLASSIC["the CLASSIC totals per suite - 733"]
-	ET["the EFFECT-TS totals on the same contracts<br/>core 17 - factory 41 - governor 81"]
-	SUM["summing to 746 vs Classic's 733"]
+	CLASSIC["the CLASSIC totals per suite - {Totals.Classic}"]
+	ET["the EFFECT-TS totals on the same contracts<br/>core {Counts.Core.EffectTS} - factory {Counts.Factory.EffectTS} - governor {Counts.Governor.EffectTS}"]
+	SUM["summing to {Totals.EffectTS} vs Classic's {Totals.Classic}"]
 	CLASSIC --> SUM
 	ET --> SUM

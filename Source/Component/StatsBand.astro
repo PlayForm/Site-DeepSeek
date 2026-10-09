@@ -5,6 +5,7 @@
 // from the content library (Content.ts), the same source the pages and the
 // drift-guard arbiter verify - no literals duplicated here.
 import { Counts, Totals, Versions } from "@Library/Content";
+import { DotSep } from "@Library/FileIcon";
 
 const Cells = [
 	{ Value: String(Counts.Packages), Label: "PACKAGES", Pair: undefined },
@@ -23,7 +24,7 @@ const Cells = [
 						<span class="stats-band__plus"> + {Cell.Pair}</span>
 					)}
 				</span>
-				<span class="stats-band__label">{Cell.Label}</span>
+				<span class="stats-band__label"><Fragment set:html={DotSep(Cell.Label)} /></span>
 			</div>
 		))}
 	</div>

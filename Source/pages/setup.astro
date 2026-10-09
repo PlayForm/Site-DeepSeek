@@ -10,7 +10,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import { Steps, Totals } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
-import { Mention } from "@Library/FileIcon";
+import { DotSep, Mention } from "@Library/FileIcon";
 
 // The install-demo cards: the four profile-wiring steps visualized - the
 // real wiring from the sections below (the bundles list, the insert:
@@ -520,7 +520,7 @@ const Knobs = [
 					Title="The parallel-govern toggle"
 					Diagram="The direct-govern path running SEQUENTIAL (the awaited fold - the live-verified race fix) against the inherently concurrent event path - the designed per-call toggle riding the same govern flag shape in both releases."
 				>
-					<Badge Variant="outline">PLANNED · DEFAULT SEQUENTIAL</Badge>
+					<Badge Variant="outline"><Fragment set:html={DotSep("PLANNED · DEFAULT SEQUENTIAL")} /></Badge>
 					<p>
 						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>The direct-govern path</a> is deliberately SEQUENTIAL (the awaited fold - the
 						live-verified race fix); the event path is inherently concurrent.

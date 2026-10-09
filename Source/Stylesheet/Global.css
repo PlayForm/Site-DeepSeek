@@ -783,6 +783,26 @@ a .code-token {
 	color: var(--color-ink-muted);
 }
 
+/* ---- The separator dot: the designed "·" replacement ----
+	Every middle-dot separator on the site (the metas, the kickers, the
+	badges, the labels, the status lines) renders as this dot instead of
+	the typographic "·": a small FILLED CIRCLE, grayed out in the
+	outline gray (the same tone as the meta ink, flipped by the dark
+	theme) and noticeably BIGGER than the glyph (0.375em - roughly 1.5x
+	the middle dot at the mono label sizes), vertically centered on the
+	x-height (the 0.11em raise) and optically spaced by its own margins
+	(the consumed separator spaces stay out of the flow). aria-hidden:
+	the separator is decoration - the words read alone. */
+.dot-sep {
+	display: inline-block;
+	width: 0.375em;
+	height: 0.375em;
+	border-radius: 50%;
+	background: var(--color-outline);
+	vertical-align: 0.11em;
+	margin: 0 0.3em;
+}
+
 /* ---- Fixed header ---- */
 .site-header {
 	position: fixed;

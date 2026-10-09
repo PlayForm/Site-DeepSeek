@@ -8,6 +8,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import TerminalTray from "@Component/TerminalTray.astro";
 import { Counts, Totals } from "@Library/Content";
+import { DotSep } from "@Library/FileIcon";
 
 // The flavor gate hooks of the inspector, with their before/after notes.
 const Hooks = [
@@ -208,7 +209,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 					     on-surface-variant ink. Hidden until the stage is paused
 					     (see the .stream-hub__paused rules in Global.css). -->
 					<span class="stream-hub__paused" aria-hidden="true">
-						<span class="stream-hub__paused-word">PAUSED</span> · HOVER TO RESUME
+						<span class="stream-hub__paused-word">PAUSED</span><span class="dot-sep" aria-hidden="true"></span>HOVER TO RESUME
 					</span>
 				</div>
 				<div class="stream-pane">
@@ -235,8 +236,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 				</div>
 				<div class="workbench-controls__group">
 					<span class="bench-status hook-tally" data-benchmark-status role="status" aria-live="polite">
-						{Counts.Suites} suites · {Totals.Pair()} · ALL PASS (the ledger strings,
-						byte-identical)
+						<Fragment set:html={DotSep(`${Counts.Suites} suites · ${Totals.Pair()} · ALL PASS (the ledger strings, byte-identical)`)} />
 					</span>
 					<button type="button" class="engine-pill" data-action="copy">
 						Copy Normalized Output
