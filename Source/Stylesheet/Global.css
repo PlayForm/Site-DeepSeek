@@ -615,9 +615,12 @@ svg {
 	center directly on the caps' optical center, so the shared lift here
 	would overshoot by ~2px and push the flavor/type badge icons above
 	their text (verified at the pixel level: -2.0..-2.4px with the lift,
-	+0.0..+0.5px without). */
-.engine-pill .brand-icon,
-.engine-pill .dot,
+	+0.0..+0.5px without). The engine pills stay out of the lift too, for
+	the same measured reason: their flex row already centers the icon/dot
+	box on the pill's line box, and the label's ink center sits only
+	~0.4px above that box center, so the 0.1875em lift overshoots to
+	-2.1..-2.6px (icon optical center vs text ink center, both themes);
+	without the lift the measured offset is +0.1..+0.4px. */
 .version-card__head .brand-icon,
 .stream-pane__label .brand-icon,
 .stream-pane__label .dot,

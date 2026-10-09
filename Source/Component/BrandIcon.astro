@@ -45,6 +45,16 @@
 //              for compact placements; the full Logo and Square variants
 //              carry the same geometry on padded canvases, and the Dark
 //              variants swap the stroke to #EAEAEA for dark grounds.
+//   zhipu    - the official Zhipu AI / Z.ai mark from the official Z.ai
+//              developer documentation brand assets (the docs.z.ai header
+//              logo, served from the official zhipu Mintlify workspace:
+//              https://mintcdn.com/zhipu-32152247/B_E8wI-eiNa1QlPV/logo/dark.svg
+//              - verified at activation; light.svg is the same geometry with
+//              a #B7BCBF rim for light grounds). Paths verbatim: the official
+//              black rounded square (160x160, official corner radius 22.619)
+//              carrying the white Z glyph in the official three paths. The
+//              official black + white colors are kept (the same brand-color
+//              treatment as the TypeScript mark above).
 //   zlm      - DOCUMENTED PLACEHOLDER: no ZLM brand mark exists and the
 //              site + docs contain zero ZLM mentions (verified). Renders a
 //              dashed placeholder box and nothing else - never invents a
@@ -85,6 +95,7 @@ interface Props {
 		| "effect"
 		| "typescript"
 		| "playform"
+		| "zhipu"
 		| "zlm"
 		| "swap"
 		| "info"
@@ -191,6 +202,25 @@ const IsFile = [
 			stroke="#151515"
 			stroke-opacity="0.21"
 			stroke-width="73.1619"
+		></path>
+	</svg>
+)}{Name === "zhipu" && (
+	<svg class={Cls} style={Style} viewBox="0 0 160 160" {...A11y}>
+		<path
+			fill="#000000"
+			d="M137.381 0H22.619C10.1269 0 0 10.1269 0 22.619V137.381C0 149.873 10.1269 160 22.619 160H137.381C149.873 160 160 149.873 160 137.381V22.619C160 10.1269 149.873 0 137.381 0Z"
+		></path>
+		<path
+			fill="#ffffff"
+			d="M82.771 33.208L75.0661 44.157C74.4609 45.0175 73.6581 45.7202 72.7251 46.2063C71.7922 46.6924 70.7562 46.9476 69.7043 46.9506H27.7104V33.1629L82.771 33.208Z"
+		></path>
+		<path
+			fill="#ffffff"
+			d="M135.083 33.2075L68.9835 126.837H24.917L91.0167 33.2075H135.083Z"
+		></path>
+		<path
+			fill="#ffffff"
+			d="M77.2741 126.837L85.024 115.843C85.6315 114.988 86.4359 114.292 87.3692 113.814C88.3024 113.336 89.3371 113.089 90.3859 113.095H132.335V126.612L77.2741 126.837Z"
 		></path>
 	</svg>
 )}{Name === "zlm" && (

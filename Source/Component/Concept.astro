@@ -48,6 +48,9 @@ const Svg = Diagrams[`/Source/Content/Mermaid/${Id}.svg`] as string | undefined;
 		<!-- The brief renders through Linkify: a [text](target) segment in the
 		     plain-text prop becomes a safe <a>, everything else stays text. -->
 		<p class="concept__diagram-brief" set:html={Linkify(Diagram)} />
+		<!-- Optional vendor mark projected into the diagram area (e.g. the
+		     Zhipu AI mark beside the two-routes diagram on the models page). -->
+		<span class="concept__diagram-brand"><slot name="diagram-brand" /></span>
 	</div>
 	<h3 id={`${Id}-title`} class="concept__title">
 		<BrandIcon Name="info" Size="0.75em" />
@@ -129,6 +132,15 @@ const Svg = Diagrams[`/Source/Content/Mermaid/${Id}.svg`] as string | undefined;
 
 	.concept__diagram-label {
 		font-weight: 600;
+	}
+
+	/* The optional projected vendor mark in the diagram area: a zero-height
+	   flex row when the slot is empty (the wrapper never adds spacing), a
+	   single em-sized mark on the diagram's left edge when projected. */
+	.concept__diagram-brand {
+		display: flex;
+		align-items: center;
+		gap: var(--gap-icon);
 	}
 
 	.concept__body {

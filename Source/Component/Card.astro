@@ -3,11 +3,15 @@
 // Variant "white" is the white surface; "primary" is the solid blue card.
 // Tags feeds the registry filter (data-tags); Copy arms the install row's
 // copy trigger (data-copy), handled by the global Base.astro runtime.
+// Icon optionally puts the card's vendor/platform BrandIcon mark beside the
+// name (e.g. the reference-model engine cards on the models page).
 import { Linkify } from "@Library/Links";
+import BrandIcon from "@Component/BrandIcon.astro";
 
 interface Props {
 	Variant?: "default" | "white" | "primary";
 	Name?: string;
+	Icon?: string;
 	NameTone?: "primary" | "ink";
 	Sentence?: string;
 	Desc?: string;
@@ -22,6 +26,7 @@ interface Props {
 const {
 	Variant = "default",
 	Name,
+	Icon,
 	NameTone = "ink",
 	Sentence,
 	Desc,
@@ -40,10 +45,12 @@ const CardClass = `card${Variant === "default" ? "" : ` card--${Variant}`}`;
 		<div class="card__top">
 			{Href ? (
 				<a class={`card__name card__name--${NameTone}`} href={Href} title={Name}>
-					{Name}
+					{Icon && (<><BrandIcon Name={Icon} Size="0.9em" />{" "}</>)}{Name}
 				</a>
 			) : (
-				<span class={`card__name card__name--${NameTone}`} title={Name}>{Name}</span>
+				<span class={`card__name card__name--${NameTone}`} title={Name}>
+					{Icon && (<><BrandIcon Name={Icon} Size="0.9em" />{" "}</>)}{Name}
+				</span>
 			)}
 			<slot name="badge" />
 		</div>
