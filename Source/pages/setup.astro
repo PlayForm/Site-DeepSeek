@@ -8,7 +8,7 @@ import Concept from "@Component/Concept.astro";
 import InstallDemo from "@Component/InstallDemo.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
-import { Steps } from "@Library/Content";
+import { Steps, Totals } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
 import { Mention } from "@Library/FileIcon";
 
@@ -505,6 +505,7 @@ const Knobs = [
 				>
 					<Badge Variant="outline">ZERO COST BY DEFAULT</Badge>
 					<p>
+						<BrandIcon Name="effect" />{" "}
 						<a href={Link(Links.OurRepo, "EffectTS")}>The Effect-TS release</a> wraps every governance stage in spans (dsh.gate,
 						dsh.discover, dsh.chain-pass, dsh.write) but ships Effect's no-op Tracer as
 						the default - zero cost, no behavior change.
@@ -663,7 +664,7 @@ const Knobs = [
 						<tr>
 							<td><strong>The smoke/live fidelity gap</strong></td>
 							<td>
-								All 733 + 746 smokes green does not prove the profile wiring -
+								All {Totals.Classic} + {Totals.EffectTS} smokes green does not prove the profile wiring -
 								every real bug was found live, not by the smokes.
 							</td>
 							<td>

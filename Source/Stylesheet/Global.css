@@ -638,6 +638,18 @@ svg {
 	margin-block: -0.1875em 0.1875em;
 }
 
+/* The span pills: the engine-pill states that render as <span> (the
+	models page's engine selection - status chips, not controls) lay out
+	their anonymous text item 1px shorter than the <button> pills' (17px
+	vs 18px at --text-body-sm in the browser's inline formatting), which
+	centers the label's ink 0.5px above the flex box center. The same
+	net-zero lift, at half a pixel, re-centers the icon/dot on the text
+	ink center (measured: +0.5px -> 0.0px, both themes). */
+span.engine-pill .brand-icon,
+span.engine-pill .dot {
+	margin-block: -0.5px 0.5px;
+}
+
 /* ---- File mentions: the file-type icon + filename unit ----
 	Every file mention on the site renders as one inline unit: the official
 	file-type icon (Library/FileIcon.ts - the vscode-icons theme geometry in

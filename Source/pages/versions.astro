@@ -40,7 +40,12 @@ const Invariants = [
 		<PageHero
 			Title="Versions"
 			Sub={"The dual engine distribution: the same twelve contracts, built twice.\nCLASSIC in plain TypeScript, EFFECT-TS on Effect-TS services and layers - same behavior, same smokes, different runtime plumbing.\nBoth releases are at version {Versions.Release}."}
-		/>
+		>
+			<Fragment slot="sub-1">
+				<BrandIcon Name="typescript" />{" "}CLASSIC in plain TypeScript,{" "}
+				<BrandIcon Name="effect" />{" "}EFFECT-TS on Effect-TS services and layers - same behavior, same smokes, different runtime plumbing.
+			</Fragment>
+		</PageHero>
 
 		<section class="section">
 			<div class="grid grid--2">
@@ -62,7 +67,7 @@ const Invariants = [
 
 					<div class="version-card__facts">
 						<Badge Variant="primary" Dot>
-							PLAIN TYPESCRIPT
+							<BrandIcon Name="typescript" Size="0.8em" /> PLAIN TYPESCRIPT
 						</Badge>
 						<Badge>CLASSES · MAPS · FUNCTIONS</Badge>
 						<Badge>ZERO FRAMEWORK DEPS</Badge>
@@ -86,7 +91,7 @@ const Invariants = [
 					</p>
 
 					<div class="version-card__facts">
-						<Badge Variant="active">EFFECT-TS SERVICES &amp; LAYERS</Badge>
+						<Badge Variant="active"><BrandIcon Name="effect" Size="0.8em" /> EFFECT-TS SERVICES &amp; LAYERS</Badge>
 						<Badge Variant="outline">SAME TWELVE CONTRACTS</Badge>
 						<Badge Variant="outline">SAME SMOKES</Badge>
 						<Badge Variant="outline">{Versions.Release}</Badge>

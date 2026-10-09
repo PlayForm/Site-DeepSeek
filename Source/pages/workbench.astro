@@ -383,6 +383,14 @@ const Spans = [
 	let Engine = "deepseek";
 	let TickMs = EngineTicks[Engine]!;
 
+	// The runtime selection drives the pipeline simulation as well: the
+	// Classic Pipeline ingests one chunk per tick (the sequential for-await
+	// loop it mirrors), while the Effect-TS v4 Fiber runtime ingests two
+	// chunks per tick (the fibered, concurrent ingestion) - the visible
+	// divergence the runtime switch promises.
+	const RuntimeBatch: Record<string, number> = { classic: 1, effect: 2 };
+	let Runtime = "effect";
+
 	const RawTerminal = document.querySelector<HTMLElement>("[data-stream='raw']")!;
 	const CleanTerminal = document.querySelector<HTMLElement>("[data-stream='clean']")!;
 	const RawCount = document.querySelector<HTMLElement>("[data-count='raw']")!;

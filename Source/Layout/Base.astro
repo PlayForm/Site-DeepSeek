@@ -15,15 +15,20 @@ interface Props {
 }
 
 // The primary nav: the current entry is highlighted via aria-current.
+// The order is importance + usage: the landing, then the family listing
+// and install entry (Plugins), the interactive demo (Workbench), the
+// recurring engine-support lookup (Models), the returning-user changelog
+// (Versions), the one-time install walkthrough (Setup), the secondary
+// taxonomy (Flavors), and the narrative (Case Study).
 const Nav = [
 	{ Href: "/", Label: "Overview" },
 	{ Href: "/plugins/", Label: "Plugins" },
-	{ Href: "/setup/", Label: "Setup" },
-	{ Href: "/versions/", Label: "Versions" },
-	{ Href: "/flavors/", Label: "Flavors" },
-	{ Href: "/models/", Label: "Models" },
-	{ Href: "/case-study/", Label: "Case Study" },
 	{ Href: "/workbench/", Label: "Workbench" },
+	{ Href: "/models/", Label: "Models" },
+	{ Href: "/versions/", Label: "Versions" },
+	{ Href: "/setup/", Label: "Setup" },
+	{ Href: "/flavors/", Label: "Flavors" },
+	{ Href: "/case-study/", Label: "Case Study" },
 ];
 
 const Path = Astro.url.pathname;

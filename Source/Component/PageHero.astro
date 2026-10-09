@@ -1,5 +1,9 @@
 ---
 // Page hero: the sub-page headline block (headline-lg title + body sub).
+// The second Sub line can be replaced by projected markup via the named
+// slot "sub-1" (e.g. the versions page's dual-engine line carrying its
+// typescript/effect BrandIcon marks) - the slot's bytes are the line's
+// bytes, so the visible text stays untouched.
 interface Props {
 	Title: string;
 	Sub?: string;
@@ -11,7 +15,11 @@ const { Title, Sub } = Astro.props;
 <section class="page-hero">
 	<h1 class="page-hero__title">{Title}</h1>
 	{Sub &&
-		Sub.split("\n").map((Line) => (
-			<p class="page-hero__sub">{Line}</p>
-		))}
+		Sub.split("\n").map((Line, Index) =>
+			Index === 1 && Astro.slots.has("sub-1") ? (
+				<slot name="sub-1" />
+			) : (
+				<p class="page-hero__sub">{Line}</p>
+			)
+		)}
 </section>
