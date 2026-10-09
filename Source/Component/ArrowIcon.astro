@@ -34,9 +34,16 @@ const [Shaft, Head] = Paths[Direction];
 </svg>
 
 <style>
+	// display:inline-block makes the icon a stable inline box (no baseline
+	// drift inside table cells), and margin-inline gives it comfortable,
+	// build-independent padding on BOTH sides: the HTML minifier strips the
+	// source whitespace around it asymmetrically, so spacing must not rely
+	// on the markup's own gaps.
 	.arrow-icon {
+		display: inline-block;
 		width: 1em;
 		height: 1em;
+		margin-inline: 0.25em;
 		vertical-align: -0.125em;
 	}
 
