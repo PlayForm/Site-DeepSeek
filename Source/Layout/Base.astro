@@ -197,9 +197,8 @@ const JsonLd = {
 					The active cell is attribute-driven pure CSS (the cells are
 					correct before any script runs); the script only flips the
 					html[data-theme] attribute and persists the choice. The
-					trailing mode cell states the persistence: OS while the
-					theme follows the operating system, LOCK once a stored
-					choice pins it (the script keeps it in sync). -->
+					pin state stays functional (data-pinned + the title)
+					without any visible mode text. -->
 				<button
 					class="theme-toggle"
 					type="button"
@@ -212,7 +211,6 @@ const JsonLd = {
 					<span class="theme-toggle__cell" data-theme-cell="light">LIGHT</span>
 					<span class="theme-toggle__sep" aria-hidden="true">/</span>
 					<span class="theme-toggle__cell" data-theme-cell="dark">DARK</span>
-					<span class="theme-toggle__mode" data-theme-mode>OS</span>
 				</button>
 				<!-- The mobile nav toggle: the flat three-line hamburger in
 					the avatar's old slot. The open state lives on the header
@@ -335,18 +333,14 @@ const JsonLd = {
 				document.documentElement.getAttribute("data-theme") === "dark"
 					? "dark"
 					: "light";
-			// The persistence indicator: "OS" while the theme follows the
-			// operating system (no stored choice), "LOCK" once a stored
-			// choice pins it (deliberately NOT "PIN" - that word belongs
-			// to the family's PINNER vocabulary). The title states the
-			// same in words.
-			const ThemeMode = document.querySelector<HTMLElement>("[data-theme-mode]");
+			// The pin state (data-pinned + the title) stays functional;
+			// there is deliberately NO visible mode text ("LOCK"/"OS") next
+			// to the switcher - the user asked for that label to be gone.
 			const SyncMode = () => {
 				let Pinned = false;
 				try {
 					Pinned = !!localStorage.getItem("dsh-theme");
 				} catch {}
-				if (ThemeMode) ThemeMode.textContent = Pinned ? "LOCK" : "OS";
 				if (ThemeToggle) {
 					if (Pinned) {
 						ThemeToggle.setAttribute("data-pinned", "");

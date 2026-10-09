@@ -383,23 +383,9 @@
 	color: var(--color-outline);
 }
 
-/* The persistence indicator: the third cell states how the current theme
-	was chosen - "OS" while the theme follows the operating system
-	(no stored choice), "LOCK" once a stored choice pins it (not "PIN" -
-	that word belongs to the family's PINNER vocabulary). Muted ink by
-	default, the Harness Blue when pinned (the active choice is visible,
-	not just the active theme). Static "OS" without JavaScript is
-	correct: no script means nothing can be stored. */
-.theme-toggle__mode {
-	padding-left: var(--space-xs);
-	border-left: 1px solid var(--color-outline-variant);
-	color: var(--color-ink-muted);
-	transition: color var(--duration-fast) var(--ease-crisp);
-}
-
-.theme-toggle[data-pinned] .theme-toggle__mode {
-	color: var(--color-primary);
-}
+/* The mode-text cell ("OS"/"LOCK" next to the switcher) was removed on
+	the user's request - the pin state stays functional (data-pinned +
+	the title) with no visible text. */
 
 /* ---- The scroll-progress rail (the case-study's reading gauge) ----
 	A fixed 2px Harness Blue rail along the viewport's top edge, above
