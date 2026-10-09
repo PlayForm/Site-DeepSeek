@@ -89,11 +89,11 @@ const NormalizeTable = [
 // The deterministic character mapping highlights (kept from the previous
 // detail page as an enhancement on top of the README content).
 const Mapping = [
-	{ Glyph: "-", Code: "U+2014", Name: "EM DASH", Out: "-", Ascii: "U+002D" },
-	{ Glyph: "-", Code: "U+2013", Name: "EN DASH", Out: "-", Ascii: "U+002D" },
-	{ Glyph: "-", Code: "U+2015", Name: "HORIZONTAL BAR", Out: "-", Ascii: "U+002D" },
-	{ Glyph: "-", Code: "U+2011", Name: "NON-BREAKING HYPHEN", Out: "-", Ascii: "U+002D" },
-	{ Glyph: "-", Code: "U+FF0D", Name: "FULLWIDTH HYPHEN-MINUS", Out: "-", Ascii: "U+002D" },
+	{ Glyph: "—", Code: "U+2014", Name: "EM DASH", Out: "-", Ascii: "U+002D" },
+	{ Glyph: "–", Code: "U+2013", Name: "EN DASH", Out: "-", Ascii: "U+002D" },
+	{ Glyph: "―", Code: "U+2015", Name: "HORIZONTAL BAR", Out: "-", Ascii: "U+002D" },
+	{ Glyph: "‑", Code: "U+2011", Name: "NON-BREAKING HYPHEN", Out: "-", Ascii: "U+002D" },
+	{ Glyph: "－", Code: "U+FF0D", Name: "FULLWIDTH HYPHEN-MINUS", Out: "-", Ascii: "U+002D" },
 ];
 
 // The In Action stream example, from the README (literal characters preserved).
@@ -276,7 +276,7 @@ const Config = [
 
 		<section class="section">
 			<div class="snippet-list">
-				<Terminal Command="npm install @playform/hook-dsh-normalize-dash@0.0.1" />
+				<Terminal Pkg="hook-dsh-normalize-dash"/>
 			</div>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">

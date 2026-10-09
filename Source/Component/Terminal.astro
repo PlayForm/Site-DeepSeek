@@ -5,9 +5,14 @@
 // family is on npm (v0.0.1, all 25 packages, provenance-verified), so the
 // label states the release version.
 import { DotSep } from "@Library/FileIcon";
+import { Versions } from "@Library/Content";
 
 interface Props {
+	/** An optional literal full command; overrides Pkg when given. */
 	Command?: string;
+	/** The package name (e.g. "hook-dsh-normalize-dash") - composed with the
+	 * library's Versions.Release into the published install command. */
+	Pkg?: string;
 	Label?: string;
 	// Optional 2px accent-orange top rail: the site's input surfaces
 	// (the index hero's install box) carry the raw/stream signature.
@@ -15,13 +20,20 @@ interface Props {
 }
 
 const {
-	Command = "npm install @playform/hook-dsh-core@0.0.1",
-	Label = "CLI INSTALL · NPM · 0.0.1",
+	Command,
+	Pkg,
+	Label = `CLI INSTALL · NPM · ${Versions.Release}`,
 	Rail = false,
 } = Astro.props;
+
+/** The composed command: the literal Command wins; Pkg is composed against
+ * the library's release version; the default is the core hook at that same
+ * dynamic version - a single library bump re-versions every install box. */
+const Cmd =
+	Command ?? (Pkg ? `npm install @playform/${Pkg}@${Versions.Release}` : `npm install @playform/hook-dsh-core@${Versions.Release}`);
 ---
 
-<div class={`terminal${Rail ? " rail-orange" : ""}`} data-command={Command}>
+<div class={`terminal${Rail ? " rail-orange" : ""}`} data-command={Cmd}>
 	<div class="terminal__bar">
 		<span class="terminal__label">
 			<svg
@@ -39,13 +51,13 @@ const {
 	</div>
 	<div class="terminal__line">
 		<code>
-			<span class="prompt">$</span> {Command}
+			<span class="prompt">$</span> {Cmd}
 		</code>
 		<button
 			aria-label="Copy install command"
 			class="terminal__copy"
 			type="button"
-			data-copy={Command}
+			data-copy={Cmd}
 		>
 			<svg
 				viewBox="0 0 24 24"

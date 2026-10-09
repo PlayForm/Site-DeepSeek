@@ -28,6 +28,7 @@
 // only in the joiner code, which is kept trivial.
 
 import { DotSep } from "@Library/FileIcon";
+import { Versions } from "@Library/Content";
 
 /** The npm name of one slot per engine, with its wiring fragments. */
 interface Slot {
@@ -333,7 +334,7 @@ function InstallOutput(
 	const Lines = [
 		`# inside ~/.dsh/profiles/${Name}`,
 		`cd ~/.dsh/profiles/${Name}`,
-		...Pkgs.map((Key) => `npm install ${Slots[Key].Pkg}@0.0.1`),
+		...Pkgs.map((Key) => `npm install ${Slots[Key].Pkg}@${Versions.Release}`),
 	];
 	const Base = Engines[Engine].Base;
 	if (Base && Pkgs.length > 0) {
@@ -409,6 +410,7 @@ const Initial = {
 
 /** The embedded data payload: the fragments + the defaults, as JSON. */
 const Data = {
+	Version: Versions.Release,
 	Order,
 	Groups,
 	Defaults: { Engine: DefaultEngine, Pkgs: DefaultPkgs, Profile: DefaultProfile },
@@ -483,7 +485,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 		<div class="cfg__panel">
 			<div class="cfg__bar">
 				<span class="cfg__title">
-					<Fragment set:html={DotSep("1 · INSTALL-ALL · PUBLISHED ROUTE · NPM · 0.0.1")} />
+					<Fragment set:html={DotSep(`1 · INSTALL-ALL · PUBLISHED ROUTE · NPM · ${Versions.Release}`)} />
 				</span>
 				<span class="cfg__status">COPIED</span>
 				<button type="button" class="cfg__copy" aria-label="Copy the install commands">
@@ -582,7 +584,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 			const Lines = [
 				`# inside ~/.dsh/profiles/${Profile}`,
 				`cd ~/.dsh/profiles/${Profile}`,
-				...Pkgs.map((Key) => `npm install ${Slots[Key].Pkg}@0.0.1`),
+				...Pkgs.map((Key) => `npm install ${Slots[Key].Pkg}@${Data.Version}`),
 			];
 			const Base = Engines[Engine].Base;
 			if (Base && Pkgs.length > 0) {
