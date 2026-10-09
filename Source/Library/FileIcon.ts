@@ -41,7 +41,7 @@
 // tool/command names (perl, ncu, cargo, pnpm, node, ...), the code
 // identifiers (pluginFactory, normalizeReasoning, the core classes, the
 // events and the seams) and the short quoted literals ("all", "edit",
-// {"__normalize":false). Unlike the file pass, the code-token pass runs
+// {"__normalize":false}). Unlike the file pass, the code-token pass runs
 // INSIDE quoted runs too - a quoted run is a literal, and the user asked
 // for the literals styled. The visible text bytes stay byte-exact; only
 // the presentation changes.
@@ -145,7 +145,7 @@ const FileAlternatives = [
 /**
  * The code-token alternatives: every technical term the site cites renders
  * as the shared .code-token identity (the markdown-fenced style). The
- * U+XXXX code points first, then the {"__normalize":false raw-marker
+ * U+XXXX code points first, then the {"__normalize":false} raw-marker
  * literal, the short quoted literals ("all", "edit", "cargo" - the
  * single-word quoted runs, quotes included), the tool/command names, the
  * events and seams, the identifiers and the core class names. The word
@@ -158,7 +158,7 @@ const FileAlternatives = [
  */
 const CodeAlternatives = [
 	"U\\+[0-9A-Fa-f]{4,6}",
-	'\\{"__normalize":false',
+	'\\{"__normalize":false}',
 	'"[A-Za-z0-9@._-]{1,24}"',
 	"\\b(?:perl|ncu|cargo|pnpm|npm|node|node_modules|subprocess)\\b",
 	"\\b(?:llm/stream|fs/observed|fs/write-intent|raw-write|writeText)\\b",

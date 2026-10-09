@@ -44,7 +44,7 @@ const Pipeline = [
 	"       │                       through BY IDENTITY (the edit tool's",
 	"       │                       `old_string` must match the real file bytes),",
 	"       │                       and a call whose arguments open with the",
-	'       │                       `{"__normalize":false` marker (FIRST key,',
+	'       │                       `{"__normalize":false\}` marker (FIRST key,',
 	"       │                       tracked per call id) passes through",
 	"       │                       UNNORMALIZED with the marker entry stripped,",
 	"       │                       so the executed call carries no unknown key",
@@ -155,7 +155,7 @@ const Config = [
 		Default: "false",
 		Volatile: "no",
 		Meaning:
-			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit name exemption and the {"__normalize":false raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
+			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit name exemption and the {"__normalize":false\} raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
 	},
 ];
 
