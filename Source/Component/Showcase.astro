@@ -151,14 +151,10 @@ const AfterHtml = HasPair
 		</span>
 		{Href ? (
 			<a class="showcase__title" href={Href}>
-				<BrandIcon Name="info" Size="0.75em" />
 				{Title}
 			</a>
 		) : (
-			<h3 class="showcase__title">
-				<BrandIcon Name="info" Size="0.75em" />
-				{Title}
-			</h3>
+			<h3 class="showcase__title">{Title}</h3>
 		)}
 		<p class="showcase__lead" set:html={Mention(Lead)}></p>
 	</div>
@@ -226,20 +222,12 @@ const AfterHtml = HasPair
 		color: var(--color-primary);
 	}
 
-	/* The descriptive-title treatment (the shared law in Global.css):
-	   the headline-lg scale above the body prose, the muted
-	   on-surface-variant tone, and the info icon on the LEFT through the
-	   --gap-icon token - the icon inherits the same muted tone via
-	   currentColor, so icon + title read as one grayed unit. */
 	.showcase__title {
-		display: flex;
-		align-items: center;
-		gap: var(--gap-icon);
-		font-size: var(--text-headline-lg);
-		line-height: var(--leading-headline-lg);
-		font-weight: var(--weight-headline-lg);
-		letter-spacing: var(--tracking-headline-lg);
-		color: var(--color-on-surface-variant);
+		font-size: var(--text-headline-md);
+		line-height: var(--leading-headline-md);
+		font-weight: var(--weight-headline-md);
+		letter-spacing: var(--tracking-headline-md);
+		color: var(--color-on-surface);
 		margin: 0;
 	}
 
