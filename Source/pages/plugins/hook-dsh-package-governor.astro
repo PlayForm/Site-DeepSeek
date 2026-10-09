@@ -145,7 +145,7 @@ const TrapLines = [
 
 const Related = [
 	{
-		Name: "dsh-plugin-factory",
+		Name: "plugin-dsh-factory",
 		Desc: "The family's furnace: the gates, the discovery, the guarded write, the refresh, the continuation, the effects and the schema come from it.",
 	},
 	{
@@ -228,11 +228,11 @@ const Related = [
 				<Concept
 					Id="govpkg-family-position"
 					Title="The family position"
-					Diagram={`${Families.GovernorPackage} as a hook child of the dsh-plugin-factory service and the hook-dsh-core helpers - no hook children of its own - one of three governance hooks sharing the fs/observed seam, each gating on its own basename and writing its own ledger.`}
+					Diagram={`${Families.GovernorPackage} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - no hook children of its own - one of three governance hooks sharing the fs/observed seam, each gating on its own basename and writing its own ledger.`}
 				>
 					<p>
 						A hook child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source")}>dsh-plugin-factory</a></strong> service ({Families.GovernorPackage}) and the{" "}
+						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.GovernorPackage}) and the{" "}
 						<strong>hook-dsh-core</strong> helpers; it has no hook children of its own.
 					</p>
 					<p>
@@ -297,12 +297,12 @@ const Related = [
 				<Concept
 					Id="govpkg-factory-flavor"
 					Title="Machinery-wise it is a factory flavor"
-					Diagram='inject: ["fs", "pluginFactory"] - the gates, the discovery, the guarded write, the refresh, the continuation, the effects and the schema coming from dsh-plugin-factory; the pure helpers (Suppress, the policy loader) coming from hook-dsh-core; this bundle keeping only its own vocabulary: the Config extension, the chain pass, the update engine and every ledger string.'
+					Diagram='inject: ["fs", "pluginFactory"] - the gates, the discovery, the guarded write, the refresh, the continuation, the effects and the schema coming from plugin-dsh-factory; the pure helpers (Suppress, the policy loader) coming from hook-dsh-core; this bundle keeping only its own vocabulary: the Config extension, the chain pass, the update engine and every ledger string.'
 				>
 					<p>
 						<code>inject: ["fs", "pluginFactory"]</code> - the gates, the discovery, the
 						guarded write, the refresh, the continuation, the effects and the schema
-						come from <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source")}>dsh-plugin-factory</a>; the pure helpers (Suppress, the policy loader)
+						come from <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>; the pure helpers (Suppress, the policy loader)
 						come from hook-dsh-core.
 					</p>
 					<p>
@@ -323,7 +323,7 @@ const Related = [
 					</p>
 					<p>
 						That lets the raw-write tool's per-call govern selection drive the same
-						chain pass and update stage directly through <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source/Function/Govern.ts")}>Factory.Govern</a>.
+						chain pass and update stage directly through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>.
 					</p>
 				</Concept>
 			</div>
@@ -493,7 +493,7 @@ const Related = [
 				<Concept
 					Id="govpkg-config-schema"
 					Title="The exported Config schema"
-					Diagram="The exported Config schema (the [factory's Schema helper](Ours:Classic/packages/dsh-plugin-factory/Source) extended with the module's own fields) validating and filling every default at load - invalid configuration failing loudly, new patch entries declared with insert:."
+					Diagram="The exported Config schema (the [factory's Schema helper](Ours:Classic/packages/plugin-dsh-factory/Source) extended with the module's own fields) validating and filling every default at load - invalid configuration failing loudly, new patch entries declared with insert:."
 				>
 					<p>
 						The factory's Schema helper, extended with the

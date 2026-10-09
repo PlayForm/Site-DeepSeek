@@ -40,10 +40,10 @@ const NodeLinks: ReadonlyArray<readonly [RegExp, string]> = [
 	[/hook-dsh-normalize-invisible/, "Ours:Classic/packages/hook-dsh-normalize-invisible/Source"],
 	[/hook-dsh-normalize-quotes/, "Ours:Classic/packages/hook-dsh-normalize-quotes/Source"],
 	[/hook-dsh-normalize-spaces/, "Ours:Classic/packages/hook-dsh-normalize-spaces/Source"],
-	[/dsh-plugin-factory/, "Ours:Classic/packages/dsh-plugin-factory/Source"],
+	[/plugin-dsh-factory/, "Ours:Classic/packages/plugin-dsh-factory/Source"],
 	[/hook-dsh-core/, "Ours:Classic/packages/hook-dsh-core/Source"],
 	// The factory's patch config, named verbatim in some labels.
-	[/cordis\.patch\.yml/, "Ours:Classic/packages/dsh-plugin-factory/cordis.patch.yml"],
+	[/cordis\.patch\.yml/, "Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml"],
 ] as const;
 
 /**

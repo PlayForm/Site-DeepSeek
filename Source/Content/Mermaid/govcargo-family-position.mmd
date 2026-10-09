@@ -1,5 +1,5 @@
 flowchart LR
-	CARGO["Hook @ DSH @ Governor @ Cargo"] --> FACTORY["dsh-plugin-factory - the service"]
+	CARGO["Hook @ DSH @ Governor @ Cargo"] --> FACTORY["plugin-dsh-factory - the service"]
 	CARGO --> CORE["hook-dsh-core - the helpers"]
 	SEAM["the same fs/observed seam"]
 	SIB["the Rust-sided sibling of the two npm governance hooks<br/>one of three governance hooks - each gating on its own<br/>basename and writing its own ledger"]

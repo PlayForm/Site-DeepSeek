@@ -36,14 +36,14 @@ const OperatingSet = [
 	{
 		State: "OPERATING",
 		Tree: "CLASSIC",
-		Detail: "@playform/hook-dsh-* x 12 + @playform/dsh-plugin-factory",
+		Detail: "@playform/hook-dsh-* x 12 + @playform/plugin-dsh-factory",
 		Version: Versions.Release,
 		Note: "plain TypeScript - classes, Maps, plain functions",
 	},
 	{
 		State: "OPERATING",
 		Tree: "EFFECT-TS",
-		Detail: "@playform/ets-hook-dsh-* x 12 + @playform/ets-dsh-plugin-factory + @playform/ets-dsh-hook",
+		Detail: "@playform/ets-hook-dsh-* x 12 + @playform/ets-plugin-dsh-factory + @playform/ets-dsh-hook",
 		Version: Versions.Release,
 		Note: `Effect-TS services & layers - effect pinned at ${Versions.Effect}; the base @playform/ets-dsh-hook carries the shared plumbing`,
 	},
@@ -180,7 +180,7 @@ const Changelog = `## 0.0.1
 				</Card>
 				<Card
 					Variant="white"
-					Name="dsh-plugin-factory"
+					Name="plugin-dsh-factory"
 					Desc={SuiteCount(
 						Counts.Factory,
 						"a fake ctx + a REAL instance, every primitive, the Gate matrix, both GuardedWrite postures, the full Continue lifecycle.",

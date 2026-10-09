@@ -70,11 +70,11 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 		Note: "# the core: a library bundle - no patch entry, no ledger line",
 	},
 	factory: {
-		Pkg: "@playform/dsh-plugin-factory",
+		Pkg: "@playform/plugin-dsh-factory",
 		Patch: [
 			"- insert:",
-			"      - id: dsh-plugin-factory",
-			'        name: "@playform/dsh-plugin-factory"',
+			"      - id: plugin-dsh-factory",
+			'        name: "@playform/plugin-dsh-factory"',
 			"        config: {}",
 		].join("\n"),
 		Line: null,
@@ -255,11 +255,11 @@ const ClassicSlots: Record<SlotKey, Slot> = {
  * names per SPLICE-ETS.md. The names are mapped EXPLICITLY per package -
  * the governance plugins carry the ets- prefix with the word order kept
  * (the classical hook-dsh-package-governor -> the ets ets-hook-dsh-package-governor), and the
- * factory renames to ets-dsh-plugin-factory.
+ * factory renames to ets-plugin-dsh-factory.
  */
 const EtsNames: Record<SlotKey, string> = {
 	core: "ets-hook-dsh-core",
-	factory: "ets-dsh-plugin-factory",
+	factory: "ets-plugin-dsh-factory",
 	governor: "ets-hook-dsh-package-governor",
 	pinner: "ets-hook-dsh-package-pinner",
 	cargo: "ets-hook-dsh-cargo-governor",

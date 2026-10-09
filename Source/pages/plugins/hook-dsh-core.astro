@@ -50,7 +50,7 @@ const Imports = [
 
 const Related = [
 	{
-		Name: "dsh-plugin-factory",
+		Name: "plugin-dsh-factory",
 		Desc: "The family's parent service - deliberately re-exports NOTHING from the core (its service surface stays stable); the hooks import the core's helpers directly.",
 	},
 	{
@@ -137,11 +137,11 @@ const Related = [
 				<Concept
 					Id="core-library-not-bundle"
 					Title="Library consumption, not bundle registration"
-					Diagram="The core as a plain library dependency: no [cordis.patch.yml]('Ours:Classic/packages/dsh-plugin-factory/cordis.patch.yml'), no loader contract, no dsh plugin add row - publishable on its own and built with the same prepublishOnly sequence as the family bundles."
+					Diagram="The core as a plain library dependency: no [cordis.patch.yml]('Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml'), no loader contract, no dsh plugin add row - publishable on its own and built with the same prepublishOnly sequence as the family bundles."
 				>
 					<p class="page-hero__sub">
 						The core is <strong>not a plugin bundle</strong>: no{" "}
-						<a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" /><code>cordis.patch.yml</code></span></a>, no loader contract, publishable on its own -
+						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" /><code>cordis.patch.yml</code></span></a>, no loader contract, publishable on its own -
 						consumers link it as a plain library dependency, not as a bundle row, and
 						there is no <code>dsh plugin add</code> row for it.
 					</p>
@@ -181,7 +181,7 @@ const Related = [
 				<Concept
 					Id="core-seam-none"
 					Title="No direct seam registration"
-					Diagram="The core outside the plugin loader: no [cordis.patch.yml]('Ours:Classic/packages/dsh-plugin-factory/cordis.patch.yml'), no seams injected, no registration - the family's plugins carrying the machinery inside their own listeners and passes."
+					Diagram="The core outside the plugin loader: no [cordis.patch.yml]('Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml'), no seams injected, no registration - the family's plugins carrying the machinery inside their own listeners and passes."
 				>
 					<p class="page-hero__sub">
 						The core is not a plugin and touches no seam itself - it is the shared

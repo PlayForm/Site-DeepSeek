@@ -80,7 +80,7 @@ const Related = [
 		Desc: "The keep-list sidecar ([pin-policy.json](Ours:Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts)) is shared: discovery global keepFile - the file's own directory - registry-adjacent, the union.",
 	},
 	{
-		Name: "dsh-plugin-factory",
+		Name: "plugin-dsh-factory",
 		Desc: "Gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey come from the furnace.",
 	},
 ];
@@ -158,11 +158,11 @@ const Related = [
 				<Concept
 					Id="govcargo-family-position"
 					Title="The family position"
-					Diagram={`${Families.GovernorCargo} as a hook child of the dsh-plugin-factory service and the hook-dsh-core helpers - the Rust-sided sibling of the two npm governance hooks on the same fs/observed seam, one of three governance hooks, each gating on its own basename and writing its own ledger.`}
+					Diagram={`${Families.GovernorCargo} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - the Rust-sided sibling of the two npm governance hooks on the same fs/observed seam, one of three governance hooks, each gating on its own basename and writing its own ledger.`}
 				>
 					<p>
 						A hook child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source")}>dsh-plugin-factory</a></strong> service ({Families.GovernorCargo}) and the{" "}
+						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.GovernorCargo}) and the{" "}
 						<strong>hook-dsh-core</strong> helpers; the Rust-sided sibling of the two
 						npm governance hooks on the same <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> seam.
 					</p>
@@ -208,12 +208,12 @@ const Related = [
 				<Concept
 					Id="govcargo-factory-flavor"
 					Title="Machinery-wise it is a factory flavor"
-					Diagram="gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey coming from [dsh-plugin-factory](Ours:Classic/packages/dsh-plugin-factory/Source); the policy loader and the suppression composer from [hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source); this bundle keeping the Cargo-specific residue: the TOML identification, the surgical pin, the full-version directive, and the cargo upgrade bridge."
+					Diagram="gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey coming from [plugin-dsh-factory](Ours:Classic/packages/plugin-dsh-factory/Source); the policy loader and the suppression composer from [hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source); this bundle keeping the Cargo-specific residue: the TOML identification, the surgical pin, the full-version directive, and the cargo upgrade bridge."
 				>
 					<p>
 						Gates, discovery,
 						the guarded write, the refresh, the continuation, the effects, the schema
-						and the namespaced UpdateKey come from <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source")}>dsh-plugin-factory</a>; the policy loader
+						and the namespaced UpdateKey come from <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>; the policy loader
 						and the suppression composer come from hook-dsh-core.
 					</p>
 					<p>
@@ -234,7 +234,7 @@ const Related = [
 					</p>
 					<p>
 						That lets the raw-write tool's per-call govern selection drive the same
-						chain + normalization pass and update stage directly through <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source/Function/Govern.ts")}>Factory.Govern</a>.
+						chain + normalization pass and update stage directly through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>.
 					</p>
 				</Concept>
 			</div>
@@ -251,7 +251,7 @@ const Related = [
 					},
 					{
 						Seam: "ctx.fs - the filesystem service (dsh-fs)",
-						What: "The surgical TOML rewrite goes through [the factory's guarded write](Ours:Classic/packages/dsh-plugin-factory/Source/Function/Write.ts) (replaceIfVersion + the P4 sandbox fence); smol-toml is used for identification only, never a stringify, so comments survive byte-for-byte.",
+						What: "The surgical TOML rewrite goes through [the factory's guarded write](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) (replaceIfVersion + the P4 sandbox fence); smol-toml is used for identification only, never a stringify, so comments survive byte-for-byte.",
 						Outcome:
 							"Governed manifests that still read exactly like the author's file.",
 					},

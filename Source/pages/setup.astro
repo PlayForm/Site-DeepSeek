@@ -24,7 +24,7 @@ const DemoSteps = [
 		Meta: "~/.dsh/profiles/<name>/package.json",
 		Lines: [
 			'"dependencies": {',
-			'  "@playform/dsh-plugin-factory": "link:../bundles/dsh-plugin-factory",',
+			'  "@playform/plugin-dsh-factory": "link:../bundles/plugin-dsh-factory",',
 			'  "@playform/hook-dsh-normalize-dash": "link:../bundles/hook-dsh-normalize-dash"',
 			"},",
 			'"dsh": { "profile": { "bundles": [ ... ] } }',
@@ -37,8 +37,8 @@ const DemoSteps = [
 		Meta: "cordis.patch.yml",
 		Lines: [
 			"- insert:",
-			"    - id: dsh-plugin-factory",
-			'      name: "@playform/dsh-plugin-factory"',
+			"    - id: plugin-dsh-factory",
+			'      name: "@playform/plugin-dsh-factory"',
 			"      config: {}",
 		],
 		Outcome: "Each insert: entry declares the loader row and its config; the loader rejects unknown ids.",
@@ -73,7 +73,7 @@ const ProfileExample = [
 	"{",
 	'  "name": "my-dsh-profile",',
 	'  "dependencies": {',
-	'    "@playform/dsh-plugin-factory": "link:../bundles/dsh-plugin-factory",',
+	'    "@playform/plugin-dsh-factory": "link:../bundles/plugin-dsh-factory",',
 	'    "@playform/hook-dsh-package-governor": "link:../bundles/hook-dsh-package-governor",',
 	'    "@playform/hook-dsh-package-pinner": "link:../bundles/hook-dsh-package-pinner",',
 	'    "@playform/hook-dsh-normalize-dash": "link:../bundles/hook-dsh-normalize-dash"',
@@ -81,7 +81,7 @@ const ProfileExample = [
 	'  "dsh": {',
 	'    "profile": {',
 	'      "bundles": [',
-	'        "@playform/dsh-plugin-factory",',
+	'        "@playform/plugin-dsh-factory",',
 	'        "@playform/hook-dsh-package-governor",',
 	'        "@playform/hook-dsh-package-pinner",',
 	'        "@playform/hook-dsh-normalize-dash"',
@@ -95,8 +95,8 @@ const ProfileExample = [
 // files (the deployed mutationTools values include raw-write).
 const PatchExample = [
 	"- insert:",
-	"      - id: dsh-plugin-factory",
-	'        name: "@playform/dsh-plugin-factory"',
+	"      - id: plugin-dsh-factory",
+	'        name: "@playform/plugin-dsh-factory"',
 	"        config: {}",
 	"- insert:",
 	"      - id: hook-dsh-package-governor",
@@ -308,10 +308,10 @@ const Knobs = [
 				<Concept
 					Id="setup-patch-rows"
 					Title="The insert: entries declare the loader row"
-					Diagram="A [cordis.patch.yml](Ours:Classic/packages/dsh-plugin-factory/cordis.patch.yml) insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
+					Diagram="A [cordis.patch.yml](Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml) insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
 				>
 					<p>
-						Each bundle ships a <a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> whose <code>insert:</code> entries
+						Each bundle ships a <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> whose <code>insert:</code> entries
 						declare the loader row and the config.</p>
 					<p>A bare <code>id:</code> row patches
 						an existing entry; the loader rejects unknown ids with{" "}
@@ -434,7 +434,7 @@ const Knobs = [
 						<a href="/plugins/hook-dsh-cargo-governor/">cargo governor</a>, the
 						<a href="/plugins/hook-dsh-normalize-dash/">dash flavor</a>, the
 						<a href="/plugins/hook-dsh-normalize-file/">normalize-file tool</a> and the
-						<a href="/plugins/dsh-plugin-factory/">factory service</a>.
+						<a href="/plugins/plugin-dsh-factory/">factory service</a>.
 					</p>
 				</Concept>
 			</div>
@@ -532,7 +532,7 @@ const Knobs = [
 				>
 					<Badge Variant="outline"><Fragment set:html={DotSep("PLANNED · DEFAULT SEQUENTIAL")} /></Badge>
 					<p>
-						<a href={Link(Links.OurRepo, "Classic/packages/dsh-plugin-factory/Source/Function/Govern.ts")}>The direct-govern path</a> is deliberately SEQUENTIAL (the awaited fold - the
+						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>The direct-govern path</a> is deliberately SEQUENTIAL (the awaited fold - the
 						live-verified race fix); the event path is inherently concurrent.
 					</p>
 					<p>
@@ -576,7 +576,7 @@ const Knobs = [
 				<Concept
 					Id="setup-line-format"
 					Title="The line format"
-					Diagram="One message flowing through [the factory's Append](Ours:Classic/packages/dsh-plugin-factory/Source) into its two forms: [ISO] message in the file, plugin: message on the logger."
+					Diagram="One message flowing through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source) into its two forms: [ISO] message in the file, plugin: message on the logger."
 				>
 					<p>
 						<code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file

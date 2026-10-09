@@ -1,5 +1,5 @@
 flowchart LR
-	FILE["Hook @ DSH @ Normalize @ File"] --> FACTORY["dsh-plugin-factory - the service"]
+	FILE["Hook @ DSH @ Normalize @ File"] --> FACTORY["plugin-dsh-factory - the service"]
 	FILE --> CORE["hook-dsh-core - the machinery"]
 	NOTE["the seventh sibling - the one flavor that works<br/>on files already on disk instead of model output"]
 	FILE -. "a tool-child" .-> NOTE

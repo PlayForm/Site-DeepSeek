@@ -240,7 +240,7 @@ const Usage = [
 				<Concept
 					Id="file-family-position"
 					Title="The family position"
-					Diagram={`${Families.File} as a tool-child of the dsh-plugin-factory service and the hook-dsh-core machinery - the seventh sibling, the one flavor that works on files already on disk instead of model output.`}
+					Diagram={`${Families.File} as a tool-child of the plugin-dsh-factory service and the hook-dsh-core machinery - the seventh sibling, the one flavor that works on files already on disk instead of model output.`}
 				>
 					<p>
 						A tool-child of the{" "}
@@ -248,9 +248,9 @@ const Usage = [
 							<a
 								href={Link(
 									Links.OurRepo,
-									"Classic/packages/dsh-plugin-factory/Source",
+									"Classic/packages/plugin-dsh-factory/Source",
 								)}
-							>dsh-plugin-factory</a>
+							>plugin-dsh-factory</a>
 						</strong>{" "}
 						service ({Families.File}) and the <strong>hook-dsh-core</strong> machinery;
 						the seventh sibling - the one flavor that works on files already on disk
@@ -355,7 +355,7 @@ const Usage = [
 					},
 					{
 						Seam: "ctx.fs - the write executor behind the tools (dsh-fs)",
-						What: "Every N > 0 write goes through [the factory's ONE shared write executor](Ours:Classic/packages/dsh-plugin-factory/Source/Function/Write.ts) - [the fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, writeText end to end, and the [fs/observed](Harness:packages/fs/fs/src/index.ts) {kind: present, version} emit on the root context with the call's exec as the actor.",
+						What: "Every N > 0 write goes through [the factory's ONE shared write executor](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) - [the fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, writeText end to end, and the [fs/observed](Harness:packages/fs/fs/src/index.ts) {kind: present, version} emit on the root context with the call's exec as the actor.",
 						Outcome:
 							"Byte-identical with the raw-write path; the observation policy sees it like any tool write.",
 					},
@@ -372,7 +372,7 @@ const Usage = [
 					},
 					{
 						Seam: "The ledger / session",
-						What: "Two lines through [the factory's Append](Ours:Classic/packages/dsh-plugin-factory/Source): the activation proof from apply() and the count line that follows only a successful N > 0 write.",
+						What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the count line that follows only a successful N > 0 write.",
 						Outcome:
 							"A no-op writes no line; a failed read or aborted call writes none either.",
 					},
@@ -463,7 +463,7 @@ const Usage = [
 						<a
 							href={Link(
 								Links.OurRepo,
-								"Classic/packages/dsh-plugin-factory/Source/Function/Write.ts",
+								"Classic/packages/plugin-dsh-factory/Source/Function/Write.ts",
 							)}
 						><code>Factory.Write</code></a>{" "}
 						and emits{" "}
@@ -494,7 +494,7 @@ const Usage = [
 						<a
 							href={Link(
 								Links.OurRepo,
-								"Classic/packages/dsh-plugin-factory/Source/Function/Write.ts",
+								"Classic/packages/plugin-dsh-factory/Source/Function/Write.ts",
 							)}
 						><code>Factory.Write</code></a>
 						's before is read at write time, so a prior normalize-file in the same turn
@@ -641,7 +641,7 @@ const Usage = [
 						<a
 							href={Link(
 								Links.OurRepo,
-								"Classic/packages/dsh-plugin-factory/Source/Function/Journal.ts",
+								"Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts",
 							)}
 						>v2 domain</a>{" "}
 						(event <code>normalized</code>, path = the target's display path, detail
@@ -660,8 +660,8 @@ const Usage = [
 			<div class="grid grid--3">
 				<Card
 					Variant="white"
-					Name="dsh-plugin-factory"
-					Href="/plugins/dsh-plugin-factory/"
+					Name="plugin-dsh-factory"
+					Href="/plugins/plugin-dsh-factory/"
 					Desc="State, Append, Journal and - uniquely here - Write, the ONE shared write executor every N > 0 write goes through."
 					Muted
 				>

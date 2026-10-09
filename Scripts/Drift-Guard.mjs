@@ -10,7 +10,7 @@
 //     trees vs Versions.Release, and the effect dependency pin of every
 //     EffectTS package vs Versions.Effect;
 //   - the name forms: the post-splice naming (the Classic tree the
-//     *-dsh-hook / dsh-plugin-factory forms, the EffectTS tree the ets-*
+//     *-dsh-hook / plugin-dsh-factory forms, the EffectTS tree the ets-*
 //     forms) - every npm name is @playform/ + its directory, and the stale
 //     pre-splice forms (hook-dsh-*) are gone;
 //   - the additive Effect-TS deltas (core +3, factory +7, governor +3) vs
@@ -179,12 +179,12 @@ for (const [Tree, Packages] of Object.entries(Trees)) {
 
 // --- 3b. The splice's name forms: the new shapes on, the stale forms gone ---
 // The post-splice convention: the Classic tree the hook-dsh-* packages plus
-// the dsh-plugin-factory, the EffectTS tree the same names under the ets-
-// prefix plus the ets-dsh-plugin-factory and the shared ets-dsh-hook base.
+// the plugin-dsh-factory, the EffectTS tree the same names under the ets-
+// prefix plus the ets-plugin-dsh-factory and the shared ets-dsh-hook base.
 const NameForm = {
-	Classic: (Dir) => Dir === "dsh-plugin-factory" || /^hook-dsh-[a-z0-9-]+$/.test(Dir),
+	Classic: (Dir) => Dir === "plugin-dsh-factory" || /^hook-dsh-[a-z0-9-]+$/.test(Dir),
 	EffectTS: (Dir) =>
-		Dir === "ets-dsh-plugin-factory" ||
+		Dir === "ets-plugin-dsh-factory" ||
 		Dir === "ets-dsh-hook" ||
 		/^ets-hook-dsh-[a-z0-9-]+$/.test(Dir),
 };
@@ -202,6 +202,8 @@ const StaleForm = (Text) => {
 	const Stem = Text.replace(/^@playform\//, "");
 	return (
 		(/[a-z0-9]-dsh-hook$/.test(Stem) && Stem !== "ets-dsh-hook") ||
+		Stem === "dsh-plugin-factory" ||
+		Stem === "ets-dsh-plugin-factory" ||
 		/(^|\/)dsh-hook-/.test(Stem)
 	);
 };
