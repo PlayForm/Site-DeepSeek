@@ -112,6 +112,27 @@ function JsonKey(Line: string): string {
 }
 
 const HasPair = Before !== undefined && After !== undefined;
+
+// The identity-word treatment: the whole-word PIN / GOVERN / NORMALIZE
+// tokens in the kicker take their stage colors (pin-red / the Harness
+// Blue / the ink-muted gray) via the shared global .word-* spans - only
+// the identity word is colored, the "THE" and any separator keep the
+// kicker's neutral mono ink (the same word-level rule the RAW legend
+// label runs). Whole words only: PINNER / GOVERNOR / GOVERNED never
+// match, and the visible bytes stay byte-exact.
+const IdentityPattern = /\b(PIN|GOVERN|NORMALIZE)\b/g;
+
+function IdentityWords(Text: string): string {
+	return Text.replace(IdentityPattern, (Word) => {
+		const Cls =
+			Word === "PIN"
+				? "word-pin"
+				: Word === "GOVERN"
+					? "word-govern"
+					: "word-normalize";
+		return `<span class="${Cls}">${Word}</span>`;
+	});
+}
 const BeforeHtml = HasPair
 	? Before.map((Line, Index) => JsonKey(MarkLine(Line, After![Index] ?? ""))).join("\n")
 	: "";
@@ -126,14 +147,18 @@ const AfterHtml = HasPair
 	<div class="showcase__head">
 		<span class="showcase__kicker">
 			<BrandIcon Name="swap" Size="0.8em" />
-			{Kicker}
+			<Fragment set:html={IdentityWords(Kicker)} />
 		</span>
 		{Href ? (
 			<a class="showcase__title" href={Href}>
+				<BrandIcon Name="info" Size="0.75em" />
 				{Title}
 			</a>
 		) : (
-			<h3 class="showcase__title">{Title}</h3>
+			<h3 class="showcase__title">
+				<BrandIcon Name="info" Size="0.75em" />
+				{Title}
+			</h3>
 		)}
 		<p class="showcase__lead" set:html={Mention(Lead)}></p>
 	</div>
@@ -191,19 +216,30 @@ const AfterHtml = HasPair
 		font-weight: var(--weight-label-sm);
 		letter-spacing: var(--tracking-label-sm);
 		text-transform: uppercase;
-		color: var(--color-primary);
+		/* The neutral mono ink: the identity words carry the stage colors
+		   via the .word-* spans, so the kicker's own color stays neutral
+		   (the "THE" + any separator); the icon keeps the primary. */
+		color: var(--color-ink-muted);
 	}
 
 	.showcase__kicker .brand-icon {
 		color: var(--color-primary);
 	}
 
+	/* The descriptive-title treatment (the shared law in Global.css):
+	   the headline-lg scale above the body prose, the muted
+	   on-surface-variant tone, and the info icon on the LEFT through the
+	   --gap-icon token - the icon inherits the same muted tone via
+	   currentColor, so icon + title read as one grayed unit. */
 	.showcase__title {
-		font-size: var(--text-headline-md);
-		line-height: var(--leading-headline-md);
-		font-weight: var(--weight-headline-md);
-		letter-spacing: var(--tracking-headline-md);
-		color: var(--color-on-surface);
+		display: flex;
+		align-items: center;
+		gap: var(--gap-icon);
+		font-size: var(--text-headline-lg);
+		line-height: var(--leading-headline-lg);
+		font-weight: var(--weight-headline-lg);
+		letter-spacing: var(--tracking-headline-lg);
+		color: var(--color-on-surface-variant);
 		margin: 0;
 	}
 

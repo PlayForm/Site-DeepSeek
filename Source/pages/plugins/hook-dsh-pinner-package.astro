@@ -132,7 +132,7 @@ const Related = [
 ---
 
 <Base
-	Title="hook-dsh-pinner-package - @playform / DSH Family"
+	Title="hook-dsh-pinner-package - DSH Family @ PlayForm"
 	Description={`${Families.PinnerPackage} - the silent version pinner of the DeepSeek Harness: hooks fs/observed and pins every dependency version in a written package.json to its static version.`}
 >
 	<main class="container container--main">
@@ -216,6 +216,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-family-position" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Family position
 					</h3>
 
@@ -247,6 +248,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-composition" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Pin <ArrowIcon Direction="right" Tone="accent" /> bump-exact
 					</h3>
 
@@ -275,6 +277,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-keep-list" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Keep-list wins
 					</h3>
 
@@ -305,6 +308,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-ledger-independence" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Separate ledgers and activation
 					</h3>
 
@@ -328,6 +332,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-injection" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						A factory flavor
 					</h3>
 
@@ -353,6 +358,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-factory-machinery" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Machinery supplied by the factory
 					</h3>
 
@@ -377,6 +383,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-core-helpers" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Helpers supplied by core
 					</h3>
 
@@ -401,6 +408,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-owned-logic" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Logic owned by this bundle
 					</h3>
 
@@ -427,6 +435,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-direct-govern" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						A direct governance entry point
 					</h3>
 
@@ -539,6 +548,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-idempotence" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Idempotence
 					</h3>
 
@@ -565,6 +575,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-keep-list-policy" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Keep-list policy
 					</h3>
 
@@ -596,6 +607,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-wildcard-behavior" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Wildcard behavior
 					</h3>
 
@@ -622,6 +634,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-refusal-guard" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Refusal guard
 					</h3>
 
@@ -649,6 +662,7 @@ const Related = [
 					</div>
 
 					<h3 id="pinner-version-coherence" class="concept-block__title">
+							<BrandIcon Name="info" Size="0.75em" />
 						Version coherence
 					</h3>
 
@@ -731,7 +745,7 @@ const Related = [
 			<SectionHeader Title="The Ledger" Meta="ONE GLOBAL LOG" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				One global log (<code>logFile</code>, default{" "}
-				<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />~/.dsh/hook-dsh-pinner-package.log</span> - SEPARATE from the governor's
+				~/.dsh/hook-dsh-pinner-package.log - SEPARATE from the governor's
 				ledger) records activation, exclusions, non-JSON skips, refusals, and every pin
 				result.</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">The strings this module composes (the
@@ -808,8 +822,21 @@ const Related = [
 		min-width: 0;
 	}
 
+	/* The descriptive-title treatment (the shared law in Global.css):
+	   the headline-lg scale above the body prose, the muted
+	   on-surface-variant tone, and the info icon on the LEFT through the
+	   --gap-icon token - the icon inherits the same muted tone via
+	   currentColor, so icon + title read as one grayed unit. */
 	.concept-block__title {
+		display: flex;
+		align-items: center;
+		gap: var(--gap-icon);
 		margin: 0;
+		color: var(--color-on-surface-variant);
+		font-size: var(--text-headline-lg);
+		line-height: var(--leading-headline-lg);
+		font-weight: var(--weight-headline-lg);
+		letter-spacing: var(--tracking-headline-lg);
 	}
 
 	.concept-block > .page-hero__sub {

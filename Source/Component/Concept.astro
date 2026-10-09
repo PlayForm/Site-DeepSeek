@@ -13,6 +13,7 @@
 // implementation agent. The brief renders in BOTH states - its may / only /
 // never qualifications are the diagram's contract.
 import { Linkify } from "@Library/Links";
+import BrandIcon from "@Component/BrandIcon.astro";
 
 // The vendored diagram SVGs, inlined at build time (raw imports, offline).
 const Diagrams = import.meta.glob("/Source/Content/Mermaid/*.svg", {
@@ -48,7 +49,10 @@ const Svg = Diagrams[`/Source/Content/Mermaid/${Id}.svg`] as string | undefined;
 		     plain-text prop becomes a safe <a>, everything else stays text. -->
 		<p class="concept__diagram-brief" set:html={Linkify(Diagram)} />
 	</div>
-	<h3 id={`${Id}-title`} class="concept__title">{Title}</h3>
+	<h3 id={`${Id}-title`} class="concept__title">
+		<BrandIcon Name="info" Size="0.75em" />
+		{Title}
+	</h3>
 	<div class="concept__body">
 		<slot />
 	</div>
@@ -101,6 +105,16 @@ const Svg = Diagrams[`/Source/Content/Mermaid/${Id}.svg`] as string | undefined;
 	.concept__diagram-brief,
 	.concept__title {
 		margin: 0;
+	}
+
+	/* The descriptive-title layout: the info icon opens the title on the
+	   LEFT through the shared --gap-icon token; the flex centering keeps
+	   the icon on the title's optical center line, and the muted tone +
+	   headline-lg scale come from the shared Global.css law. */
+	.concept__title {
+		display: flex;
+		align-items: center;
+		gap: var(--gap-icon);
 	}
 
 	/* The wrap law for the concept prose: a slash-joined technical run

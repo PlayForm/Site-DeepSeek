@@ -1,5 +1,5 @@
 /* ============================================================
-	@playform / DSH Family - Design Tokens + Layout
+	DSH Family @ PlayForm - Design Tokens + Layout
 	"Technical Minimalist Harness"
 	Adapted from the Reference design system for the Astro site.
 
@@ -84,6 +84,20 @@
 		and the FLAVOR:/NORM: label prefixes). Zero elevation: it is
 		flat like every other color in the system. */
 	--color-accent-orange: #bf3003;
+
+	/* ---- Color: pin-red (the sanctioned third hue, identity-only) ----
+		The deep crimson of the Material Red 800 range, the identity color
+		of the PIN stage (the PIN word labels - the use-cases kicker, the
+		showcase kicker, the pipeline meta). Chosen over the darker
+		#952200 family (reads rust, not red) and over the #B71C1C
+		(#B71C1C measures 6.57:1 on white but darkens toward maroon):
+		#C62828 keeps a true red hue and clears the AA floor for the
+		13px mono labels it colors - 5.62:1 on the white canvas and
+		5.37:1 on the #F8FAFC trays. It marks ONLY the PIN identity
+		words - the orange stays the raw/stream signature and the red
+		never touches the raw surfaces. Zero elevation: flat like every
+		other color in the system. */
+	--color-pin-red: #c62828;
 
 	/* ---- Typography: families ----
 		Inter carries the headings and the body; IBM Plex Mono (the
@@ -285,6 +299,12 @@
 		stream / flavor signature legible on the dark canvas (the
 		#BF3003 of the light theme reads rust on #0B0F19). */
 	--color-accent-orange: #ff8a4c;
+
+	/* The pin-red: the lifted #E57373 keeps the PIN identity legible on
+		the dark canvas (6.41:1 on #0B0F19 - the #C62828 of the light
+		theme reads rust on dark, the same lift rule the accent-orange
+		runs). */
+	--color-pin-red: #e57373;
 }
 
 /* ---- The theme-toggle: the LIGHT / DARK switch in the header ----
@@ -715,6 +735,29 @@ a .code-token {
 	color: var(--color-primary);
 }
 
+/* ---- Identity-word spans: the PIN / GOVERN / NORMALIZE stage words ----
+	The word-level treatment the use-cases narrative runs: only the
+	IDENTITY WORD takes its stage color, the separators and the
+	surrounding text stay in their surface's neutral ink (the same
+	word-level rule the RAW legend label runs with the accent-orange).
+	PIN takes the pin-red token (the sanctioned third hue, identity
+	only), GOVERN takes the Harness Blue (--color-primary, the site's
+	primary accent) and NORMALIZE takes the ink-muted gray - the
+	"stays normal" stage. The spans are emitted by the meta/kicker
+	renderers over the plain strings, so the visible bytes never
+	change; the colors flip with the dark theme through the tokens. */
+.word-pin {
+	color: var(--color-pin-red);
+}
+
+.word-govern {
+	color: var(--color-primary);
+}
+
+.word-normalize {
+	color: var(--color-ink-muted);
+}
+
 /* ---- Fixed header ---- */
 .site-header {
 	position: fixed;
@@ -740,7 +783,9 @@ a .code-token {
 .site-header__brand {
 	display: flex;
 	align-items: center;
-	gap: var(--space-sm);
+	/* The glyph's right padding to the title: one token step up from
+		--space-sm for the brand mark's optical gap (both themes). */
+	gap: var(--space-md);
 	min-width: 0;
 }
 
@@ -3084,6 +3129,30 @@ p + .section-kicker {
 	gap: var(--space-md);
 	margin: 0;
 	padding-left: 1.25rem;
+}
+
+/* ---- The descriptive titles ----
+	The descriptive headings that open each explanatory block - the
+	concept titles (the Concept component, across the case-study and the
+	other concept pages), the pinner page's concept-block titles and the
+	showcase use-case titles - read as a heading ABOVE the body prose, not
+	as inline emphasis: the headline-lg scale (28px, one full step above
+	the section-header's headline-md) carries the typography laws, and the
+	muted tone (the on-surface-variant token, flipped by the dark theme)
+	marks them as the explanatory voice between the blue-marked section
+	headers and the body ink. The info icon opens the title on the LEFT -
+	the shared mechanics family (the 24-grid stroke optics in
+	BrandIcon.astro), the --gap-icon token, the flex centering - and
+	inherits the same muted tone through currentColor, so icon + title
+	read as one grayed unit.
+	Layout stays per-component (Concept and the scoped page styles own
+	their display) - the title scale and tone are the shared law here. */
+.concept__title {
+	color: var(--color-on-surface-variant);
+	font-size: var(--text-headline-lg);
+	line-height: var(--leading-headline-lg);
+	font-weight: var(--weight-headline-lg);
+	letter-spacing: var(--tracking-headline-lg);
 }
 
 /* ---- Toast (transient action feedback) ---- */

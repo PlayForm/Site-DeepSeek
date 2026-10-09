@@ -118,12 +118,14 @@ export function FileIconMark(
 
 /**
  * The file-mention token: the known file names first (matched as the bare
- * basename, so a mention inside a template path like
- * ~/.dsh/profiles/<name>/package.json still icons the basename), then the
+ * basename), then the
  * generic path token (the maximal run of path characters ending in a known
  * extension - package.json, Cargo.toml, cordis.patch.yml, SCHEME.md,
  * README.md, .sh, .ts, .mjs, .js, .svg and the .log files). SCHEME and
- * README match bare (the site cites them without the .md).
+ * README match bare (the site cites them without the .md). The renderer
+ * applies the path rule on top: a match that sits inside a larger path
+ * (~/.dsh/profiles/<name>/package.json, /x/y.json) or is itself a full
+ * path renders plain - the icons attach only to the bare mentions.
  */
 const FileAlternatives = [
 	"SCHEME(?:\\.md)?",
@@ -191,6 +193,25 @@ function IsLog(Token: string): boolean {
 }
 
 /**
+ * Whether a matched file token is PATH-EMBEDDED - part of a full path
+ * (~/.dsh/profiles/<name>/package.json, node_modules/.../package.json,
+ * /x/package.json, ~/.dsh/<name>.log) rather than a bare file mention
+ * (package.json, pin-policy.json, Cargo.toml, governor.log). The user's
+ * rule: the icons and the log chip attach ONLY to the bare mentions - a
+ * token that carries a path prefix (a separator inside the token, a
+ * leading ~, or a / immediately before the match) is a location, not a
+ * document, and renders as plain text with no icon and no chip.
+ */
+function IsPathEmbedded(Token: string, PrevChar: string): boolean {
+	return (
+		Token.includes("/") ||
+		Token.startsWith("~") ||
+		Token.startsWith("./") ||
+		PrevChar === "/"
+	);
+}
+
+/**
  * The double-quoted runs of a string: a token inside one of these is
  * quoted ledger-line / code content and stays untouched (the byte-exact
  * quotes rule - the chip and the icons adorn the mentions, never the
@@ -244,6 +265,13 @@ export function Mention(Text: string): string {
 			// quoted run is a literal, and the literals are tokens too).
 			Out += `<code class="code-token">${Escape(Token)}</code>`;
 		} else if (IsQuoted(Absolute)) {
+			Out += Escape(Token);
+		} else if (
+			IsPathEmbedded(Token, Absolute > 0 ? Text[Absolute - 1] : "")
+		) {
+			// The path rule: a full-path mention renders as plain text - no
+			// file icon, no log chip. Only the bare file names carry the
+			// adornments.
 			Out += Escape(Token);
 		} else {
 			const Icon = FileIconMark(IconFor(Token));
