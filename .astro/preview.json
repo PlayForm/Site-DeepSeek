@@ -1,14 +1,22 @@
 {
-	"pid": 14020,
-	"port": 4321,
-	"url": "http://localhost:4321",
+	"pid": 7096,
+	"port": 10000,
+	"url": "http://localhost:10000",
 	"urls": {
 		"local": [
-			"http://localhost:4321/"
+			"http://localhost:10000/"
 		],
-		"network": [],
-		"networkInterfaceNames": []
+		"network": [
+			"http://127.0.2.2:10000/",
+			"http://127.0.2.3:10000/",
+			"http://192.168.0.147:10000/"
+		],
+		"networkInterfaceNames": [
+			"lo0",
+			"lo0",
+			"en0"
+		]
 	},
 	"background": false,
-	"startedAt": "2026-10-08T19:07:23.718Z"
+	"startedAt": "2026-10-09T01:13:48.128Z"
 }
