@@ -336,15 +336,17 @@ const JsonLd = {
 					? "dark"
 					: "light";
 			// The persistence indicator: "OS" while the theme follows the
-			// operating system (no stored choice), "PIN" once a stored
-			// choice pins it. The title states the same in words.
+			// operating system (no stored choice), "LOCK" once a stored
+			// choice pins it (deliberately NOT "PIN" - that word belongs
+			// to the family's PINNER vocabulary). The title states the
+			// same in words.
 			const ThemeMode = document.querySelector<HTMLElement>("[data-theme-mode]");
 			const SyncMode = () => {
 				let Pinned = false;
 				try {
 					Pinned = !!localStorage.getItem("dsh-theme");
 				} catch {}
-				if (ThemeMode) ThemeMode.textContent = Pinned ? "PIN" : "OS";
+				if (ThemeMode) ThemeMode.textContent = Pinned ? "LOCK" : "OS";
 				if (ThemeToggle) {
 					if (Pinned) {
 						ThemeToggle.setAttribute("data-pinned", "");
