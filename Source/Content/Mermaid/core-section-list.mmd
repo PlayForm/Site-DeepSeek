@@ -1,0 +1,17 @@
+flowchart LR
+	SECTION["Section - the canonical NPM dependency-section list"]
+	D1["dependencies"]
+	D2["devDependencies"]
+	D3["peerDependencies"]
+	D4["optionalDependencies"]
+	CONSUMER["a consumer"]
+	EXCL["exclusion segments - kept separate"]
+	SECTION --> D1 --> CONSUMER
+	SECTION --> D2 --> CONSUMER
+	SECTION --> D3 --> CONSUMER
+	SECTION --> D4 --> CONSUMER
+	CONSUMER -. "dependency sections stay separate from" .-> EXCL
+	%% Invisible layout links only - no semantics.
+	D1 ~~~ D2
+	D2 ~~~ D3
+	D3 ~~~ D4

@@ -1,0 +1,6 @@
+flowchart LR
+	ANY["anywhere mode - exclusion-first"]
+	NO["no roots allowlist"]
+	AGENT["any agent - main - subagent - workflow child - writing<br/>a package.json via the harness fs tools is governed"]
+	UNLESS["unless the path contains an excluded segment"]
+	ANY --> NO --> AGENT --> UNLESS

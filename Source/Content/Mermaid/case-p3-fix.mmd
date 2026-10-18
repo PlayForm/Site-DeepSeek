@@ -1,0 +1,10 @@
+flowchart LR
+	OPEN["the first successful open - 952eaa1"] --> HANDLE["binds its handle<br/>on the factory instance"]
+	HANDLE --> EVERY["every module's records<br/>route through it"]
+	RACE["the boot-window race - aa53c91<br/>records journaled before any open completes"]
+	BUF["buffer in a capped - drop-when-full<br/>pre-bind queue"]
+	DRAIN["drain with timestamps preserved"]
+	STAGES["the three-stage routing<br/>shared sink - pre-bind buffer - per-state fallback"]
+	RACE --> BUF --> DRAIN
+	EVERY --> STAGES
+	DRAIN --> STAGES

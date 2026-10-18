@@ -1,0 +1,9 @@
+flowchart LR
+	TRANSFORM["the whole-chain transform - applied at write time"]
+	CHAIN["exactly the raw-write normalize: true chain<br/>the core's tables and replacers - applied whole<br/>at write time"]
+	NOSTREAM["no stream dispatch to gate - the tool registers<br/>NO event listener"]
+	ONEPASS["the six transforms applied to the entire file content<br/>in one pass"]
+	COUNT["the count being the ledger's N<br/>and the no-op condition in one"]
+	TRANSFORM --> CHAIN
+	CHAIN --> NOSTREAM
+	CHAIN --> ONEPASS --> COUNT

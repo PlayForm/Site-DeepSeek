@@ -6,6 +6,7 @@ import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
+import Compare from "@Component/Compare.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -13,17 +14,18 @@ import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
 import { Counts, Versions, Families, FamilyPosition } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
+import { Mention } from "@Library/FileIcon";
 
 // The eight-entry Quotes MAP, from the package README.
 const QuotesMap = [
-	{ Code: "U+2018", Name: "left single quotation mark", Ascii: "' (U+0027)", Glyph: "'" },
-	{ Code: "U+2019", Name: "right single quotation mark", Ascii: "'", Glyph: "'" },
-	{ Code: "U+201A", Name: "single low-9 quotation mark", Ascii: "'", Glyph: "'" },
-	{ Code: "U+201B", Name: "single high-reversed-9 quotation mark", Ascii: "'", Glyph: "'" },
-	{ Code: "U+201C", Name: "left double quotation mark", Ascii: '" (U+0022)', Glyph: '"' },
-	{ Code: "U+201D", Name: "right double quotation mark", Ascii: '"', Glyph: '"' },
-	{ Code: "U+201E", Name: "double low-9 quotation mark", Ascii: '"', Glyph: '"' },
-	{ Code: "U+201F", Name: "double high-reversed-9 quotation mark", Ascii: '"', Glyph: '"' },
+	{ Code: "U+2018", Name: "left single quotation mark", Ascii: "' (U+0027)", Glyph: "‘" },
+	{ Code: "U+2019", Name: "right single quotation mark", Ascii: "'", Glyph: "’" },
+	{ Code: "U+201A", Name: "single low-9 quotation mark", Ascii: "'", Glyph: "‚" },
+	{ Code: "U+201B", Name: "single high-reversed-9 quotation mark", Ascii: "'", Glyph: "‛" },
+	{ Code: "U+201C", Name: "left double quotation mark", Ascii: '" (U+0022)', Glyph: "“" },
+	{ Code: "U+201D", Name: "right double quotation mark", Ascii: '"', Glyph: "”" },
+	{ Code: "U+201E", Name: "double low-9 quotation mark", Ascii: '"', Glyph: "„" },
+	{ Code: "U+201F", Name: "double high-reversed-9 quotation mark", Ascii: '"', Glyph: "‟" },
 ];
 
 // The stream pipeline, from the package README (map flavor).
@@ -54,7 +56,7 @@ const Pipeline = [
 	"       │                       through BY IDENTITY (the edit tool's",
 	"       │                       `old_string` must match the real file bytes),",
 	"       │                       and a call whose arguments open with the",
-	'       │                       `{"__normalize":false` marker (FIRST key,',
+	'       │                       `{"__normalize":false\}` marker (FIRST key,',
 	"       │                       tracked per call id) passes through",
 	"       │                       UNNORMALIZED with the marker entry stripped,",
 	"       │                       so the executed call carries no unknown key",
@@ -138,7 +140,7 @@ const Config = [
 		Default: "false",
 		Volatile: "no",
 		Meaning:
-			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit name exemption and the {"__normalize":false raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
+			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit name exemption and the {"__normalize":false\} raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
 	},
 ];
 
@@ -156,12 +158,12 @@ const StreamExample = [
 // The ledger strings, from the README.
 const LedgerStrings = [
 	"hook-dsh-normalize-quotes: activated (reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-quotes.log)",
-	"hook-dsh-normalize-quotes: normalized 8 quote char(s) in one stream",
+	"hook-dsh-normalize-quotes: normalized 10 quote char(s) in one stream",
 ];
 ---
 
 <Base
-	Title="hook-dsh-normalize-quotes - @playform / DSH Family"
+	Title="hook-dsh-normalize-quotes - DSH Family @ PlayForm"
 	Description={`${Families.Quotes} - the quote normalizer for model output: hooks the llm/stream waterfall and normalizes the eight typographic quote code points to their ASCII straight counterparts, live in the transcript.`}
 >
 	<main class="container container--main">
@@ -178,32 +180,33 @@ const LedgerStrings = [
 		<section class="page-hero">
 			<h1 class="page-hero__title">hook-dsh-normalize-quotes</h1>
 			<p class="page-hero__sub">
-				{Families.Quotes} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin
-				Family for PlayForm._ The <strong>quote normalizer for model output</strong> - a
+				{Families.Quotes} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin
+				Family for PlayForm.</em> The <strong>quote normalizer for model output</strong> - a
 				DeepSeek Harness plugin that hooks the{" "}
-				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-					<code>llm/stream</code>
-				</a>{" "}
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>{" "}
 				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
-				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-					LlmRuntime
-				</a>
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>
 				) and normalizes the curly quote family in model output, live in the transcript: the
 				eight typographic quote code points each map to their ASCII straight counterpart -
-				U+2018/U+2019/U+201A/U+201B to the ASCII apostrophe, and U+201C/U+201D/U+201E/U+201F
-				to the ASCII double quote. A MAP flavor of the normalize family: the core's{" "}
+				<code class="code-token">U+2018</code>/<code class="code-token">U+2019</code>/
+				<code class="code-token">U+201A</code>/<code class="code-token">U+201B</code> to
+				the ASCII apostrophe, and <code class="code-token">U+201C</code>/
+				<code class="code-token">U+201D</code>/<code class="code-token">U+201E</code>/
+				<code class="code-token">U+201F</code>
+				to the ASCII double quote.</p>
+			<p class="page-hero__sub">A MAP flavor of the normalize family: the core's{" "}
 				<code>Quotes</code> char-to-char table owns the substitution - no{" "}
-				<code>replacement</code> config knob. The family's raw-write tool (registered by
-				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>
-					hook-dsh-normalize-dash
-				</a>
+				<code>replacement</code> config knob.</p>
+			<p class="page-hero__sub">The family's raw-write tool (registered by
+				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>hook-dsh-normalize-dash</a>
 				) bypasses this flavor's transforms too - the exemption is family-wide.
+			
 			</p>
 		</section>
 
 		<section class="section">
 			<div class="snippet-list">
-				<Terminal Command="pnpm add @playform/hook-dsh-normalize-quotes" />
+				<Terminal Pkg="hook-dsh-normalize-quotes"/>
 			</div>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
@@ -239,20 +242,17 @@ const LedgerStrings = [
 					Diagram={`${Families.Quotes} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the second of the six stream normalizer siblings.`}
 				>
 					<p>
-						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>{Families.Quotes}</strong>): a hook child of the{" "}
+						A hook child of the{" "}
 						<strong>
 							<a
 								href={Link(
 									Links.OurRepo,
 									"Classic/packages/plugin-dsh-factory/Source",
 								)}
-							>
-								plugin-dsh-factory
-							</a>
+							>plugin-dsh-factory</a>
 						</strong>{" "}
-						service and the <strong>hook-dsh-core</strong> machinery; the second of the
-						six stream normalizer siblings.
+						service ({Families.Quotes}) and the <strong>hook-dsh-core</strong> machinery;
+						the second of the six stream normalizer siblings.
 					</p>
 				</Concept>
 			</div>
@@ -278,7 +278,9 @@ const LedgerStrings = [
 											{Index > 0 && (
 												<ArrowIcon Direction="right" Tone="accent" />
 											)}
-											{Part}
+											{Part.trim() && (
+												<span set:html={Mention(Part.trim())} />
+											)}
 										</Fragment>
 									))}
 								</td>
@@ -291,34 +293,26 @@ const LedgerStrings = [
 				<Concept
 					Id="quotes-non-manifest"
 					Title="A non-manifest factory consumer"
-					Diagram="The flavor's factory surface: injecting [&quot;pluginFactory&quot;], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."
+					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."}
 				>
 					<p>
-						A <strong>non-manifest factory consumer</strong>: it injects{" "}
+						It injects{" "}
 						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap
 						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
 						the config is composed by the factory's standalone <code>Schema</code>{" "}
 						helper with
 						<code>shared: false</code> - the minimal block, no{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							fs/observed
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
 						dead fields.
 					</p>
 					<p>
 						It touches no files, so{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							fs/write-intent
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/write-intent</code></a>{" "}
 						and{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>
-							fs/observed
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
 						never see it; it wraps the downstream result and always calls{" "}
 						<code>next()</code>, so it composes with other{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>
-							llm/stream
-						</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						listeners regardless of registration order.
 					</p>
 				</Concept>
@@ -376,8 +370,10 @@ const LedgerStrings = [
 					</p>
 					<p>
 						Left in model output, a curly quote is a silent correctness hazard - in code
-						blocks, commands and file paths it is simply the wrong character. This
+						blocks, commands and file paths it is simply the wrong character.</p>
+					<p>This
 						flavor makes the straight form the one that reaches the transcript.
+					
 					</p>
 				</Concept>
 			</div>
@@ -395,9 +391,7 @@ const LedgerStrings = [
 					<p>
 						<strong>The transform</strong> - exactly the core's <code>Quotes</code> map
 						(
-						<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source")}>
-							@playform/hook-dsh-core
-						</a>
+						<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source")}>@playform/hook-dsh-core</a>
 						's Normalize/Quotes), applied per text segment through the core's{" "}
 						<code>ReplaceMap</code> - eight entries, each typographic quote code point
 						to its ASCII straight counterpart:
@@ -418,11 +412,15 @@ const LedgerStrings = [
 						{QuotesMap.map((Row) => (
 							<tr>
 								<td>
-									<strong>{Row.Code}</strong>
+									<code class="code-token">{Row.Code}</code>
 								</td>
-								<td>{Row.Glyph}</td>
+								<td>
+									<code class="code-token">{Row.Glyph}</code>
+								</td>
 								<td>{Row.Name}</td>
-								<td>{Row.Ascii}</td>
+								<td>
+									<code class="code-token">{Row.Ascii}</code>
+								</td>
 							</tr>
 						))}
 					</tbody>
@@ -435,14 +433,17 @@ const LedgerStrings = [
 					Diagram="No context rules - one character in, its straight counterpart out; chunk-boundary-safe: single-character substitution, no lookahead - per-chunk application never disagreeing with whole-text application; the mapping values returned through a function replacer so they are inserted literally (no $-pattern interpretation); replaced characters counted per stream for the ledger line."
 				>
 					<p>
-						No context rules - one character in, its straight counterpart out.
+						No context rules - one character in, its straight counterpart out.</p>
+					<p>
 						Chunk-boundary-safe: single-character substitution, no lookahead - per-chunk
 						application can never disagree with whole-text application.
 					</p>
 					<p>
 						The mapping values are returned through a function replacer, so they are
-						inserted literally (no $-pattern interpretation). Replaced characters are
+						inserted literally (no $-pattern interpretation).</p>
+					<p>Replaced characters are
 						counted per stream for the ledger line.
+					
 					</p>
 				</Concept>
 			</div>
@@ -468,9 +469,9 @@ const LedgerStrings = [
 									<strong>{Row.Field}</strong>
 								</td>
 								<td>{Row.Type}</td>
-								<td>{Row.Default}</td>
+								<td set:html={Mention(Row.Default)} />
 								<td>{Row.Volatile}</td>
-								<td>{Row.Meaning}</td>
+								<td set:html={Mention(Row.Meaning)} />
 							</tr>
 						))}
 					</tbody>
@@ -490,17 +491,17 @@ const LedgerStrings = [
 						(MAP flavor).
 					</p>
 					<p>
-						Volatile cells commit without remounting the plugin; the factory's State
-						builder unwraps them defensively. Example{" "}
+						They commit without remounting the plugin; the factory's State
+						builder unwraps them defensively.</p>
+					<p>Example{" "}
 						<a
 							href={Link(
 								Links.OurRepo,
 								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
 							)}
-						>
-							cordis.patch.yml
-						</a>{" "}
+						><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a>{" "}
 						row:
+					
 					</p>
 				</Concept>
 			</div>
@@ -529,7 +530,12 @@ const LedgerStrings = [
 				Before <ArrowIcon Direction="right" Tone="accent" /> after - the model stream, then
 				what reaches the transcript
 			</p>
-			<div class="code-block">{StreamExample.join("\n")}</div>
+			<Compare
+				Id="quotes-stream"
+				Flavor="quotes"
+				Raw={StreamExample.slice(0, 4)}
+				Clean={StreamExample.slice(4)}
+			/>
 			<div class="concept-list">
 				<Concept
 					Id="quotes-in-action"

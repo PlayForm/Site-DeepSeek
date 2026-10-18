@@ -1,0 +1,6 @@
+flowchart LR
+	TOOL["the raw-write tool - a write wrapper with<br/>an explicit normalize parameter"]
+	EXEMPT["exempt from the stream normalization by name"]
+	PASS["the core's Stream/Chunk + Stream/Block pass<br/>every raw-write call through by identity<br/>exactly like edit"]
+	CONTENT["the content is what the model sent"]
+	TOOL --> EXEMPT --> PASS --> CONTENT

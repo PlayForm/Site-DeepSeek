@@ -1,0 +1,13 @@
+flowchart LR
+	GOV["the per-call governance selection over<br/>the factory's direct-govern registry"]
+	AFTER["applied after a successful write"]
+	ABSENT["absent or false - NO chain<br/>the write still emits fs/observed<br/>exactly like a built-in write"]
+	TRUE["true or all - ALL registered steps<br/>for the target's basename"]
+	ARRAY["an array - ONLY the named steps"]
+	BEST["best-effort and contained through<br/>Govern(target, selection, actor, version)<br/>with the written outcome's fresh version"]
+	FAIL["a failing step never affects<br/>the write's outcome"]
+	GOV --> AFTER
+	AFTER --> ABSENT
+	AFTER --> TRUE
+	AFTER --> ARRAY
+	AFTER --> BEST --> FAIL

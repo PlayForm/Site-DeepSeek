@@ -1,0 +1,6 @@
+flowchart LR
+	DEFAULT["the raw-write tool's default posture"]
+	VERBATIM["content landing verbatim - byte-for-byte"]
+	SELECT["normalization happening only when the call<br/>selects it - all six transforms<br/>or specific flavors"]
+	DEFAULT --> VERBATIM
+	DEFAULT --> SELECT

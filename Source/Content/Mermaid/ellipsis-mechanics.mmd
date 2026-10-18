@@ -1,0 +1,7 @@
+flowchart LR
+	REP["applied with a function replacer"]
+	LITERAL["a custom replacement containing $ patterns<br/>is inserted literally"]
+	COUNT["replaced characters counted per stream<br/>for the ledger line"]
+	ONCE["each replaced ellipsis code point counts once<br/>even though the default replacement<br/>emits three characters"]
+	REP --> LITERAL
+	REP --> COUNT --> ONCE

@@ -1,0 +1,8 @@
+flowchart LR
+	CJK["CJK input methods emit full-width punctuation<br/>digits and letters"]
+	COMMA["a full-width comma or digit in a command<br/>code block or path"]
+	INVISIBLE["invisible on screen"]
+	WRONG["wrong for every parser - shell and diff"]
+	CJK --> COMMA
+	COMMA --> INVISIBLE
+	COMMA --> WRONG

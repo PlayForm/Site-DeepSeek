@@ -1,0 +1,12 @@
+flowchart LR
+	OUT["model output born in the stream"]
+	EM["the em dashes seen first"]
+	UI["the live UI"]
+	LOG["the durable transcript"]
+	HOOK["a file hook rewrites after the fact<br/>perl -CSD -pe over whatever was already written"]
+	ASCII["the unicode dash family to ASCII hyphen-minus<br/>in files"]
+	OUT --> EM
+	EM --> UI
+	EM --> LOG
+	OUT -. "later" .-> HOOK
+	HOOK --> ASCII

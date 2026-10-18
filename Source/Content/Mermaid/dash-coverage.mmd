@@ -1,0 +1,17 @@
+flowchart LR
+	FAMILY["the covered characters - the dash family"]
+	C1["Armenian hyphen - Hebrew maqaf<br/>Canadian syllabics hyphen - Mongolian todo soft hyphen"]
+	C2["U+2010-U+2015 - the hyphen/dash family<br/>including the em dash and the non-breaking hyphen"]
+	C3["double oblique hyphen - hyphen with diaeresis<br/>two-/three-em dash - double hyphen - U+2E5D"]
+	C4["wave/wavy dash - katakana-hiragana double hyphen<br/>the vertical presentation dashes"]
+	C5["small em dash - small hyphen-minus<br/>and the fullwidth hyphen-minus"]
+	ALL["all becoming the config replacement<br/>default - - ASCII hyphen-minus U+002D"]
+	FAMILY --> C1 --> ALL
+	FAMILY --> C2 --> ALL
+	FAMILY --> C3 --> ALL
+	FAMILY --> C4 --> ALL
+	FAMILY --> C5 --> ALL
+	C1 ~~~ C2
+	C2 ~~~ C3
+	C3 ~~~ C4
+	C4 ~~~ C5

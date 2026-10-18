@@ -1,0 +1,8 @@
+flowchart LR
+	PKG["@playform/hook-dsh-core - named exports only"]
+	GOV["the governance helpers - one import line"]
+	NORM["the normalize helpers - the other import line"]
+	PKG --> GOV
+	PKG --> NORM
+	%% Invisible layout links only - no semantics.
+	GOV ~~~ NORM

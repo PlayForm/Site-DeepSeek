@@ -1,0 +1,6 @@
+flowchart LR
+	READ["read the file back - @acme/chain-core at ^0.4.5<br/>or already bumped by ncu if the policy allowed it"]
+	AGAIN["write again immediately with nothing complaining<br/>no FS_STALE_VERSION - the re-emit making<br/>the second pass a no-op"]
+	EXCL["or write inside node_modules/.git/.dsh - the ledger<br/>gaining one line - skipped (excluded) ... - while<br/>the file stays untouched"]
+	READ --> AGAIN
+	READ --> EXCL

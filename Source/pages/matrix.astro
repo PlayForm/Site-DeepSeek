@@ -6,7 +6,9 @@ import BrandIcon from "@Component/BrandIcon.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import TerminalTray from "@Component/TerminalTray.astro";
 import { Counts, Totals } from "@Library/Content";
+import { DotSep } from "@Library/FileIcon";
 
 // The flavor gate hooks of the inspector, with their before/after notes.
 const Hooks = [
@@ -78,7 +80,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 ---
 
 <Base
-	Title="Matrix - @playform / DSH Family"
+	Title="Matrix - DSH Family @ PlayForm"
 	Description="The Interactive Matrix Stream Inspector: raw model emission versus canonical normalized output across the DeepSeek V4 Flash, GLM 5.3 Flash and raw LLM engine routes."
 >
 	<main class="container container--main">
@@ -106,10 +108,10 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 					data-active
 					aria-pressed="true"
 				>
-					<span class="dot"></span> DeepSeek V4 Flash (120 tps)
+					<span class="dot"></span> DeepSeek V4 Flash
 				</button>
 				<button type="button" class="engine-pill" data-engine="glm" aria-pressed="false">
-					<span class="dot"></span> GLM 5.3 Flash
+					<span class="dot"></span> <BrandIcon Name="zhipu" Size="0.8em" /> GLM 5.3 Flash
 				</button>
 				<button type="button" class="engine-pill" data-engine="raw" aria-pressed="false">
 					<span class="dot"></span> Raw LLM Stream
@@ -176,17 +178,20 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 					))}
 				</span>
 			</div>
+			<!-- The pause/resume is announced through this visually-hidden
+			     status element (role=status, aria-live=polite) - the
+			     hover-pause state change reaches assistive tech even
+			     though the visible PAUSED tag is aria-hidden. -->
+			<p class="visually-hidden" role="status" aria-live="polite" data-stream-status>
+				Stream running
+			</p>
 			<div class="stream-grid">
 				<div class="stream-pane rail-orange">
-					<div class="stream-pane__bar">
-						<span class="stream-pane__label is-orange">
-							<span class="dot dot--raw"></span>
-							RAW MODEL EMISSION
-						</span>
+					<TerminalTray Label="RAW MODEL EMISSION" Orange>
 						<span class="stream-pane__count">
 							// payload emit: deepseek-v4-chunk-9812
 						</span>
-					</div>
+					</TerminalTray>
 					<div class="stream-pane__terminal" data-raw>
 						{RawPayload}
 					</div>
@@ -211,17 +216,13 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 					     on-surface-variant ink. Hidden until the stage is paused
 					     (see the .stream-hub__paused rules in Global.css). -->
 					<span class="stream-hub__paused" aria-hidden="true">
-						<span class="stream-hub__paused-word">PAUSED</span> · HOVER TO RESUME
+						<span class="stream-hub__paused-word">PAUSED</span><span class="dot-sep" aria-hidden="true"></span>HOVER TO RESUME
 					</span>
 				</div>
 				<div class="stream-pane">
-					<div class="stream-pane__bar">
-						<span class="stream-pane__label">
-							<span class="dot dot--clean"></span>
-							<BrandIcon Name="swap" /> CANONICAL NORMALIZED OUTPUT
-						</span>
+					<TerminalTray Label="CANONICAL NORMALIZED OUTPUT" Icon>
 						<span class="stream-pane__count">valid ast ready</span>
-					</div>
+					</TerminalTray>
 					<div class="stream-pane__terminal" data-clean>
 						{CleanPayload}
 					</div>
@@ -242,8 +243,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 				</div>
 				<div class="workbench-controls__group">
 					<span class="bench-status hook-tally" data-benchmark-status role="status" aria-live="polite">
-						{Counts.Suites} suites · {Totals.Pair()} · ALL PASS (the ledger strings,
-						byte-identical)
+						<Fragment set:html={DotSep(`${Counts.Suites} suites · ${Totals.Pair()} · ALL PASS (the ledger strings, byte-identical)`)} />
 					</span>
 					<button type="button" class="engine-pill" data-action="copy">
 						Copy Normalized Output
@@ -263,9 +263,11 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 				>
 					<p>
 						The inspector above runs the same per-chunk rules the packages run,
-						client-side.<br />
+						client-side.</p>
+					<p>
 						The real authority is each flavor's smoke suite, which loads
 						the built package and asserts the ledger strings byte-identically.
+					
 					</p>
 				</Concept>
 			</div>
@@ -421,7 +423,17 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 	// no listeners are attached.
 	const Stage = document.querySelector<HTMLElement>(".stream-grid");
 	if (Stage && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-		Stage.addEventListener("mouseenter", () => Stage.classList.add("is-paused"));
-		Stage.addEventListener("mouseleave", () => Stage.classList.remove("is-paused"));
+		// The pause/resume is announced through the visually-hidden
+		// stream status element (role=status, aria-live=polite).
+		Stage.addEventListener("mouseenter", () => {
+			Stage.classList.add("is-paused");
+			const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+			if (StreamStatus) StreamStatus.textContent = "Stream paused";
+		});
+		Stage.addEventListener("mouseleave", () => {
+			Stage.classList.remove("is-paused");
+			const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+			if (StreamStatus) StreamStatus.textContent = "Stream running";
+		});
 	}
 </script>

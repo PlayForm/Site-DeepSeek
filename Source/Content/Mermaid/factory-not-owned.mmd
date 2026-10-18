@@ -1,0 +1,8 @@
+flowchart LR
+	BOUND["what the factory deliberately does NOT own"]
+	STRINGS["the consumer ledger strings - every message a hook logs<br/>composed and logged by the hook<br/>through the factory's Append"]
+	TRANS["the transforms - the consumer supplies the pure function<br/>the factory only drives it inside Continue"]
+	ENGINES["the update engines - the factory gives them<br/>GuardedWrite/Refresh/Seam - Journal/UpdateKey<br/>to build with"]
+	BOUND --> STRINGS
+	BOUND --> TRANS
+	BOUND --> ENGINES

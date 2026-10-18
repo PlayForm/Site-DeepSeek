@@ -1,0 +1,12 @@
+flowchart LR
+	CALL["the raw-write tool in the file-writing direction"]
+	DEFAULT["content lands verbatim - by default"]
+	NORM["or the family's six-fold chain<br/>when called with normalize: true"]
+	EM["the em dash survives the default call"]
+	HY["and becomes a hyphen under normalize: true"]
+	FINE["the selection also FINE-GRAINED"]
+	CALL --> DEFAULT
+	CALL --> NORM
+	DEFAULT --> EM
+	NORM --> HY
+	NORM --> FINE

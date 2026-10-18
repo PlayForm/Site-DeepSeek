@@ -1,0 +1,6 @@
+flowchart LR
+	DEFAULT["the Effect-TS release wraps every governance<br/>stage in spans while shipping<br/>Effect's no-op Tracer"]
+	ATTACH["the OTLP exporter attaching<br/>only when configured"]
+	SAFE["spans never altering ledger strings<br/>or timing-sensitive gates"]
+	DEFAULT --> ATTACH
+	DEFAULT --> SAFE

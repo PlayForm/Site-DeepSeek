@@ -1,0 +1,4 @@
+flowchart LR
+	SEAM["fs/observed + fs/write-intent seams"] --> HALF["supply the governance half"]
+	HALF --> HOOKS["the three governance hooks"]
+	HOOKS --> COMP["compose their passes from<br/>the section list - the exclusion fence - the policy loader<br/>the refusal guard - the update-stage envelope"]

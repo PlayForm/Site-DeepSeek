@@ -1,0 +1,8 @@
+flowchart LR
+	MOD["the consuming module's own config"] --> DECIDE["decides every knob"]
+	DECIDE --> P["Policy's defaults"]
+	DECIDE --> R["Replace's replacement"]
+	DECIDE --> C["Chunk's injected transform"]
+	%% Invisible layout links only - no semantics.
+	P ~~~ R
+	R ~~~ C

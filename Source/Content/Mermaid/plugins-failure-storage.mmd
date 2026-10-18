@@ -1,0 +1,9 @@
+flowchart LR
+	OPEN["the package_governance v2 domain open<br/>failing SILENTLY against the v1 file"]
+	EXACT["the exact-equality version check"]
+	FIX["the fix - per-record layout<br/>compatibleVersions [1]"]
+	BACKUP["backup-and-skip for invalid records"]
+	LOUD["and a loud failure line"]
+	OPEN --> EXACT
+	FIX --> BACKUP
+	FIX --> LOUD

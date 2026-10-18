@@ -41,8 +41,12 @@ export default defineConfig({
 	outDir: "./Target",
 	// The site's own base URL (sitemap, canonical URLs). Keep in sync with
 	// Links.Site in Source/Library/Links.ts - the URL registry; this config
-	// cannot import that module at config-eval time, so the literal repeats.
-	site: "https://deepseek.playform.cloud",
+	// cannot import that module at config-eval time, so the expression
+	// repeats: on dev (NODE_ENV, the same key On uses) every URL the site
+	// emits resolves against the dev server at localhost:9999, while the
+	// built/deployed site keeps the canonical https://deepseek.playform.cloud
+	// (the sitemap and the canonical tags never leak localhost).
+	site: On ? "http://localhost:9999" : "https://deepseek.playform.cloud",
 	compressHTML: true,
 	prefetch: {
 		defaultStrategy: "hover",

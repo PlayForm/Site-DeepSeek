@@ -1,0 +1,4 @@
+flowchart LR
+	SEAM["the llm/stream seam"] --> HALF["supplies the stream-normalization half"]
+	HALF --> LIST["each flavor's listener"]
+	LIST --> RUN["runs the tables - the replacers<br/>and the Chunk/Block dispatch inside itself"]

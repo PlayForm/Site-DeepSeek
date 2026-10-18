@@ -1,0 +1,6 @@
+flowchart LR
+	SUITES["every suite"] --> LOAD["loads the REAL built Target<br/>of its bundle"]
+	LOAD --> ASSERT["asserting the ledger strings<br/>byte-identically"]
+	ET["the Effect-TS tree<br/>held to the same bar"]
+	SWAP["its swap-in gated on its own parity"]
+	ASSERT --> ET --> SWAP

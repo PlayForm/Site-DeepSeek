@@ -1,0 +1,423 @@
+import { C as __exportAll, S as createComponent, a as Links, b as $$BrandIcon, c as FamilyPosition, n as $$Base, o as Counts, r as Link, s as Families, t as $$Badge, y as Versions } from "./Badge_CHteF_GF.mjs";
+import { g as addAttribute, m as maybeRenderHead, o as renderComponent, p as renderTemplate, s as Fragment } from "./server_jUwDEDCs.mjs";
+import { t as $$ArrowIcon } from "./ArrowIcon_DQw92EC9.mjs";
+import { t as $$Card } from "./Card_B96geFVd.mjs";
+import { t as $$Concept } from "./Concept_DF89tVee.mjs";
+import { t as $$SectionHeader } from "./SectionHeader_w9WBitnM.mjs";
+import { t as $$Terminal } from "./Terminal_DR1pHPfM.mjs";
+import { t as $$FlavorBadge } from "./FlavorBadge_BnYKfk14.mjs";
+import { t as $$CodeBlock } from "./CodeBlock_BKk4KZdJ.mjs";
+import { t as $$Seams } from "./Seams_CCLTae3H.mjs";
+//#region Source/pages/plugins/hook-dsh-normalize-fullwidth.astro
+var hook_dsh_normalize_fullwidth_exports = /* @__PURE__ */ __exportAll({
+	default: () => $$HookDshNormalizeFullwidth,
+	file: () => $$file,
+	url: () => $$url
+});
+var $$HookDshNormalizeFullwidth = createComponent(($$result, $$props, $$slots) => {
+	const Pipeline = [
+		"  llm/stream waterfall (options, next)     the interceptable wrapper around",
+		"       │                                   EVERY streaming model call",
+		"       ▼  next() called FIRST, always - options never touched",
+		"  Normalize(upstream, state)               the async generator",
+		"       │   for await (chunk of upstream)",
+		"       ▼",
+		"  CoreChunk(chunk, transform, reasoning, toolArgs, raw)  the core's per-chunk dispatch",
+		"       │",
+		"       ├─ text-delta ────────► ReplaceMap(text, Fullwidth)  rewrite the text field",
+		"       ├─ reasoning-delta ───► same, when normalizeReasoning (default ON)",
+		"       ├─ block-end ─────────► the assembled block's text fields -",
+		"       │                       TextBlock.text / ReasoningBlock.text (plus a",
+		"       │                       runtime `thinking` string field) - the deltas",
+		"       │                       AND the block must agree, or consumers see",
+		"       │                       inconsistencies",
+		"       ├─ tool-call-delta ───► ReplaceMap(argumentsDelta, Fullwidth) when",
+		"       │                       normalizeToolArguments (IMPLEMENTED, default",
+		"       │                       OFF - execution-critical raw JSON, the user's",
+		"       │                       accepted risk; the example patch turns it",
+		"       │                       on) - the assembled ToolCallBlock.arguments",
+		"       │                       follows the same flag via block-end",
+		"       │                       The gate is THREE-WAY with the flag on: a",
+		"       │                       delta/block whose `name` is \"edit\" passes",
+		"       │                       through BY IDENTITY (the edit tool's",
+		"       │                       `old_string` must match the real file bytes),",
+		"       │                       and a call whose arguments open with the",
+		"       │                       `{\"__normalize\":false` marker (FIRST key,",
+		"       │                       tracked per call id) passes through",
+		"       │                       UNNORMALIZED with the marker entry stripped,",
+		"       │                       so the executed call carries no unknown key",
+		"       └─ block-start / usage / finish",
+		"                                ──► PASSTHROUGH BY IDENTITY, ALWAYS",
+		"                                    (usage/finish ordering is the",
+		"                                     adapter contract)",
+		"       │   count === 0 → original chunk BY IDENTITY; rewritten → shallow copy",
+		"       ▼",
+		"  yield ──► downstream consumers = the live UI + the durable transcript",
+		"       │    (order preserved, no buffering; upstream throws propagate)",
+		"       ▼  normal loop completion, Count > 0",
+		"  Factory.Append ──► `hook-dsh-normalize-fullwidth: normalized N fullwidth char(s) in one stream`"
+	];
+	const Ranges = [
+		{
+			Code: "U+FF01-U+FF0F",
+			Contents: "full-width punctuation (exclamation through solidus)",
+			Ascii: "!\"#$%&'()*+,-./"
+		},
+		{
+			Code: "U+FF10-U+FF19",
+			Contents: "full-width digits zero through nine",
+			Ascii: "0123456789"
+		},
+		{
+			Code: "U+FF1A-U+FF20",
+			Contents: "full-width punctuation (colon through commercial at)",
+			Ascii: ":;<=>?@"
+		},
+		{
+			Code: "U+FF21-U+FF3A",
+			Contents: "full-width capitals A through Z",
+			Ascii: "A-Z"
+		},
+		{
+			Code: "U+FF3B-U+FF40",
+			Contents: "full-width punctuation (left square bracket through grave)",
+			Ascii: "[\\]^_`"
+		},
+		{
+			Code: "U+FF41-U+FF5A",
+			Contents: "full-width small letters a through z",
+			Ascii: "a-z"
+		},
+		{
+			Code: "U+FF5B-U+FF5E",
+			Contents: "full-width punctuation (left curly brace through tilde)",
+			Ascii: "{|}~"
+		}
+	];
+	const Siblings = [
+		{
+			Flavor: "hook-dsh-normalize-dash",
+			Table: "core Dashes class",
+			Sub: "→ replacement (default -)",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-quotes",
+			Table: "core Quotes MAP",
+			Sub: "curly → straight",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-ellipsis",
+			Table: "core Ellipsis class",
+			Sub: "U+2026 → ...",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-spaces",
+			Table: "core Spaces class",
+			Sub: "unicode spaces → \" \"",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-invisible",
+			Table: "core Invisible class",
+			Sub: "removed (default \"\")",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-fullwidth (this bundle)",
+			Table: "core Fullwidth MAP",
+			Sub: "full-width → half-width",
+			This: true
+		}
+	];
+	const Config = [
+		{
+			Field: "log",
+			Type: "boolean",
+			Default: "true",
+			Volatile: "yes",
+			Meaning: "write the durable ledger file"
+		},
+		{
+			Field: "logFile",
+			Type: "string",
+			Default: "~/.dsh/hook-dsh-normalize-fullwidth.log",
+			Volatile: "yes",
+			Meaning: "the fullwidth ledger (separate from the family's logs)"
+		},
+		{
+			Field: "normalizeReasoning",
+			Type: "boolean",
+			Default: "true",
+			Volatile: "no",
+			Meaning: "normalize reasoning deltas and the assembled reasoning block too"
+		},
+		{
+			Field: "normalizeToolArguments",
+			Type: "boolean",
+			Default: "false",
+			Volatile: "no",
+			Meaning: "IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit name exemption and the {\"__normalize\":false raw-marker pass-through) - execution-critical raw JSON, the user's accepted risk; the example patch turns it on"
+		}
+	];
+	const StreamExample = [
+		"text-delta in (what the model wrote):",
+		"",
+		"  path \"／ｕｓｒ／ｌｏｃａｌ／ｂｉｎ\" — version １２３ — done!",
+		"",
+		"text-delta out (what reaches the transcript):",
+		"",
+		"  path \"/usr/local/bin\" - version 123 - done!"
+	];
+	const LedgerStrings = ["hook-dsh-normalize-fullwidth: activated (reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-fullwidth.log)", "hook-dsh-normalize-fullwidth: normalized 4 fullwidth char(s) in one stream"];
+	return renderTemplate`${renderComponent($$result, "Base", $$Base, {
+		"Title": "hook-dsh-normalize-fullwidth - @playform / DSH Family",
+		"Description": `${Families.Fullwidth} - the fullwidth normalizer for model output: hooks the llm/stream waterfall and maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterpart, live in the transcript.`
+	}, { "default": ($$result) => renderTemplate` ${maybeRenderHead($$result)}<main class="container container--main"> <div class="eyebrow-row"> ${renderComponent($$result, "Badge", $$Badge, {
+		"Variant": "primary",
+		"Dot": true
+	}, { "default": ($$result) => renderTemplate`
+PLUGIN DETAIL
+` })} <span class="flavor-cell flavor-cell--compact"> ${renderComponent($$result, "FlavorBadge", $$FlavorBadge, { "Flavor": "FULLWIDTH" })} </span> ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`MAP FLAVOR` })} </div> <section class="page-hero"> <h1 class="page-hero__title">hook-dsh-normalize-fullwidth</h1> <p class="page-hero__sub"> ${Families.Fullwidth} • ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "deepseek" })} _The DeepSeek Harness Plugin
+				Family for PlayForm._ The <strong>fullwidth normalizer for model output</strong> - a
+				DeepSeek Harness plugin that hooks the${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}> <code>llm/stream</code> </a>${" "}
+waterfall (the interceptable wrapper around EVERY streaming model call, bound to the${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}>
+LlmRuntime
+</a>
+) and normalizes the full-width family in model output, live in the transcript: the
+				entire FULLWIDTH FORMS range U+FF01-U+FF5E maps to its ASCII half-width counterpart
+				U+0021-U+007E - the whole story, letters, punctuation and digits included.<br>A MAP
+				flavor of the normalize family: the core's <code>Fullwidth</code> char-to-char table
+				owns the substitution - no <code>replacement</code> config knob.<br>The family's
+				raw-write tool (registered by${" "} <a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source"), "href")}>
+hook-dsh-normalize-dash
+</a>
+) bypasses this flavor's transforms too - the exemption is family-wide.
+</p> </section> <section class="section"> <div class="snippet-list"> ${renderComponent($$result, "Terminal", $$Terminal, { "Command": "pnpm add @playform/hook-dsh-normalize-fullwidth" })} </div> <div class="inspect-card"> <span class="inspect-card__meta"> <span class="live-dot"></span>INSPECTED
+</span> <div class="workbench-controls__group"> <span class="workbench-controls__label">Namespace:</span> <span class="hook-tally">@playform/hook-dsh-normalize-fullwidth</span> <span class="workbench-controls__label">Release:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`v${Versions.Release}` })} </div> <div class="workbench-controls__group"> <span class="workbench-controls__label">Archetype:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`Hook` })} <span class="workbench-controls__label">Event:</span> ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`llm/stream` })} <span class="workbench-controls__label">Table:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "active" }, { "default": ($$result) => renderTemplate`core Fullwidth MAP` })} </div> </div> </section> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+The profile wiring for this plugin - the bundles list, the patch entry and the restart -
+			is on the <a href="/setup/">setup page</a>.
+</p> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Where It Fits",
+		"Meta": FamilyPosition(6)
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "fullwidth-family-position",
+		"Title": "The family position",
+		"Diagram": `${Families.Fullwidth} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the sixth of the six stream normalizer siblings.`
+	}, { "default": ($$result) => renderTemplate` <p> <strong>Family position</strong> (the @-sentence${" "} <strong>${Families.Fullwidth}</strong>): a hook child of the${" "} <strong> <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source"), "href")}>
+plugin-dsh-factory
+</a> </strong>${" "}
+service and the <strong>hook-dsh-core</strong> machinery; the sixth of the
+						six stream normalizer siblings.
+</p> ` })} </div> <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Flavor</th> <th>Table</th> <th>Substitution</th> </tr> </thead> <tbody> ${Siblings.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Flavor}</strong> </td> <td>${Row.Table}</td> <td> ${Row.Sub.split("→").map((Part, Index) => renderTemplate`${renderComponent($$result, "Fragment", Fragment, {}, { "default": ($$result) => renderTemplate`${Index > 0 && renderTemplate`${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})}`}${Part}` })}`)} </td> </tr>`)} </tbody> </table> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "fullwidth-non-manifest",
+		"Title": "A non-manifest factory consumer",
+		"Diagram": "The flavor's factory surface: injecting [&quot;pluginFactory&quot;], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."
+	}, { "default": ($$result) => renderTemplate` <p>
+A <strong>non-manifest factory consumer</strong>: it injects${" "} <code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap
+						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
+						the config is composed by the factory's standalone <code>Schema</code>${" "}
+helper with
+<code>shared: false</code> - the minimal block, no${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}>
+fs/observed
+</a>${" "}
+dead fields.
+</p> <p>
+It touches no files, so${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}>
+fs/write-intent
+</a>${" "}
+and${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}>
+fs/observed
+</a>${" "}
+never see it; it wraps the downstream result and always calls${" "} <code>next()</code>, so it composes with other${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}>
+llm/stream
+</a>${" "}
+listeners regardless of registration order.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In the DeepSeek Harness",
+		"Meta": "WHERE THE FLAVOR OPERATES"
+	})} ${renderComponent($$result, "Seams", $$Seams, { "Seams": [
+		{
+			Seam: "llm/stream - the model stream waterfall",
+			What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
+			Outcome: "Half-width ASCII reaches the live UI and the durable transcript as the stream is born."
+		},
+		{
+			Seam: "The model stream vocabulary (dsh-llm)",
+			What: "The chunk/block shapes it rewrites come from the harness's stream vocabulary ([@deepseek-ai/dsh-llm](Harness:packages/llm/llm), type-only): text deltas, reasoning deltas and assembled blocks must agree.",
+			Outcome: "No inconsistencies between deltas and blocks for downstream consumers."
+		},
+		{
+			Seam: "The factory service",
+			What: "A non-manifest factory consumer: State for the config and Append for every ledger line; it touches no files, so [fs/write-intent](Harness:packages/fs/fs/src/index.ts) and [fs/observed](Harness:packages/fs/fs/src/index.ts) never see it.",
+			Outcome: "Composes with other [llm/stream](Harness:packages/llm/llm/src/index.ts) listeners regardless of registration order."
+		},
+		{
+			Seam: "The raw-write exemption (family-wide)",
+			What: "The family's raw-write tool (registered by [hook-dsh-normalize-dash](Ours:Classic/packages/hook-dsh-normalize-dash/Source)) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
+			Outcome: "Per-call control stays with the agent, even with every stream flavor armed."
+		},
+		{
+			Seam: "The ledger / session",
+			What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
+			Outcome: "A thrown-away stream writes no ledger line."
+		}
+	] })} </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Problem",
+		"Meta": "WHY THE FULLWIDTH FLAVOR EXISTS"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "fullwidth-problem",
+		"Title": "Full-width forms are invisible on screen and wrong everywhere else",
+		"Diagram": "CJK input methods emitting full-width punctuation, digits and letters - a full-width comma or digit in a command, code block or path invisible on screen and wrong for every parser, shell and diff."
+	}, { "default": ($$result) => renderTemplate` <p>
+CJK input methods emit full-width punctuation, digits and letters - and a
+						full-width comma or digit in a command, code block or path is invisible on
+						screen and wrong for every parser, shell and diff.
+</p> <p>
+This flavor maps the whole fullwidth range to the unambiguous ASCII
+						half-width forms before it reaches the transcript.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "How It Works",
+		"Meta": "THE STREAM PIPELINE"
+	})} <div class="code-block">${Pipeline.join("\n")}</div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "fullwidth-transform",
+		"Title": "The transform: the core's Fullwidth map",
+		"Diagram": "Exactly the core's Fullwidth map (@playform/hook-dsh-core's Normalize/Fullwidth), applied per text segment through the core's ReplaceMap - the standard fullwidth-to-halfwidth mapping over the whole range."
+	}, { "default": ($$result) => renderTemplate` <p> <strong>The transform</strong> - exactly the core's <code>Fullwidth</code>${" "}
+map (
+<a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source"), "href")}>
+@playform/hook-dsh-core
+</a>
+'s Normalize/Fullwidth), applied per text segment through the core's${" "} <code>ReplaceMap</code> - the standard fullwidth-to-halfwidth mapping over
+						the whole range:
+</p> ` })} </div> <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Code point</th> <th>Contents</th> <th>ASCII</th> </tr> </thead> <tbody> ${Ranges.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Code}</strong> </td> <td>${Row.Contents}</td> <td>${Row.Ascii}</td> </tr>`)} </tbody> </table> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "fullwidth-mechanics",
+		"Title": "Chunk-boundary-safe, function-replaced, counted",
+		"Diagram": "No context rules - one character in, its half-width counterpart out; chunk-boundary-safe: single-character substitution, no lookahead - per-chunk application never disagreeing with whole-text application; the mapping values returned through a function replacer so they are inserted literally (no $-pattern interpretation - the table's backslash, circumflex, vertical bar and tilde values being exactly the characters a string replacement would corrupt); replaced characters counted per stream for the ledger line."
+	}, { "default": ($$result) => renderTemplate` <p>
+No context rules - one character in, its half-width counterpart out.<br>
+Chunk-boundary-safe: single-character substitution, no lookahead - per-chunk
+						application can never disagree with whole-text application.
+</p> <p>
+The mapping values are returned through a function replacer, so they are
+						inserted literally (no $-pattern interpretation - the table's backslash,
+						circumflex, vertical bar and tilde values are exactly the characters a
+						string replacement would corrupt).<br>Replaced characters are counted per
+						stream for the ledger line.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Config",
+		"Meta": "NO REPLACEMENT FIELD (MAP FLAVOR)"
+	})} <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Field</th> <th>Type</th> <th>Default</th> <th>Volatile</th> <th>Meaning</th> </tr> </thead> <tbody> ${Config.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Field}</strong> </td> <td>${Row.Type}</td> <td>${Row.Default}</td> <td>${Row.Volatile}</td> <td>${Row.Meaning}</td> </tr>`)} </tbody> </table> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "fullwidth-no-replacement",
+		"Title": "There is no replacement field (MAP flavor)",
+		"Diagram": "The MAP flavor carrying no replacement field - volatile cells committing without remounting the plugin, the factory's State builder unwrapping them defensively."
+	}, { "default": ($$result) => renderTemplate` <p>
+There is${" "} <strong>
+no <code>replacement</code> field
+</strong>${" "}
+(MAP flavor).
+</p> <p>
+Volatile cells commit without remounting the plugin; the factory's State
+						builder unwraps them defensively.<br>Example${" "} <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml"), "href")}>
+cordis.patch.yml
+</a>${" "}
+row:
+</p> ` })} </div> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "yaml",
+		"Style": "margin-top: var(--space-sm)",
+		"Source": [
+			"- insert:",
+			"      - id: hook-dsh-normalize-fullwidth",
+			"        name: \"@playform/hook-dsh-normalize-fullwidth\"",
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-normalize-fullwidth.log",
+			"            normalizeReasoning: true"
+		].join("\n")
+	})} </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In Action",
+		"Meta": "ONE STREAM, ONE TRANSFORMATION"
+	})} <p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+One stream, one transformation. The model emits CJK-typing artifacts - a full-width
+				word, a full-width path punctuation run, a full-width digit; the live UI and the
+				transcript receive the half-width ASCII forms:
+</p> <p class="section-kicker">
+Before ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} after - the model stream, then
+				what reaches the transcript
+</p> <div class="code-block">${StreamExample.join("\n")}</div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "fullwidth-in-action",
+		"Title": "Every full-width code point becomes its half-width counterpart",
+		"Diagram": "Every full-width code point in the incoming text - the solidus U+FF0F, the letters U+FF55-U+FF4E, the digits U+FF11-U+FF13 and the exclamation U+FF01 - becoming its U+0021-U+007E half-width counterpart, ASCII characters already half-width untouched - what keeps a pasted path openable and a pasted number parseable."
+	}, { "default": ($$result) => renderTemplate` <p>
+Every full-width code point in the incoming text - the solidus U+FF0F, the
+						letters U+FF55-U+FF4E, the digits U+FF11-U+FF13 and the exclamation U+FF01 -
+						becomes its U+0021-U+007E half-width counterpart; ASCII characters that were
+						already half-width are untouched.
+</p> <p>
+This is what keeps a pasted path openable and a pasted number parseable.<br>The
+						backslash, circumflex, vertical bar and tilde entries are exactly the
+						characters a naive string replacement would corrupt - hence the function
+						replacer.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "fullwidth-pass-coverage",
+		"Title": "The same pass runs over reasoning and tool-call arguments",
+		"Diagram": "The count line on a normal completion with replacements made - and the same pass running over reasoning deltas when normalizeReasoning is on, and over tool-call arguments when the example patch enables normalizeToolArguments - with the edit name exempt and raw-marker calls passing through unnormalized."
+	}, { "default": ($$result) => renderTemplate` <p>
+When a stream finishes normally with replacements made, the ledger gets the
+						count line shown below.
+</p> <p>
+The same pass runs over reasoning deltas when${" "} <code>normalizeReasoning</code> is on, and over tool-call arguments when the
+						example patch enables <code>normalizeToolArguments</code> - with the${" "} <code>edit</code> name exempt and raw-marker calls passing through
+						unnormalized.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Ledger",
+		"Meta": "TWO LINES VIA FACTORY APPEND"
+	})} <p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+Two lines, both written through the factory's <code>Append</code> (the
+				hook-dsh-normalize-fullwidth: prefix is the logger's
+<code>&lt;State.Module&gt;:</code>; the durable file line is
+<code>[&lt;ISO&gt;] &lt;message&gt;</code>):
+</p> <div class="code-block">${LedgerStrings.join("\n")}</div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+The activation line is written by <code>apply()</code>; the count line only follows
+				a normal stream completion and only when N &gt; 0 (a thrown-away stream writes no
+				ledger line).
+</p> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Related plugins",
+		"Meta": `${Counts.Packages} TOTAL`
+	})} <div class="grid grid--3"> ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "hook-dsh-core",
+		"Href": "/plugins/hook-dsh-core/",
+		"Desc": "Supplies the Fullwidth MAP, the ReplaceMap replacer and the generic Chunk/Block dispatch this flavor is a thin closure over.",
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`DSH FAMILY` })}` })} ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "hook-dsh-normalize-invisible",
+		"Href": "/plugins/hook-dsh-normalize-invisible/",
+		"Desc": "The neighbouring sibling flavor - the zero-width/invisible family, removed entirely.",
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`SIBLING FLAVOR` })}` })} ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "plugin-dsh-factory",
+		"Href": "/plugins/plugin-dsh-factory/",
+		"Desc": "The parent service: State, Append - plus the named Schema helper (shared: false) for the config.",
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`PARENT SERVICE` })}` })} </div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+License: CC0-1.0.
+</p> </section> </main> ` })}`;
+}, "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/hook-dsh-normalize-fullwidth.astro", void 0);
+var $$file = "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/hook-dsh-normalize-fullwidth.astro";
+var $$url = "/plugins/hook-dsh-normalize-fullwidth";
+//#endregion
+//#region \0virtual:astro:page:Source/pages/plugins/hook-dsh-normalize-fullwidth@_@astro
+var page = () => hook_dsh_normalize_fullwidth_exports;
+//#endregion
+export { page };

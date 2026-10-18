@@ -1,0 +1,7 @@
+flowchart LR
+	PROFILE["the profile's package.json"]
+	LINK["the link: dependencies on the left"]
+	LIST["the dsh.profile.bundles list on the right"]
+	ACT["the list marks which entries<br/>actually activate"]
+	PROFILE --> LINK
+	PROFILE --> LIST --> ACT

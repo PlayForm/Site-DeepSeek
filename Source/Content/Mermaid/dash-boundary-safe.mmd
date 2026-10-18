@@ -1,0 +1,13 @@
+flowchart LR
+	SAFE["chunk-boundary-safe by construction"]
+	S1["single-character replacement - no lookahead<br/>no multi-character sequences"]
+	S2["per-chunk application can never disagree<br/>with whole-text application"]
+	S3["applied with a function replacer - a custom<br/>replacement containing $ patterns<br/>is inserted literally"]
+	S4["replaced characters counted per stream<br/>for the ledger line"]
+	SAFE --> S1
+	SAFE --> S2
+	SAFE --> S3
+	SAFE --> S4
+	S1 ~~~ S2
+	S2 ~~~ S3
+	S3 ~~~ S4

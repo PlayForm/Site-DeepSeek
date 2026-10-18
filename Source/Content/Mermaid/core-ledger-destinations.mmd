@@ -1,0 +1,6 @@
+flowchart LR
+	SUP["the Suppress line"] --> LOG["the consumer's logger - never the ledger"]
+	REF["the refusal line"] --> APPEND["the consumer's Append"]
+	POL["the policy-diagnostic lines"] --> APPEND
+	ACT["the activated (...) proof"] --> APPEND
+	APPEND --> COMP["composes the logger line and the durable ledger line<br/>from the consumer's message"]

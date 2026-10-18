@@ -1,0 +1,4 @@
+flowchart LR
+	BOOT["at boot"] --> LINE["each plugin writes its activation line<br/>to its own ~/.dsh/name.log"]
+	ASSESS["the ledger and the runtime's inspect providers<br/>as the activation assessors"]
+	LINE --> ASSESS

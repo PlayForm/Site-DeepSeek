@@ -1,0 +1,8 @@
+flowchart LR
+	INVIS["files that never passed through a write tool<br/>are invisible to every normalization layer DSH has"]
+	RAW["raw-write's normalize: true - an explicit per-call<br/>opt-in for NEW writes"]
+	STREAM["the six stream flavors only rewrite model output<br/>never touching disk"]
+	KEEP["a pre-existing file keeps every typographic character<br/>it was born with - exactly the characters that break<br/>parsers - shells - diffs and byte-exact edit matches<br/>downstream"]
+	INVIS --> RAW
+	INVIS --> STREAM
+	INVIS --> KEEP

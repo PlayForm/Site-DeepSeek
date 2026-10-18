@@ -1,0 +1,17 @@
+flowchart LR
+	TEMPLATE["the same template<br/>ad4c2c3 - 68afdcd"]
+	Q["quotes"]
+	E["ellipsis"]
+	S["spaces"]
+	I["invisible"]
+	F["fullwidth"]
+	OWN["each with its own ledger<br/>activation line and count line"]
+	TEMPLATE --> Q --> OWN
+	TEMPLATE --> E --> OWN
+	TEMPLATE --> S --> OWN
+	TEMPLATE --> I --> OWN
+	TEMPLATE --> F --> OWN
+	Q ~~~ E
+	E ~~~ S
+	S ~~~ I
+	I ~~~ F

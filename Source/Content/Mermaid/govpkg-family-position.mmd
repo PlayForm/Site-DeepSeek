@@ -1,0 +1,7 @@
+flowchart LR
+	GOV["Hook @ DSH @ Governor @ Package"] --> FACTORY["plugin-dsh-factory - the service"]
+	GOV --> CORE["hook-dsh-core - the helpers"]
+	NO["no hook children of its own"]
+	SEAM["one of three governance hooks sharing<br/>the fs/observed seam - each gating on its own<br/>basename and writing its own ledger"]
+	GOV --> NO
+	GOV --> SEAM

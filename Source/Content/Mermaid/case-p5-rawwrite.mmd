@@ -1,0 +1,9 @@
+flowchart LR
+	TOOL["the raw-write tool - bb9a6fd"]
+	WRAP["a write wrapper with an explicit<br/>normalize parameter"]
+	EXEMPT["exempt from stream normalization<br/>by name - like edit"]
+	MIRROR["mirrors the built-in write's<br/>filesystem path"]
+	SEEN["so the governance hooks see its writes"]
+	TOOL --> WRAP
+	TOOL --> EXEMPT
+	TOOL --> MIRROR --> SEEN

@@ -1,0 +1,5 @@
+flowchart LR
+	SCHEMAS["the Config schemas behind every knob"]
+	VOL["the volatile cells - log - logFile - replacement<br/>each plugin's own hot fields"]
+	COMMIT["commit without remounting the plugin"]
+	SCHEMAS --> VOL --> COMMIT

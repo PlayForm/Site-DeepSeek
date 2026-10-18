@@ -1,0 +1,818 @@
+import { C as __exportAll, S as createComponent, a as Links, b as $$BrandIcon, d as Migration, l as History, m as Scheme, n as $$Base, o as Counts, r as Link, s as Families, t as $$Badge, u as Methods, v as Totals, y as Versions } from "./Badge_CHteF_GF.mjs";
+import { g as addAttribute, m as maybeRenderHead, o as renderComponent, p as renderTemplate, s as Fragment } from "./server_jUwDEDCs.mjs";
+import { t as $$ArrowIcon } from "./ArrowIcon_DQw92EC9.mjs";
+import { t as $$Card } from "./Card_B96geFVd.mjs";
+import { t as $$Concept } from "./Concept_DF89tVee.mjs";
+import { t as $$PageHero } from "./PageHero_BDRlROTw.mjs";
+import { t as $$SectionHeader } from "./SectionHeader_w9WBitnM.mjs";
+import { t as $$Terminal } from "./Terminal_DR1pHPfM.mjs";
+//#region Source/pages/case-study.astro
+var case_study_exports = /* @__PURE__ */ __exportAll({
+	default: () => $$CaseStudy,
+	file: () => $$file,
+	url: () => $$url
+});
+var $$CaseStudy = createComponent(($$result, $$props, $$slots) => {
+	const Index = [
+		{
+			Href: "#overview",
+			Label: "OVERVIEW",
+			Primary: true
+		},
+		{
+			Href: "#phase-1",
+			Label: "PHASE I - THE FACTORY"
+		},
+		{
+			Href: "#phase-2",
+			Label: "PHASE II - THE AUDIT"
+		},
+		{
+			Href: "#phase-3",
+			Label: "PHASE III - GOING LIVE"
+		},
+		{
+			Href: "#phase-4",
+			Label: "PHASE IV - THE STREAMS"
+		},
+		{
+			Href: "#phase-5",
+			Label: "PHASE V - RAW-WRITE & CONTROL"
+		},
+		{
+			Href: "#phase-6",
+			Label: "PHASE VI - RELEASES"
+		},
+		{
+			Href: "#decisions",
+			Label: "THE DECISION INDEX"
+		},
+		{
+			Href: "#lessons",
+			Label: "THE LESSONS"
+		}
+	];
+	const Originals = [
+		{
+			Name: "dsh-plugin-factory",
+			Desc: `The furnace: one service with ${History.OriginMethods} methods centralizing the machinery the hooks kept duplicating - the ledger, the gate, the guarded write, the wiring, the schema factory.`,
+			Badge: "SERVICE"
+		},
+		{
+			Name: "dsh-hook-package-governor",
+			Desc: "The package.json governor: chain-canonicalization plus the update stage, run as a detached, contained continuation.",
+			Badge: "HOOK"
+		},
+		{
+			Name: "dsh-hook-package-pinner",
+			Desc: "The static pinner: every ranged dependency version rewritten to its exact form, protected by a keep-list.",
+			Badge: "HOOK"
+		},
+		{
+			Name: "dsh-hook-cargo-governor",
+			Desc: "The Cargo.toml governor: surgical line rewrites on raw TOML and cargo upgrade driven through the subprocess seam.",
+			Badge: "HOOK"
+		},
+		{
+			Name: "dsh-hook-mdash",
+			Desc: "The first stream normalizer: the dash family rewritten live in the model output, at the injection point a file hook does not have.",
+			Badge: "NON-MANIFEST"
+		}
+	];
+	const Criticals = [
+		{
+			Finding: "The pinner's tsc went red - TS2339 four times plus TS2310, a type that recursively references itself as a base.\nThe factory's built declarations shipped unresolved @Interface/* aliases; any consumer whose tsconfig maps the same paths resolves them to its own files.\nRuntime unaffected: the smoke still passed 28/28.",
+			Fix: "Relative specifiers everywhere and named type exports from the factory entry - then the type-import flip deleted the consumers' local structural mirrors outright (~208 lines).\nType-only imports are erased, so the consumers' only-Config-imports-the-factory posture survives the flip untouched.",
+			Badge: "TYPE-ONLY",
+			Commit: "28ebc30 + c6a72ce"
+		},
+		{
+			Finding: "The build was nondeterministic: the build tool's TypeScript hook ran tsc then tsc-alias through an exec() that was never awaited, so the emitted declaration specifier style depended on timing - rebuilding did not reproduce the committed state.",
+			Fix: "Each bundle's prepublishOnly now runs the build with the racy hook neutralized, then explicit sequential tsc && tsc-alias - and a red tsc fails the build instead of shipping.\nRebuild twice, get an identical tree.",
+			Badge: "P0",
+			Commit: "28ebc30"
+		},
+		{
+			Finding: "The package governor still registered its in-flight key as the plain target key - the same key the factory's continuation uses.\nAn update running under key K plus an external edit could orphan the update's controller.\nThe cargo flavor had fixed the same collision locally a phase earlier.",
+			Fix: "The key helper moved factory-side - the SCHEME's §2.16, UpdateKey(target) yields update:<targetKey> - and both governors adopted it.\nCollision-window smoke cases went into the factory and governor suites the same day.",
+			Badge: "P1",
+			Commit: "1ed3564"
+		}
+	];
+	const JournalExcerpt = [
+		"16:44:43.232 activated | activated (pinner, …)",
+		"16:44:43.301 activated | activated (anywhere mode, …)   ← the governor's (was missing)",
+		"16:44:43.302 activated | cargo                            ← the cargo's (was missing)",
+		"16:45:42.178 governed  | <version token>                  ← the interlock cascade",
+		"16:45:42.196 dispatched | programmatic                    ← the update stage"
+	];
+	const LiveMatrix = [
+		"raw-write, no govern flag          -> NO chain (the escape hatch; the write still emits fs/observed)",
+		"raw-write, govern: [\"canonicalize\",\"pin\"]",
+		"                                   -> governed + pinned both land, the file canonical + pinned, NO update dispatch",
+		"raw-write, govern: true            -> governed -> update stage dispatched -> pinned (the full chain, any step order)",
+		"built-in write / edit              -> governed via the event path (the interlock as always)"
+	];
+	const Executors = [
+		{
+			Step: "1. resolve",
+			Builtin: "session-aware resolve options (cwd, escalation root)",
+			Raw: "same call, no cwd option - a real divergence, documented",
+			Factory: "none - the target arrives pre-resolved"
+		},
+		{
+			Step: "2. fs/write-intent",
+			Builtin: "the waterfall, next() -> void",
+			Raw: "identical waterfall, next() -> undefined",
+			Factory: "builds the intent inline: replaceIfVersion + version"
+		},
+		{
+			Step: "3. sandbox policy",
+			Builtin: "fail-closed controller + standing session policy",
+			Raw: "verbatim replica of the no-escalation branch",
+			Factory: "the per-call workspace-write fence at the target's own directory"
+		},
+		{
+			Step: "4. writeText",
+			Builtin: "the five-argument call + denial remediation",
+			Raw: "same five arguments, no remediation",
+			Factory: "same five arguments, plus the stash pre-registration"
+		},
+		{
+			Step: "5. fs/observed",
+			Builtin: "present emit with the written version, actor = the exec",
+			Raw: "byte-identical emit shape, actor = the exec",
+			Factory: "delegated to the same-actor refresh"
+		}
+	];
+	const Decisions = [
+		{
+			Decision: "Module-owned ledger strings; the smokes as the arbiter",
+			Rationale: "The ledger strings are the family's PUBLIC INTERFACE - the only observable that survives a framework port. Mechanics change, strings never: that is why renames are safe (the terminology rename kept the cargo flavor literal; module ownership stops the blast radius at the module), why the Effect-TS port is provable (byte parity is the proof), and why the smokes are implementation-agnostic - the literal activated (cargo flavor, ...) survives every refactor",
+			Technique: "The transform contract + the smoke harness; renames change mechanics, never strings",
+			Evidence: "the handoff P2/P5; 3c29108, e106a98, 66bfd81"
+		},
+		{
+			Decision: "Stat-before-write version guard",
+			Rationale: "In a multi-step fold every step wrote against the SAME observed version - only the first write could succeed; the fresh stat makes the fold converge in ANY step order",
+			Technique: "The guarded write's replaceIfVersion intent + a fresh version before each write",
+			Evidence: "5982aa8"
+		},
+		{
+			Decision: "Wrapped-actor governance marker + the direct path",
+			Rationale: "The raw-write's actor carries {...exec, govern}; the gate's govern reason makes direct governance the only channel - the event path skips marked actors, so no flag means no chain (the escape hatch)",
+			Technique: `The gate's actor step + the factory's Govern (the fold entry, SCHEME ${Scheme.Govern}) + the step registry (RegisterGovern, ${Scheme.RegisterGovern})`,
+			Evidence: "2c8764e, 83ba8e5, e69c5d3"
+		},
+		{
+			Decision: "The sequential fold; the parallel toggle designed but gated",
+			Rationale: "Detached chains raced (nondeterministic writes); same-file steps - canonicalize + pin on one package.json - DO race, so parallel only when disjointness is proven",
+			Technique: "The direct-govern fold in the write executor's continuation; the per-call toggle rides the same govern flag shape",
+			Evidence: "d7a3c93, 140faa0"
+		},
+		{
+			Decision: "Per-record journal layout + the loud failure line",
+			Rationale: "The v2 open failed silently against the v1 file (an exact-equality version check) and buffered every record into a never-drained buffer; silence made it undiagnosable",
+			Technique: `layout: per-record, compatibleVersions: [${Migration.CompatibleVersions.join(", ")}], invalidRecords: backup-and-skip - one ledger line on open failure`,
+			Evidence: "4c0e83b, 756d566"
+		},
+		{
+			Decision: "Patch layers carry the live config",
+			Rationale: "A patch layer's config REPLACES the entry config wholesale, shadowing schema defaults; the schema projection alone is the verification blind spot",
+			Technique: "The three governance bundles' patch layers + the mutationTools gate input",
+			Evidence: "affa730"
+		},
+		{
+			Decision: "Explicit tools over background rewriters",
+			Rationale: "Background rewriting breaks the edit old-string contract and interleaves with bounded passes; an explicit tool is visible, opt-in, and a no-op writes nothing",
+			Technique: "The tools seam (ctx.tools.register) + the stream gate's name-exemption",
+			Evidence: "48f9515"
+		},
+		{
+			Decision: "One shared write executor owned by the factory",
+			Rationale: "Three executors duplicated the same five-step pipeline; the factory is the only home both tool-style and continuation-style writes already depend on",
+			Technique: `The factory's Write (the shared executor, SCHEME ${Scheme.Write}; the guarded write lives on as its alias)`,
+			Evidence: "91293d2"
+		},
+		{
+			Decision: "The core as pure delegate; the stream dispatch dependency-free",
+			Rationale: "A cross-bundle symlink workaround for a nominal-type clash was fragile; generic structural shapes survive every narrowing",
+			Technique: "Stream/Chunk + Stream/Block with no dsh-llm import anywhere",
+			Evidence: "98be27b, c2beb06"
+		},
+		{
+			Decision: "Host-era pins; verify from the installed app, never stale node_modules",
+			Rationale: "The @deepseek-ai family pins must match the running host; the registry's latest tag is stale and the profile's old links lie",
+			Technique: "The package.json dependency fields + the smokes' host-era assertions - verified from the running app, never stale node_modules",
+			Evidence: "the handoff P12"
+		},
+		{
+			Decision: "Dual release: Classic live-first, Effect-TS ships only after parity",
+			Rationale: "Keep the working implementation onboard; the ledger strings stay the contract in BOTH implementations - and the port exists for register #13's three goals: external traceability, ecosystem interop, and hooking other transformers",
+			Technique: "The stream gate, the Effect services + layers, and the tracing opt-in (no-op default; the OTLP layer attaches only when enableTracing is set - best-effort)",
+			Evidence: "the monorepo plan; the versions page; Runtime.ts (the tracing knob)"
+		},
+		{
+			Decision: `Reversed hierarchical naming + version ${Versions.Release} + submodules (designed, pending register #16)`,
+			Rationale: "Kind-first ordering mirrors the consumer topology - the hooks vs the factory service - and role-contiguous grouping keeps the shared-machinery families together (governor-cargo/governor-package, the normalize-* family); the @-sentence is the release identity (the README titles, register #15). The inversion was only safe because the ledger strings are module-owned - the mdash -> normalize-dash rename (register #5) is the proof: the renamed module changed only its own prefix, its identity, by design - every other ledger string stayed",
+			Technique: "The package naming itself + the monorepo layout (one repository per package under submodule structure - designed, register #16, NOT STARTED)",
+			Evidence: "the branding brief; register #5/#15/#16"
+		},
+		{
+			Decision: "The abort signal forwards to the seams, never onto the fiber",
+			Rationale: "The Effect-TS write executor originally mapped the caller's signal into the run promise's options; a pre-aborted signal interrupted the whole fiber - the caller saw All fibers interrupted without error instead of the Classic aborted-before-write semantics",
+			Technique: "The Effect-TS Write executor with the signal mapping dropped - the signal rides the seams only, exactly the Classic mechanics",
+			Evidence: "the dash suite's pre-aborted-write scenario (the Effect-TS round)"
+		}
+	];
+	const Lessons = [
+		{
+			Name: "The smoke/live fidelity gap",
+			Desc: "Every real bug - the patch layers, the v2 journal open, the version guard, the delivery puzzle - was found LIVE, not by the smokes.\nThe smokes prove the mechanics; the live battery proves the wiring.\nNeither report is complete without the other."
+		},
+		{
+			Name: "Load order is not list order",
+			Desc: "The pinner activated before the governor at the decisive boot - never rely on the bundle-list order for step ordering.\nThe fold plus the fresh-version writes make the order irrelevant."
+		},
+		{
+			Name: "Timestamps are epoch UTC",
+			Desc: "The storage timestamps are epoch milliseconds; the local display adds +03.\nThe missing-records scares were filter mistakes, not lost data - one hour of arithmetic saved an hour of dread."
+		},
+		{
+			Name: "The subagent quirks",
+			Desc: "One file per response keeps agents alive; agents that batch die more often.\nAgents crash mid-flight without a closing message - recover from the on-disk state.\nAnd the subagents' own streams get normalized: their comment prose came out hyphenated."
+		},
+		{
+			Name: "Verify the live effective config",
+			Desc: "The meta-lesson of the patch-layer saga: a schema projection is not the truth.\nThe patch layer replaces the entry config wholesale - read the composed layers, never just the defaults."
+		}
+	];
+	return renderTemplate`${renderComponent($$result, "Base", $$Base, {
+		"Title": "Case Study - @playform / DSH Family",
+		"Description": `How the twelve-package family was built: five bundles and ${History.OriginChecks} smoke checks grown to twelve packages across one commit era - the factory, the audit, the live battery, the stream family, the raw-write saga and the decision index behind them.`
+	}, { "default": ($$result) => renderTemplate` ${maybeRenderHead($$result)}<main class="container container--main"> <div class="eyebrow-row"> ${renderComponent($$result, "Badge", $$Badge, {
+		"Variant": "primary",
+		"Dot": true
+	}, { "default": ($$result) => renderTemplate`
+CASE STUDY
+` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`ONE COMMIT ERA` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`${Decisions.Index} DECISIONS + 1 FIX` })} </div> ${renderComponent($$result, "PageHero", $$PageHero, {
+		"Title": "The case study: how this family got built.",
+		"Sub": "The development story of the twelve packages, told as it happened - the phases, the misdiagnoses named before the fixes, and the decisions that survive in the shipped seams.\nEvery challenge below is stated with what actually happened."
+	})} <!-- The phase index --> <div class="eyebrow-row" style="margin-bottom: var(--space-lg)"> ${Index.map((Item) => renderTemplate`<a${addAttribute(Item.Href, "href")} style="text-decoration: none"> ${renderComponent($$result, "Badge", $$Badge, {
+		"Variant": Item.Primary ? "primary" : "muted",
+		"Dot": Item.Primary
+	}, { "default": ($$result) => renderTemplate`${Item.Label}` })} </a>`)} </div> <!-- Phase 0: Overview --> <section class="section" id="overview"> <div class="section-header"> <div class="section-header__left"> <span class="section-header__marker"></span> <h2 class="section-header__title">Overview</h2> </div> <span class="section-header__meta"> ${History.OriginBundles} BUNDLES / ${History.OriginChecks} CHECKS ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} ${Counts.Packages} PACKAGES
+</span> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-growth",
+		"Title": "From five bundles to twelve packages",
+		"Diagram": `The growth across one commit era - the Oct 3-6, 2026 stretch ending at 5982aa8 - five bundles and ${History.OriginChecks} smoke checks growing into twelve packages with ${Totals.PairHyphen()} across ${Counts.Suites} suites as the final count.`
+	}, { "default": ($$result) => renderTemplate` <p>
+The family grew from <strong>five bundles and ${History.OriginChecks} smoke checks</strong> to${" "} <strong>twelve packages</strong> across one commit era - the Oct
+						3&ndash;6, 2026 stretch that ends at <code>5982aa8</code> - with${" "} <strong>${Totals.PairHyphen()}</strong> across twelve suites as
+						the final count.
+</p> <p>
+The suites print their own totals; the
+<a href="/versions/">versions page</a> breaks the pair down per package.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-arbiter",
+		"Title": "The smokes were the arbiter",
+		"Diagram": `Zero assertion rewrites across refactors, renames and a framework port - the Effect-TS port ADDING ${History.EffectDelta} checks (core +${History.Deltas.Core}, factory +${History.Deltas.Factory}, governor +${History.Deltas.Governor}), its totals running higher with every shared assertion intact.`
+	}, { "default": ($$result) => renderTemplate` <p>
+Every step of the way, the smokes were the arbiter: zero assertion rewrites
+						across refactors, renames and a framework port.
+</p> <p>
+The Effect-TS port actually <strong>adds ${History.EffectDelta} checks</strong> (core +${History.Deltas.Core}, factory
+						+${History.Deltas.Factory}, governor +${History.Deltas.Governor}), so its totals run higher than the Classic's with every
+						shared assertion intact: the port proved parity by extending coverage, not by
+						rewriting assertions.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-live",
+		"Title": "Found live, not by the smokes",
+		"Diagram": "The real bugs - the shadowed patch layers, the silent journal open, the version guard that could only succeed once - marked as found live, while the suites and the restart each catch a different class of defect."
+	}, { "default": ($$result) => renderTemplate` <p>
+Every real bug - the shadowed patch layers, the silent journal open, the
+						version guard that could only succeed once - was found${" "} <strong>live</strong>, not by the smokes.
+</p> <p>
+That asymmetry is the story's spine, and the sections below keep it honest:
+						what the suites caught, what only a restart could catch, and which two
+						theories died on the way to the truth.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-ledger-contract",
+		"Title": "The ledger strings are the public interface",
+		"Diagram": "The spine underneath the counts: renames and re-implementations changing mechanics, never the bytes the suites assert - with the three implementations holding the contract: Boilerplate, Classic and Effect-TS."
+	}, { "default": ($$result) => renderTemplate` <p>
+The spine underneath the counts: the ledger strings are the family's${" "} <strong>public interface</strong> - the only observable that survives a
+						framework port - so renames and re-implementations change mechanics, never
+						the bytes the suites assert.
+</p> <p>
+Three implementations hold that contract: <strong>Boilerplate</strong> (the
+						live truth, still running on this host), <strong>Classic</strong> (the
+						anonymized release) and <strong>Effect-TS</strong> (the port - built for
+						external traceability, ecosystem interop and hooking other transformers,
+						register #13).
+</p> ` })} </div> <!-- The strip follows the text block directly: the shared
+			     text-to-box clearance rule in Global.css (concept-list +
+			     flavor-strip) carries the spacing, so no inline override. --> <div class="flavor-strip"> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "active" }, { "default": ($$result) => renderTemplate`${Counts.Packages} PACKAGES` })} ${renderComponent($$result, "Badge", $$Badge, { "Variant": "active" }, { "default": ($$result) => renderTemplate`${Counts.Suites} SMOKE SUITES` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`DUAL RELEASE` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate` ${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "typescript",
+		"Size": "0.8em"
+	})} CLASSIC +${" "}${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "effect",
+		"Size": "0.8em"
+	})} EFFECT-TS
+` })} </div> </section> <!-- Phase 1 --> <section class="section" id="phase-1"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Phase I - The boilerplate era",
+		"Meta": "THE FACTORY + THE GOVERNANCE TRIO"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p1-setup",
+		"Title": "The setup: the same machinery, copied",
+		"Diagram": "Three independent hooks - the package governor, the package pinner, the cargo governor - plus the dash normalizer, each carrying its own copy of the same machinery: ledgers, exclusion matching, policy loading, guarded writes, wiring, schemas."
+	}, { "default": ($$result) => renderTemplate` <p>
+The setup: three independent hooks - the package governor, the package
+						pinner, the ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "rust" })} cargo governor - plus the dash
+						normalizer, each carrying its own
+						copy of the same machinery: ledgers, exclusion matching, policy loading,
+						guarded writes, wiring, schemas.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p1-decision",
+		"Title": "The decision: one factory service",
+		"Diagram": `The consolidation (49e5b3d, 859f16a, 018919c) onto one factory service - ${History.OriginMethods} methods, one transform contract, and the ledger strings owned by the modules themselves.`
+	}, { "default": ($$result) => renderTemplate` <p>
+The decision (<code>49e5b3d</code>, <code>859f16a</code>,${" "} <code>018919c</code>): consolidate onto <strong>one factory service</strong>${" "}
+- ${History.OriginMethods} methods, one transform contract, and the ledger strings owned by the
+						modules themselves.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p1-technique",
+		"Title": "The technique: the seam trio and the transform leaf",
+		"Diagram": "The Wire / Attach / Continue seam trio, and a transform leaf the factory drives but never absorbs - each hook's transforms staying its identity."
+	}, { "default": ($$result) => renderTemplate` <p>
+The technique: the <code>Wire</code>/<code>Attach</code>/
+<code>Continue</code> seam trio, and a transform leaf the factory drives but
+						never absorbs - each hook's transforms stay its identity.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p1-outcome",
+		"Title": "The outcome: green and byte-identical",
+		"Diagram": `Five bundles green, ${History.OriginChecks} checks, and every ledger string byte-identical to pre-refactor behavior, smoke-asserted.`
+	}, { "default": ($$result) => renderTemplate` <p>
+The outcome: five bundles green, ${History.OriginChecks} checks, and every ledger string
+						byte-identical to pre-refactor behavior, smoke-asserted.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p1-methods",
+		"Title": `The factory has since grown from ${History.OriginMethods} to ${Methods.Count} methods`,
+		"Diagram": `The factory's seam table growing as later phases move machinery in - by insertion (Write landing at the SCHEME's ${Scheme.Write}, renumbering everything after it), by alias (GuardedWrite sharing ${Scheme.Write}) and by uncounted helpers (UpdateKey, ${Scheme.UpdateKey}).`
+	}, { "default": ($$result) => renderTemplate` <p>
+The factory's page shows the seam table this era produced; it has since grown
+						from ${History.OriginMethods} to ${Methods.Count} methods as later phases moved machinery in.
+</p> <p>
+The growth happened by insertion (Write landed at the SCHEME's ${Scheme.Write},
+						renumbering everything after it), by alias (GuardedWrite shares ${Scheme.Write}) and by
+						uncounted helpers (UpdateKey, ${Scheme.UpdateKey}).
+</p> ` })} </div> <div class="grid grid--3"> ${Originals.map((Item) => renderTemplate`${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": Item.Name,
+		"Desc": Item.Desc,
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, {
+		"slot": "badge",
+		"Variant": "outline"
+	}, { "default": ($$result) => renderTemplate`${Item.Badge}` })}` })}`)} </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p1-fixes",
+		"Title": "Two live-verified fixes that never regressed",
+		"Diagram": "The loader contract: a hook's inject and Config sitting on the loader's default export object, and apply returning nothing - a returned value silently killing event delivery."
+	}, { "default": ($$result) => renderTemplate` <p>
+Two live-verified fixes from this era never regressed since: a hook's${" "} <code>inject</code> and <code>Config</code> must sit on the loader's default
+						export object, and <code>apply</code> must return nothing - a returned value
+						silently kills event delivery.
+</p> <p>
+Both are the kind of bug no type checker sees; both were found with a restart
+						and a missing ledger line.
+</p> ` })} </div> </section> <!-- Phase 2 --> <section class="section" id="phase-2"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Phase II - The audit and the fixes",
+		"Meta": "3 CRITICALS, THEN THE QUEUE"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p2-audit",
+		"Title": "The audit found three things that rewrote the queue",
+		"Diagram": "A confirmation agent re-verifying all five bundles - the three findings, each one a finding with a fix, none visible from the passing smokes alone."
+	}, { "default": ($$result) => renderTemplate` <p>
+A confirmation agent re-verified all five bundles and found three things that
+						rewrote the queue.
+</p> <p>Each is a finding with a fix; none was visible from the passing smokes alone.</p> ` })} </div> <div class="grid grid--2"> ${Criticals.map((Item) => renderTemplate`${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Desc": Item.Finding,
+		"Muted": true
+	}, {
+		"head": ($$result) => renderTemplate`<div class="card__top"> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`${Item.Badge}` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`${Item.Commit}` })} </div>`,
+		"after": ($$result) => renderTemplate`<p class="card__desc" style="margin-top: var(--space-sm)"> <strong>Fix.</strong> ${Item.Fix.split("\n").map((Part, Index) => renderTemplate`${renderComponent($$result, "Fragment", Fragment, {}, { "default": ($$result) => renderTemplate`${Index > 0 && renderTemplate`<br>`}${Part}` })}`)} </p>`
+	})}`)} </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p2-queue",
+		"Title": "The rest of the queue, executed in one session",
+		"Diagram": "The four queue items: the module terminology rename (3c29108), the standalone schema helper (060e3b6), the core extraction (1fef4ca) and the granularization splits (711d5b2)."
+	}, { "default": ($$result) => renderTemplate` <ul class="concept-values"> <li>
+The module terminology rename (<code>3c29108</code> - mechanics only, the${" "} <code>cargo flavor</code> literal in the activation string stays).
+</li> <li>
+The standalone schema helper that deleted three config workarounds (
+<code>060e3b6</code>).
+</li> <li>
+The core extraction as a dependency-free pure package (
+<code>1fef4ca</code>).
+</li> <li>The granularization splits (<code>711d5b2</code>).</li> </ul> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p2-arbiter",
+		"Title": "The arbiter must not be disposable",
+		"Diagram": "The smoke suites living in /tmp and being lost once - replayed from the session archives step by step, then archived to ~/.dsh/smokes/ forever after."
+	}, { "default": ($$result) => renderTemplate` <p>
+One operational beat worth keeping: the smoke suites lived in${" "} <code>/tmp</code> and were lost once - replayed from the session archives step
+						by step, then archived to <code>~/.dsh/smokes/</code> forever after.
+</p> <p>The arbiter must not be disposable.</p> ` })} </div> </section> <!-- Phase 3 --> <section class="section" id="phase-3"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Phase III - Going live",
+		"Meta": "THE JOURNAL SAGA"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p3-battery",
+		"Title": "The first live battery",
+		"Diagram": "The first live battery exercising everything the smokes had proven: the governor + pinner interlock on one manifest write, the update stages as real jobs, the cargo's actual cargo upgrade with the full argv, the dash normalizer counting replacements in live streams."
+	}, { "default": ($$result) => renderTemplate` <p>
+The first live battery exercised everything the smokes had proven: the
+						governor&nbsp;+&nbsp;pinner interlock on one manifest write, the update stages
+						as real jobs, the cargo's actual <code>cargo upgrade</code> with the full
+						argv, the dash normalizer counting replacements in live streams.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p3-one-open",
+		"Title": "The first live-only failure: one open per name",
+		"Diagram": "The harness's storage domain enforcing one open per name - the shared journal domain single-winner per boot, only the pinner's records landing while the governor's and the cargo's silently never did, the human ledger files remaining the complete record."
+	}, { "default": ($$result) => renderTemplate` <p>
+It also surfaced the first live-only failure: the${" "} ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "deepseek" })} harness's <a${addAttribute(Link(Links.DeepSeekHarness, "packages/storage/storage-domain"), "href")}>storage domain</a>
+enforces <strong>one open per name</strong>, so the shared journal domain was
+						single-winner per boot.
+</p> <p>
+At that boot only the pinner's records landed; the governor's and the cargo's
+						silently never did - while the human ledger files remained the complete
+						record, which is the only reason the loss was even noticed.
+</p> ` })} </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p3-fix",
+		"Title": "The fix, in two commits",
+		"Diagram": "The first successful open binding its handle on the factory instance (952eaa1) with every module's records routing through it - then the boot-window race (aa53c91): records journaled before any open completes buffering in a capped, drop-when-full pre-bind queue, draining with timestamps preserved - the three-stage routing of shared sink, pre-bind buffer, then per-state fallback."
+	}, { "default": ($$result) => renderTemplate` <p>
+The first successful open binds its handle on the factory instance (
+<code>952eaa1</code>), and every module's records route through it.
+</p> <p>
+The boot-window race came next (<code>aa53c91</code>): records journaled
+						before any open completes now buffer in a capped, drop-when-full pre-bind
+						queue and drain with their timestamps preserved - a three-stage routing of
+						shared sink, pre-bind buffer, then per-state fallback.<br>The third boot
+						confirmed both live:
+</p> ` })} </div> <p class="section-kicker">One boot's complete record set - the shared domain</p> <div class="code-block">${JournalExcerpt.join("\n")}</div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p3-before-after",
+		"Title": "Before the fix, one module; after it, all four",
+		"Diagram": "The same file before and after the fix - one module's activations becoming all four, with the interlock cascade and the dispatched update stage recording themselves in the same place."
+	}, { "default": ($$result) => renderTemplate` <p>
+Before the fix, that file showed one module's activations.<br>After it, all four
+						- and the interlock cascade and the dispatched update stage record themselves
+						in the same place.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p3-dispatch",
+		"Title": "The dispatch resolves at the dispatch",
+		"Diagram": "The update stage's awaited promise resolving at the dispatch while the background job keeps running - the caller never awaiting the job."
+	}, { "default": ($$result) => renderTemplate` <p>
+The update stage's awaited promise resolves at the dispatch: the background
+						job keeps running, and the caller never awaits the job.
+</p> ` })} </div> </section> <!-- Phase 4 --> <section class="section" id="phase-4"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Phase IV - The stream family",
+		"Meta": "SIX FLAVORS + THE GATE"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p4-generalize",
+		"Title": "The dash normalizer generalized",
+		"Diagram": "The core taking over the pure machinery - generic over structural shapes, no dependency on the host's LLM types - replacing the fragile cross-bundle symlink workaround for the nominal-type clash with a durable design (98be27b, c2beb06)."
+	}, { "default": ($$result) => renderTemplate` <p>
+The dash normalizer generalized.<br>The core took over the pure machinery -
+						generic over structural shapes, with no dependency on the host's LLM types.
+</p> <p>
+A fragile cross-bundle symlink workaround for a nominal-type clash was
+						replaced by a durable design (<code>98be27b</code>, <code>c2beb06</code>).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p4-siblings",
+		"Title": "Five sibling flavors on the same template",
+		"Diagram": "Quotes, ellipsis, spaces, invisible and fullwidth following the same template - each with its own ledger, activation line and count line (ad4c2c3, 68afdcd)."
+	}, { "default": ($$result) => renderTemplate` <p>
+Five sibling flavors followed on the same template - quotes, ellipsis,
+						spaces, invisible, fullwidth - each with its own ledger, activation line and
+						count line (<code>ad4c2c3</code>, <code>68afdcd</code>).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p4-toolargs",
+		"Title": "The tool-args gate and its three-way refinement",
+		"Diagram": "The tool-args gate (1d827ad) and its three-way refinement (9d6e195): edit calls passing by identity - the old-string must match the real file bytes - and a per-call marker letting a single call opt out entirely, smoke-verified but not reachable from the structured tool interface at the time."
+	}, { "default": ($$result) => renderTemplate` <p>
+Then the tool-args gate (<code>1d827ad</code>), and its three-way refinement (
+<code>9d6e195</code>): edit calls pass by identity - the old-string must
+						match the real file bytes - and a per-call marker lets a single call opt out
+						entirely.
+</p> <p>
+The marker is honestly stated: smoke-verified, but not reachable from the
+						structured tool interface at the time; the practical per-call raw route is
+						the edit exemption.
+</p> ` })} </div> <p class="section-kicker">The stream, before and after</p> <div class="code-block"> ${[
+		"text-delta in :  “The refactor is complete — ranges 10–15 covered.”",
+		"text-delta out:  “The refactor is complete - ranges 10-15 covered.”",
+		"",
+		"tool-call-delta, name \"edit\"      -> passes through BY IDENTITY",
+		"  arguments {\"old\": \"a — b\"}  -> untouched: the old_string must match real bytes"
+	].join("\n")} </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p4-selfaware",
+		"Title": "The family normalizes itself",
+		"Diagram": "The agents building the family seeing their own comment prose come out with ASCII hyphens, because their output streams run through the same flavors - and the planned cosmetic pass cancelled by the user: em-dashes live only in the README examples, never in code."
+	}, { "default": ($$result) => renderTemplate` <p>
+One beat belongs to the family's self-awareness: the system normalizes
+						itself.
+</p> <p>
+The agents building the family saw their own comment prose come out with
+						ASCII hyphens, because their output streams run through the same flavors.<br>The
+						planned cosmetic pass was cancelled by the user - em-dashes live only in the
+						README examples, never in code.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p4-live-pages",
+		"Title": "The workbench and the matrix run exactly these flavors live",
+		"Diagram": "The workbench letting you watch the gate make its per-call decisions, and the matrix showing the raw-vs-canonical payload pair engine by engine."
+	}, { "default": ($$result) => renderTemplate` <p>
+The <a href="/workbench/">workbench</a> and the${" "} <a href="/matrix/">matrix</a> pages run exactly these flavors live - the
+						workbench lets you watch the gate make its per-call decisions, the matrix
+						shows the raw-vs-canonical payload pair engine by engine.
+</p> ` })} </div> </section> <!-- Phase 5 --> <section class="section" id="phase-5"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Phase V - The raw-write saga, commonalization and granular control",
+		"Meta": "THE DENSEST PHASE"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-rawwrite",
+		"Title": "The raw-write tool landed first",
+		"Diagram": "The raw-write tool (bb9a6fd): a write wrapper with an explicit normalize parameter, exempt from stream normalization by name like edit, mirroring the built-in write's filesystem path so the governance hooks see its writes."
+	}, { "default": ($$result) => renderTemplate` <p>
+The raw-write tool landed first (<code>bb9a6fd</code>): a write wrapper with
+						an explicit normalize parameter, exempt from stream normalization by name
+						like edit, mirroring the built-in write's filesystem path so the governance
+						hooks see its writes.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-diagnosis",
+		"Title": "The three-round diagnosis",
+		"Diagram": "The live tests showing the writes never triggered the governance chain - the emit-context theory and the listener-scope theory both refuted by delivery research with code, simulation and live policy evidence: the event is delivered; the gate rejects the actor."
+	}, { "default": ($$result) => renderTemplate` <p>
+Then the live tests showed its writes never triggered the governance chain -
+						and the diagnosis took three rounds, two of them wrong.<br>The${" "} <strong>emit-context theory</strong>: the event must be scoped to the
+						emitting plugin.<br>The <strong>listener-scope theory</strong>: the listener must
+						be registered at the wrong level.
+</p> <p>
+The delivery research refuted both with code, simulation and live policy
+						evidence: <em>the event is delivered; the gate rejects the actor.</em><br>The
+						shared event bus has no scope filter on plain emits - the root registration
+						fix aimed at the misdiagnosis was harmless, and stayed.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-reasons",
+		"Title": "The gate's reason vocabulary",
+		"Diagram": "The g1 gate's seven rejection reasons in decision order - target, govern, actor, kind, idempotent, basename, excluded - with the misdiagnosis landing on the actor reason and the marker moving the same flow to the govern reason."
+	}, { "default": ($$result) => renderTemplate` <p>
+The gate never rejects vaguely.<br>Its rejections are a fixed vocabulary of
+						seven reasons, checked in order (the factory's g1 gate):${" "} <code>target</code>, <code>govern</code>, <code>actor</code>,${" "} <code>kind</code>, <code>idempotent</code>, <code>basename</code>,${" "} <code>excluded</code>.<br>Naming the reasons is what makes the misdiagnosis
+						story structurally checkable instead of anecdotal.
+</p> <p>
+Read through that vocabulary, the saga is two reasons: the pre-fix
+						rejection was the <strong>actor</strong> reason - the raw-write's actor was
+						not in the governance bundles' mutation-tool list - and after the
+						governance marker the same flow rejects on the <strong>govern</strong>${" "}
+reason, by design: the wrapped actor's write is the direct path's business
+						only.
+</p> ` })} </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-patch-layers",
+		"Title": "The real blocker: the patch layers",
+		"Diagram": "The deployed mutationTools value of all three governance bundles being [write, edit, str_replace_editor] - no raw-write - even though the schema default included it, the bundles' own patch layers setting it explicitly, and a patch layer's config replacing the entry config wholesale, shadowing the default."
+	}, { "default": ($$result) => renderTemplate` <p>
+The deployed <code>mutationTools</code> value of all three governance bundles
+						was <code>[write, edit, str_replace_editor]</code> - no${" "} <code>raw-write</code> - even though the schema default included it.
+</p> <p>
+The bundles' own patch layers set <code>mutationTools</code> explicitly, and a
+						patch layer's config <strong>replaces the entry config wholesale</strong>,
+						shadowing the default.<br>The inspection tooling projected the${" "} <em>schema</em>, so the projected list looked correct while the live value
+						was not - the verification blind spot in one sentence.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-patch-fix",
+		"Title": "The one-line fix and the standing lesson",
+		"Diagram": "The fix (affa730) being one line in three patch files - and it becoming the family's standing lesson about verifying the live effective config."
+	}, { "default": ($$result) => renderTemplate` <p>
+The fix (<code>affa730</code>) was one line in three patch files, and it
+						became the family's standing lesson about verifying the live effective
+						config.
+</p> ` })} </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-journal-silent",
+		"Title": "The journal migration that failed silently",
+		"Diagram": "The journal domain bumping to v2 to carry the stream counts (4c0e83b) - every boot after it landing zero records: the v2 open failing against the v1 file on an exact-equality version check, the open's catch swallowing it, every record draining into a never-drained buffer and dying with the process."
+	}, { "default": ($$result) => renderTemplate` <p>
+The journal domain bumped to v2 to carry the stream counts (
+<code>4c0e83b</code>) - and every boot after it landed zero records.
+</p> <p>
+The v2 open failed against the v1 file on an exact-equality version check; the
+						open's catch swallowed it; every record drained into a never-drained buffer
+						and died with the process.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-journal-fix",
+		"Title": "The fix: per-record, and loud",
+		"Diagram": "The fix (756d566): a per-record layout that auto-migrates the v1 records, backup-and-skip for invalid ones, and a loud failure line on any open failure - because the silence is what made it undiagnosable."
+	}, { "default": ($$result) => renderTemplate` <p>
+The fix (<code>756d566</code>): a per-record layout that auto-migrates the v1
+						records, backup-and-skip for invalid ones, and a${" "} <strong>loud failure line</strong> on any open failure - because the silence
+						is what made it undiagnosable.
+</p> ` })} </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-commonalization",
+		"Title": "Three executors become one",
+		"Diagram": "The write-path audit finding the built-in write, the raw-write tool and the factory's guarded write all implementing the same five steps, three times - and the merge (91293d2): the factory's Write becoming the shared executor, the guarded write living on as its alias, the update envelope and the activation composer folded into the core the same pass."
+	}, { "default": ($$result) => renderTemplate` <p>
+The write-path audit found the built-in write, the raw-write tool and the
+						factory's guarded write all implementing the same five steps, three times.
+</p> <p>
+The merge (<code>91293d2</code>): the factory's <code>Write</code> becomes the
+						shared executor - the guarded write lives on as its alias - with the update
+						envelope and the activation composer folded into the core the same pass.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-granular",
+		"Title": "The fine-grained control",
+		"Diagram": `The control split (e69c5d3): normalize selecting the transforms, govern selecting the chain steps through the factory's Govern - the fold entry, SCHEME ${Scheme.Govern} - and a step registry the modules populate (RegisterGovern, ${Scheme.RegisterGovern}).`
+	}, { "default": ($$result) => renderTemplate` <p>
+Then the fine-grained control (<code>e69c5d3</code>):${" "} <code>normalize</code> selects the transforms, <code>govern</code> selects the
+						chain steps through the factory's <code>Govern</code> - the fold entry, SCHEME
+${Scheme.Govern} - and a step registry the modules populate (RegisterGovern, ${Scheme.RegisterGovern}).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-marker",
+		"Title": "The governance marker inverts the event path",
+		"Diagram": "The governance marker (2c8764e, 83ba8e5) inverting the event path into a direct path: the raw-write's actor carrying the govern selection, so direct governance is the only channel and no flag means no chain - the escape hatch."
+	}, { "default": ($$result) => renderTemplate` <p>
+The governance marker (<code>2c8764e</code>, <code>83ba8e5</code>) inverts
+						the event path into a direct path: the raw-write's actor carries the govern
+						selection, so direct governance is the only channel and${" "} <strong>no flag means no chain</strong> - the escape hatch.
+</p> ` })} </div> <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Shared step</th> <th>Built-in write</th> <th>raw-write (before)</th> <th>Factory guarded write (before)</th> </tr> </thead> <tbody> ${Executors.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Step}</strong> </td> <td> ${Row.Builtin.split("->").map((Part, Index) => renderTemplate`${renderComponent($$result, "Fragment", Fragment, {}, { "default": ($$result) => renderTemplate`${Index > 0 && renderTemplate`${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})}`}${Part}` })}`)} </td> <td> ${Row.Raw.split("->").map((Part, Index) => renderTemplate`${renderComponent($$result, "Fragment", Fragment, {}, { "default": ($$result) => renderTemplate`${Index > 0 && renderTemplate`${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})}`}${Part}` })}`)} </td> <td>${Row.Factory}</td> </tr>`)} </tbody> </table> </div> <p class="section-kicker" style="margin-top: var(--space-lg)">
+The fold, and the guard that made it converge
+</p> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-fold",
+		"Title": "The sequential fold",
+		"Diagram": "The direct steps' detached chains racing - nondeterministic writes on the same file - and the fold awaiting each step's chain before the next reads (d7a3c93, 140faa0)."
+	}, { "default": ($$result) => renderTemplate` <p>
+The direct steps' detached chains raced - nondeterministic writes on the same
+						file - so the fold awaits each step's chain before the next reads (
+<code>d7a3c93</code>, <code>140faa0</code>).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-stat-guard",
+		"Title": "The stat-before-write guard that made it converge",
+		"Diagram": "The deeper bug: every step writing against the version observed at the triggering event, so only the first write could succeed and the later steps failed the stale-version check silently - and the fix (5982aa8): the chain pass statting the target before its write and taking the fresh version, the fold converging in any step order."
+	}, { "default": ($$result) => renderTemplate` <p>
+Then the deeper bug: every step wrote against the version observed at the
+						triggering event, so <strong>only the first write could succeed</strong> and
+						the later steps failed the stale-version check silently.
+</p> <p>
+The fix (<code>5982aa8</code>): the chain pass stats the target before its
+						write and takes the fresh version, so the fold converges in any step order -
+						which matters, because the pinner activated before the governor at the
+						decisive boot.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p5-abort",
+		"Title": "The abort-signal fix belongs to the Effect-TS port",
+		"Diagram": "The write executor originally mapping the caller's abort signal onto the run promise's options - a pre-aborted signal interrupting the whole fiber, the caller seeing all fibers interrupted without error instead of the Classic aborted-before-write behavior - and the fix dropping the signal mapping so the signal forwards to the seams only."
+	}, { "default": ($$result) => renderTemplate` <p>
+One more fix belongs to the Effect-TS port: the write executor originally
+						mapped the caller's abort signal onto the run promise's options, so a${" "} <strong>pre-aborted signal interrupted the whole fiber</strong> and the
+						caller saw <em>all fibers interrupted without error</em> instead of the
+						Classic aborted-before-write behavior.
+</p> <p>
+The dash suite's pre-aborted-write scenario caught it; the fix drops the
+						signal mapping - the signal forwards to the seams only, exactly the Classic
+						semantics.
+</p> ` })} </div> <p class="section-kicker">The final battery's outcomes, verbatim</p> <div class="code-block">${LiveMatrix.join("\n")}</div> </section> <!-- Phase 6 --> <section class="section" id="phase-6"> <div class="section-header"> <div class="section-header__left"> <span class="section-header__marker"></span> <h2 class="section-header__title">Phase VI - The releases, the monorepo and the Site</h2> </div> <span class="section-header__meta">
+BOILERPLATE ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} SHIPPING
+</span> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p6-releases",
+		"Title": "Two official releases off one source",
+		"Diagram": "The completed codebase becoming the boilerplate: the Classic implementation staying live-first, the Effect-TS port shipping only after its smokes prove parity - the ledger strings remaining the contract in both (register #13)."
+	}, { "default": ($$result) => renderTemplate` <p>
+The completed codebase became the boilerplate for two official releases off
+						one source: the Classic implementation stays live-first, and the Effect-TS
+						port ships only after its smokes prove parity - the ledger strings remain the
+						contract in both (<code>register #13</code>).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p6-port-goals",
+		"Title": "Why the port exists beyond the parity discipline",
+		"Diagram": "Register #13's three goals: external traceability, ecosystem interop, and hooking other transformers from the same Effect ecosystem into the same governed machinery."
+	}, { "default": ($$result) => renderTemplate` <p>
+The port exists for a reason beyond the parity discipline: register #13's
+						three goals - <strong>external traceability</strong>,${" "} <strong>ecosystem interop</strong>, and hooking other transformers from the
+						same Effect ecosystem into the same governed machinery.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p6-triad",
+		"Title": "The triad's roles stay fixed",
+		"Diagram": "The three implementations and their fixed roles: Boilerplate as the live truth, Classic as the anonymized release, Effect-TS as the port."
+	}, { "default": ($$result) => renderTemplate` <p>
+The triad's roles stay fixed: <strong>Boilerplate</strong> is the live truth,${" "} ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "typescript" })} <strong>Classic</strong> is the anonymized
+						release,${" "} ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "effect" })} <strong>Effect-TS</strong> is the port.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p6-parallel",
+		"Title": "The parallel-govern toggle, designed in from the start",
+		"Diagram": "The Effect-TS mapping planning the parallel-govern toggle in from the start - concurrency being different there, designing the toggle first beating retrofitting it."
+	}, { "default": ($$result) => renderTemplate` <p>
+The Effect-TS mapping planned the${" "} <strong>parallel-govern toggle in from the start</strong> - concurrency is
+						different there, and designing the toggle first beats retrofitting it.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p6-tracing",
+		"Title": "Tracing is an opt-in knob",
+		"Diagram": "The factory running Effect's no-op Tracer by default - zero cost, the identical synchronous build - with the OTLP exporter attaching only when enableTracing is set (the NodeSdk layer, the dsh.* spans leaving to any OTel collector), the exporter packages loading dynamically so an unloadable bundle degrades to the no-op, and the spans carrying read-only facts so a traced smoke run still produces byte-identical ledgers."
+	}, { "default": ($$result) => renderTemplate` <p>
+Its tracing is an <strong>opt-in knob</strong>: by default the factory runs
+						Effect's no-op Tracer - zero cost, the identical synchronous build - and only
+						when <code>enableTracing</code> is set does the OTLP exporter attach (the
+						NodeSdk layer, the <code>dsh.*</code> spans leaving to any OTel collector).
+</p> <p>
+The exporter packages load dynamically, so an unloadable bundle degrades to
+						the no-op - tracing is best-effort, never allowed to break the plugin - and
+						the spans carry read-only facts, so a traced smoke run still produces
+						byte-identical ledgers.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p6-prep",
+		"Title": "The release prep anonymized and de-personalized every bundle",
+		"Diagram": "The clean releases: the governor's ncuBin default re-pinned to a portable PATH-resolved value (the internal Boilerplate baseline keeping the functional real path by design), and the READMEs rebuilt on a single skeleton borrowed heavily from the sibling project's conventions."
+	}, { "default": ($$result) => renderTemplate` <p>
+The release prep anonymized and de-personalized every bundle: the releases are
+						clean - the governor's <code>ncuBin</code> default was re-pinned to a portable
+						PATH-resolved value, while the internal Boilerplate baseline keeps the
+						functional real path by design.
+</p> <p>
+The READMEs were rebuilt on a single skeleton borrowed heavily from the
+						sibling project's conventions.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p6-naming",
+		"Title": "The naming inverted (register #15)",
+		"Diagram": `Packages reading as @-sentences - ${Families.GovernorPackage} - and grouping alphabetically by kind, role and domain: kind-first ordering mirroring the consumer topology (the hooks vs the factory service), role-contiguous grouping keeping the shared-machinery families together (governor-cargo/governor-package, the normalize-* family), at version ${Versions.Release}.`
+	}, { "default": ($$result) => renderTemplate` <p>
+The naming inverted (<code>register #15</code>): packages read as${" "} <code>@</code>-sentences - <em>${Families.GovernorPackage}</em> - and
+						group alphabetically by kind, role and domain.
+</p> <p>
+Kind-first ordering mirrors the consumer topology - the hooks vs the factory
+						service - and role-contiguous grouping keeps the shared-machinery families
+						together (governor-cargo/governor-package, the normalize-* family), at
+						version ${Versions.Release}.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p6-submodules",
+		"Title": "The submodule structure: designed, NOT STARTED",
+		"Diagram": "One repository per package under submodule structure - register #16: no commits yet, everything still in this monorepo."
+	}, { "default": ($$result) => renderTemplate` <p>
+One repository per package under submodule structure is designed but${" "} <strong>NOT STARTED</strong> (register #16: no commits yet, everything still
+						in this monorepo).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "case-p6-site",
+		"Title": "The Site you are reading is the last item",
+		"Diagram": "The integration showcase - the versions page carrying the two engines side by side."
+	}, { "default": ($$result) => renderTemplate` <p>
+And the Site you are reading is the last item: the integration showcase, with
+						the <a href="/versions/">versions page</a> carrying the two engines side by
+						side.
+</p> ` })} </div> <div class="action-row"> <a class="action" href="/versions/">
+The two releases
+</a> <a class="action action--secondary" href="/plugins/">
+The twelve packages
+</a> </div> </section> <!-- Phase 7: Decision index --> <section class="section" id="decisions"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The decision index",
+		"Meta": `${Decisions.Count} DECISIONS, WHERE THEY LIVE, WHAT PROVED THEM`
+	})} <p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+Every decision below survives in a shipped seam.<br>The technique column names where it
+				lives; the evidence column links the narrative to the commit era.
+</p> <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Decision</th> <th>Rationale</th> <th>Technique / seam</th> <th>Evidence</th> </tr> </thead> <tbody> ${Decisions.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Decision}</strong> </td> <td> ${Row.Rationale.split("->").map((Part, Index) => renderTemplate`${renderComponent($$result, "Fragment", Fragment, {}, { "default": ($$result) => renderTemplate`${Index > 0 && renderTemplate`${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})}`}${Part}` })}`)} </td> <td>${Row.Technique}</td> <td>${Row.Evidence}</td> </tr>`)} </tbody> </table> </div> </section> <!-- Phase 8: Lessons --> <section class="section" id="lessons"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The working lessons",
+		"Meta": "THE HONEST CLOSE"
+	})} <div class="grid grid--2"> ${Lessons.map((Item) => renderTemplate`${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": Item.Name,
+		"Desc": Item.Desc,
+		"Muted": true
+	})}`)} </div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+The state the era ended in: twelve packages, twelve green suites, a clean tree, the
+				full live matrix passed - and the register's open items named, not vague.<br>Four of
+				them carry into the next era: <strong>#14's Classic parallel smoke coverage</strong>
+- the race-verified scenarios for the parallel-govern toggle; the${" "} <strong>ncuBin re-pin</strong> - LANDED: the governor's default is now the plain${" "} <code>ncu</code> binary resolved from the host PATH, the personal-path constant
+				gone; the <strong>verifyCommand trap</strong> - the documented cordis
+				vendored-forks failure, standing, not a bug; and <strong>#16's submodule
+				structure</strong> - designed, not started, the repositories unversioned by design.<br>
+The install command below is the whole family's front door.
+</p> <div class="snippet-list" style="margin-top: var(--space-md)"> ${renderComponent($$result, "Terminal", $$Terminal, {
+		"Command": "pnpm add @playform/hook-dsh-core",
+		"Label": "START HERE"
+	})} </div> </section> </main> ` })}`;
+}, "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/case-study.astro", void 0);
+var $$file = "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/case-study.astro";
+var $$url = "/case-study";
+//#endregion
+//#region \0virtual:astro:page:Source/pages/case-study@_@astro
+var page = () => case_study_exports;
+//#endregion
+export { page };

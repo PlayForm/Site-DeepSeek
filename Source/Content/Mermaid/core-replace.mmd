@@ -1,0 +1,6 @@
+flowchart LR
+	TEXT["text"] --> REP["Replace"]
+	CLASS["a character class"] --> REP
+	REPL["a replacement string"] --> REP
+	REP --> OUT["text plus count"]
+	REP -. "uses" .-> ANNO["a fresh per-call gu regex<br/>a function replacer - no shared lastIndex state"]

@@ -1,0 +1,8 @@
+flowchart LR
+	EDIT["agents edit package.json files constantly"]
+	LEAVE["every edit able to leave stale pins - stray version ranges<br/>or deps that should track a governed registry"]
+	WHERE["the fix has to happen where the write happens"]
+	EVERY["on every write path - full writes - single-line edits<br/>str_replace_editor patches alike"]
+	BYTE["without the author's tool result changing<br/>by a single byte"]
+	EDIT --> LEAVE
+	LEAVE --> WHERE --> EVERY --> BYTE

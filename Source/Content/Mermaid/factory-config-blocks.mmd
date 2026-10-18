@@ -1,0 +1,7 @@
+flowchart LR
+	SHARED["shared: false emits the minimal block<br/>no logFile/updateCooldownMs -<br/>no mutationTools/policyFile - no exclude<br/>for non-manifest modules like the normalize flavors"]
+	DEFAULTS["the shared defaults carry the family's block"]
+	VOL["volatile cells - log - logFile and any consumer's own<br/>hot fields - commit without remounting the plugin"]
+	UNWRAP["the factory's State builder unwraps them defensively"]
+	SHARED --> DEFAULTS
+	DEFAULTS --> VOL --> UNWRAP

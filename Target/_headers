@@ -1,4 +1,4 @@
-# Cloudflare Pages custom headers for the @playform / DSH Family site.
+# Cloudflare Pages custom headers for the DSH Family @ PlayForm site.
 
 # Content-hashed build assets: cache forever.
 /_astro/*
