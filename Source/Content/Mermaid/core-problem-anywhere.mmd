@@ -1,0 +1,8 @@
+flowchart LR
+	HELPERS["the same imported helpers"]
+	IN["inside a DeepSeek Harness plugin listener"]
+	OUT["in a standalone script - no harness at all"]
+	HELPERS --> IN
+	HELPERS --> OUT
+	%% Invisible layout links only - no semantics.
+	IN ~~~ OUT

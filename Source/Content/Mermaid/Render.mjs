@@ -18,6 +18,9 @@
 // Qualification law: a diagram may only encode what its page's brief already
 // states (the may / only / never qualifications, the numbered plans the briefs
 // themselves declare). The renderer adds no semantics - it draws the source.
+// A source may reference the site's live figures as {Placeholder} tokens (the
+// Library/Content.ts names); the renderer substitutes the build-time values
+// before rendering. DSH_DIAGRAMS="id1,id2" renders only those sources.
 
 import { readdir, readFile, writeFile, unlink, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -200,6 +203,54 @@ if (Sources.length === 0) {
 	process.exit(1);
 }
 
+// The live-figure substitution: a source may reference the site's dynamic
+// figures as {Placeholder} tokens (the same names Library/Content.ts
+// exports); each is replaced with the LIVE build-time value before the
+// render, so the committed SVGs carry the repo's real numbers. The values
+// come from Content.ts (which merges the Live.ts snapshot with its
+// documented fallbacks), so an unavailable source degrades to the fallback,
+// never to a broken diagram.
+const { Counts, Totals, Versions, Methods, History } = await import(
+	new URL("../../Library/Content.ts", import.meta.url).href
+);
+const Substitutions = {
+	"Counts.Suites": Counts.Suites,
+	"Counts.Packages": Counts.Packages,
+	"Counts.Normalizers": Counts.Normalizers,
+	"Totals.Classic": Totals.Classic,
+	"Totals.EffectTS": Totals.EffectTS,
+	"Versions.Release": Versions.Release,
+	"Versions.Effect": Versions.Effect,
+	"Methods.Count": Methods.Count,
+	"History.OriginMethods": History.OriginMethods,
+	"History.OriginChecks": History.OriginChecks,
+};
+// The per-suite pairs, as Counts.<Suite>.Classic / .EffectTS.
+for (const [Key, Pair] of Object.entries(Counts)) {
+	if (Pair && typeof Pair === "object") {
+		Substitutions[`Counts.${Key}.Classic`] = Pair.Classic;
+		Substitutions[`Counts.${Key}.EffectTS`] = Pair.EffectTS;
+	}
+}
+const Substitute = (Text) =>
+	Text.replace(/\{(\w+(?:\.\w+)*)\}/g, (Token, Name) =>
+		Name in Substitutions ? String(Substitutions[Name]) : Token,
+	);
+
+// The optional subset filter: DSH_DIAGRAMS="id1,id2" renders only those
+// sources (a full run re-renders every diagram; a filtered run touches only
+// the named ones, so unchanged vendored SVGs stay byte-identical).
+const Filter = process.env["DSH_DIAGRAMS"]
+	? new Set(process.env["DSH_DIAGRAMS"].split(",").map((Name) => Name.trim()))
+	: null;
+const Selected = Filter
+	? Sources.filter((Name) => Filter.has(Name.replace(/\.mmd$/, "")))
+	: Sources;
+if (Filter && Selected.length === 0) {
+	console.error(`No .mmd source matches DSH_DIAGRAMS="${process.env["DSH_DIAGRAMS"]}".`);
+	process.exit(1);
+}
+
 // The label-presence law, space-exact: every label in a source must appear
 // in the rendered SVG's text content WITH its separators. Mermaid renders
 // labels as word-wrapped <tspan> runs; the joining spaces live in the runs
@@ -327,11 +378,11 @@ try {
 	await Page.waitForFunction("window.__ready === true", { timeout: 30000 });
 
 	let Failed = 0;
-	for (const Source of Sources) {
+	for (const Source of Selected) {
 		const Id = Source.replace(/\.mmd$/, "");
 		const SvgPath = join(Here, `${Id}.svg`);
 		try {
-			const Text = await readFile(join(Here, Source), "utf8");
+			const Text = Substitute(await readFile(join(Here, Source), "utf8"));
 			const Svg = await Page.evaluate(
 				(DiagramId, DiagramText) => window.__render(DiagramId, DiagramText),
 				Id,

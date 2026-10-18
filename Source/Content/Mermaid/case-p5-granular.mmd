@@ -1,0 +1,10 @@
+flowchart LR
+	SPLIT["the control split - e69c5d3"]
+	NORM["normalize selects the transforms"]
+	GOV["govern selects the chain steps"]
+	GOVERN["the factory's Govern - the fold entry<br/>SCHEME §2.18"]
+	REG["a step registry the modules populate<br/>RegisterGovern - §2.17"]
+	SPLIT --> NORM
+	SPLIT --> GOV
+	GOV --> GOVERN
+	GOV --> REG

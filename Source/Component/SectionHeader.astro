@@ -1,11 +1,41 @@
 ---
 // Section header: the blue marker bar + Inter title + uppercase mono meta.
+// The meta renders through Mention (Library/FileIcon.ts), so a file mention
+// in a meta line carries its file-type icon (the .log names as log chips).
+import { DotSep, Mention } from "@Library/FileIcon";
+
 interface Props {
 	Title: string;
 	Meta?: string;
 }
 
 const { Title, Meta } = Astro.props;
+
+// The separator dots: the meta's "·" separators become the designed
+// .dot-sep circle (the DotSep renderer) - LAST in the chain, so the wrap
+// only ever sees the plain "·" glyphs.
+// The identity-word treatment: whole-word PIN / GOVERN / NORMALIZE tokens
+// in the meta take their stage colors via the shared global .word-* spans
+// (pin-red / the Harness Blue / the ink-muted gray) - only the identity
+// word is colored, the separators and the surrounding text keep the
+// meta's neutral ink (the same word-level rule the RAW legend label
+// runs). Runs AFTER Mention, so the wrap never crosses a tag: the words
+// only ever appear in the plain text runs (GOVERNANCE / GOVERNED /
+// NORMALIZERS never match - whole words only) and the visible bytes stay
+// byte-exact.
+const IdentityPattern = /\b(PIN|GOVERN|NORMALIZE)\b/g;
+
+function IdentityWords(Text: string): string {
+	return Text.replace(IdentityPattern, (Word) => {
+		const Cls =
+			Word === "PIN"
+				? "word-pin"
+				: Word === "GOVERN"
+					? "word-govern"
+					: "word-normalize";
+		return `<span class="${Cls}">${Word}</span>`;
+	});
+}
 ---
 
 <div class="section-header">
@@ -13,5 +43,7 @@ const { Title, Meta } = Astro.props;
 		<span class="section-header__marker"></span>
 		<h2 class="section-header__title">{Title}</h2>
 	</div>
-	{Meta && <span class="section-header__meta">{Meta}</span>}
+	{Meta && (
+		<span class="section-header__meta" set:html={DotSep(IdentityWords(Mention(Meta)))} />
+	)}
 </div>

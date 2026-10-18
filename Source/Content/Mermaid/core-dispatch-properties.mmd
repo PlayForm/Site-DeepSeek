@@ -1,0 +1,5 @@
+flowchart LR
+	ELIG["eligible content"] --> TRANS["the injected transform"]
+	TRANS --> FLOW["flows through<br/>without reordering or buffering"]
+	UNS["unsupported shapes"] --> ID["identity-preserving passthrough paths"]
+	UNC["unchanged results"] --> ID

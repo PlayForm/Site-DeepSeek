@@ -1,0 +1,7 @@
+flowchart LR
+	FACTORY["the factory - a service, not a module"]
+	NO["registers no activation line<br/>owns no ledger strings"]
+	APPEND["its Append(state, message) is the family's<br/>one ledger mechanism"]
+	TWO["composing exactly two wrappers<br/>around the CONSUMER's message"]
+	FACTORY --> NO
+	FACTORY --> APPEND --> TWO

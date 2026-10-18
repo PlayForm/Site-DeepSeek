@@ -1,0 +1,16 @@
+flowchart LR
+	MECH["chunk-boundary-safe - function-replaced - counted"]
+	N1["no context rules - one character in<br/>its half-width counterpart out"]
+	N2["single-character substitution - no lookahead<br/>per-chunk application never disagreeing<br/>with whole-text application"]
+	N3["mapping values returned through a function replacer<br/>inserted literally - no $-pattern interpretation"]
+	N4["the table's backslash - circumflex - vertical bar<br/>and tilde values being exactly the characters<br/>a string replacement would corrupt"]
+	N5["replaced characters counted per stream<br/>for the ledger line"]
+	MECH --> N1
+	MECH --> N2
+	MECH --> N3
+	MECH --> N4
+	MECH --> N5
+	N1 ~~~ N2
+	N2 ~~~ N3
+	N3 ~~~ N4
+	N4 ~~~ N5

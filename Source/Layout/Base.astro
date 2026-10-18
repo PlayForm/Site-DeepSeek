@@ -5,6 +5,7 @@ import { Head } from "astro-capo";
 import { ClientRouter } from "astro:transitions";
 import BrandIcon from "@Component/BrandIcon.astro";
 import { Copyright, Versions } from "@Library/Content";
+import { Live } from "@Library/Live";
 import { Links } from "@Library/Links";
 
 const { Title = "", Description = "" } = Astro.props;
@@ -15,15 +16,20 @@ interface Props {
 }
 
 // The primary nav: the current entry is highlighted via aria-current.
+// The order is importance + usage: the landing, then the family listing
+// and install entry (Plugins), the interactive demo (Workbench), the
+// recurring engine-support lookup (Models), the returning-user changelog
+// (Versions), the one-time install walkthrough (Setup), the secondary
+// taxonomy (Flavors), and the narrative (Case Study).
 const Nav = [
 	{ Href: "/", Label: "Overview" },
 	{ Href: "/plugins/", Label: "Plugins" },
-	{ Href: "/setup/", Label: "Setup" },
-	{ Href: "/versions/", Label: "Versions" },
-	{ Href: "/flavors/", Label: "Flavors" },
-	{ Href: "/models/", Label: "Models" },
-	{ Href: "/case-study/", Label: "Case Study" },
 	{ Href: "/workbench/", Label: "Workbench" },
+	{ Href: "/models/", Label: "Models" },
+	{ Href: "/versions/", Label: "Versions" },
+	{ Href: "/setup/", Label: "Setup" },
+	{ Href: "/flavors/", Label: "Flavors" },
+	{ Href: "/case-study/", Label: "Case Study" },
 ];
 
 const Path = Astro.url.pathname;
@@ -41,13 +47,15 @@ const Canonical = `${SiteUrl}${Path === "/" ? "/" : Path}`;
 const OgImage = `${SiteUrl}/Brand/OG.png`;
 
 // The twelve release packages (the register #15 names, npm form) - the
-// SoftwareApplication's parts.
-const Packages = [
+// SoftwareApplication's parts. The names are LIVE: Library/Live.ts reads the
+// Classic tree's package.json files at build time, kept in this canonical
+// order, with any package missing from the list appended alphabetically.
+const CanonicalPackages = [
 	"@playform/hook-dsh-core",
 	"@playform/plugin-dsh-factory",
-	"@playform/hook-dsh-governor-package",
-	"@playform/hook-dsh-pinner-package",
-	"@playform/hook-dsh-governor-cargo",
+	"@playform/hook-dsh-package-governor",
+	"@playform/hook-dsh-package-pinner",
+	"@playform/hook-dsh-cargo-governor",
 	"@playform/hook-dsh-normalize-dash",
 	"@playform/hook-dsh-normalize-quotes",
 	"@playform/hook-dsh-normalize-ellipsis",
@@ -56,11 +64,15 @@ const Packages = [
 	"@playform/hook-dsh-normalize-fullwidth",
 	"@playform/hook-dsh-normalize-file",
 ];
+const Packages = [
+	...CanonicalPackages.filter((Name) => Live.PackageNames.includes(Name)),
+	...Live.PackageNames.filter((Name) => !CanonicalPackages.includes(Name)),
+];
 
 const JsonLd = {
 	"@context": "https://schema.org",
 	"@type": "SoftwareApplication",
-	name: "@playform / DSH Family",
+	name: "DSH Family @ PlayForm",
 	description:
 		"The DeepSeek Harness plugin family: deterministic AI engine harnesses for production workloads - twelve packages, twelve smoke suites.",
 	url: SiteUrl,
@@ -69,7 +81,7 @@ const JsonLd = {
 	softwareVersion: Versions.Release,
 	license: "https://spdx.org/licenses/CC0-1.0",
 	image: OgImage,
-	author: { "@type": "Organization", name: "PlayForm Systems", url: "https://playform.cloud" },
+	author: { "@type": "Organization", name: "PlayForm Cloud", url: "https://playform.cloud" },
 	hasPart: Packages.map((Name) => ({
 		"@type": "SoftwareApplication",
 		name: Name,
@@ -81,9 +93,31 @@ const JsonLd = {
 <!doctype html>
 <html lang="en" class="no-js" dir="ltr">
 	<Head>
-		<script>
+		<script is:inline>
 			document.documentElement.classList.remove("no-js");
 			document.documentElement.classList.add("js");
+		</script>
+		<script is:inline>
+			// The theme bridge, set BEFORE first paint: a stored toggle wins;
+			// without one the OS prefers-color-scheme decides. Every later
+			// toggle (the header switch) only flips this attribute and the
+			// tokens follow - see the [data-theme="dark"] block in Global.css.
+			// is:inline: Astro hoists plain head scripts into bundled modules
+			// (which never execute in time), so this one must stay a blocking
+			// inline script to beat the first paint.
+			(() => {
+				const Key = "dsh-theme";
+				let Theme = null;
+				try {
+					Theme = localStorage.getItem(Key);
+				} catch {}
+				if (Theme !== "dark" && Theme !== "light") {
+					Theme = matchMedia("(prefers-color-scheme: dark)").matches
+						? "dark"
+						: "light";
+				}
+				document.documentElement.setAttribute("data-theme", Theme);
+			})();
 		</script>
 		<!-- Meta -->
 		<title>{Title}</title>
@@ -97,7 +131,7 @@ const JsonLd = {
 
 		<!-- Site identity: canonical + Open Graph + Twitter -->
 		<link rel="canonical" href={Canonical} />
-		<meta property="og:site_name" content="@playform / DSH Family" />
+		<meta property="og:site_name" content="DSH Family @ PlayForm" />
 		<meta property="og:title" content={Title} />
 		<meta property="og:description" content={Description} />
 		<meta property="og:type" content="website" />
@@ -105,7 +139,7 @@ const JsonLd = {
 		<meta property="og:image" content={OgImage} />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
-		<meta property="og:image:alt" content="The @playform / DSH Family brand mark" />
+		<meta property="og:image:alt" content="The DSH Family @ PlayForm brand mark" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={Title} />
 		<meta name="twitter:description" content={Description} />
@@ -149,36 +183,74 @@ const JsonLd = {
 		<!-- Fixed header -->
 		<header class="site-header">
 			<div class="site-header__inner">
-				<a class="site-header__brand" href={Links.Site}>
+				<a class="site-header__brand" href={Links.Site}><!-- The official PlayForm glyph (the Asset mark, via the
+						shared BrandIcon) at the header's glyph size. -->
+					<BrandIcon Name="playform" ClassName="site-header__glyph" Size="28px" />
+					<span class="site-header__title">DSH Family <span class="sep">@</span> PlayForm</span></a>
+				<!-- id="site-nav": the target of the hamburger's aria-controls. -->
+				<nav class="site-header__nav" id="site-nav" aria-label="Primary">
+					{Nav.map((Item) => (
+						<a href={Item.Href} aria-current={Current(Item.Href) ? "page" : undefined}>{Item.Label}</a>
+					))}
+				</nav>
+				<!-- The light/dark switch: the LIGHT / DARK two-cell mono chip.
+					The active cell is attribute-driven pure CSS (the cells are
+					correct before any script runs); the script only flips the
+					html[data-theme] attribute and persists the choice. The
+					pin state stays functional (data-pinned + the title)
+					without any visible mode text. -->
+				<button
+					class="theme-toggle"
+					type="button"
+					data-theme-toggle
+					role="switch"
+					aria-checked="false"
+					aria-label="Toggle dark theme"
+					title="Toggle dark theme"
+				>
+					<span class="theme-toggle__cell" data-theme-cell="light">LIGHT</span>
+					<span class="theme-toggle__sep" aria-hidden="true">/</span>
+					<span class="theme-toggle__cell" data-theme-cell="dark">DARK</span>
+				</button>
+				<!-- The mobile nav toggle: the flat three-line hamburger in
+					the avatar's old slot. The open state lives on the header
+					(data-nav-open, set by the script); aria-expanded mirrors
+					it for AT and aria-controls points at the nav above. The
+					button is .js-gated in CSS - a no-JS document shows no
+					dead control and the nav stays hidden as before. -->
+				<button
+					class="nav-toggle"
+					type="button"
+					data-nav-toggle
+					aria-expanded="false"
+					aria-controls="site-nav"
+					aria-label="Open menu"
+				>
 					<svg
-						class="site-header__glyph"
+						class="nav-toggle__icon"
 						viewBox="0 0 24 24"
 						fill="none"
 						stroke="currentColor"
 						stroke-width="1.5"
+						stroke-linecap="round"
 						aria-hidden="true"
 					>
-						<circle cx="12" cy="5" r="2.5"></circle>
-						<circle cx="5" cy="18" r="2.5"></circle>
-						<circle cx="19" cy="18" r="2.5"></circle>
-						<path d="M12 7.5 L6.5 15.8 M12 7.5 L17.5 15.8 M7.5 18 L16.5 18"></path>
+						<path class="nav-toggle__line" d="M4 7 H20"></path>
+						<path class="nav-toggle__line" d="M4 12 H20"></path>
+						<path class="nav-toggle__line" d="M4 17 H20"></path>
 					</svg>
-					<span class="site-header__title">
-						@playform <span class="sep">/</span> DSH Family
-					</span>
-				</a>
-				<nav class="site-header__nav" aria-label="Primary">
-					{Nav.map((Item) => (
-						<a href={Item.Href} aria-current={Current(Item.Href) ? "page" : undefined}>
-							{Item.Label}
-						</a>
-					))}
-				</nav>
-				<div class="site-header__avatar" aria-hidden="true">
-					P
-				</div>
+				</button>
 			</div>
 		</header>
+
+		<!-- The case-study reading gauge: the 2px scroll-progress rail along
+			the viewport's top edge, rendered only on the case study (the one
+			long-form page whose scroll position is worth gauging). -->
+		{Path.startsWith("/case-study") && (
+			<div class="scroll-progress" data-scroll-progress aria-hidden="true">
+				<span class="scroll-progress__bar"></span>
+			</div>
+		)}
 
 		<div class="page">
 			<slot />
@@ -199,7 +271,7 @@ const JsonLd = {
 				))}
 			</div>
 			<p class="site-footer__note">
-				<BrandIcon Name="playform" /> @playform: deterministic AI engine harnesses for production workloads. CC0-1.0 licensed.
+				<BrandIcon Name="playform" />@playform: deterministic AI engine harnesses for production workloads. CC0-1.0 licensed.
 			</p>
 			<p class="site-footer__copy">{Copyright.Line}</p>
 		</footer>
@@ -243,6 +315,274 @@ const JsonLd = {
 					if (Label && Original) Label.textContent = Original;
 				}, 1400);
 			});
+		</script>
+
+		<script>
+			// The theme switch: flips the html[data-theme] attribute, persists
+			// the choice to localStorage, and keeps aria-checked in sync. The
+			// cell highlighting is attribute-driven CSS (no script needed);
+			// with no stored choice the OS prefers-color-scheme stays live.
+			const ThemeToggle = document.querySelector<HTMLElement>("[data-theme-toggle]");
+			const ApplyTheme = (Theme: string) => {
+				document.documentElement.setAttribute("data-theme", Theme);
+				if (ThemeToggle) {
+					ThemeToggle.setAttribute("aria-checked", String(Theme === "dark"));
+				}
+			};
+			const CurrentTheme = () =>
+				document.documentElement.getAttribute("data-theme") === "dark"
+					? "dark"
+					: "light";
+			// The pin state (data-pinned + the title) stays functional;
+			// there is deliberately NO visible mode text ("LOCK"/"OS") next
+			// to the switcher - the user asked for that label to be gone.
+			const SyncMode = () => {
+				let Pinned = false;
+				try {
+					Pinned = !!localStorage.getItem("dsh-theme");
+				} catch {}
+				if (ThemeToggle) {
+					if (Pinned) {
+						ThemeToggle.setAttribute("data-pinned", "");
+					} else {
+						ThemeToggle.removeAttribute("data-pinned");
+					}
+					ThemeToggle.title = Pinned
+						? "Toggle dark theme (pinned in this browser)"
+						: "Toggle dark theme (following the OS setting)";
+				}
+			};
+			ApplyTheme(CurrentTheme());
+			SyncMode();
+			ThemeToggle?.addEventListener("click", () => {
+				const Next = CurrentTheme() === "dark" ? "light" : "dark";
+				ApplyTheme(Next);
+				try {
+					localStorage.setItem("dsh-theme", Next);
+				} catch {}
+				SyncMode();
+			});
+			try {
+				if (!localStorage.getItem("dsh-theme")) {
+					matchMedia("(prefers-color-scheme: dark)").addEventListener(
+						"change",
+						(Event) => ApplyTheme(Event.matches ? "dark" : "light"),
+					);
+				}
+			} catch {}
+
+			// The mobile nav toggle: the hamburger opens the dropdown tray
+			// on narrow viewports. The open state lives on the header
+			// element (data-nav-open) so the tray CSS stays attribute-driven;
+			// aria-expanded and the label mirror it for AT. Esc, an outside
+			// click and the 768px breakpoint close the tray; a nav-link
+			// click navigates and the view-transition page-load closes it
+			// after the swap.
+			const NavToggle = document.querySelector<HTMLElement>("[data-nav-toggle]");
+			const SiteHeader = NavToggle?.closest<HTMLElement>(".site-header");
+			if (NavToggle && SiteHeader) {
+				const SetNav = (Open: boolean) => {
+					SiteHeader.setAttribute("data-nav-open", String(Open));
+					NavToggle.setAttribute("aria-expanded", String(Open));
+					NavToggle.setAttribute("aria-label", Open ? "Close menu" : "Open menu");
+				};
+				NavToggle.addEventListener("click", () => {
+					SetNav(SiteHeader.getAttribute("data-nav-open") !== "true");
+				});
+				document.addEventListener("keydown", (Event) => {
+					if (Event.key === "Escape" && SiteHeader.getAttribute("data-nav-open") === "true") {
+						SetNav(false);
+					}
+				});
+				document.addEventListener("click", (Event) => {
+					if (SiteHeader.getAttribute("data-nav-open") !== "true") return;
+					if (!(Event.target as HTMLElement).closest(".site-header")) {
+						SetNav(false);
+					}
+				});
+				const Desktop = matchMedia("(min-width: 768px)");
+				Desktop.addEventListener("change", () => {
+					if (Desktop.matches) SetNav(false);
+				});
+				document.addEventListener("astro:page-load", () => SetNav(false));
+			}
+
+			// Section reveals: every main .section fades up as it enters the
+			// viewport (one gesture - the slow duration + snap easing, no
+			// stagger). Reduced-motion users get the full-opacity state from
+			// the script, and the .js-gated CSS renders everything visible
+			// without JavaScript at all. Re-arms on every view transition.
+			// A scroll fallback catches the fast-scroll / anchor-jump cases
+			// (an instant scroll can outrun the observer's sampling, leaving
+			// sections that are in view unrevealed): any unrevealed section
+			// whose top has crossed the reveal line is revealed on scroll.
+			const InitReveals = () => {
+				const Sections = document.querySelectorAll<HTMLElement>("main .section");
+				if (!Sections.length) return;
+				if (
+					!("IntersectionObserver" in window) ||
+					matchMedia("(prefers-reduced-motion: reduce)").matches
+				) {
+					Sections.forEach((Section) => Section.classList.add("is-revealed"));
+					return;
+				}
+				const Pending = new Set<HTMLElement>(Sections);
+				const Reveal = (Section: HTMLElement) => {
+					Section.classList.add("is-revealed");
+					Pending.delete(Section);
+				};
+				const Observer = new IntersectionObserver(
+					(Entries) => {
+						Entries.forEach((Entry) => {
+							if (Entry.isIntersecting) {
+								Reveal(Entry.target as HTMLElement);
+								Observer.unobserve(Entry.target);
+							}
+						});
+					},
+					{ rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+				);
+				const Line = window.innerHeight * 0.92;
+				const OnScroll = () => {
+					Pending.forEach((Section) => {
+						if (Section.getBoundingClientRect().top < Line) {
+							Reveal(Section);
+							Observer.unobserve(Section);
+						}
+					});
+					if (!Pending.size) {
+						window.removeEventListener("scroll", OnScroll);
+					}
+				};
+				window.addEventListener("scroll", OnScroll, { passive: true });
+				Sections.forEach((Section) => Observer.observe(Section));
+				OnScroll();
+			};
+			document.addEventListener("astro:page-load", InitReveals);
+			InitReveals();
+
+			// The case-study reading gauge: a 2px rail along the top edge,
+			// scaleX-driven from the scroll position (transform-only, no
+			// layout thrash, rAF-throttled). A reading gauge, not a
+			// decorative animation - it stays under reduced motion.
+			const Progress = document.querySelector<HTMLElement>("[data-scroll-progress]");
+			if (Progress) {
+				const Update = () => {
+					const Max = document.documentElement.scrollHeight - window.innerHeight;
+					Progress.style.transform = `scaleX(${
+						Max > 0 ? Math.min(1, window.scrollY / Max) : 0
+					})`;
+				};
+				let Pending = false;
+				const OnScroll = () => {
+					if (Pending) return;
+					Pending = true;
+					requestAnimationFrame(() => {
+						Update();
+						Pending = false;
+					});
+				};
+				window.addEventListener("scroll", OnScroll, { passive: true });
+				Update();
+			}
+		</script>
+
+		<script>
+			// The diagram overlay: hover/focus on a pre-baked Mermaid node
+			// highlights the RELATED nodes - the node itself, its direct
+			// neighbors (read from the edge ids L_FROM_TO_0 between the node
+			// ids flowchart-FROM-N / flowchart-TO-N) and the connecting
+			// edges - while the rest of the diagram recedes slightly. The
+			// styles are the token-based rules in Global.css (.diagram-nav),
+			// so the highlight follows both themes. The linked nodes (the
+			// tree/Current anchors Library/DiagramNav.ts bakes at build
+			// time) are keyboard-focusable, so focus drives the same
+			// highlight.
+			const SetupDiagram = (Svg: SVGSVGElement) => {
+				if (Svg.dataset["diagramNav"]) return;
+				Svg.dataset["diagramNav"] = "true";
+
+				const Nodes = new Map<string, SVGGElement>();
+				Svg.querySelectorAll<SVGGElement>("g.node").forEach((Node) => {
+					const Id = Node.getAttribute("id") ?? "";
+					const Key = Id.match(/^flowchart-(.+)-\d+$/)?.[1];
+					if (Key) Nodes.set(Key, Node);
+				});
+				if (!Nodes.size) return;
+
+				// Adjacency from the edge paths' data-id (L_FROM_TO_0): split
+				// the body at the point where both halves name known nodes.
+				const Edges = new Map<SVGPathElement, [string, string]>();
+				Svg.querySelectorAll<SVGPathElement>(".edgePaths path[data-id]").forEach(
+					(Path) => {
+						const Body = (Path.getAttribute("data-id") ?? "")
+							.replace(/^L_/, "")
+							.replace(/_\d+$/, "");
+						for (let Split = 1; Split < Body.length; Split += 1) {
+							const From = Body.slice(0, Split);
+							const To = Body.slice(Split);
+							if (Nodes.has(From) && Nodes.has(To)) {
+								Edges.set(Path, [From, To]);
+								return;
+							}
+						}
+					},
+				);
+
+				const Pair = (A: string, B: string) => (A < B ? `${A}|${B}` : `${B}|${A}`);
+				const Adjacent = new Map<string, Set<string>>();
+				const Connectors = new Map<string, SVGPathElement[]>();
+				Edges.forEach(([From, To], Path) => {
+					if (!Adjacent.has(From)) Adjacent.set(From, new Set());
+					if (!Adjacent.has(To)) Adjacent.set(To, new Set());
+					Adjacent.get(From)!.add(To);
+					Adjacent.get(To)!.add(From);
+					const Key = Pair(From, To);
+					if (!Connectors.has(Key)) Connectors.set(Key, []);
+					Connectors.get(Key)!.push(Path);
+				});
+
+				const Clear = () => {
+					Svg.classList.remove("diagram-nav--active");
+					Svg.querySelectorAll("[data-related]").forEach((Node) =>
+						Node.removeAttribute("data-related"),
+					);
+				};
+				const Highlight = (Key: string) => {
+					Clear();
+					Svg.classList.add("diagram-nav--active");
+					Nodes.get(Key)?.setAttribute("data-related", "");
+					Adjacent.get(Key)?.forEach((Other) => {
+						Nodes.get(Other)?.setAttribute("data-related", "");
+						Connectors.get(Pair(Key, Other))?.forEach((Path) =>
+							Path.setAttribute("data-related", ""),
+						);
+					});
+				};
+
+				Nodes.forEach((Node, Key) => {
+					Node.addEventListener("pointerenter", () => Highlight(Key));
+					Node.addEventListener("pointerleave", Clear);
+					Node.addEventListener("focusin", () => Highlight(Key));
+					Node.addEventListener("focusout", Clear);
+				});
+
+				// The linked nodes are anchors WRAPPING the node groups, so a
+				// focus event bubbles up from the anchor, never through the
+				// inner g.node - the anchors get their own focus listeners
+				// (same highlight, same clear).
+				Svg.querySelectorAll("a.diagram-node-link > g.node").forEach((Node) => {
+					const Entry = [...Nodes.entries()].find(([, El]) => El === Node);
+					if (!Entry) return;
+					const Key = Entry[0];
+					Node.parentElement?.addEventListener("focusin", () => Highlight(Key));
+					Node.parentElement?.addEventListener("focusout", Clear);
+				});
+			};
+			const InitDiagrams = () =>
+				document.querySelectorAll<SVGSVGElement>("svg.flowchart").forEach(SetupDiagram);
+			document.addEventListener("astro:page-load", InitDiagrams);
+			InitDiagrams();
 		</script>
 
 		<script>

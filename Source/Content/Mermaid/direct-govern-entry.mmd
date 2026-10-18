@@ -1,0 +1,6 @@
+flowchart LR
+	APPLY["apply-time"] --> REG["Factory.RegisterGovern<br/>the direct-govern registry"]
+	REG --> PASS["the same pin pass"]
+	EVENT["the fs/observed event path"] --> PASS
+	RAW["the raw-write tool's per-call<br/>govern selection"] --> GOV["Factory.Govern"]
+	GOV --> PASS

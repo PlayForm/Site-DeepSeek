@@ -1,0 +1,6 @@
+flowchart LR
+	AUDIT["the write-path audit"] --> THREE["the built-in write - the raw-write tool<br/>and the factory's guarded write<br/>implementing the same five steps - three times"]
+	THREE --> MERGE["the merge - 91293d2"]
+	MERGE --> WRITE["the factory's Write becomes<br/>the shared executor"]
+	WRITE --> ALIAS["the guarded write lives on as its alias"]
+	MERGE --> CORE["the update envelope and the activation composer<br/>folded into the core the same pass"]

@@ -1,0 +1,4 @@
+flowchart LR
+	PROMISE["the update stage's awaited promise"] --> RES["resolves at the dispatch"]
+	RES --> JOB["the background job keeps running"]
+	RES -. "the caller never awaits the job" .-> CALLER["the caller"]

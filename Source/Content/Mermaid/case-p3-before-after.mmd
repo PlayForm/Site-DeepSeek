@@ -1,0 +1,7 @@
+flowchart LR
+	BEFORE["before the fix<br/>one module's activations"] --> AFTER["after the fix - all four"]
+	AFTER --> CASCADE["the interlock cascade"]
+	AFTER --> DISP["the dispatched update stage"]
+	REC["recording themselves in the same place"]
+	CASCADE --> REC
+	DISP --> REC

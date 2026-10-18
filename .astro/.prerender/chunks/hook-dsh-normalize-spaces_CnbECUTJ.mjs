@@ -1,0 +1,424 @@
+import { C as __exportAll, S as createComponent, a as Links, b as $$BrandIcon, c as FamilyPosition, n as $$Base, o as Counts, r as Link, s as Families, t as $$Badge, y as Versions } from "./Badge_CHteF_GF.mjs";
+import { g as addAttribute, m as maybeRenderHead, o as renderComponent, p as renderTemplate, s as Fragment } from "./server_jUwDEDCs.mjs";
+import { t as $$ArrowIcon } from "./ArrowIcon_DQw92EC9.mjs";
+import { t as $$Card } from "./Card_B96geFVd.mjs";
+import { t as $$Concept } from "./Concept_DF89tVee.mjs";
+import { t as $$SectionHeader } from "./SectionHeader_w9WBitnM.mjs";
+import { t as $$Terminal } from "./Terminal_DR1pHPfM.mjs";
+import { t as $$FlavorBadge } from "./FlavorBadge_BnYKfk14.mjs";
+import { t as $$CodeBlock } from "./CodeBlock_BKk4KZdJ.mjs";
+import { t as $$Seams } from "./Seams_CCLTae3H.mjs";
+//#region Source/pages/plugins/hook-dsh-normalize-spaces.astro
+var hook_dsh_normalize_spaces_exports = /* @__PURE__ */ __exportAll({
+	default: () => $$HookDshNormalizeSpaces,
+	file: () => $$file,
+	url: () => $$url
+});
+var $$HookDshNormalizeSpaces = createComponent(($$result, $$props, $$slots) => {
+	const Pipeline = [
+		"  llm/stream waterfall (options, next)     the interceptable wrapper around",
+		"       │                                   EVERY streaming model call",
+		"       ▼  next() called FIRST, always - options never touched",
+		"  Normalize(upstream, state)               the async generator",
+		"       │   for await (chunk of upstream)",
+		"       ▼",
+		"  CoreChunk(chunk, transform, reasoning, toolArgs, raw)  the core's per-chunk dispatch",
+		"       │",
+		"       ├─ text-delta ────────► Replace(text, Spaces, \" \")   rewrite the text field",
+		"       ├─ reasoning-delta ───► same, when normalizeReasoning (default ON)",
+		"       ├─ block-end ─────────► the assembled block's text fields -",
+		"       │                       TextBlock.text / ReasoningBlock.text (plus a",
+		"       │                       runtime `thinking` string field) - the deltas",
+		"       │                       AND the block must agree, or consumers see",
+		"       │                       inconsistencies",
+		"       ├─ tool-call-delta ───► Replace(argumentsDelta, Spaces, \" \") when",
+		"       │                       normalizeToolArguments (IMPLEMENTED, default",
+		"       │                       OFF - execution-critical raw JSON, the user's",
+		"       │                       accepted risk; the example patch turns it",
+		"       │                       on) - the assembled ToolCallBlock.arguments",
+		"       │                       follows the same flag via block-end",
+		"       │                       The gate is THREE-WAY with the flag on: a",
+		"       │                       delta/block whose `name` is \"edit\" passes",
+		"       │                       through BY IDENTITY (the edit tool's",
+		"       │                       `old_string` must match the real file bytes),",
+		"       │                       and a call whose arguments open with the",
+		"       │                       `{\"__normalize\":false` marker (FIRST key,",
+		"       │                       tracked per call id) passes through",
+		"       │                       UNNORMALIZED with the marker entry stripped,",
+		"       │                       so the executed call carries no unknown key",
+		"       └─ block-start / usage / finish",
+		"                                ──► PASSTHROUGH BY IDENTITY, ALWAYS",
+		"                                    (usage/finish ordering is the",
+		"                                     adapter contract)",
+		"       │   count === 0 → original chunk BY IDENTITY; rewritten → shallow copy",
+		"       ▼",
+		"  yield ──► downstream consumers = the live UI + the durable transcript",
+		"       │    (order preserved, no buffering; upstream throws propagate)",
+		"       ▼  normal loop completion, Count > 0",
+		"  Factory.Append ──► `hook-dsh-normalize-spaces: normalized N space char(s) in one stream`"
+	];
+	const TransformClass = ["[\\u00A0\\u1680\\u2000-\\u200A\\u202F\\u205F\\u3000]  →  replacement"];
+	const Coverage = [
+		{
+			Code: "U+00A0",
+			Name: "no-break space"
+		},
+		{
+			Code: "U+1680",
+			Name: "ogham space mark"
+		},
+		{
+			Code: "U+2000-U+200A",
+			Name: "en quad, em quad, en space, three-per-em, four-per-em, six-per-em, figure space, punctuation space, thin space, hair space"
+		},
+		{
+			Code: "U+202F",
+			Name: "narrow no-break space"
+		},
+		{
+			Code: "U+205F",
+			Name: "medium mathematical space"
+		},
+		{
+			Code: "U+3000",
+			Name: "ideographic space"
+		}
+	];
+	const Siblings = [
+		{
+			Flavor: "hook-dsh-normalize-dash",
+			Table: "core Dashes class",
+			Sub: "→ replacement (default -)",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-quotes",
+			Table: "core Quotes MAP",
+			Sub: "curly → straight",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-ellipsis",
+			Table: "core Ellipsis class",
+			Sub: "U+2026 → ...",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-spaces (this bundle)",
+			Table: "core Spaces class",
+			Sub: "unicode spaces → \" \"",
+			This: true
+		},
+		{
+			Flavor: "hook-dsh-normalize-invisible",
+			Table: "core Invisible class",
+			Sub: "removed (default \"\")",
+			This: false
+		},
+		{
+			Flavor: "hook-dsh-normalize-fullwidth",
+			Table: "core Fullwidth MAP",
+			Sub: "full-width → half-width",
+			This: false
+		}
+	];
+	const Config = [
+		{
+			Field: "log",
+			Type: "boolean",
+			Default: "true",
+			Volatile: "yes",
+			Meaning: "write the durable ledger file"
+		},
+		{
+			Field: "logFile",
+			Type: "string",
+			Default: "~/.dsh/hook-dsh-normalize-spaces.log",
+			Volatile: "yes",
+			Meaning: "the spaces ledger (separate from the family's logs)"
+		},
+		{
+			Field: "replacement",
+			Type: "string",
+			Default: "\" \"",
+			Volatile: "yes",
+			Meaning: "the transform's only knob - hot-editable, the next stream picks it up with no remount"
+		},
+		{
+			Field: "normalizeReasoning",
+			Type: "boolean",
+			Default: "true",
+			Volatile: "no",
+			Meaning: "normalize reasoning deltas and the assembled reasoning block too"
+		},
+		{
+			Field: "normalizeToolArguments",
+			Type: "boolean",
+			Default: "false",
+			Volatile: "no",
+			Meaning: "IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit name exemption and the {\"__normalize\":false raw-marker pass-through) - execution-critical raw JSON, the user's accepted risk; the example patch turns it on"
+		}
+	];
+	const StreamExample = [
+		"text-delta in (what the model wrote; each marked gap is a non-ASCII space):",
+		"",
+		"  deploy\xA0the agent to the ring　buffer",
+		"",
+		"text-delta out (what reaches the transcript):",
+		"",
+		"  \"deploy the agent to the ring buffer\""
+	];
+	const LedgerStrings = ["hook-dsh-normalize-spaces: activated (replacement= , reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-spaces.log)", "hook-dsh-normalize-spaces: normalized 3 space char(s) in one stream"];
+	return renderTemplate`${renderComponent($$result, "Base", $$Base, {
+		"Title": "hook-dsh-normalize-spaces - @playform / DSH Family",
+		"Description": `${Families.Spaces} - the space normalizer for model output: hooks the llm/stream waterfall and normalizes the unicode space family (Zs minus the ASCII space) to the plain space, live in the transcript.`
+	}, { "default": ($$result) => renderTemplate` ${maybeRenderHead($$result)}<main class="container container--main"> <div class="eyebrow-row"> ${renderComponent($$result, "Badge", $$Badge, {
+		"Variant": "primary",
+		"Dot": true
+	}, { "default": ($$result) => renderTemplate`
+PLUGIN DETAIL
+` })} <span class="flavor-cell flavor-cell--compact"> ${renderComponent($$result, "FlavorBadge", $$FlavorBadge, { "Flavor": "SPACES" })} </span> ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`CLASS FLAVOR` })} </div> <section class="page-hero"> <h1 class="page-hero__title">hook-dsh-normalize-spaces</h1> <p class="page-hero__sub"> ${Families.Spaces} • ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "deepseek" })} _The DeepSeek Harness Plugin
+				Family for PlayForm._ The <strong>space normalizer for model output</strong> - a
+				DeepSeek Harness plugin that hooks the${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}> <code>llm/stream</code> </a>${" "}
+waterfall (the interceptable wrapper around EVERY streaming model call, bound to the${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}>
+LlmRuntime
+</a>
+) and normalizes the unicode space family in model output, live in the transcript:
+				every visible non-terminator space that is not the ASCII space becomes the plain
+				ASCII space - U+00A0 to
+<code>' '</code>, quads and quirs alike.<br>A CLASS flavor of the normalize family: the
+				core's <code>Spaces</code> class plus a configurable <code>replacement</code> string
+				(default <code>" "</code>, the plain ASCII space).<br>The family's raw-write tool
+				(registered by${" "} <a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source"), "href")}>
+hook-dsh-normalize-dash
+</a>
+) bypasses this flavor's transforms too - the exemption is family-wide.
+</p> </section> <section class="section"> <div class="snippet-list"> ${renderComponent($$result, "Terminal", $$Terminal, { "Command": "pnpm add @playform/hook-dsh-normalize-spaces" })} </div> <div class="inspect-card"> <span class="inspect-card__meta"> <span class="live-dot"></span>INSPECTED
+</span> <div class="workbench-controls__group"> <span class="workbench-controls__label">Namespace:</span> <span class="hook-tally">@playform/hook-dsh-normalize-spaces</span> <span class="workbench-controls__label">Release:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`v${Versions.Release}` })} </div> <div class="workbench-controls__group"> <span class="workbench-controls__label">Archetype:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`Hook` })} <span class="workbench-controls__label">Event:</span> ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`llm/stream` })} <span class="workbench-controls__label">Table:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "active" }, { "default": ($$result) => renderTemplate`core Spaces class` })} </div> </div> </section> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+The profile wiring for this plugin - the bundles list, the patch entry and the restart -
+			is on the <a href="/setup/">setup page</a>.
+</p> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Where It Fits",
+		"Meta": FamilyPosition(4)
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "spaces-family-position",
+		"Title": "The family position",
+		"Diagram": `${Families.Spaces} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the fourth of the six stream normalizer siblings.`
+	}, { "default": ($$result) => renderTemplate` <p> <strong>Family position</strong> (the @-sentence${" "} <strong>${Families.Spaces}</strong>): a hook child of the${" "} <strong> <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source"), "href")}>
+plugin-dsh-factory
+</a> </strong>${" "}
+service and the <strong>hook-dsh-core</strong> machinery; the fourth of the
+						six stream normalizer siblings.
+</p> ` })} </div> <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Flavor</th> <th>Table</th> <th>Substitution</th> </tr> </thead> <tbody> ${Siblings.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Flavor}</strong> </td> <td>${Row.Table}</td> <td> ${Row.Sub.split("→").map((Part, Index) => renderTemplate`${renderComponent($$result, "Fragment", Fragment, {}, { "default": ($$result) => renderTemplate`${Index > 0 && renderTemplate`${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})}`}${Part}` })}`)} </td> </tr>`)} </tbody> </table> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "spaces-non-manifest",
+		"Title": "A non-manifest factory consumer",
+		"Diagram": "The flavor's factory surface: injecting [&quot;pluginFactory&quot;], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."
+	}, { "default": ($$result) => renderTemplate` <p>
+A <strong>non-manifest factory consumer</strong>: it injects${" "} <code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap
+						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
+						the config is composed by the factory's standalone <code>Schema</code>${" "}
+helper with
+<code>shared: false</code> - the minimal block, no${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}>
+fs/observed
+</a>${" "}
+dead fields.
+</p> <p>
+It touches no files, so${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}>
+fs/write-intent
+</a>${" "}
+and${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}>
+fs/observed
+</a>${" "}
+never see it; it wraps the downstream result and always calls${" "} <code>next()</code>, so it composes with other${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}>
+llm/stream
+</a>${" "}
+listeners regardless of registration order.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In the DeepSeek Harness",
+		"Meta": "WHERE THE FLAVOR OPERATES"
+	})} ${renderComponent($$result, "Seams", $$Seams, { "Seams": [
+		{
+			Seam: "llm/stream - the model stream waterfall",
+			What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
+			Outcome: "Plain ASCII spaces reach the live UI and the durable transcript as the stream is born."
+		},
+		{
+			Seam: "The model stream vocabulary (dsh-llm)",
+			What: "The chunk/block shapes it rewrites come from the harness's stream vocabulary ([@deepseek-ai/dsh-llm](Harness:packages/llm/llm), type-only): text deltas, reasoning deltas and assembled blocks must agree.",
+			Outcome: "No inconsistencies between deltas and blocks for downstream consumers."
+		},
+		{
+			Seam: "The factory service",
+			What: "A non-manifest factory consumer: State for the config (the replacement is a hot-editable volatile cell - no remount) and Append for every ledger line; it touches no files.",
+			Outcome: "Composes with other [llm/stream](Harness:packages/llm/llm/src/index.ts) listeners regardless of registration order."
+		},
+		{
+			Seam: "The raw-write exemption (family-wide)",
+			What: "The family's raw-write tool (registered by [hook-dsh-normalize-dash](Ours:Classic/packages/hook-dsh-normalize-dash/Source)) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
+			Outcome: "Per-call control stays with the agent, even with every stream flavor armed."
+		},
+		{
+			Seam: "The ledger / session",
+			What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
+			Outcome: "A thrown-away stream writes no ledger line."
+		}
+	] })} </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Problem",
+		"Meta": "WHY THE SPACES FLAVOR EXISTS"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "spaces-problem",
+		"Title": "Exotic spaces fail for no visible reason",
+		"Diagram": "Model output picking up exotic spaces - the no-break space from copy-pasted prose, the thin space from typographic text, the ideographic space from CJK input - while markdown renderers and shell quoting do not treat them as spaces, so a command with a U+00A0 in it fails for no visible reason."
+	}, { "default": ($$result) => renderTemplate` <p>
+Model output picks up exotic spaces - the no-break space from copy-pasted
+						prose, the thin space from typographic text, the ideographic space from CJK
+						input.
+</p> <p>
+Markdown renderers and shell quoting do not treat them as spaces; a command
+						with a U+00A0 in it fails for no visible reason.<br>This flavor makes the plain
+						ASCII space the one that reaches the transcript.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "How It Works",
+		"Meta": "THE STREAM PIPELINE"
+	})} <div class="code-block">${Pipeline.join("\n")}</div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "spaces-transform",
+		"Title": "The transform: the core's Spaces class",
+		"Diagram": "Exactly the core's Spaces class (@playform/hook-dsh-core's Normalize/Spaces), applied per text segment through the core's generic class-to-string Replace."
+	}, { "default": ($$result) => renderTemplate` <p> <strong>The transform</strong> - exactly the core's <code>Spaces</code>${" "}
+class (
+<a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source"), "href")}>
+@playform/hook-dsh-core
+</a>
+'s Normalize/Spaces), applied per text segment through the core's generic
+						class-to-string <code>Replace</code>:
+</p> ` })} </div> <div class="code-block"> ${TransformClass.join("\n")} </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "spaces-coverage",
+		"Title": "The coverage: Unicode's Zs minus the ASCII space",
+		"Diagram": "Exactly Unicode's Zs category minus the ASCII space - becoming the config replacement (default the plain ASCII space U+0020)."
+	}, { "default": ($$result) => renderTemplate` <p>
+Exactly Unicode's Zs category minus the ASCII space - becomes the config${" "} <code>replacement</code> (default <code>" "</code>, the plain ASCII space
+						U+0020):
+</p> ` })} </div> <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Code points</th> <th>Characters</th> </tr> </thead> <tbody> ${Coverage.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Code}</strong> </td> <td>${Row.Name}</td> </tr>`)} </tbody> </table> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "spaces-mechanics",
+		"Title": "Chunk-boundary-safe, function-replaced, counted",
+		"Diagram": "No context rules - hermes-style whole-chunk replacement, no lookahead, chunk-boundary-safe; the replacement applied with a function replacer so a custom replacement containing $ patterns is inserted literally; replaced characters counted per stream for the ledger line."
+	}, { "default": ($$result) => renderTemplate` <p>
+No context rules - hermes-style whole-chunk replacement, no lookahead;
+						chunk-boundary-safe.
+</p> <p>
+The replacement is applied with a function replacer, so a custom${" "} <code>replacement</code> containing <code>$</code> patterns is inserted
+						literally.<br>Replaced characters are counted per stream for the ledger line.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Config",
+		"Meta": "SCHEMA + DEFAULTS AT LOAD"
+	})} <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Field</th> <th>Type</th> <th>Default</th> <th>Volatile</th> <th>Meaning</th> </tr> </thead> <tbody> ${Config.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Field}</strong> </td> <td>${Row.Type}</td> <td>${Row.Default}</td> <td>${Row.Volatile}</td> <td>${Row.Meaning}</td> </tr>`)} </tbody> </table> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "spaces-volatile",
+		"Title": "Volatile cells commit without remounting",
+		"Diagram": "The volatile cells committing without remounting the plugin - the factory's State builder unwrapping them defensively."
+	}, { "default": ($$result) => renderTemplate` <p>
+Volatile cells commit without remounting the plugin; the factory's State
+						builder unwraps them defensively.
+</p> <p>
+Example${" "} <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml"), "href")}>
+cordis.patch.yml
+</a>${" "}
+row:
+</p> ` })} </div> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "yaml",
+		"Style": "margin-top: var(--space-sm)",
+		"Source": [
+			"- insert:",
+			"      - id: hook-dsh-normalize-spaces",
+			"        name: \"@playform/hook-dsh-normalize-spaces\"",
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-normalize-spaces.log",
+			"            replacement: \" \""
+		].join("\n")
+	})} </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In Action",
+		"Meta": "ONE STREAM, ONE TRANSFORMATION"
+	})} <p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+One stream, one transformation.<br>The model emits copy-pasted typographic spacing; the
+				live UI and the transcript receive plain ASCII spaces.<br>In the incoming line below
+				the three gaps are the no-break space U+00A0, the em quad U+2003 and the ideographic
+				space U+3000, in that order:
+</p> <p class="section-kicker">
+Before ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} after - the model stream, then
+				what reaches the transcript
+</p> <div class="code-block">${StreamExample.join("\n")}</div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "spaces-in-action",
+		"Title": "Each exotic space becomes exactly one ASCII space",
+		"Diagram": "Each non-ASCII space in the Zs-minus-ASCII class - U+00A0, U+2003, U+3000 in the sample - becoming exactly one ASCII space (U+0020), ASCII spaces already there untouched - what makes a pasted command executable again: echo a - b with a hidden no-break space running after the pass, where before the shell saw one mangled word."
+	}, { "default": ($$result) => renderTemplate` <p>
+Each non-ASCII space in the Zs-minus-ASCII class - U+00A0 between${" "} <code>deploy</code> and <code>the</code>, U+2003 between <code>agent</code>${" "}
+and <code>to</code>, U+3000 between <code>ring</code> and${" "} <code>buffer</code> in the sample above - becomes exactly one ASCII space
+						(U+0020); ASCII spaces that were already there are untouched.
+</p> <p>
+This is what makes a pasted command executable again:${" "} <code>echo a - b</code> with a hidden no-break space between the arguments
+						runs after the pass, where before the pass the shell saw one mangled word.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"Id": "spaces-hot-and-pass",
+		"Title": "Hot-editable, and the same pass elsewhere",
+		"Diagram": "The count line on a normal completion with replacements made (the replacement= field rendering the default as a bare space) - the replacement hot-editable (say to _ for debugging), and the same pass running over reasoning deltas when normalizeReasoning is on and over tool-call arguments when the example patch enables normalizeToolArguments - with the edit name exempt and raw-marker calls passing through unnormalized."
+	}, { "default": ($$result) => renderTemplate` <p>
+When a stream finishes normally with replacements made, the ledger gets the
+						count line shown below (note the <code>replacement= </code> field renders
+						the default as a bare space).<br>The <code>replacement</code> is hot-editable
+						(say to <code>_</code> for debugging).
+</p> <p>
+The same pass runs over reasoning deltas when${" "} <code>normalizeReasoning</code> is on and over tool-call arguments when the
+						example patch enables <code>normalizeToolArguments</code> - with the${" "} <code>edit</code> name exempt and raw-marker calls passing through
+						unnormalized.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Ledger",
+		"Meta": "TWO LINES VIA FACTORY APPEND"
+	})} <p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+Two lines, both written through the factory's <code>Append</code> (the
+				hook-dsh-normalize-spaces: prefix is the logger's
+<code>&lt;State.Module&gt;:</code>; the durable file line is
+<code>[&lt;ISO&gt;] &lt;message&gt;</code>).<br>In the activation line,
+<code>replacement= </code> is followed by the ASCII space itself - the default
+				renders as a trailing blank:
+</p> <div class="code-block">${LedgerStrings.join("\n")}</div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+The activation line is written by <code>apply()</code>; the count line only follows
+				a normal stream completion and only when N &gt; 0 (a thrown-away stream writes no
+				ledger line).
+</p> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Related plugins",
+		"Meta": `${Counts.Packages} TOTAL`
+	})} <div class="grid grid--3"> ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "hook-dsh-core",
+		"Href": "/plugins/hook-dsh-core/",
+		"Desc": "Supplies the Spaces class, the Replace replacer and the generic Chunk/Block dispatch this flavor is a thin closure over.",
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`DSH FAMILY` })}` })} ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "hook-dsh-normalize-invisible",
+		"Href": "/plugins/hook-dsh-normalize-invisible/",
+		"Desc": "The neighbouring sibling flavor - the zero-width/invisible family, removed entirely.",
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`SIBLING FLAVOR` })}` })} ${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": "plugin-dsh-factory",
+		"Href": "/plugins/plugin-dsh-factory/",
+		"Desc": "The parent service: State, Append - plus the named Schema helper (shared: false) for the config.",
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`PARENT SERVICE` })}` })} </div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+License: CC0-1.0.
+</p> </section> </main> ` })}`;
+}, "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/hook-dsh-normalize-spaces.astro", void 0);
+var $$file = "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/hook-dsh-normalize-spaces.astro";
+var $$url = "/plugins/hook-dsh-normalize-spaces";
+//#endregion
+//#region \0virtual:astro:page:Source/pages/plugins/hook-dsh-normalize-spaces@_@astro
+var page = () => hook_dsh_normalize_spaces_exports;
+//#endregion
+export { page };

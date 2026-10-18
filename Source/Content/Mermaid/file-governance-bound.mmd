@@ -1,0 +1,5 @@
+flowchart LR
+	WRITE["the write goes through Factory.Write"] --> EMIT["and emits fs/observed"]
+	EMIT --> GATE["the governors' Gate requires the actor tool name<br/>in their mutationTools pin"]
+	GATE --> NEVER["normalize-file is never added to any such list"]
+	NEVER --> NOCHAIN["these writes never trigger a chain pass"]

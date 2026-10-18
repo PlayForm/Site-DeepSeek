@@ -1,0 +1,149 @@
+---
+// TerminalTray: the flat terminal-window tray chrome for the stream
+// surfaces (the index hero preview, the workbench and matrix panes, the
+// Compare stage). A terminal window reads as three parts - the tray with
+// the window markers, the mono label, and the right-hand status - all on
+// the zero-elevation plane: flat markers (the first in Harness Blue, the
+// rest in the structural hairline tone), a 1px hairline under the tray,
+// no shadows, no gradients.
+//
+// The label follows the site's patterns: the mono label at the body-sm
+// size (uppercase, 600) with the shared --gap-icon between an icon and
+// the text. The right side is a slot - the pages' status/count markup
+// keeps its own classes.
+//
+// The tray markers are the tray bars' single indicator style - the flat
+// markers carry the raw/clean state (the first in Harness Blue, the rest
+// in the structural hairline tone), and the tray bars never render a
+// status dot (the user's declutter ruling: markers only, no dots).
+interface Props {
+	/** The tray label (mono, uppercase). */
+	Label: string;
+	/** The label's leading RAW word takes the accent-orange token - the
+	    raw/stream signature; the separator and the rest keep the ink. */
+	Orange?: boolean;
+	/** The swap icon before the label (the canonical-sanitized panes). */
+	Icon?: boolean;
+}
+
+const { Label, Orange = false, Icon = false } = Astro.props;
+
+// Only the RAW word carries the orange (the site's only-RAW rule): a
+// leading RAW word (any case) gets wrapped, any other label renders
+// untouched.
+const RawMatch = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
+---
+
+<div class="tray" role="group" aria-label={Label}>
+	<span class="tray__markers" aria-hidden="true">
+		<i class="tray__marker tray__marker--first"></i>
+		<i class="tray__marker"></i>
+		<i class="tray__marker"></i>
+	</span>
+	<span class="tray__label">
+		{Icon && (
+			<svg
+				viewBox="3 2 18 20"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="1.25"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				aria-hidden="true"
+			>
+				<path d="M4 7 H16 M12 3 L16 7 L12 11"></path>
+				<path d="M20 17 H8 M12 13 L8 17 L12 21"></path>
+			</svg>
+		)}
+		<span class="tray__label-text">
+			{RawMatch ? (
+				<>
+					<span class="tray__label-raw">{RawMatch[0]}</span>
+					{Label.slice(RawMatch[0].length)}
+				</>
+			) : (
+				Label
+			)}
+		</span>
+	</span>
+	<span class="tray__side">
+		<slot />
+	</span>
+</div>
+
+<style>
+	.tray {
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+		padding-bottom: var(--space-xs);
+		margin-bottom: var(--space-xs);
+		border-bottom: 1px solid var(--color-outline-variant);
+		min-width: 0;
+	}
+
+	.tray__markers {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		flex-shrink: 0;
+	}
+
+	.tray__marker {
+		width: 6px;
+		height: 6px;
+		border-radius: 1px;
+		background: var(--color-outline-variant);
+	}
+
+	.tray__marker--first {
+		background: var(--color-primary-container);
+	}
+
+	.tray__label {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--gap-icon);
+		font-family: var(--font-mono);
+		font-size: var(--text-body-sm);
+		line-height: var(--leading-body-sm);
+		font-weight: 600;
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		color: var(--color-on-surface);
+		min-width: 0;
+	}
+
+	/* The label text keeps the row's shrink/ellipsis behavior as its own
+	   flex item (the word + the rest stay one text run inside, so the
+	   shared --gap-icon applies only between the icon and the label). */
+	.tray__label-text {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	/* Only the RAW word takes the accent-orange token; the separator and
+	   the rest keep the label's ink (the site's only-RAW rule). */
+	.tray__label-raw {
+		color: var(--color-accent-orange);
+	}
+
+	/* The swap icon sits on the label's optical center: the inline-flex
+	   centering (align-items: center above) lands the icon on the line
+	   box's center, with the icon sized in ems against the label. */
+	.tray__label svg {
+		width: 0.8em;
+		height: 0.8em;
+		flex-shrink: 0;
+	}
+
+	.tray__side {
+		margin-left: auto;
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-xs);
+		min-width: 0;
+	}
+</style>

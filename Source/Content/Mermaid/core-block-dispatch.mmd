@@ -1,0 +1,14 @@
+flowchart LR
+	BLOCK["Block - the block-end normalizer"]
+	TB["TextBlock - its text"]
+	RB["ReasoningBlock - its text<br/>and its runtime thinking string"]
+	TC["ToolCallBlock - its arguments - optional"]
+	OTH["other blocks - pass through by identity"]
+	BLOCK --> TB
+	BLOCK --> RB
+	BLOCK --> TC
+	BLOCK --> OTH
+	%% Invisible layout links only - no semantics.
+	TB ~~~ RB
+	RB ~~~ TC
+	TC ~~~ OTH

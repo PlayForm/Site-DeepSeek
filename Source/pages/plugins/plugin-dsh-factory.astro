@@ -20,9 +20,9 @@ const Furnace = [
 	'   a pure transform, an update engine          inject: ["fs"] - it calls ctx.fs)',
 	"   and every ledger string)",
 	"",
-	"  hook-dsh-governor-package ────►┐",
-	"  hook-dsh-pinner-package ───────┤       ctx.pluginFactory (Service)",
-	"  hook-dsh-governor-cargo ───────┤         │",
+	"  hook-dsh-package-governor ────►┐",
+	"  hook-dsh-package-pinner ───────┤       ctx.pluginFactory (Service)",
+	"  hook-dsh-cargo-governor ───────┤         │",
 	'  hook-dsh-normalize-dash ───────┤         ├─ Append(state, msg) ──► "<Module>: <msg>" on the logger',
 	'  hook-dsh-normalize-quotes ─────┤         │                        + "[<ISO>] <msg>" appended to the ledger file',
 	"  hook-dsh-normalize-ellipsis ───┤         ├─ Match(path, list) ───► the exclusion-first segment match",
@@ -55,17 +55,17 @@ const Furnace = [
 // The consumers table, from the README's Where It Fits.
 const Consumers = [
 	{
-		Name: "hook-dsh-governor-package",
+		Name: "hook-dsh-package-governor",
 		Inject: '["fs", "pluginFactory"]',
 		Uses: "Gate, Discover/Parse, Continue, GuardedWrite, Refresh, State, Wire, Attach, Journal, Append, UpdateKey",
 	},
 	{
-		Name: "hook-dsh-pinner-package",
+		Name: "hook-dsh-package-pinner",
 		Inject: '["fs", "pluginFactory"]',
 		Uses: "Gate, Discover, Continue (pin pass), State, Wire, Attach, Journal, Append",
 	},
 	{
-		Name: "hook-dsh-governor-cargo",
+		Name: "hook-dsh-cargo-governor",
 		Inject: '["fs", "pluginFactory"]',
 		Uses: "Gate, Discover/Parse, Continue (TOML surgery), State, Wire, Attach, Journal, Append, UpdateKey, Seam",
 	},
@@ -110,7 +110,7 @@ const Related = [
 		Desc: "The pure layer the factory deliberately does not re-export - the hooks import the core's helpers directly.",
 	},
 	{
-		Name: "hook-dsh-governor-package",
+		Name: "hook-dsh-package-governor",
 		Desc: "A governance hook child: injects the service and supplies its own transform, update engine and ledger strings.",
 	},
 	{
@@ -121,7 +121,7 @@ const Related = [
 ---
 
 <Base
-	Title="plugin-dsh-factory - @playform / DSH Family"
+	Title="plugin-dsh-factory - DSH Family @ PlayForm"
 	Description={`${Families.Factory} - the furnace of the DSH governance family: the first service-provider bundle in the DeepSeek Harness plugin family, one service holding every piece of common machinery the family's hooks used to duplicate.`}
 >
 	<main class="container container--main">
@@ -136,22 +136,27 @@ const Related = [
 		<section class="page-hero">
 			<h1 class="page-hero__title">plugin-dsh-factory</h1>
 			<p class="page-hero__sub">
-				{Families.Factory} • <BrandIcon Name="deepseek" /> _The DeepSeek Harness Plugin
-				Family for PlayForm._ The
+				{Families.Factory} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin
+				Family for PlayForm.</em> The
 				<strong>furnace of the DSH governance family</strong> - the first service-provider
-				bundle in the DeepSeek Harness plugin family. Loading it registers one class plugin
+				bundle in the DeepSeek Harness plugin family.</p>
+			<p class="page-hero__sub">Loading it registers one class plugin
 				(export default class PluginFactory extends Service, super(ctx, "pluginFactory"),
 				static inject = ["fs"]) that exposes <code>ctx.pluginFactory</code>: a single
 				service holding every piece of common machinery the family's hooks used to
-				duplicate. One service. {Methods.Word} methods (<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>the direct-govern pair</a>
-				RegisterGovern + Govern and the GovernSteps registry among them). The hooks bring
+				duplicate.</p>
+			<p class="page-hero__sub">One service.</p>
+			<p class="page-hero__sub">{Methods.Word} methods (<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>the direct-govern pair</a>
+				RegisterGovern + Govern and the GovernSteps registry among them).</p>
+			<p class="page-hero__sub">The hooks bring
 				their own metal; the factory pours the mold.
+			
 			</p>
 		</section>
 
 		<section class="section">
 			<div class="snippet-list">
-				<Terminal Command="pnpm add @playform/plugin-dsh-factory" />
+				<Terminal Pkg="plugin-dsh-factory"/>
 			</div>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
@@ -187,8 +192,7 @@ const Related = [
 					Diagram={`${Families.Factory} as the family's parent service - every other package consuming it (the three governance hooks injecting the service; the six normalize flavors consuming State/Append and the Schema helper) - its own parent the filesystem service (inject: ["fs"]).`}
 				>
 					<p>
-						<strong>Family position</strong> (the @-sentence{" "}
-						<strong>{Families.Factory}</strong>): the family's parent service - every
+						The family's parent service ({Families.Factory}) - every
 						other package consumes it (the three governance hooks inject the service;
 						the six normalize flavors consume State/Append and the Schema helper); its
 						own parent is the filesystem service (inject: ["fs"]).
@@ -241,14 +245,6 @@ const Related = [
 					</tbody>
 				</table>
 			</div>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The pure layer it deliberately does <strong>not</strong> re-export is
-				<strong>hook-dsh-core</strong> (its service surface stays stable); the hooks import
-				the core's helpers directly. The DSH plugin family is the DeepSeek Harness plugin
-				layer of the PlayForm ecosystem: TypeScript-first Source/ → Target/, the
-				deterministic @playform build, prepublishOnly-only - the same conventions as every
-				other @playform package.
-			</p>
 		</section>
 
 		<section class="section">
@@ -367,20 +363,22 @@ const Related = [
 				<Concept
 					Id="factory-not-owned"
 					Title="What the factory deliberately does NOT own"
-					Diagram='The three ownership boundaries: the consumer ledger strings (every message a hook logs - "skipped (excluded) ...", "observed non-JSON package.json ... - skipped", "REFUSED rewrite ...", "pinned ...", "governed ... → ...", the activated (...) proof - composed and logged by the hook through the factory&apos;s Append), the transforms (the consumer supplies the pure function; the factory only drives it inside Continue), and the update engines (the factory gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with).'
+					Diagram={"The three ownership boundaries: the consumer ledger strings (every message a hook logs - \"skipped (excluded) ...\", \"observed non-JSON package.json ... - skipped\", \"REFUSED rewrite ...\", \"pinned ...\", \"governed ... → ...\", the activated (...) proof - composed and logged by the hook through the factory's Append), the transforms (the consumer supplies the pure function; the factory only drives it inside Continue), and the update engines (the factory gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with)."}
 				>
 					<p>
-						<strong>What the factory deliberately does NOT own:</strong> the consumer
+						The consumer
 						ledger strings - every message a hook logs - "skipped (excluded) ...",
 						"observed non-JSON package.json ... - skipped", "REFUSED rewrite ...",
-						"pinned ...", "governed ... → ...", the activated (...) proof - is composed
+						"pinned ...", "governed ... → ...", the activated (...) proof - are composed
 						and logged by the hook through the factory's Append.
 					</p>
 					<p>
 						It does not own the transforms (the consumer supplies the pure function; the
 						factory only drives it inside Continue), nor the update engines (the factory
-						gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with). Full
-						contract: SCHEME.md.
+						gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with).</p>
+					<p>Full
+						contract: <span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME.md</span>.
+					
 					</p>
 				</Concept>
 				<Concept
@@ -389,8 +387,8 @@ const Related = [
 					Diagram={`The three gates: tsc --noEmit - zero errors; pnpm run prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs (in the family's smokes/ directory) - ${Counts.Factory.Classic} checks, ALL PASS.`}
 				>
 					<p>
-						<strong>Verification.</strong> tsc --noEmit - zero errors; pnpm run
-						prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs
+						tsc --noEmit - zero errors; pnpm run
+						prepublishOnly - minified Target/ (+ <span class="file-mention"><BrandIcon Name="file-ts" Size="0.9em" />.d.ts</span> twins); node <span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" />factory-smoke.mjs</span>
 						(in the family's smokes/ directory) - {Counts.Factory.Classic} checks, ALL
 						PASS.
 					</p>
@@ -459,7 +457,7 @@ const Related = [
 			</p>
 			<CodeBlock Language="typescript" Source={InAction.join("\n")} />
 			<p class="section-kicker" style="margin-top: var(--space-md)">
-				<BrandIcon Name="swap" /> After - the write the factory performed, as the author and
+				<BrandIcon Name="swap" />After - the write the factory performed, as the author and
 				the ledger see it
 			</p>
 			<div class="concept-list">
@@ -469,8 +467,8 @@ const Related = [
 					Diagram="The one pass as the factory performs it: Gate deciding the actor and the path, Discover finding the nearest registry.json, Continue running the transform detached and contained, GuardedWrite carrying replaceIfVersion past the P4 sandbox fence, Refresh re-emitting the fresh version with the same actor, Append composing the logger's line from the module's message."
 				>
 					<p>
-						The factory's part of that one pass: Gate decided the actor and the path,
-						Discover found the nearest registry.json, Continue ran the transform
+						Gate decided the actor and the path,
+						Discover found the nearest <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />registry.json</span>, Continue ran the transform
 						detached and contained, GuardedWrite carried replaceIfVersion past the P4
 						sandbox fence, Refresh re-emitted the fresh version with the same actor, and
 						Append composed the logger's line from the module's message.
@@ -504,7 +502,7 @@ const Related = [
 				<Concept
 					Id="factory-ledger-boundary"
 					Title="The ownership boundary"
-					Diagram='Every string a hook logs - "skipped (excluded) ...", "governed <path> → <version>", "pinned <path> (N versions)", the activated (...) proof - composed and logged by the hook, through the factory&apos;s Append - the factory&apos;s own composed strings parameterized machinery (the unreadable-policy line taking the policy file name; the suppressed-error lines taking state.Module as the prefix), staying byte-identical when a consumer keeps its historical name.'
+					Diagram={"Every string a hook logs - \"skipped (excluded) ...\", \"governed <path> → <version>\", \"pinned <path> (N versions)\", the activated (...) proof - composed and logged by the hook, through the factory's Append - the factory's own composed strings parameterized machinery (the unreadable-policy line taking the policy file name; the suppressed-error lines taking state.Module as the prefix), staying byte-identical when a consumer keeps its historical name."}
 				>
 					<p>
 						Every string a hook logs - "skipped (excluded) ...", "governed &lt;path&gt;{" "}
@@ -537,10 +535,13 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0. The published artifact contains only the built output - files
-				whitelists Target/, <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}>cordis.patch.yml</a> and the docs; Source/ never ships. There are no
-				build/watch <BrandIcon Name="npm" /> npm scripts: the only npm script is
+				License: CC0-1.0.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">The published artifact contains only the built output - files
+				whitelists Target/, <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> and the docs; Source/ never ships.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">There are no
+				build/watch <BrandIcon Name="npm" Size="0.75em" /> npm scripts: the only npm script is
 				prepublishOnly.
+			
 			</p>
 		</section>
 	</main>

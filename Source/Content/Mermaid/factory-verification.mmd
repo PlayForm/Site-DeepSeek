@@ -1,0 +1,8 @@
+flowchart LR
+	VERIFY["the three gates"]
+	TS["tsc --noEmit - zero errors"]
+	PRE["pnpm run prepublishOnly - minified Target/<br/>plus .d.ts twins"]
+	SMOKE["node factory-smoke.mjs - 34 checks - ALL PASS"]
+	VERIFY --> TS
+	VERIFY --> PRE
+	VERIFY --> SMOKE

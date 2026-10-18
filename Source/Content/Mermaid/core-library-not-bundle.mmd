@@ -1,0 +1,15 @@
+flowchart LR
+	CORE["hook-dsh-core - a plain library dependency"]
+	PUB["publishable on its own<br/>built with the same prepublishOnly sequence<br/>as the family bundles"]
+	NP["no cordis.patch.yml"]
+	NL["no loader contract"]
+	NR["no dsh plugin add row"]
+	CORE --> PUB
+	CORE -. "not a plugin bundle" .-> NP
+	CORE -. "not a plugin bundle" .-> NL
+	CORE -. "not a plugin bundle" .-> NR
+	%% Invisible layout links only - no semantics. They stagger the three
+	%% negatives into successive columns so the fan-out renders as a wide
+	%% horizontal band instead of a tall vertical stack.
+	NP ~~~ NL
+	NL ~~~ NR

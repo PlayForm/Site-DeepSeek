@@ -1,0 +1,14 @@
+flowchart LR
+	MAPPING["the update-policy.json mapping<br/>same discovery as the npm governor"]
+	REJ["reject to --exclude crate - ONE flag per crate"]
+	ALL["allow to -p crate - repeatable"]
+	INC["incompatible to --incompatible<br/>pinned to --pinned - compatible to --compatible"]
+	PINS["pinStyle with NO CLI equivalent<br/>manifest-level via the chain pass"]
+	VER["verifyCommand runs after the upgrade via<br/>the subprocess seam - exit 127 non-fatal"]
+	DEFAULT["the built-in default mirrors cargo upgrade's own semantics<br/>no rejects - incompatible ignore - pinned ignore<br/>pinStyle caret - no verifyCommand - never install implicitly"]
+	MAPPING --> REJ
+	MAPPING --> ALL
+	MAPPING --> INC
+	MAPPING --> PINS
+	MAPPING --> VER
+	MAPPING --> DEFAULT

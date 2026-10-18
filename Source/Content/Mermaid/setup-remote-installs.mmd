@@ -1,0 +1,6 @@
+flowchart LR
+	REMOTE["two equivalent remote routes<br/>into the same bundles list"]
+	ADD["pnpm add of the package<br/>in the profile directory"]
+	DSH["dsh plugin --profile add<br/>of a tarball"]
+	REMOTE --> ADD
+	REMOTE --> DSH

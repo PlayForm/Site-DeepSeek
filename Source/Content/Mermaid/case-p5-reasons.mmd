@@ -1,0 +1,14 @@
+flowchart LR
+	GATE["the g1 gate's seven rejection reasons<br/>in decision order"]
+	R1["target"]
+	R2["govern"]
+	R3["actor"]
+	R4["kind"]
+	R5["idempotent"]
+	R6["basename"]
+	R7["excluded"]
+	PRE["the misdiagnosis landed on the actor reason"]
+	POST["the marker moves the same flow<br/>to the govern reason"]
+	GATE --> R1 --> R2 --> R3 --> R4 --> R5 --> R6 --> R7
+	R3 -. "pre-fix" .-> PRE
+	R2 -. "post-marker" .-> POST

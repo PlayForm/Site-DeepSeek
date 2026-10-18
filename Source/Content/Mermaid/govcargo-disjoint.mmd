@@ -1,0 +1,6 @@
+flowchart LR
+	CARGO["the cargo module - never sees a package.json event"]
+	NPM["the npm plugins - never see a Cargo.toml event"]
+	LAW["one trigger law covering the whole machine<br/>npm and Rust alike"]
+	CARGO --> LAW
+	NPM --> LAW

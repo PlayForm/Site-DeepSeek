@@ -1,0 +1,6 @@
+flowchart LR
+	MISSING["when cargo-edit is NOT installed"]
+	EXIT["cargo upgrade exits 101<br/>no such command: upgrade"]
+	LOG["the module logs update: cargo-edit unavailable: ..."]
+	GRACE["and fails gracefully"]
+	MISSING --> EXIT --> LOG --> GRACE

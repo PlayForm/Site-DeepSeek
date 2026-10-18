@@ -1,0 +1,3 @@
+flowchart LR
+	LOADER["the plugin loader"] -. "skips the core entirely - not a plugin" .-> CORE["hook-dsh-core"]
+	CORE --> NONE["no Config registration<br/>no context - no Schemastery schema<br/>nothing to validate at load"]

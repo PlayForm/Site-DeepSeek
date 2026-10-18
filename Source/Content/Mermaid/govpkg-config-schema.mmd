@@ -1,0 +1,8 @@
+flowchart LR
+	SCHEMA["the exported Config schema - the factory's Schema helper<br/>extended with the module's own fields"]
+	VALID["validating and filling every default at load"]
+	LOUD["invalid configuration fails loudly"]
+	INSERT["new patch entries declared with insert:"]
+	SCHEMA --> VALID
+	SCHEMA --> LOUD
+	SCHEMA --> INSERT

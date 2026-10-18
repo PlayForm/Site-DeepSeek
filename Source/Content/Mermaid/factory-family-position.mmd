@@ -1,0 +1,8 @@
+flowchart LR
+	FACTORY["Plugin @ DSH @ Factory - the family's parent service"]
+	H["the three governance hooks - injecting the service"]
+	N["the six normalize flavors - consuming State/Append<br/>and the Schema helper"]
+	FS["its own parent - the filesystem service<br/>inject: [fs]"]
+	FACTORY --> H
+	FACTORY --> N
+	FS -. "parent of" .-> FACTORY

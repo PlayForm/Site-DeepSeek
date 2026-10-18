@@ -1,0 +1,6 @@
+flowchart LR
+	BUMP["the journal domain bumps to v2<br/>to carry the stream counts - 4c0e83b"] --> OPEN["the v2 open fails against the v1 file<br/>an exact-equality version check"]
+	OPEN --> SWALLOW["the open's catch swallows it"]
+	SWALLOW --> ZERO["every boot lands zero records"]
+	ZERO --> BUFFER["every record drains into<br/>a never-drained buffer"]
+	BUFFER --> DIE["and dies with the process"]

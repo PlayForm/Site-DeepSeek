@@ -1,0 +1,13 @@
+flowchart LR
+	CORE["hook-dsh-core - outside the plugin loader"]
+	NP["no cordis.patch.yml"]
+	NS["no seams injected"]
+	NR["no registration"]
+	CAR["the family's plugins carry the machinery<br/>inside their own listeners and passes"]
+	CORE -. "not a plugin" .-> NP
+	CORE -. "not a plugin" .-> NS
+	CORE -. "not a plugin" .-> NR
+	CORE --> CAR
+	%% Invisible layout links only - no semantics.
+	NP ~~~ NS
+	NS ~~~ NR

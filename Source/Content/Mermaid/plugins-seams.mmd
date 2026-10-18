@@ -1,0 +1,23 @@
+flowchart LR
+	PLUGINS["the twelve plugins"]
+	SEAM1["the model stream waterfall"]
+	SEAM2["the filesystem events"]
+	SEAM3["the tool layer"]
+	SEAM4["the subprocess seam"]
+	SEAM5["the jobs envelope"]
+	SEAM6["the storage domain"]
+	SEAM7["the session ledger"]
+	PLUGINS --> SEAM1
+	PLUGINS --> SEAM2
+	PLUGINS --> SEAM3
+	PLUGINS --> SEAM4
+	PLUGINS --> SEAM5
+	PLUGINS --> SEAM6
+	PLUGINS --> SEAM7
+	%% Invisible layout links only - no semantics.
+	SEAM1 ~~~ SEAM2
+	SEAM2 ~~~ SEAM3
+	SEAM3 ~~~ SEAM4
+	SEAM4 ~~~ SEAM5
+	SEAM5 ~~~ SEAM6
+	SEAM6 ~~~ SEAM7

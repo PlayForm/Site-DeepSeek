@@ -1,0 +1,6 @@
+flowchart LR
+	TRANS["the transform"] --> REF["Refusal - before the write"]
+	REF --> G{"only the declared dependency sections differ?"}
+	G -- "yes" --> W["the rewrite proceeds"]
+	G -- "a difference elsewhere" --> LINE["the refusal line - returns null"]
+	LINE --> NEVER["the rewrite is never applied"]

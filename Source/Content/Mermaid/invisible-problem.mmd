@@ -1,0 +1,9 @@
+flowchart LR
+	ZERO["zero-width and format characters<br/>carrying no visible width"]
+	JOIN["a zero-width joiner inside a file path"]
+	RLM["a right-to-left mark inside a command"]
+	SPOOF["the U+202E visual-spoofing override<br/>in what looks like plain text"]
+	CHANGE["none showing up in the transcript<br/>all of them changing what a parser - shell<br/>or diff sees"]
+	ZERO --> JOIN --> CHANGE
+	ZERO --> RLM --> CHANGE
+	ZERO --> SPOOF --> CHANGE

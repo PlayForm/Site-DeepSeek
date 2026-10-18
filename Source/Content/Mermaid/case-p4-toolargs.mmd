@@ -1,0 +1,5 @@
+flowchart LR
+	GATE["the tool-args gate - 1d827ad"] --> REFINE["the three-way refinement - 9d6e195"]
+	REFINE --> EDIT["edit calls pass by identity<br/>the old-string must match<br/>the real file bytes"]
+	REFINE --> MARK["a per-call marker lets a single call<br/>opt out entirely"]
+	MARK --> HONEST["smoke-verified - but not reachable<br/>from the structured tool interface at the time"]

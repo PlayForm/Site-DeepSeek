@@ -1,0 +1,9 @@
+flowchart LR
+	SURG["the rewrite is a surgical line-level edit<br/>on the raw text"]
+	BYTE["comments - inline comments - blank lines<br/>and spacing surviving byte-for-byte"]
+	GUARD["then GuardedWrite"]
+	LED["the ledger governed path → version"]
+	REF["then Refresh"]
+	SURG --> BYTE
+	SURG --> GUARD --> LED
+	SURG --> REF

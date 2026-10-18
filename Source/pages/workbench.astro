@@ -4,6 +4,7 @@ import ArrowIcon from "@Component/ArrowIcon.astro";
 import Badge from "@Component/Badge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import PageHero from "@Component/PageHero.astro";
+import TerminalTray from "@Component/TerminalTray.astro";
 import { Counts } from "@Library/Content";
 
 // The seven flavor hooks of the stream gate, each with its NORM token,
@@ -83,7 +84,7 @@ const Runtimes = [
 
 // Ingest engines, per the workbench mock.
 const Engines = [
-	{ Id: "deepseek", Label: "DeepSeek Engine v4 (120 tps)" },
+	{ Id: "deepseek", Label: "DeepSeek Engine v4" },
 	{ Id: "glm", Label: "GLM Engine 5.3" },
 	{ Id: "raw", Label: "Raw Ingest Stream" },
 ];
@@ -101,7 +102,7 @@ const Spans = [
 ---
 
 <Base
-	Title="Workbench - @playform / DSH Family"
+	Title="Workbench - DSH Family @ PlayForm"
 	Description="The interactive Stream Gate & Normalization Workbench: raw LLM token emission passing through the seven flavor hooks into clean ASCII output, live."
 >
 	<main class="container container--main">
@@ -139,7 +140,7 @@ const Spans = [
 			</div>
 			<div class="workbench-controls__group">
 				<span class="workbench-controls__label">Armed hooks:</span>
-				<span class="hook-tally" data-hook-tally>
+				<span class="hook-tally" data-hook-tally data-total={Counts.Normalizers}>
 					{Counts.StreamFlavors} of {Counts.Normalizers} Active
 				</span>
 			</div>
@@ -158,6 +159,7 @@ const Spans = [
 						aria-pressed={Index === 0}
 					>
 						<span class="dot"></span>
+						{Engine.Id === "glm" && <BrandIcon Name="zhipu" Size="0.8em" />}
 						{Engine.Label}
 					</button>
 				))}
@@ -187,7 +189,7 @@ const Spans = [
 						<span class="metric__value" data-metric="invisible">
 							0
 						</span>
-						<span class="metric__note">U+200B..F</span>
+						<span class="metric__note"><code class="code-token">U+200B..F</code></span>
 					</div>
 				</div>
 				<div class="metric">
@@ -272,15 +274,11 @@ const Spans = [
 			</p>
 			<div class="stream-grid">
 				<div class="stream-pane rail-orange">
-					<div class="stream-pane__bar">
-						<span class="stream-pane__label is-orange">
-							<span class="dot dot--raw"></span>
-							RAW LLM INGEST BUFFER
-						</span>
+					<TerminalTray Label="RAW LLM INGEST BUFFER" Orange>
 						<span class="stream-pane__count" data-count="raw">
 							0 bytes
 						</span>
-					</div>
+					</TerminalTray>
 					<div class="stream-pane__terminal" data-stream="raw"></div>
 				</div>
 				<div class="stream-hub">
@@ -303,19 +301,15 @@ const Spans = [
 					     on-surface-variant ink. Hidden until the stage is paused
 					     (see the .stream-hub__paused rules in Global.css). -->
 					<span class="stream-hub__paused" aria-hidden="true">
-						<span class="stream-hub__paused-word">PAUSED</span> · HOVER TO RESUME
+						<span class="stream-hub__paused-word">PAUSED</span><span class="dot-sep" aria-hidden="true"></span>HOVER TO RESUME
 					</span>
 				</div>
 				<div class="stream-pane">
-					<div class="stream-pane__bar">
-						<span class="stream-pane__label">
-							<span class="dot dot--clean"></span>
-							<BrandIcon Name="swap" /> CANONICAL SANITIZED STREAM
-						</span>
+					<TerminalTray Label="CANONICAL SANITIZED STREAM" Icon>
 						<span class="stream-pane__count" data-count="clean">
 							0 bytes
 						</span>
-					</div>
+					</TerminalTray>
 					<div class="stream-pane__terminal" data-stream="clean"></div>
 				</div>
 			</div>
@@ -352,9 +346,13 @@ const Spans = [
 	// Live in the SCRIPT, not the frontmatter: Astro compiles this block into
 	// its own module, so a frontmatter constant is NOT in scope here - the
 	// pre-fix page threw `ReferenceError: Seeds is not defined` on every
-	// stream tick and the terminals never filled. The library import below is
-	// the in-scope route: the hook tally counts come from Content.ts.
-	import { Counts } from "@Library/Content";
+	// stream tick and the terminals never filled. The normalizer total comes
+	// from the server-rendered tally element's data-total attribute: the
+	// script must NOT import @Library/Content, because Content.ts reaches
+	// the filesystem through Live.ts (node:fs/node:path) at build time, and
+	// bundling that into this browser module crashes it at eval (the
+	// `(0, e.join) is not a function` page error that killed the stream
+	// ticks entirely).
 	const Seeds = [
 		"Plan review \u2014 phase one: the config \u201Cdrift\u201D is real\u2026 wait for it\u2026",
 		"Balance\u00A0sheet sync \u2014 \u2018quoted\u2019 values\u00A0kept\u2026",
@@ -362,13 +360,54 @@ const Spans = [
 		"Batch\u2014two of three\u2013done\u2026 \u201Cclean\u201D\u00A0output only",
 	];
 
+	// The ingest engines drive the simulation: each source has its own token
+	// pool and its own pacing, so switching the pill visibly changes what the
+	// raw buffer receives (and what the gate has to clean). The DeepSeek
+	// engine is the governed high-tps stream (the base seeds, 900 ms ticks);
+	// the GLM flash engine emits shorter, quicker bursts (450 ms); the raw
+	// ingest stream is the unnormalized feed the gate exists for - heavily
+	// dirty tokens (fullwidth, stray invisibles, doubled marks) at a slower
+	// 1400 ms cadence.
+	const GLMSeeds = [
+		"Flash route \u2014 cache warm\u2026 tokens 1.2k/s",
+		"Stream\u00A0resume \u2014 \u2018delta\u2019 chunk ok\u2026",
+		"Spec\u200Btrim \u2014 budget\u00A0held\u2026",
+	];
+	const RawSeeds = [
+		"Ｒaw\u00A0ingest\u00A0—\u200B\u200B \u201Cunchanged\u201D\u2026\u2026 tokens",
+		"\uFF24eep\u00A0\uFF53eed \u2018dirty\u2019\u2014\u2014\uFEFF\u2026 pass\u2013through",
+		"Buffer\u200B\u200Bdrift\u00A0\u2014 \u201C\u201Cdoubled\u201D\u201D\u2026 marks",
+	];
+	const EngineSeeds: Record<string, string[]> = {
+		deepseek: Seeds,
+		glm: GLMSeeds,
+		raw: RawSeeds,
+	};
+	const EngineTicks: Record<string, number> = { deepseek: 900, glm: 450, raw: 1400 };
+	let Engine = "deepseek";
+	let TickMs = EngineTicks[Engine]!;
+
+	// The runtime selection drives the pipeline simulation as well: the
+	// Classic Pipeline ingests one chunk per tick (the sequential for-await
+	// loop it mirrors), while the Effect-TS v4 Fiber runtime ingests two
+	// chunks per tick (the fibered, concurrent ingestion) - the visible
+	// divergence the runtime switch promises.
+	const RuntimeBatch: Record<string, number> = { classic: 1, effect: 2 };
+	let Runtime = "effect";
+
 	const RawTerminal = document.querySelector<HTMLElement>("[data-stream='raw']")!;
 	const CleanTerminal = document.querySelector<HTMLElement>("[data-stream='clean']")!;
 	const RawCount = document.querySelector<HTMLElement>("[data-count='raw']")!;
 	const CleanCount = document.querySelector<HTMLElement>("[data-count='clean']")!;
 	const Tally = document.querySelector<HTMLElement>("[data-hook-tally]")!;
+	// The normalizer total, from the server-rendered tally (data-total):
+	// the script's replacement for the removed client-side Content import.
+	const Total = Number(Tally.dataset["total"] ?? "0");
 	const ToggleButton = document.querySelector<HTMLElement>("[data-action='toggle']")!;
 	const StreamStage = document.querySelector<HTMLElement>(".stream-grid")!;
+	// The last time the accessible stream status carried a byte summary:
+	// the announcement throttle's window marker (Render()).
+	let LastStatusAt = Date.now();
 
 	// The per-hook transform rules, mirrored from the server-rendered cards.
 	const Rules: Record<string, (Text: string) => [string, number]> = {
@@ -465,14 +504,27 @@ const Spans = [
 		RawCount.textContent = `${RawBytes.toLocaleString("en-US")} bytes`;
 		CleanCount.textContent = `${CleanBytes.toLocaleString("en-US")} bytes`;
 
-		Tally.textContent = `${Armed.size} of ${Counts.Normalizers} Active`;
+		// The raw/clean panes' updates, announced at a sane rate: the
+		// stream status line (role=status, polite) carries a throttled
+		// byte-count summary - at most one announcement per 5 seconds,
+		// and never while the stream is paused or hover-paused - so the
+		// ingest is perceivable without a per-tick announcement storm
+		// (the pane content itself is deliberately NOT a live region).
+		const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+		const Now = Date.now();
+		if (StreamStatus && !Paused && !HoverPaused && Now - LastStatusAt >= 5000) {
+			LastStatusAt = Now;
+			StreamStatus.textContent = `Stream running\u2003raw ${RawBytes.toLocaleString("en-US")} bytes\u2003normalized ${CleanBytes.toLocaleString("en-US")} bytes`;
+		}
+
+		Tally.textContent = `${Armed.size} of ${Total} Active`;
 		ToggleButton.textContent = Paused ? "Resume Stream" : "Pause Stream";
 		ToggleButton.classList.toggle("engine-pill--active", Paused);
 	}
 
-	function Push() {
-		if (Paused || HoverPaused) return;
-		const Seed = Seeds[Math.floor(Math.random() * Seeds.length)];
+	function PushChunk() {
+		const Pool = EngineSeeds[Engine] ?? Seeds;
+		const Seed = Pool[Math.floor(Math.random() * Pool.length)];
 		const [Clean] = Transform(Seed);
 		RawBytes += new TextEncoder().encode(Seed).length;
 		CleanBytes += new TextEncoder().encode(Clean).length;
@@ -490,10 +542,24 @@ const Spans = [
 		Render();
 	}
 
-	setInterval(Push, 900);
+	function Push() {
+		if (Paused || HoverPaused) return;
+		const Batch = RuntimeBatch[Runtime] ?? 1;
+		for (let Index = 0; Index < Batch; Index += 1) PushChunk();
+	}
+
+	// The tick interval is rescheduled when the ingest engine changes (the
+	// per-engine pacing above), so a selected engine's cadence takes over
+	// the stream immediately.
+	let Timer = 0;
+	function Schedule() {
+		clearInterval(Timer);
+		Timer = setInterval(Push, TickMs);
+	}
+	Schedule();
 
 	// Prime the panes with three chunks so the gate reads live on load.
-	for (let Index = 0; Index < 3; Index += 1) Push();
+	for (let Index = 0; Index < 3; Index += 1) PushChunk();
 
 	// Hover-to-pause on the dual-terminal stage: hovering the raw/clean
 	// panes suspends the stream ticks (the push guard returns early) and
@@ -503,15 +569,23 @@ const Spans = [
 	// itself keeps running; the guard skips its work while hovered).
 	// Reduced-motion users keep the stock behavior - no listeners attached.
 	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		// The pause/resume is announced through the visually-hidden
+		// stream status element (role=status, aria-live=polite above the
+		// stage) - the hover-pause state change reaches assistive tech
+		// even though the visible PAUSED tag is aria-hidden.
 		StreamStage.addEventListener("mouseenter", () => {
 			if (HoverPaused) return;
 			HoverPaused = true;
 			StreamStage.classList.add("is-paused");
+			const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+			if (StreamStatus) StreamStatus.textContent = "Stream paused";
 		});
 		StreamStage.addEventListener("mouseleave", () => {
 			if (!HoverPaused) return;
 			HoverPaused = false;
 			StreamStage.classList.remove("is-paused");
+			const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+			if (StreamStatus) StreamStatus.textContent = "Stream running";
 		});
 	}
 
@@ -540,7 +614,7 @@ const Spans = [
 
 	// Toggle all hooks.
 	document.querySelector("[data-action='toggle-all']")?.addEventListener("click", () => {
-		const All = Armed.size === Counts.Normalizers;
+		const All = Armed.size === Total;
 		document.querySelectorAll<HTMLElement>(".hook-card").forEach((Card) => {
 			const Hook = Card.dataset["hook"]!;
 			if (All) Armed.delete(Hook);
@@ -553,12 +627,14 @@ const Spans = [
 		Render();
 		Toast?.(
 			All
-				? `Disarmed all ${Counts.Normalizers} hooks`
-				: `Armed all ${Counts.Normalizers} normalization hooks`,
+				? `Disarmed all ${Total} hooks`
+				: `Armed all ${Total} normalization hooks`,
 		);
 	});
 
-	// Runtime pills.
+	// Runtime pills: the selection drives the simulation (the per-runtime
+	// batch size above) and the stream status line, then the highlight +
+	// toast follow.
 	document.querySelectorAll<HTMLElement>("[data-runtime]").forEach((Pill) => {
 		Pill.addEventListener("click", () => {
 			document
@@ -569,11 +645,20 @@ const Spans = [
 				});
 			Pill.setAttribute("data-active", "");
 			Pill.setAttribute("aria-pressed", "true");
+			const Id = Pill.dataset["runtime"]!;
+			if (RuntimeBatch[Id]) {
+				Runtime = Id;
+				const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+				if (StreamStatus && !Paused && !HoverPaused) {
+					StreamStatus.innerHTML = `Stream running<span class="dot-sep" aria-hidden="true"></span>${Pill.textContent?.trim()}`;
+				}
+			}
 			Toast?.(`Runtime: ${Pill.textContent?.trim()}`);
 		});
 	});
 
-	// Engine pills.
+	// Engine pills: the selection drives the simulation - the pool and the
+	// pacing above switch immediately, then the highlight + toast follow.
 	document.querySelectorAll<HTMLElement>("[data-engine]").forEach((Pill) => {
 		Pill.addEventListener("click", () => {
 			document
@@ -584,6 +669,12 @@ const Spans = [
 				});
 			Pill.setAttribute("data-active", "");
 			Pill.setAttribute("aria-pressed", "true");
+			const Id = Pill.dataset["engine"]!;
+			if (EngineSeeds[Id]) {
+				Engine = Id;
+				TickMs = EngineTicks[Id] ?? 900;
+				Schedule();
+			}
 			Toast?.(`Ingest: ${Pill.textContent?.trim()}`);
 		});
 	});

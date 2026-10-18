@@ -1,0 +1,5 @@
+flowchart LR
+	TRAP["the cordis-trap guard"]
+	REJECT["ncu's reject list is always<br/>policy.reject + the chain-governed dep names"]
+	NEVER["ncu must never bump a chain pin<br/>to public npm latest"]
+	TRAP --> REJECT --> NEVER

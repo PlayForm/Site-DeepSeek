@@ -1,0 +1,9 @@
+flowchart LR
+	TOOL["the tool's factory surface"]
+	INJ["injecting [pluginFactory, fs, tools]"]
+	USE["using State - Append - the ledger<br/>Journal - the P5 storage record"]
+	WRITE["and - uniquely in the family - Write<br/>the ONE shared write executor"]
+	ACTOR["the tool's writes carry the call's exec as the actor<br/>so the governance trio's Gate - which pins mutationTools<br/>to write/edit/str_replace_editor - never treats<br/>them as a trigger"]
+	TOOL --> INJ
+	TOOL --> USE
+	TOOL --> WRITE --> ACTOR

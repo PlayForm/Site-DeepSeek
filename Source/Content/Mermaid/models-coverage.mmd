@@ -1,0 +1,4 @@
+flowchart LR
+	BATCH["a token batch"] --> STREAM["passes the six stream flavors<br/>before it reaches your files"]
+	BATCH --> FILE["the file flavor re-normalizes<br/>what is already on disk"]
+	BATCH --> GOV["the governor and pinner<br/>hold every manifest"]

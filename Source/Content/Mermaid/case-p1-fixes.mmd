@@ -1,0 +1,8 @@
+flowchart LR
+	HOOK["a hook"]
+	INJ["inject and Config on the loader's<br/>default export object"]
+	APP["apply returns nothing"]
+	KILL["a returned value<br/>silently kills event delivery"]
+	HOOK --> INJ
+	HOOK --> APP
+	APP -. "never" .-> KILL

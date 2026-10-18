@@ -1,0 +1,6 @@
+flowchart LR
+	WRITE["the author writes a package.json anywhere<br/>with the write tool"]
+	TRACK["one dep that should track the governed registry"]
+	RANGE["one public dep left on a range"]
+	WRITE --> TRACK
+	WRITE --> RANGE

@@ -1,0 +1,8 @@
+flowchart LR
+	DASH["hook-dsh-normalize-dash - the first NON-MANIFEST module"]
+	INJ["injecting [pluginFactory]"]
+	USE["using only State - cell unwrap + shared<br/>Ledger/Enabled mappings + its own fields - and Append"]
+	NO["touching no files - so fs/write-intent<br/>and fs/observed never see it"]
+	DASH --> INJ
+	DASH --> USE
+	DASH --> NO

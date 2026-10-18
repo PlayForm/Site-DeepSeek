@@ -1,0 +1,4 @@
+flowchart LR
+	QUOTES["Hook @ DSH @ Normalize @ Quotes"] --> FACTORY["plugin-dsh-factory - the service"]
+	QUOTES --> CORE["hook-dsh-core - the machinery"]
+	QUOTES -. "the second of six stream normalizer siblings" .-> SIB["the six stream normalizer siblings"]

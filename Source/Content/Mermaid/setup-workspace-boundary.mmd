@@ -1,0 +1,9 @@
+flowchart LR
+	PROFILE["the profile workspace"]
+	BUNDLE["a linked bundle"]
+	OWN["the bundle carries its own node_modules<br/>and pnpm-workspace.yaml"]
+	LAND["an install inside the bundle lands<br/>in the bundle's own workspace"]
+	NEVER["never the profile's root"]
+	PROFILE --> BUNDLE
+	BUNDLE --> OWN --> LAND
+	LAND -. "never" .-> NEVER

@@ -1,0 +1,13 @@
+flowchart LR
+	PASS["the same pass runs over reasoning<br/>and tool-call arguments"]
+	REASON["reasoning deltas - when normalizeReasoning is on"]
+	TOOL["tool-call arguments - when the example patch<br/>enables normalizeToolArguments"]
+	EXEMPT["the edit name exempt"]
+	RAW["raw-marker calls passing through unnormalized"]
+	PASS --> REASON
+	PASS --> TOOL
+	PASS --> EXEMPT
+	PASS --> RAW
+	REASON ~~~ TOOL
+	TOOL ~~~ EXEMPT
+	EXEMPT ~~~ RAW

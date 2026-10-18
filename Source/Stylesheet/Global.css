@@ -1,5 +1,5 @@
 /* ============================================================
-	@playform / DSH Family - Design Tokens + Layout
+	DSH Family @ PlayForm - Design Tokens + Layout
 	"Technical Minimalist Harness"
 	Adapted from the Reference design system for the Astro site.
 
@@ -85,6 +85,20 @@
 		flat like every other color in the system. */
 	--color-accent-orange: #bf3003;
 
+	/* ---- Color: pin-red (the sanctioned third hue, identity-only) ----
+		The deep crimson of the Material Red 800 range, the identity color
+		of the PIN stage (the PIN word labels - the use-cases kicker, the
+		showcase kicker, the pipeline meta). Chosen over the darker
+		#952200 family (reads rust, not red) and over the #B71C1C
+		(#B71C1C measures 6.57:1 on white but darkens toward maroon):
+		#C62828 keeps a true red hue and clears the AA floor for the
+		13px mono labels it colors - 5.62:1 on the white canvas and
+		5.37:1 on the #F8FAFC trays. It marks ONLY the PIN identity
+		words - the orange stays the raw/stream signature and the red
+		never touches the raw surfaces. Zero elevation: flat like every
+		other color in the system. */
+	--color-pin-red: #c62828;
+
 	/* ---- Typography: families ----
 		Inter carries the headings and the body; IBM Plex Mono (the
 		the "Nocturnal Field Record" design reference) is reserved
@@ -93,17 +107,18 @@
 	--font-sans: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
 	--font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-	/* ---- Typography: headline-xl (desktop) ---- */
-	--text-headline-xl: 40px;
-	--leading-headline-xl: 48px;
+	/* ---- Typography: headline-xl (the fluid display size) ----
+		The hero display scales smoothly with the viewport via clamp()
+		- no breakpoint jump between the old 32px mobile and 40px
+		desktop steps anymore: 32px at a 360px viewport, 40px from
+		~1200px up, interpolating in between. The line-height is
+		unitless (1.2) so it tracks the clamp. The tracking is the
+		tighter display value (-0.03em) - the hero-size type only;
+		the label/body tracking tokens are untouched. */
+	--text-headline-xl: clamp(2rem, 1.775rem + 0.95vw, 2.5rem);
+	--leading-headline-xl: 1.2;
 	--weight-headline-xl: 600;
-	--tracking-headline-xl: -0.02em;
-
-	/* ---- Typography: headline-xl (mobile) ---- */
-	--text-headline-xl-mobile: 32px;
-	--leading-headline-xl-mobile: 40px;
-	--weight-headline-xl-mobile: 600;
-	--tracking-headline-xl-mobile: -0.015em;
+	--tracking-headline-xl: -0.03em;
 
 	/* ---- Typography: headline-lg ---- */
 	--text-headline-lg: 28px;
@@ -175,6 +190,14 @@
 	--space-2xl: 2rem;
 	--space-3xl: 3rem;
 
+	/* ---- Icon spacing: the ONE icon-to-text gap ----
+		The shared 4pt half-step (0.25rem) between an icon/dot and its label,
+		used by every chip, pill and label row that pairs a glyph with text.
+		The old hard-coded 6px chip gaps (off the 4pt rhythm) and the wide
+		mono space characters in the inline contexts are both replaced by
+		this token, so the icon + label read as one unit everywhere. */
+	--gap-icon: var(--space-xs);
+
 	/* ---- Layout ---- */
 	--header-height: 56px;
 	--content-max-width: 1120px;
@@ -190,6 +213,349 @@
 	--duration-slow: 0.3s;
 	--ease-crisp: cubic-bezier(0.4, 0, 0.2, 1);
 	--ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+	The dark terminal-theme variant: the token-level override
+	------------------------------------------------------------
+	html[data-theme="dark"] flips the whole token set to the
+	terminal palette: the #0B0F19 ink becomes the canvas, the
+	slate surfaces invert into the blue-slate ramps, the Harness
+	Blue lifts to the light #8AB0FF accent for text on dark, the
+	accent-orange lifts to the burnt-light #FF8A4C so the RAW
+	signature keeps its legibility, and the hairline + ink tokens
+	all move to the dark side of the same ramp. The structural
+	rule stays: zero elevation, flat planar contrast, 1px hairlines
+	- only the values change, never the geometry.
+
+	The attribute is set by the head script in Base.astro before
+	first paint: a stored toggle wins, otherwise the OS
+	prefers-color-scheme decides (no stored choice = the media
+	query follows the system live). Every consumer of these tokens
+	- headers, cards, tables, terminals, chips, the toast, the
+	focus rings - inherits the theme with no per-component rules.
+	============================================================ */
+:root[data-theme="dark"] {
+	/* Level 0 canvas: the ink itself (#0B0F19) becomes the surface. */
+	--color-surface: #0b0f19;
+	--color-surface-dim: #0d1322;
+	--color-surface-bright: #0b0f19;
+	--color-surface-container-lowest: #101522;
+	--color-surface-container-low: #161e33;
+	--color-surface-container: #1b2742;
+	--color-surface-container-high: #223052;
+	--color-surface-container-highest: #2a3a63;
+	--color-surface-variant: #2a3a63;
+
+	/* Ink: the near-white blue-ink reads on the dark canvas. */
+	--color-on-surface: #eef0ff;
+	--color-on-surface-variant: #a3aecb;
+	--color-inverse-surface: #eef0ff;
+	--color-inverse-on-surface: #0b0f19;
+
+	/* Outlines: the structural hairline lifts off the canvas. */
+	--color-outline: #8291b3;
+	--color-outline-variant: #2b3852;
+
+	/* The Harness Blue family on dark: the text accent lifts to the
+		light #8AB0FF; the solid fills (--color-primary-container) keep
+		the brand #0052FF so the buttons and the rails read the same in
+		both themes and the white labels keep their AA contrast. */
+	--color-harness-blue: #8ab0ff;
+	--color-harness-blue-deep: #0038b8;
+	--color-harness-blue-pressed: #002fa6;
+	--color-harness-blue-subtle: #1b2742;
+	--color-harness-blue-tint: #16213a;
+	--color-harness-blue-badge: #223052;
+	--color-harness-blue-focus: #4d7cff;
+	--color-ink: #eef0ff;
+	--color-ink-secondary: #a3aecb;
+	--color-ink-muted: #8291b3;
+	--color-border-structural: #2b3852;
+
+	/* Primary aliases: the text-level blue is the lifted accent; the
+		container (solid fills) and its on-colors stay the brand pair. */
+	--color-primary: #8ab0ff;
+	--color-on-primary: #ffffff;
+	--color-primary-container: #0052ff;
+	--color-on-primary-container: #dfe3ff;
+	--color-surface-tint: #8ab0ff;
+	--color-primary-fixed: #223052;
+	--color-primary-fixed-dim: #2a3a63;
+	--color-on-primary-fixed: #eef0ff;
+	--color-on-primary-fixed-variant: #9db9ff;
+	--color-inverse-primary: #0038b8;
+
+	/* Secondary (blue family) on dark. */
+	--color-secondary: #b7c4ff;
+	--color-on-secondary: #ffffff;
+	--color-secondary-container: #3656d6;
+	--color-on-secondary-container: #eef0ff;
+	--color-secondary-fixed: #2b3554;
+	--color-secondary-fixed-dim: #44518a;
+	--color-on-secondary-fixed: #eef0ff;
+	--color-on-secondary-fixed-variant: #9db9ff;
+
+	/* The accent-orange: the burnt light #FF8A4C keeps the RAW /
+		stream / flavor signature legible on the dark canvas (the
+		#BF3003 of the light theme reads rust on #0B0F19). */
+	--color-accent-orange: #ff8a4c;
+
+	/* The pin-red: the lifted #E57373 keeps the PIN identity legible on
+		the dark canvas (6.41:1 on #0B0F19 - the #C62828 of the light
+		theme reads rust on dark, the same lift rule the accent-orange
+		runs). */
+	--color-pin-red: #e57373;
+
+	/* ---- Dark-mode code-token contrast audit (the 13px floor) ----
+		Every token text color measured against the dark tray surfaces
+		(#101522 / #161E33 / #1B2742 / #16213A tint / #1B2742 subtle),
+		WCAG 2.1 relative luminance at the 13px mono floor (AA text:
+		4.5:1):
+		  on-surface #EEF0FF      14.6–16.1:1 (trays), 13.1:1 (container)
+		  on-surface-variant      7.5–8.2:1 (trays),   6.7:1 (container)
+		  ink-muted / outline     5.3–5.8:1 (trays),   4.7:1 (container)
+		  primary #8AB0FF         7.4–7.7:1 (trays),   6.9:1 (container)
+		  accent-orange #FF8A4C   7.1–7.8:1 (trays),   6.4:1 (container)
+		  pin-red #E57373         5.6–6.1:1 (trays),   5.0:1 (container)
+		  Shiki github-dark token spans: the theme's own dark palette
+		  (the --shiki-dark bridge in CodeBlock.astro), its foreground
+		  #E1E4E8 ≈ 13:1 on the #161E33 trays.
+		All token texts clear the 4.5:1 floor with margin - the audit
+		yields no overrides; the tokens stand. Re-measure if any dark
+		token changes. */
+}
+
+/* ---- The theme-toggle: the LIGHT / DARK switch in the header ----
+	One mono chip, two cells; the active cell takes the primary accent
+	and the inactive keeps the variant ink. The active state is pure
+	CSS (attribute-driven), so the switch renders correctly before any
+	script runs - the script only flips the attribute and persists. */
+.theme-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xs);
+	flex-shrink: 0;
+	padding: var(--space-xs) var(--space-sm);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--color-outline-variant);
+	background: var(--color-surface-container-lowest);
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	cursor: pointer;
+	transition:
+		border-color var(--duration-fast) var(--ease-crisp),
+		background-color var(--duration-fast) var(--ease-crisp);
+}
+
+.theme-toggle:hover {
+	border-color: var(--color-harness-blue);
+	background: var(--color-surface-container-low);
+}
+
+.theme-toggle:active {
+	transform: scale(0.97);
+}
+
+.theme-toggle__cell {
+	color: var(--color-on-surface-variant);
+	transition: color var(--duration-fast) var(--ease-crisp);
+}
+
+/* The light cell is the active one on the light theme... */
+.theme-toggle__cell[data-theme-cell="light"] {
+	color: var(--color-primary);
+}
+
+/* ...and the dark cell on the dark theme - attribute-driven, no script. */
+:root[data-theme="dark"] .theme-toggle__cell[data-theme-cell="light"] {
+	color: var(--color-on-surface-variant);
+}
+
+:root[data-theme="dark"] .theme-toggle__cell[data-theme-cell="dark"] {
+	color: var(--color-primary);
+}
+
+.theme-toggle__sep {
+	color: var(--color-outline);
+}
+
+/* The mode-text cell ("OS"/"LOCK" next to the switcher) was removed on
+	the user's request - the pin state stays functional (data-pinned +
+	the title) with no visible text. */
+
+/* ---- The scroll-progress rail (the case-study's reading gauge) ----
+	A fixed 2px Harness Blue rail along the viewport's top edge, above
+	the fixed header. The width is driven by the scroll position via
+	scaleX (transform-only, no layout thrash); it is a reading gauge,
+	not a decorative animation, so it stays under reduced motion. */
+.scroll-progress {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 2px;
+	z-index: 60;
+	pointer-events: none;
+}
+
+.scroll-progress__bar {
+	display: block;
+	height: 100%;
+	background: var(--color-primary-container);
+	transform-origin: left;
+	transform: scaleX(0);
+}
+
+/* ---- Section reveals: the scroll-driven entry ----
+	Sections below the fold fade up as they enter the viewport
+	(IntersectionObserver-driven, .js-gated so a no-JS document renders
+	fully visible; reduced-motion users get the full-opacity state from
+	both the script and the media query). The motion uses the machine
+	language's slow duration and snap easing - one gesture, no stagger. */
+.js main .section {
+	transition:
+		opacity var(--duration-slow) var(--ease-snap),
+		transform var(--duration-slow) var(--ease-snap);
+}
+
+.js main .section:not(.is-revealed) {
+	opacity: 0;
+	transform: translateY(10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.js main .section:not(.is-revealed) {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* ---- The hero's engineering-grid texture (the index only) ----
+	A subtle blueprint grid behind the hero: 1px hairlines on a 24px
+	grid (6 steps of the 4pt rhythm), drawn with the structural
+	hairline token so the pattern rides the theme (the faint #E2E8F0
+	lines on white, the #2B3852 lines on the dark canvas). Zero
+	elevation: flat lines, no fade, no blur - the grid is a texture,
+	the surfaces above it stay opaque.
+
+	The grid spans the full hero stage, not the content box: the
+	::before layer runs the full viewport width (left: calc(50% -
+	50vw) against the centered container) behind the hero, so the
+	texture leaks past the text's edges on both sides instead of
+	touching them 1-to-1 - on every viewport, from the mobile gutter
+	to the desktop stage margins. The isolation keeps the negative
+	z-index inside the hero: the grid stays behind the content and
+	above the page canvas. */
+.hero--grid {
+	position: relative;
+	isolation: isolate;
+	/* The bottom breathing room: the row of hero action buttons sits at
+	   the hero's foot, so a full xl of bottom padding keeps the buttons
+	   clear of the stats band AND extends the ::before grid texture
+	   behind/below the row - the grid draws out under the buttons. */
+	padding-bottom: var(--space-xl);
+}
+
+.hero--grid::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: calc(50% - 50vw);
+	width: 100vw;
+	background-image:
+		linear-gradient(to right, var(--color-outline-variant) 1px, transparent 1px),
+		linear-gradient(to bottom, var(--color-outline-variant) 1px, transparent 1px);
+	background-size: 24px 24px;
+	z-index: -1;
+}
+
+/* ---- The index stats band: the proof strip under the hero ----
+	The three verified family facts (12 packages / 733 + 746 checks /
+	0.0.1 release) in one hairline band, three cells split by vertical
+	1px rules; mono values + uppercase mono labels, the same flat
+	voice as the metric cards. Stacks with horizontal rules on the
+	narrow viewports. */
+.stats-band {
+	display: grid;
+	grid-template-columns: 1fr;
+	border: 1px solid var(--color-outline-variant);
+	border-radius: var(--radius-lg);
+	background: var(--color-surface-container-lowest);
+	overflow: hidden;
+}
+
+@media (min-width: 640px) {
+	.stats-band {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+.stats-band__cell {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 2px;
+	padding: var(--space-md) var(--space-lg);
+	border-top: 1px solid var(--color-outline-variant);
+}
+
+@media (min-width: 640px) {
+	.stats-band__cell {
+		border-top: 0;
+		border-left: 1px solid var(--color-outline-variant);
+	}
+
+	.stats-band__cell:first-child {
+		border-left: 0;
+	}
+}
+
+.stats-band__value {
+	font-family: var(--font-mono);
+	font-size: var(--text-headline-md);
+	line-height: var(--leading-headline-md);
+	font-weight: 600;
+	letter-spacing: var(--tracking-headline-md);
+	color: var(--color-on-surface);
+}
+
+.stats-band__value .stats-band__plus {
+	color: var(--color-primary);
+}
+
+.stats-band__label {
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	text-transform: uppercase;
+	color: var(--color-outline);
+}
+
+/* ---- Tabular numerals: the mono data aligns columnar ----
+	The counts, the totals and the ledger digits set with
+	font-variant-numeric: tabular-nums: every digit gets the same
+	advance width, so the ticking values (the stream counts, the
+	stats band, the ledger lines, the version chips) keep their
+	columns aligned while the numbers change. The mono face carries
+	most of this already; the declaration pins it against any
+	proportional-digit fallback and extends it to the numeric runs
+	that render in the sans stack. */
+.stats-band__value,
+.stream-pane__count,
+.terminal-demo__status,
+.showcase__fact,
+.hook-tally,
+.registry-telemetry__count,
+.flavor-version,
+.compare__hint {
+	font-variant-numeric: tabular-nums;
 }
 
 /* ---- Base ---- */
@@ -239,6 +605,296 @@ svg {
 	color: var(--color-on-primary-fixed);
 }
 
+/* ---- Brand icons: the shared optical system ----
+	BrandIcon.astro renders one inline, self-contained SVG icon per name.
+	The base box is em-sized and optically baseline-aligned, so the marks
+	sit in the prose flow like the ArrowIcon glyph does; the icon + label
+	read as one unit everywhere through the shared --gap-icon token. */
+.brand-icon {
+	display: inline-block;
+	vertical-align: -0.125em;
+	flex: none;
+	line-height: 0;
+}
+
+.brand-icon--accent {
+	color: var(--color-primary);
+}
+
+/* The documented ZLM placeholder: a dashed reserved box, nothing more. */
+.brand-icon--zlm {
+	width: 1em;
+	height: 1em;
+	border: 1px dashed var(--color-primary);
+	border-radius: 2px;
+	opacity: 0.45;
+}
+
+/* The inline icon-to-text gap: an icon that opens a label line (the
+	before/after kickers, the seam/ledger table headers) carries the shared
+	4px token instead of the wide mono space character. The kicker icon
+	rides the measured optical center of the mono caps: the swap glyph is
+	viewBox-centered, so the -0.15em vertical-align puts its visual mass on
+	the caps' center (the former -0.0625em floated the mark ~1.2px high,
+	above the label's optical center). The table-header branch keeps its
+	own lighter lift. */
+.section-kicker .brand-icon {
+	margin-right: var(--gap-icon);
+	vertical-align: -0.15em;
+}
+
+.table th .brand-icon {
+	margin-right: var(--gap-icon);
+	vertical-align: -0.0625em;
+}
+
+/* The footer's brand mark: the note runs at --text-body-sm, so the
+	1em-default glyph renders at 14px - too faint to read as the brand,
+	dark theme especially (the note text swamps it). The token-based em
+	step scales the box to 1.25em (17.5px) without touching the note's
+	own size; vertical-align keeps the base -0.125em, which scales with
+	the larger font-size and stays baseline-optical.
+
+	The dark-theme stroke: the playform mark ships the Asset's light
+	variant stroke (#151515), which vanishes on the dark ground - the
+	header mark already flips to the official Dark variant stroke
+	(#EAEAEA, see the .site-header__glyph rule), so the footer mark
+	applies the same official stroke here. */
+.site-footer__note .brand-icon {
+	margin-right: var(--gap-icon);
+	font-size: 1.25em;
+}
+
+:root[data-theme="dark"] .site-footer__note .brand-icon path {
+	stroke: #eaeaea;
+}
+
+/* The wide npm lockup in the prose flow: the 3.12-aspect official wordmark
+   reads oversized at the full em box (its ink runs nearly edge-to-edge,
+   unlike the padded square/round marks), so the prose mentions carry a
+   reduced em size (0.75em, set at the usage) and the shared --gap-icon
+   breathing room on BOTH sides - the same inline-unit law as the file
+   mentions, so the mark sits in the sentence like the other brand marks. */
+.page-hero__sub .brand-icon--npm {
+	margin-inline: var(--gap-icon);
+}
+
+/* The optical lift: in the flex chip/label rows the icon's box centers on
+	the row's line box, but the mono label's visual mass sits ~2px above
+	that center (the leading + descent space below the baseline). The
+	net-zero margin pair lifts the icon/dot by 0.1875em of its own size
+	(the negative top margin shifts the content box up inside its centered
+	margin box), so its visual mass centers against the text. The badges
+	stay OUT of this rule: their inline mark + text run centers natively -
+	the .badge's align-items: center lands the icon's box (and optical)
+	center directly on the caps' optical center, so the shared lift here
+	would overshoot by ~2px and push the flavor/type badge icons above
+	their text (verified at the pixel level: -2.0..-2.4px with the lift,
+	+0.0..+0.5px without). The engine pills stay out of the lift too, for
+	the same measured reason: their flex row already centers the icon/dot
+	box on the pill's line box, and the label's ink center sits only
+	~0.4px above that box center, so the 0.1875em lift overshoots to
+	-2.1..-2.6px (icon optical center vs text ink center, both themes);
+	without the lift the measured offset is +0.1..+0.4px. */
+.version-card__head .brand-icon,
+.stream-pane__label .brand-icon,
+.stream-pane__label .dot {
+	margin-block: -0.1875em 0.1875em;
+}
+
+/* The INSPECTED chip's live-dot: the fixed 8px dot leaves the 0.1875em
+	lift (that step is tuned for the 1em brand-icon boxes above; on the
+	smaller dot it overshoots) and takes its own measured correction. The
+	flex row without any lift lands the dot +0.7px below the label's ink
+	center (the 13px mono caps' ink center sits above the line-box center),
+	so a 1/16em net-zero margin pair re-centers it (measured with the real
+	webfonts: -1.8px with the 0.1875em lift, +0.7px with no lift, -0.1px
+	with the 1/16em pair; both themes, all widths). The registry telemetry
+	count's dot needs no correction: its flex row already lands it within
+	0.2px of the count's ink center. */
+.inspect-card__meta .live-dot {
+	margin-block: -0.0625em 0.0625em;
+	/* The horizontal push: the 8px dot alone leaves the shared
+		--gap-icon (0.25rem) too tight against the mono caps label, so the
+		dot carries its own extra --space-xs margin-inline-end and the
+		dot-to-text gap lands at 0.5rem total. Horizontal only - the
+		margin-block pair above stays as measured. */
+	margin-inline-end: var(--space-xs);
+}
+
+/* The registry telemetry count's dot takes the same push: its flex row
+	gap is the shared --gap-icon (0.25rem) and the dot adds --space-xs,
+	so the PACKAGES count separates from the dot at 0.5rem total
+	(horizontal only; the row's vertical centering needed no correction). */
+.registry-telemetry__count .live-dot {
+	margin-inline-end: var(--space-xs);
+}
+
+/* The span pills: the engine-pill states that render as <span> (the
+	models page's engine selection - status chips, not controls) lay out
+	their anonymous text item 1px shorter than the <button> pills' (17px
+	vs 18px at --text-body-sm in the browser's inline formatting), which
+	centers the label's ink 0.5px above the flex box center. The same
+	net-zero lift, at half a pixel, re-centers the icon/dot on the text
+	ink center (measured: +0.5px -> 0.0px, both themes). */
+span.engine-pill .brand-icon,
+span.engine-pill .dot {
+	margin-block: -0.5px 0.5px;
+}
+
+/* ---- File mentions: the file-type icon + filename unit ----
+	Every file mention on the site renders as one inline unit: the official
+	file-type icon (Library/FileIcon.ts - the vscode-icons theme geometry in
+	the mono-ink treatment) on the LEFT, the filename beside it, sharing the
+	optical center through the flex centering (no baseline drift - the icon
+	box and the text sit on the same center line) and the shared --gap-icon
+	between them. The unit is adornment only: the visible text bytes are
+	exactly the filename.
+	The unit's baseline is the FILENAME's text baseline: baseline-source:
+	last takes the flex container's LAST baseline set - the filename's
+	glyphs (the icon is the first item, and the icon-first baseline set
+	floated the filename 2.2-5.3px above the text baseline across the
+	prose contexts, 0.0px with the last set - verified at the pixel
+	level), so the unit rides the prose baseline by the default
+	vertical-align: baseline and the filename never drifts off the line.
+	Browsers without baseline-source (pre-Chrome 136) keep the icon-first
+	baseline - the pre-fix behavior, never worse. */
+.file-mention {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--gap-icon);
+	baseline-source: last;
+}
+
+/* ---- The log chips: the special .log-file mentions ----
+	Every .log filename mention renders as the markdown-like special mention
+	the user asked for: the light #F8FAFC tray (--color-surface-container-low),
+	the rounded corners (--radius-lg), the log file icon on the side and the
+	mono label at the label-sm floor - the badge voice (chip padding, zero
+	elevation: the 1px hairline + the flat tray, no shadow). The chips flip
+	with the dark theme through the tokens. */
+.log-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--gap-icon);
+	padding: 2px var(--space-xs);
+	border-radius: var(--radius-lg);
+	background: var(--color-surface-container-low);
+	border: 1px solid var(--color-outline-variant);
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	color: var(--color-on-surface);
+	/* The same filename-baseline rule as .file-mention: baseline-source:
+		last takes the mono label's text baseline as the chip's baseline, so
+		the chip sits on the prose baseline at any label size. */
+	baseline-source: last;
+}
+
+.log-chip .brand-icon {
+	flex: none;
+}
+
+/* ---- Code tokens: the markdown-fenced identity for technical terms ----
+	Every code-point mention (U+XXXX), tool name, identifier, regex and
+	literal the site cites renders as one inline code token: the IBM Plex
+	Mono at the label-sm floor, the light #F8FAFC tray
+	(--color-surface-container-low), the rounded corners (--radius-default),
+	the 1px structural hairline (zero elevation) and the ink text - the
+	GitHub-markdown-fenced-code identity the user asked for: the technical
+	terms visually separated from the reading text, not just text the user
+	reads. The tokens flip with the dark theme through the tokens; the
+	visible bytes are always the plain term (adornment only). The utility
+	class .code-token is the canonical form (the renderer and the markup
+	emit it); the base <code> upgrade covers the existing inline code tags
+	in the prose and the table cells (never the terminal lines, the snippet
+	commands or the Shiki code blocks - those live in their own trays). */
+.code-token,
+p code,
+li code,
+dd code,
+dt code,
+td code,
+th code,
+.page-hero__sub code,
+.concept__body code,
+.concept__diagram-brief code,
+.showcase__lead code,
+.card__desc code {
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	background: var(--color-surface-container-low);
+	border: 1px solid var(--color-outline-variant);
+	border-radius: var(--radius-default);
+	padding: 1px 0.375em;
+	color: var(--color-on-surface);
+	/* The wrap law for the tokens: no nowrap (a long token or a
+	   slash-joined token run - the browser never breaks after "/" -
+	   would overflow its paragraph and inflate a grid item's min-content
+	   past the viewport). overflow-wrap: anywhere keeps short tokens on
+	   one line and breaks a token that cannot fit at any character; it
+	   also collapses the token's min-content contribution (unlike
+	   break-word), so a concept/paragraph box never grows past its
+	   container because of a long technical term. */
+	overflow-wrap: anywhere;
+}
+
+/* A code token inside a link keeps the link affordance: the tray stays,
+	the text takes the Harness Blue (the same treatment the existing
+	<a><code>llm/stream</code></a> links run - GitHub-style linked code). */
+a code,
+a .code-token {
+	color: var(--color-primary);
+}
+
+/* ---- Identity-word spans: the PIN / GOVERN / NORMALIZE stage words ----
+	The word-level treatment the use-cases narrative runs: only the
+	IDENTITY WORD takes its stage color, the separators and the
+	surrounding text stay in their surface's neutral ink (the same
+	word-level rule the RAW legend label runs with the accent-orange).
+	PIN takes the pin-red token (the sanctioned third hue, identity
+	only), GOVERN takes the Harness Blue (--color-primary, the site's
+	primary accent) and NORMALIZE takes the ink-muted gray - the
+	"stays normal" stage. The spans are emitted by the meta/kicker
+	renderers over the plain strings, so the visible bytes never
+	change; the colors flip with the dark theme through the tokens. */
+.word-pin {
+	color: var(--color-pin-red);
+}
+
+.word-govern {
+	color: var(--color-primary);
+}
+
+.word-normalize {
+	color: var(--color-ink-muted);
+}
+
+/* ---- The separator dot: the designed "·" replacement ----
+	Every middle-dot separator on the site (the metas, the kickers, the
+	badges, the labels, the status lines) renders as this dot instead of
+	the typographic "·": a small FILLED CIRCLE, grayed out in the
+	outline gray (the same tone as the meta ink, flipped by the dark
+	theme) and noticeably BIGGER than the glyph (0.375em - roughly 1.5x
+	the middle dot at the mono label sizes), vertically centered on the
+	x-height (the 0.11em raise) and optically spaced by its own margins
+	(the consumed separator spaces stay out of the flow). aria-hidden:
+	the separator is decoration - the words read alone. */
+.dot-sep {
+	display: inline-block;
+	width: 0.375em;
+	height: 0.375em;
+	border-radius: 50%;
+	background: var(--color-outline);
+	vertical-align: 0.11em;
+	margin: 0 0.3em;
+}
+
 /* ---- Fixed header ---- */
 .site-header {
 	position: fixed;
@@ -264,7 +920,9 @@ svg {
 .site-header__brand {
 	display: flex;
 	align-items: center;
-	gap: var(--space-sm);
+	/* The glyph's right padding to the title: one token step up from
+		--space-sm for the brand mark's optical gap (both themes). */
+	gap: var(--space-md);
 	min-width: 0;
 }
 
@@ -273,10 +931,16 @@ svg {
 }
 
 .site-header__glyph {
-	width: 28px;
-	height: 28px;
 	flex-shrink: 0;
-	color: var(--color-primary-container);
+}
+
+/* The official PlayForm mark on the dark theme: the Asset's light glyph
+	ships the #151515 stroke for light grounds; its Dark variant swaps the
+	stroke to #EAEAEA (see the BrandIcon sources), so the attribute flip
+	applies that official stroke here - the header mark stays legible on
+	the terminal canvas without touching the official geometry. */
+:root[data-theme="dark"] .site-header__glyph path {
+	stroke: #eaeaea;
 }
 
 .site-header__title {
@@ -323,23 +987,150 @@ svg {
 	background: var(--color-surface-container-low);
 }
 
-.site-header__avatar {
+/* ---- The mobile nav toggle + the dropdown tray ----
+	The hamburger lives in the avatar's old slot (the right edge of the
+	header). The three-line icon is the site's flat stroke voice (the ink
+	lines, zero elevation); the open state morphs the lines into the close
+	X through the crisp transitions. The button is .js-gated: a no-JS
+	document hides the dead control and the nav stays hidden below the
+	breakpoint, exactly as before. The open state rides the header's
+	data-nav-open attribute (set by the script in Base.astro; aria-expanded
+	mirrors it for AT), so the tray needs no document-order tricks. */
+.nav-toggle {
+	display: none;
 	flex-shrink: 0;
-	width: 32px;
-	height: 32px;
-	border-radius: var(--radius-full);
-	background: var(--color-primary);
-	color: var(--color-on-primary);
-	display: flex;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	border: 0;
+	border-radius: var(--radius-md);
+	background: none;
+	color: var(--color-on-surface);
 	align-items: center;
 	justify-content: center;
-	font-size: var(--text-body-sm);
-	font-weight: 600;
+	cursor: pointer;
+	transition: background-color var(--duration-fast) var(--ease-crisp);
+}
+
+.js .nav-toggle {
+	display: inline-flex;
+}
+
+.nav-toggle:hover {
+	background: var(--color-surface-container-low);
+}
+
+.nav-toggle:active {
+	transform: scale(0.97);
+}
+
+.nav-toggle__icon {
+	display: block;
+	width: 20px;
+	height: 20px;
+}
+
+.nav-toggle__line {
+	transform-box: fill-box;
+	transform-origin: center;
+	transition:
+		transform var(--duration-fast) var(--ease-crisp),
+		opacity var(--duration-fast) var(--ease-crisp);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(1) {
+	transform: translateY(5px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(2) {
+	opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__line:nth-child(3) {
+	transform: translateY(-5px) rotate(-45deg);
+}
+
+/* Below the breakpoint the nav becomes a fixed dropdown tray under the
+	header: the flat tray surface (--color-surface-container-lowest), the
+	1px hairline, zero elevation - the site's tray voice - with the same
+	links stacked as full-width rows. The slide-down uses the fast
+	duration + crisp easing; the closed state is visibility-hidden and
+	pointer-events-none, so the tray never intercepts clicks or focus
+	while shut. */
+@media (max-width: 767.98px) {
+	.js .site-header__nav {
+		display: flex;
+		position: fixed;
+		top: var(--header-height);
+		left: 0;
+		right: 0;
+		flex-direction: column;
+		align-items: stretch;
+		gap: var(--space-xs);
+		padding: var(--space-sm) var(--gutter-sm) var(--space-md);
+		background: var(--color-surface-container-lowest);
+		border-bottom: 1px solid var(--color-outline-variant);
+		max-height: calc(100vh - var(--header-height));
+		overflow-y: auto;
+		opacity: 0;
+		transform: translateY(-6px);
+		visibility: hidden;
+		pointer-events: none;
+		transition:
+			opacity var(--duration-fast) var(--ease-crisp),
+			transform var(--duration-fast) var(--ease-crisp),
+			visibility 0s linear var(--duration-fast);
+	}
+
+	.js .site-header__nav a {
+		padding: var(--space-sm) var(--space-md);
+	}
+
+	.js .site-header[data-nav-open="true"] .site-header__nav {
+		opacity: 1;
+		transform: none;
+		visibility: visible;
+		pointer-events: auto;
+		transition-delay: 0s;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.js .site-header__nav,
+	.nav-toggle__line {
+		transition: none;
+	}
 }
 
 @media (min-width: 768px) {
 	.site-header__nav {
 		display: flex;
+	}
+
+	/* The toggle is a mobile control: on the desktop breakpoint the rule
+		must match the .js-gated selector's weight (.js .nav-toggle is
+		0,2,0 and would otherwise keep the button visible and squeeze
+		the header row past the viewport edge). */
+	.js .nav-toggle {
+		display: none;
+	}
+}
+
+/* The 768-803px band: the row gains the full nav (min-width: 768px) while
+	its desktop budget still needs the >=804px width - the nav's side
+	padding plus the full gutter overflow the right edge and push the
+	flex-shrink-0 theme-toggle (the rightmost element) partially past the
+	viewport, invisible + unclickable. Inside this band only, the row is
+	tightened to fit: the nav links drop one padding step and the gutter
+	drops to --gutter-sm; the <768 tray layout and the >=804 desktop
+	layout are untouched. */
+@media (min-width: 768px) and (max-width: 803.98px) {
+	.site-header__inner {
+		padding: 0 var(--gutter-sm);
+	}
+
+	.site-header__nav a {
+		padding: var(--space-xs) var(--space-sm);
 	}
 }
 
@@ -352,6 +1143,16 @@ svg {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	/* The body-scrollbar fix: the hero's full-bleed grid backdrop sizes
+		itself with 100vw, which counts the vertical scrollbar while the
+		layout viewport does not, so on a real browser its right overhang
+		(~half a scrollbar) forces a horizontal scrollbar on the whole
+		body. Clipping the full-width shell trims only that invisible
+		overhang — the .page box is exactly the layout viewport, so
+		everything at or inside the viewport edge renders identically;
+		the vertical axis stays unclipped, so no scroll container is
+		created and sticky/fixed behavior is untouched. */
+	overflow-x: clip;
 }
 
 .container {
@@ -402,7 +1203,7 @@ svg {
 .badge {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: var(--gap-icon);
 	padding: 2px var(--space-xs);
 	border-radius: var(--radius-lg);
 	font-family: var(--font-mono);
@@ -508,11 +1309,15 @@ svg {
 
 .hero__title {
 	color: var(--color-on-surface);
+	/* The top breathing room: the tagline sits directly under the
+	   hero's badge row, so a full xl of top padding clears the h1 from
+	   the badges on both themes (the token flips nothing - pure space). */
+	padding-top: var(--space-xl);
 	margin: 0 0 var(--space-sm);
-	font-size: var(--text-headline-xl-mobile);
-	line-height: var(--leading-headline-xl-mobile);
-	font-weight: var(--weight-headline-xl-mobile);
-	letter-spacing: var(--tracking-headline-xl-mobile);
+	font-size: var(--text-headline-xl);
+	line-height: var(--leading-headline-xl);
+	font-weight: var(--weight-headline-xl);
+	letter-spacing: var(--tracking-headline-xl);
 	max-width: 40ch;
 }
 
@@ -525,12 +1330,9 @@ svg {
 }
 
 @media (min-width: 768px) {
-	.hero__title {
-		font-size: var(--text-headline-xl);
-		line-height: var(--leading-headline-xl);
-		letter-spacing: var(--tracking-headline-xl);
-	}
-
+	/* The title's size/line/tracking come from the fluid headline-xl
+	   tokens (the clamp above) - no breakpoint jump to override here;
+	   only the sub-copy steps up. */
 	.hero__sub {
 		font-size: var(--text-body-lg);
 		line-height: var(--leading-body-lg);
@@ -614,7 +1416,7 @@ svg {
 }
 
 .terminal__line code .prompt {
-	color: var(--color-primary);
+	color: var(--color-ink);
 	user-select: none;
 }
 
@@ -693,28 +1495,39 @@ svg {
 	margin: 0 0 var(--space-xs);
 }
 
-/* ---- Product grids & cards ---- */
+/* ---- Product grids & cards ----
+	The tracks are minmax(0, 1fr): a 1fr track's auto minimum is the
+	item's min-content, so a card whose long mono name or flavor stack
+	cannot wrap would pin the track wider than the viewport and grow a
+	body-level horizontal scrollbar. With the zero minimum the tracks
+	share the container's width and the cards' internal ellipsis /
+	overflow rules take over - the body never scrolls sideways. */
 .grid {
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-sm);
 }
 
 @media (min-width: 640px) {
 	.grid--2 {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 @media (min-width: 900px) {
 	.grid--3 {
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
 
 .card {
 	display: flex;
 	flex-direction: column;
+	/* The grid-item floor: a grid item's automatic minimum is its
+		min-content, which would overflow a shrinkable track; the zero
+		minimum lets the card take the track's width and truncate
+		internally. */
+	min-width: 0;
 	padding: var(--space-md);
 	border-radius: var(--radius-lg);
 	background: var(--color-surface-container-low);
@@ -733,8 +1546,8 @@ svg {
 }
 
 .card--primary {
-	background: var(--color-primary);
-	border: 1px solid var(--color-primary);
+	background: var(--color-primary-container);
+	border: 1px solid var(--color-primary-container);
 	color: var(--color-on-primary);
 }
 
@@ -811,7 +1624,7 @@ svg {
 }
 
 .card__install .prompt {
-	color: var(--color-primary);
+	color: var(--color-ink);
 	user-select: none;
 }
 
@@ -829,7 +1642,7 @@ svg {
 }
 
 .card--primary .card__install .prompt {
-	color: var(--color-on-primary-container);
+	color: var(--color-ink);
 }
 
 /* ---- Version cards ---- */
@@ -838,6 +1651,10 @@ svg {
 	align-items: center;
 	justify-content: space-between;
 	margin-bottom: var(--space-xs);
+	/* The head's type scale: the icon sizes in em of the title's own
+		label-lg size (Size="1.333em" = the former fixed 20px), so the
+		placement stays em-consistent with the rest of the site. */
+	font-size: var(--text-label-lg);
 }
 
 .version-card__title {
@@ -855,13 +1672,22 @@ svg {
 
 .version-card__icon {
 	flex-shrink: 0;
-	width: 20px;
-	height: 20px;
+	width: auto;
+	height: 1.333em;
 	color: var(--color-primary-container);
 }
 
 .card--primary .version-card__icon {
 	color: var(--color-on-primary);
+}
+
+/* The effect mark's official black is baked into the SVG paths
+	(fill="#000"), so the color rule above can't reach it; the CSS fill
+	overrides the presentation attribute and flips the mark to the
+	on-primary white inside the solid blue card - the card's white-on-blue
+	convention. The light contexts keep the official black. */
+.card--primary .brand-icon--effect path {
+	fill: var(--color-on-primary);
 }
 
 .version-card__body {
@@ -941,11 +1767,50 @@ svg {
 	margin-left: auto;
 }
 
-/* Compact variant: the same cell treatment at the smaller surfaces -
-	the flavor badges inside the card headers and the eyebrow rows. */
+/* The plugin pages' eyebrow rows: the ONE context where the label and
+	the version stand on the same line - the badges row is horizontal
+	with room to spare, so the two chips read as one inline unit (the
+	user's ruling: inline only where the space allows; the boxes stay
+	stacked). The margin-left override keeps the chips adjacent (the
+	cell's right-edge alignment above would separate them). */
+.eyebrow-row .flavor-stack {
+	flex-direction: row;
+	align-items: center;
+	gap: var(--space-xs);
+}
+
+.eyebrow-row .flavor-cell .flavor-version {
+	margin-left: 0;
+}
+
+/* Compact variant: the flavor badges inside the card headers and the
+	eyebrow rows - the card contexts. Inside a card the cell's own tray
+	and hairline are redundant: the card already provides the box, so
+	the stack floats backgroundless + borderless on the card's surface
+	with the padding trimmed to the stack's own spacing (the 2px stack
+	gap); the stack layout stays (the eyebrow-row rule above sets the
+	inline exception), the chip keeps its black/white badge form. */
 .flavor-cell--compact {
-	padding: 2px var(--space-sm);
+	padding: 2px;
+	background: transparent;
+	border: none;
 	border-radius: var(--radius-default);
+}
+
+/* The label chip inside a flavor cell must stay inside the cell: the
+	mono FLAVOR: name text is unbreakable, and an auto-sized chip (the
+	stack's align-items: flex-end keeps the chip at its content width)
+	would push the cell past its track and grow a body-level horizontal
+	scrollbar. The 100% cap clamps the chip to the cell's width and
+	flex-wrap lets the chip's parts (the icon, the FLAVOR: prefix, the
+	flavor name) fold onto a second line on the tight tracks - the chip
+	never spills past the cell. The label bytes stay intact and the
+	chip's voice (the orange prefix, the ink name, the 13px mono floor)
+	holds. */
+.flavor-cell .badge {
+	min-width: 0;
+	max-width: 100%;
+	flex-wrap: wrap;
 }
 
 /* Role variant: the two governance roles keep the cell chrome but
@@ -1002,6 +1867,20 @@ svg {
 	margin: 0;
 }
 
+/* The paragraph-break law: the sentence-lane splits render the source's line
+   break as the blank-line paragraph separation. The hero subs, the section
+   subs and the card descriptions split on newlines into sibling paragraphs,
+   and each consecutive pair carries the paragraph gap (--space-md), so the
+   sentences read as separate paragraphs with the space between. */
+.page-hero > .page-hero__sub + .page-hero__sub,
+.section > .page-hero__sub + .page-hero__sub {
+	margin-top: var(--space-md);
+}
+
+.card__desc + .card__desc {
+	margin-top: var(--space-md);
+}
+
 /* ---- Snippet table (plugins page) ---- */
 .snippet-list {
 	display: flex;
@@ -1042,6 +1921,15 @@ svg {
 	align-items: center;
 	gap: var(--space-xs);
 	text-align: center;
+}
+
+/* The .container gutter rules (the base rule above and the media-query
+	block at the bottom of the file) resolve later in the cascade and zero
+	this element's top padding, so the links touch the top border line;
+	the stronger two-class selector restores the token-based clearance
+	below the border at every width. */
+.site-footer.container {
+	padding-top: var(--space-lg);
 }
 
 .site-footer__links {
@@ -1141,6 +2029,21 @@ svg {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--space-sm);
+}
+
+/* The hero's action row: one full-width line UNDER the split. On the
+	desktop stage (1024px+) the four buttons share a single row - the
+	full container width gives the longest label room - while the
+	narrow viewports keep the wrap. The lg top margin clears the row
+	from the split's columns above it. */
+.hero__actions {
+	margin-top: var(--space-lg);
+}
+
+@media (min-width: 1024px) {
+	.hero__actions {
+		flex-wrap: nowrap;
+	}
 }
 
 .action {
@@ -1246,7 +2149,7 @@ svg {
 .engine-pill {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: var(--gap-icon);
 	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	font-weight: var(--weight-label-sm);
@@ -1265,6 +2168,10 @@ svg {
 
 .engine-pill:hover {
 	border-color: var(--color-harness-blue);
+}
+
+.engine-pill:active {
+	transform: scale(0.97);
 }
 
 .engine-pill .dot {
@@ -1294,22 +2201,25 @@ svg {
 	color: var(--color-primary);
 }
 
-/* ---- Workbench: hook switchboard ---- */
+/* ---- Workbench: hook switchboard ----
+	The same minmax(0, 1fr) tracks as the product grids: the switch
+	cards' mono tokens must never pin the tracks wider than the
+	viewport. */
 .hook-grid {
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-xs);
 }
 
 @media (min-width: 640px) {
 	.hook-grid {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 @media (min-width: 900px) {
 	.hook-grid {
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
 
@@ -1317,6 +2227,7 @@ svg {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	min-width: 0;
 	gap: var(--space-sm);
 	padding: var(--space-md);
 	border-radius: var(--radius-lg);
@@ -1351,7 +2262,11 @@ svg {
 }
 
 .hook-card.is-armed .hook-card__status {
-	background: var(--color-primary-container);
+	/* The armed hook is a live-writing state: the dot shares the
+	   accent-orange token with the PAUSED word and the RAW signature
+	   (the one live-writing meaning - see the hover-pause rules
+	   below), not the Harness Blue. The pulse animation stays. */
+	background: var(--color-accent-orange);
 	animation: dsh-pulse-dot 2s var(--ease-crisp) infinite;
 }
 
@@ -1405,16 +2320,19 @@ svg {
 	flex-shrink: 0;
 }
 
-/* ---- Workbench: dual stream terminals ---- */
+/* ---- Workbench: dual stream terminals ----
+	The flanking panes are minmax(0, 1fr) so the mono terminal lines
+	never pin the grid wider than the viewport; the hub column stays
+	auto (its own content width). */
 .stream-grid {
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-md);
 }
 
 @media (min-width: 900px) {
 	.stream-grid {
-		grid-template-columns: 1fr auto 1fr;
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 	}
 }
 
@@ -1434,12 +2352,20 @@ svg {
 	justify-content: space-between;
 	gap: var(--space-sm);
 	margin-bottom: var(--space-xs);
+	/* The bar must be able to yield at the narrow widths: without the
+		min-width floor the label + count pair overflows the pane and
+		the count wraps onto a second line. */
+	min-width: 0;
 }
 
 .stream-pane__label {
 	display: flex;
 	align-items: center;
 	gap: var(--space-xs);
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	font-weight: 600;
@@ -1463,6 +2389,10 @@ svg {
 }
 
 .stream-pane__count {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	font-family: var(--font-mono);
 	font-size: var(--text-body-sm);
 	color: var(--color-outline);
@@ -1535,22 +2465,25 @@ svg {
 	}
 }
 
-/* ---- Workbench: telemetry metrics ---- */
+/* ---- Workbench: telemetry metrics ----
+	The metric tiles' mono values must not pin the tracks; same
+	minmax(0, 1fr) floor as every other product grid. */
 .metric-grid {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: var(--space-sm);
 }
 
 @media (min-width: 768px) {
 	.metric-grid {
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
 
 .metric {
 	display: flex;
 	flex-direction: column;
+	min-width: 0;
 	gap: 2px;
 	padding: var(--space-md);
 	border-radius: var(--radius-lg);
@@ -1672,6 +2605,15 @@ svg {
 	cursor: pointer;
 }
 
+/* The selectable rows are keyboard-reachable (the plugins page script
+	hands each row a tabindex): the focus ring stays the crisp 1px
+	Harness Blue, drawn inside the row so it never clips against the
+	table's tray. */
+.table[data-selectable] tbody tr:focus-visible {
+	outline: 1px solid var(--color-primary-container);
+	outline-offset: -1px;
+}
+
 .table tbody tr.is-selected {
 	background: var(--color-harness-blue-subtle);
 }
@@ -1740,6 +2682,15 @@ svg {
 	tab-size: 4;
 }
 
+/* The --shiki-dark bridge: CodeBlock.astro now renders BOTH themes (the
+   light palette inline, the dark palette as a per-token --shiki-dark CSS
+   variable on every span). The dark theme swaps each span's color to its
+   own --shiki-dark variable; the tray keeps the site's dark surface token,
+   so the block reads as one themed unit in both themes. */
+:root[data-theme="dark"] .code-block pre.shiki span {
+	color: var(--shiki-dark) !important;
+}
+
 /* ---- Release tag (package detail spec cards) ---- */
 .release-tag {
 	display: inline-flex;
@@ -1780,16 +2731,17 @@ svg {
 	width: auto;
 }
 
-/* ---- Brand page: spec tables ---- */
+/* ---- Brand page: spec tables ----
+	Same shrinkable-track floor as the product grids. */
 .spec-list {
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-sm);
 }
 
 @media (min-width: 640px) {
 	.spec-list {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
@@ -1830,12 +2782,16 @@ svg {
 	the end of this file).
 	============================================================ */
 
-/* ---- Live status dot (armed hooks, inspected chips, pins) ---- */
+/* ---- Live status dot (the live-writing marker: the registry
+	telemetry's LIVE count dot) ----
+	The dot marks something actively writing right now, so it shares
+	the accent-orange token with the PAUSED word, the armed-hook dot
+	and the RAW signature - the one live-writing meaning. */
 .live-dot {
 	width: 8px;
 	height: 8px;
 	border-radius: var(--radius-full);
-	background: var(--color-harness-blue);
+	background: var(--color-accent-orange);
 	flex-shrink: 0;
 	animation: dsh-pulse-dot 2s var(--ease-crisp) infinite;
 }
@@ -1960,7 +2916,7 @@ svg {
 .filter-chip {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: var(--gap-icon);
 	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
 	line-height: var(--leading-label-sm);
@@ -1981,6 +2937,10 @@ svg {
 
 .filter-chip:hover {
 	border-color: var(--color-harness-blue);
+}
+
+.filter-chip:active {
+	transform: scale(0.97);
 }
 
 .filter-chip[data-active],
@@ -2081,7 +3041,7 @@ svg {
 .copy-trigger {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: var(--gap-icon);
 	flex-shrink: 0;
 	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
@@ -2105,6 +3065,10 @@ svg {
 	background: var(--color-harness-blue-tint);
 	border-color: var(--color-primary-container);
 	color: var(--color-primary);
+}
+
+.copy-trigger:active {
+	transform: scale(0.97);
 }
 
 .copy-trigger.is-copied {
@@ -2146,7 +3110,7 @@ svg {
 .inspect-card__meta {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: var(--gap-icon);
 	margin-left: auto;
 	font-family: var(--font-mono);
 	font-size: var(--text-label-sm);
@@ -2209,7 +3173,7 @@ svg {
 
 .terminal-demo__stage {
 	display: grid;
-	grid-template-columns: 1fr auto 1fr;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 	align-items: stretch;
 	gap: var(--space-sm);
 }
@@ -2272,13 +3236,14 @@ svg {
 /* ---- Hover-to-pause: the streams freeze while the cursor reads ----
 	The index preview and the workbench/matrix stages toggle .is-paused
 	on hover: the tick loops suspend (see the page scripts) and the motion
-	language - the live dot, the pipe pulse, the caret blink, the hub
-	spin, the anomaly flash - freezes in place via animation-play-state.
-	Only the word PAUSED carries the accent-orange token (the raw/stream
-	signature); the separator and the rest of the status render in the
-	status's normal color, so the state is unmistakable without the whole
-	line shouting - and the RAW stays orange while the CLEAN stays blue. */
-.terminal-demo.is-paused .live-dot,
+	language - the pipe pulse, the caret blink, the hub spin, the anomaly
+	flash - freezes in place via animation-play-state. The tray bars carry
+	no live-dot (the flat tray markers are their single indicator), so the
+	pause rule covers the stage's remaining motion only. Only the word
+	PAUSED carries the accent-orange token (the raw/stream signature); the
+	separator and the rest of the status render in the status's normal
+	color, so the state is unmistakable without the whole line shouting -
+	and the RAW stays orange while the CLEAN stays blue. */
 .terminal-demo.is-paused .flow-line__pulse,
 .terminal-demo.is-paused .stream-caret,
 .stream-grid.is-paused .dot,
@@ -2299,7 +3264,10 @@ svg {
 	state between the two panes, replacing nothing - it appears under the
 	hub core while the cursor holds the stage. The markup carries the two
 	parts (only the PAUSED word is orange; the separator and the rest keep
-	the on-surface-variant ink), hidden until the stage is paused. */
+	the on-surface-variant ink), hidden until the stage is paused. The
+	entrance is eased (the machine language's slow duration + snap easing
+	via a one-shot keyframe, so the tag fades/slides in on pause instead
+	of popping; the layout behavior of the display toggle is unchanged). */
 .stream-hub__paused {
 	display: none;
 	font-family: var(--font-mono);
@@ -2318,6 +3286,56 @@ svg {
 
 .stream-grid.is-paused .stream-hub__paused {
 	display: block;
+	animation: dsh-paused-in var(--duration-slow) var(--ease-snap);
+}
+
+@keyframes dsh-paused-in {
+	from {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+}
+
+/* ---- Hover-pause cursor affordance ----
+	Hovering is what pauses the streams, so the affordance travels with
+	the cursor: over the live stream stages the pointer renders as a flat
+	two-bar pause glyph in the accent-orange live-writing tone (the
+	outline keeps it legible on both the light and the dark canvas), with
+	the hot spot on the glyph's center. Fine pointers only - touch has no
+	cursor to replace. */
+@media (hover: hover) and (pointer: fine) {
+	.terminal-demo,
+	.stream-grid {
+		cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cg fill='%23bf3003' stroke='%23ffffff' stroke-width='1'%3E%3Crect x='6' y='5' width='4.5' height='14' rx='1.5'/%3E%3Crect x='13.5' y='5' width='4.5' height='14' rx='1.5'/%3E%3C/g%3E%3C/svg%3E")
+				12 12,
+			pointer;
+	}
+}
+
+/* ---- The tray's first marker: the live-writing pulse ----
+	While the stage is live-writing, the first tray marker breathes
+	softly - an opacity pulse only (no scale, no color change: the flat
+	marker language holds, the pulse just marks "this tray is writing").
+	The pause freezes it with the rest of the stage motion; the global
+	reduced-motion guard kills it outright. */
+.terminal-demo .tray__marker--first,
+.stream-grid .tray__marker--first {
+	animation: dsh-marker-pulse 2.4s var(--ease-crisp) infinite;
+}
+
+.terminal-demo.is-paused .tray__marker--first,
+.stream-grid.is-paused .tray__marker--first {
+	animation-play-state: paused;
+}
+
+@keyframes dsh-marker-pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.4;
+	}
 }
 
 /* ---- Text-to-box clearance ----
@@ -2337,6 +3355,22 @@ svg {
 	margin-top: var(--space-xl);
 }
 
+/* ---- Heading-after-text clearance ----
+	Wherever a specialized-identity heading (a .section-kicker label
+	above its code or terminal box) follows a text group - a
+	.concept-list whose last block ends in a paragraph, or a lead-in
+	paragraph - the heading carries the md top margin, so the label
+	reads as a box separated from the text on top (heading + text, the
+	consistent spacing). The already-spaced positions keep their md:
+	the paragraph's own bottom margin and the label's top margin are
+	adjacent-sibling margins, so they collapse to the same md token;
+	the label's tight xs pairing with its box below stays as the
+	spacing pass set it. */
+.concept-list + .section-kicker,
+p + .section-kicker {
+	margin-top: var(--space-md);
+}
+
 /* ---- Concept blocks: the diagram-first restructure units ----
 	Each section that explains dense prose carries a .concept-list of
 	Concept blocks (one independently explainable concept per block). The
@@ -2353,6 +3387,30 @@ svg {
 	gap: var(--space-md);
 	margin: 0;
 	padding-left: 1.25rem;
+}
+
+/* ---- The descriptive titles ----
+	The descriptive headings that open each explanatory block - the
+	concept titles (the Concept component, across the case-study and the
+	other concept pages), the pinner page's concept-block titles and the
+	showcase use-case titles - read as a heading ABOVE the body prose, not
+	as inline emphasis: the headline-lg scale (28px, one full step above
+	the section-header's headline-md) carries the typography laws, and the
+	muted tone (the on-surface-variant token, flipped by the dark theme)
+	marks them as the explanatory voice between the blue-marked section
+	headers and the body ink. The info icon opens the title on the LEFT -
+	the shared mechanics family (the 24-grid stroke optics in
+	BrandIcon.astro), the --gap-icon token, the flex centering - and
+	inherits the same muted tone through currentColor, so icon + title
+	read as one grayed unit.
+	Layout stays per-component (Concept and the scoped page styles own
+	their display) - the title scale and tone are the shared law here. */
+.concept__title {
+	color: var(--color-on-surface-variant);
+	font-size: var(--text-headline-lg);
+	line-height: var(--leading-headline-lg);
+	font-weight: var(--weight-headline-lg);
+	letter-spacing: var(--tracking-headline-lg);
 }
 
 /* ---- Toast (transient action feedback) ---- */
@@ -2542,12 +3600,20 @@ button:focus-visible,
 	underneath - the user's two-part FLAVOR structure. The stack is a
 	semantic flex column with a CSS gap (never a <br>); the version
 	badge is a solid chip in the black ink token with white text
-	(#FFFFFF on #0B0F19 is AAA contrast), mono, the 13px floor held. */
+	(#FFFFFF on #0B0F19 is AAA contrast), mono, the 13px floor held.
+	STACKED by default: the boxes and the cards don't have the width
+	to hold both chips on one line - the inline exception is scoped
+	to the eyebrow rows (see the rule after the flavor cells). */
 .flavor-stack {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
 	gap: 2px;
+	/* The stack must be able to shrink inside its cell (the card
+		headers' compact cells and the strip cells): without the zero
+		minimum the label chip's mono text would pin the cell wider
+		than its track. */
+	min-width: 0;
 }
 
 .flavor-version {
@@ -2564,6 +3630,15 @@ button:focus-visible,
 	color: var(--color-on-primary);
 }
 
+/* The ink token flips to the light ink on the dark theme (its text usages
+	need it), so the solid version chip re-anchors on the flipped pair: the
+	light on-surface becomes its fill and the canvas its text - the chip
+	stays the inverse solid it is, in both themes. */
+:root[data-theme="dark"] .flavor-version {
+	background: var(--color-on-surface);
+	color: var(--color-surface);
+}
+
 /* ---- The orange top rail: the raw/stream signature ----
 	A 2px flat top rail in the accent-orange token on the raw panes
 	and the input surfaces: the inspect-card's 2px Harness Blue rail
@@ -2575,8 +3650,12 @@ button:focus-visible,
 
 /* ---- The flow divider's RAW side (the CLEAN tag stays Harness Blue) ----
 	Only the RAW word is orange; the arrow that follows keeps the neutral
-	ink-muted, so "only RAW" reads literally. */
-.flow-tag--raw {
+	ink-muted, so "only RAW" reads literally. The raw tag's rule is
+	scoped to the demo's flow container: the container's tag rule
+	(.terminal-demo__flow .flow-tag) is declared above at equal weight,
+	so this later same-weight rule wins the cascade and the RAW word
+	renders orange (never the blue the unscoped rule lost to). */
+.terminal-demo__flow .flow-tag--raw {
 	color: var(--color-accent-orange);
 }
 
@@ -2584,14 +3663,71 @@ button:focus-visible,
 	color: var(--color-ink-muted);
 }
 
-/* ---- Reduced motion: the whole motion language collapses ---- */
+/* ---- The linked brand marks: the hover affordance ----
+	When a brand mark sits inside a link (the header brand glyph, the
+	registry cards' icon + name anchors), hovering or focusing the link
+	eases the mark's opacity down one step - the same fast token
+	transition the link text runs, in both themes. The marks stay
+	aria-hidden decorative (the link's own text carries the name), so
+	this is purely a visual affordance. */
+.brand-icon {
+	transition: opacity var(--duration-fast) var(--ease-crisp);
+}
+
+a:hover .brand-icon,
+a:focus-visible .brand-icon {
+	opacity: 0.75;
+}
+
+/* ---- The interactive diagrams: the related-node highlight ----
+	The pre-baked Mermaid SVGs (svg.flowchart) get a tiny overlay script
+	(Layout/Base.astro): hovering or focusing a node adds [data-related]
+	to the node, its direct neighbors and the connecting edges, and
+	.diagram-nav--active to the svg; everything unrelated recedes
+	slightly. The !important marks are required to outweigh the Mermaid
+	style rules baked into each SVG (their selectors are #id-scoped, so
+	plain class rules would lose the cascade). The highlight color is
+	the theme's Harness Blue token, so it tracks both themes. */
+svg.flowchart a.diagram-node-link {
+	cursor: pointer;
+}
+
+svg.flowchart g.node,
+svg.flowchart .edgePaths path {
+	transition: opacity var(--duration-fast) var(--ease-crisp);
+}
+
+svg.flowchart g[data-related] > rect,
+svg.flowchart g[data-related] > polygon,
+svg.flowchart g[data-related] > circle {
+	stroke: var(--color-harness-blue) !important;
+	stroke-width: 2.5px !important;
+}
+
+svg.flowchart path[data-related] {
+	stroke: var(--color-harness-blue) !important;
+}
+
+svg.flowchart.diagram-nav--active g.node:not([data-related]) {
+	opacity: 0.45;
+}
+
+svg.flowchart.diagram-nav--active .edgePaths path:not([data-related]) {
+	opacity: 0.3;
+}
+
+/* ---- Reduced motion: the whole motion language collapses ----
+	1ms (not the original 0.01ms): the beasties inline pipeline mangles
+	0.01ms into the invalid "NaNs" and drops the declaration, which
+	would leave the built site's animations running for reduced-motion
+	users. 1ms is imperceptible and survives every minifier. */
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,
 	*::after {
-		animation-duration: 0.01ms !important;
+		animation-duration: 1ms !important;
 		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
+		transition-duration: 1ms !important;
 		scroll-behavior: auto !important;
 	}
 }

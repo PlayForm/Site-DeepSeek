@@ -1,0 +1,11 @@
+flowchart LR
+	FOLD["the multi-step direct-govern fold"]
+	SAME["every step writing the SAME<br/>observed version"]
+	FIRST["only the first write succeeding"]
+	SILENT["the later steps failing the stale-version<br/>check silently"]
+	FIX["the fix - the sequential fold awaiting<br/>each step's chain"]
+	STAT["the chain pass statting the target<br/>before its write"]
+	FOLD --> SAME
+	SAME --> FIRST
+	SAME --> SILENT
+	FIX --> STAT

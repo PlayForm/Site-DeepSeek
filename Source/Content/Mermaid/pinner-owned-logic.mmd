@@ -1,0 +1,10 @@
+flowchart LR
+	BOUNDARY["the pinner-owned boundary"]
+	R["the range law"]
+	D["decode logic"]
+	L["the ledger strings"]
+	BOUNDARY --> R
+	BOUNDARY --> D
+	BOUNDARY --> L
+	R ~~~ D
+	D ~~~ L

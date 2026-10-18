@@ -1,0 +1,26 @@
+flowchart LR
+	FACTORY["plugin-dsh-factory supplies"]
+	G["the gate"]
+	D["discovery"]
+	K["the union keep-list"]
+	W["the guarded write"]
+	R["refresh"]
+	C["continuation"]
+	E["effects"]
+	S["the schema"]
+	FACTORY --> G
+	FACTORY --> D
+	FACTORY --> K
+	FACTORY --> W
+	FACTORY --> R
+	FACTORY --> C
+	FACTORY --> E
+	FACTORY --> S
+	%% Invisible layout links only - no semantics.
+	G ~~~ D
+	D ~~~ K
+	K ~~~ W
+	W ~~~ R
+	R ~~~ C
+	C ~~~ E
+	E ~~~ S

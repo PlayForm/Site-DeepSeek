@@ -1,0 +1,8 @@
+flowchart LR
+	IN["U+00A0 - U+2003 - U+3000 in the sample"]
+	ONE["each non-ASCII space in the Zs-minus-ASCII class<br/>becoming exactly one ASCII space - U+0020"]
+	TOUCH["ASCII spaces already there untouched"]
+	EXEC["what makes a pasted command executable again<br/>echo a - b with a hidden no-break space running<br/>after the pass - where before the shell saw<br/>one mangled word"]
+	IN --> ONE
+	ONE --> TOUCH
+	ONE --> EXEC

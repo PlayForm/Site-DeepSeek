@@ -1,0 +1,11 @@
+flowchart LR
+	HOOK["normalize-dashes-<br/>for-execute-code.sh"]
+	SWEEP["swept script-created files after the fact"]
+	BG["a background hook"]
+	TOOL["DSH: the same rewrite as an explicit,<br/>visible, opt-in TOOL call"]
+	TABS["normalize-tabs.sh<br/>the repair hook for a repair hook"]
+	CAUTION["the cautionary tale that keeps it that way"]
+	HOOK --> SWEEP --> BG
+	BG -. "instead" .-> TOOL
+	TABS --> CAUTION
+	CAUTION -.-> TOOL

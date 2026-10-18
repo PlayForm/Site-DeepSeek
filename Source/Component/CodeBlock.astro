@@ -18,9 +18,14 @@ const { Source, Language = "json", Style } = Astro.props;
 
 const Highlighted = await codeToHtml(Source, {
 	lang: Language,
-	// The light github theme matches the site's #F8FAFC trays; the site has
-	// no dark mode, so a single light theme needs no CSS-variable bridge.
-	theme: "github-light",
+	// Both themes, one markup: the light palette renders inline and the dark
+	// palette ships as a per-token --shiki-dark CSS variable on every span
+	// (defaultColor: "light" keeps the light colors in the inline styles).
+	// Global.css swaps the spans to their --shiki-dark variables under
+	// html[data-theme="dark"] - the --shiki-dark bridge - so the same HTML
+	// serves both themes with zero runtime JavaScript.
+	themes: { light: "github-light", dark: "github-dark" },
+	defaultColor: "light",
 });
 ---
 
