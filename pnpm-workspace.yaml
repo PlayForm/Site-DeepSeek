@@ -8,3 +8,4 @@ minimumReleaseAgeExclude:
   - '@astrojs/markdown-satteri@0.4.3'
   - astro@7.3.6
   - dotenv@18.0.6
+  - postcss@8.5.31
