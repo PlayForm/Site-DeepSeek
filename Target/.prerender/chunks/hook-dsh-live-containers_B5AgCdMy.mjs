@@ -1,7 +1,7 @@
 import { C as Mention, D as __exportAll, E as createComponent, a as Links, b as Versions, c as Families, n as $$Base, r as Link, s as Counts, t as $$Badge, x as $$BrandIcon } from "./Badge_BcqTIV8g.mjs";
 import { E as unescapeHTML, _ as maybeRenderHead, g as renderTemplate, l as renderComponent, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_sjNl5b6w.mjs";
+import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$Terminal } from "./Terminal_BMZtWhRH.mjs";
 import { t as $$CodeBlock } from "./CodeBlock_D0mCXfg1.mjs";
@@ -239,8 +239,8 @@ A hook child of the${" "} <strong><a${addAttribute(Link(Links.OurRepo, "Classic/
 		},
 		{
 			Seam: "agent/pre-step - the user-message boundary",
-			What: "Listener 3 ([agent/pre-step](Harness:docs/event-producer-consumer.md)), the tool-coach precedent: a new user message counts the messages, advances the turn, resets the per-turn counters and marks the event-trigger blocks dirty.",
-			Outcome: "The counters track the conversation as it flows; event blocks re-render at the next assembly."
+			What: "Listener 3 ([agent/pre-step](Harness:docs/event-producer-consumer.md)), the tool-coach precedent. A new user message counts the messages. It advances the turn. It resets the per-turn counters. It marks the event-trigger blocks dirty.",
+			Outcome: "The counters track the conversation as it flows. Event blocks re-render at the next assembly."
 		},
 		{
 			Seam: "tools/change - the cache invalidation",

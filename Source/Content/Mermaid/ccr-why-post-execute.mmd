@@ -1,3 +1,3 @@
 flowchart LR
-	PROXY["a proxy at the transport layer"] -. "sees the tool call but never the harness's<br/>normalized dispatch result" .-> UNREACH["the tool result it cannot reach"]
-	PE["tools/post-execute - the interceptable wrapper<br/>around every NORMALIZED dispatch result,<br/>before it becomes model content"] -- "name + parsed arguments + caller agent<br/>on every event" --> LEGAL["the only point that can legally<br/>replace model-visible output for ALL tools"]
+	PROXY["A proxy at the transport layer"] -. "sees the tool call but never the harness's<br/>normalized dispatch result" .-> UNREACH["The tool result it cannot reach"]
+	PE["tools/post-execute - the interceptable wrapper<br/>around every NORMALIZED dispatch result,<br/>before it becomes model content"] -- "name + parsed arguments + caller agent<br/>on every event" --> LEGAL["The only point that can legally<br/>replace model-visible output for ALL tools."]

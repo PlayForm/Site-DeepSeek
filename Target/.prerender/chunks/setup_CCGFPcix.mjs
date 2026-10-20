@@ -1,7 +1,7 @@
 import { C as Mention, D as __exportAll, E as createComponent, S as DotSep, T as createAstro, _ as Steps, a as Links, b as Versions, n as $$Base, r as Link, t as $$Badge, w as renderScript, x as $$BrandIcon, y as Totals } from "./Badge_BcqTIV8g.mjs";
 import { E as unescapeHTML, _ as maybeRenderHead, g as renderTemplate, l as renderComponent, u as Fragment, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_sjNl5b6w.mjs";
+import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
 import { t as $$PageHero } from "./PageHero_CSrnuBSY.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$CodeBlock } from "./CodeBlock_D0mCXfg1.mjs";
@@ -1019,11 +1019,12 @@ And the invisibility contract: a tool-result normalization replaces the
 						off (failures pass through; the error ×8 tier is the ONLY beneficiary).
 <code>journalPath</code> is empty.
 						The store is memory-only until you point it at a JSONL file.
-</p> <p> <a href="/plugins/hook-dsh-tool-coach/">The tool-coach</a>:${" "} <code>enforce: 'off'</code> - the deny tier is the configurable last resort;
-						out of the box the coach only logs and notes.
+</p> <p> <a href="/plugins/hook-dsh-tool-coach/">The tool-coach</a>:${" "} <code>enforce: 'off'</code>.
+						The deny tier is the configurable last resort.
+						Out of the box the coach ONLY logs and notes.
 </p> <p>
-Every knob of both plugins is
-						volatile - a flip lands on the next judged call.
+EVERY knob of BOTH plugins is volatile.
+						A flip lands on the next judged call.
 </p> ` })} </div> </section> <!-- The ledgers --> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
 		"Title": "One ledger per plugin",
 		"Meta": "~/.dsh/<name>.log"

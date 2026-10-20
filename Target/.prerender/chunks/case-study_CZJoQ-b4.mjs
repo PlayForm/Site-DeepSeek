@@ -2,7 +2,7 @@ import { C as Mention, D as __exportAll, E as createComponent, a as Links, b as 
 import { E as unescapeHTML, _ as maybeRenderHead, g as renderTemplate, l as renderComponent, u as Fragment, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$ArrowIcon } from "./ArrowIcon_DerRPTTd.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_sjNl5b6w.mjs";
+import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
 import { t as $$PageHero } from "./PageHero_CSrnuBSY.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$Terminal } from "./Terminal_BMZtWhRH.mjs";
@@ -591,7 +591,7 @@ The gate NEVER rejects vaguely.</p> <p>Its rejections are a fixed vocabulary of
 </p> <p>
 Read through that vocabulary, the saga is two reasons: the pre-fix
 						rejection was the <strong>actor</strong> reason - the${" "} <code class="code-token">raw-write</code>'s actor was
-						not in the governance bundles' mutation-tool list - and after the
+						NOT in the governance bundles' mutation-tool list - and after the
 						governance marker the same flow rejects on the <strong>govern</strong>${" "}
 reason, by design: the wrapped actor's write is the direct path's business
 						ONLY.
@@ -601,7 +601,7 @@ reason, by design: the wrapped actor's write is the direct path's business
 		"Diagram": "The deployed mutationTools value of all three governance bundles being [write, edit, str_replace_editor] - no raw-write - even though the schema default included it, the bundles' own patch layers setting it explicitly, and a patch layer's config replacing the entry config wholesale, shadowing the default."
 	}, { "default": ($$result) => renderTemplate` <p>
 The deployed <code>mutationTools</code> value of all three governance bundles
-						was <code>[write, edit, str_replace_editor]</code> - no${" "} <code>raw-write</code> - even though the schema default included it.
+						was <code>[write, edit, str_replace_editor]</code> - NO${" "} <code>raw-write</code> - even though the schema default included it.
 </p> <p>
 The bundles' own patch layers set <code>mutationTools</code> explicitly, and a
 						patch layer's config <strong>replaces the entry config wholesale</strong>,

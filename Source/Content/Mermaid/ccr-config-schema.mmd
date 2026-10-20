@@ -1,6 +1,6 @@
 flowchart LR
-	SCH["the factory's standalone Schema helper -<br/>the NON-MANIFEST posture"] --> LOAD["validates and fills every default at load"]
-	LOAD -. "invalid configuration" .-> FAIL["fails loudly"]
-	LOAD --> VOL["volatile - hot-editable, no remount:<br/>log, logFile, thresholdBytes,<br/>previewMaxChars, multipliers"]
-	LOAD --> REM["everything else remounts on edit"]
-	PATCH["new patch entries declared with insert:"] -.-> LOAD
+	SCH["The factory's standalone Schema helper -<br/>the NON-MANIFEST posture"] --> LOAD["Validates and fills every default at load"]
+	LOAD -. "invalid configuration" .-> FAIL["Fails loudly"]
+	LOAD --> VOL["Volatile - hot-editable, no remount:<br/>log, logFile, thresholdBytes,<br/>previewMaxChars, multipliers"]
+	LOAD --> REM["Everything else remounts on edit."]
+	PATCH["New patch entries declared with insert:"] -.-> LOAD

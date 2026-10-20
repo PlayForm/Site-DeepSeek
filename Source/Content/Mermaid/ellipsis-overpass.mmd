@@ -6,7 +6,7 @@ flowchart LR
 	RULES["Accepted, non-value-carrying decisions only<br/>text blocks only, N = 0 a true no-op with no ledger line<br/>fail-open"]
 	BATCH["The step-batch arm on agent/pre-step in default order<br/>while scopes.batch is on, every incoming batch is normalized."]
 	ONESHOT["The command's one-shot arm fires once regardless of the scope value<br/>cleared after one use - text blocks only, never the assistant/tool history"]
-	LEDGER["the hook-dsh-normalize-ellipsis overpass ledger lines<br/>for N above zero only"]
+	LEDGER["The hook-dsh-normalize-ellipsis overpass ledger lines<br/>for N above zero only"]
 	CMD["The normalize-overpass command, registered through the<br/>commands service when present - probe-once, a missing<br/>service simply skips the registration."]
 	DECLINE["File paths declined - the sweep is owned<br/>by the normalize-file hook"]
 	APPLY --> TRES

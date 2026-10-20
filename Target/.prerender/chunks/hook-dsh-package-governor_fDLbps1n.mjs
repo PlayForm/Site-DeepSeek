@@ -2,7 +2,7 @@ import { C as Mention, D as __exportAll, E as createComponent, a as Links, b as 
 import { E as unescapeHTML, _ as maybeRenderHead, g as renderTemplate, l as renderComponent, u as Fragment, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$ArrowIcon } from "./ArrowIcon_DerRPTTd.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_sjNl5b6w.mjs";
+import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$Terminal } from "./Terminal_BMZtWhRH.mjs";
 import { t as $$CodeBlock } from "./CodeBlock_D0mCXfg1.mjs";
@@ -153,7 +153,7 @@ var $$HookDshPackageGovernor = createComponent(($$result, $$props, $$slots) => {
 	];
 	return renderTemplate`${renderComponent($$result, "Base", $$Base, {
 		"Title": "hook-dsh-package-governor - DSH Family @ PlayForm",
-		"Description": `${Families.GovernorPackage} - the silent package.json governor of the DeepSeek Harness: hooks fs/observed, canonicalizes chain-governed dependency pins, and runs the update stage as a detached, contained continuation.`
+		"Description": `${Families.GovernorPackage} - the silent package.json governor of the DeepSeek Harness. It hooks fs/observed, canonicalizes chain-governed dependency pins, and runs the update stage as a detached, contained continuation.`
 	}, { "default": ($$result) => renderTemplate` ${maybeRenderHead($$result)}<main class="container container--main"> <div class="eyebrow-row"> ${renderComponent($$result, "Badge", $$Badge, {
 		"Variant": "primary",
 		"Dot": true

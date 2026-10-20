@@ -1,7 +1,7 @@
 flowchart LR
-	IN["a gated tool result"] --> ERR["error - a failure result,<br/>the x8 tier,<br/>when failures are compressed"]
-	IN --> NAME["the name table:<br/>bash -&gt; terminal, grep and search -&gt; grep,<br/>glob and list -&gt; paths, read -&gt; file,<br/>web_fetch and web_search -&gt; web"]
-	IN --> SHAPE["the shape fallback<br/>for other gated names"]
-	SHAPE --> J["joined text parsing as a JSON object<br/>or array -&gt; json"]
-	SHAPE --> D["else -&gt; default"]
-	NAME -.- MULT["each type carries its multiplier on the byte gate:<br/>error 8, grep 2, paths 2, web 2, the rest 1"]
+	IN["A gated tool result"] --> ERR["error - a failure result,<br/>the x8 tier,<br/>when failures are compressed"]
+	IN --> NAME["The name table:<br/>bash -&gt; terminal, grep and search -&gt; grep,<br/>glob and list -&gt; paths, read -&gt; file,<br/>web_fetch and web_search -&gt; web"]
+	IN --> SHAPE["The shape fallback<br/>for other gated names"]
+	SHAPE --> J["Joined text parsing as a JSON object<br/>or array -&gt; json"]
+	SHAPE --> D["Else -&gt; default"]
+	NAME -.- MULT["Each type carries its multiplier on the byte gate:<br/>error 8, grep 2, paths 2, web 2, the rest 1."]

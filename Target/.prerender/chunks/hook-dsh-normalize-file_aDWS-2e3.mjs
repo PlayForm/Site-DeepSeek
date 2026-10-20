@@ -2,7 +2,7 @@ import { C as Mention, D as __exportAll, E as createComponent, a as Links, b as 
 import { E as unescapeHTML, _ as maybeRenderHead, g as renderTemplate, l as renderComponent, u as Fragment, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$ArrowIcon } from "./ArrowIcon_DerRPTTd.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_sjNl5b6w.mjs";
+import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$Terminal } from "./Terminal_BMZtWhRH.mjs";
 import { t as $$Compare } from "./Compare_BvteMlTf.mjs";
@@ -150,7 +150,7 @@ var $$HookDshNormalizeFile = createComponent(($$result, $$props, $$slots) => {
 		},
 		{
 			Input: "scopes",
-			Effect: "read-only report of the current effective values (the activation line never changes)"
+			Effect: "read-only report of the current effective values (the activation line NEVER changes)"
 		}
 	];
 	const LedgerLines = [
@@ -178,7 +178,7 @@ var $$HookDshNormalizeFile = createComponent(($$result, $$props, $$slots) => {
 			Type: "string",
 			Default: "-",
 			Volatile: "yes",
-			Meaning: "the dash step's replacement (the transform's only knob)"
+			Meaning: "the dash step's replacement (the transform's ONLY knob)"
 		}
 	];
 	const BeforeAfter = [
@@ -222,7 +222,7 @@ PLUGIN DETAIL
 				LISTENER-LESS flavor: no
 <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}><code>llm/stream</code></a>
 , no${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}><code>fs/observed</code></a>${" "}
-- nothing runs without an explicit agent action.</p> <p class="page-hero__sub">This bundle's own tool calls are
+- nothing runs WITHOUT an explicit agent action.</p> <p class="page-hero__sub">This bundle's own tool calls are
 				name-exempt in the stream gate beside <code>edit</code> and <code>raw-write</code> -
 				its arguments carry a FILE PATH, and a normalized dash inside a filename would
 				corrupt the target.
@@ -303,7 +303,7 @@ The tool's writes carry the call's exec as the actor, so the governance
 		{
 			Seam: "The governance interlock",
 			What: "The write's actor is the call's exec, and normalize-file is NEVER added to any governor's mutationTools pin - so these writes NEVER trigger a chain pass; the tool calls are also name-exempt in the stream gate beside edit and raw-write.",
-			Outcome: "Normalization without re-processing loops, and edit targets that never corrupt."
+			Outcome: "Normalization WITHOUT re-processing loops, and edit targets that NEVER corrupt."
 		},
 		{
 			Seam: "The storage domain",
@@ -376,8 +376,8 @@ There is no stream dispatch to gate: the tool registers NO event listener,
 The write goes through${" "} <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Write.ts"), "href")}><code>Factory.Write</code></a>${" "}
 and emits${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}><code>fs/observed</code></a>
 , but the governors' Gate requires the actor tool name in their
-						mutationTools pin - <code>normalize-file</code> is never added to any such
-						list, so these writes never trigger a chain pass.
+						mutationTools pin - <code>normalize-file</code> is NEVER added to any such
+						list, so these writes NEVER trigger a chain pass.
 </p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
 		"ID": "file-edit-contract",
 		"Title": "The edit old_string contract, kept safe because visible",
@@ -406,7 +406,7 @@ There are no stream flags (<code>normalizeReasoning</code>,${" "} <code>normaliz
 fields (<code>updateCooldownMs</code>, <code>mutationTools</code>,${" "} <code>policyFile</code>, <code>exclude</code>): the minimal${" "} <code>shared: false</code> block plus the two knobs is the whole config
 						surface, because the tool registers no listener of any kind.
 </p> <p>
-Volatile cells commit without remounting the plugin. The tool is called by
+Volatile cells commit WITHOUT remounting the plugin. The tool is called by
 						the agent like any built-in tool:
 </p> ` })} </div> <div class="code-block"> ${Usage.join("\n")} </div> </section> <!-- The granular scopes + the overpass arms: the volatility widening.
 		     Every place the scopes/tool-argument control is described carries
@@ -420,18 +420,18 @@ Volatile cells commit without remounting the plugin. The tool is called by
 		"Title": "Every arm gated independently - and all volatile",
 		"Diagram": "The scopes object gating every arm of the hook-dsh-normalize-file hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 	}, { "default": ($$result) => renderTemplate` <p>
-The <code>scopes</code> object gates every arm of the${" "} <code>hook-dsh-normalize-file</code> hook independently - conversation,
+The <code>scopes</code> object gates EVERY arm of the${" "} <code>hook-dsh-normalize-file</code> hook independently - conversation,
 						reasoning, toolInput, toolResults, files, batch - with the defaults exactly
 						the pre-scopes behavior.
 </p> <p>
 The whole object is <strong>volatile</strong>: one leaf change commits one${" "} <code>loader/volatile-update</code> dispatch whose whole object the State's
 						refresh listener re-reads - live, silent, no remount, no new activation
-						line (a flip lands without remounting).
+						line (a flip lands WITHOUT remounting).
 </p> <p>
 The tool-input arm: effective tool-input normalization is${" "} <code>normalizeToolArguments || scopes.toolInput</code> - the field is kept
-						and OR-ed in, so every existing profile keeps working.
+						and OR-ed in, so EVERY existing profile keeps working.
 </p> <p>
-It is the only execution-critical arm, and it carries the per-call escape
+It is the ONLY execution-critical arm, and it carries the per-call escape
 						hatch: a call whose arguments open with the${" "} <code>&#123;"__normalize":false&#125;</code> FIRST-key marker passes
 						through unnormalized, the marker entry stripped (the executed call carries
 						no unknown key) - the "leave that search alone" control for a deliberate
@@ -444,7 +444,7 @@ The <code>normalize-file</code> call itself is a structural exemption: its
 						arguments carry a file path - a normalized dash inside a filename would
 						corrupt the target.
 </p> <p>
-Two more structural exemptions are never rewritten: the <code>edit</code>${" "}
+Two more structural exemptions are NEVER rewritten: the <code>edit</code>${" "}
 call (its <code>old_string</code> must match the real file bytes) and the${" "} <code>raw-write</code> call (it owns its content normalization through its
 						explicit <code>normalize</code> parameter).
 </p> <p>
@@ -467,14 +467,14 @@ That is the write-path counterpart of the governance trio's never-notify
 						compression sees the NORMALIZED bytes; the <code>&lt;&lt;&lt;CCR:</code>${" "}
 marker guard makes any load order safe).
 </p> <p>
-Accepted, non-value-carrying decisions only; TEXT blocks only; N = 0 is a
+Accepted, non-value-carrying decisions ONLY; TEXT blocks ONLY; N = 0 is a
 						true no-op - no ledger line; fail-open.
 </p> <p> <strong>Step batch</strong> - <code>agent/pre-step</code>, default order.
 </p> <p>
 While <code>scopes.batch</code> is on, EVERY incoming batch is normalized;
 						the command's one-shot arm fires ONCE regardless of the scope value and is
 						cleared after one use.
-</p> <p>Text blocks only; never the assistant/tool history.</p> <p>The overpass lines (N &gt; 0 only):</p> ` })} </div> <div class="code-block">${LedgerLines.join("\n")}</div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+</p> <p>Text blocks ONLY; NEVER the assistant/tool history.</p> <p>The overpass lines (N &gt; 0 ONLY):</p> ` })} </div> <div class="code-block">${LedgerLines.join("\n")}</div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
 The <code>normalize-overpass</code> command (registered through the${" "} <code>commands</code> service when it is present - probe-once, a missing service
 				simply skips the registration). The <code>files</code> sweep is THIS hook's row -
 				the six stream flavors decline it:

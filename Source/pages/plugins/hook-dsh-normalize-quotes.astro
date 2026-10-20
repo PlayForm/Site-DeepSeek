@@ -355,7 +355,7 @@ const LedgerStrings = [
 				>
 					<p>
 						It injects{" "}
-						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap
+						<code>["pluginFactory"]</code> and uses ONLY <code>State</code> (cell unwrap
 						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
 						the config is composed by the factory's standalone <code>Schema</code>{" "}
 						helper with
@@ -395,7 +395,7 @@ const LedgerStrings = [
 					},
 					{
 						Seam: "The factory service",
-						What: "A non-manifest factory consumer: State for the config and Append for every ledger line; it touches no files, so [fs/write-intent](Harness:packages/fs/fs/src/index.ts) and [fs/observed](Harness:packages/fs/fs/src/index.ts) never see it.",
+						What: "A non-manifest factory consumer: State for the config and Append for EVERY ledger line; it touches no files, so [fs/write-intent](Harness:packages/fs/fs/src/index.ts) and [fs/observed](Harness:packages/fs/fs/src/index.ts) NEVER see it.",
 						Outcome:
 							"Composes with other [llm/stream](Harness:packages/llm/llm/src/index.ts) listeners regardless of registration order.",
 					},
@@ -595,7 +595,7 @@ const LedgerStrings = [
 					Diagram="The scopes object gating every arm of the hook-dsh-normalize-quotes hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 				>
 					<p>
-						The <code>scopes</code> object gates every arm of the{" "}
+						The <code>scopes</code> object gates EVERY arm of the{" "}
 						<code>hook-dsh-normalize-quotes</code> hook independently - conversation,
 						reasoning, toolInput, toolResults, files, batch - with the defaults exactly
 						the pre-scopes behavior.
@@ -609,7 +609,7 @@ const LedgerStrings = [
 					<p>
 						The tool-input arm: effective tool-input normalization is{" "}
 						<code>normalizeToolArguments || scopes.toolInput</code> - the field is kept
-						and OR-ed in, so every existing profile keeps working.
+						and OR-ed in, so EVERY existing profile keeps working.
 					</p>
 					<p>
 						It is the only execution-critical arm, and it carries the per-call escape

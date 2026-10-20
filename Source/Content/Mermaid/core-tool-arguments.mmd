@@ -1,9 +1,9 @@
 flowchart LR
 	CALL["A tool-call delta - ToolArgs enabled"] --> G{"The tool-argument gate"}
-	G -- "exempt: edit - raw-write - normalize-file" --> EX["Pass through by identity"]
-	G -- "raw-marked" --> RAW["The raw path"]
-	G -- "remaining eligible calls" --> ELIG["Receive normalization"]
-	NOTE["ToolArgs defaults to off"] -. "note" .-> G
+	G -- "Exempt: edit - raw-write - normalize-file" --> EX["Pass through by identity"]
+	G -- "Raw-marked" --> RAW["The raw path"]
+	G -- "Remaining eligible calls" --> ELIG["Receive normalization"]
+	NOTE["ToolArgs defaults to off"] -. "Note" .-> G
 	%% Invisible layout links only - no semantics.
 	EX ~~~ RAW
 	RAW ~~~ ELIG

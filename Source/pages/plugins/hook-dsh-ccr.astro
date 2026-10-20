@@ -23,7 +23,7 @@ const Siblings = [
 		Name: "normalize flavors (the overpass arm)",
 		Gate: "tools/post-execute",
 		Order: "{ prepend: true }, outermost",
-		Pass: "rewrites the result bytes pre-commit (scopes.toolResults; the model never notices)",
+		Pass: "rewrites the result bytes pre-commit (scopes.toolResults; the model NEVER notices)",
 		This: false,
 	},
 	{
@@ -37,7 +37,7 @@ const Siblings = [
 		Name: "hook-dsh-tool-coach",
 		Gate: "tools/post-execute",
 		Order: "plain (after ccr)",
-		Pass: "observe + count + tier-1 notes (never replaces content)",
+		Pass: "observe + count + tier-1 notes (NEVER replaces content)",
 		This: false,
 	},
 ];
@@ -46,7 +46,7 @@ const Siblings = [
 // verbatim facts).
 const Gate = [
 	{ Step: "1", Condition: "empty content", Action: "pass (Aphrodite skips empty)" },
-	{ Step: "2", Condition: "tool in exempt", Action: "pass, always" },
+	{ Step: "2", Condition: "tool in exempt", Action: "pass, ALWAYS" },
 	{ Step: "3", Condition: "failure and compressFailures off", Action: "pass" },
 	{ Step: "4", Condition: "tool not in targets", Action: "pass (the allow-list)" },
 	{ Step: "5", Condition: "size <= thresholdBytes \u00d7 multiplier", Action: "pass" },
@@ -96,7 +96,7 @@ const Config = [
 		Field: "logFile",
 		Type: "string",
 		Default: "/Users/nikola/.dsh/ccr.log",
-		Meaning: "the CCR hook's ledger, SEPARATE from the family's logs (one log per module); volatile",
+		Meaning: "the CCR hook's ledger, SEPARATE from the family's logs (ONE log per module); volatile",
 	},
 	{
 		Field: "targets",
@@ -126,7 +126,7 @@ const Config = [
 		Field: "autoExpand",
 		Type: "boolean",
 		Default: "true",
-		Meaning: "store + preview, but return the FULL content while under the limit - no marker reaches the model",
+		Meaning: "store + preview, but return the FULL content while under the limit - NO marker reaches the model",
 	},
 	{
 		Field: "autoExpandLimitBytes",
@@ -138,7 +138,7 @@ const Config = [
 		Field: "compressFailures",
 		Type: "boolean",
 		Default: "false",
-		Meaning: "compress failing results too - the error \u00d78 tier is the only beneficiary",
+		Meaning: "compress failing results too - the error \u00d78 tier is the ONLY beneficiary",
 	},
 	{
 		Field: "multipliers",

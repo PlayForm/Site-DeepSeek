@@ -2,7 +2,7 @@ import { D as __exportAll, E as createComponent, a as Links, g as Sprite, n as $
 import { _ as maybeRenderHead, g as renderTemplate, l as renderComponent, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$ArrowIcon } from "./ArrowIcon_DerRPTTd.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_sjNl5b6w.mjs";
+import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
 import { t as $$PageHero } from "./PageHero_CSrnuBSY.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$Compare } from "./Compare_BvteMlTf.mjs";
@@ -55,7 +55,7 @@ var $$Flavors = createComponent(($$result, $$props, $$slots) => {
 	];
 	return renderTemplate`${renderComponent($$result, "Base", $$Base, {
 		"Title": "Flavors & Roles - DSH Family @ PlayForm",
-		"Description": "The seven normalize flavors (dash, quotes, ellipsis, spaces, invisible, fullwidth, file), the two governance roles (governor, pinner) and the two guardians (the ccr compressor, the tool-coach) of the DeepSeek Harness Plugin Family."
+		"Description": "The seven normalize flavors (dash, quotes, ellipsis, spaces, invisible, fullwidth, file). The two governance roles (governor, pinner) and the two guardians (the ccr compressor, the tool-coach) of the DeepSeek Harness Plugin Family."
 	}, { "default": ($$result) => renderTemplate` ${maybeRenderHead($$result)}<main class="container container--main"> <div class="eyebrow-row"> ${renderComponent($$result, "Badge", $$Badge, {
 		"Variant": "primary",
 		"Dot": true

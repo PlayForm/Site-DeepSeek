@@ -1,7 +1,7 @@
 import { C as Mention, D as __exportAll, E as createComponent, a as Links, b as Versions, c as Families, n as $$Base, r as Link, s as Counts, t as $$Badge, x as $$BrandIcon } from "./Badge_BcqTIV8g.mjs";
 import { E as unescapeHTML, _ as maybeRenderHead, g as renderTemplate, l as renderComponent, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_sjNl5b6w.mjs";
+import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$Terminal } from "./Terminal_BMZtWhRH.mjs";
 import { t as $$CodeBlock } from "./CodeBlock_D0mCXfg1.mjs";
@@ -18,7 +18,7 @@ var $$HookDshCcr = createComponent(($$result, $$props, $$slots) => {
 			Name: "normalize flavors (the overpass arm)",
 			Gate: "tools/post-execute",
 			Order: "{ prepend: true }, outermost",
-			Pass: "rewrites the result bytes pre-commit (scopes.toolResults; the model never notices)",
+			Pass: "rewrites the result bytes pre-commit (scopes.toolResults; the model NEVER notices)",
 			This: false
 		},
 		{
@@ -32,7 +32,7 @@ var $$HookDshCcr = createComponent(($$result, $$props, $$slots) => {
 			Name: "hook-dsh-tool-coach",
 			Gate: "tools/post-execute",
 			Order: "plain (after ccr)",
-			Pass: "observe + count + tier-1 notes (never replaces content)",
+			Pass: "observe + count + tier-1 notes (NEVER replaces content)",
 			This: false
 		}
 	];
@@ -45,7 +45,7 @@ var $$HookDshCcr = createComponent(($$result, $$props, $$slots) => {
 		{
 			Step: "2",
 			Condition: "tool in exempt",
-			Action: "pass, always"
+			Action: "pass, ALWAYS"
 		},
 		{
 			Step: "3",
@@ -160,7 +160,7 @@ var $$HookDshCcr = createComponent(($$result, $$props, $$slots) => {
 			Field: "logFile",
 			Type: "string",
 			Default: "/Users/nikola/.dsh/ccr.log",
-			Meaning: "the CCR hook's ledger, SEPARATE from the family's logs (one log per module); volatile"
+			Meaning: "the CCR hook's ledger, SEPARATE from the family's logs (ONE log per module); volatile"
 		},
 		{
 			Field: "targets",

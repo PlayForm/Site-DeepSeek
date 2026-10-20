@@ -8,7 +8,7 @@ flowchart LR
 	ONESHOT["The command's one-shot arm fires once regardless of the scope value<br/>cleared after one use - text blocks only, never the assistant/tool history."]
 	LEDGER["The hook-dsh-normalize-invisible overpass ledger lines<br/>for N above zero only"]
 	CMD["The normalize-overpass command, registered through the<br/>commands service when present - probe-once, a missing<br/>service simply skips the registration"]
-	DECLINE["files paths declined - the sweep is owned<br/>by the normalize-file hook"]
+	DECLINE["File paths declined - the sweep is owned<br/>by the normalize-file hook"]
 	APPLY --> TRES
 	APPLY --> BATCH
 	APPLY ~~~ FLIP
@@ -19,6 +19,6 @@ flowchart LR
 	BATCH --> LEDGER
 	CMD -. "Batch arms it" .-> ONESHOT
 	CMD -. "Results on or off flips scopes.toolResults<br/>via the settings service, never direct State mutation" .-> TRES
-	CMD -. "files paths" .-> DECLINE
+	CMD -. "File paths" .-> DECLINE
 
 %% Invisible layout links only - no semantics.

@@ -156,7 +156,7 @@ const CommandRows = [
 	},
 	{
 		Input: "scopes",
-		Effect: "read-only report of the current effective values (the activation line never changes)",
+		Effect: "read-only report of the current effective values (the activation line NEVER changes)",
 	},
 ];
 const LedgerLines = [
@@ -185,7 +185,7 @@ const Config = [
 		Type: "string",
 		Default: "-",
 		Volatile: "yes",
-		Meaning: "the dash step's replacement (the transform's only knob)",
+		Meaning: "the dash step's replacement (the transform's ONLY knob)",
 	},
 ];
 
@@ -251,7 +251,7 @@ const Usage = [
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>
 				, no{" "}
 				<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a>{" "}
-				- nothing runs without an explicit agent action.</p>
+				- nothing runs WITHOUT an explicit agent action.</p>
 			<p class="page-hero__sub">This bundle's own tool calls are
 				name-exempt in the stream gate beside <code>edit</code> and <code>raw-write</code> -
 				its arguments carry a FILE PATH, and a normalized dash inside a filename would
@@ -423,7 +423,7 @@ const Usage = [
 						Seam: "The governance interlock",
 						What: "The write's actor is the call's exec, and normalize-file is NEVER added to any governor's mutationTools pin - so these writes NEVER trigger a chain pass; the tool calls are also name-exempt in the stream gate beside edit and raw-write.",
 						Outcome:
-							"Normalization without re-processing loops, and edit targets that never corrupt.",
+							"Normalization WITHOUT re-processing loops, and edit targets that NEVER corrupt.",
 					},
 					{
 						Seam: "The storage domain",
@@ -529,8 +529,8 @@ const Usage = [
 						and emits{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a>
 						, but the governors' Gate requires the actor tool name in their
-						mutationTools pin - <code>normalize-file</code> is never added to any such
-						list, so these writes never trigger a chain pass.
+						mutationTools pin - <code>normalize-file</code> is NEVER added to any such
+						list, so these writes NEVER trigger a chain pass.
 					</p>
 				</Concept>
 				<Concept
@@ -610,7 +610,7 @@ const Usage = [
 						surface, because the tool registers no listener of any kind.
 					</p>
 					<p>
-						Volatile cells commit without remounting the plugin. The tool is called by
+						Volatile cells commit WITHOUT remounting the plugin. The tool is called by
 						the agent like any built-in tool:
 					</p>
 				</Concept>
@@ -637,7 +637,7 @@ const Usage = [
 					Diagram="The scopes object gating every arm of the hook-dsh-normalize-file hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 				>
 					<p>
-						The <code>scopes</code> object gates every arm of the{" "}
+						The <code>scopes</code> object gates EVERY arm of the{" "}
 						<code>hook-dsh-normalize-file</code> hook independently - conversation,
 						reasoning, toolInput, toolResults, files, batch - with the defaults exactly
 						the pre-scopes behavior.
@@ -646,15 +646,15 @@ const Usage = [
 						The whole object is <strong>volatile</strong>: one leaf change commits one{" "}
 						<code>loader/volatile-update</code> dispatch whose whole object the State's
 						refresh listener re-reads - live, silent, no remount, no new activation
-						line (a flip lands without remounting).
+						line (a flip lands WITHOUT remounting).
 					</p>
 					<p>
 						The tool-input arm: effective tool-input normalization is{" "}
 						<code>normalizeToolArguments || scopes.toolInput</code> - the field is kept
-						and OR-ed in, so every existing profile keeps working.
+						and OR-ed in, so EVERY existing profile keeps working.
 					</p>
 					<p>
-						It is the only execution-critical arm, and it carries the per-call escape
+						It is the ONLY execution-critical arm, and it carries the per-call escape
 						hatch: a call whose arguments open with the{" "}
 						<code>&#123;"__normalize":false&#125;</code> FIRST-key marker passes
 						through unnormalized, the marker entry stripped (the executed call carries
@@ -671,7 +671,7 @@ const Usage = [
 						corrupt the target.
 					</p>
 					<p>
-						Two more structural exemptions are never rewritten: the <code>edit</code>{" "}
+						Two more structural exemptions are NEVER rewritten: the <code>edit</code>{" "}
 						call (its <code>old_string</code> must match the real file bytes) and the{" "}
 						<code>raw-write</code> call (it owns its content normalization through its
 						explicit <code>normalize</code> parameter).
@@ -734,7 +734,7 @@ const Usage = [
 						marker guard makes any load order safe).
 					</p>
 					<p>
-						Accepted, non-value-carrying decisions only; TEXT blocks only; N = 0 is a
+						Accepted, non-value-carrying decisions ONLY; TEXT blocks ONLY; N = 0 is a
 						true no-op - no ledger line; fail-open.
 					</p>
 					<p>
@@ -745,8 +745,8 @@ const Usage = [
 						the command's one-shot arm fires ONCE regardless of the scope value and is
 						cleared after one use.
 					</p>
-					<p>Text blocks only; never the assistant/tool history.</p>
-					<p>The overpass lines (N &gt; 0 only):</p>
+					<p>Text blocks ONLY; NEVER the assistant/tool history.</p>
+					<p>The overpass lines (N &gt; 0 ONLY):</p>
 				</Concept>
 			</div>
 			<div class="code-block">{LedgerLines.join("\n")}</div>
