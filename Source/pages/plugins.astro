@@ -496,7 +496,7 @@ const Registry = [
 								(local, sandbox, observation-policy)
 							</td>
 							<td>
-								The three governance hooks; the write executor behind every tool
+								The three governance hooks; the write executor behind EVERY tool
 								write
 							</td>
 						</tr>
@@ -920,7 +920,8 @@ const Registry = [
 					</p>
 					<p>
 						Solved: per-record layout + {Migration.Sentence()} + backup-and-skip for
-						invalid records + a loud failure line - live-confirmed on the next boot.
+						invalid records + a loud failure line.
+						Live-confirmed on the next boot.
 					</p>
 				</Concept>
 				<Concept
@@ -935,9 +936,10 @@ const Registry = [
 					</p>
 					<p>
 						Kept safe by construction: the Stash idempotence gate turns self re-entries
-						into no-ops, the P3/U2 refresh re-emits with the same actor, and the live
-						battery proves the re-pass is bounded and self-canonicalizing (governed +
-						pinned converge).
+						into no-ops.
+						The P3/U2 refresh re-emits with the same actor.
+						The live battery proves the re-pass is bounded and self-canonicalizing
+						(governed + pinned converge).
 					</p>
 				</Concept>
 			</div>
@@ -963,7 +965,7 @@ const Registry = [
 					<p>
 						The{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
-						listeners - sync, after content is on disk, fired by the tool layer only.</p>
+						listeners - sync, after content is on disk, fired by the tool layer ONLY.</p>
 					<p>
 						And the tool registrations into the agent's toolset:{" "}
 						<code class="code-token">raw-write</code>,{" "}
@@ -978,14 +980,15 @@ const Registry = [
 				>
 					<p>
 						The factory's Direct-govern steps (per basename, the raw-write govern
-						selection) and the core's Dispatch/Settle envelope builder - a new update
-						stage reduces to a child runner plus strings.
+						selection).
+						The core's Dispatch/Settle envelope builder - a new update stage reduces to
+						a child runner plus strings.
 					</p>
 					<p>
 						The{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/subprocess/subprocess")}><code class="code-token">subprocess</code> seam</a>{" "}
-						carries the external tools, and the Effect-TS services mirror the same
-						seams.
+						carries the external tools.
+						The Effect-TS services mirror the same seams.
 					</p>
 				</Concept>
 				<Concept
@@ -994,13 +997,13 @@ const Registry = [
 					Diagram="The ownership boundaries: the Dependencies injection builders (every collection, child stage and string injected), the module-owned ledger strings (the byte-identical contract), the consumers bringing their own metal while the factory pours the mold, and the smokes as the arbiter after every change."
 				>
 					<p>
-						The Dependencies injection builders - every collection, child stage and
+						The Dependencies injection builders - EVERY collection, child stage and
 						string injected - and the module-owned ledger strings, the byte-identical
 						contract.
 					</p>
 					<p>
-						The consumers bring their own metal while the factory pours the mold, and
-						the smokes are the arbiter after every change.
+						The consumers bring their own metal while the factory pours the mold.
+						The smokes are the arbiter after EVERY change.
 					</p>
 				</Concept>
 				<Concept
@@ -1012,14 +1015,14 @@ const Registry = [
 						The <a href="/plugins/hook-dsh-ccr/">ccr hook</a> and the{" "}
 						<a href="/plugins/hook-dsh-normalize-dash/">normalize flavors'</a>{" "}
 						tool-results overpass arm share the{" "}
-						<code class="code-token">tools/post-execute</code> waterfall: the overpass
-						is the OUTERMOST prepend (<code>&#123; prepend: true &#125;</code>), so the
-						ccr compression sees the NORMALIZED bytes.
+						<code class="code-token">tools/post-execute</code> waterfall.
+						The overpass is the OUTERMOST prepend (<code>&#123; prepend: true &#125;</code>),
+						so the ccr compression sees the NORMALIZED bytes.
 					</p>
 					<p>
-						And the <code>&lt;&lt;&lt;CCR:</code> marker guard makes any load order
-						safe - the marker passes through the whole normalize family untouched, so
-						a compressed result is never re-normalized into a different marker.
+						The <code>&lt;&lt;&lt;CCR:</code> marker guard makes ANY load order safe.
+						The marker passes through the whole normalize family untouched.
+						A compressed result is NEVER re-normalized into a different marker.
 					</p>
 				</Concept>
 			</div>

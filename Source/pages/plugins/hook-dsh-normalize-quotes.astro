@@ -157,7 +157,7 @@ const CommandRows = [
 	},
 	{
 		Input: "results on|off",
-		Effect: "flip scopes.toolResults via the settings service / config editor - never direct State mutation; absent services report the settings-UI path",
+		Effect: "flip scopes.toolResults via the settings service / config editor - NEVER direct State mutation; absent services report the settings-UI path",
 	},
 	{
 		Input: "scopes",
@@ -222,7 +222,7 @@ const LedgerStrings = [
 
 <Base
 	Title="hook-dsh-normalize-quotes - DSH Family @ PlayForm"
-	Description={`${Families.Quotes} - the quote normalizer for model output: hooks the llm/stream waterfall and normalizes the eight typographic quote code points to their ASCII straight counterparts, live in the transcript.`}
+	Description={`${Families.Quotes} - the quote normalizer for model output: hooks the llm/stream waterfall and normalizes the eight typographic quote code points to their ASCII straight counterparts, LIVE in the transcript.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -244,7 +244,7 @@ const LedgerStrings = [
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>{" "}
 				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>
-				) and normalizes the curly quote family in model output, live in the transcript: the
+				) and normalizes the curly quote family in model output, LIVE in the transcript: the
 				eight typographic quote code points each map to their ASCII straight counterpart -
 				<code class="code-token">U+2018</code>/<code class="code-token">U+2019</code>/
 				<code class="code-token">U+201A</code>/<code class="code-token">U+201B</code> to
@@ -368,7 +368,7 @@ const LedgerStrings = [
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/write-intent</code></a>{" "}
 						and{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
-						never see it; it wraps the downstream result and always calls{" "}
+						NEVER see it; it wraps the downstream result and always calls{" "}
 						<code>next()</code>, so it composes with other{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						listeners regardless of registration order.
@@ -383,7 +383,7 @@ const LedgerStrings = [
 				Seams={[
 					{
 						Seam: "llm/stream - the model stream waterfall",
-						What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
+						What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first, options are NEVER touched, one chunk in - one chunk out, upstream throws propagate.",
 						Outcome:
 							"Straight quotes reach the live UI and the durable transcript as the stream is born.",
 					},
@@ -401,9 +401,9 @@ const LedgerStrings = [
 					},
 					{
 						Seam: "The raw-write exemption (family-wide)",
-						What: "The family's raw-write tool (registered by [hook-dsh-normalize-dash](Ours:Classic/packages/hook-dsh-normalize-dash/Source)) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
+						What: "The family's raw-write tool (registered by [hook-dsh-normalize-dash](Ours:Classic/packages/hook-dsh-normalize-dash/Source)) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the ONLY normalization it applies.",
 						Outcome:
-							"Per-call control stays with the agent, even with every stream flavor armed.",
+							"Per-call control stays with the agent, even with EVERY stream flavor armed.",
 					},
 					{
 						Seam: "The ledger / session",
@@ -423,7 +423,7 @@ const LedgerStrings = [
 					Diagram="Smart-quote processors and code editors emitting typographic quotes - every parser, shell and diff understanding the straight ASCII ones - a curly quote in code blocks, commands and file paths being simply the wrong character."
 				>
 					<p>
-						Smart-quote processors and code editors emit typographic quotes; every
+						Smart-quote processors and code editors emit typographic quotes; EVERY
 						parser, shell and diff understands the straight ASCII ones.
 					</p>
 					<p>
@@ -494,7 +494,7 @@ const LedgerStrings = [
 						No context rules - one character in, its straight counterpart out.</p>
 					<p>
 						Chunk-boundary-safe: single-character substitution, no lookahead - per-chunk
-						application can never disagree with whole-text application.
+						application can NEVER disagree with whole-text application.
 					</p>
 					<p>
 						The mapping values are returned through a function replacer, so they are
@@ -549,7 +549,7 @@ const LedgerStrings = [
 						(MAP flavor).
 					</p>
 					<p>
-						They commit without remounting the plugin; the factory's State
+						They commit WITHOUT remounting the plugin; the factory's State
 						builder unwraps them defensively.</p>
 					<p>Example{" "}
 						<a
@@ -624,7 +624,7 @@ const LedgerStrings = [
 						invisible to the probe and the call normalizes normally.
 					</p>
 					<p>
-						Three structural exemptions are never rewritten: the <code>edit</code> call
+						Three structural exemptions are NEVER rewritten: the <code>edit</code> call
 						(its <code>old_string</code> must match the real file bytes), the{" "}
 						<code>raw-write</code> call (it owns its content normalization through its
 						explicit <code>normalize</code> parameter) and the <code>normalize-file</code>{" "}
@@ -634,8 +634,8 @@ const LedgerStrings = [
 					<p>
 						And the overpass invisibility contract: the tool-results arm replaces the
 						bytes PRE-COMMIT - the waterfall settles before the result is appended to
-						the durable log - so the model only ever sees the normalized output and
-						never notices the replacement; the exemption list plus the{" "}
+						the durable log - so the model ONLY ever sees the normalized output and
+						NEVER notices the replacement; the exemption list plus the{" "}
 						<code>&lt;&lt;&lt;CCR:</code> marker guard define what passes untouched.
 					</p>
 					<p>
@@ -696,7 +696,7 @@ const LedgerStrings = [
 						<strong>Step batch</strong> - <code>agent/pre-step</code>, default order.
 					</p>
 					<p>
-						While <code>scopes.batch</code> is on, every incoming batch is normalized;
+						While <code>scopes.batch</code> is on, EVERY incoming batch is normalized;
 						the command's one-shot arm fires ONCE regardless of the scope value and is
 						cleared after one use.
 					</p>
@@ -757,7 +757,7 @@ const LedgerStrings = [
 					<p>
 						Every typographic quote in the incoming text - the four single forms and the
 						four double forms - becomes its ASCII counterpart; straight quotes that were
-						already there are untouched (the count only counts replacements).
+						already there are untouched (the count ONLY counts replacements).
 					</p>
 					<p>
 						In code blocks, commands and file paths this is the difference between a
@@ -794,7 +794,7 @@ const LedgerStrings = [
 			</p>
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The activation line is written by <code>apply()</code>; the count line only follows
+				The activation line is written by <code>apply()</code>; the count line ONLY follows
 				a normal stream completion and only when N &gt; 0 (a thrown-away stream writes no
 				ledger line).
 			</p>
@@ -816,7 +816,7 @@ const LedgerStrings = [
 					Variant="white"
 					Name="hook-dsh-normalize-dash"
 					Href="/plugins/hook-dsh-normalize-dash/"
-					Desc="The first stream normalizer sibling - and the registrar of the family-wide raw-write exemption."
+					Desc="The FIRST stream normalizer sibling - and the registrar of the family-wide raw-write exemption."
 					Muted
 				>
 					<Badge slot="badge">SIBLING FLAVOR</Badge>

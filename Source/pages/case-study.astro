@@ -216,7 +216,7 @@ const Decisions = [
 		Evidence: "98be27b, c2beb06",
 	},
 	{
-		Decision: "Host-era pins; verify from the installed app, never stale node_modules",
+		Decision: "Host-era pins; verify from the installed app, NEVER stale node_modules",
 		Rationale:
 			"The @deepseek-ai family pins must match the running host; the registry's latest tag is stale and the profile's old links lie",
 		Technique: "The package.json dependency fields + the smokes' host-era assertions - verified from the running app, NEVER stale node_modules",
@@ -275,7 +275,7 @@ const Lessons = [
 
 <Base
 	Title="Case Study - DSH Family @ PlayForm"
-	Description={`How the twelve-package family was built: five bundles and ${History.OriginChecks} smoke checks grown to twelve packages across one commit era - the factory, the audit, the live battery, the stream family, the raw-write saga and the decision index behind them.`}
+	Description={`How the twelve-package family was built: five bundles and ${History.OriginChecks} smoke checks grown to twelve packages across ONE commit era - the factory, the audit, the live battery, the stream family, the raw-write saga and the decision index behind them.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -288,7 +288,7 @@ const Lessons = [
 
 		<PageHero
 			Title="The case study: how this family got built."
-			Sub={"The development story of the twelve packages, told as it happened - the phases, the misdiagnoses named before the fixes, and the decisions that survive in the shipped seams.\nEvery challenge below is stated with what actually happened."}
+			Sub={"The development story of the twelve packages, told as it happened - the phases, the misdiagnoses named before the fixes, and the decisions that survive in the shipped seams.\nEVERY challenge below is stated with what actually happened."}
 		/>
 
 		<!-- The phase index -->
@@ -645,7 +645,7 @@ const Lessons = [
 				>
 					<p>
 						That file showed one module's activations.</p>
-					<p>After it, all four
+					<p>After it, ALL four
 						- and the interlock cascade and the dispatched update stage record themselves
 						in the same place.
 					
@@ -657,8 +657,8 @@ const Lessons = [
 					Diagram="The update stage's awaited promise resolving at the dispatch while the background job keeps running - the caller never awaiting the job."
 				>
 					<p>
-						The update stage's awaited promise resolves the moment the dispatch fires;
-						the background
+						The update stage's awaited promise resolves the moment the dispatch fires.
+						The background
 						job keeps running, and the caller never awaits the job.
 					</p>
 				</Concept>
@@ -801,7 +801,7 @@ const Lessons = [
 					Diagram="The g1 gate's seven rejection reasons in decision order - target, govern, actor, kind, idempotent, basename, excluded - with the misdiagnosis landing on the actor reason and the marker moving the same flow to the govern reason."
 				>
 					<p>
-						The gate never rejects vaguely.</p>
+						The gate NEVER rejects vaguely.</p>
 					<p>Its rejections are a fixed vocabulary of
 						seven reasons, checked in order (the factory's g1 gate):{" "}
 						<code>target</code>, <code>govern</code>, <code>actor</code>,{" "}
@@ -817,7 +817,7 @@ const Lessons = [
 						not in the governance bundles' mutation-tool list - and after the
 						governance marker the same flow rejects on the <strong>govern</strong>{" "}
 						reason, by design: the wrapped actor's write is the direct path's business
-						only.
+						ONLY.
 					</p>
 				</Concept>
 			</div>

@@ -1,0 +1,530 @@
+import { C as Mention, D as __exportAll, E as createComponent, a as Links, b as Versions, c as Families, n as $$Base, r as Link, s as Counts, t as $$Badge, x as $$BrandIcon } from "./Badge_BcqTIV8g.mjs";
+import { E as unescapeHTML, _ as maybeRenderHead, g as renderTemplate, l as renderComponent, u as Fragment, y as addAttribute } from "./server_DzHHf9NM.mjs";
+import { t as $$ArrowIcon } from "./ArrowIcon_DerRPTTd.mjs";
+import { t as $$Card } from "./Card_CsNNQgw0.mjs";
+import { t as $$Concept } from "./Concept_sjNl5b6w.mjs";
+import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
+import { t as $$Terminal } from "./Terminal_BMZtWhRH.mjs";
+import { t as $$CodeBlock } from "./CodeBlock_D0mCXfg1.mjs";
+import { t as $$Seams } from "./Seams_DfmJdky_.mjs";
+//#region Source/pages/plugins/hook-dsh-package-governor.astro
+var hook_dsh_package_governor_exports = /* @__PURE__ */ __exportAll({
+	default: () => $$HookDshPackageGovernor,
+	file: () => $$file,
+	url: () => $$url
+});
+var $$HookDshPackageGovernor = createComponent(($$result, $$props, $$slots) => {
+	const Siblings = [
+		{
+			Name: "hook-dsh-package-governor (this bundle)",
+			Gate: "package.json",
+			Ledger: "governor.log",
+			Pass: "chain pass (→ ^resolved) + update stage (ncu)",
+			This: true
+		},
+		{
+			Name: "hook-dsh-package-pinner",
+			Gate: "package.json",
+			Ledger: "pinner.log",
+			Pass: "pin pass (^0.3.4 → 0.3.4; keep-list wins)",
+			This: false
+		},
+		{
+			Name: "hook-dsh-cargo-governor",
+			Gate: "Cargo.toml",
+			Ledger: "hook-dsh-cargo-governor.log",
+			Pass: "chain pass (bare caret / =exact) + cargo upgrade",
+			This: false
+		}
+	];
+	const Config = [
+		{
+			Field: "log",
+			Type: "boolean",
+			Default: "true",
+			Meaning: "write the durable ledger file"
+		},
+		{
+			Field: "logFile",
+			Type: "string",
+			Default: "~/.dsh/hook-dsh-package-governor.log",
+			Meaning: "the governor's global ledger"
+		},
+		{
+			Field: "updateCooldownMs",
+			Type: "number",
+			Default: "3000",
+			Meaning: "cooldown between update-stage dispatches per directory"
+		},
+		{
+			Field: "strict",
+			Type: "boolean",
+			Default: "false",
+			Meaning: "strip unknown deps - explicit only; never default-delete unknown deps"
+		},
+		{
+			Field: "mutationTools",
+			Type: "string[]",
+			Default: "[write, edit, str_replace_editor]",
+			Meaning: "the actor tools whose writes count as triggers"
+		},
+		{
+			Field: "maxUpdateFailures",
+			Type: "number",
+			Default: "3",
+			Meaning: "circuit breaker: pause a dir's update stage"
+		},
+		{
+			Field: "ncuBin",
+			Type: "string",
+			Default: "/usr/local/bin/ncu",
+			Meaning: "absolute - host PATH != shell PATH"
+		},
+		{
+			Field: "updateMode",
+			Type: "\"programmatic\" | \"bin\"",
+			Default: "programmatic",
+			Meaning: "ncu as a library (no external binary) or via the ncu binary"
+		},
+		{
+			Field: "policyFile",
+			Type: "string",
+			Default: "",
+			Meaning: "optional global update-policy.json (else discovery, else built-in)"
+		},
+		{
+			Field: "exclude",
+			Type: "string[]",
+			Default: "[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
+			Meaning: "the exclusion segments (the core's Default)"
+		}
+	];
+	const LedgerExcerpt = [
+		"[2026-10-03T09:15:22.411Z] activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+		"[2026-10-03T09:16:01.880Z] governed <project>/acme/tool/package.json → 42",
+		"[2026-10-03T09:16:34.120Z] update stage dispatched for <project>/acme/tool (mode=programmatic, ncu via /usr/local/bin/ncu, built-in default policy)",
+		"[2026-10-03T09:16:41.502Z] update: DONE — pins bumped per policy"
+	];
+	const GovernedWrite = [
+		"{",
+		"  \"name\": \"@acme/tool\",",
+		"  \"scripts\": { \"build\": \"tsc\" },",
+		"  \"dependencies\": {",
+		"    \"@playform/build\": \"^0.3.4\",",
+		"    \"@acme/chain-core\": \"0.4.1\"",
+		"  }",
+		"}"
+	];
+	const LedgerStrings = [
+		"activated (anywhere mode, logFile=..., updateMode=..., ncuBin=..., exclude=[...], policyFile=(discovery))",
+		"skipped (excluded) <path>",
+		"no registry.json found for <path>",
+		"governed <path> → <version>",
+		"update stage dispatched for <dir> (mode=..., ncu via ..., policy ...)",
+		"update: DONE / update: FAILED"
+	];
+	const TrapLines = [
+		"update: running verifyCommand: pnpm install",
+		"update: verifyCommand failed (status 1)",
+		"update: verifyCommand runner unavailable (exit 127) — skipped, non-fatal",
+		"update stage FAILED (1) for <dir>; consecutive=2"
+	];
+	const Related = [
+		{
+			Name: "plugin-dsh-factory",
+			Desc: "The family's furnace: the gates, the discovery, the guarded write, the refresh, the continuation, the effects and the schema come from it."
+		},
+		{
+			Name: "hook-dsh-package-pinner",
+			Desc: "The sibling pin pass on the same seam: pins ^0.3.4 to 0.3.4; a fully pinned manifest leaves this module's update stage nothing to do."
+		},
+		{
+			Name: "hook-dsh-cargo-governor",
+			Desc: "The Rust-sided sibling: same architecture for Cargo.toml, with the update stage driven by cargo upgrade."
+		},
+		{
+			Name: "hook-dsh-ccr",
+			Desc: "The tools/post-execute sibling: a new generation of family members now shares the waterfall space this hook helped define - the CCR compressor and the normalize flavors' overpass arm both live on tool results."
+		},
+		{
+			Name: "hook-dsh-tool-coach",
+			Desc: "The guardian on the terminal tools: hooks the same tool layer this hook's triggers come from, coaching the model to stop editing files through bash."
+		}
+	];
+	return renderTemplate`${renderComponent($$result, "Base", $$Base, {
+		"Title": "hook-dsh-package-governor - DSH Family @ PlayForm",
+		"Description": `${Families.GovernorPackage} - the silent package.json governor of the DeepSeek Harness: hooks fs/observed, canonicalizes chain-governed dependency pins, and runs the update stage as a detached, contained continuation.`
+	}, { "default": ($$result) => renderTemplate` ${maybeRenderHead($$result)}<main class="container container--main"> <div class="eyebrow-row"> ${renderComponent($$result, "Badge", $$Badge, {
+		"Variant": "primary",
+		"Dot": true
+	}, { "default": ($$result) => renderTemplate`
+PLUGIN DETAIL
+` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`ROLE: GOVERNOR` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate` ${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "file-json",
+		"Size": "0.8em"
+	})} GATE: package.json
+` })} </div> <section class="page-hero"> <h1 class="page-hero__title">hook-dsh-package-governor</h1> <p class="page-hero__sub"> ${Families.GovernorPackage} • ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "deepseek" })} <em>The DeepSeek Harness
+				Plugin Family for PlayForm.</em> </p> <p class="page-hero__sub">
+The <strong>silent <span class="file-mention">${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "file-json",
+		"Size": "0.9em"
+	})}package.json</span> governor</strong> of
+				the DeepSeek Harness - a plugin on the <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}><code>fs/observed</code></a> event (the <a${addAttribute(Link(Links.DeepSeekHarness, "vendor/cordis"), "href")}>cordis</a>
+event every harness file write dispatches; the tool layer is the only dispatcher)
+				that governs every
+<span class="file-mention">${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "file-json",
+		"Size": "0.9em"
+	})}<code>package.json</code></span> written by any agent, anywhere.
+</p> <p class="page-hero__sub">A pure chain pass
+				canonicalizes chain-governed dependency pins, then an update stage lets
+${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "npm",
+		"Size": "0.75em"
+	})} <code class="code-token">npm-check-updates</code> bump the public ones - and the author
+				never learns.</p> <p class="page-hero__sub">A factory flavor: the family's furnace does the plumbing; this package
+				is the model logic.
+</p> </section> <section class="section"> <div class="snippet-list"> ${renderComponent($$result, "Terminal", $$Terminal, { "Pkg": "hook-dsh-package-governor" })} </div> <div class="inspect-card"> <span class="inspect-card__meta"> <span class="live-dot"></span>INSPECTED
+</span> <div class="workbench-controls__group"> <span class="workbench-controls__label">Namespace:</span> <span class="hook-tally">@playform/hook-dsh-package-governor</span> <span class="workbench-controls__label">Release:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`v${Versions.Release}` })} </div> <div class="workbench-controls__group"> <span class="workbench-controls__label">Archetype:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "outline" }, { "default": ($$result) => renderTemplate`Hook` })} <span class="workbench-controls__label">Event:</span> ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`fs/observed` })} <span class="workbench-controls__label">Injects:</span> ${renderComponent($$result, "Badge", $$Badge, { "Variant": "active" }, { "default": ($$result) => renderTemplate`fs, pluginFactory` })} </div> </div> </section> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+The profile wiring for this plugin - the bundles list, the patch entry and the restart -
+			is on the <a href="/setup/">setup page</a>.
+</p> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Where It Fits",
+		"Meta": "FAMILY POSITION: A GOVERNANCE HOOK"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-family-position",
+		"Title": "The family position",
+		"Diagram": `${Families.GovernorPackage} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - no hook children of its own - one of three governance hooks sharing the fs/observed seam, each gating on its own basename and writing its own ledger.`
+	}, { "default": ($$result) => renderTemplate` <p>
+A hook child of the${" "} <strong><a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source"), "href")}>plugin-dsh-factory</a></strong> service (${Families.GovernorPackage}) and the${" "} <strong>hook-dsh-core</strong> helpers; it has no hook children of its own.
+</p> <p>
+One of three governance hooks sharing the <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}><code>fs/observed</code></a> seam,
+						each gating on its own basename and writing its own ledger:
+</p> ` })} </div> <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Plugin</th> <th>Basename gate</th> <th> ${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "terminal",
+		"Size": "0.9em"
+	})}Ledger
+</th> <th>Pass</th> </tr> </thead> <tbody> ${Siblings.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Name}</strong> </td> <td>${unescapeHTML(Mention(Row.Gate))}</td> <td>${unescapeHTML(Mention(Row.Ledger))}</td> <td> ${Row.Pass.split("→").map((Part, Index) => renderTemplate`${renderComponent($$result, "Fragment", Fragment, {}, { "default": ($$result) => renderTemplate`${Index > 0 && renderTemplate`${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})}`}${Part.trim() && renderTemplate`<span>${unescapeHTML(Mention(Part.trim()))}</span>`}` })}`)} </td> </tr>`)} </tbody> </table> </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-composition",
+		"Title": "Composition semantics when several are activated",
+		"Diagram": "The three-way composition: pin to bump-exact (a fully pinned manifest leaving ncu nothing to do, the chain pass may still re-canonicalize chain pins), chain > strip > normalize (the cargo module's precedence), keep-list wins (the pinner's pin-policy.json keeping ranges as authored) - the ledgers separate, activating one never implying another."
+	}, { "default": ($$result) => renderTemplate` <p> <strong>pin</strong>${" "} ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} <strong>bump-exact</strong> (a
+						fully pinned manifest leaves ncu nothing to do; the chain pass may still
+						re-canonicalize chain pins), <strong>chain</strong>${" "} ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} <strong>strip</strong>${" "} ${renderComponent($$result, "ArrowIcon", $$ArrowIcon, {
+		"Direction": "right",
+		"Tone": "accent"
+	})} <strong>normalize</strong>${" "}
+(the cargo module's precedence), <strong>keep-list wins</strong> (the
+						pinner's <a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts"), "href")}><span class="file-mention">${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "file-json",
+		"Size": "0.9em"
+	})}pin-policy.json</span></a> keeps ranges as authored).
+</p> <p>The ledgers are separate; activating one never implies another.</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-factory-flavor",
+		"Title": "Machinery-wise it is a factory flavor",
+		"Diagram": "inject: [\"fs\", \"pluginFactory\"] - the gates, the discovery, the guarded write, the refresh, the continuation, the effects and the schema coming from plugin-dsh-factory; the pure helpers (Suppress, the policy loader) coming from hook-dsh-core; this bundle keeping only its own vocabulary: the Config extension, the chain pass, the update engine and every ledger string."
+	}, { "default": ($$result) => renderTemplate` <p> <code>inject: ["fs", "pluginFactory"]</code> - the gates, the discovery, the
+						guarded write, the refresh, the continuation, the effects and the schema
+						come from <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source"), "href")}>plugin-dsh-factory</a>; the pure helpers (Suppress, the policy loader)
+						come from hook-dsh-core.
+</p> <p>
+This bundle keeps only its own vocabulary: the Config extension, the chain
+						pass, the update engine and every ledger string.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-direct-govern",
+		"Title": "The direct-govern registration",
+		"Diagram": "Besides the fs/observed event path, its two steps registered with the factory's direct-govern registry at apply (Factory.RegisterGovern(\"package.json\", \"canonicalize\" | \"update\", ...)) - so the raw-write tool's per-call govern selection can drive the same chain pass and update stage directly through Factory.Govern."
+	}, { "default": ($$result) => renderTemplate` <p>
+Besides the <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}><code class="code-token">fs/observed</code></a> event path, its two steps are registered with the
+						factory's direct-govern registry at apply (
+						Factory.RegisterGovern(&quot;package.json&quot;, &quot;canonicalize&quot; |
+						&quot;update&quot;, ...)).
+</p> <p>
+That lets the raw-write tool's per-call govern selection drive the same
+						chain pass and update stage directly through <a${addAttribute(Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts"), "href")}>Factory.Govern</a>.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "governor-waterfall-siblings",
+		"Title": "The new siblings on the tool-result waterfall",
+		"Diagram": "The CCR compressor and the normalize flavors' overpass arm now share the tools/post-execute waterfall space - the overpass is the OUTERMOST prepend, so the ccr compression sees the NORMALIZED bytes, and the `<<<CCR:` marker guard makes any load order safe. This hook stays on fs/observed - a terminal edit (sed -i) never fires it, which is exactly why the tool-coach guardian exists."
+	}, { "default": ($$result) => renderTemplate` <p>
+The family widened in 2026-10: the${" "} <a href="/plugins/hook-dsh-ccr/">ccr hook</a> and the normalize flavors'
+						tool-results overpass arm now share the${" "} <code class="code-token">tools/post-execute</code> waterfall - the overpass
+						is the OUTERMOST prepend, so the ccr compression sees the NORMALIZED bytes,
+						and the <code>&lt;&lt;&lt;CCR:</code> marker guard makes any load order safe.
+</p> <p>
+This hook is untouched by that: it still listens on${" "} <code class="code-token">fs/observed</code> only - and a terminal edit
+						(<code>sed -i</code>, <code>python -c</code>) never fires it, which is
+						exactly why the <a href="/plugins/hook-dsh-tool-coach/">tool-coach</a>${" "}
+guardian exists.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In the DeepSeek Harness",
+		"Meta": "WHERE THE GOVERNOR OPERATES"
+	})} ${renderComponent($$result, "Seams", $$Seams, { "Seams": [
+		{
+			Seam: "fs/observed - the file observation event",
+			What: "The governor's one listener hook: [fs/observed](Harness:packages/fs/fs/src/index.ts) is the cordis event every harness file write dispatches, fired by the tool layer only - so it runs after content is on disk, on every write path (full writes, single-line edits, str_replace_editor patches alike).",
+			Outcome: "The fix happens where the write happens, without the author's tool result changing by a single byte."
+		},
+		{
+			Seam: "ctx.fs - the filesystem service (dsh-fs)",
+			What: "All rewrites go through the [ctx.fs](Harness:packages/fs/fs) service (which dispatches no fs/* events - only the tool layer does), carrying replaceIfVersion at the observed version and an explicit sandbox policy because the plugin's own exclude list IS its fence.",
+			Outcome: "No recursion, no clobber; a racing author write fails safely."
+		},
+		{
+			Seam: "ctx.jobs - the jobs facility",
+			What: "The update stage runs inside the [jobs envelope](Harness:packages/jobs) (kind governor-update, unowned) when a controller serves the context - the factory's Attach registers it from the root - with the detached contained continuation as the probed fallback.",
+			Outcome: "ncu runs off the author's critical path and never blocks the session."
+		},
+		{
+			Seam: "ctx.subprocess (dsh-subprocess, bin mode)",
+			What: "In updateMode bin, the ncu binary is driven through the [subprocess seam](Harness:packages/subprocess/subprocess) with a fully-specified argv (ncuBin is absolute - host PATH != shell PATH).",
+			Outcome: "The external-tool path without shell PATH drift."
+		},
+		{
+			Seam: "The ledger / session",
+			What: "One global log records activation, exclusions, chain-pass results and every update-stage dispatch; the activation line is written by apply() so \"did it activate\" is answerable from the ledger alone.",
+			Outcome: "The governed state is discoverable only by a subsequent read - or in the ledger."
+		}
+	] })} </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Problem",
+		"Meta": "WHY THE GOVERNOR EXISTS"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-problem",
+		"Title": "The fix must be invisible, and where the write happens",
+		"Diagram": "Agents editing package.json files constantly - every edit able to leave stale pins, stray version ranges, or deps that should track a governed registry - the fix having to happen where the write happens, on every write path (full writes, single-line edits, str_replace_editor patches alike), without the author's tool result changing by a single byte."
+	}, { "default": ($$result) => renderTemplate` <p>
+Agents edit <span class="file-mention">${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "file-json",
+		"Size": "0.9em"
+	})}<code>package.json</code></span> files constantly - and every edit can
+						leave stale pins, stray version ranges, or deps that should track a governed
+						registry.
+</p> <p>
+The fix must happen where the write happens, on every write path (full
+						writes, single-line edits, <code>str_replace_editor</code> patches alike),
+						without the author's tool result changing by a single byte.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-why-observed",
+		"Title": "Why fs/observed",
+		"Diagram": "[fs/observed](Harness:packages/fs/fs/src/index.ts) being the only hook that runs after content is on disk - the [fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts) carrying a version guard but never the content."
+	}, { "default": ($$result) => renderTemplate` <p> <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}><code>fs/observed</code></a> is the only hook that runs <em>after</em> content
+						is on disk - the <a${addAttribute(Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts"), "href")}><code>fs/write-intent</code></a> waterfall carries a version
+						guard but never the content.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "How It Works",
+		"Meta": "THE PIPELINE G = U ∘ P"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-pipeline",
+		"Title": "The pipeline, gate by gate",
+		"Diagram": "The full pipeline as mechanics: fs/observed firing for every harness write (the tool layer only, any thread), the G1 gate deciding exclusion-first (the excluded path takes the ledger line; every other gate outcome is silent), the G2 registry discovery, the detached contained G3 chain pass (the pure transform ending in the GuardedWrite and the P3 re-emit), and the G4 update stage (the passage gate, the first-wins policy pick, the programmatic-or-bin dispatch, the verify and the U2 refresh) - ending in silence: the tool result shows exactly what the author wrote."
+	}, { "default": ($$result) => renderTemplate` <p>
+The flow the README shows as an ASCII ladder, drawn as the gates it
+						runs: exclusion first, then the chain pass, then the update stage - the
+						author never learns.
+</p> ` })} </div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-anywhere-mode",
+		"Title": "Anywhere mode, exclusion-first",
+		"Diagram": "No roots allowlist: any agent (main, subagent, workflow child) writing a package.json via the harness fs tools being governed - unless the path contains an excluded segment."
+	}, { "default": ($$result) => renderTemplate` <p>
+No roots allowlist: any
+						agent (main, subagent, workflow child) writing a <span class="file-mention">${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "file-json",
+		"Size": "0.9em"
+	})}package.json</span> via the
+						harness fs tools is governed, unless the path contains an excluded segment.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-no-recursion",
+		"Title": "No recursion",
+		"Diagram": "The governor's rewrites going through the ctx.fs service (which dispatches no fs/* events - only the tool layer does) and the update stage being a continuation, not an author tool call."
+	}, { "default": ($$result) => renderTemplate` <p>
+The governor's rewrites go through the
+						ctx.fs service (which dispatches no fs/* events - only the tool layer does)
+						and the update stage is a continuation, not an author tool call.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-version-coherence",
+		"Title": "Version coherence",
+		"Diagram": "The rewrite carrying replaceIfVersion at the observed version - a racing author write making it fail safely (no clobber)."
+	}, { "default": ($$result) => renderTemplate` <p>
+The rewrite carries replaceIfVersion at
+						the observed version; a racing author write makes it fail safely (no
+						clobber).
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-cordis-trap",
+		"Title": "The cordis-trap guard",
+		"Diagram": "ncu's reject list always being policy.reject ∪ the chain-governed dep names - ncu must never bump a chain pin to public npm latest."
+	}, { "default": ($$result) => renderTemplate` <p>
+ncu's reject list is always
+						policy.reject ∪ the chain-governed dep names; ncu must never bump a chain
+						pin to public npm latest.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-silence",
+		"Title": "Silence",
+		"Diagram": "The model-facing write result built from the author's own content - a listener throw contained logger-only (the core's Suppress composer), the ledger best-effort."
+	}, { "default": ($$result) => renderTemplate` <p>
+The model-facing write result is built from the
+						author's own content; a listener throw is contained logger-only (the core's
+						Suppress composer); the ledger is best-effort.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-update-envelope",
+		"Title": "The update envelope lives in the core",
+		"Diagram": "The G4 update-stage envelope - the Dispatch/Settle pair of the diagram (the gates, the jobs envelope, the breaker update, the U2 refresh) - living in [@playform/hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source), this module a thin delegate injecting its own collections, child stage and ledger strings, so the flow is not forked per governance module."
+	}, { "default": ($$result) => renderTemplate` <p>
+The G4 update-stage envelope - the Dispatch/Settle pair of the diagram above
+						(the gates, the jobs envelope, the breaker update, the U2 refresh) - lives
+						in the core (<a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source"), "href")}>@playform/hook-dsh-core</a>).
+</p> <p>
+This module is a thin delegate that injects its own collections, child stage
+						and ledger strings, so the flow is not forked per governance module.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Config",
+		"Meta": "SCHEMA + DEFAULTS AT LOAD"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-config-schema",
+		"Title": "The exported Config schema",
+		"Diagram": "The exported Config schema (the [factory's Schema helper](Ours:Classic/packages/plugin-dsh-factory/Source) extended with the module's own fields) validating and filling every default at load - invalid configuration failing loudly, new patch entries declared with insert:."
+	}, { "default": ($$result) => renderTemplate` <p>
+The factory's Schema helper, extended with the
+						module's own fields, validates and fills every default at load - invalid
+						configuration fails loudly.
+</p> <p>
+New patch entries are declared with <code>insert:</code>. Full example:
+</p> ` })} </div> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "yaml",
+		"Source": [
+			"- insert:",
+			"      - id: hook-dsh-package-governor",
+			"        name: \"@playform/hook-dsh-package-governor\"",
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-package-governor.log # global ledger",
+			"            updateCooldownMs: 3000",
+			"            strict: false # explicit only; never default-delete unknown deps",
+			"            mutationTools: [write, edit, str_replace_editor]",
+			"            maxUpdateFailures: 3 # circuit breaker: pause a dir's update stage",
+			"            ncuBin: /usr/local/bin/ncu # absolute - host PATH != shell PATH",
+			"            updateMode: programmatic # \"programmatic\" (default) | \"bin\"",
+			"            policyFile: \"\" # optional global update-policy.json (else discovery, else built-in)",
+			"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]"
+		].join("\n")
+	})} <div class="table-wrap"> <table class="table"> <thead> <tr> <th>Field</th> <th>Type</th> <th>Default</th> <th>Meaning</th> </tr> </thead> <tbody> ${Config.map((Row) => renderTemplate`<tr> <td> <strong>${Row.Field}</strong> </td> <td>${Row.Type}</td> <td>${unescapeHTML(Mention(Row.Default))}</td> <td>${unescapeHTML(Mention(Row.Meaning))}</td> </tr>`)} </tbody> </table> </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "In Action",
+		"Meta": "ONE GOVERNED WRITE"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-in-action-setup",
+		"Title": "One governed write",
+		"Diagram": "The author writing a package.json anywhere with the write tool - one dep that should track the governed registry, one public dep left on a range."
+	}, { "default": ($$result) => renderTemplate` <p>
+The author writes a <span class="file-mention">${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "file-json",
+		"Size": "0.9em"
+	})}<code>package.json</code></span> anywhere
+						with the write tool - one dep that should track the governed registry, one
+						public dep left on a range:
+</p> ` })} </div> <p class="section-kicker"> ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "swap" })}Before - the manifest as the author wrote it
+</p> ${renderComponent($$result, "CodeBlock", $$CodeBlock, {
+		"Language": "json",
+		"Source": GovernedWrite.join("\n")
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-in-action-pass",
+		"Title": "The chain pass canonicalizes; the update stage bumps",
+		"Diagram": "The chain pass finding @acme/chain-core in the nearest registry.json (effective 0.4.5) and canonicalizing it to ^0.4.5 - the public dep staying a range until the update stage's ncu run bumps it; the transcript showing only what the author wrote, the ledger showing what actually happened."
+	}, { "default": ($$result) => renderTemplate` <p>
+The chain pass finds <code>@acme/chain-core</code> in the nearest${" "} <span class="file-mention">${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "file-json",
+		"Size": "0.9em"
+	})}<code>registry.json</code></span> (effective 0.4.5) and canonicalizes it to${" "} <code>^0.4.5</code>; the public dep stays a range until the update stage's
+						ncu run bumps it.
+</p> <p>
+The transcript shows only what the author wrote; the ledger shows what
+						actually happened:
+</p> ` })} </div> <p class="section-kicker"> ${renderComponent($$result, "BrandIcon", $$BrandIcon, { "Name": "swap" })}After - the ledger line for the same pass
+</p> <div class="code-block">${LedgerExcerpt.join("\n")}</div> <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-in-action-reread",
+		"Title": "Read it back, write it again, or write inside an excluded path",
+		"Diagram": "Reading the file back and finding @acme/chain-core at ^0.4.5 (or already bumped by ncu if the policy allowed it) - writing again immediately with nothing complaining (no FS_STALE_VERSION, the re-emit making the second pass a no-op) - or writing inside node_modules/.git/.dsh and the ledger gaining one line, skipped (excluded) ..., while the file stays untouched."
+	}, { "default": ($$result) => renderTemplate` <p>
+Read the file back and <code>@acme/chain-core</code> is <code>^0.4.5</code>${" "}
+(or already bumped by ncu if the policy allowed it); write it again
+						immediately and nothing complains - no <code>FS_STALE_VERSION</code>, the
+						re-emit made the second pass a no-op.
+</p> <p>
+Write inside <code>node_modules</code>/<code>.git</code>/<code>.dsh</code>${" "}
+and the ledger gains one line, <code>skipped (excluded) ...</code>, while
+						the file stays untouched.
+</p> ` })} </div> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "The Ledger",
+		"Meta": "ONE GLOBAL LOG"
+	})} <div class="concept-list"> ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-ledger-log",
+		"Title": "One global log",
+		"Diagram": "One global log (logFile, default ~/.dsh/hook-dsh-package-governor.log) recording activation, exclusions, chain-pass results, and every update-stage dispatch - the activation line written by apply() so \"did it activate\" is answerable from the ledger alone."
+	}, { "default": ($$result) => renderTemplate` <p> <code>logFile</code> (default${" "}
+~/.dsh/hook-dsh-package-governor.log) records activation,
+						exclusions, chain-pass results, and every update-stage dispatch.
+</p> <p>
+The activation line is written by <code>apply()</code> - "did it activate"
+						must be answerable from the ledger alone.
+</p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
+		"ID": "govpkg-ledger-em-dashes",
+		"Title": "The em dashes are part of the literal strings",
+		"Diagram": "The registry-miss line ending with an em dash followed by chain pass skipped, the DONE/FAILED lines update: DONE + em dash + reason and update: FAILED + em dash + reason - byte-exact forms in the In Action excerpt, the em dashes living only in the example block."
+	}, { "default": ($$result) => renderTemplate` <p>
+The registry-miss line ends with an em dash followed by${" "} <code>chain pass skipped</code>; the DONE/FAILED lines are${" "} <code>update: DONE</code> + em dash + reason and <code>update: FAILED</code>${" "}
++ em dash + reason - byte-exact forms are in the In Action excerpt above.
+</p> <p>
+Those em dashes are part of the literal ledger strings, so they live only in
+						the example block.
+</p> ` })} </div> <div class="code-block">${LedgerStrings.join("\n")}</div> </section> <!-- The known limits: the documented gaps, stated as they are. --> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Known limits",
+		"Meta": "THE DOCUMENTED GAPS"
+	})} <p class="page-hero__sub" style="margin-bottom: var(--space-md)"> <strong>The verifyCommand trap.</strong> </p> <p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+The update stage's verifyCommand can fail
+				with a non-zero status: on a vendored-fork workspace the forks are not on the
+				public registry, so a <code>verifyCommand: pnpm install</code> fails and the
+				ledger records the failure - the documented cordis registry trap, the expected
+				outcome, not a bug.
+</p> <p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+Exit 127 (the runner unavailable) is non-fatal; any other
+				failure fails the stage and counts toward the circuit breaker (
+<code>maxUpdateFailures</code>, default 3).
+</p> <p class="page-hero__sub" style="margin-bottom: var(--space-md)"> <strong>The fixture paths.</strong> </p> <p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+The live battery's fixture ledgers carry the
+				neutralized display forms (<code>&lt;repo-root&gt;/</code>,${" "} <code>$DSH_HOME/</code>); the personal absolute paths exist only in the internal
+				Boilerplate copies - never copy a live battery into a release archive as-is.
+</p> <div class="code-block">${TrapLines.join("\n")}</div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+The lines are byte-exact ledger strings of the update stage's Verify step; the
+				smokes assert all four forms in both releases.
+</p> </section> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
+		"Title": "Related plugins",
+		"Meta": `${Counts.Packages} TOTAL`
+	})} <div class="grid grid--3"> ${Related.map((Plugin) => renderTemplate`${renderComponent($$result, "Card", $$Card, {
+		"Variant": "white",
+		"Name": Plugin.Name,
+		"Href": `/plugins/${Plugin.Name}/`,
+		"Desc": Plugin.Desc,
+		"Muted": true
+	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, { "slot": "badge" }, { "default": ($$result) => renderTemplate`DSH FAMILY` })}` })}`)} </div> <p class="page-hero__sub" style="margin-top: var(--space-md)">
+License: CC0-1.0.</p> <p class="page-hero__sub" style="margin-top: var(--space-md)">Full method contract: <span class="file-mention">${renderComponent($$result, "BrandIcon", $$BrandIcon, {
+		"Name": "file-markdown",
+		"Size": "0.9em"
+	})}SCHEME.md</span>.</p> <p class="page-hero__sub" style="margin-top: var(--space-md)">TypeScript-first, built with
+				@playform build (ESBuild + tsc type-check); the published artifact contains only the
+				built output.
+</p> </section> </main> ` })}`;
+}, "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/hook-dsh-package-governor.astro", void 0);
+var $$file = "/Volumes/CORSAIR/Developer/macOS/Application/PlayForm/DeepSeek/Site/Source/pages/plugins/hook-dsh-package-governor.astro";
+var $$url = "/plugins/hook-dsh-package-governor";
+//#endregion
+//#region \0virtual:astro:page:Source/pages/plugins/hook-dsh-package-governor@_@astro
+var page = () => hook_dsh_package_governor_exports;
+//#endregion
+export { page };

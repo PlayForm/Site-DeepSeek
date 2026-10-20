@@ -370,10 +370,10 @@ const LedgerStrings = [
 					<p>
 						It injects{" "}
 						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap
-						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
-						the config is composed by the factory's standalone <code>Schema</code>{" "}
+						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>.
+						The config is composed by the factory's standalone <code>Schema</code>{" "}
 						helper with
-						<code>shared: false</code> - the minimal block, no{" "}
+						<code>shared: false</code> - the minimal block, NO{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
 						dead fields.
 					</p>
@@ -382,7 +382,8 @@ const LedgerStrings = [
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/write-intent</code></a>{" "}
 						and{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
-						never see it; it wraps the downstream result and always calls{" "}
+						NEVER see it.
+						It wraps the downstream result and ALWAYS calls{" "}
 						<code>next()</code>, so it composes with other{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						listeners regardless of registration order.
@@ -397,7 +398,7 @@ const LedgerStrings = [
 				Seams={[
 					{
 						Seam: "llm/stream - the model stream waterfall",
-						What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
+						What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime). next() is called first. Options are NEVER touched. One chunk in - one chunk out. Upstream throws propagate.",
 						Outcome:
 							"The smugglers are deleted before they reach the live UI or the durable transcript.",
 					},
@@ -409,7 +410,7 @@ const LedgerStrings = [
 					},
 					{
 						Seam: "The factory service",
-						What: "A non-manifest factory consumer: State for the config (the replacement is a hot-editable volatile cell) and Append for every ledger line; it touches no files.",
+						What: "A non-manifest factory consumer: State for the config (the replacement is a hot-editable volatile cell) and Append for EVERY ledger line. It touches NO files.",
 						Outcome:
 							"Composes with other [llm/stream](Harness:packages/llm/llm/src/index.ts) listeners regardless of registration order.",
 					},

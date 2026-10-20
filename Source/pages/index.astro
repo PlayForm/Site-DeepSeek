@@ -477,7 +477,7 @@ const CargoFact =
 					<SupportsButton
 						Manifests={["package.json", "Cargo.toml"]}
 						Details={GovernDetails}
-						ShowcaseId="govern"
+						ShowcaseID="govern"
 						slot="supports"
 					/>
 				</Showcase>
@@ -1634,11 +1634,11 @@ const CargoFact =
 		// deselect) + the reached lights (tier 2 tracks the section state -
 		// on until the clean window clears it).
 		TierButtons.forEach((Tier) => {
-			const TierId = Tier.getAttribute("data-coach-tier") as TierN ?? "0";
-			const Focused = Machine.Focus === TierId;
+			const TierID = Tier.getAttribute("data-coach-tier") as TierN ?? "0";
+			const Focused = Machine.Focus === TierID;
 			Tier.classList.toggle("is-active", Focused);
 			Tier.setAttribute("aria-pressed", Focused ? "true" : "false");
-			Tier.classList.toggle("is-lit", TierId === "2" ? Machine.Context.SectionOn : Machine.Context.Reached.has(TierId));
+			Tier.classList.toggle("is-lit", TierID === "2" ? Machine.Context.SectionOn : Machine.Context.Reached.has(TierID));
 		});
 
 		// The focus area: the focused tier's explanation; a deselected

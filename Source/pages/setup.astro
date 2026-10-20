@@ -579,7 +579,7 @@ const Knobs = [
 						byte-for-byte.
 					</p>
 					<p>
-						Normalization happens only when the call selects it - all six transforms, or
+						Normalization happens ONLY when the call selects it - ALL six transforms, or
 						specific flavors.
 					</p>
 				</Concept>
@@ -591,13 +591,14 @@ const Knobs = [
 					<Badge Variant="outline">ZERO COST BY DEFAULT</Badge>
 					<p>
 						<BrandIcon Name="effect" />{" "}
-						<a href={Link(Links.OurRepo, "EffectTS")}>The Effect-TS release</a> wraps every governance stage in spans (dsh.gate,
-						dsh.discover, dsh.chain-pass, dsh.write) but ships Effect's no-op Tracer as
-						the default - zero cost, no behavior change.
+						<a href={Link(Links.OurRepo, "EffectTS")}>The Effect-TS release</a> wraps EVERY governance stage in spans (dsh.gate,
+						dsh.discover, dsh.chain-pass, dsh.write).
+						It ships Effect's no-op Tracer as the default - zero cost, NO behavior
+						change.
 					</p>
 					<p>
-						The OTLP exporter attaches only when configured, and spans never alter
-						ledger strings or timing-sensitive gates.
+						The OTLP exporter attaches ONLY when configured.
+						Spans NEVER alter ledger strings or timing-sensitive gates.
 					</p>
 				</Concept>
 				<Concept
@@ -608,12 +609,13 @@ const Knobs = [
 					<Badge Variant="outline"><Fragment set:html={DotSep("PLANNED · DEFAULT SEQUENTIAL")} /></Badge>
 					<p>
 						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>The direct-govern path</a> is deliberately SEQUENTIAL (the awaited fold - the
-						live-verified race fix); the event path is inherently concurrent.
+						live-verified race fix).
+						The event path is inherently concurrent.
 					</p>
 					<p>
 						A per-call toggle to run the steps concurrently is designed (#14) to ride
-						the same govern flag shape in both releases - planned, with the sequential
-						fold as the default.
+						the same govern flag shape in BOTH releases.
+						It is planned, with the sequential fold as the default.
 					</p>
 				</Concept>
 				<Concept
@@ -623,12 +625,16 @@ const Knobs = [
 				>
 					<Badge Variant="outline">SILENCE AS INVARIANT</Badge>
 					<p>
-						Storage records buffer or drop when no storage facility is present (the
-						human ledger stays the complete record); excluded paths log one line and
-						move on; a no-op write writes nothing; a thrown-away stream writes no ledger
-						line.
+						Storage records buffer or drop when NO storage facility is present (the
+						human ledger stays the complete record).
+						Excluded paths log ONE line and move on.
+						A no-op write writes nothing.
+						A thrown-away stream writes NO ledger line.
 					</p>
-					<p>Silence is the invariant; the ledger is the receipt.</p>
+					<p>
+						Silence is the invariant.
+						The ledger is the receipt.
+					</p>
 				</Concept>
 				<Concept
 					ID="setup-optional-scopes"
@@ -637,15 +643,14 @@ const Knobs = [
 				>
 					<Badge Variant="outline">DEFAULT OFF</Badge>
 					<p>
-						The granular scopes keep the historical behavior by default: only{" "}
-						<code>conversation</code>, <code>reasoning</code> and <code>files</code> are
-						on; <code>toolInput</code>, <code>toolResults</code> and <code>batch</code>{" "}
-						are off.
+						The granular scopes keep the historical behavior by default.
+						ONLY <code>conversation</code>, <code>reasoning</code> and <code>files</code> are on.
+						<code>toolInput</code>, <code>toolResults</code> and <code>batch</code> are off.
 					</p>
 					<p>
 						Effective tool-input normalization is{" "}
-						<code>normalizeToolArguments || scopes.toolInput</code>, so an existing
-						patch that turns the field on keeps working unchanged.
+						<code>normalizeToolArguments || scopes.toolInput</code>.
+						So an existing patch that turns the field on keeps working unchanged.
 					</p>
 				</Concept>
 				<Concept
@@ -655,10 +660,10 @@ const Knobs = [
 				>
 					<Badge Variant="outline">OPT-IN</Badge>
 					<p>
-						The overpass arms ship registered but inert: they gate at runtime on{" "}
-						<code>scopes.toolResults</code> and <code>scopes.batch</code>, so arming
-						them is a config flip (or the <code>normalize-overpass</code> command), not
-						a re-registration.
+						The overpass arms ship registered but inert.
+						They gate at runtime on <code>scopes.toolResults</code> and <code>scopes.batch</code>.
+						So arming them is a config flip (or the <code>normalize-overpass</code> command), NOT a
+						re-registration.
 					</p>
 					<p>
 						The <code>files &lt;path...&gt;</code> sweep is owned by
@@ -666,9 +671,10 @@ const Knobs = [
 					</p>
 					<p>
 						And the invisibility contract: a tool-result normalization replaces the
-						bytes PRE-COMMIT - the waterfall settles before the result is appended to
-						the durable log - so the model only ever sees the normalized output, the
-						write-path counterpart of the governance trio's never-notify precedent.
+						bytes PRE-COMMIT.
+						The waterfall settles before the result is appended to the durable log.
+						So the model ONLY ever sees the normalized output, the write-path
+						counterpart of the governance trio's never-notify precedent.
 					</p>
 				</Concept>
 				<Concept
@@ -679,9 +685,9 @@ const Knobs = [
 					<Badge Variant="outline">COACHING, NOT POLICING</Badge>
 					<p>
 						<a href="/plugins/hook-dsh-ccr/">ccr</a>: <code>compressFailures</code> is
-						off (failures pass through; the error ×8 tier is the only beneficiary) and{" "}
-						<code>journalPath</code> is empty - the store is memory-only until you point
-						it at a JSONL file.
+						off (failures pass through; the error ×8 tier is the ONLY beneficiary).
+						<code>journalPath</code> is empty.
+						The store is memory-only until you point it at a JSONL file.
 					</p>
 					<p>
 						<a href="/plugins/hook-dsh-tool-coach/">The tool-coach</a>:{" "}

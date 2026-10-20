@@ -161,7 +161,7 @@ const CommandRows = [
 	},
 	{
 		Input: "results on|off",
-		Effect: "flip scopes.toolResults via the settings service / config editor - never direct State mutation; absent services report the settings-UI path",
+		Effect: "flip scopes.toolResults via the settings service / config editor - NEVER direct State mutation; absent services report the settings-UI path",
 	},
 	{
 		Input: "scopes",
@@ -235,7 +235,7 @@ const LedgerStrings = [
 
 <Base
 	Title="hook-dsh-normalize-spaces - DSH Family @ PlayForm"
-	Description={`${Families.Spaces} - the space normalizer for model output: hooks the llm/stream waterfall and normalizes the unicode space family (Zs minus the ASCII space) to the plain space, live in the transcript.`}
+	Description={`${Families.Spaces} - the space normalizer for model output: hooks the llm/stream waterfall and normalizes the unicode space family (Zs minus the ASCII space) to the plain space, LIVE in the transcript.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -257,8 +257,8 @@ const LedgerStrings = [
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>{" "}
 				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>
-				) and normalizes the unicode space family in model output, live in the transcript:
-				every visible non-terminator space that is not the ASCII space becomes the plain
+				) and normalizes the unicode space family in model output, LIVE in the transcript:
+				EVERY visible non-terminator space that is not the ASCII space becomes the plain
 				ASCII space - <code class="code-token">U+00A0</code> to
 				<code>' '</code>, quads and quirs alike.</p>
 			<p class="page-hero__sub">A CLASS flavor of the normalize family: the
@@ -378,7 +378,7 @@ const LedgerStrings = [
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/write-intent</code></a>{" "}
 						and{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
-						never see it; it wraps the downstream result and always calls{" "}
+						NEVER see it; it wraps the downstream result and always calls{" "}
 						<code>next()</code>, so it composes with other{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						listeners regardless of registration order.
@@ -393,7 +393,7 @@ const LedgerStrings = [
 				Seams={[
 					{
 						Seam: "llm/stream - the model stream waterfall",
-						What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
+						What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first, options are NEVER touched, one chunk in - one chunk out, upstream throws propagate.",
 						Outcome:
 							"Plain ASCII spaces reach the live UI and the durable transcript as the stream is born.",
 					},
@@ -411,9 +411,9 @@ const LedgerStrings = [
 					},
 					{
 						Seam: "The raw-write exemption (family-wide)",
-						What: "The family's raw-write tool (registered by [hook-dsh-normalize-dash](Ours:Classic/packages/hook-dsh-normalize-dash/Source)) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the only normalization it applies.",
+						What: "The family's raw-write tool (registered by [hook-dsh-normalize-dash](Ours:Classic/packages/hook-dsh-normalize-dash/Source)) passes through this flavor's stream transforms by identity - the tool's explicit normalize parameter is the ONLY normalization it applies.",
 						Outcome:
-							"Per-call control stays with the agent, even with every stream flavor armed.",
+							"Per-call control stays with the agent, even with EVERY stream flavor armed.",
 					},
 					{
 						Seam: "The ledger / session",
@@ -559,7 +559,7 @@ const LedgerStrings = [
 					Diagram="The volatile cells committing without remounting the plugin - the factory's State builder unwrapping them defensively."
 				>
 					<p>
-						They commit without remounting the plugin; the factory's State
+						They commit WITHOUT remounting the plugin; the factory's State
 						builder unwraps them defensively.
 					</p>
 					<p>
@@ -635,7 +635,7 @@ const LedgerStrings = [
 						invisible to the probe and the call normalizes normally.
 					</p>
 					<p>
-						Three structural exemptions are never rewritten: the <code>edit</code> call
+						Three structural exemptions are NEVER rewritten: the <code>edit</code> call
 						(its <code>old_string</code> must match the real file bytes), the{" "}
 						<code>raw-write</code> call (it owns its content normalization through its
 						explicit <code>normalize</code> parameter) and the <code>normalize-file</code>{" "}
@@ -645,8 +645,8 @@ const LedgerStrings = [
 					<p>
 						And the overpass invisibility contract: the tool-results arm replaces the
 						bytes PRE-COMMIT - the waterfall settles before the result is appended to
-						the durable log - so the model only ever sees the normalized output and
-						never notices the replacement; the exemption list plus the{" "}
+						the durable log - so the model ONLY ever sees the normalized output and
+						NEVER notices the replacement; the exemption list plus the{" "}
 						<code>&lt;&lt;&lt;CCR:</code> marker guard define what passes untouched.
 					</p>
 					<p>
@@ -707,7 +707,7 @@ const LedgerStrings = [
 						<strong>Step batch</strong> - <code>agent/pre-step</code>, default order.
 					</p>
 					<p>
-						While <code>scopes.batch</code> is on, every incoming batch is normalized;
+						While <code>scopes.batch</code> is on, EVERY incoming batch is normalized;
 						the command's one-shot arm fires ONCE regardless of the scope value and is
 						cleared after one use.
 					</p>
@@ -825,7 +825,7 @@ const LedgerStrings = [
 			</p>
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The activation line is written by <code>apply()</code>; the count line only follows
+				The activation line is written by <code>apply()</code>; the count line ONLY follows
 				a normal stream completion and only when N &gt; 0 (a thrown-away stream writes no
 				ledger line).
 			</p>

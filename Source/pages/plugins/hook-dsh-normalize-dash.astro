@@ -425,7 +425,7 @@ const Config = [
 					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State (cell unwrap + shared Ledger/Enabled mappings + its own fields) and Append - touching no files, so fs/write-intent and fs/observed never see it."}
 				>
 					<p>
-						It injects <code>["pluginFactory"]</code> and uses only <code>State</code>{" "}
+						It injects <code>["pluginFactory"]</code> and uses ONLY <code>State</code>{" "}
 						(cell unwrap + shared Ledger/Enabled mappings + its own fields) and{" "}
 						<code>Append</code> - the factory's first <strong>NON-MANIFEST module</strong>.
 					</p>
@@ -434,7 +434,8 @@ const Config = [
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/write-intent</code></a>{" "}
 						and{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
-						never see it; it wraps the downstream result and always calls{" "}
+						NEVER see it.
+						It wraps the downstream result and ALWAYS calls{" "}
 						<code>next()</code>, so it composes with other{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						listeners regardless of registration order.
@@ -446,8 +447,8 @@ const Config = [
 					Diagram="The per-chunk outcome: an untouched chunk passing through by object identity, a rewritten delta/block being a shallow copy with only the text field replaced."
 				>
 					<p>
-						Untouched chunks pass through by object identity; a rewritten delta/block is
-						a shallow copy with only the text field replaced.
+						Untouched chunks pass through by object identity.
+						A rewritten delta/block is a shallow copy with ONLY the text field replaced.
 					</p>
 				</Concept>
 			</div>
@@ -459,9 +460,9 @@ const Config = [
 				Seams={[
 					{
 						Seam: "llm/stream - the model stream waterfall",
-						What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime): next() is called first and unconditionally, options are never touched, one chunk in - one chunk out, upstream throws propagate.",
+						What: "The plugin's listener wraps [the interceptable waterfall](Harness:packages/llm/llm/src/index.ts) around EVERY streaming model call (bound to the LlmRuntime). next() is called first and unconditionally. Options are NEVER touched. One chunk in - one chunk out. Upstream throws propagate.",
 						Outcome:
-							"The live UI and the durable transcript see the normalized stream as it is born.",
+							"The LIVE UI and the durable transcript see the normalized stream as it is born.",
 					},
 					{
 						Seam: "The tool layer - the agent's toolset",
@@ -476,7 +477,7 @@ const Config = [
 					},
 					{
 						Seam: "The factory service",
-						What: "A non-manifest factory consumer: State for the config (hot-editable cells, no remount) and Append for every ledger line; it touches no files on the stream path.",
+						What: "A non-manifest factory consumer: State for the config (hot-editable cells, NO remount) and Append for EVERY ledger line. It touches NO files on the stream path.",
 						Outcome:
 							"Composes with other [llm/stream](Harness:packages/llm/llm/src/index.ts) listeners regardless of registration order.",
 					},
@@ -484,7 +485,7 @@ const Config = [
 						Seam: "The ledger / session",
 						What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
 						Outcome:
-							"A thrown-away stream writes no ledger line; the count is per stream, visible in your own log.",
+							"A thrown-away stream writes NO ledger line. The count is per stream, visible in your own log.",
 					},
 				]}
 			/>
@@ -504,7 +505,7 @@ const Config = [
 						<code>perl -CSD -pe</code> over whatever was already written.
 					</p>
 					<p>
-						Model output, however, is born in the stream: the live UI and the durable
+						Model output, however, is born in the stream: the LIVE UI and the durable
 						transcript see the em dashes first, no matter what a file hook does later.</p>
 					<p>A
 						DSH plugin can go where a file hook cannot: the{" "}
@@ -542,7 +543,7 @@ const Config = [
 						>hook-dsh-cargo-governor</a>
 						), whose rewrites are SILENT, this plugin's normalization is{" "}
 						<strong>deliberately VISIBLE - it IS the feature</strong>: the rewrite flows
-						into both the live UI and the durable transcript.
+						into BOTH the LIVE UI and the durable transcript.
 					</p>
 				</Concept>
 			</div>
@@ -560,13 +561,13 @@ const Config = [
 					<p>
 						<strong>Waterfall discipline:</strong> <code>next()</code> is ALWAYS called,
 						unconditionally, first - omitting it short-circuits the waterfall and the
-						model call never happens.
+						model call NEVER happens.
 					</p>
 					<p>
 						<code>options</code> is NEVER touched (a loop-built request arrives
-						deep-frozen and its content is a pure function of the session log); order
-						preserved, no buffering - one chunk in, one chunk out, upstream throws
-						propagate.
+						deep-frozen and its content is a pure function of the session log).
+						Order preserved, no buffering - one chunk in, one chunk out, upstream
+						throws propagate.
 					</p>
 				</Concept>
 				<Concept
@@ -603,7 +604,7 @@ const Config = [
 						<code>replacement</code> (default
 						<code>-</code>, ASCII hyphen-minus <code class="code-token">U+002D</code>).
 					</p>
-					<p>No context rules - a class match and replace, no lookahead.</p>
+					<p>NO context rules - a class match and replace, NO lookahead.</p>
 				</Concept>
 				<Concept
 					ID="dash-boundary-safe"
@@ -611,9 +612,9 @@ const Config = [
 					Diagram="Single-character replacement, no lookahead, no multi-character sequences - per-chunk application can never disagree with whole-text application; the replacement applied with a function replacer so a custom replacement containing $ patterns is inserted literally; replaced characters counted per stream for the ledger line."
 				>
 					<p>
-						Chunk-boundary-safe: single-character replacement, no lookahead, no
-						multi-character sequences - per-chunk application can never disagree with
-						whole-text application.
+						Chunk-boundary-safe: single-character replacement, NO lookahead, NO
+						multi-character sequences.
+						Per-chunk application can NEVER disagree with whole-text application.
 					</p>
 					<p>
 						The replacement is applied with a function replacer, so a custom{" "}
@@ -643,10 +644,10 @@ const Config = [
 					<p>
 						The tool is exempt from the stream normalization by name (the core's
 						<code class="code-token">Stream/Chunk</code> +{" "}
-						<code class="code-token">Stream/Block</code> pass every raw-write call
+						<code class="code-token">Stream/Block</code> pass EVERY raw-write call
 						through by identity, exactly like <code>edit</code>), so the content is
-						what the model sent, and the normalization decision happens at execution
-						time.
+						what the model sent.
+						The normalization decision happens at execution time.
 					</p>
 				</Concept>
 			</div>
@@ -807,11 +808,11 @@ const Config = [
 					Diagram="The volatile cells committing without remounting the plugin - the fiber, and with it the llm/stream registration, staying alive - with the factory's State builder unwrapping them defensively."
 				>
 					<p>
-						They commit without remounting the plugin (the fiber - and with it
+						They commit WITHOUT remounting the plugin (the fiber - and with it
 						the{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
-						registration - stays alive); the factory's State builder unwraps them
-						defensively.
+						registration - stays alive).
+						The factory's State builder unwraps them defensively.
 					</p>
 					<p>
 						Example{" "}
@@ -858,24 +859,24 @@ const Config = [
 					Diagram="The scopes object gating every arm of the hook-dsh-normalize-dash hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 				>
 					<p>
-						The <code>scopes</code> object gates every arm of the{" "}
+						The <code>scopes</code> object gates EVERY arm of the{" "}
 						<code>hook-dsh-normalize-dash</code> hook independently - conversation,
 						reasoning, toolInput, toolResults, files, batch - with the defaults exactly
 						the pre-scopes behavior.
 					</p>
 					<p>
-						The whole object is <strong>volatile</strong>: one leaf change commits one{" "}
+						The whole object is <strong>volatile</strong>: ONE leaf change commits ONE{" "}
 						<code>loader/volatile-update</code> dispatch whose whole object the State's
-						refresh listener re-reads - live, silent, no remount, no new activation
+						refresh listener re-reads - LIVE, silent, NO remount, NO new activation
 						line (a flip lands on the next stream).
 					</p>
 					<p>
 						The tool-input arm: effective tool-input normalization is{" "}
 						<code>normalizeToolArguments || scopes.toolInput</code> - the field is kept
-						and OR-ed in, so every existing profile keeps working.
+						and OR-ed in, so EVERY existing profile keeps working.
 					</p>
 					<p>
-						It is the only execution-critical arm, and it carries the per-call escape
+						It is the ONLY execution-critical arm, and it carries the per-call escape
 						hatch: a call whose arguments open with the{" "}
 						<code>&#123;"__normalize":false&#125;</code> FIRST-key marker passes
 						through unnormalized, the marker entry stripped (the executed call carries
@@ -887,7 +888,7 @@ const Config = [
 						invisible to the probe and the call normalizes normally.
 					</p>
 					<p>
-						Three structural exemptions are never rewritten: the <code>edit</code> call
+						Three structural exemptions are NEVER rewritten: the <code>edit</code> call
 						(its <code>old_string</code> must match the real file bytes), the{" "}
 						<code>raw-write</code> call (it owns its content normalization through its
 						explicit <code>normalize</code> parameter) and the <code>normalize-file</code>{" "}
@@ -897,8 +898,8 @@ const Config = [
 					<p>
 						And the overpass invisibility contract: the tool-results arm replaces the
 						bytes PRE-COMMIT - the waterfall settles before the result is appended to
-						the durable log - so the model only ever sees the normalized output and
-						never notices the replacement; the exemption list plus the{" "}
+						the durable log - so the model ONLY ever sees the normalized output and
+						NEVER notices the replacement. The exemption list plus the{" "}
 						<code>&lt;&lt;&lt;CCR:</code> marker guard define what passes untouched.
 					</p>
 					<p>
@@ -952,18 +953,18 @@ const Config = [
 						marker guard makes any load order safe).
 					</p>
 					<p>
-						Accepted, non-value-carrying decisions only; TEXT blocks only; N = 0 is a
-						true no-op - no ledger line; fail-open.
+						Accepted, non-value-carrying decisions ONLY. TEXT blocks ONLY. N = 0 is a
+						true no-op - NO ledger line. Fail-open.
 					</p>
 					<p>
 						<strong>Step batch</strong> - <code>agent/pre-step</code>, default order.
 					</p>
 					<p>
-						While <code>scopes.batch</code> is on, every incoming batch is normalized;
-						the command's one-shot arm fires ONCE regardless of the scope value and is
+						While <code>scopes.batch</code> is on, EVERY incoming batch is normalized.
+						The command's one-shot arm fires ONCE regardless of the scope value and is
 						cleared after one use.
 					</p>
-					<p>Text blocks only; never the assistant/tool history.</p>
+					<p>Text blocks ONLY; NEVER the assistant/tool history.</p>
 					<p>The overpass lines (N &gt; 0 only):</p>
 				</Concept>
 			</div>
@@ -1020,8 +1021,10 @@ const Config = [
 						The em dash (<code class="code-token">U+2014</code>), the en dash (
 						<code class="code-token">U+2013</code>) and the horizontal bar (
 						<code class="code-token">U+2015</code>)
-						each become <code>-</code>; the ASCII hyphens that were already there are
-						untouched (the count only counts replacements).
+						each become <code>-</code>.
+						The ASCII hyphens that were already there are untouched (the count ONLY
+						untouched (the count ONLY
+						counts replacements).
 					</p>
 					<p>
 						The same pass runs over reasoning deltas (<code>normalizeReasoning</code>,
@@ -1045,8 +1048,9 @@ const Config = [
 					<p>
 						And the <code>raw-write</code> tool in the file-writing direction: its
 						content lands verbatim by default, or runs the family's six-fold chain when
-						called with <code>normalize: true</code> - the em dash above would survive
-						the default call and become a hyphen under <code>normalize: true</code>.
+						called with <code>normalize: true</code>.
+						The em dash above would survive the default call and become a hyphen under{" "}
+						<code>normalize: true</code>.
 					</p>
 					<p>The selection can also be FINE-GRAINED:</p>
 				</Concept>
@@ -1078,8 +1082,8 @@ const Config = [
 					<p>
 						And the governance direction, per call: a raw-write to a{" "}
 						<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> with <code>govern: true</code> runs the registered
-						chain pass (canonicalize) and the update stage after the write lands;{" "}
-						<code>govern: ["pin"]</code> runs only the pinner's chain pass.
+						chain pass (canonicalize) and the update stage after the write lands.{" "}
+						<code>govern: ["pin"]</code> runs ONLY the pinner's chain pass.
 					</p>
 					<p>
 						When a stream finishes normally with replacements made, the ledger gets the
@@ -1099,8 +1103,9 @@ const Config = [
 			</p>
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The activation line is written by <code>apply()</code>; the count line only follows
-				a normal stream completion and only when N &gt; 0 (a thrown-away stream writes no
+				The activation line is written by <code>apply()</code>.
+				The count line ONLY follows
+				a normal stream completion and ONLY when N &gt; 0 (a thrown-away stream writes NO
 				ledger line).
 			</p>
 		</section>
@@ -1117,12 +1122,12 @@ const Config = [
 				lesson of the URL-registry corruption.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The law: no write path may introduce
+				The law: NO write path may introduce
 				bytes outside the target's charset.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				Verbatim is the default; this family's
-				transforms exist to restore the integrity; the byte-scan is the arbiter.
+				Verbatim is the default. This family's
+				transforms exist to restore the integrity. The byte-scan is the arbiter.
 			</p>
 			<p class="page-hero__sub">
 				<strong>Markers are stripped before the tool validates.</strong>
@@ -1131,8 +1136,8 @@ const Config = [
 				The harness
 				tools reject unknown argument keys (<code>additionalProperties: false</code>):
 				the raw marker (<code>__normalize: false</code>) and the govern selection are
-				consumed by the family's exec, never passed through to the tool schema - any
-				marker convention must be stripped before the tool validates.
+				consumed by the family's exec, NEVER passed through to the tool schema.
+				Any marker convention must be stripped before the tool validates.
 			</p>
 		</section>
 

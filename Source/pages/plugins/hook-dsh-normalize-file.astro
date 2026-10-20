@@ -144,7 +144,7 @@ const Scopes = [
 const CommandRows = [
 	{
 		Input: "files <path...>",
-		Effect: "run the file sweep - the normalize-file pipeline per path, each changed file written through the shared executor with its own count line, then the summary",
+		Effect: "run the file sweep - the normalize-file pipeline per path, EACH changed file written through the shared executor with its own count line, then the summary",
 	},
 	{
 		Input: "batch",
@@ -152,7 +152,7 @@ const CommandRows = [
 	},
 	{
 		Input: "results on|off",
-		Effect: "flip scopes.toolResults via the settings service / config editor - never direct State mutation; absent services report the settings-UI path",
+		Effect: "flip scopes.toolResults via the settings service / config editor - NEVER direct State mutation; absent services report the settings-UI path",
 	},
 	{
 		Input: "scopes",
@@ -398,7 +398,7 @@ const Usage = [
 					<p>
 						The tool's writes carry the call's exec as the actor, so the governance
 						trio's Gate (which pins mutationTools to write/edit/str_replace_editor)
-						never treats them as a trigger - the same protection raw-write already has.
+						NEVER treats them as a trigger - the same protection raw-write already has.
 					</p>
 				</Concept>
 			</div>
@@ -415,24 +415,24 @@ const Usage = [
 					},
 					{
 						Seam: "ctx.fs - the write executor behind the tools (dsh-fs)",
-						What: "Every N > 0 write goes through [the factory's ONE shared write executor](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) - [the fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, writeText end to end, and the [fs/observed](Harness:packages/fs/fs/src/index.ts) {kind: present, version} emit on the root context with the call's exec as the actor.",
+						What: "EVERY N > 0 write goes through [the factory's ONE shared write executor](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) - [the fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, writeText end to end, and the [fs/observed](Harness:packages/fs/fs/src/index.ts) {kind: present, version} emit on the root context with the call's exec as the actor.",
 						Outcome:
 							"Byte-identical with the raw-write path; the observation policy sees it like any tool write.",
 					},
 					{
 						Seam: "The governance interlock",
-						What: "The write's actor is the call's exec, and normalize-file is never added to any governor's mutationTools pin - so these writes never trigger a chain pass; the tool calls are also name-exempt in the stream gate beside edit and raw-write.",
+						What: "The write's actor is the call's exec, and normalize-file is NEVER added to any governor's mutationTools pin - so these writes NEVER trigger a chain pass; the tool calls are also name-exempt in the stream gate beside edit and raw-write.",
 						Outcome:
 							"Normalization without re-processing loops, and edit targets that never corrupt.",
 					},
 					{
 						Seam: "The storage domain",
-						What: "Each N > 0 write journals one normalized record into the shared package_governance v2 domain (path = the target's display path, detail byte-identical to the count line) - best-effort: with no [storage facility](Harness:packages/storage/storage-domain) the record buffers or drops.",
+						What: "EACH N > 0 write journals one normalized record into the shared package_governance v2 domain (path = the target's display path, detail byte-identical to the count line) - best-effort: with no [storage facility](Harness:packages/storage/storage-domain) the record buffers or drops.",
 						Outcome: "A machine-readable history beside the human ledger.",
 					},
 					{
 						Seam: "The ledger / session",
-						What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the count line that follows only a successful N > 0 write.",
+						What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the count line that follows ONLY a successful N > 0 write.",
 						Outcome:
 							"A no-op writes no line; a failed read or aborted call writes none either.",
 					},
@@ -449,14 +449,14 @@ const Usage = [
 					Diagram="Files that never passed through a write tool being invisible to every normalization layer DSH has - raw-write's normalize: true an explicit per-call opt-in for NEW writes, the six stream flavors only rewriting model output, never touching disk - a pre-existing file keeping every typographic character it was born with, exactly the characters that break parsers, shells, diffs and byte-exact edit matches downstream."
 				>
 					<p>
-						They are invisible to every
+						They are invisible to EVERY
 						normalization layer DSH has: <code>raw-write</code>'s{" "}
 						<code>normalize: true</code> is an explicit per-call opt-in for NEW writes,
-						and the six stream flavors only rewrite model output - they never touch
+						and the six stream flavors ONLY rewrite model output - they NEVER touch
 						disk.
 					</p>
 					<p>
-						Left unnormalized, a pre-existing file keeps every typographic dash, curly
+						Left unnormalized, a pre-existing file keeps EVERY typographic dash, curly
 						quote, ellipsis, unicode space, zero-width character and full-width
 						character it was born with - exactly the characters that break parsers,
 						shells, diffs and byte-exact edit matches downstream.
@@ -470,7 +470,7 @@ const Usage = [
 					<p>
 						But the fix cannot be another silent rewriter.</p>
 					<p>Files are rewritten behind
-						the agent only at the price of the edit tool's <code>old_string</code>{" "}
+						the agent ONLY at the price of the edit tool's <code>old_string</code>{" "}
 						contract: the agent read bytes X, a background rewriter silently changed
 						them to X', and the next edit fails or half-matches.
 					</p>
@@ -679,8 +679,8 @@ const Usage = [
 					<p>
 						And the overpass invisibility contract: the tool-results arm replaces the
 						bytes PRE-COMMIT - the waterfall settles before the result is appended to
-						the durable log - so the model only ever sees the normalized output and
-						never notices the replacement; the exemption list plus the{" "}
+						the durable log - so the model ONLY ever sees the normalized output and
+						NEVER notices the replacement; the exemption list plus the{" "}
 						<code>&lt;&lt;&lt;CCR:</code> marker guard define what passes untouched.
 					</p>
 					<p>
@@ -741,7 +741,7 @@ const Usage = [
 						<strong>Step batch</strong> - <code>agent/pre-step</code>, default order.
 					</p>
 					<p>
-						While <code>scopes.batch</code> is on, every incoming batch is normalized;
+						While <code>scopes.batch</code> is on, EVERY incoming batch is normalized;
 						the command's one-shot arm fires ONCE regardless of the scope value and is
 						cleared after one use.
 					</p>
@@ -798,7 +798,7 @@ const Usage = [
 					Diagram="Every em dash (U+2014) becoming the ASCII hyphen-minus, the curly quotes straight ones, the ellipsis three periods - five characters replaced, so N = 5 and the write happens; the result carrying the outcome, the diff card showing the before/after in the same turn, the ledger getting the count line."
 				>
 					<p>
-						Every em dash (<code class="code-token">U+2014</code>) becomes the ASCII
+						EVERY em dash (<code class="code-token">U+2014</code>) becomes the ASCII
 						hyphen-minus, the curly quotes
 						become straight ones, the ellipsis becomes three periods; five characters
 						replaced, so N = 5 and the write happens.
@@ -844,7 +844,7 @@ const Usage = [
 				>
 					<p>
 						The activation line is written by <code>apply()</code>; the count line
-						follows only a successful N &gt; 0 write - a no-op writes no line, and a
+						follows ONLY a successful N &gt; 0 write - a no-op writes no line, and a
 						failed read or an aborted call writes none either.
 					</p>
 				</Concept>
@@ -854,7 +854,7 @@ const Usage = [
 					Diagram="Each N > 0 write also journaling one normalized record into the shared package_governance v2 domain (event normalized, path = the target's display path, detail byte-identical to the count line) - best-effort: with no storage facility the record buffers or drops and the human ledger stays the complete record."
 				>
 					<p>
-						Each N &gt; 0 write also journals one <code>normalized</code> record into
+						EACH N &gt; 0 write also journals one <code>normalized</code> record into
 						the shared <code>package_governance</code>{" "}
 						<a
 							href={Link(
@@ -880,7 +880,7 @@ const Usage = [
 					Variant="white"
 					Name="plugin-dsh-factory"
 					Href="/plugins/plugin-dsh-factory/"
-					Desc="State, Append, Journal and - uniquely here - Write, the ONE shared write executor every N > 0 write goes through."
+					Desc="State, Append, Journal and - uniquely here - Write, the ONE shared write executor EVERY N > 0 write goes through."
 					Muted
 				>
 					<Badge slot="badge">PARENT SERVICE</Badge>

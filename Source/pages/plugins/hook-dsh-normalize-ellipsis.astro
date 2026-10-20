@@ -148,7 +148,7 @@ const CommandRows = [
 	},
 	{
 		Input: "results on|off",
-		Effect: "flip scopes.toolResults via the settings service / config editor - never direct State mutation; absent services report the settings-UI path",
+		Effect: "flip scopes.toolResults via the settings service / config editor - NEVER direct State mutation. Absent services report the settings-UI path",
 	},
 	{
 		Input: "scopes",
@@ -197,7 +197,7 @@ const Config = [
 		Default: "false",
 		Volatile: "no",
 		Meaning:
-			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit name exemption and the {"__normalize":false\} raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
+			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit name exemption and the {"__normalize":false\} raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk. The example patch turns it on',
 	},
 ];
 
@@ -237,16 +237,16 @@ const LedgerStrings = [
 		<section class="page-hero">
 			<h1 class="page-hero__title">hook-dsh-normalize-ellipsis</h1>
 			<p class="page-hero__sub">
-				{Families.Ellipsis} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin
-				Family for PlayForm.</em> The <strong>ellipsis normalizer for model output</strong> - a
-				DeepSeek Harness plugin that hooks the{" "}
+					{Families.Ellipsis} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin
+				Family for PlayForm.</em>
+				The <strong>ellipsis normalizer for model output</strong> - a DeepSeek Harness plugin
+				that hooks the{" "}
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>{" "}
 				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
-				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>
-				) and normalizes the horizontal ellipsis in model output, live in the transcript:
-				every typographic three-dot ellipsis code point becomes the ASCII three-dot sequence
-				- <code class="code-token">U+2026</code> to
-				<code>...</code>.</p>
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>).
+				It normalizes the horizontal ellipsis in model output, LIVE in the transcript.
+				EVERY typographic three-dot ellipsis code point becomes the ASCII three-dot sequence -
+				<code class="code-token">U+2026</code> to <code>...</code>.</p>
 			<p class="page-hero__sub">A CLASS flavor of the normalize family: the core's
 				<code>Ellipsis</code> class plus a configurable <code>replacement</code> string
 				(default <code>...</code>).</p>
@@ -304,8 +304,8 @@ const LedgerStrings = [
 								)}
 							>plugin-dsh-factory</a>
 						</strong>{" "}
-						service ({Families.Ellipsis}) and the <strong>hook-dsh-core</strong>{" "}
-						machinery; the third of the six stream normalizer siblings.
+						service ({Families.Ellipsis}) and the <strong>hook-dsh-core</strong> machinery.
+						It is the third of the six stream normalizer siblings.
 					</p>
 				</Concept>
 			</div>
@@ -350,11 +350,11 @@ const LedgerStrings = [
 				>
 					<p>
 						It injects{" "}
-						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap
-						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>;
-						the config is composed by the factory's standalone <code>Schema</code>{" "}
+						<code>["pluginFactory"]</code> and uses ONLY <code>State</code> (cell unwrap
+						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>.
+						The config is composed by the factory's standalone <code>Schema</code>{" "}
 						helper with
-						<code>shared: false</code> - the minimal block, no{" "}
+						<code>shared: false</code> - the minimal block, NO{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
 						dead fields.
 					</p>
@@ -363,7 +363,8 @@ const LedgerStrings = [
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/write-intent</code></a>{" "}
 						and{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
-						never see it; it wraps the downstream result and always calls{" "}
+						NEVER see it.
+						It wraps the downstream result and ALWAYS calls{" "}
 						<code>next()</code>, so it composes with other{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						listeners regardless of registration order.
@@ -445,7 +446,8 @@ const LedgerStrings = [
 						<strong>The transform</strong> - exactly the core's <code>Ellipsis</code>{" "}
 						class (
 						<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source")}>@playform/hook-dsh-core</a>
-						's Normalize/Ellipsis), applied per text segment through the core's generic
+						's Normalize/Ellipsis).
+						It is applied per text segment through the core's generic
 						class-to-string <code>Replace</code>:
 					</p>
 				</Concept>
@@ -467,8 +469,8 @@ const LedgerStrings = [
 						sequence - the ellipsis's own ASCII spelling).
 					</p>
 					<p>
-						No context rules - whole-chunk replacement, no lookahead;
-						chunk-boundary-safe.
+						NO context rules - whole-chunk replacement, no lookahead.
+						It is chunk-boundary-safe.
 					</p>
 				</Concept>
 				<Concept
@@ -482,8 +484,8 @@ const LedgerStrings = [
 						literally.
 					</p>
 					<p>
-						Replaced characters are counted per stream for the ledger line - each
-						replaced ellipsis code point counts once, even though the default
+						Replaced characters are counted per stream for the ledger line.
+						EACH replaced ellipsis code point counts once, even though the default
 						replacement emits three characters.
 					</p>
 				</Concept>
@@ -572,28 +574,30 @@ const LedgerStrings = [
 					Diagram="The scopes object gating every arm of the hook-dsh-normalize-ellipsis hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 				>
 					<p>
-						The <code>scopes</code> object gates every arm of the{" "}
+						The <code>scopes</code> object gates EVERY arm of the{" "}
 						<code>hook-dsh-normalize-ellipsis</code> hook independently - conversation,
-						reasoning, toolInput, toolResults, files, batch - with the defaults exactly
-						the pre-scopes behavior.
+						reasoning, toolInput, toolResults, files, batch.
+						The defaults are exactly the pre-scopes behavior.
 					</p>
 					<p>
-						The whole object is <strong>volatile</strong>: one leaf change commits one{" "}
+						The whole object is <strong>volatile</strong>.
+						ONE leaf change commits one{" "}
 						<code>loader/volatile-update</code> dispatch whose whole object the State's
-						refresh listener re-reads - live, silent, no remount, no new activation
+						refresh listener re-reads - LIVE, silent, no remount, NO new activation
 						line (a flip lands on the next stream).
 					</p>
 					<p>
 						The tool-input arm: effective tool-input normalization is{" "}
-						<code>normalizeToolArguments || scopes.toolInput</code> - the field is kept
-						and OR-ed in, so every existing profile keeps working.
+						<code>normalizeToolArguments || scopes.toolInput</code>.
+						The field is kept and OR-ed in, so EVERY existing profile keeps working.
 					</p>
 					<p>
-						It is the only execution-critical arm, and it carries the per-call escape
-						hatch: a call whose arguments open with the{" "}
+						It is the ONLY execution-critical arm, and it carries the per-call escape
+						hatch.
+						A call whose arguments open with the{" "}
 						<code>&#123;"__normalize":false&#125;</code> FIRST-key marker passes
 						through unnormalized, the marker entry stripped (the executed call carries
-						no unknown key) - the "leave that search alone" control for a deliberate
+						NO unknown key) - the "leave that search alone" control for a deliberate
 						search for an irregular character.
 					</p>
 					<p>
@@ -601,7 +605,7 @@ const LedgerStrings = [
 						invisible to the probe and the call normalizes normally.
 					</p>
 					<p>
-						Three structural exemptions are never rewritten: the <code>edit</code> call
+						Three structural exemptions are NEVER rewritten: the <code>edit</code> call
 						(its <code>old_string</code> must match the real file bytes), the{" "}
 						<code>raw-write</code> call (it owns its content normalization through its
 						explicit <code>normalize</code> parameter) and the <code>normalize-file</code>{" "}
@@ -611,8 +615,10 @@ const LedgerStrings = [
 					<p>
 						And the overpass invisibility contract: the tool-results arm replaces the
 						bytes PRE-COMMIT - the waterfall settles before the result is appended to
-						the durable log - so the model only ever sees the normalized output and
-						never notices the replacement; the exemption list plus the{" "}
+						the durable log.
+						The model ONLY ever sees the normalized output and
+						NEVER notices the replacement.
+						The exemption list plus the{" "}
 						<code>&lt;&lt;&lt;CCR:</code> marker guard define what passes untouched.
 					</p>
 					<p>
@@ -666,18 +672,19 @@ const LedgerStrings = [
 						marker guard makes any load order safe).
 					</p>
 					<p>
-						Accepted, non-value-carrying decisions only; TEXT blocks only; N = 0 is a
-						true no-op - no ledger line; fail-open.
+						Accepted, non-value-carrying decisions ONLY; TEXT blocks ONLY.
+						N = 0 is a
+						true no-op - NO ledger line; fail-open.
 					</p>
 					<p>
 						<strong>Step batch</strong> - <code>agent/pre-step</code>, default order.
 					</p>
 					<p>
-						While <code>scopes.batch</code> is on, every incoming batch is normalized;
-						the command's one-shot arm fires ONCE regardless of the scope value and is
+						While <code>scopes.batch</code> is on, EVERY incoming batch is normalized.
+						The command's one-shot arm fires ONCE regardless of the scope value and is
 						cleared after one use.
 					</p>
-					<p>Text blocks only; never the assistant/tool history.</p>
+					<p>TEXT blocks ONLY; NEVER the assistant/tool history.</p>
 					<p>The overpass lines (N &gt; 0 only):</p>
 				</Concept>
 			</div>
@@ -737,8 +744,8 @@ const LedgerStrings = [
 						<code>...</code>; dots that were already ASCII are untouched.
 					</p>
 					<p>
-						Each replaced code point counts once in the ledger even though it expands to
-						three characters - which is why one ellipsis can show up as{" "}
+						EACH replaced code point counts once in the ledger even though it expands to
+						three characters - which is why ONE ellipsis can show up as{" "}
 						<code>normalized 3 ellipsis char(s)</code> for three collapsed code points,
 						not nine output characters (the count line shown below).
 					</p>

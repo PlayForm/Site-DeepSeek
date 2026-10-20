@@ -211,29 +211,36 @@ const Related = [
 			</p>
 			<p class="page-hero__sub">
 				Each enabled block is a labeled stanza
-				recomputed at every request - the canonical example is a time block that always
+				recomputed at EVERY request.
+				The canonical example is a time block that always
 				holds the current time at ask-time while the rest of the conversation stays
 				static.
 			</p>
 			<p class="page-hero__sub">
 				The blocks ride the <code>system-prompt/assemble</code> waterfall as ONE
 				appended section named <code>live-containers</code> (<code>interpolate: false</code>,
-				so only the plugin's own substitution engine touches its <code>{"{{token}}"}</code>{" "}
-				groups), each block inside a fixed frame so the model cannot mistake it for
+				so ONLY the plugin's own substitution engine touches its <code>{"{{token}}"}</code>{" "}
+				groups).
+				Each block sits inside a fixed frame so the model cannot mistake it for
 				harness state.
 			</p>
 			<p class="page-hero__sub"><strong>Planned - not yet in the profile.</strong></p>
 			<p class="page-hero__sub">The
-				plugin ships DISABLED (the IDLE-forever posture): the bundle entry declares{" "}
-				<code>enabled: false</code> only, the plugin never appears in the profile's
-				bundles, and it enables only by an explicit ACTIVATE.
+				plugin ships DISABLED (the IDLE-forever posture).
+				The bundle entry declares{" "}
+				<code>enabled: false</code> ONLY.
+				The plugin NEVER appears in the profile's
+				bundles.
+				It enables ONLY by an explicit ACTIVATE.
 			</p>
 			<p class="page-hero__sub">
 				A cold mount logs{" "}
 				<code>disabled (enabled=false)</code> and every listener no-ops to a passthrough.
 			</p>
-			<p class="page-hero__sub">A NON-MANIFEST factory flavor: the family's furnace
-				composes the schema and the volatile refresh; this package owns its schema and
+			<p class="page-hero__sub">A NON-MANIFEST factory flavor.
+				The family's furnace
+				composes the schema and the volatile refresh.
+				This package owns its schema and
 				its strings.
 			</p>
 		</section>
@@ -276,12 +283,14 @@ const Related = [
 				>
 					<p>
 						A hook child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.LiveContainers}); a
+						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.LiveContainers}).
+						A
 						NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema) -
 						the plugin owns its schema and its strings.
 					</p>
 					<p>
-						<code>apply</code> returns NOTHING; the state is exposed via{" "}
+						<code>apply</code> returns NOTHING.
+						The state is exposed via{" "}
 						<code>ctx.__hookDshLiveContainersState</code>.{" "}
 						<code>inject: ["pluginFactory", "tools"]</code>.
 					</p>
@@ -319,15 +328,15 @@ const Related = [
 				Seams={[
 					{
 						Seam: "system-prompt/assemble - the live section",
-						What: "Listener 1 ([system-prompt/assemble](Harness:docs/event-producer-consumer.md)), after next(), append-only: appends ONE section ({name: 'live-containers', text, interpolate: false}) to next()'s assembly - touching nothing else, PTC + structured-output preserved. interpolate: false means the harness's own prompt variables never resolve (or fail on) the section's {{token}} groups.",
+						What: "Listener 1 ([system-prompt/assemble](Harness:docs/event-producer-consumer.md)), after next(), append-only. It appends ONE section ({name: 'live-containers', text, interpolate: false}) to next()'s assembly. It touches NOTHING else. PTC + structured-output preserved. interpolate: false means the harness's own prompt variables NEVER resolve (or fail on) the section's {{token}} groups.",
 						Outcome:
-							"Only the plugin's own substitution engine touches the section's tokens; the harness's unresolved-variable failure is never inherited.",
+							"ONLY the plugin's own substitution engine touches the section's tokens. The harness's unresolved-variable failure is NEVER inherited.",
 					},
 					{
 						Seam: "tools/post-execute - the counter observer",
-						What: "Listener 2 ([tools/post-execute](Harness:docs/subsystems/tools.md)), registered plain (after the ccr { prepend: true } listener): records the last-tool timestamp and the per-turn attempt counts, and marks event-trigger blocks dirty. Pure observer - the downstream decision is returned unchanged.",
+						What: "Listener 2 ([tools/post-execute](Harness:docs/subsystems/tools.md)), registered plain (after the ccr { prepend: true } listener). It records the last-tool timestamp and the per-turn attempt counts. It marks event-trigger blocks dirty. Pure observer - the downstream decision is returned unchanged.",
 						Outcome:
-							"The counter and gauge blocks read what the plugin itself observed - honest approximations, never invented token counts.",
+							"The counter and gauge blocks read what the plugin itself observed - honest approximations, NEVER invented token counts.",
 					},
 					{
 						Seam: "agent/pre-step - the user-message boundary",

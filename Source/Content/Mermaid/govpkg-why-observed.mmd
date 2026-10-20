@@ -1,6 +1,6 @@
 flowchart LR
 	OBS["fs/observed - the only hook that runs<br/>after content is on disk"]
-	WATER["the fs/write-intent waterfall carries a version guard<br/>but never the content"]
-	WHY["why fs/observed"]
+	WATER["The fs/write-intent waterfall carries a version guard<br/>but never the content."]
+	WHY["Why fs/observed"]
 	OBS --> WHY
-	WATER -. "not enough" .-> WHY
+	WATER -. "Not enough" .-> WHY

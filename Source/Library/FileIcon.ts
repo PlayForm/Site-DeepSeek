@@ -112,8 +112,8 @@ export function FileIconMark(
 	const A11y = Label
 		? ` role="img" aria-label="${Escape(Label)}"`
 		: ' aria-hidden="true"';
-	const Cls = `brand-icon brand-icon--${Name}${ClassName ? ` ${ClassName}` : ""}`;
-	return `<svg class="${Cls}" style="height: ${Size}; width: auto;" viewBox="0 0 32 32" fill="currentColor"${A11y}>${Bodies[Name]}</svg>`;
+	const Class = `brand-icon brand-icon--${Name}${ClassName ? ` ${ClassName}` : ""}`;
+	return `<svg class="${Class}" style="height: ${Size}; width: auto;" viewBox="0 0 32 32" fill="currentColor"${A11y}>${Bodies[Name]}</svg>`;
 }
 
 /**
@@ -174,7 +174,7 @@ const MentionPattern = new RegExp(`${FileAlternatives}|${CodeAlternatives}`, "g"
 const IsCodeToken = new RegExp(`^(?:${CodeAlternatives})$`);
 
 /** The icon name a matched file token renders with. */
-function IconFor(Token: string): FileIconName {
+function Icon(Token: string): FileIconName {
 	const Lower = Token.toLowerCase();
 	if (Lower.endsWith(".toml")) return "file-toml";
 	if (Lower.endsWith(".yaml") || Lower.endsWith(".yml")) return "file-yaml";
@@ -274,10 +274,10 @@ export function Mention(Text: string): string {
 			// adornments.
 			Out += Escape(Token);
 		} else {
-			const Icon = FileIconMark(IconFor(Token));
+			const IconMark = FileIconMark(Icon(Token));
 			Out += IsLog(Token)
-				? `<span class="log-chip">${Icon}${Escape(Token)}</span>`
-				: `<span class="file-mention">${Icon}${Escape(Token)}</span>`;
+				? `<span class="log-chip">${IconMark}${Escape(Token)}</span>`
+				: `<span class="file-mention">${IconMark}${Escape(Token)}</span>`;
 		}
 		Rest = Rest.slice(Start + Token.length);
 	}

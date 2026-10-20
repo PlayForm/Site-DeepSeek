@@ -1,5 +1,5 @@
 flowchart LR
-	IN["a stored result - the full serialized content bytes"] --> KEY["the key: the sha256-24 hash of those bytes -<br/>node:crypto, no native deps"]
+	IN["A stored result - the full serialized content bytes"] --> KEY["The key: the sha256-24 hash of those bytes -<br/>node:crypto, no native deps"]
 	KEY --> LRU["the in-memory LRU"]
 	LRU --> BUD["the storeBudgetBytes cap - 256 MiB,<br/>least-recently-accessed eviction,<br/>the just-inserted entry never evicted"]
 	LRU --> TTL["ttlSeconds - 3600:<br/>sweep on insert, gone on access"]
