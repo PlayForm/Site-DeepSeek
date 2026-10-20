@@ -401,9 +401,11 @@ const GovernSupports = [
 			drag). The pairs are the real example content from the plugin
 			pages; the fact lines are the real ledger excerpts; the totals
 			strip is the content library's pair. The two governance cards
-			close with the supports-buttons: the manifests each module
+			close with the supports-buttons - the manifests each module
 			actually handles, click-to-expand (the site's class-toggle
-			pattern - there is no <details> anywhere on the site). -->
+			pattern - there is no <details> anywhere on the site) - rendered
+			OUTSIDE the article, underneath the whole box (the supports
+			block is the article's sibling, not part of it). -->
 		<section class="section" id="use-cases">
 			<SectionHeader Title="The use cases" Meta="PIN · GOVERN · NORMALIZE · COMPRESS" />
 			<div class="use-cases">
@@ -1413,8 +1415,9 @@ const GovernSupports = [
 	// read - the section escalates at 6 total offenses (idempotent: never
 	// re-escalates while on). The context is the judge step's fresh copy,
 	// so the in-place mutation is the step's own.
-	function escalate(Machine: CoachMachine, Effects: CoachEffect[]): CoachTransition {
-		if (Machine.Context.SectionOn || Machine.Context.TotalOffenses < 6) return { Machine, Effects };
+	function escalate(Transition: CoachTransition): CoachTransition {
+		const { Machine, Effects } = Transition;
+		if (Machine.Context.SectionOn || Machine.Context.TotalOffenses < 6) return Transition;
 		Machine.Context.SectionOn = true;
 		return {
 			Machine: { State: { Kind: "escalated" }, Focus: Machine.Focus, Context: Machine.Context },
@@ -1430,30 +1433,12 @@ const GovernSupports = [
 		};
 	}
 
-	// The clean-window read: a clean/exempt call extends the streak - the
-	// section clears at 4 clean calls while it is on.
-	function cleared(Machine: CoachMachine, Effects: CoachEffect[]): CoachTransition {
-		if (!Machine.Context.SectionOn || Machine.Context.CleanStreak < 4) {
-			return {
-				Machine: {
-					State: { Kind: "judging", Call: Event_CallKind, Verdict: "clean" },
-					Focus: Machine.Focus,
-					Context: Machine.Context,
-				},
-				Effects,
-			};
-		}
-		Machine.Context.SectionOn = false;
-		Machine.Context.CleanStreak = 0;
-		return {
-			Machine: { State: { Kind: "cleared" }, Focus: Machine.Focus, Context: Machine.Context },
-			Effects: [...Effects, { Kind: "line", Text: "persistent section cleared (4 clean calls)" }],
-		};
-	}
-
 	function judge(Machine: CoachMachine, Event: Extract<CoachEvent, { Kind: "judge" }>): CoachTransition {
-		const Context = { ...Machine.Context };
-		const Effects: CoachEffect[] = [{ Kind: "verdict", Target: Event.Target, Verdict: "clean" }];
+		// The deep-copied set: the reached tiers accumulate on this
+		// transition's own context (the previous machine object is
+		// discarded, but the copy keeps the step pure).
+		const Context = { ...Machine.Context, Reached: new Set(Machine.Context.Reached) };
+		const Effects: CoachEffect[] = [];
 
 		// The clean/exempt branch: the streak extends (the exempt call still
 		// logs its byte-exact line - only when a row would have matched, the
@@ -1498,10 +1483,10 @@ const GovernSupports = [
 				);
 				Context.Reached.add("1");
 				Context.ReadStrikes = 0;
-				return escalate(
-					{ Machine: { State: { Kind: "noting", Call: "read" }, Focus: Machine.Focus, Context }, Effects },
+				return escalate({
+					Machine: { State: { Kind: "noting", Call: "read" }, Focus: Machine.Focus, Context },
 					Effects,
-				);
+				});
 			}
 			return {
 				Machine: { State: { Kind: "judging", Call: "read", Verdict: "offense" }, Focus: Machine.Focus, Context },
@@ -1525,10 +1510,10 @@ const GovernSupports = [
 				);
 				Context.Reached.add("3");
 				Context.WriteStrikes = 0;
-				return escalate(
-					{ Machine: { State: { Kind: "denied", Call: "write" }, Focus: Machine.Focus, Context }, Effects },
+				return escalate({
+					Machine: { State: { Kind: "denied", Call: "write" }, Focus: Machine.Focus, Context },
 					Effects,
-				);
+				});
 			}
 			Context.WriteStrikes += 1;
 			Effects.push({ Kind: "line", Text: `offense bash write ${Event.Pattern}`, Mod: "offense" });
@@ -1543,43 +1528,116 @@ const GovernSupports = [
 				);
 				Context.Reached.add("1");
 				Context.WriteStrikes = 0;
-				return escalate(
-					{ Machine: { State: { Kind: "noting", Call: "write" }, Focus: Machine.Focus, Context }, Effects },
+				return escalate({
+					Machine: { State: { Kind: "noting", Call: "write" }, Focus: Machine.Focus, Context },
 					Effects,
-				);
+				});
 			}
 		}
 
-		return escalate(
-			{ Machine: { State: { Kind: "judging", Call: Event.CallKind, Verdict: "offense" }, Focus: Machine.Focus, Context }, Effects },
+		return escalate({
+			Machine: { State: { Kind: "judging", Call: Event.CallKind, Verdict: "offense" }, Focus: Machine.Focus, Context },
 			Effects,
-		);
+		});
 	}
 
+	// The render: one deterministic function of the machine - the call
+	// cards' verdict flashes (only the machine state's last judged call
+	// carries the verdict class, so no sticky button state across the
+	// interactions), the ladder's focus + lights, the focus area's
+	// explanation, the enforce chip, and the status (the strike count +
+	// the exact state word). Effects apply in order.
+	function render(Transition: CoachTransition) {
+		const { Machine, Effects } = Transition;
+
+		for (const Effect of Effects) {
+			switch (Effect.Kind) {
+				case "line":
+					PushLine(Effect.Text, Effect.Mod ?? "");
+					break;
+				case "notice":
+					PushNotice(Effect.Html);
+					break;
+				// The lights are the ladder render's business (deterministic
+				// from the machine below); the effect only records the reach.
+				// The verdicts are the dedicated flash pass below (clear then
+				// apply, so the flash never stacks).
+				case "light":
+					break;
+			}
+		}
+
+		// The verdict flashes: cleared and re-applied per transition - the
+		// cards' visual states stay consistent with the CURRENT machine
+		// state (the last judged call only, never sticky).
+		CallButtons.forEach((Call) => Call.classList.remove("is-clean", "is-offense"));
+		for (const Effect of Effects) {
+			if (Effect.Kind === "verdict") {
+				Effect.Target.classList.add(Effect.Verdict === "clean" ? "is-clean" : "is-offense");
+			}
+		}
+
+		// The ladder: the focus selection (one active at a time, toggle to
+		// deselect) + the reached lights (tier 2 tracks the section state -
+		// on until the clean window clears it).
+		TierButtons.forEach((Tier) => {
+			const TierId = Tier.getAttribute("data-coach-tier") as TierN ?? "0";
+			const Focused = Machine.Focus === TierId;
+			Tier.classList.toggle("is-active", Focused);
+			Tier.setAttribute("aria-pressed", Focused ? "true" : "false");
+			Tier.classList.toggle("is-lit", TierId === "2" ? Machine.Context.SectionOn : Machine.Context.Reached.has(TierId));
+		});
+
+		// The focus area: the focused tier's explanation; a deselected
+		// ladder clears it.
+		CoachFocus.textContent = Machine.Focus === null ? "" : (TierExplanations[Machine.Focus] ?? "");
+
+		// The enforce chip: deterministic from the machine.
+		EnforceButton.classList.toggle("is-armed", Machine.Context.EnforceArmed);
+		EnforceButton.setAttribute("aria-pressed", Machine.Context.EnforceArmed ? "true" : "false");
+		// A static literal; textContent is safe here.
+		EnforceButton.textContent = Machine.Context.EnforceArmed
+			? "TIER 3 (ENFORCE): WRITE"
+			: "TIER 3 (ENFORCE): OFF";
+
+		// The status: the strike count + the exact machine state word.
+		CoachStatus.textContent = `${Machine.Context.TotalOffenses} STRIKES\u2003${StateWords[Machine.State.Kind]}`;
+	}
+
+	// The event wiring: every input maps to one defined transition, then
+	// the single render applies it.
 	CallButtons.forEach((Call) => {
-		Call.addEventListener("click", () => Judge(Call));
+		Call.addEventListener("click", () => {
+			const Next = transition(Machine, {
+				Kind: "judge",
+				CallKind: (Call.getAttribute("data-call-kind") ?? "clean") as CallKind,
+				Pattern: Call.getAttribute("data-call-pattern") ?? "",
+				Target: Call,
+			});
+			Machine = Next.Machine;
+			render(Next);
+		});
 	});
 
 	TierButtons.forEach((Tier) => {
 		Tier.addEventListener("click", () => {
-			TierButtons.forEach((Other) => {
-				const Active = Other === Tier;
-				Other.classList.toggle("is-active", Active);
-				Other.setAttribute("aria-pressed", Active ? "true" : "false");
+			const Next = transition(Machine, {
+				Kind: "tier",
+				Tier: (Tier.getAttribute("data-coach-tier") ?? "0") as TierN,
 			});
-			CoachFocus.textContent =
-				TierExplanations[Tier.getAttribute("data-coach-tier") ?? "0"] ?? "";
+			Machine = Next.Machine;
+			render(Next);
 		});
 	});
 
 	EnforceButton.addEventListener("click", () => {
-		EnforceArmed = !EnforceArmed;
-		EnforceButton.classList.toggle("is-armed", EnforceArmed);
-		EnforceButton.setAttribute("aria-pressed", EnforceArmed ? "true" : "false");
-		// A static literal; textContent is safe here.
-		EnforceButton.textContent = EnforceArmed
-			? "TIER 3 (ENFORCE): WRITE"
-			: "TIER 3 (ENFORCE): OFF";
-		if (EnforceArmed) LightTier("3");
+		const Next = transition(Machine, { Kind: "enforce" });
+		Machine = Next.Machine;
+		render(Next);
 	});
+
+	// The initial render: the machine's shipped state applied to the DOM
+	// deterministically (tier 0 focused with its explanation, the idle
+	// status, the chip off, no lights, no verdicts).
+	render({ Machine, Effects: [] });
 </script>

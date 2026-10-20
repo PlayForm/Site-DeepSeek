@@ -10,6 +10,11 @@
 // The pair area can also be a slot (the normalize showcase embeds the
 // Compare slider there) - the card keeps its head and its fact footer.
 //
+// The supports slot renders OUTSIDE the article, as its sibling: the
+// component returns the article + the supports block as a fragment, so
+// the "supports:" chips and the expandable use-case panel sit underneath
+// the whole box (the user's ruling), not inside it.
+//
 // The Wide prop turns the card into the full-width use-case row (one card
 // per row, spanning the section's width): the pair-mode cards split
 // two-part at the wide breakpoint - the narrative (kicker, title, lead)
@@ -180,13 +185,18 @@ const AfterHtml = HasPair
 			<span class="showcase__fact-text">{Fact}</span>
 		</div>
 	)}
-
-	<!-- The supports row: the "supports: <manifest>" chip buttons plus the
-	     click-to-expand use-case panel (the SupportsButton component), the
-	     card's closing row after the ledger fact - the ledger line stays
-	     attached to the story, the manifest chips close the card. -->
-	<slot name="supports" />
 </article>
+
+<!-- The supports row: the "supports: <manifest>" chip buttons plus the
+     click-to-expand use-case panel (the SupportsButton component). It
+     renders OUTSIDE the article - underneath the whole box, as the
+     article's sibling (the user's ruling: the use-case panel is not part
+     of the box) - so the ledger fact stays attached to the story and the
+     supports block closes the whole use-case unit from below. The
+     component returns the article + this slot as siblings (a fragment);
+     the article's own layout is unchanged, and the chips' right-aligned
+     placement stays (the SupportsButton's own styles). -->
+<slot name="supports" />
 
 <style>
 	.showcase {
