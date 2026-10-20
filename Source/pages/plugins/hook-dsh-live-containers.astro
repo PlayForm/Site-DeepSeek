@@ -366,7 +366,10 @@ const Related = [
 				>
 					<p>
 						The frame is the plugin's own output, <strong>never harness state</strong>{" "}
-						- the safety framing the model sees on every block. Substitution is{" "}
+						- the safety framing the model sees on every block.
+					</p>
+					<p>
+						Substitution is{" "}
 						<code>{"{{token}}"}</code> replace ONLY - no eval, no expressions; an
 						unknown token renders LITERALLY and logs{" "}
 						<code>render unknown &lt;id&gt; &lt;token&gt;</code> - never a failure.
@@ -389,7 +392,10 @@ const Related = [
 				>
 					<p>
 						The wave-2 catalog kinds cost nothing and render nothing in this package
-						yet - documented honestly. Tokens the phase-1 engine does not resolve
+						yet - documented honestly.
+					</p>
+					<p>
+						Tokens the phase-1 engine does not resolve
 						(<code>{"{{set:NAME}}"}</code>) render literally.
 					</p>
 				</Concept>
@@ -500,7 +506,10 @@ const Related = [
 					<p>
 						The durable ledger file carries the same strings in{" "}
 						<code>[ISO] &lt;message&gt;</code> form; the strings below are the
-						module's composed messages, byte-exact. Skip lines log only when the
+						module's composed messages, byte-exact.
+					</p>
+					<p>
+						Skip lines log only when the
 						reason changes - the ledger stays quiet on steady state.
 					</p>
 				</Concept>
@@ -512,10 +521,15 @@ const Related = [
 		<section class="section">
 			<SectionHeader Title="Known limits" Meta="THE KV-CACHE HONESTY + THE FUTURE STAGE" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>Per-request recompute is cache-hostile - the design says so plainly.</strong>{" "}
+				<strong>Per-request recompute is cache-hostile - the design says so plainly.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				A block whose text changes every request invalidates provider <em>prefix
 				reuse</em> from its <strong>first changed token</strong>: everything after the
-				changed byte is re-priced on the next call. <code>refresh: "request"</code> is
+				changed byte is re-priced on the next call.
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<code>refresh: "request"</code> is
 				therefore cache-hostile for always-differing blocks; <code>refresh: "ttl"</code>{" "}
 				with <code>ttlCalls</code> &ge; 8 (the shipped default) is the recommended
 				cadence - the section text holds for 8 assemblies, so the prefix stays
@@ -523,16 +537,28 @@ const Related = [
 				under their triggers) cost nothing extra.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>The programmable stage is FUTURE - not in this package.</strong> The
+				<strong>The programmable stage is FUTURE - not in this package.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The
 				substitution engine is token replace ONLY - no eval, no expressions, no{" "}
-				<code>new Function</code>. The later stage (research section 5) routes
+				<code>new Function</code>.
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The later stage (research section 5) routes
 				expression evaluation through the ptc-runtime (sandboxed, capped):{" "}
 				<code>kind: "program"</code> blocks, a <code>live_container_program</code> tool,
 				per-call timeout and output caps, and the privacy gate (<code>context: 'full'</code>{" "}
-				per block). Do not configure for it and do not expect it from this package.
+				per block).
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>Counters are honest approximations.</strong> The plugin counts what it
+				Do not configure for it and do not expect it from this package.
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<strong>Counters are honest approximations.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The plugin counts what it
 				observes at <code>agent/pre-step</code> and <code>tools/post-execute</code>;
 				exact token counts are NOT available to plugins, and the phase-1 counters are
 				module-global (the assemble context exposes only an opaque scope key, which is

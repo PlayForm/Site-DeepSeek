@@ -534,7 +534,10 @@ const Knobs = [
 						The default.</p>
 					<p>Tool-call arguments are execution-critical raw JSON - rewriting
 						them is the user's accepted risk, so the schema default is OFF and the
-						example patch turns it on. Effective tool-input normalization is{" "}
+						example patch turns it on.
+					</p>
+					<p>
+						Effective tool-input normalization is{" "}
 						<code>normalizeToolArguments || scopes.toolInput</code> - the field is kept
 						and OR-ed in, so this knob and the granular scopes compose.
 					</p>
@@ -636,7 +639,10 @@ const Knobs = [
 						The granular scopes keep the historical behavior by default: only{" "}
 						<code>conversation</code>, <code>reasoning</code> and <code>files</code> are
 						on; <code>toolInput</code>, <code>toolResults</code> and <code>batch</code>{" "}
-						are off. Effective tool-input normalization is{" "}
+						are off.
+					</p>
+					<p>
+						Effective tool-input normalization is{" "}
 						<code>normalizeToolArguments || scopes.toolInput</code>, so an existing
 						patch that turns the field on keeps working unchanged.
 					</p>
@@ -651,7 +657,10 @@ const Knobs = [
 						The overpass arms ship registered but inert: they gate at runtime on{" "}
 						<code>scopes.toolResults</code> and <code>scopes.batch</code>, so arming
 						them is a config flip (or the <code>normalize-overpass</code> command), not
-						a re-registration. The <code>files &lt;path...&gt;</code> sweep is owned by
+						a re-registration.
+					</p>
+					<p>
+						The <code>files &lt;path...&gt;</code> sweep is owned by
 						the <a href="/plugins/hook-dsh-normalize-file/">normalize-file hook</a>.
 					</p>
 					<p>
@@ -676,7 +685,10 @@ const Knobs = [
 					<p>
 						<a href="/plugins/hook-dsh-tool-coach/">The tool-coach</a>:{" "}
 						<code>enforce: 'off'</code> - the deny tier is the configurable last resort;
-						out of the box the coach only logs and notes. Every knob of both plugins is
+						out of the box the coach only logs and notes.
+					</p>
+					<p>
+						Every knob of both plugins is
 						volatile - a flip lands on the next judged call.
 					</p>
 				</Concept>
@@ -767,7 +779,10 @@ const Knobs = [
 		<section class="section">
 			<SectionHeader Title="Pitfalls" Meta="THE KNOWN GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The gaps and the working lessons, stated as they are. The narrative form lives on
+				The gaps and the working lessons, stated as they are.
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The narrative form lives on
 				the <a href="/case-study/">case-study page</a>; this section is the
 				setup-relevant inventory.
 			</p>
