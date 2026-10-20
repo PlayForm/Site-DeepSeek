@@ -129,7 +129,7 @@ const Changelog = `## 0.0.1
 
 		<!-- THE OPERATING SET - the signature block: what is operating NOW -->
 		<section class="section section--opset">
-			<SectionHeader Title="The operating set" Meta="WHAT IS OPERATING NOW" />
+			<SectionHeader Title="The operating set" Metadata="WHAT IS OPERATING NOW" />
 			<div class="opset">
 				<div class="opset__spine">OPERATING SET · {Versions.Release}</div>
 				{OperatingSet.map((Row) => (
@@ -142,14 +142,14 @@ const Changelog = `## 0.0.1
 					</div>
 				))}
 				<div class="opset__foot">
-					STATE: DUAL TREE · IDENTICAL FOURTEEN CONTRACTS · {Totals.Meta()}
+					STATE: DUAL TREE · IDENTICAL FOURTEEN CONTRACTS · {Totals.Metadata()}
 				</div>
 			</div>
 		</section>
 
 		<!-- THE RECORD - the changelog as the page's narrative spine -->
 		<section class="section">
-			<SectionHeader Title="The record" Meta="THE CHANGELOG" />
+			<SectionHeader Title="The record" Metadata="THE CHANGELOG" />
 			<div class="record">
 				<div class="record__cite">
 					<span class="record__source">{ChangelogSource}</span>
@@ -166,7 +166,7 @@ const Changelog = `## 0.0.1
 
 		<!-- Shared invariants - the state rail, not the listing boxes -->
 		<section class="section">
-			<SectionHeader Title="Shared invariants" Meta="WHAT BOTH RELEASES HOLD" />
+			<SectionHeader Title="Shared invariants" Metadata="WHAT BOTH RELEASES HOLD" />
 			<ul class="state-rail">
 				{Invariants.map((Invariant) => (
 					<li class="state-rail__entry">
@@ -179,7 +179,7 @@ const Changelog = `## 0.0.1
 
 		<!-- The smoke baseline -->
 		<section class="section">
-			<SectionHeader Title="The smoke baseline" Meta="THE ARBITER OF THE OPERATING STATE" />
+			<SectionHeader Title="The smoke baseline" Metadata="THE ARBITER OF THE OPERATING STATE" />
 			<div class="concept-list">
 				<Concept
 					ID="versions-arbiter"

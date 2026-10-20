@@ -317,7 +317,7 @@ const CargoFact =
 
 		<!-- Plugins -->
 		<section class="section" id="plugins">
-			<SectionHeader Title="Plugins" Meta={`${Counts.Packages} PACKAGES`} />
+			<SectionHeader Title="Plugins" Metadata={`${Counts.Packages} PACKAGES`} />
 
 			<!-- Group 1: Core & Factory -->
 			<p class="section-kicker">Core &amp; Factory</p>
@@ -393,7 +393,7 @@ const CargoFact =
 
 		<!-- Versions -->
 		<section class="section" id="versions">
-			<SectionHeader Title="Versions" Meta="DUAL ENGINE" />
+			<SectionHeader Title="Versions" Metadata="DUAL ENGINE" />
 			<div class="grid grid--2">
 				<Card Variant="white">
 					<div slot="head" class="version-card__head">
@@ -447,7 +447,7 @@ const CargoFact =
 			OUTSIDE the article, underneath the whole box (the supports
 			block is the article's sibling, not part of it). -->
 		<section class="section" id="use-cases">
-			<SectionHeader Title="The use cases" Meta="PIN · GOVERN · NORMALIZE · COMPRESS" />
+			<SectionHeader Title="The use cases" Metadata="PIN · GOVERN · NORMALIZE · COMPRESS" />
 			<div class="use-cases">
 				<Showcase
 					Wide
@@ -516,7 +516,7 @@ const CargoFact =
 				The overpass arms (<code>tools/post-execute</code> tool results + <code>agent/pre-step</code> step batch) are reachable through the <code>normalize-overpass</code> command.
 			</p>
 			<p class="section-kicker" style="margin-top: var(--space-md)">
-				<Fragment set:html={DotSep(`${Totals.Meta()} · the ledger strings, byte-identical`)} />
+				<Fragment set:html={DotSep(`${Totals.Metadata()} · the ledger strings, byte-identical`)} />
 			</p>
 		</section>
 

@@ -2,4 +2,4 @@ flowchart LR
 	MOD["The module composes its own message strings, byte-exact."] --> APPEND["The factory's Append layer adds the<br/>hook-dsh-ccr prefix and the timestamp -<br/>never the module."]
 	APPEND --> FILE["The durable file lines -<br/>the [ISO] message forms"]
 	MOD --> BUD["The budget eviction form:<br/>ccr: evicted hash, then budget"]
-	BUD -. "the TTL eviction shares the budget eviction's form" .-> TTL["ccr: evicted hash, then ttl"]
+	BUD -. "The TTL eviction shares the budget eviction's form" .-> TTL["ccr: evicted hash, then ttl"]

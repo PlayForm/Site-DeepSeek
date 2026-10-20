@@ -3,7 +3,7 @@ flowchart LR
 	ACT --> REQ["Every request re-renders the time block."]
 	REQ --> TIME["{{time}} always holds the<br/>current wall clock"]
 	REQ -. "The wave-2 entries skip" .-> UNK["block skipped agent-progress-board<br/>(unknown kind)"]
-	ACT --> TTL["refresh ttl"]
+	ACT --> TTL["Refresh ttl"]
 	TTL --> HOLD["The section text holds for ttlCalls (8)<br/>assemblies - the prefix stays reusable"]
 	ACT --> BIG["The rendered body exceeds<br/>sectionBudgetBytes"]
 	BIG --> COLL["The oldest frames collapse to one-line<br/>summaries - never silently dropped<br/>failsafe section-collapse 2"]

@@ -15,7 +15,7 @@ interface Step {
 	/** The step title. */
 	Title: string;
 	/** The mono meta line - the file the step touches. */
-	Meta: string;
+	Metadata: string;
 	/** The wiring lines on the tray (real content). */
 	Lines: string[];
 	/** The outcome line. */
@@ -42,7 +42,7 @@ const { Steps } = Astro.props;
 				STEP {Step.N}
 			</span>
 			<h3 class="install-card__title">{Step.Title}</h3>
-			<span class="install-card__meta" set:html={Mention(Step.Meta)} />
+			<span class="install-card__meta" set:html={Mention(Step.Metadata)} />
 			<pre class="install-card__screen">{Step.Lines.join("\n")}</pre>
 			<p class="install-card__outcome">{Step.Outcome}</p>
 		</article>

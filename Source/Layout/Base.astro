@@ -122,7 +122,7 @@ const JSONLd = {
 				document.documentElement.setAttribute("data-theme", Theme);
 			})();
 		</script>
-		<!-- Meta -->
+		<!-- Metadata -->
 		<title>{Title}</title>
 		<meta charset="utf-8" />
 
@@ -460,9 +460,9 @@ const JSONLd = {
 			const Progress = document.querySelector<HTMLElement>("[data-scroll-progress]");
 			if (Progress) {
 				const Update = () => {
-					const Max = document.documentElement.scrollHeight - window.innerHeight;
+					const Maximum = document.documentElement.scrollHeight - window.innerHeight;
 					Progress.style.transform = `scaleX(${
-						Max > 0 ? Math.min(1, window.scrollY / Max) : 0
+						Maximum > 0 ? Math.min(1, window.scrollY / Maximum) : 0
 					})`;
 				};
 				let Pending = false;

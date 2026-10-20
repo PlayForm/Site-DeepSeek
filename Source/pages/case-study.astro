@@ -386,7 +386,7 @@ const Lessons = [
 		<section class="section" id="phase-1">
 			<SectionHeader
 				Title="Phase I - The boilerplate era"
-				Meta="THE FACTORY + THE GOVERNANCE TRIO"
+				Metadata="THE FACTORY + THE GOVERNANCE TRIO"
 			/>
 			<div class="concept-list">
 				<Concept
@@ -472,7 +472,7 @@ const Lessons = [
 		<section class="section" id="phase-2">
 			<SectionHeader
 				Title="Phase II - The audit and the fixes"
-				Meta="3 CRITICALS, THEN THE QUEUE"
+				Metadata="3 CRITICALS, THEN THE QUEUE"
 			/>
 			<div class="concept-list">
 				<Concept
@@ -536,7 +536,7 @@ const Lessons = [
 
 		<!-- Phase 3 -->
 		<section class="section" id="phase-3">
-			<SectionHeader Title="Phase III - Going live" Meta="THE JOURNAL SAGA" />
+			<SectionHeader Title="Phase III - Going live" Metadata="THE JOURNAL SAGA" />
 			<div class="concept-list">
 				<Concept
 					ID="case-p3-battery"
@@ -609,7 +609,7 @@ const Lessons = [
 
 		<!-- Phase 4 -->
 		<section class="section" id="phase-4">
-			<SectionHeader Title="Phase IV - The stream family" Meta="SIX FLAVORS + THE GATE" />
+			<SectionHeader Title="Phase IV - The stream family" Metadata="SIX FLAVORS + THE GATE" />
 			<div class="concept-list">
 				<Concept
 					ID="case-p4-generalize"
@@ -700,7 +700,7 @@ const Lessons = [
 		<section class="section" id="phase-5">
 			<SectionHeader
 				Title="Phase V - The raw-write saga, commonalization and granular control"
-				Meta="THE DENSEST PHASE"
+				Metadata="THE DENSEST PHASE"
 			/>
 			<div class="concept-list">
 				<Concept
@@ -1194,7 +1194,7 @@ const Lessons = [
 		<section class="section" id="decisions">
 			<SectionHeader
 				Title="The decision index"
-				Meta={`${Decisions.Count} DECISIONS, WHERE THEY LIVE, WHAT PROVED THEM`}
+				Metadata={`${Decisions.Count} DECISIONS, WHERE THEY LIVE, WHAT PROVED THEM`}
 			/>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				Every decision below survives in a shipped seam.</p>
@@ -1238,7 +1238,7 @@ const Lessons = [
 
 		<!-- Phase 8: Lessons -->
 		<section class="section" id="lessons">
-			<SectionHeader Title="The working lessons" Meta="THE HONEST CLOSE" />
+			<SectionHeader Title="The working lessons" Metadata="THE HONEST CLOSE" />
 			<div class="grid grid--2">
 				{Lessons.map((Item) => (
 					<Card Variant="white" Name={Item.Name} Desc={Item.Desc} Muted />

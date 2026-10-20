@@ -12,8 +12,8 @@ flowchart LR
 	PIPE --> SPLIT
 	SPLIT --> NORM
 	NORM --> EX
-	EX -. "exempt" .-> EXLOG
-	EX -- "not exempt" --> ROWS
+	EX -. "Exempt" .-> EXLOG
+	EX -- "Not exempt" --> ROWS
 	ROWS --> MARK
 	MARK --> CRAFT
 	CRAFT --> CATCH

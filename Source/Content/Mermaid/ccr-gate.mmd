@@ -1,13 +1,13 @@
 flowchart TB
 	RES["The normalized dispatch result"] --> G1["Step 1 - empty content?"]
-	G1 -. "empty - pass" .-> PASS["Pass through to the model, unchanged"]
-	G1 -- "content" --> G2["Step 2 - tool in exempt?"]
-	G2 -. "exempt - pass, always" .-> PASS
-	G2 -- "not exempt" --> G3["Step 3 - a failure result?"]
-	G3 -. "failure and compressFailures off - pass" .-> PASS
-	G3 -- "not a failure, or failures compressed" --> G4["Step 4 - tool in targets?"]
-	G4 -. "not in targets - the allow-list - pass" .-> PASS
-	G4 -- "a target tool" --> G5["Step 5 - the size gate: UTF-8 bytes of the<br/>serialized content vs thresholdBytes<br/>x the type's multiplier"]
-	G5 -. "at or under the gate - pass" .-> PASS
-	G5 -- "over the gate" --> FULL["Step 6a - autoExpand on and size at or under<br/>autoExpandLimitBytes: store and return<br/>the FULL content, no marker"]
-	G5 -- "over the gate, otherwise" --> REP["Step 6b - replace:<br/>the preview line plus the marker"]
+	G1 -. "Empty - pass" .-> PASS["Pass through to the model, unchanged"]
+	G1 -- "Content" --> G2["Step 2 - tool in exempt?"]
+	G2 -. "Exempt - pass, always" .-> PASS
+	G2 -- "Not exempt" --> G3["Step 3 - a failure result?"]
+	G3 -. "Failure and compressFailures off - pass" .-> PASS
+	G3 -- "Not a failure, or failures compressed" --> G4["Step 4 - tool in targets?"]
+	G4 -. "Not in targets - the allow-list - pass" .-> PASS
+	G4 -- "A target tool" --> G5["Step 5 - the size gate: UTF-8 bytes of the<br/>serialized content vs thresholdBytes<br/>x the type's multiplier"]
+	G5 -. "At or under the gate - pass" .-> PASS
+	G5 -- "Over the gate" --> FULL["Step 6a - autoExpand on and size at or under<br/>autoExpandLimitBytes: store and return<br/>the FULL content, no marker"]
+	G5 -- "Over the gate, otherwise" --> REP["Step 6b - replace:<br/>the preview line plus the marker"]

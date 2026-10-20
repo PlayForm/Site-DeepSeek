@@ -215,7 +215,7 @@ const Related = [
 			is on the <a href="/setup/">setup page</a>.
 		</p>
 		<section class="section">
-			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: A GOVERNANCE HOOK" />
+			<SectionHeader Title="Where It Fits" Metadata="FAMILY POSITION: A GOVERNANCE HOOK" />
 
 			<div class="concept-list">
 				<section class="concept-block" aria-labelledby="pinner-family-position">
@@ -480,7 +480,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="In the DeepSeek Harness" Meta="WHERE THE PINNER OPERATES" />
+			<SectionHeader Title="In the DeepSeek Harness" Metadata="WHERE THE PINNER OPERATES" />
 			<Seams
 				Seams={[
 					{
@@ -510,7 +510,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="The Problem" Meta="WHY THE PINNER EXISTS" />
+			<SectionHeader Title="The Problem" Metadata="WHY THE PINNER EXISTS" />
 			<p class="page-hero__sub">
 				Ranged versions make builds drift: <code>"^0.3.4"</code> today is
 				<code>"0.3.5"</code> next week.</p>
@@ -526,7 +526,7 @@ const Related = [
 		<section class="section">
 			<SectionHeader
 				Title="How It Works"
-				Meta="THE PIPELINE P = REWRITE ∘ PIN ∘ RESOLVE ∘ DECODE"
+				Metadata="THE PIPELINE P = REWRITE ∘ PIN ∘ RESOLVE ∘ DECODE"
 			/>
 			<div class="code-block">{Pipeline.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
@@ -701,7 +701,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="The Config" Meta="SCHEMA + DEFAULTS AT LOAD" />
+			<SectionHeader Title="The Config" Metadata="SCHEMA + DEFAULTS AT LOAD" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				The exported Config schema (the factory's Schema helper extended with
 				<code>sections</code>) validates and fills every default at load - invalid
@@ -728,7 +728,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="In Action" Meta="ONE PINNED WRITE" />
+			<SectionHeader Title="In Action" Metadata="ONE PINNED WRITE" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				One pinned write.</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">The author drops a <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> with two ranged
@@ -767,7 +767,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="The Ledger" Meta="ONE GLOBAL LOG" />
+			<SectionHeader Title="The Ledger" Metadata="ONE GLOBAL LOG" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				One global log (<code>logFile</code>, default{" "}
 				~/.dsh/hook-dsh-package-pinner.log - SEPARATE from the governor's
@@ -791,7 +791,7 @@ const Related = [
 
 		<!-- The known limits: the documented gaps, stated as they are. -->
 		<section class="section">
-			<SectionHeader Title="Known limits" Meta="THE DOCUMENTED GAPS" />
+			<SectionHeader Title="Known limits" Metadata="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				<strong>Load order is not list order.</strong>
 			</p>
@@ -817,7 +817,7 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="Related plugins" Meta={`${Counts.Packages} TOTAL`} />
+			<SectionHeader Title="Related plugins" Metadata={`${Counts.Packages} TOTAL`} />
 			<div class="grid grid--3">
 				{Related.map((Plugin) => (
 					<Card

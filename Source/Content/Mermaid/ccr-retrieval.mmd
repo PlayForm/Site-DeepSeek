@@ -2,5 +2,5 @@ flowchart LR
 	CALL["The model calls ccr_retrieve with the marker's hash<br/>and an optional range."] --> MATCH["The hash matched EXACTLY -<br/>no prefix or fuzzy matching."]
 	CALL --> RANGE["The range: start, count - a 0-based granular<br/>line slice, out-of-range bounds clamp -<br/>a retrieval never fails for asking past the end."]
 	MATCH --> HIT["A hit: the success value {hash, type, size, text},<br/>the render projects the original text verbatim -<br/>and every hit refreshes lastAccessed, the LRU clock."]
-	MATCH -. "an unknown hash" .-> ERR["The self-describing error:<br/>re-run the original tool."]
-	MATCH -. "an expired hash, with the TTL reason" .-> ERR
+	MATCH -. "An unknown hash" .-> ERR["The self-describing error:<br/>re-run the original tool."]
+	MATCH -. "An expired hash, with the TTL reason" .-> ERR

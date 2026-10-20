@@ -2,6 +2,6 @@ flowchart LR
 	IN["The listener registered with prepend: true -<br/>the gate sees the pristine result."] --> NEXT["next() always awaited FIRST"]
 	NEXT -.- NOTE["Omitting it short-circuits the downstream<br/>post-execute listeners - the spill-policy precedent."]
 	NEXT --> DEC["The downstream decision"]
-	DEC -. "pass-through: return the decision unchanged" .-> SAME["Byte-identical semantics"]
+	DEC -. "Pass-through: return the decision unchanged" .-> SAME["Byte-identical semantics"]
 	DEC --> REPL["Only an accepted, non-value-carrying<br/>decision replaced"]
-	REPL -. "an internal error: log a warning and keep the<br/>inline content - never throw into the waterfall" .-> OPEN["Fail-open"]
+	REPL -. "An internal error: log a warning and keep the<br/>inline content - never throw into the waterfall" .-> OPEN["Fail-open"]

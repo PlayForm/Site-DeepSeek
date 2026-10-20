@@ -210,7 +210,7 @@ export const Totals = {
 	/** "1008 checks Classic · 1021 Effect-TS" - the pair with the hyphenated tree name. */
 	PairHyphen: (): string => `${Totals.Classic} checks Classic · ${Totals.EffectTS} Effect-TS`,
 	/** "14 SUITES · 1008 CHECKS CLASSIC · 1021 EFFECT-TS · ALL PASS" - the meta strip. */
-	Meta: (): string =>
+	Metadata: (): string =>
 		`${Counts.Suites} SUITES · ${Totals.Classic} CHECKS CLASSIC · ${Totals.EffectTS} EFFECT-TS · ALL PASS`,
 };
 
@@ -265,7 +265,7 @@ export const Methods = {
 	/** The count in the page's word form. */
 	Word: Word(Pick(Live.Methods, Fallback.Methods)),
 	/** "19 METHODS" - the meta strip form. */
-	Meta: (): string => `${Methods.Count} METHODS`,
+	Metadata: (): string => `${Methods.Count} METHODS`,
 };
 
 /** The v1-record migration facts (Package-13.md: the loud, per-record fix). */

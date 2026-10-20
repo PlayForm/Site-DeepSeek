@@ -21,7 +21,7 @@ const DemoSteps = [
 	{
 		N: 1,
 		Title: "Add the bundles",
-		Meta: "~/.dsh/profiles/<name>/package.json",
+		Metadata: "~/.dsh/profiles/<name>/package.json",
 		Lines: [
 			'"dependencies": {',
 			'  "@playform/plugin-dsh-factory": "link:../bundles/plugin-dsh-factory",',
@@ -34,7 +34,7 @@ const DemoSteps = [
 	{
 		N: 2,
 		Title: "Add the patch entries",
-		Meta: "cordis.patch.yml",
+		Metadata: "cordis.patch.yml",
 		Lines: [
 			"- insert:",
 			"    - id: plugin-dsh-factory",
@@ -54,7 +54,7 @@ const DemoSteps = [
 	{
 		N: 3,
 		Title: "Restart the harness",
-		Meta: "BUNDLE LAYERS COMPOSE AT HOST BOOT",
+		Metadata: "BUNDLE LAYERS COMPOSE AT HOST BOOT",
 		Lines: [
 			"activation is at the next start,",
 			"not at install time.",
@@ -65,7 +65,7 @@ const DemoSteps = [
 	{
 		N: 4,
 		Title: "Verify the ledgers",
-		Meta: "~/.dsh/<name>.log",
+		Metadata: "~/.dsh/<name>.log",
 		Lines: [
 			"hook-dsh-package-governor: activated (anywhere mode, logFile=..., updateMode=..., ncuBin=..., exclude=[...], policyFile=(discovery))",
 			"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
@@ -299,14 +299,14 @@ const Knobs = [
 			install commands, the profile wiring and the verification
 			ledgers, from the same data the steps below document. -->
 		<section class="section">
-			<SectionHeader Title="The configurator" Meta="SELECT · GENERATE · COPY" />
+			<SectionHeader Title="The configurator" Metadata="SELECT · GENERATE · COPY" />
 			<Configurator />
 		</section>
 
 		<!-- The wiring at a glance: the four install-demo cards visualizing
 			the profile-wiring steps (the detailed sections follow below). -->
 		<section class="section">
-			<SectionHeader Title="The wiring at a glance" Meta="PROFILE · PATCH · RESTART · VERIFY" />
+			<SectionHeader Title="The wiring at a glance" Metadata="PROFILE · PATCH · RESTART · VERIFY" />
 			<InstallDemo Steps={DemoSteps} />
 		</section>
 
@@ -314,7 +314,7 @@ const Knobs = [
 		<section class="section">
 			<SectionHeader
 				Title="Step 1 - Add the bundles to the profile"
-				Meta="~/.dsh/profiles/<name>/package.json"
+				Metadata="~/.dsh/profiles/<name>/package.json"
 			/>
 			<div class="concept-list">
 				<Concept
@@ -363,7 +363,7 @@ const Knobs = [
 
 		<!-- Step 2 -->
 		<section class="section">
-			<SectionHeader Title="Step 2 - The patch entries" Meta="cordis.patch.yml" />
+			<SectionHeader Title="Step 2 - The patch entries" Metadata="cordis.patch.yml" />
 			<div class="concept-list">
 				<Concept
 					ID="setup-patch-rows"
@@ -400,7 +400,7 @@ const Knobs = [
 
 		<!-- Step 3 -->
 		<section class="section">
-			<SectionHeader Title="Step 3 - Restart" Meta="BUNDLE LAYERS COMPOSE AT HOST BOOT" />
+			<SectionHeader Title="Step 3 - Restart" Metadata="BUNDLE LAYERS COMPOSE AT HOST BOOT" />
 			<div class="concept-list">
 				<Concept
 					ID="setup-boot-activation"
@@ -432,7 +432,7 @@ const Knobs = [
 
 		<!-- Step 4 -->
 		<section class="section">
-			<SectionHeader Title="Step 4 - Verify" Meta="THE LEDGERS' ACTIVATION LINES" />
+			<SectionHeader Title="Step 4 - Verify" Metadata="THE LEDGERS' ACTIVATION LINES" />
 			<div class="concept-list">
 				<Concept
 					ID="setup-ledger-verify"
@@ -467,7 +467,7 @@ const Knobs = [
 
 		<!-- The configurable surface -->
 		<section class="section">
-			<SectionHeader Title="The configurable surface" Meta="REAL SCHEMA FIELDS" />
+			<SectionHeader Title="The configurable surface" Metadata="REAL SCHEMA FIELDS" />
 			<div class="concept-list">
 				<Concept
 					ID="setup-real-fields"
@@ -521,7 +521,7 @@ const Knobs = [
 
 		<!-- Optionality -->
 		<section class="section">
-			<SectionHeader Title="Optional by default" Meta="WHAT STAYS OFF UNLESS YOU ASK" />
+			<SectionHeader Title="Optional by default" Metadata="WHAT STAYS OFF UNLESS YOU ASK" />
 			<div class="concept-list">
 				<Concept
 					ID="setup-optional-toolargs"
@@ -705,7 +705,7 @@ const Knobs = [
 
 		<!-- The ledgers -->
 		<section class="section">
-			<SectionHeader Title="One ledger per plugin" Meta="~/.dsh/<name>.log" />
+			<SectionHeader Title="One ledger per plugin" Metadata="~/.dsh/<name>.log" />
 			<div class="concept-list">
 				<Concept
 					ID="setup-separate-ledgers"
@@ -785,7 +785,7 @@ const Knobs = [
 		<!-- The known gaps: where users hit them, stated as they are - the
 			corrected claims stay, no marketing gloss. -->
 		<section class="section">
-			<SectionHeader Title="Pitfalls" Meta="THE KNOWN GAPS" />
+			<SectionHeader Title="Pitfalls" Metadata="THE KNOWN GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				The gaps and the working lessons, stated as they are.
 			</p>

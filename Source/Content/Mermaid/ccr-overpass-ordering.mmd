@@ -2,4 +2,4 @@ flowchart LR
 	NORM["The normalize flavors - the tool-results overpass arm,<br/>prepend: true, the OUTERMOST listener"] --> CCRR["hook-dsh-ccr - the compression<br/>sees the NORMALIZED bytes"]
 	CCRR --> COACH["hook-dsh-tool-coach - plain, after ccr:<br/>observe + count + tier-1 notes,<br/>never replaces content"]
 	CCRR --> MARK["The CCR marker - pure ASCII, so it passes<br/>through the whole normalize family<br/>untouched under any load order"]
-	MARK -. "the model re-reads it from its own<br/>transcript intact" .-> MODEL["The model's context"]
+	MARK -. "The model re-reads it from its own<br/>transcript intact" .-> MODEL["The model's context"]

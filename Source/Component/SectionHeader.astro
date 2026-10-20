@@ -6,10 +6,10 @@ import { DotSep, Mention } from "@Library/FileIcon";
 
 interface Props {
 	Title: string;
-	Meta?: string;
+	Metadata?: string;
 }
 
-const { Title, Meta } = Astro.props;
+const { Title, Metadata } = Astro.props;
 
 // The separator dots: the meta's "·" separators become the designed
 // .dot-sep circle (the DotSep renderer) - LAST in the chain, so the wrap
@@ -42,7 +42,7 @@ function Emphasize(Text: string): string {
 		<span class="section-header__marker"></span>
 		<h2 class="section-header__title">{Title}</h2>
 	</div>
-	{Meta && (
-		<span class="section-header__meta" set:html={DotSep(Emphasize(Mention(Meta)))} />
+	{Metadata && (
+		<span class="section-header__meta" set:html={DotSep(Emphasize(Mention(Metadata)))} />
 	)}
 </div>

@@ -30,7 +30,7 @@
 // ONLY UI adornment is added.
 
 /** A repository entry: the bare clone URL plus the branch segment links compose with. */
-export interface Repo {
+export interface Repository {
 	/** The repository's base URL (no branch, no trailing slash). */
 	Base: string;
 	/** The branch segment, ALWAYS in the tree/<branch> form. */
@@ -68,7 +68,7 @@ export const Links = {
 	DeepSeekHarness: { Base: "https://github.com/deepseek-ai/deepseek-harness", Branch: BranchDeepSeek },
 	/** The family monorepo - this site's own repository (PlayForm/DeepSeek), at branch Current. */
 	OurRepo: { Base: "https://github.com/PlayForm/DeepSeek", Branch: BranchOurs },
-} as const satisfies Record<string, Repo | string>;
+} as const satisfies Record<string, Repository | string>;
 
 /**
  * Compose a repository URL: Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")
@@ -76,12 +76,12 @@ export const Links = {
  * The ONE function EVERY composed URL flows through - the future transform
  * point for redirects, tracking, version bumps and scheme changes.
  */
-export function Link(Repo: Repo, Path: string): string {
-	return `${Repo.Base}/${Repo.Branch}/${Path}`;
+export function Link(Repository: Repository, Path: string): string {
+	return `${Repository.Base}/${Repository.Branch}/${Path}`;
 }
 
 /** The string-prop shorthand keys: "Key:Path" targets resolved through the registry. */
-const Shorthand: Record<string, Repo> = {
+const Shorthand: Record<string, Repository> = {
 	Harness: Links.DeepSeekHarness,
 	Ours: Links.OurRepo,
 };
@@ -100,8 +100,8 @@ import { Mention } from "@Library/FileIcon";
 export function Resolve(Target: string): string | null {
 	const Colon = Target.indexOf(":");
 	if (Colon > 0) {
-		const Repo = Shorthand[Target.slice(0, Colon)];
-		if (Repo) return Link(Repo, Target.slice(Colon + 1));
+		const Repository = Shorthand[Target.slice(0, Colon)];
+		if (Repository) return Link(Repository, Target.slice(Colon + 1));
 	}
 	if (Safelist.test(Target)) return Target;
 	return null;

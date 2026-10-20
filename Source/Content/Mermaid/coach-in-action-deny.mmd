@@ -8,7 +8,7 @@ flowchart LR
 	RESET["The deny resets the note counters."]
 	POST["The denied call still flows through tools/post-execute,<br/>so counting continues."]
 	PRE --> CHECK
-	CHECK -. "below the threshold" .-> PASS
+	CHECK -. "Below the threshold" .-> PASS
 	CHECK --> DENY
 	DENY --> BLOCK
 	DENY --> LED

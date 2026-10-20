@@ -365,7 +365,7 @@ const Config = [
 			is on the <a href="/setup/">setup page</a>.
 		</p>
 		<section class="section">
-			<SectionHeader Title="Where It Fits" Meta={FamilyPosition(1)} />
+			<SectionHeader Title="Where It Fits" Metadata={FamilyPosition(1)} />
 			<div class="concept-list">
 				<Concept
 					ID="dash-family-position"
@@ -458,7 +458,7 @@ const Config = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="In the DeepSeek Harness" Meta="WHERE THE FLAVOR OPERATES" />
+			<SectionHeader Title="In the DeepSeek Harness" Metadata="WHERE THE FLAVOR OPERATES" />
 			<Seams
 				Seams={[
 					{
@@ -495,7 +495,7 @@ const Config = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="The Problem" Meta="WHY THE DASH FLAVOR EXISTS" />
+			<SectionHeader Title="The Problem" Metadata="WHY THE DASH FLAVOR EXISTS" />
 			<div class="concept-list">
 				<Concept
 					ID="dash-problem-file-hook"
@@ -553,7 +553,7 @@ const Config = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="How It Works" Meta="THE STREAM PIPELINE" />
+			<SectionHeader Title="How It Works" Metadata="THE STREAM PIPELINE" />
 			<div class="code-block">{Pipeline.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
@@ -631,7 +631,7 @@ const Config = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="The raw-write tool" Meta="NORMALIZATION AT EXECUTION TIME" />
+			<SectionHeader Title="The raw-write tool" Metadata="NORMALIZATION AT EXECUTION TIME" />
 			<div class="concept-list">
 				<Concept
 					ID="dash-rawwrite-exemption"
@@ -737,7 +737,7 @@ const Config = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="Deterministic character mapping" Meta="THE DASH CLASS, SAMPLED" />
+			<SectionHeader Title="Deterministic character mapping" Metadata="THE DASH CLASS, SAMPLED" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				A sample of the core's <code>Dashes</code> class - the full class is the dash
 				pattern verbatim, every entry mapping to the config
@@ -778,7 +778,7 @@ const Config = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="The Config" Meta="SCHEMA + DEFAULTS AT LOAD" />
+			<SectionHeader Title="The Config" Metadata="SCHEMA + DEFAULTS AT LOAD" />
 			<div class="table-wrap">
 				<table class="table">
 					<thead>
@@ -854,7 +854,7 @@ const Config = [
 		<section class="section">
 			<SectionHeader
 				Title="The scopes surface & the overpass arms"
-				Meta="GRANULAR CONTROL · ALL VOLATILE"
+				Metadata="GRANULAR CONTROL · ALL VOLATILE"
 			/>
 			<div class="concept-list">
 				<Concept
@@ -1005,7 +1005,7 @@ const Config = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="In Action" Meta="ONE STREAM, ONE TRANSFORMATION" />
+			<SectionHeader Title="In Action" Metadata="ONE STREAM, ONE TRANSFORMATION" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				The model emits prose with typographic dashes; the live UI and the transcript
 				receive the ASCII forms:
@@ -1102,7 +1102,7 @@ const Config = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="The Ledger" Meta="TWO LINES VIA FACTORY APPEND" />
+			<SectionHeader Title="The Ledger" Metadata="TWO LINES VIA FACTORY APPEND" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				Two lines, both written through the factory's <code>Append</code> (the
 				hook-dsh-normalize-dash: prefix is the logger's
@@ -1120,7 +1120,7 @@ const Config = [
 
 		<!-- The known limits: the documented gaps, stated as they are. -->
 		<section class="section">
-			<SectionHeader Title="Known limits" Meta="THE DOCUMENTED GAPS" />
+			<SectionHeader Title="Known limits" Metadata="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				<strong>The byte-integrity law.</strong>
 			</p>
@@ -1150,7 +1150,7 @@ const Config = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="Related plugins" Meta={`${Counts.Packages} TOTAL`} />
+			<SectionHeader Title="Related plugins" Metadata={`${Counts.Packages} TOTAL`} />
 			<div class="grid grid--3">
 				<Card
 					Variant="white"

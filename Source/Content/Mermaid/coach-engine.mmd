@@ -11,7 +11,7 @@ flowchart LR
 	T2 --> FETCH
 	FETCH --> DATA
 	DATA --> NOTE
-	FETCH -. "any fetch failure" .-> STATIC
-	ESCAPE["fetchLive: false - the escape hatch"] -. "static only, no failure line" .-> STATIC
-	STATIC -- "the static line instead" --> NOTE
+	FETCH -. "Any fetch failure" .-> STATIC
+	ESCAPE["fetchLive: false - the escape hatch"] -. "Static only, no failure line" .-> STATIC
+	STATIC -- "The static line instead" --> NOTE
 	STATIC --> WF

@@ -1,5 +1,5 @@
 flowchart LR
-	IN["A gated tool result"] --> ERR["error - a failure result,<br/>the x8 tier,<br/>when failures are compressed"]
+	IN["A gated tool result"] --> ERR["Error - a failure result,<br/>the x8 tier,<br/>when failures are compressed"]
 	IN --> NAME["The name table:<br/>bash -&gt; terminal, grep and search -&gt; grep,<br/>glob and list -&gt; paths, read -&gt; file,<br/>web_fetch and web_search -&gt; web"]
 	IN --> SHAPE["The shape fallback<br/>for other gated names"]
 	SHAPE --> J["Joined text parsing as a JSON object<br/>or array -&gt; json"]
