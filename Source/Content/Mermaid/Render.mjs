@@ -125,7 +125,20 @@ const PageHtml = `<!DOCTYPE html>
 					edgeLabelBackground: "#ffffff",
 				},
 				// (kept false in sync with the top-level flag - see above)
-				flowchart: { htmlLabels: false, curve: "basis" },
+				// Mermaid 12 lowered the default wrappingWidth to 120px (it
+				// was 200 in the version that produced the committed SVGs),
+				// which character-splits longer tokens mid-word ("execut" /
+				// "e"); 200 restores the committed wrap behavior. The look
+				// and theme are pinned to the classic/base shapes the
+				// committed SVGs were drawn with (Mermaid 12's defaults are
+				// look "neo", theme "redux-color").
+				flowchart: {
+					htmlLabels: false,
+					curve: "basis",
+					wrappingWidth: 200,
+					look: "classic",
+					theme: "base",
+				},
 			});
 			window.__render = async (Id, Text) => {
 				const Stage = document.getElementById("stage");
