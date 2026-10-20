@@ -1,0 +1,14 @@
+flowchart LR
+	GAP["the regression the harness could not see -<br/>terminal file edits are invisible to fs/observed<br/>it fires only on tool-layer writes"]
+	BYPASS["a sed -i bypassed the governor,<br/>the pinner and the normalize plugins entirely"]
+	COACH["the coach goes where that regression flows -<br/>over bash and pwsh"]
+	LADDER["the four-tier ladder over the terminal tool calls -<br/>ledger lines, coaching notes, a system-prompt section,<br/>the optional enforce deny tier"]
+	DETECT["adversarial detection - the pipeline strips heredoc bodies,<br/>collapses $(...) substitutions and quote layers,<br/>scans intent markers and a craft library"]
+	CATCHALL["the write-intent catch-all -<br/>novel zero-day forms still count"]
+	NOTE["every note names the correct tool with its LIVE<br/>registry description - the dynamic ctx.tools.schemas() fetch"]
+	GAP --> BYPASS
+	BYPASS --> COACH
+	COACH --> LADDER
+	DETECT --> LADDER
+	CATCHALL --> LADDER
+	LADDER --> NOTE

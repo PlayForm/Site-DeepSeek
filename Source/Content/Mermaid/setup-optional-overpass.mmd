@@ -1,0 +1,16 @@
+flowchart LR
+	ARMS["the two overpass arms - shipped registered but inert,<br/>gated at RUNTIME on the scope cells"]
+	TOOLR["the tools/post-execute tool-results arm -<br/>the OUTERMOST prepend"]
+	BATCH["the agent/pre-step step-batch arm"]
+	FLIP["arming is a config flip or the<br/>normalize-overpass command - not a re-registration"]
+	PRE["a tool-result normalization replaces the bytes PRE-COMMIT -<br/>the waterfall settles before the result<br/>is appended to the durable log"]
+	MODEL["the model only ever sees the normalized output"]
+	FILES["the file sweep is owned by the normalize-file hook"]
+	ARMS -- "gated on scopes.toolResults" --> TOOLR
+	ARMS -- "gated on scopes.batch" --> BATCH
+	FLIP --> ARMS
+	TOOLR --> PRE
+	PRE --> MODEL
+	ARMS -. "not here" .-> FILES
+	TOOLR ~~~ BATCH
+%% Invisible layout links only - no semantics.

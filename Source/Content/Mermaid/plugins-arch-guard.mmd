@@ -1,0 +1,15 @@
+flowchart LR
+	RESULT["a tool result entering the<br/>tools/post-execute waterfall"]
+	OVERPASS["the normalize flavors' overpass arm -<br/>{ prepend: true }, the OUTERMOST prepend"]
+	NORM["the NORMALIZED bytes"]
+	CCRH["the ccr hook's compression"]
+	MARKER["the CCR marker wrapping<br/>the compressed result"]
+	GUARD["the CCR marker guard -<br/>making any load order safe"]
+	SAFE["a compressed result is never<br/>re-normalized into a different marker"]
+	RESULT -- "outermost prepend runs first" --> OVERPASS
+	OVERPASS --> NORM
+	NORM -- "the compression sees the NORMALIZED bytes" --> CCRH
+	CCRH -- "the compressed result carries the CCR marker" --> MARKER
+	GUARD -. "the marker passes through the whole<br/>normalize family untouched" .-> SAFE
+	%% Invisible layout links only - no semantics.
+	CCRH ~~~ GUARD

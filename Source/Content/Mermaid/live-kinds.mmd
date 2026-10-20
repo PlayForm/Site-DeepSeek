@@ -1,0 +1,8 @@
+flowchart LR
+	KINDS["the KINDS registry - one source,<br/>two consumers"]
+	KINDS --> VALID["the fail-loud config validation -<br/>an unknown kind throws at load"]
+	KINDS --> DISPATCH["the render dispatch"]
+	DISPATCH --> SIX["phase 1 renders six kinds -<br/>time, counter, manifest, gauge,<br/>note, template"]
+	DISPATCH -. "the wave-2 catalog kinds - todo-list,<br/>command-runner, session-stats, ...<br/>14 entries in the default block table, three enabled" .-> SKIP["accepted in config, rendered as<br/>skipped blocks - reason unknown kind"]
+	SKIP -. "until the wave-2 render engine lands" .-> WAIT["they cost nothing and render nothing yet"]
+	DISPATCH --> LIT["tokens the phase-1 engine does not resolve,<br/>{{set:NAME}}, render literally"]

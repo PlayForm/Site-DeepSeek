@@ -1,0 +1,24 @@
+flowchart LR
+	FAMILY["the family widened in 2026-10:<br/>two new siblings on the tool-result waterfall"]
+	WF["the tools/post-execute waterfall"]
+	OVERPASS["the normalize flavors' overpass arm -<br/>the OUTERMOST prepend"]
+	NORM["the NORMALIZED bytes"]
+	CCRH["the ccr hook's compression"]
+	GUARD["the CCR marker guard -<br/>any load order safe"]
+	SAFE["a compressed result is never<br/>re-normalized into a different marker"]
+	GOV["the package governor -<br/>untouched by that"]
+	OBS["fs/observed only"]
+	TERM["a terminal edit<br/>(sed -i, python -c)"]
+	COACH["exactly why the<br/>tool-coach guardian exists"]
+	FAMILY -- "the ccr hook and the overpass arm now share" --> WF
+	WF --> OVERPASS
+	OVERPASS --> NORM
+	NORM -- "the compression sees the NORMALIZED bytes" --> CCRH
+	GUARD -. "the marker passes through the<br/>normalize family untouched" .-> SAFE
+	GOV -- "still listens on" --> OBS
+	TERM -. "never fires it" .-> OBS
+	TERM -- "which is exactly why" --> COACH
+	%% Invisible layout links only - no semantics.
+	GUARD ~~~ WF
+	GOV ~~~ OVERPASS
+	TERM ~~~ NORM

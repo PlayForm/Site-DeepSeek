@@ -1,0 +1,13 @@
+flowchart TB
+	RES["the normalized dispatch result"] --> G1["step 1 - empty content?"]
+	G1 -. "empty - pass" .-> PASS["pass through to the model, unchanged"]
+	G1 -- "content" --> G2["step 2 - tool in exempt?"]
+	G2 -. "exempt - pass, always" .-> PASS
+	G2 -- "not exempt" --> G3["step 3 - a failure result?"]
+	G3 -. "failure and compressFailures off - pass" .-> PASS
+	G3 -- "not a failure, or failures compressed" --> G4["step 4 - tool in targets?"]
+	G4 -. "not in targets - the allow-list - pass" .-> PASS
+	G4 -- "a target tool" --> G5["step 5 - the size gate: UTF-8 bytes of the<br/>serialized content vs thresholdBytes<br/>x the type's multiplier"]
+	G5 -. "at or under the gate - pass" .-> PASS
+	G5 -- "over the gate" --> FULL["step 6a - autoExpand on and size at or under<br/>autoExpandLimitBytes: store and return<br/>the FULL content, no marker"]
+	G5 -- "over the gate, otherwise" --> REP["step 6b - replace:<br/>the preview line plus the marker"]

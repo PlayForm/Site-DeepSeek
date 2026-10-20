@@ -1,0 +1,7 @@
+flowchart LR
+	IN["the listener registered with prepend: true -<br/>the gate sees the pristine result"] --> NEXT["next() always awaited FIRST"]
+	NEXT -.- NOTE["omitting it short-circuits the downstream<br/>post-execute listeners - the spill-policy precedent"]
+	NEXT --> DEC["the downstream decision"]
+	DEC -. "pass-through: return the decision unchanged" .-> SAME["byte-identical semantics"]
+	DEC --> REPL["only an accepted, non-value-carrying<br/>decision replaced"]
+	REPL -. "an internal error: log a warning and keep the<br/>inline content - never throw into the waterfall" .-> OPEN["fail-open"]

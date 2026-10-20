@@ -1,0 +1,4 @@
+flowchart LR
+	REPL["the replacement content - ONE text block"] --> P1["first line: the type-aware preview -<br/>terminal: exit code, line count, first significant line,<br/>grep: match count, paths: path count, file: line count,<br/>json: item or key or byte count, web: line count,<br/>error: the message IS the preview, default: byte count"]
+	REPL --> P2["second line: the CCR marker -<br/>24hex, then the type, then the size"]
+	REPL --> CAP["every preview hard-cut to<br/>previewMaxChars - 240"]

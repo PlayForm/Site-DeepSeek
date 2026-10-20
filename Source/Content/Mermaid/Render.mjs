@@ -291,13 +291,20 @@ const SvgLines = (Svg) => {
 	const Lines = [];
 	for (const TextMatch of Svg.matchAll(/<text[\s>][^>]*>([\s\S]*?)<\/text>/g)) {
 		const Tokens = [];
+		// Mermaid 12 writes the wrap-line class as "text-outer-tspan row"
+		// (the row class marks the grid row), so the class match tolerates
+		// suffixes: the outer opener still starts a new line. The first
+		// inner tspan of each wrap line carries NO leading space in
+		// Mermaid 12 (the outer boundary separates lines), so the word
+		// joins inside a line come only from the inner runs' leading
+		// U+00A0 - the join between lines comes from the outer boundary.
 		for (const Match of TextMatch[1].matchAll(
-			/<tspan[^>]*class="text-inner-tspan"[^>]*>([^<]*)<\/tspan>/g,
+			/<tspan[^>]*class="text-inner-tspan[^"]*"[^>]*>([^<]*)<\/tspan>/g,
 		)) {
 			Tokens.push({ At: Match.index, Outer: false, Text: Match[1] });
 		}
 		for (const Match of TextMatch[1].matchAll(
-			/<tspan[^>]*class="text-outer-tspan"[^>]*>([^<]*)/g,
+			/<tspan[^>]*class="text-outer-tspan[^"]*"[^>]*>([^<]*)/g,
 		)) {
 			// Direct text after an outer opener only exists on plain
 			// (non-nested) labels; nested labels capture an empty string

@@ -1,0 +1,17 @@
+flowchart LR
+	WIDEN["the scopes widening - granularity without re-registration"]
+	SCOPES["each flavor gains a granular volatile scopes surface -<br/>conversation, reasoning, toolInput, toolResults,<br/>files, batch, plus toolResultsExempt"]
+	TOGGLE["live loader/volatile-update toggles -<br/>every flip landing with no remount<br/>and no new activation line"]
+	ARMS["two opt-in overpass arms extending the flavors<br/>past the stream - tools/post-execute tool results<br/>and agent/pre-step step batch"]
+	CMD["reachable through the normalize-overpass command"]
+	GATE["the effective tool-input gate stays<br/>normalizeToolArguments or scopes.toolInput"]
+	MARKER["the per-call __normalize:false first-key marker<br/>survives as the escape hatch"]
+	KEEP["every existing profile keeps working"]
+	WIDEN --> SCOPES
+	SCOPES --> TOGGLE
+	WIDEN --> ARMS
+	ARMS --> CMD
+	GATE --> KEEP
+	MARKER --> KEEP
+	GATE ~~~ MARKER
+%% Invisible layout links only - no semantics.

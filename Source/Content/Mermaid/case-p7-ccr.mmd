@@ -1,0 +1,14 @@
+flowchart LR
+	PORT["Aphrodite's CCR pipeline ported into the family"]
+	HOOK["the tools/post-execute waterfall -<br/>the interceptable wrapper around every normalized<br/>dispatch result, before it becomes model content"]
+	BIG["oversized results of the allow-listed target tools"]
+	MARKER["replaced with a one-line type-aware preview plus<br/>the CCR marker - the 24hex hash, then the type, then the size"]
+	RETRIEVE["the original retrievable through the registered<br/>ccr_retrieve tool over a sha256-24 LRU store"]
+	AUTO["autoExpand returns small results FULL<br/>while they are cheap - no marker reaches the model"]
+	VISIBLE["the compression deliberately VISIBLE at the result layer -<br/>the opposite of the governance family's silence"]
+	PORT --> HOOK
+	HOOK --> BIG
+	BIG --> MARKER
+	MARKER --> RETRIEVE
+	BIG -. "small and cheap" .-> AUTO
+	PORT --> VISIBLE

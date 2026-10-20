@@ -1,0 +1,4 @@
+flowchart LR
+	TOOLS["bash runs, grep matches, read slices,<br/>web_fetch pages, glob paths"] --> CTX["the model's context filling with megabytes<br/>of raw tool output - every agent turn"]
+	CTX -. "the model mostly needs one line of it" .-> APH["Aphrodite intercepts tool output before the LLM:<br/>a ~15-token preview plus a marker"]
+	APH --> PORT["this plugin ports that pipeline<br/>to the harness - not the proxy"]

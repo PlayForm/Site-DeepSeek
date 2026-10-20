@@ -1,0 +1,8 @@
+flowchart LR
+	SHEMA["the factory's Schema(false, {...}) helper -<br/>validates and fills every default at load"]
+	SHEMA --> VOL["every knob volatile - a flip lands<br/>on the next assembly, no remounting"]
+	SHEMA --> VALID["fail-loud validation in apply"]
+	VALID -. "invalid config" .-> THROW["throws at load -<br/>never silently defaults"]
+	VALID --> RULES["sectionName and separator non-empty,<br/>refresh in {request, ttl},<br/>ttlCalls and sectionBudgetBytes at least 1"]
+	RULES --> BLOCKS["every block id non-empty and unique,<br/>kind in the KINDS registry, template non-empty,<br/>vars a dict of strings,<br/>trigger and scope in their unions"]
+	SHEMA --> SHIP["the shipped entry ships only enabled false -<br/>the IDLE-forever posture"]

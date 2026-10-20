@@ -1,12 +1,15 @@
 flowchart LR
-	PLUGINS["the twelve plugins"]
+	PLUGINS["the {Counts.Packages} plugins"]
 	SEAM1["the model stream waterfall"]
 	SEAM2["the filesystem events"]
 	SEAM3["the tool layer"]
-	SEAM4["the subprocess seam"]
-	SEAM5["the jobs envelope"]
-	SEAM6["the storage domain"]
-	SEAM7["the session ledger"]
+	SEAM4["the tools/post-execute waterfall"]
+	SEAM5["the agent/pre-step step boundary"]
+	SEAM6["the commands service"]
+	SEAM7["the subprocess seam"]
+	SEAM8["the jobs envelope"]
+	SEAM9["the storage domain"]
+	SEAM10["the session ledger"]
 	PLUGINS --> SEAM1
 	PLUGINS --> SEAM2
 	PLUGINS --> SEAM3
@@ -14,6 +17,9 @@ flowchart LR
 	PLUGINS --> SEAM5
 	PLUGINS --> SEAM6
 	PLUGINS --> SEAM7
+	PLUGINS --> SEAM8
+	PLUGINS --> SEAM9
+	PLUGINS --> SEAM10
 	%% Invisible layout links only - no semantics.
 	SEAM1 ~~~ SEAM2
 	SEAM2 ~~~ SEAM3
@@ -21,3 +27,6 @@ flowchart LR
 	SEAM4 ~~~ SEAM5
 	SEAM5 ~~~ SEAM6
 	SEAM6 ~~~ SEAM7
+	SEAM7 ~~~ SEAM8
+	SEAM8 ~~~ SEAM9
+	SEAM9 ~~~ SEAM10

@@ -1,0 +1,15 @@
+flowchart LR
+	GUARD["the guardians' off-by-default surfaces"]
+	CCROFF["ccr - compressFailures off - failures pass through<br/>the error x8 tier the only beneficiary"]
+	JOURNAL["ccr - journalPath empty -<br/>the store memory-only until you point<br/>it at a JSONL file"]
+	COACH["the tool-coach - enforce tier off - the deny tier<br/>the configurable last resort -<br/>out of the box coaching only - no denies"]
+	MASTER["enabled as the master switch"]
+	VOLATILE["every knob of both plugins volatile -<br/>a flip lands on the next judged call"]
+	GUARD --> CCROFF
+	GUARD --> JOURNAL
+	GUARD --> COACH
+	COACH --> MASTER
+	GUARD --> VOLATILE
+	CCROFF ~~~ JOURNAL
+	JOURNAL ~~~ COACH
+%% Invisible layout links only - no semantics.

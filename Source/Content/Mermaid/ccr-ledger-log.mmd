@@ -1,0 +1,7 @@
+flowchart LR
+	LOG["logFile - one log per module,<br/>the strings the module composes itself,<br/>the factory never owns them"]
+	LOG --> ACT["the activation line, written by apply() -<br/>did it activate is answerable<br/>from the ledger alone"]
+	LOG --> OPS["every compress, store and eviction"]
+	LOG --> RETR["every retrieval hit and miss"]
+	LOG --> ENG["the context engine's archive events"]
+	LOG -. "asserted byte-identical by the smoke" .-> SMOKE["the smoke battery"]

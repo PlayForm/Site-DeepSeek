@@ -1,0 +1,9 @@
+flowchart LR
+	ACT["the plugin ACTIVATEd - enabled true,<br/>the default table"]
+	ACT --> REQ["every request re-renders the time block"]
+	REQ --> TIME["{{time}} always holds the<br/>current wall clock"]
+	REQ -. "the wave-2 entries skip" .-> UNK["block skipped agent-progress-board<br/>(unknown kind)"]
+	ACT --> TTL["refresh ttl"]
+	TTL --> HOLD["the section text holds for ttlCalls (8)<br/>assemblies - the prefix stays reusable"]
+	ACT --> BIG["the rendered body exceeds<br/>sectionBudgetBytes"]
+	BIG --> COLL["the oldest frames collapse to one-line<br/>summaries - never silently dropped<br/>failsafe section-collapse 2"]

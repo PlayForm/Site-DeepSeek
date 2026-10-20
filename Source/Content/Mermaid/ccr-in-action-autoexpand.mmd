@@ -1,0 +1,3 @@
+flowchart LR
+	RES["a result over the byte gate, but at or under<br/>autoExpandLimitBytes - 102400 -<br/>with autoExpand on, the default"] --> ST["stored, with its own ledger line:<br/>ccr: stored ..."]
+	ST --> FULL["returned FULL - no marker reaches the model<br/>while the content is cheap enough to keep inline"]

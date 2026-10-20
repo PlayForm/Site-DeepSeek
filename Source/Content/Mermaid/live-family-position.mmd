@@ -1,0 +1,6 @@
+flowchart LR
+	LIVE["Hook @ DSH @ Live @ Containers"] --> FACTORY["plugin-dsh-factory - the service"]
+	LIVE --> NONMAN["a NON-MANIFEST module<br/>no fs/observed Wire, no Attach, no factory Schema<br/>the plugin owns its schema and its strings"]
+	LIVE --> NOCHILD["no hook children of its own"]
+	LIVE --> INJ["injecting [pluginFactory, tools]"]
+	LIVE --> STATE["apply returns NOTHING - the state exposed<br/>via ctx.__hookDshLiveContainersState"]

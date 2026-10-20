@@ -1,0 +1,5 @@
+flowchart LR
+	COACH["Hook @ DSH @ Tool @ Coach"] --> FACTORY["plugin-dsh-factory - the service"]
+	COACH --> NON["a NON-MANIFEST module - no fs/observed Wire,<br/>no Attach, no factory Schema<br/>the coach owns its schema and its strings"]
+	COACH --> STATE["apply returns NOTHING<br/>the state is exposed via ctx.__hookDshToolCoachState"]
+	COACH -. "no hook children of its own" .-> LEAF["a leaf hook of the family"]

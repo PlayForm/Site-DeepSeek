@@ -1,0 +1,16 @@
+flowchart LR
+	SCHEMA["the exported Config schema - the factory's<br/>standalone Schema(false, ...) helper"]
+	LOAD["validates and fills every default at load"]
+	VOL["every cell volatile -<br/>a flip lands on the next judged call"]
+	FAIL["fail-loud validation in apply"]
+	R1["threshold at least 1 - window at least the threshold -<br/>cooldown at least 1"]
+	R2["escalateThreshold at least the threshold -<br/>cleanWindow at least 1 - enforceThreshold at least 1"]
+	R3["maxSectionTools 1 to 24 - sectionTtl at least 1"]
+	R4["every row pattern compiles, tool non-empty,<br/>no built-in duplicates, notes templates non-empty"]
+	SCHEMA --> LOAD
+	LOAD --> VOL
+	SCHEMA --> FAIL
+	FAIL --> R1
+	FAIL --> R2
+	FAIL --> R3
+	FAIL --> R4

@@ -1,0 +1,5 @@
+flowchart LR
+	CALL["the model calls ccr_retrieve<br/>with the marker's hash"] --> EXACT["the hash matched exactly -<br/>no prefix or fuzzy matching"]
+	EXACT --> SLICE["the range: start, count - slicing lines granularly,<br/>out-of-range bounds clamp"]
+	SLICE --> OK["the success value {hash, type, size, text}<br/>rendered verbatim"]
+	EXACT -. "the miss" .-> ERR["the self-describing error:<br/>re-run the original tool"]

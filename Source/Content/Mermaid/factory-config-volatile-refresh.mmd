@@ -1,0 +1,22 @@
+flowchart LR
+	KEEP["the State builder keeps the raw config's<br/>{ get } cells in place"]
+	FLIP["a flip in one volatile cell"]
+	LIST["the loader/volatile-update listener"]
+	RIDE1["the normalize family's volatile scopes -<br/>conversation, reasoning, toolInput,<br/>toolResults, files, batch"]
+	RIDE2["the ccr hook's volatile thresholdBytes,<br/>previewMaxChars, multipliers"]
+	RIDE3["every volatile knob of the tool-coach"]
+	REFRESH["re-reads the whole object and refreshes<br/>the State fields LIVE, in place"]
+	NOREMOUNT["no remount,<br/>no new activation line"]
+	NEXT["a flip lands on<br/>the next judged call"]
+	KEEP -- "and registers" --> LIST
+	FLIP -- "one leaf change, one dispatch" --> LIST
+	RIDE1 -- "ride exactly this path" --> LIST
+	RIDE2 -- "ride exactly this path" --> LIST
+	RIDE3 -- "ride exactly this path" --> LIST
+	LIST --> REFRESH
+	REFRESH --> NOREMOUNT
+	REFRESH -- "the flip lands" --> NEXT
+	%% Invisible layout links only - no semantics.
+	KEEP ~~~ FLIP
+	RIDE1 ~~~ RIDE2
+	RIDE2 ~~~ RIDE3

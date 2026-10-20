@@ -1,0 +1,14 @@
+flowchart LR
+	JUDGE["every judged terminal call - bash and pwsh only,<br/>counted per-agent in a WeakMap keyed on the Agent object"]
+	T0["tier 0 - the ledger<br/>every offense logged immediately,<br/>the model sees nothing"]
+	T1["tier 1 - the note via additionalContexts<br/>threshold (3) strikes within window (8) judged calls,<br/>cooldown (10) between notes<br/>a labeled notice naming the correct tool<br/>with its LIVE registry description"]
+	T2["tier 2 - the persistent system-prompt section<br/>escalateThreshold (6) offenses since the last note<br/>3 fixed rules plus the live-fetched tool table<br/>(at most maxSectionTools 8 rows)"]
+	T3["tier 3 - the pre-execute deny<br/>enforceThreshold (4) strikes since the last note<br/>off by default - enforce: 'off'"]
+	OFF["the section switches off again<br/>after cleanWindow (12) clean judged calls"]
+	NEVER["discovery and control are NEVER denied,<br/>even at enforce: 'all'"]
+	JUDGE --> T0
+	T0 --> T1
+	T1 --> T2
+	T2 --> T3
+	T2 -. "clean again" .-> OFF
+	T3 -. "write denies write-class only, all adds read and search" .-> NEVER
