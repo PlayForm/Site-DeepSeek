@@ -450,6 +450,7 @@ const CargoFact =
 			<div class="use-cases">
 				<Showcase
 					Wide
+					Id="pin"
 					Kicker="THE PIN"
 					Title="Pinned manifests, deterministically"
 					Lead="The pinner rewrites every ranged dependency version to its static version - protected by the pin-policy keep-list."
@@ -462,6 +463,7 @@ const CargoFact =
 				</Showcase>
 				<Showcase
 					Wide
+					Id="govern"
 					Kicker="THE GOVERN"
 					Title="Governed pins, silently"
 					Lead="The governor canonicalizes chain-governed pins to the effective registry's resolved versions - then runs the update stage detached."
@@ -469,10 +471,15 @@ const CargoFact =
 					Before={GovernBefore}
 					After={GovernAfter}
 					Fact={GovernFact}
+					Examples={{
+						"package.json": { Before: GovernBefore, After: GovernAfter, Fact: GovernFact },
+						"Cargo.toml": { Before: CargoBefore, After: CargoAfter, Fact: CargoFact },
+					}}
 				>
 					<SupportsButton
 						Manifests={["package.json", "Cargo.toml"]}
-						Detail={GovernSupports}
+						Details={GovernDetails}
+						ShowcaseId="govern"
 						slot="supports"
 					/>
 				</Showcase>

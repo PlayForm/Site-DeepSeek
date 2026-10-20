@@ -29,9 +29,9 @@ interface Props {
 		functionality step), rendered via set:html so inline
 		<code>/<a>/<span> markup is intentional. */
 	Details?: Record<string, string[]>;
-	/** The coupled Showcase's data-showcase-id: selecting a chip swaps
-		that showcase's example to the manifest's story. Omit when the
-		chips have no example variants to swap. */
+	/** The coupled Showcase's Id (its data-showcase-id): selecting a chip
+		swaps that showcase's example to the manifest's story. Omit when
+		the chips have no example variants to swap. */
 	ShowcaseId?: string;
 }
 
@@ -52,7 +52,7 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 };
 ---
 
-<div class="supports" data-showcase-id={ShowcaseId}>
+<div class="supports" data-showcase-target={ShowcaseId}>
 	<p class="supports__row">
 		<span class="supports__label">supports:</span>
 		{Manifests.map((Manifest) => {
@@ -153,9 +153,9 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 	   #C12127 npm mark it carries), Cargo.toml in the accent orange - the
 	   two chips are unmistakably different at a glance, the rest state
 	   already colored (border + ink on the lightest fill), the open state
-	   inverting to the solid accent with the white ink (both accents keep
-	   4.5:1+ with the white 13px mono). The brand icons whiten with the
-	   ink on the solid ground (brightness/invert - a transform, no new
+	   inverting to the solid accent with the on-primary ink (both accents
+	   keep 4.5:1+ with the white 13px mono). The brand icons whiten with
+	   the ink on the solid ground (brightness/invert - a transform, no new
 	   hex), so the official marks stay legible on both states. */
 	.supports__chip--npm {
 		border-color: var(--color-pin-red);
@@ -171,7 +171,7 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 	.supports__chip--npm.is-open {
 		background: var(--color-pin-red);
 		border-color: var(--color-pin-red);
-		color: #ffffff;
+		color: var(--color-on-primary);
 	}
 
 	.supports__chip--npm.is-open .brand-icon {
@@ -192,7 +192,7 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 	.supports__chip--cargo.is-open {
 		background: var(--color-accent-orange);
 		border-color: var(--color-accent-orange);
-		color: #ffffff;
+		color: var(--color-on-primary);
 	}
 
 	.supports__chip--cargo.is-open .brand-icon {
@@ -262,7 +262,7 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 <script>
 	// The chip selection: one open chip + its panel per group (opening a
 	// chip closes its siblings), aria-expanded mirroring the state, and -
-	// when the group is coupled to a showcase (data-showcase-id) - the
+	// when the group is coupled to a showcase (data-showcase-target) - the
 	// dsh:example event telling the showcase to swap its example to the
 	// selected manifest's story. The wiring is idempotent (the
 	// data-supports-wired flag per group): a dev HMR re-run of this
@@ -292,7 +292,7 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 					if (Panel) Panel.hidden = false;
 					// The example swap: tell the coupled showcase which
 					// manifest is now selected (see Showcase.astro).
-					const ShowcaseId = Group.dataset["showcaseId"];
+					const ShowcaseId = Group.dataset["showcaseTarget"];
 					const Manifest = Chip.dataset["manifest"];
 					if (ShowcaseId && Manifest) {
 						document.dispatchEvent(
