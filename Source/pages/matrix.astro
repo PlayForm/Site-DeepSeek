@@ -94,7 +94,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 
 		<PageHero
 			Title="Interactive Matrix Stream Inspector"
-			Sub={"Raw model emission versus canonical normalized output, engine by engine.\nThe inspector highlights every unicode anomaly in the raw payload and the deterministic result after the armed flavor hooks."}
+			Sub={"Raw model emission versus canonical normalized output, engine by engine.\nThe inspector highlights EVERY unicode anomaly in the raw payload and the deterministic result after the armed flavor hooks."}
 		/>
 
 		<!-- Controls -->
@@ -161,22 +161,23 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 				File target: synced
 			</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
-				This demo models the <strong>conversation arm</strong> only.
+				This demo models the <strong>conversation arm</strong> ONLY.
 			</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
-				Beyond it, the
-				family's granular volatile <code>scopes</code> surface gates every arm
-				independently - conversation / reasoning / toolInput / toolResults / files /
-				batch, all hot-flippable through <code>loader/volatile-update</code> - and two{" "}
-				<strong>overpass arms</strong> extend the flavors past the stream: the
-				tool-results arm (<code>tools/post-execute</code>, the OUTERMOST prepend) and
-				the step-batch arm (<code>agent/pre-step</code>), reachable through the{" "}
+				Beyond it, the family's granular volatile <code>scopes</code> surface gates
+				EVERY arm independently.
+				Conversation / reasoning / toolInput / toolResults / files / batch: ALL
+				hot-flippable through <code>loader/volatile-update</code>.
+				Two <strong>overpass arms</strong> extend the flavors past the stream.
+				The tool-results arm (<code>tools/post-execute</code>) is the OUTERMOST
+				prepend.
+				The step-batch arm (<code>agent/pre-step</code>) is reachable through the{" "}
 				<code>normalize-overpass</code> command.
 			</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
 				On the same waterfall, the{" "}
-				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> compresses oversized tool output;
-				the <a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges the terminal
+				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> compresses oversized tool output.
+				The <a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges the terminal
 				calls.
 			</p>
 		</section>
