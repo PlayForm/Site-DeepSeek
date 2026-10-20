@@ -207,12 +207,13 @@ Count &gt; 0 ONLY â€¢ <strong>count === 0 keeps the chunk by identity</strong> â
 </p> <p class="page-hero__sub">
 The family's other arms - tool input, tool results, step batch, files - are
 				configurable via the volatile <code>scopes</code> surface (conversation /
-				reasoning / toolInput / toolResults / files / batch, EVERY scope
-				hot-flippable through <code>loader/volatile-update</code>), reachable in the
-				LIVE profile through the <code>normalize-overpass</code> command.
+				reasoning / toolInput / toolResults / files / batch).
+				EVERY scope is hot-flippable through <code>loader/volatile-update</code>,
+				reachable in the LIVE profile through the <code>normalize-overpass</code> command.
 </p> <p class="page-hero__sub">
 And tool output can additionally be <strong>compressed</strong>: the${" "} <a href="/plugins/hook-dsh-ccr/">ccr hook</a> replaces oversized results of
-				the target tools with a one-line preview plus a${" "} <code>&lt;&lt;&lt;CCR:</code> retrieval marker. The${" "} <a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges the terminal
+				the target tools with a one-line preview plus a${" "} <code>&lt;&lt;&lt;CCR:</code> retrieval marker.
+				The <a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges the terminal
 				calls the stream never sees.
 </p> <p class="page-hero__sub">
 The <a href="/plugins/hook-dsh-normalize-dash/">flavor pages</a> carry the

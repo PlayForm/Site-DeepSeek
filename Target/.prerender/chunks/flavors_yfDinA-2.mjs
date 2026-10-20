@@ -2,7 +2,7 @@ import { D as __exportAll, E as createComponent, a as Links, g as Sprite, n as $
 import { _ as maybeRenderHead, g as renderTemplate, l as renderComponent, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$ArrowIcon } from "./ArrowIcon_DerRPTTd.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
+import { t as $$Concept } from "./Concept_Cc5AWIMu.mjs";
 import { t as $$PageHero } from "./PageHero_CSrnuBSY.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$Compare } from "./Compare_BvteMlTf.mjs";
@@ -64,7 +64,7 @@ ECOSYSTEM: @PLAYFORM
 ` })} ${renderComponent($$result, "Badge", $$Badge, {}, { "default": ($$result) => renderTemplate`${Counts.Normalizers} FLAVORS / ${Counts.Roles} ROLES / ${Counts.Groups.Guardians} GUARDIANS
 ` })} </div> ${renderComponent($$result, "PageHero", $$PageHero, {
 		"Title": "Flavors & Roles",
-		"Sub": "Eleven capabilities, three kinds.\nThe seven normalize flavors turn model output streams and project files into clean ASCII. The two governance roles keep the project's manifests pinned and governed under the author's control. The two guardians watch the model itself - the ccr compressor shrinking oversized tool output, the tool-coach coaching the terminal calls."
+		"Sub": "Eleven capabilities, three kinds.\nThe seven normalize flavors turn model output streams and project files into clean ASCII. The two governance roles keep the project's manifests pinned and governed under the author's control. The two guardians watch the model itself. The ccr compressor shrinks oversized tool output. The tool-coach coaches the terminal calls."
 	})} <!-- The seven flavors --> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
 		"Title": "The seven flavors",
 		"Meta": "SIX STREAM FLAVORS + THE FILE TOOL"

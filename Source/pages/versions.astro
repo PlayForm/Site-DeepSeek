@@ -117,12 +117,13 @@ const Changelog = `## 0.0.1
 
 		<PageHero
 			Title="Versions"
-			Sub={`This page is the release and operating-state overview - not a listing.\nIt answers three questions. What is operating right now (the dual trees and the Effect-TS pin). What changed at this release (the record below). What both trees hold (the invariants).\nThe plugin pages list the products. This page states the state of the family.\nBoth releases are at version ${Versions.Release}.`}
+			Sub={`This page is the release and operating-state overview - not a listing.\nIt answers three questions. What is operating right now (the dual trees and the Effect-TS pin). What changed at this release (the record below). What BOTH trees hold (the invariants).\nThe plugin pages list the products. This page states the state of the family.\nBOTH releases are at version ${Versions.Release}.`}
 		>
 			<Fragment slot="sub-1">
 				The dual engine distribution: the same fifteen contracts, built twice -{" "}
 				<BrandIcon Name="typescript" />{" "}CLASSIC in plain TypeScript,{" "}
-				<BrandIcon Name="effect" />{" "}EFFECT-TS on Effect-TS services and layers - same behavior, same smokes, different runtime plumbing.
+				<BrandIcon Name="effect" />{" "}EFFECT-TS on Effect-TS services and layers.
+				Same behavior, same smokes, different runtime plumbing.
 			</Fragment>
 		</PageHero>
 
@@ -158,8 +159,7 @@ const Changelog = `## 0.0.1
 				<p class="record__wording">
 					The shipped entries above are byte-exact from the repository file.
 					The four entries on top are the guardians-era additions this page maintains first.
-					This page maintains the changelog, so the release history lives where the
-					operating state lives.
+					This page maintains the changelog, so the release history lives where the operating state lives.
 				</p>
 			</div>
 		</section>
@@ -199,7 +199,7 @@ const Changelog = `## 0.0.1
 				<Card
 					Variant="white"
 					Name="hook-dsh-core"
-					Desc={SuiteCount(Counts.Core, "every helper with NO fake context at all.")}
+					Desc={SuiteCount(Counts.Core, "EVERY helper with NO fake context at all.")}
 				>
 					<Badge slot="badge">SMOKE</Badge>
 				</Card>
@@ -253,7 +253,7 @@ const Changelog = `## 0.0.1
 				<Card
 					Variant="white"
 					Name="hook-dsh-tool-coach"
-					Desc={SuiteCount(Counts.Coach, "the four tiers, the cooldown and window math, the live fetch fallback, and the tracing-hygiene mode.")}
+					Desc={SuiteCount(Counts.Coach, "the four tiers, the cooldown and window math, the LIVE fetch fallback, and the tracing-hygiene mode.")}
 				>
 					<Badge slot="badge">SMOKE</Badge>
 				</Card>

@@ -1,7 +1,7 @@
 import { D as __exportAll, E as createComponent, b as Versions, n as $$Base, p as NormalizeFamily, s as Counts, t as $$Badge, v as SuiteCount, x as $$BrandIcon, y as Totals } from "./Badge_BcqTIV8g.mjs";
 import { _ as maybeRenderHead, g as renderTemplate, l as renderComponent, u as Fragment, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
+import { t as $$Concept } from "./Concept_Cc5AWIMu.mjs";
 import { t as $$PageHero } from "./PageHero_CSrnuBSY.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 //#region Source/pages/versions.astro
@@ -101,7 +101,7 @@ RELEASE &amp; OPERATING STATE
 		"data-astro-cid-y2dyriig": true
 	})} EFFECT-TS` })} </div> ${renderComponent($$result, "PageHero", $$PageHero, {
 		"Title": "Versions",
-		"Sub": `This page is the release and operating-state overview - not a listing.\nIt answers three questions. What is operating right now (the dual trees and the Effect-TS pin). What changed at this release (the record below). What both trees hold (the invariants).\nThe plugin pages list the products. This page states the state of the family.\nBoth releases are at version ${Versions.Release}.`,
+		"Sub": `This page is the release and operating-state overview - not a listing.\nIt answers three questions. What is operating right now (the dual trees and the Effect-TS pin). What changed at this release (the record below). What BOTH trees hold (the invariants).\nThe plugin pages list the products. This page states the state of the family.\nBOTH releases are at version ${Versions.Release}.`,
 		"data-astro-cid-y2dyriig": true
 	}, { "sub-1": ($$result) => renderTemplate`${renderComponent($$result, "Fragment", Fragment, { "slot": "sub-1" }, { "default": ($$result) => renderTemplate`
 The dual engine distribution: the same fifteen contracts, built twice -${" "}${renderComponent($$result, "BrandIcon", $$BrandIcon, {
@@ -110,7 +110,8 @@ The dual engine distribution: the same fifteen contracts, built twice -${" "}${r
 	})}${" "}CLASSIC in plain TypeScript,${" "}${renderComponent($$result, "BrandIcon", $$BrandIcon, {
 		"Name": "effect",
 		"data-astro-cid-y2dyriig": true
-	})}${" "}EFFECT-TS on Effect-TS services and layers - same behavior, same smokes, different runtime plumbing.
+	})}${" "}EFFECT-TS on Effect-TS services and layers.
+				Same behavior, same smokes, different runtime plumbing.
 ` })}` })} <!-- THE OPERATING SET - the signature block: what is operating NOW --> <section class="section section--opset" data-astro-cid-y2dyriig> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
 		"Title": "The operating set",
 		"Meta": "WHAT IS OPERATING NOW",
@@ -123,8 +124,7 @@ STATE: DUAL TREE · IDENTICAL FOURTEEN CONTRACTS · ${Totals.Meta()} </div> </di
 	})} <div class="record" data-astro-cid-y2dyriig> <div class="record__cite" data-astro-cid-y2dyriig> <span class="record__source" data-astro-cid-y2dyriig>${ChangelogSource}</span> <span class="record__also" data-astro-cid-y2dyriig>Site/CHANGELOG.md: &ldquo;Initial version&rdquo;</span> </div> <pre class="record__text" data-astro-cid-y2dyriig>${Changelog}</pre> <p class="record__wording" data-astro-cid-y2dyriig>
 The shipped entries above are byte-exact from the repository file.
 					The four entries on top are the guardians-era additions this page maintains first.
-					This page maintains the changelog, so the release history lives where the
-					operating state lives.
+					This page maintains the changelog, so the release history lives where the operating state lives.
 </p> </div> </section> <!-- Shared invariants - the state rail, not the listing boxes --> <section class="section" data-astro-cid-y2dyriig> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
 		"Title": "Shared invariants",
 		"Meta": "WHAT BOTH RELEASES HOLD",
@@ -146,7 +146,7 @@ The Effect-TS tree proves parity with these numbers before ANY swap-in.
 </p> ` })} </div> <div class="grid grid--3" data-astro-cid-y2dyriig> ${renderComponent($$result, "Card", $$Card, {
 		"Variant": "white",
 		"Name": "hook-dsh-core",
-		"Desc": SuiteCount(Counts.Core, "every helper with NO fake context at all."),
+		"Desc": SuiteCount(Counts.Core, "EVERY helper with NO fake context at all."),
 		"data-astro-cid-y2dyriig": true
 	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, {
 		"slot": "badge",
@@ -207,7 +207,7 @@ The Effect-TS tree proves parity with these numbers before ANY swap-in.
 	}, { "default": ($$result) => renderTemplate`SMOKE` })}` })} ${renderComponent($$result, "Card", $$Card, {
 		"Variant": "white",
 		"Name": "hook-dsh-tool-coach",
-		"Desc": SuiteCount(Counts.Coach, "the four tiers, the cooldown and window math, the live fetch fallback, and the tracing-hygiene mode."),
+		"Desc": SuiteCount(Counts.Coach, "the four tiers, the cooldown and window math, the LIVE fetch fallback, and the tracing-hygiene mode."),
 		"data-astro-cid-y2dyriig": true
 	}, { "badge": ($$result) => renderTemplate`${renderComponent($$result, "Badge", $$Badge, {
 		"slot": "badge",

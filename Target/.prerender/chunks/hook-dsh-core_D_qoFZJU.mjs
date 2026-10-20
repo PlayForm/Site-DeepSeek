@@ -2,7 +2,7 @@ import { D as __exportAll, E as createComponent, S as DotSep, a as Links, b as V
 import { E as unescapeHTML, _ as maybeRenderHead, g as renderTemplate, l as renderComponent, u as Fragment, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$ArrowIcon } from "./ArrowIcon_DerRPTTd.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
+import { t as $$Concept } from "./Concept_Cc5AWIMu.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$Terminal } from "./Terminal_BMZtWhRH.mjs";
 import { t as $$CodeBlock } from "./CodeBlock_D0mCXfg1.mjs";
@@ -127,7 +127,7 @@ The core is NOT a plugin and touches NO seam itself.
 The <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}><code>llm/stream</code></a> seam supplies the stream-normalization half the
 						six flavors dispatch through.
 						The half is the six character tables, the two generic
-						replacers and the per-chunk/per-block dispatch running inside each flavor's${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}><code>llm/stream</code></a> listener.
+						replacers and the per-chunk/per-block dispatch running inside EACH flavor's${" "} <a${addAttribute(Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts"), "href")}><code>llm/stream</code></a> listener.
 </p> <p class="page-hero__sub">
 Outcome: normalized text reaching the LIVE UI and the durable transcript,
 						byte-predictable per chunk.

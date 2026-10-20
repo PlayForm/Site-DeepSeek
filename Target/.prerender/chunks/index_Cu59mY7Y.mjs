@@ -393,8 +393,9 @@ NORMALIZING<span class="dot-sep" aria-hidden="true" data-astro-cid-k7pmibev></sp
 		"data-astro-cid-k7pmibev": true
 	}, {
 		"default": ($$result) => renderTemplate`  <p class="version-card__body" data-astro-cid-k7pmibev>
-The fifteen contracts in plain TypeScript - classes, Maps and plain
-						functions, zero runtime framework dependencies.</p> <p class="version-card__body" data-astro-cid-k7pmibev>
+The fifteen contracts in plain TypeScript.
+						Classes, Maps and plain functions.
+						Zero runtime framework dependencies.</p> <p class="version-card__body" data-astro-cid-k7pmibev>
 The straightforward integration release.
 </p> <div class="version-card__facts" data-astro-cid-k7pmibev> ${renderComponent($$result, "Badge", $$Badge, {
 			"Variant": "primary",
@@ -417,8 +418,10 @@ The straightforward integration release.
 		"data-astro-cid-k7pmibev": true
 	}, {
 		"default": ($$result) => renderTemplate`  <p class="version-card__body" data-astro-cid-k7pmibev>
-The same fifteen contracts re-expressed on Effect-TS services and layers -
-						same behavior, same smokes, different runtime plumbing.
+The same fifteen contracts re-expressed on Effect-TS services and layers.
+						Same behavior.
+						Same smokes.
+						Different runtime plumbing.
 </p> <div class="version-card__facts" data-astro-cid-k7pmibev> ${renderComponent($$result, "Badge", $$Badge, {
 			"Variant": "active",
 			"data-astro-cid-k7pmibev": true

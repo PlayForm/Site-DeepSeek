@@ -1,7 +1,7 @@
 import { C as Mention, D as __exportAll, E as createComponent, a as Links, b as Versions, c as Families, n as $$Base, r as Link, s as Counts, t as $$Badge, x as $$BrandIcon } from "./Badge_BcqTIV8g.mjs";
 import { E as unescapeHTML, _ as maybeRenderHead, g as renderTemplate, l as renderComponent, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
+import { t as $$Concept } from "./Concept_Cc5AWIMu.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$Terminal } from "./Terminal_BMZtWhRH.mjs";
 import { t as $$CodeBlock } from "./CodeBlock_D0mCXfg1.mjs";
@@ -190,7 +190,7 @@ var $$HookDshCcr = createComponent(($$result, $$props, $$slots) => {
 			Field: "autoExpand",
 			Type: "boolean",
 			Default: "true",
-			Meaning: "store + preview, but return the FULL content while under the limit - no marker reaches the model"
+			Meaning: "store + preview, but return the FULL content while under the limit - NO marker reaches the model"
 		},
 		{
 			Field: "autoExpandLimitBytes",
@@ -202,7 +202,7 @@ var $$HookDshCcr = createComponent(($$result, $$props, $$slots) => {
 			Field: "compressFailures",
 			Type: "boolean",
 			Default: "false",
-			Meaning: "compress failing results too - the error ×8 tier is the only beneficiary"
+			Meaning: "compress failing results too - the error ×8 tier is the ONLY beneficiary"
 		},
 		{
 			Field: "multipliers",
@@ -214,7 +214,7 @@ var $$HookDshCcr = createComponent(($$result, $$props, $$slots) => {
 			Field: "previewMaxChars",
 			Type: "number",
 			Default: "240",
-			Meaning: "hard character cap on every preview line (volatile)"
+			Meaning: "hard character cap on EVERY preview line (volatile)"
 		},
 		{
 			Field: "ttlSeconds",
@@ -226,7 +226,7 @@ var $$HookDshCcr = createComponent(($$result, $$props, $$slots) => {
 			Field: "storeBudgetBytes",
 			Type: "number",
 			Default: "268435456",
-			Meaning: "the LRU budget in bytes (256 MiB); the just-inserted entry is never evicted"
+			Meaning: "the LRU budget in bytes (256 MiB); the just-inserted entry is NEVER evicted"
 		},
 		{
 			Field: "journalPath",

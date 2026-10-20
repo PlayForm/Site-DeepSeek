@@ -1,7 +1,7 @@
 import { C as Mention, D as __exportAll, E as createComponent, S as DotSep, T as createAstro, _ as Steps, a as Links, b as Versions, n as $$Base, r as Link, t as $$Badge, w as renderScript, x as $$BrandIcon, y as Totals } from "./Badge_BcqTIV8g.mjs";
 import { E as unescapeHTML, _ as maybeRenderHead, g as renderTemplate, l as renderComponent, u as Fragment, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
+import { t as $$Concept } from "./Concept_Cc5AWIMu.mjs";
 import { t as $$PageHero } from "./PageHero_CSrnuBSY.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$CodeBlock } from "./CodeBlock_D0mCXfg1.mjs";
@@ -554,7 +554,7 @@ var $$Setup = createComponent(($$result, $$props, $$slots) => {
 				"not at install time.",
 				"dev loop: edit - build - restart."
 			],
-			Outcome: "Every rebuilt Target is fresh on the next restart - the bundles list plus the patches load at boot."
+			Outcome: "EVERY rebuilt Target is fresh on the next restart - the bundles list plus the patches load at boot."
 		},
 		{
 			N: 4,
@@ -1033,9 +1033,9 @@ EVERY knob of BOTH plugins is volatile.
 		"Title": "Separate ledgers, separate concerns",
 		"Diagram": "The governor's, the pinner's and the cargo governor's ledgers as three separate files - activating one never implying another."
 	}, { "default": ($$result) => renderTemplate` <p>
-Each plugin writes its own durable ledger - the governor's, the pinner's and
-						the cargo governor's are separate files and separate concerns: activating
-						one never implies another.
+EACH plugin writes its own durable ledger.
+						The governor's, the pinner's and the cargo governor's are separate files and separate concerns.
+						Activating ONE NEVER implies another.
 </p> ` })} ${renderComponent($$result, "Concept", $$Concept, {
 		"ID": "setup-line-format",
 		"Title": "The line format",
@@ -1047,7 +1047,7 @@ Each plugin writes its own durable ledger - the governor's, the pinner's and
 		"Name": "terminal",
 		"Size": "0.9em"
 	})}Ledger
-</th> <th>First line at boot</th> </tr> </thead> <tbody> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-package-governor/Source"), "href")}>hook-dsh-package-governor</a></td> <td>~/.dsh/hook-dsh-package-governor.log</td> <td>activated (anywhere mode, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source"), "href")}>hook-dsh-package-pinner</a></td> <td>~/.dsh/hook-dsh-package-pinner.log</td> <td>activated (pinner, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-cargo-governor/Source"), "href")}>hook-dsh-cargo-governor</a></td> <td>~/.dsh/hook-dsh-cargo-governor.log</td> <td>activated (cargo flavor, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source"), "href")}>hook-dsh-normalize-dash</a></td> <td>~/.dsh/hook-dsh-normalize-dash.log</td> <td>activated (replacement=-, reasoning=on, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-file/Source"), "href")}>hook-dsh-normalize-file</a></td> <td>~/.dsh/hook-dsh-normalize-file.log</td> <td>activated (replacement=-, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-ccr/Source"), "href")}>hook-dsh-ccr</a></td> <td>~/.dsh/ccr.log</td> <td>activated (bundle 0.0.1, targets 8, budget 268435456)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-tool-coach/Source"), "href")}>hook-dsh-tool-coach</a></td> <td>~/.dsh/hook-dsh-tool-coach.log</td> <td>no boot line - the tier-0 ledger starts at the first offense</td> </tr> </tbody> </table> </div> </section> <!-- The known gaps: where users hit them, stated as they are - the
+</th> <th>First line at boot</th> </tr> </thead> <tbody> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-package-governor/Source"), "href")}>hook-dsh-package-governor</a></td> <td>~/.dsh/hook-dsh-package-governor.log</td> <td>activated (anywhere mode, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source"), "href")}>hook-dsh-package-pinner</a></td> <td>~/.dsh/hook-dsh-package-pinner.log</td> <td>activated (pinner, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-cargo-governor/Source"), "href")}>hook-dsh-cargo-governor</a></td> <td>~/.dsh/hook-dsh-cargo-governor.log</td> <td>activated (cargo flavor, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source"), "href")}>hook-dsh-normalize-dash</a></td> <td>~/.dsh/hook-dsh-normalize-dash.log</td> <td>activated (replacement=-, reasoning=on, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-file/Source"), "href")}>hook-dsh-normalize-file</a></td> <td>~/.dsh/hook-dsh-normalize-file.log</td> <td>activated (replacement=-, ...)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-ccr/Source"), "href")}>hook-dsh-ccr</a></td> <td>~/.dsh/ccr.log</td> <td>activated (bundle 0.0.1, targets 8, budget 268435456)</td> </tr> <tr> <td><a${addAttribute(Link(Links.OurRepo, "Classic/packages/hook-dsh-tool-coach/Source"), "href")}>hook-dsh-tool-coach</a></td> <td>~/.dsh/hook-dsh-tool-coach.log</td> <td>NO boot line - the tier-0 ledger starts at the first offense</td> </tr> </tbody> </table> </div> </section> <!-- The known gaps: where users hit them, stated as they are - the
 			corrected claims stay, no marketing gloss. --> <section class="section"> ${renderComponent($$result, "SectionHeader", $$SectionHeader, {
 		"Title": "Pitfalls",
 		"Meta": "THE KNOWN GAPS"

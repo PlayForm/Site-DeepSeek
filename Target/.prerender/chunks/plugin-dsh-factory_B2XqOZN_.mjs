@@ -2,7 +2,7 @@ import { D as __exportAll, E as createComponent, a as Links, b as Versions, c as
 import { _ as maybeRenderHead, g as renderTemplate, l as renderComponent, y as addAttribute } from "./server_DzHHf9NM.mjs";
 import { t as $$ArrowIcon } from "./ArrowIcon_DerRPTTd.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
+import { t as $$Concept } from "./Concept_Cc5AWIMu.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 import { t as $$Terminal } from "./Terminal_BMZtWhRH.mjs";
 import { t as $$CodeBlock } from "./CodeBlock_D0mCXfg1.mjs";

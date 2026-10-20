@@ -1,7 +1,7 @@
 import { D as __exportAll, E as createComponent, n as $$Base, s as Counts, t as $$Badge, x as $$BrandIcon } from "./Badge_BcqTIV8g.mjs";
 import { _ as maybeRenderHead, g as renderTemplate, l as renderComponent } from "./server_DzHHf9NM.mjs";
 import { t as $$Card } from "./Card_CsNNQgw0.mjs";
-import { t as $$Concept } from "./Concept_B-uQEyUE.mjs";
+import { t as $$Concept } from "./Concept_Cc5AWIMu.mjs";
 import { t as $$PageHero } from "./PageHero_CSrnuBSY.mjs";
 import { t as $$SectionHeader } from "./SectionHeader_CwH-UUI4.mjs";
 //#region Source/pages/models.astro
