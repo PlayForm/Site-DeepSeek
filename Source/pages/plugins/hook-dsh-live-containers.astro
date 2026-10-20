@@ -19,7 +19,7 @@ const Listeners = [
 		N: "1",
 		Event: "system-prompt/assemble",
 		Mode: "waterfall, after next(), append-only, interpolate: false",
-		Purpose: "the ONE live section: every enabled block inside its LIVE CONTAINER frame",
+		Purpose: "the ONE live section: EVERY enabled block inside its LIVE CONTAINER frame",
 	},
 	{
 		N: "2",
@@ -84,13 +84,13 @@ const Config = [
 		Field: "logFile",
 		Type: "string",
 		Default: "~/.dsh/live-containers.log",
-		Meaning: "the module's own ledger, SEPARATE from the family's logs (one log per module)",
+		Meaning: "the module's own ledger, SEPARATE from the family's logs (ONE log per module)",
 	},
 	{
 		Field: "enabled",
 		Type: "boolean",
 		Default: "false",
-		Meaning: "the MASTER switch - the IDLE-forever posture: the plugin ships disabled and enables only by an explicit ACTIVATE",
+		Meaning: "the MASTER switch - the IDLE-forever posture: the plugin ships disabled and enables ONLY by an explicit ACTIVATE",
 	},
 	{
 		Field: "sectionName",
@@ -120,7 +120,7 @@ const Config = [
 		Field: "sectionBudgetBytes",
 		Type: "number",
 		Default: "4096",
-		Meaning: "when the rendered body exceeds this, the OLDEST frames collapse to one-line summaries - never silently dropped",
+		Meaning: "when the rendered body exceeds this, the OLDEST frames collapse to one-line summaries - NEVER silently dropped",
 	},
 	{
 		Field: "blocks",
@@ -165,19 +165,19 @@ const LedgerStrings = [
 const Related = [
 	{
 		Name: "plugin-dsh-factory",
-		Desc: "The family's furnace: the Schema(false, {...}) helper composing this module's NON-MANIFEST config schema, the ledger Append layer and the loader/volatile-update refresh the State builder registers.",
+		Desc: "The family's furnace: the Schema(false, {...}) helper composing this module's NON-MANIFEST config schema. The ledger Append layer. And the loader/volatile-update refresh the State builder registers.",
 	},
 	{
 		Name: "hook-dsh-tool-coach",
-		Desc: "The precedent on the same assemble waterfall: the coach's tier-2 persistent section established the append-only, after-next() pattern the live section follows - and the sectionTtl caching pattern behind refresh: ttl.",
+		Desc: "The precedent on the same assemble waterfall: the coach's tier-2 persistent section established the append-only, after-next() pattern the live section follows. It also established the sectionTtl caching pattern behind refresh: ttl.",
 	},
 	{
 		Name: "hook-dsh-core",
-		Desc: "The Activate composer behind the durable activation proof: the activated (bundle ..., blocks=..., refresh=...) line is built from the shared helper, so 'did it activate' is answerable from the ledger alone.",
+		Desc: "The Activate composer behind the durable activation proof: the activated (bundle ..., blocks=..., refresh=...) line is built from the shared helper. So 'did it activate' is answerable from the ledger alone.",
 	},
 	{
 		Name: "hook-dsh-ccr",
-		Desc: "The sibling observer on tools/post-execute: the live-containers post-execute listener registers plain, after the ccr { prepend: true } listener, and never replaces content - it only counts.",
+		Desc: "The sibling observer on tools/post-execute: the live-containers post-execute listener registers plain, after the ccr { prepend: true } listener, and NEVER replaces content. It ONLY counts.",
 	},
 ];
 ---
@@ -205,43 +205,30 @@ const Related = [
 				Plugin Family for PlayForm.</em>
 			</p>
 			<p class="page-hero__sub">
-				The <strong>live-containers hook</strong> of the
-				DeepSeek Harness - a plugin that keeps <strong>dynamic, modifiable conversation
-				blocks in the system prompt</strong>.
+				The <strong>live-containers hook</strong> of the DeepSeek Harness - a plugin that keeps <strong>dynamic, modifiable conversation blocks in the system prompt</strong>.
 			</p>
 			<p class="page-hero__sub">
-				Each enabled block is a labeled stanza
-				recomputed at EVERY request.
-				The canonical example is a time block that always
-				holds the current time at ask-time while the rest of the conversation stays
-				static.
+				Each enabled block is a labeled stanza recomputed at EVERY request.
+				The canonical example is a time block that ALWAYS holds the current time at ask-time while the rest of the conversation stays static.
 			</p>
 			<p class="page-hero__sub">
-				The blocks ride the <code>system-prompt/assemble</code> waterfall as ONE
-				appended section named <code>live-containers</code> (<code>interpolate: false</code>,
-				so ONLY the plugin's own substitution engine touches its <code>{"{{token}}"}</code>{" "}
-				groups).
-				Each block sits inside a fixed frame so the model cannot mistake it for
-				harness state.
+				The blocks ride the <code>system-prompt/assemble</code> waterfall as ONE appended section named <code>live-containers</code> (<code>interpolate: false</code>, so ONLY the plugin's own substitution engine touches its <code>{"{{token}}"}</code> groups).
+				Each block sits inside a fixed frame so the model cannot mistake it for harness state.
 			</p>
 			<p class="page-hero__sub"><strong>Planned - not yet in the profile.</strong></p>
-			<p class="page-hero__sub">The
-				plugin ships DISABLED (the IDLE-forever posture).
-				The bundle entry declares{" "}
-				<code>enabled: false</code> ONLY.
-				The plugin NEVER appears in the profile's
-				bundles.
+			<p class="page-hero__sub">
+				The plugin ships DISABLED (the IDLE-forever posture).
+				The bundle entry declares <code>enabled: false</code> ONLY.
+				The plugin NEVER appears in the profile's bundles.
 				It enables ONLY by an explicit ACTIVATE.
 			</p>
 			<p class="page-hero__sub">
-				A cold mount logs{" "}
-				<code>disabled (enabled=false)</code> and every listener no-ops to a passthrough.
+				A cold mount logs <code>disabled (enabled=false)</code> and EVERY listener no-ops to a passthrough.
 			</p>
-			<p class="page-hero__sub">A NON-MANIFEST factory flavor.
-				The family's furnace
-				composes the schema and the volatile refresh.
-				This package owns its schema and
-				its strings.
+			<p class="page-hero__sub">
+				A NON-MANIFEST factory flavor.
+				The family's furnace composes the schema and the volatile refresh.
+				This package owns its schema and its strings.
 			</p>
 		</section>
 
@@ -282,16 +269,12 @@ const Related = [
 					Diagram={`${Families.LiveContainers} as a hook child of the plugin-dsh-factory service - no hook children of its own - a NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema): the plugin owns its schema and its strings. apply returns NOTHING; the state is exposed via ctx.__hookDshLiveContainersState.`}
 				>
 					<p>
-						A hook child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.LiveContainers}).
-						A
-						NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema) -
-						the plugin owns its schema and its strings.
+						A hook child of the <strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.LiveContainers}).
+						A NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema) - the plugin owns its schema and its strings.
 					</p>
 					<p>
 						<code>apply</code> returns NOTHING.
-						The state is exposed via{" "}
-						<code>ctx.__hookDshLiveContainersState</code>.{" "}
+						The state is exposed via <code>ctx.__hookDshLiveContainersState</code>.{" "}
 						<code>inject: ["pluginFactory", "tools"]</code>.
 					</p>
 				</Concept>
@@ -346,18 +329,18 @@ const Related = [
 					},
 					{
 						Seam: "tools/change - the cache invalidation",
-						What: "Listener 4 (tools/change emit): clears every live scope's section cache so the next assembly rebuilds the body from the NEW registry (logging section rebuilt (tools/change)).",
+						What: "Listener 4 (tools/change emit): clears EVERY live scope's section cache so the next assembly rebuilds the body from the NEW registry (logging section rebuilt (tools/change)).",
 						Outcome:
-							"The section never shows a stale registry view.",
+							"The section NEVER shows a stale registry view.",
 					},
 					{
 						Seam: "loader/volatile-update - the volatile refresh",
-						What: "EVERY knob of the config schema is volatile: the factory's State builder registers the loader/volatile-update listener and refreshes the mapped State fields IN PLACE, so a flip (enabled, refresh, ttlCalls, separator, sectionBudgetBytes, the block table, ...) takes effect on the next assembly - no remounting.",
+						What: "EVERY knob of the config schema is volatile. The factory's State builder registers the loader/volatile-update listener and refreshes the mapped State fields IN PLACE. So a flip (enabled, refresh, ttlCalls, separator, sectionBudgetBytes, the block table, ...) takes effect on the next assembly - no remounting.",
 						Outcome: "The smoke suite asserts the flip lands live.",
 					},
 					{
 						Seam: "The ledger / session",
-						What: "One log per module - logFile (default ~/.dsh/live-containers.log) - recording the nine byte-exact strings in [ISO] form with the live-containers: logger prefix; apply returns NOTHING, so 'did it activate' is answerable from the ledger and the state attachment alone.",
+						What: "ONE log per module - logFile (default ~/.dsh/live-containers.log). It records the nine byte-exact strings in [ISO] form with the live-containers: logger prefix. apply returns NOTHING, so 'did it activate' is answerable from the ledger and the state attachment alone.",
 						Outcome:
 							"The live-section state is discoverable from the ledger alone.",
 					},
@@ -374,14 +357,11 @@ const Related = [
 					Diagram="The dashes come from config separator (default ---). The frame text is the plugin's own output - never harness state - and the parenthetical says so to the model on every block: (recomputed each request; not harness state)."
 				>
 					<p>
-						The frame is the plugin's own output, <strong>never harness state</strong>{" "}
-						- the safety framing the model sees on every block.
+						The frame is the plugin's own output, <strong>NEVER harness state</strong> - the safety framing the model sees on EVERY block.
 					</p>
 					<p>
-						Substitution is{" "}
-						<code>{"{{token}}"}</code> replace ONLY - no eval, no expressions; an
-						unknown token renders LITERALLY and logs{" "}
-						<code>render unknown &lt;id&gt; &lt;token&gt;</code> - never a failure.
+						Substitution is <code>{"{{token}}"}</code> replace ONLY - no eval, no expressions.
+						An unknown token renders LITERALLY and logs <code>render unknown &lt;id&gt; &lt;token&gt;</code> - never a failure.
 					</p>
 				</Concept>
 			</div>
@@ -400,12 +380,10 @@ const Related = [
 					Diagram="The KINDS registry drives both the fail-loud config validation (an unknown kind throws at load) and the render dispatch. Phase 1 renders six kinds; the wave-2 catalog kinds (todo-list, command-runner, session-stats, ... - 14 entries in the default block table, three enabled) are ACCEPTED in config and render as skipped blocks - reason 'unknown kind' - until the wave-2 render engine lands."
 				>
 					<p>
-						The wave-2 catalog kinds cost nothing and render nothing in this package
-						yet - documented honestly.
+						The wave-2 catalog kinds cost nothing and render nothing in this package yet - documented honestly.
 					</p>
 					<p>
-						Tokens the phase-1 engine does not resolve
-						(<code>{"{{set:NAME}}"}</code>) render literally.
+						Tokens the phase-1 engine does not resolve (<code>{"{{set:NAME}}"}</code>) render literally.
 					</p>
 				</Concept>
 			</div>
@@ -442,8 +420,8 @@ const Related = [
 					Diagram="The factory's standalone Schema(false, {...}) helper validating and filling every default at load; every knob volatile - a flip lands on the next assembly. Fail-loud validation in apply: sectionName/separator non-empty, refresh in {request, ttl}, ttlCalls >= 1, sectionBudgetBytes >= 1, every block id non-empty and unique, kind in the KINDS registry, template non-empty, vars a dict of strings, trigger and scope in their unions."
 				>
 					<p>
-						New patch entries are declared with <code>insert:</code>. The shipped
-						entry (the IDLE-forever posture - nothing but the disabled switch):
+						New patch entries are declared with <code>insert:</code>.
+						The shipped entry (the IDLE-forever posture - nothing but the disabled switch):
 					</p>
 				</Concept>
 			</div>
@@ -492,9 +470,7 @@ const Related = [
 					Diagram="With the plugin ACTIVATEd (enabled: true) and the default table: the time block re-renders per request so {{time}} always holds the current wall clock; the wave-2 entries skip as 'unknown kind'; with refresh: ttl the section text holds for ttlCalls (8) assemblies and the prefix stays reusable; an oversized body collapses its oldest frames - never silently dropped."
 				>
 					<p>
-						The canonical example: a <code>time</code> block whose{" "}
-						<code>{"{{time}}"}</code> always holds the current time at ask-time, while
-						the rest of the conversation stays static.
+						The canonical example: a <code>time</code> block whose <code>{"{{time}}"}</code> ALWAYS holds the current time at ask-time, while the rest of the conversation stays static.
 					</p>
 				</Concept>
 			</div>

@@ -58,7 +58,7 @@ const {
 // rule, the same treatment the stream pane labels run). The pages' custom
 // labels keep their bytes: a leading RAW word (any case) gets wrapped,
 // any other label renders untouched (the file page's "Before - ...").
-const RawMatch = RawLabel.match(/^RAW(?=[\s-]|$)/i);
+const Match = RawLabel.match(/^RAW(?=[\s-]|$)/i);
 
 // ---- Escape: every character becomes safe HTML text ----
 function Escape(Text: string): string {
@@ -177,10 +177,10 @@ const CleanText = Clean.join("\n");
 		<span class="compare__legend-item">
 			<span class="dot dot--raw"></span>
 			<span class="compare__legend-label">
-				{RawMatch ? (
+				{Match ? (
 					<>
-						<span class="compare__legend-raw">{RawMatch[0]}</span>
-						{RawLabel.slice(RawMatch[0].length)}
+						<span class="compare__legend-raw">{Match[0]}</span>
+						{RawLabel.slice(Match[0].length)}
 					</>
 				) : (
 					RawLabel

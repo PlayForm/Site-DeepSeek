@@ -40,7 +40,7 @@ const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDT
 
 		<PageHero
 			Title="Built to serve any LLM."
-			Sub={"The family is model-agnostic by construction. It hooks the harness's token output stream, NOT the model.\nWhatever LLM produced the text - DeepSeek, GLM, or the next one - the same six stream flavors and two governance roles apply, because unicode drift and unpinned manifests are model-independent problems."}
+			Sub={"The family is model-agnostic by construction. It hooks the harness's token output stream, NOT the model.\nWhatever LLM produced the text - DeepSeek, GLM, or the next one - the same six stream flavors and two governance roles apply. Unicode drift and unpinned manifests are model-independent problems."}
 		/>
 
 		<!-- The reference models -->
@@ -98,7 +98,7 @@ const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDT
 					</svg>
 					Model Independence
 				</div>
-				<p class="independence__title">Normalizers sit on the stream, not on the model.</p>
+				<p class="independence__title">Normalizers sit on the stream, NOT on the model.</p>
 				<div class="concept-list">
 					<Concept
 						ID="models-routes"
@@ -120,8 +120,9 @@ const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDT
 					>
 						<p>
 							The dash, quotes, ellipsis, spaces, invisible and fullwidth flavors run on
-							EVERY token batch before it reaches your files. The file flavor re-normalizes
-							what is already on disk. The governor and pinner keep EVERY manifest pinned -
+							EVERY token batch before it reaches your files.
+							The file flavor re-normalizes what is already on disk.
+							The governor and pinner keep EVERY manifest pinned -
 							regardless of which engine wrote the output.
 						</p>
 						<p>

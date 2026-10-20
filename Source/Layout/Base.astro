@@ -39,17 +39,17 @@ function Current(Href: string) {
 }
 
 // The site identity: canonical, Open Graph and Twitter URLs composed from
-// Links.Site (the registry) + the page path; the og:image is the rendered
-// brand asset. The JSON-LD describes the family as a SoftwareApplication
+// Links.Site (the registry) + the page path.
+// The og:image is the rendered brand asset.
+// The JSON-LD describes the family as a SoftwareApplication
 // with the fifteen packages as parts (the values from the content library).
 const SiteURL = Links.Site.replace(/\/$/, "");
 const Canonical = `${SiteURL}${Path === "/" ? "/" : Path}`;
 const OgImage = `${SiteURL}/Brand/OG.png`;
 
-// The fifteen release packages (the register #15 names, npm form) - the
-// SoftwareApplication's parts. The names are LIVE: Library/Live.ts reads the
-// Classic tree's package.json files at build time, kept in this canonical
-// order, with any package missing from the list appended alphabetically.
+// The fifteen release packages (the register #15 names, npm form) - the SoftwareApplication's parts.
+// The names are LIVE: Library/Live.ts reads the Classic tree's package.json files at build time.
+// Kept in this canonical order, with ANY package missing from the list appended alphabetically.
 const CanonicalPackages = [
 	"@playform/hook-dsh-ccr",
 	"@playform/hook-dsh-core",
@@ -77,7 +77,7 @@ const JSONLd = {
 	"@type": "SoftwareApplication",
 	name: "DSH Family @ PlayForm",
 	description:
-		"The DeepSeek Harness plugin family: deterministic AI engine harnesses for production workloads - fifteen packages, fourteen smoke suites.",
+		"The DeepSeek Harness plugin family: deterministic AI engine harnesses for production workloads. Fifteen packages, fourteen smoke suites.",
 	url: SiteURL,
 	applicationCategory: "DeveloperApplication",
 	operatingSystem: "Any",
@@ -101,13 +101,13 @@ const JSONLd = {
 			document.documentElement.classList.add("js");
 		</script>
 		<script is:inline>
-			// The theme bridge, set BEFORE first paint: a stored toggle wins;
-			// without one the OS prefers-color-scheme decides. Every later
-			// toggle (the header switch) only flips this attribute and the
-			// tokens follow - see the [data-theme="dark"] block in Global.css.
-			// is:inline: Astro hoists plain head scripts into bundled modules
-			// (which never execute in time), so this one must stay a blocking
-			// inline script to beat the first paint.
+			// The theme bridge is set BEFORE first paint.
+			// A stored toggle wins.
+			// WITHOUT one, the OS prefers-color-scheme decides.
+			// Every later toggle (the header switch) ONLY flips this attribute and the tokens follow.
+			// See the [data-theme="dark"] block in Global.css.
+			// is:inline: Astro hoists plain head scripts into bundled modules (which NEVER execute in time).
+			// This one must stay a blocking inline script to beat the first paint.
 			(() => {
 				const Key = "dsh-theme";
 				let Theme = null;

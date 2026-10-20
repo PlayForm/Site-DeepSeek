@@ -56,10 +56,10 @@ const Match = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
 			</svg>
 		)}
 		<span class="tray__label-text">
-			{RawMatch ? (
+			{Match ? (
 				<>
-					<span class="tray__label-raw">{RawMatch[0]}</span>
-					{Label.slice(RawMatch[0].length)}
+					<span class="tray__label-raw">{Match[0]}</span>
+					{Label.slice(Match[0].length)}
 				</>
 			) : (
 				Label

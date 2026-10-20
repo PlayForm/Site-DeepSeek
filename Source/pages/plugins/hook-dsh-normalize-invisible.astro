@@ -257,21 +257,24 @@ const LedgerStrings = [
 			<p class="page-hero__sub">
 				{Families.Invisible} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin
 				Family for PlayForm.</em> The{" "}
-				<strong>invisible-character normalizer for model output</strong> - a DeepSeek
-				Harness plugin that hooks the{" "}
+				<strong>invisible-character normalizer for model output</strong>.
+				A DeepSeek Harness plugin that hooks the{" "}
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>{" "}
-				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
-				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>
-				) and normalizes the zero-width/invisible character family in model output, live in
-				the transcript - by REMOVING it: zero-width spaces, joiners, bidi controls and the
-				BOM character simply vanish (the default replacement is the empty string).</p>
+				waterfall.
+				The waterfall is the interceptable wrapper around EVERY streaming model call, bound to the{" "}
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>.
+				The hook normalizes the zero-width/invisible character family in model output, LIVE
+				in the transcript - by REMOVING it.
+				Zero-width spaces, joiners, bidi controls and the BOM character simply vanish.
+				The default replacement is the empty string.</p>
 			<p class="page-hero__sub">A CLASS
 				flavor of the normalize family: the core's <code>Invisible</code> class plus a
 				configurable <code>replacement</code> string (default <code>""</code> - removal).</p>
 			<p class="page-hero__sub">
 				The family's raw-write tool (registered by{" "}
 				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>hook-dsh-normalize-dash</a>
-				) bypasses this flavor's transforms too - the exemption is family-wide.
+				) bypasses this flavor's transforms too.
+				The exemption is family-wide.
 			
 			</p>
 		</section>
@@ -369,7 +372,7 @@ const LedgerStrings = [
 				>
 					<p>
 						It injects{" "}
-						<code>["pluginFactory"]</code> and uses only <code>State</code> (cell unwrap
+						<code>["pluginFactory"]</code> and uses ONLY <code>State</code> (cell unwrap
 						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>.
 						The config is composed by the factory's standalone <code>Schema</code>{" "}
 						helper with
@@ -444,9 +447,9 @@ const LedgerStrings = [
 					<p>
 						A zero-width joiner inside a file path, a right-to-left mark inside a
 						command, the <code class="code-token">U+202E</code> visual-spoofing override
-						in what looks like plain text:
-						none of them show up in the transcript, all of them change what a parser,
-						shell or diff sees.</p>
+						in what looks like plain text.
+						NONE of them show up in the transcript.
+						ALL of them change what a parser, shell or diff sees.</p>
 					<p>This flavor deletes the whole family before it reaches
 						the transcript.
 					
@@ -513,8 +516,8 @@ const LedgerStrings = [
 					Diagram="No context rules, chunk-boundary-safe - single-character replacement, no lookahead, per-chunk application never disagreeing with whole-text application; the replacement applied with a function replacer so a custom replacement containing $ patterns is inserted literally; replaced characters counted per stream for the ledger line."
 				>
 					<p>
-						No context rules, chunk-boundary-safe - single-character replacement, no
-						lookahead, per-chunk application can never disagree with whole-text
+						NO context rules, chunk-boundary-safe - single-character replacement, NO
+						lookahead, per-chunk application can NEVER disagree with whole-text
 						application.
 					</p>
 					<p>
@@ -563,7 +566,7 @@ const LedgerStrings = [
 					Diagram="The volatile cells committing without remounting the plugin - the factory's State builder unwrapping them defensively."
 				>
 					<p>
-						They commit without remounting the plugin; the factory's State
+						They commit WITHOUT remounting the plugin; the factory's State
 						builder unwraps them defensively.
 					</p>
 					<p>
@@ -610,24 +613,24 @@ const LedgerStrings = [
 					Diagram="The scopes object gating every arm of the hook-dsh-normalize-invisible hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 				>
 					<p>
-						The <code>scopes</code> object gates every arm of the{" "}
+						The <code>scopes</code> object gates EVERY arm of the{" "}
 						<code>hook-dsh-normalize-invisible</code> hook independently - conversation,
 						reasoning, toolInput, toolResults, files, batch - with the defaults exactly
 						the pre-scopes behavior.
 					</p>
 					<p>
-						The whole object is <strong>volatile</strong>: one leaf change commits one{" "}
+						The whole object is <strong>volatile</strong>: ONE leaf change commits ONE{" "}
 						<code>loader/volatile-update</code> dispatch whose whole object the State's
-						refresh listener re-reads - live, silent, no remount, no new activation
+						refresh listener re-reads - LIVE, silent, NO remount, NO new activation
 						line (a flip lands on the next stream).
 					</p>
 					<p>
 						The tool-input arm: effective tool-input normalization is{" "}
 						<code>normalizeToolArguments || scopes.toolInput</code> - the field is kept
-						and OR-ed in, so every existing profile keeps working.
+						and OR-ed in, so EVERY existing profile keeps working.
 					</p>
 					<p>
-						It is the only execution-critical arm, and it carries the per-call escape
+						It is the ONLY execution-critical arm, and it carries the per-call escape
 						hatch: a call whose arguments open with the{" "}
 						<code>&#123;"__normalize":false&#125;</code> FIRST-key marker passes
 						through unnormalized, the marker entry stripped (the executed call carries
@@ -639,7 +642,7 @@ const LedgerStrings = [
 						invisible to the probe and the call normalizes normally.
 					</p>
 					<p>
-						Three structural exemptions are never rewritten: the <code>edit</code> call
+						Three structural exemptions are NEVER rewritten: the <code>edit</code> call
 						(its <code>old_string</code> must match the real file bytes), the{" "}
 						<code>raw-write</code> call (it owns its content normalization through its
 						explicit <code>normalize</code> parameter) and the <code>normalize-file</code>{" "}
@@ -649,8 +652,8 @@ const LedgerStrings = [
 					<p>
 						And the overpass invisibility contract: the tool-results arm replaces the
 						bytes PRE-COMMIT - the waterfall settles before the result is appended to
-						the durable log - so the model only ever sees the normalized output and
-						never notices the replacement; the exemption list plus the{" "}
+						the durable log - so the model ONLY ever sees the normalized output and
+						NEVER notices the replacement; the exemption list plus the{" "}
 						<code>&lt;&lt;&lt;CCR:</code> marker guard define what passes untouched.
 					</p>
 					<p>
@@ -711,11 +714,11 @@ const LedgerStrings = [
 						<strong>Step batch</strong> - <code>agent/pre-step</code>, default order.
 					</p>
 					<p>
-						While <code>scopes.batch</code> is on, every incoming batch is normalized;
+						While <code>scopes.batch</code> is on, EVERY incoming batch is normalized;
 						the command's one-shot arm fires ONCE regardless of the scope value and is
 						cleared after one use.
 					</p>
-					<p>Text blocks only; never the assistant/tool history.</p>
+					<p>Text blocks ONLY; NEVER the assistant/tool history.</p>
 					<p>The overpass lines (N &gt; 0 only):</p>
 				</Concept>
 			</div>
@@ -826,9 +829,9 @@ const LedgerStrings = [
 			</p>
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The activation line is written by <code>apply()</code>; the count line only follows
-				a normal stream completion and only when N &gt; 0 (a thrown-away stream writes no
-				ledger line).
+				The activation line is written by <code>apply()</code>.
+				The count line ONLY follows a normal stream completion and ONLY when N &gt; 0.
+				A thrown-away stream writes NO ledger line.
 			</p>
 		</section>
 

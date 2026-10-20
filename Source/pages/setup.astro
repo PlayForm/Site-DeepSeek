@@ -808,11 +808,11 @@ const Knobs = [
 							<td><strong>Load order is not list order</strong></td>
 							<td>
 								The pinner can activate before the governor at boot - the
-								registration order is not controlled.
+								registration order is NOT controlled.
 							</td>
 							<td>
-								Never rely on the bundles-list order for step ordering; the fold
-								and the fresh-version writes make the order irrelevant. Each
+								NEVER rely on the bundles-list order for step ordering; the fold
+								and the fresh-version writes make the order irrelevant. EACH
 								ledger answers for its own plugin.
 							</td>
 						</tr>
@@ -824,7 +824,7 @@ const Knobs = [
 								<code>pnpm install</code> has no registry to install from.
 							</td>
 							<td>
-								The documented cordis registry trap: the failure is expected, not
+								The documented cordis registry trap: the failure is expected, NOT
 								a bug. Exit 127 (the runner unavailable) is non-fatal; any other
 								failure trips the circuit breaker (<code>maxUpdateFailures</code>).
 							</td>
@@ -832,12 +832,12 @@ const Knobs = [
 						<tr>
 							<td><strong>The smoke/live fidelity gap</strong></td>
 							<td>
-								All {Totals.Classic} + {Totals.EffectTS} smokes green does not prove the profile wiring -
-								every real bug was found live, not by the smokes.
+								ALL {Totals.Classic} + {Totals.EffectTS} smokes green does NOT prove the profile wiring -
+								EVERY real bug was found LIVE, NOT by the smokes.
 							</td>
 							<td>
-								The smokes prove the mechanics; the live battery proves the
-								wiring. Verify the ledgers after every restart.
+								The smokes prove the mechanics; the LIVE battery proves the
+								wiring. Verify the ledgers after EVERY restart.
 							</td>
 						</tr>
 						<tr>
@@ -847,7 +847,7 @@ const Knobs = [
 								milliseconds; the local display adds +03.
 							</td>
 							<td>
-								The "missing records" scares were filter mistakes, not lost data -
+								The "missing records" scares were filter mistakes, NOT lost data -
 								check the timezone before hunting for loss.
 							</td>
 						</tr>
@@ -867,7 +867,7 @@ const Knobs = [
 							<td><strong>The raw-write marker semantics</strong></td>
 							<td>
 								<code>govern</code> absent = no chain (the escape hatch); a
-								marked call passes through only when marked.
+								marked call passes through ONLY when marked.
 							</td>
 							<td>
 								Markers are stripped before the tool validates - the harness
@@ -881,7 +881,8 @@ const Knobs = [
 			<div class="code-block">{TrapLines.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The verifyCommand lines above are byte-exact ledger strings of the update stage's
-				Verify step; the live battery's <code>governed-chain</code> fixture records the
+				Verify step.
+				The LIVE battery's <code>governed-chain</code> fixture records the
 				running and failure lines, and the smokes assert all four forms.
 			</p>
 		</section>

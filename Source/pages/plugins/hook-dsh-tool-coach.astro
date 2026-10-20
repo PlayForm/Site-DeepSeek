@@ -378,9 +378,8 @@ const Related = [
 					Diagram={`${Families.Coach} as a hook child of the plugin-dsh-factory service - no hook children of its own - a NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema): the coach owns its schema and its strings. ` + `apply returns NOTHING; the state is exposed via ctx.__hookDshToolCoachState.`}
 				>
 					<p>
-						A hook child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.Coach}); a
-						NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema) -
+						A hook child of the <strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.Coach}).
+						A NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema) -
 						the coach owns its schema and its strings.
 					</p>
 					<p>
@@ -421,16 +420,15 @@ const Related = [
 					Diagram={"The coach's tools/post-execute listener registering plain - AFTER the ccr { prepend: true } listener - so it observes the (possibly compressed) result; its tier-1 notes are append-only additionalContexts and the tier-2 section is append-only, touching nothing else (PTC + structured-output preserved). " + "Order safety: the ccr {<<<CCR:} marker guard makes any load order safe, and the coach never replaces content."}
 				>
 					<p>
-						The coach's <code>tools/post-execute</code> listener registers plain -
-						AFTER the <a href="/plugins/hook-dsh-ccr/">ccr</a>{" "}
-						<code>{"{ prepend: true }"}</code> listener - so it observes the
-						(possibly compressed) result.
+						The coach's <code>tools/post-execute</code> listener registers plain.
+						It registers AFTER the <a href="/plugins/hook-dsh-ccr/">ccr</a> <code>{"{ prepend: true }"}</code> listener.
+						So it observes the (possibly compressed) result.
 					</p>
 					<p>
-						Order safety: the <code>&lt;&lt;&lt;CCR:</code> marker guard makes any
-						load order safe, and the coach never replaces content - its tier-1 notes
-						are append-only <code>additionalContexts</code>, the tier-2 section is
-						append-only (PTC + structured-output preserved).
+						The <code>&lt;&lt;&lt;CCR:</code> marker guard makes any load order safe.
+						The coach never replaces content.
+						Its tier-1 notes are append-only <code>additionalContexts</code>.
+						The tier-2 section is append-only (PTC + structured-output preserved).
 					</p>
 				</Concept>
 				<Concept
@@ -439,18 +437,15 @@ const Related = [
 					Diagram={'inject: ["pluginFactory", "tools"] - the config schema composed by the factory\'s standalone Schema(false, {...}) helper (the NON-MANIFEST posture: the coach hooks the tool waterfalls, not fs/observed, so the schema never advertises updateCooldownMs/mutationTools/policyFile/exclude) - plus the factory\'s loader/volatile-update refresh (P10) registered by the State builder.'}
 				>
 					<p>
-						<code>inject: ["pluginFactory", "tools"]</code> - the config schema is
-						composed by the factory's standalone{" "}
-						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}><code>{"Schema(false, {...})"}</code></a>{" "}
-						helper (the NON-MANIFEST posture: the coach hooks the tool waterfalls,
-						not <code>fs/observed</code>, so the schema never advertises
-						updateCooldownMs/mutationTools/policyFile/exclude - machinery the module
-						has none of).
+						<code>inject: ["pluginFactory", "tools"]</code> - the config schema is composed by the factory's standalone{" "}
+						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}><code>{"Schema(false, {...})"}</code></a> helper.
+						The NON-MANIFEST posture: the coach hooks the tool waterfalls, not <code>fs/observed</code>.
+						So the schema never advertises updateCooldownMs/mutationTools/policyFile/exclude - machinery the module has none of.
 					</p>
 					<p>
-						Plus the factory's <code>loader/volatile-update</code> refresh (P10)
-						registered by the State builder: every knob is volatile - hot-edited
-						without remounting; a flip lands on the next judged call.
+						Plus the factory's <code>loader/volatile-update</code> refresh (P10) registered by the State builder.
+						Every knob is volatile - hot-edited without remounting.
+						A flip lands on the next judged call.
 					</p>
 				</Concept>
 			</div>
@@ -514,14 +509,13 @@ const Related = [
 					Diagram="Counting in judged calls, per-agent (a WeakMap keyed on the Agent object): tier 0 logs every offense; tier 1 notes at the threshold with the cooldown; tier 2 turns on the persistent section at the escalation threshold and clears after the clean window; tier 3 denies at the enforce threshold - off by default (enforce: 'off')."
 				>
 					<p>
-						Tier 3 is off by default (<code>enforce: 'off'</code>);
-						<code>write</code> denies only write-class segments, <code>all</code>{" "}
-						adds read and search.
+						Tier 3 is off by default (<code>enforce: 'off'</code>).
+						<code>write</code> denies only write-class segments.
+						<code>all</code> adds read and search.
 					</p>
 					<p>
-						Discovery and control are <strong>never
-						denied</strong>, even at <code>all</code> - flagging them hard would
-						dilute the write/read signal.
+						Discovery and control are <strong>never denied</strong>, even at <code>all</code>.
+						Flagging them hard would dilute the write/read signal.
 					</p>
 				</Concept>
 			</div>
@@ -560,13 +554,13 @@ const Related = [
 					Diagram="Per pipeline (segments split on ; / && / || / &): normalize first (heredoc bodies stripped, subshells and backticks wrapped, variables marked, $IFS to space, quote layers removed, leading command word lowercased), then the pattern rows (24 built-in DEFAULT_PATTERNS; user rows appended, no built-in duplicates - fail-loud), an intent-marker scan, a craft library for the obfuscated variants, and the catch-all - any write-intent marker on a non-/dev/null path lands as write, so novel zero-day forms still count."
 				>
 					<p>
-						Exemptions are checked per pipeline AFTER normalization: an exempt head
-						dominates its pipe (<code>git diff &gt; patch.txt</code> is exempt), a
-						bare <code>echo x &gt; tracked.md</code> is not.
+						Exemptions are checked per pipeline AFTER normalization.
+						An exempt head dominates its pipe (<code>git diff &gt; patch.txt</code> is exempt).
+						A bare <code>echo x &gt; tracked.md</code> is not.
 					</p>
 					<p>
-						Five classes - <strong>write, read, search, discovery, control</strong> -
-						with class-priority resolution across chained segments
+						Five classes: <strong>write, read, search, discovery, control</strong>.
+						Class-priority resolution applies across chained segments
 						(<code>cat a; sed -i ...</code> counts once, as write).
 					</p>
 				</Concept>
@@ -604,8 +598,9 @@ const Related = [
 					Diagram={"ctx.tools.schemas() fetched through the same injection the model's own tools arrive by: the tool name, the FIRST SENTENCE of its description (<= 120 chars, parenthesis-aware) and the primary parameter key (parameters.properties[0]). " + "Tier 1/3 fetch per note; tier 2 caches for sectionTtl (20) judged calls and rebuilds on tools/change. " + "Any fetch failure degrades to the static STATIC_TOOL_LINES table and logs schema fetch failed -> static fallback; fetchLive: false is the escape hatch (static only, no failure line)."}
 				>
 					<p>
-						Template fills are single-pass; user data is escaped before insertion, so
-						composed output never gains an unfilled placeholder.
+						Template fills are single-pass.
+						User data is escaped before insertion.
+						Composed output never gains an unfilled placeholder.
 					</p>
 				</Concept>
 			</div>
@@ -690,9 +685,9 @@ const Related = [
 					Diagram="The model reading file content through the terminal - cat config.json four times inside the window - each offense logging its tier-0 line silently, the fourth crossing the threshold and firing the tier-1 note with the LIVE-fetched read description; six total offenses escalating the persistent section; twelve clean calls clearing it."
 				>
 					<p>
-						The model reads file content through the terminal - <code>cat
-						config.json</code> four times inside the window: each offense logs its
-						tier-0 line silently, the fourth crosses the threshold, the note fires.
+						The model reads file content through the terminal - <code>cat config.json</code> four times inside the window.
+						Each offense logs its tier-0 line silently.
+						The fourth crosses the threshold, the note fires.
 					</p>
 				</Concept>
 			</div>
@@ -707,8 +702,8 @@ const Related = [
 					Diagram={"With enforce: 'write' and the write-class strikes at the enforce threshold, the pre-execute listener returns {kind: 'deny', reason} - the reason being the NOTE_DENIED text - and logs denied bash write <pattern> -> use edit. " + "The deny resets the note counters; the denied call still flows through post-execute, so counting continues."}
 				>
 					<p>
-						With <code>enforce: 'write'</code> and the write-class strikes at the
-						enforce threshold, the call is blocked and the deny reason IS the lesson:
+						With <code>enforce: 'write'</code> and the write-class strikes at the enforce threshold, the call is blocked.
+						The deny reason IS the lesson:
 					</p>
 				</Concept>
 			</div>
@@ -727,12 +722,10 @@ const Related = [
 					Diagram="One log per module - logFile (default ~/.dsh/hook-dsh-tool-coach.log) - the ten strings byte-exact with the hook-dsh-tool-coach: logger prefix (the factory's Append layer; each line [ISO] <message> in the file): offense, strike, cooldown suppressed, escalated persistent section, persistent section cleared, section rebuilt, denied, exempt, schema fetch failed, disabled."
 				>
 					<p>
-						The durable ledger file carries the same strings in{" "}
-						<code>[ISO] &lt;message&gt;</code> form; the strings below are the
-						module's composed messages, byte-exact. The rebuild line logs one line
-						per path - the smoke's byte-exact forms{" "}
-						<code>section rebuilt (ttl 2)</code> and{" "}
-						<code>section rebuilt (tools/change)</code>.
+						The durable ledger file carries the same strings in <code>[ISO] &lt;message&gt;</code> form.
+						The strings below are the module's composed messages, byte-exact.
+						The rebuild line logs one line per path - the smoke's byte-exact forms{" "}
+						<code>section rebuilt (ttl 2)</code> and <code>section rebuilt (tools/change)</code>.
 					</p>
 				</Concept>
 			</div>
@@ -746,34 +739,29 @@ const Related = [
 				<strong>The coach teaches; it does not rewrite.</strong>
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				No tier modifies the
-				model's history: tier 1 appends a note to the current turn's
-				<code>additionalContexts</code>, tier 2 appends a section to the system prompt,
-				tier 3 blocks the call before execution - the past turns are never touched.
+				No tier modifies the model's history.
+				Tier 1 appends a note to the current turn's <code>additionalContexts</code>.
+				Tier 2 appends a section to the system prompt.
+				Tier 3 blocks the call before execution - the past turns are never touched.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				<strong>The live fetch can fail, gracefully.</strong>
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				A throwing
-				<code>ctx.tools.schemas()</code> degrades to the static
-				<code>STATIC_TOOL_LINES</code> table and logs
-				<code>schema fetch failed -&gt; static fallback</code>; the waterfall continues -
-				a note never fails a waterfall.
+				A throwing <code>ctx.tools.schemas()</code> degrades to the static <code>STATIC_TOOL_LINES</code> table.
+				It logs <code>schema fetch failed -&gt; static fallback</code>.
+				The waterfall continues - a note never fails a waterfall.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<code>fetchLive: false</code> uses the static
-				table unconditionally with no failure line.
+				<code>fetchLive: false</code> uses the static table unconditionally with no failure line.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				<strong>Detection is heuristic by design.</strong>
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The catch-all keeps the
-				recall high (novel write forms still count); exemptions keep the precision
-				acceptable (builds, tests, git, package managers, file lifecycle) - the balance
-				is documented in the smoke battery's exempt cases, including the
-				<code>cat | jq</code> carve-out dedup.
+				The catch-all keeps the recall high (novel write forms still count).
+				Exemptions keep the precision acceptable (builds, tests, git, package managers, file lifecycle).
+				The balance is documented in the smoke battery's exempt cases, including the <code>cat | jq</code> carve-out dedup.
 			</p>
 		</section>
 
@@ -795,10 +783,8 @@ const Related = [
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				License: CC0-1.0.</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">Full scheme: <span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME.md</span>.</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">TypeScript-first, built with
-				@playform build (ESBuild + tsc type-check); the published artifact contains only the
-				built output.
-			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">TypeScript-first, built with @playform build (ESBuild + tsc type-check).</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">The published artifact contains only the built output.</p>
 		</section>
 	</main>
 </Base>

@@ -107,8 +107,7 @@ const Flavors = [
 				volatile and hot-flippable through <code>loader/volatile-update</code>.
 				Two opt-in <strong>overpass arms</strong> come on top.
 				The tool-results arm on <code>tools/post-execute</code>.
-				The step-batch arm on <code>agent/pre-step</code>, driven by the{" "}
-				<code>normalize-overpass</code> command.
+				The step-batch arm on <code>agent/pre-step</code>, driven by the <code>normalize-overpass</code> command.
 			</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The consumer-side companion on that same waterfall is the{" "}
@@ -161,8 +160,7 @@ const Flavors = [
 					<p class="card__desc" style="color: var(--color-on-primary-container)">
 						The governance role: silently hooks{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
-						and rewrites the project's dependency pins to the governed versions - the
-						<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> governor and the <BrandIcon Name="rust" />{" "}
+						and rewrites the project's dependency pins to the governed versions - the <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> governor and the <BrandIcon Name="rust" />{" "}
 						<span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" />Cargo.toml</span> governor.
 					</p>
 				</Card>
@@ -174,24 +172,21 @@ const Flavors = [
 						<Badge Variant="outline">hook-dsh-*-pinner</Badge>
 					</div>
 					<p class="card__desc" style="color: var(--color-on-primary-container)">
-						The pinning role: deterministically rewrites EVERY ranged dependency version
-						to its static version, protected by a pin-policy keep-list.
+						The pinning role: deterministically rewrites EVERY ranged dependency version to its static version.
+						The rewrite is protected by a pin-policy keep-list.
 					</p>
 				</Card>
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				And the third role family, the <strong>guardians</strong>.
-				Where governance rewrites the author's files, a guardian watches the
-				<em>model</em>.
+				Where governance rewrites the author's files, a guardian watches the <em>model</em>.
 			</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The{" "}
-				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> compresses oversized tool output on
-				the <code>tools/post-execute</code> waterfall.
-				The <a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges EVERY terminal
-				call through a four-tier coaching ladder.
-				It catches the terminal edits neither governance role can see
-				(<code>fs/observed</code> fires ONLY on tool-layer writes).
+				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> compresses oversized tool output on the <code>tools/post-execute</code> waterfall.
+				The <a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges EVERY terminal call through a four-tier coaching ladder.
+				It catches the terminal edits neither governance role can see.
+				<code>fs/observed</code> fires ONLY on tool-layer writes.
 			</p>
 		</section>
 

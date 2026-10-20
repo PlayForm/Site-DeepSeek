@@ -319,16 +319,12 @@ const Lessons = [
 				>
 					<p>
 						The family grew from <strong>five bundles and {History.OriginChecks} smoke checks</strong> to{" "}
-						<strong>twelve packages</strong> across ONE commit era - the Oct
-						3&ndash;6, 2026 stretch that ends at <code>5982aa8</code>.
-						It is the base
-						that the guardians era (Phase VII) extended to{" "}
-						<strong>fifteen packages</strong>.
+						<strong>twelve packages</strong> across ONE commit era - the Oct 3&ndash;6, 2026 stretch that ends at <code>5982aa8</code>.
+						It is the base that the guardians era (Phase VII) extended to <strong>fifteen packages</strong>.
 					</p>
 					<p>
 						The suites print their own totals.
-						The
-						<a href="/versions/">versions page</a> breaks the pair down per package.
+						The <a href="/versions/">versions page</a> breaks the pair down per package.
 					</p>
 				</Concept>
 				<Concept
@@ -337,16 +333,12 @@ const Lessons = [
 					Diagram={`Zero assertion rewrites across refactors, renames and a framework port - the Effect-TS port ADDING ${History.EffectDelta} checks (core +${History.Deltas.Core}, factory +${History.Deltas.Factory}, governor +${History.Deltas.Governor}), its totals running higher with every shared assertion intact.`}
 				>
 					<p>
-						Zero assertion rewrites
-						across refactors, renames and a framework port.
+						Zero assertion rewrites across refactors, renames and a framework port.
 					</p>
 					<p>
-						The Effect-TS port actually <strong>adds {History.EffectDelta} checks</strong> (core +{History.Deltas.Core}, factory
-						+{History.Deltas.Factory}, governor +{History.Deltas.Governor}).
-						Its totals run higher than the Classic's with EVERY
-						shared assertion intact.
-						The port proved parity by extending coverage, NOT by
-						rewriting assertions.
+						The Effect-TS port actually <strong>adds {History.EffectDelta} checks</strong> (core +{History.Deltas.Core}, factory +{History.Deltas.Factory}, governor +{History.Deltas.Governor}).
+						Its totals run higher than the Classic's with EVERY shared assertion intact.
+						The port proved parity by extending coverage, NOT by rewriting assertions.
 					</p>
 				</Concept>
 				<Concept
@@ -355,14 +347,11 @@ const Lessons = [
 					Diagram="The real bugs - the shadowed patch layers, the silent journal open, the version guard that could only succeed once - marked as found live, while the suites and the restart each catch a different class of defect."
 				>
 					<p>
-						EVERY real bug - the shadowed patch layers, the silent journal open, the
-						version guard that could ONLY succeed once - was found{" "}
-						<strong>live</strong>, NOT by the smokes.
+						EVERY real bug - the shadowed patch layers, the silent journal open, the version guard that could ONLY succeed once - was found <strong>live</strong>, NOT by the smokes.
 					</p>
 					<p>
 						That asymmetry is the story's spine, and the sections below keep it honest.
-						What the suites caught, what ONLY a restart could catch, and which two
-						theories died on the way to the truth.
+						What the suites caught, what ONLY a restart could catch, and which two theories died on the way to the truth.
 					</p>
 				</Concept>
 				<Concept
@@ -371,18 +360,11 @@ const Lessons = [
 					Diagram="The spine underneath the counts: renames and re-implementations changing mechanics, never the bytes the suites assert - with the three implementations holding the contract: Boilerplate, Classic and Effect-TS."
 				>
 					<p>
-						The spine underneath the counts: the ledger strings are the family's{" "}
-						<strong>public interface</strong> - the ONLY observable that survives a
-						framework port.
-						Renames and re-implementations change mechanics, NEVER
-						the bytes the suites assert.
+						The spine underneath the counts: the ledger strings are the family's <strong>public interface</strong> - the ONLY observable that survives a framework port.
+						Renames and re-implementations change mechanics, NEVER the bytes the suites assert.
 					</p>
 					<p>
-						Three implementations hold that contract: <strong>Boilerplate</strong> (the
-						LIVE truth, still running on this host), <strong>Classic</strong> (the
-						anonymized release) and <strong>Effect-TS</strong> (the port - built for
-						external traceability, ecosystem interop and hooking other transformers,
-						register #13).
+						Three implementations hold that contract: <strong>Boilerplate</strong> (the LIVE truth, still running on this host), <strong>Classic</strong> (the anonymized release) and <strong>Effect-TS</strong> (the port - built for external traceability, ecosystem interop and hooking other transformers, register #13).
 					</p>
 				</Concept>
 			</div>
@@ -413,11 +395,7 @@ const Lessons = [
 					Diagram="Three independent hooks - the package governor, the package pinner, the cargo governor - plus the dash normalizer, each carrying its own copy of the same machinery: ledgers, exclusion matching, policy loading, guarded writes, wiring, schemas."
 				>
 					<p>
-						Three independent hooks - the package governor, the package
-						pinner, the <BrandIcon Name="rust" /> <code class="code-token">cargo</code> governor - plus the dash
-						normalizer, EACH carrying its own
-						copy of the same machinery: ledgers, exclusion matching, policy loading,
-						guarded writes, wiring, schemas.
+						Three independent hooks - the package governor, the package pinner, the <BrandIcon Name="rust" /> <code class="code-token">cargo</code> governor - plus the dash normalizer, EACH carrying its own copy of the same machinery: ledgers, exclusion matching, policy loading, guarded writes, wiring, schemas.
 					</p>
 				</Concept>
 				<Concept
@@ -426,11 +404,7 @@ const Lessons = [
 					Diagram={`The consolidation (49e5b3d, 859f16a, 018919c) onto one factory service - ${History.OriginMethods} methods, one transform contract, and the ledger strings owned by the modules themselves.`}
 				>
 					<p>
-						Consolidate onto <strong>ONE factory service</strong>{" "}
-						(<code>49e5b3d</code>, <code>859f16a</code>,{" "}
-						<code>018919c</code>)
-						- {History.OriginMethods} methods, ONE transform contract, and the ledger strings owned by the
-						modules themselves.
+						Consolidate onto <strong>ONE factory service</strong> (<code>49e5b3d</code>, <code>859f16a</code>, <code>018919c</code>) - {History.OriginMethods} methods, ONE transform contract, and the ledger strings owned by the modules themselves.
 					</p>
 				</Concept>
 				<Concept
@@ -439,9 +413,7 @@ const Lessons = [
 					Diagram="The Wire / Attach / Continue seam trio, and a transform leaf the factory drives but never absorbs - each hook's transforms staying its identity."
 				>
 					<p>
-						The <code>Wire</code>/<code>Attach</code>/
-						<code>Continue</code> seam trio, and a transform leaf the factory drives but
-						NEVER absorbs.
+						The <code>Wire</code>/<code>Attach</code>/<code>Continue</code> seam trio, and a transform leaf the factory drives but NEVER absorbs.
 						EACH hook's transforms stay its identity.
 					</p>
 				</Concept>
@@ -451,8 +423,7 @@ const Lessons = [
 					Diagram={`Five bundles green, ${History.OriginChecks} checks, and every ledger string byte-identical to pre-refactor behavior, smoke-asserted.`}
 				>
 					<p>
-						Five bundles green, {History.OriginChecks} checks, and EVERY ledger string
-						byte-identical to pre-refactor behavior, smoke-asserted.
+						Five bundles green, {History.OriginChecks} checks, and EVERY ledger string byte-identical to pre-refactor behavior, smoke-asserted.
 					</p>
 				</Concept>
 				<Concept
@@ -462,15 +433,11 @@ const Lessons = [
 				>
 					<p>
 						The factory's page shows the seam table this era produced.
-						It has since grown
-						from {History.OriginMethods} to {Methods.Count} methods as later phases moved machinery in.
+						It has since grown from {History.OriginMethods} to {Methods.Count} methods as later phases moved machinery in.
 					</p>
 					<p>
-						The growth happened by insertion (Write landed at the{" "}
-						<span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME</span>'s {Scheme.Write},
-						renumbering everything after it).
-						It also happened by alias (GuardedWrite shares {Scheme.Write}) and by
-						uncounted helpers (<code class="code-token">UpdateKey</code>, {Scheme.UpdateKey}).
+						The growth happened by insertion (Write landed at the <span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME</span>'s {Scheme.Write}, renumbering everything after it).
+						It also happened by alias (GuardedWrite shares {Scheme.Write}) and by uncounted helpers (<code class="code-token">UpdateKey</code>, {Scheme.UpdateKey}).
 					</p>
 				</Concept>
 			</div>
@@ -490,16 +457,12 @@ const Lessons = [
 					Diagram="The loader contract: a hook's inject and Config sitting on the loader's default export object, and apply returning nothing - a returned value silently killing event delivery."
 				>
 					<p>
-						Two live-verified fixes from this era NEVER regressed since: a hook's{" "}
-						<code>inject</code> and <code>Config</code> must sit on the loader's default
-						export object, and <code>apply</code> must return nothing.
-						A returned value
-						silently kills event delivery.
+						Two live-verified fixes from this era NEVER regressed since: a hook's <code>inject</code> and <code>Config</code> must sit on the loader's default export object, and <code>apply</code> must return nothing.
+						A returned value silently kills event delivery.
 					</p>
 					<p>
 						BOTH are the kind of bug NO type checker sees.
-						BOTH were found with a restart
-						and a missing ledger line.
+						BOTH were found with a restart and a missing ledger line.
 					</p>
 				</Concept>
 			</div>
@@ -518,8 +481,7 @@ const Lessons = [
 					Diagram="A confirmation agent re-verifying all five bundles - the three findings, each one a finding with a fix, none visible from the passing smokes alone."
 				>
 					<p>
-						A confirmation agent re-verified ALL five bundles and found three things that
-						rewrote the queue.
+						A confirmation agent re-verified ALL five bundles and found three things that rewrote the queue.
 					</p>
 					<p>EACH is a finding with a fix. NONE was visible from the passing smokes alone.</p>
 				</Concept>
@@ -548,16 +510,13 @@ const Lessons = [
 				>
 					<ul class="concept-values">
 						<li>
-							The module terminology rename (<code>3c29108</code> - mechanics ONLY, the{" "}
-							<code>cargo flavor</code> literal in the activation string stays).
+							The module terminology rename (<code>3c29108</code> - mechanics ONLY, the <code>cargo flavor</code> literal in the activation string stays).
 						</li>
 						<li>
-							The standalone schema helper that deleted three config workarounds (
-							<code>060e3b6</code>).
+							The standalone schema helper that deleted three config workarounds (<code>060e3b6</code>).
 						</li>
 						<li>
-							The core extraction as a dependency-free pure package (
-							<code>1fef4ca</code>).
+							The core extraction as a dependency-free pure package (<code>1fef4ca</code>).
 						</li>
 						<li>The granularization splits (<code>711d5b2</code>).</li>
 					</ul>
@@ -568,9 +527,7 @@ const Lessons = [
 					Diagram="The smoke suites living in /tmp and being lost once - replayed from the session archives step by step, then archived to ~/.dsh/smokes/ forever after."
 				>
 					<p>
-						ONE operational beat worth keeping: the smoke suites lived in{" "}
-						<code>/tmp</code> and were lost once - replayed from the session archives step
-						by step, then archived to <code>~/.dsh/smokes/</code> forever after.
+						ONE operational beat worth keeping: the smoke suites lived in <code>/tmp</code> and were lost once - replayed from the session archives step by step, then archived to <code>~/.dsh/smokes/</code> forever after.
 					</p>
 					<p>The arbiter must NOT be disposable.</p>
 				</Concept>
@@ -587,10 +544,7 @@ const Lessons = [
 					Diagram="The first live battery exercising everything the smokes had proven: the governor + pinner interlock on one manifest write, the update stages as real jobs, the cargo's actual cargo upgrade with the full argv, the dash normalizer counting replacements in live streams."
 				>
 					<p>
-						It exercised everything the smokes had proven: the
-						governor&nbsp;+&nbsp;pinner interlock on ONE manifest write, the update stages
-						as real jobs, the cargo's actual <code>cargo upgrade</code> with the full
-						argv, the dash normalizer counting replacements in LIVE streams.
+						It exercised everything the smokes had proven: the governor&nbsp;+&nbsp;pinner interlock on ONE manifest write, the update stages as real jobs, the cargo's actual <code>cargo upgrade</code> with the full argv, the dash normalizer counting replacements in LIVE streams.
 					</p>
 				</Concept>
 				<Concept
@@ -599,18 +553,13 @@ const Lessons = [
 					Diagram="The harness's storage domain enforcing one open per name - the shared journal domain single-winner per boot, only the pinner's records landing while the governor's and the cargo's silently never did, the human ledger files remaining the complete record."
 				>
 					<p>
-						The{" "}
-						<BrandIcon Name="deepseek" /> harness's <a href={Link(Links.DeepSeekHarness, "packages/storage/storage-domain")}>storage domain</a>
-						enforces <strong>ONE open per name</strong>.
-						So the shared journal domain was
-						single-winner per boot.
+						The <BrandIcon Name="deepseek" /> harness's <a href={Link(Links.DeepSeekHarness, "packages/storage/storage-domain")}>storage domain</a> enforces <strong>ONE open per name</strong>.
+						So the shared journal domain was single-winner per boot.
 					</p>
 					<p>
 						At that boot ONLY the pinner's records landed.
-						The governor's and the cargo's
-						silently NEVER did.
-						The human ledger files remained the complete
-						record, which is the ONLY reason the loss was even noticed.
+						The governor's and the cargo's silently NEVER did.
+						The human ledger files remained the complete record, which is the ONLY reason the loss was even noticed.
 					</p>
 				</Concept>
 			</div>
@@ -621,14 +570,10 @@ const Lessons = [
 					Diagram="The first successful open binding its handle on the factory instance (952eaa1) with every module's records routing through it - then the boot-window race (aa53c91): records journaled before any open completes buffering in a capped, drop-when-full pre-bind queue, draining with timestamps preserved - the three-stage routing of shared sink, pre-bind buffer, then per-state fallback."
 				>
 					<p>
-						THE FIRST successful open binds its handle on the factory instance (
-						<code>952eaa1</code>), and EVERY module's records route through it.
+						THE FIRST successful open binds its handle on the factory instance (<code>952eaa1</code>), and EVERY module's records route through it.
 					</p>
 					<p>
-						The boot-window race came next (<code>aa53c91</code>): records journaled
-						before any open completes now buffer in a capped, drop-when-full pre-bind
-						queue and drain with their timestamps preserved - a three-stage routing of
-						shared sink, pre-bind buffer, then per-state fallback.</p>
+						The boot-window race came next (<code>aa53c91</code>): records journaled before ANY open completes now buffer in a capped, drop-when-full pre-bind queue and drain with their timestamps preserved - a three-stage routing of shared sink, pre-bind buffer, then per-state fallback.</p>
 					<p>The third boot
 						confirmed both live:
 					
@@ -645,9 +590,7 @@ const Lessons = [
 				>
 					<p>
 						That file showed one module's activations.</p>
-					<p>After it, ALL four
-						- and the interlock cascade and the dispatched update stage record themselves
-						in the same place.
+					<p>After it, ALL four - and the interlock cascade and the dispatched update stage record themselves in the same place.
 					
 					</p>
 				</Concept>
@@ -658,8 +601,7 @@ const Lessons = [
 				>
 					<p>
 						The update stage's awaited promise resolves the moment the dispatch fires.
-						The background
-						job keeps running, and the caller never awaits the job.
+						The background job keeps running, and the caller NEVER awaits the job.
 					</p>
 				</Concept>
 			</div>

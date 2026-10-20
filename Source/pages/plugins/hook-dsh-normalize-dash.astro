@@ -271,7 +271,7 @@ const Config = [
 		Default: "-",
 		Volatile: "yes",
 		Meaning:
-			"the transform's only knob - hot-editable, the next stream picks it up with no remount",
+			"the transform's ONLY knob - hot-editable, the next stream picks it up with NO remount",
 	},
 	{
 		Field: "normalizeReasoning",
@@ -310,13 +310,15 @@ const Config = [
 			<h1 class="page-hero__title">hook-dsh-normalize-dash</h1>
 			<p class="page-hero__sub">
 				{Families.Dash} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin Family
-				for PlayForm.</em> The <strong>dash normalizer for model output</strong> - a DeepSeek
-				Harness plugin that hooks the{" "}
+				for PlayForm.</em> The <strong>dash normalizer for model output</strong>.
+				A DeepSeek Harness plugin that hooks the{" "}
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>{" "}
-				waterfall (the interceptable wrapper around EVERY streaming model call, bound to the{" "}
-				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>
-				) and normalizes the unicode dash family to ASCII hyphen-minus, live in the
-				transcript: em dashes, en dashes and seventeen exotic relatives{" "}
+				waterfall.
+				The waterfall is the interceptable wrapper around EVERY streaming model call, bound to the{" "}
+				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>.
+				The hook normalizes the unicode dash family to ASCII hyphen-minus, LIVE in the
+				transcript.
+				The family: em dashes, en dashes and seventeen exotic relatives{" "}
 				<ArrowIcon Direction="right" Tone="accent" /> <code>-</code>.</p>
 			<p class="page-hero__sub">The normalize-dashes hook, at the injection point the harness itself does not have.</p>
 			<p class="page-hero__sub">A CLASS
@@ -324,9 +326,10 @@ const Config = [
 				configurable <code>replacement</code>
 				(default <code>-</code>).</p>
 			<p class="page-hero__sub">It also registers the family's{" "}
-				<strong>raw-write tool</strong> - a write wrapper with an explicit{" "}
-				<code>normalize</code> parameter (default false = verbatim), exempt from the stream
-				normalization by name like
+				<strong>raw-write tool</strong>.
+				The tool is a write wrapper with an explicit{" "}
+				<code>normalize</code> parameter (default false = verbatim).
+				It is exempt from the stream normalization by name like
 				<code>edit</code>.
 			
 			</p>
@@ -379,8 +382,8 @@ const Config = [
 								)}
 							>plugin-dsh-factory</a>
 						</strong>{" "}
-						service ({Families.Dash}) and the <strong>hook-dsh-core</strong> machinery;
-						the first of six stream normalizer siblings, all built on the shared
+						service ({Families.Dash}) and the <strong>hook-dsh-core</strong> machinery.
+						It is the first of six stream normalizer siblings, ALL built on the shared
 						machinery.
 					</p>
 				</Concept>
@@ -542,8 +545,8 @@ const Config = [
 							)}
 						>hook-dsh-cargo-governor</a>
 						), whose rewrites are SILENT, this plugin's normalization is{" "}
-						<strong>deliberately VISIBLE - it IS the feature</strong>: the rewrite flows
-						into BOTH the LIVE UI and the durable transcript.
+						<strong>deliberately VISIBLE - it IS the feature</strong>.
+						The rewrite flows into BOTH the LIVE UI and the durable transcript.
 					</p>
 				</Concept>
 			</div>
@@ -689,15 +692,16 @@ const Config = [
 					Diagram="The per-call governance selection over the factory's direct-govern registry, applied after a successful write: absent or false running NO chain (the write still emitting fs/observed exactly like a built-in write), true or all running ALL registered steps for the target's basename, an array running ONLY the named steps - best-effort and contained through Govern(target, selection, actor, version) with the written outcome's fresh version, a failing step never affecting the write's outcome."
 				>
 					<p>
-						The tool also takes a <strong>govern parameter</strong> - the per-call
-						governance selection over the factory's direct-govern registry, applied
-						after a successful write: absent or false (default) runs NO governance chain
-						(the write still emits{" "}
+						The tool also takes a <strong>govern parameter</strong>.
+						The parameter is the per-call governance selection over the factory's
+						direct-govern registry, applied after a successful write.
+						Absent or false (default) runs NO governance chain.
+						The write still emits{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
-						exactly like a built-in write); true or <code class="code-token">"all"</code> runs ALL
-						registered governance
-						steps for the target's basename; <code>["canonicalize", ...]</code> runs
-						ONLY the named steps.
+						exactly like a built-in write.
+						True or <code class="code-token">"all"</code> runs ALL registered governance
+						steps for the target's basename.
+						<code>["canonicalize", ...]</code> runs ONLY the named steps.
 					</p>
 					<p>
 						Governance is best-effort and contained: the steps run through the factory's{" "}
@@ -888,24 +892,28 @@ const Config = [
 						invisible to the probe and the call normalizes normally.
 					</p>
 					<p>
-						Three structural exemptions are NEVER rewritten: the <code>edit</code> call
-						(its <code>old_string</code> must match the real file bytes), the{" "}
-						<code>raw-write</code> call (it owns its content normalization through its
-						explicit <code>normalize</code> parameter) and the <code>normalize-file</code>{" "}
-						call (its arguments carry a file path - a normalized dash inside a filename
-						would corrupt the target).
+						Three structural exemptions are NEVER rewritten.
+						The first: the <code>edit</code> call
+						(its <code>old_string</code> must match the real file bytes).
+						The second: the <code>raw-write</code> call (it owns its content
+						normalization through its explicit <code>normalize</code> parameter).
+						The third: the <code>normalize-file</code> call (its arguments carry a file
+						path - a normalized dash inside a filename would corrupt the target).
 					</p>
 					<p>
-						And the overpass invisibility contract: the tool-results arm replaces the
-						bytes PRE-COMMIT - the waterfall settles before the result is appended to
-						the durable log - so the model ONLY ever sees the normalized output and
-						NEVER notices the replacement. The exemption list plus the{" "}
+						And the overpass invisibility contract.
+						The tool-results arm replaces the bytes PRE-COMMIT.
+						The waterfall settles before the result is appended to the durable log.
+						So the model ONLY ever sees the normalized output and NEVER notices the
+						replacement.
+						The exemption list plus the{" "}
 						<code>&lt;&lt;&lt;CCR:</code> marker guard define what passes untouched.
 					</p>
 					<p>
 						That is the write-path counterpart of the governance trio's never-notify
-						precedent: the result is built from the author's own content, and the
-						observation-policy's version record is refreshed by the re-emitted
+						precedent.
+						The result is built from the author's own content.
+						The observation-policy's version record is refreshed by the re-emitted
 						fs/observed.
 					</p>
 				</Concept>

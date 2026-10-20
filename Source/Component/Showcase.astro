@@ -137,17 +137,17 @@ const HasPair = Before !== undefined && After !== undefined;
 // kicker's neutral mono ink (the same word-level rule the RAW legend
 // label runs). Whole words only: PINNER / GOVERNOR / GOVERNED never
 // match, and the visible bytes stay byte-exact.
-const IdentityPattern = /\b(PIN|GOVERN|NORMALIZE)\b/g;
+const Pattern = /\b(PIN|GOVERN|NORMALIZE)\b/g;
 
-function IdentityWords(Text: string): string {
-	return Text.replace(IdentityPattern, (Word) => {
-		const Cls =
+function Emphasize(Text: string): string {
+	return Text.replace(Pattern, (Word) => {
+		const Class =
 			Word === "PIN"
 				? "word-pin"
 				: Word === "GOVERN"
 					? "word-govern"
 					: "word-normalize";
-		return `<span class="${Cls}">${Word}</span>`;
+		return `<span class="${Class}">${Word}</span>`;
 	});
 }
 const BeforeHTML = HasPair
@@ -184,7 +184,7 @@ const ExampleVariants = Examples
 	<div class="showcase__head">
 		<span class="showcase__kicker">
 			<BrandIcon Name="swap" Size="0.8em" />
-			<Fragment set:html={IdentityWords(Kicker)} />
+			<Fragment set:html={Emphasize(Kicker)} />
 		</span>
 		{Href ? (
 			<a class="showcase__title" href={Href}>{Title}</a>

@@ -1,39 +1,45 @@
-// Content.ts - the family's single source of truth for every dynamic figure
-// the site renders: the smoke counts, the totals pair, the method ledger, the
+// Content.ts - the family's single source of truth for EVERY dynamic figure
+// the site renders.
+// The figures cover the smoke counts, the totals pair, the method ledger, the
 // release versions, the migration facts and the SCHEME references.
 //
-// The figures are LIVE: they are read from the monorepo at build time by
-// Library/Live.ts (the package.json versions of the three trees, the smoke
+// The figures are LIVE.
+// They are read from the monorepo at build time by Library/Live.ts.
+// Live.ts reads the package.json versions of the three trees, the smoke
 // README manifests, the Classic package directories and the factory's SCHEME
-// method sections) - no runtime fetching, so the built pages always carry the
-// repo's real values. When a live source is missing or unparseable, the
-// documented FALLBACK below is served instead, so the build never fails on a
-// moved source.
+// method sections.
+// There is NO runtime fetching, so the built pages ALWAYS carry the repo's
+// real values.
+// When a live source is missing or unparseable, the documented FALLBACK below
+// is served instead, so the build NEVER fails on a moved source.
 //
-// The fallback constants are the previously verified values, kept in the
-// same shapes the Drift-Guard (Scripts/Drift-Guard.mjs) extracts and checks
-// against the repo - a stale fallback is caught by `pnpm run Drift`.
+// The fallback constants are the previously verified values.
+// They are kept in the same shapes the Drift-Guard (Scripts/Drift-Guard.mjs)
+// extracts and checks against the repo.
+// A stale fallback is caught by `pnpm run Drift`.
 //
 // Values with NO live source (documented fallbacks, verified against the
 // records):
-//   - Migration: 76 records, compatibleVersions [1] - the v1-record
-//     migration (Documentation/Handoff/Packages/Package-13.md);
+//   - Migration: 76 records, compatibleVersions [1] - the v1-record migration
+//     (Documentation/Handoff/Packages/Package-13.md).
 //   - History: the five original boilerplate-era bundles, the 231 checks and
-//     the 15-method factory at the consolidation (the Package 1 record);
-//   - Decisions: the twelve decisions plus the abort-signal fix;
-//   - Sprite: the 11 shields-style symbols in /assets/badges.svg;
-//   - Steps: the four setup steps; Copyright: the 2025 footer line;
-//   - Roles: the two governance roles; Groups.Core / Groups.Governance /
-//     Groups.Guardians: the plugins-page section groupings (Groups.Normalize
-//     is live).
+//     the 15-method factory at the consolidation (the Package 1 record).
+//   - Decisions: the twelve decisions plus the abort-signal fix.
+//   - Sprite: the 11 shields-style symbols in /assets/badges.svg.
+//   - Steps: the four setup steps.
+//   - Copyright: the 2025 footer line.
+//   - Roles: the two governance roles.
+//   - Groups.Core / Groups.Governance / Groups.Guardians: the plugins-page
+//     section groupings (Groups.Normalize is LIVE).
 // History's per-suite deltas and total are LIVE - derived from the merged
 // pairs - and mirror the fallback record below.
 //
 // The formatters own the pluralization and the phrase shapes ("N checks in
 // CLASSIC, M in EFFECT-TS", the totals pair, the migration sentence, the
-// FAMILY POSITION metas) so no two pages can render the same fact differently.
-// This module is imported from the .astro frontmatter only (it reaches the
-// filesystem through Live.ts at build time) - never from a <script> block.
+// FAMILY POSITION metas).
+// NO two pages can render the same fact differently.
+// This module is imported from the .astro frontmatter ONLY (it reaches the
+// filesystem through Live.ts at build time) - NEVER from a <script> block.
 
 import { Live } from "./Live.ts";
 
@@ -45,7 +51,7 @@ export interface Pair {
 	EffectTS: number;
 }
 
-/** The fallback constants: served only when a live source is unavailable. */
+/** The fallback constants: served ONLY when a live source is unavailable. */
 const Fallback = {
 	Counts: {
 		Core: { Classic: 14, EffectTS: 17 },
@@ -127,9 +133,9 @@ export const Counts: {
 	Invisible: Pair;
 	Fullwidth: Pair;
 	File: Pair;
-	/** The CCR compressor's smoke suite (the 146-check suite, both trees). */
+	/** The CCR compressor's smoke suite (the 146-check suite, BOTH trees). */
 	CCR: Pair;
-	/** The tool-coach guardian's smoke suite (the 129-check suite, both trees). */
+	/** The tool-coach guardian's smoke suite (the 129-check suite, BOTH trees). */
 	Coach: Pair;
 	/** The seven normalize packages: the six stream flavors + the file tool. */
 	Normalizers: number;
@@ -264,7 +270,7 @@ export const Methods = {
 
 /** The v1-record migration facts (Package-13.md: the loud, per-record fix). */
 export const Migration = {
-	/** The v1 records auto-migrated on the first v2 open. */
+	/** The v1 records auto-migrated on THE FIRST v2 open. */
 	Records: Fallback.Migration.Records,
 	/** The version list the v2 layout accepts (v1 records migrate). */
 	CompatibleVersions: Fallback.Migration.CompatibleVersions,
