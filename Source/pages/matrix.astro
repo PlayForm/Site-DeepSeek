@@ -160,6 +160,19 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 			<p class="section-kicker" style="margin-top: var(--space-sm)">
 				File target: synced
 			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
+				This demo models the <strong>conversation arm</strong> only. Beyond it, the
+				family's granular volatile <code>scopes</code> surface gates every arm
+				independently - conversation / reasoning / toolInput / toolResults / files /
+				batch, all hot-flippable through <code>loader/volatile-update</code> - and two{" "}
+				<strong>overpass arms</strong> extend the flavors past the stream: the
+				tool-results arm (<code>tools/post-execute</code>, the OUTERMOST prepend) and
+				the step-batch arm (<code>agent/pre-step</code>), reachable through the{" "}
+				<code>normalize-overpass</code> command. On the same waterfall, the{" "}
+				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> compresses oversized tool output;
+				the <a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges the terminal
+				calls.
+			</p>
 		</section>
 
 		<!-- Split screen inspector -->
@@ -267,7 +280,12 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 					<p>
 						The real authority is each flavor's smoke suite, which loads
 						the built package and asserts the ledger strings byte-identically.
-					
+					</p>
+					<p>
+						That makes fourteen suites family-wide: the ccr suite ({Counts.Ccr.Classic}{" "}
+						checks) and the tool-coach suite ({Counts.Coach.Classic} checks) exist
+						outside this demo - they arbitrate the tool-result compression and the
+						terminal coaching, not the stream demo above.
 					</p>
 				</Concept>
 			</div>

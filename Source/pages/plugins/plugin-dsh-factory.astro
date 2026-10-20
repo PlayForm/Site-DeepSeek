@@ -117,6 +117,14 @@ const Related = [
 		Name: "hook-dsh-normalize-dash",
 		Desc: "The factory's first NON-MANIFEST module: injects only the service and uses State/Append and the named Schema export.",
 	},
+	{
+		Name: "hook-dsh-ccr",
+		Desc: "A NON-MANIFEST hook child from the guardians: owns its schema and its strings, hooks the tools/post-execute waterfall through the service's plumbing.",
+	},
+	{
+		Name: "hook-dsh-tool-coach",
+		Desc: "The coach hook child: five listeners plus the loader/volatile-update refresh this service's State builder registers for every volatile knob.",
+	},
 ];
 ---
 
@@ -445,6 +453,28 @@ const Related = [
 						Volatile cells (log, logFile and any consumer's own hot fields) commit
 						without remounting the plugin; the factory's State builder unwraps them
 						defensively.
+					</p>
+				</Concept>
+				<Concept
+					Id="factory-config-volatile-refresh"
+					Title="The volatile-refresh listener: hot edits land in place"
+					Diagram="The granular-volatile fix: the factory's State builder now keeps the raw config's { get } cells in place and registers a loader/volatile-update listener that re-reads the whole object and refreshes the State fields LIVE - one leaf change, one dispatch, no remount, no new activation line. The normalize family's volatile scopes (conversation/reasoning/toolInput/toolResults/files/batch) and every volatile knob of the ccr hook and the tool-coach ride exactly this path."
+				>
+					<p>
+						The volatile-refresh fix (the granular-volatile plan): the State builder
+						keeps the raw config's <code>&#123; get &#125;</code> cells in place and
+						registers a <code>loader/volatile-update</code> listener that refreshes the
+						State fields in place - one leaf change commits one dispatch, the whole
+						object is re-read live, no remount, no new activation line.
+					</p>
+					<p>
+						The normalize family's volatile{" "}
+						<code>scopes</code> object (conversation / reasoning / toolInput /
+						toolResults / files / batch), the ccr hook's volatile{" "}
+						<code>thresholdBytes</code>/<code>previewMaxChars</code>/<code>multipliers</code>{" "}
+						and every volatile knob of the{" "}
+						<a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> ride exactly this
+						path: <strong>a flip lands on the next judged call</strong>.
 					</p>
 				</Concept>
 			</div>

@@ -1,0 +1,174 @@
+---
+// SupportsButton: the "supports:" chip row + the click-to-expand panel for
+// the use-case Showcase cards. Each chip names a manifest the module
+// handles; clicking it expands the shared panel with the real use-case
+// lines (from the plugin READMEs).
+//
+// The site's established interactivity pattern (there is no <details>
+// anywhere on the site): a class-toggle button with aria-expanded, like
+// the registry's filter chips and the workbench's engine pills - a
+// <button type="button"> toggling an .is-open class + aria-expanded on
+// the button and the hidden attribute on the panel, driven by this
+// component's own small script. Zero elevation: hairline chips, a flat
+// tray panel, the radius tokens only.
+interface Props {
+	/** The manifest names rendered as the clickable chips. */
+	Manifests: string[];
+	/** The expanded lines (real use-case content; rendered via set:html,
+	 so inline <code>/<a> markup is intentional). */
+	Detail: string[];
+}
+
+const { Manifests, Detail } = Astro.props;
+
+// The shared panel's id: one panel per button group (all chips in this
+// component instance expand the same panel). The manifest names are
+// lowercase identifiers, so the id is a valid DOM id.
+const Id = `supports-${Manifests.join("-").toLowerCase()}`;
+---
+
+<div class="supports">
+	<p class="supports__row">
+		<span class="supports__label">supports:</span>
+		{Manifests.map((Manifest) => (
+			<button
+				type="button"
+				class="supports__chip"
+				data-supports-toggle
+				aria-expanded="false"
+				aria-controls={Id}
+			>
+				{Manifest}
+			</button>
+		))}
+	</p>
+	<div class="supports__panel" id={Id} hidden>
+		{Detail.map((Line) => <p class="supports__line" set:html={Line} />)}
+	</div>
+</div>
+
+<style>
+	/* The row: the label + the chips on one line, closing the card. */
+	.supports {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+		min-width: 0;
+	}
+
+	.supports__row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: flex-end;
+		gap: var(--space-xs);
+		margin: 0;
+	}
+
+	.supports__label {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		color: var(--color-ink-muted);
+	}
+
+	/* The chips: the filter-chip / engine-pill look - hairline border, the
+	   surface-container-low fill, the 13px mono floor; the open state
+	   matches the filter-chip hover (the Harness Blue border). */
+	.supports__chip {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		padding: 2px var(--space-sm);
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-md);
+		background: var(--color-surface-container-low);
+		color: var(--color-ink-secondary);
+		cursor: pointer;
+		transition:
+			background-color var(--duration-fast) var(--ease-crisp),
+			border-color var(--duration-fast) var(--ease-crisp),
+			color var(--duration-fast) var(--ease-crisp);
+	}
+
+	.supports__chip:hover {
+		border-color: var(--color-harness-blue);
+	}
+
+	.supports__chip:active {
+		transform: scale(0.97);
+	}
+
+	.supports__chip.is-open {
+		background: var(--color-harness-blue-subtle);
+		color: var(--color-primary);
+		border-color: var(--color-primary-container);
+	}
+
+	/* The panel: the surface-container-low tray, radius-md, zero elevation. */
+	.supports__panel {
+		display: grid;
+		gap: var(--space-xs);
+		padding: var(--space-sm) var(--space-md);
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-md);
+		background: var(--color-surface-container-low);
+	}
+
+	/* The hidden attribute must win over the display:grid above (the UA's
+	   [hidden] rule loses to the class rule's display, which made the
+	   click-to-expand invisible - the panel was always shown). This rule
+	   restores the toggle: display none until a chip opens it. */
+	.supports__panel[hidden] {
+		display: none;
+	}
+
+	.supports__line {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-ink-secondary);
+	}
+
+	.supports__line :global(a) {
+		color: var(--color-primary);
+	}
+
+	.supports__line :global(a:hover) {
+		text-decoration: none;
+	}
+
+	.supports__line :global(code) {
+		color: var(--color-ink);
+	}
+</style>
+
+<script>
+	// Each chip toggles the shared panel; aria-expanded mirrors the state.
+	// Opening a chip closes its siblings in the same group (one panel per
+	// group), so the expanded story is always exactly one manifest's.
+	document.querySelectorAll<HTMLElement>("[data-supports-toggle]").forEach((Chip) => {
+		Chip.addEventListener("click", () => {
+			const Panel = document.getElementById(Chip.getAttribute("aria-controls") ?? "");
+			const Open = Chip.getAttribute("aria-expanded") === "true";
+			// Close all chips in this group; open the clicked one.
+			Chip.parentElement?.querySelectorAll<HTMLElement>("[data-supports-toggle]").forEach((Other) => {
+				Other.setAttribute("aria-expanded", "false");
+				Other.classList.remove("is-open");
+			});
+			if (!Open) {
+				Chip.setAttribute("aria-expanded", "true");
+				Chip.classList.add("is-open");
+			}
+			if (Panel) Panel.hidden = Open;
+		});
+	});
+</script>

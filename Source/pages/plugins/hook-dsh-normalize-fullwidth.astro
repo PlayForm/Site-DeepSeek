@@ -127,6 +127,64 @@ const Siblings = [
 	},
 ];
 
+// The granular scopes (all volatile), the normalize-overpass command grammar
+// and the overpass ledger lines - from the README (the volatility widening).
+const Scopes = [
+	{
+		Scope: "conversation",
+		Default: "on",
+		Gates: "text-delta text + the assembled text/reasoning blocks",
+	},
+	{
+		Scope: "reasoning",
+		Default: "on",
+		Gates: "the reasoning-delta sub-gate (ANDed with normalizeReasoning)",
+	},
+	{
+		Scope: "toolInput",
+		Default: "off",
+		Gates: "the tool-call arguments arm (OR-ed with normalizeToolArguments)",
+	},
+	{
+		Scope: "toolResults",
+		Default: "off",
+		Gates: "the tools/post-execute arm (tool results in the transcript)",
+	},
+	{
+		Scope: "files",
+		Default: "on",
+		Gates: "inert in a stream flavor (present so one patch override drives the whole family)",
+	},
+	{
+		Scope: "batch",
+		Default: "off",
+		Gates: "the agent/pre-step arm (the incoming step batch)",
+	},
+];
+const CommandRows = [
+	{
+		Input: "files <path...>",
+		Effect: "declined - the sweep is owned by the normalize-file hook",
+	},
+	{
+		Input: "batch",
+		Effect: "arm the one-shot step-batch overpass (consumed by the next incoming batch)",
+	},
+	{
+		Input: "results on|off",
+		Effect: "flip scopes.toolResults via the settings service / config editor - never direct State mutation; absent services report the settings-UI path",
+	},
+	{
+		Input: "scopes",
+		Effect: "read-only report of the current effective values (the activation line never changes)",
+	},
+];
+const LedgerLines = [
+	"hook-dsh-normalize-fullwidth: overpass: normalized N char(s) in tool result <toolName> <callId>",
+	"hook-dsh-normalize-fullwidth: overpass: normalized N char(s) in step batch (turn T step S)",
+	"hook-dsh-normalize-fullwidth: overpass: swept K file(s), normalized M char(s)",
+];
+
 const Config = [
 	{
 		Field: "log",
@@ -526,6 +584,146 @@ const LedgerStrings = [
 					"            normalizeReasoning: true",
 				].join("\n")}
 			/>
+		</section>
+
+		<!-- The granular scopes + the overpass arms: the volatility widening.
+		     Every place the scopes/tool-argument control is described carries
+		     the four binding facts: the per-call raw marker, the effective-gate
+		     formula, the three structural exemptions, and the overpass
+		     invisibility contract. -->
+		<section class="section">
+			<SectionHeader
+				Title="The scopes surface & the overpass arms"
+				Meta="GRANULAR CONTROL · ALL VOLATILE"
+			/>
+			<div class="concept-list">
+				<Concept
+					Id="fullwidth-scopes"
+					Title="Every arm gated independently - and all volatile"
+					Diagram="The scopes object gating every arm of the hook-dsh-normalize-fullwidth hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
+				>
+					<p>
+						The <code>scopes</code> object gates every arm of the{" "}
+						<code>hook-dsh-normalize-fullwidth</code> hook independently - conversation,
+						reasoning, toolInput, toolResults, files, batch - with the defaults exactly
+						the pre-scopes behavior. The whole object is <strong>volatile</strong>: one
+						leaf change commits one <code>loader/volatile-update</code> dispatch whose
+						whole object the State's refresh listener re-reads - live, silent, no
+						remount, no new activation line (a flip lands on the next stream).
+					</p>
+					<p>
+						The tool-input arm: effective tool-input normalization is{" "}
+						<code>normalizeToolArguments || scopes.toolInput</code> - the field is kept
+						and OR-ed in, so every existing profile keeps working. It is the only
+						execution-critical arm, and it carries the per-call escape hatch: a call
+						whose arguments open with the{" "}
+						<code>&#123;"__normalize":false&#125;</code> FIRST-key marker passes through
+						unnormalized, the marker entry stripped (the executed call carries no
+						unknown key) - the "leave that search alone" control for a deliberate search
+						for an irregular character. The marker must be the first key: a first delta
+						shorter than the marker is invisible to the probe and the call normalizes
+						normally.
+					</p>
+					<p>
+						Three structural exemptions are never rewritten: the <code>edit</code> call
+						(its <code>old_string</code> must match the real file bytes), the{" "}
+						<code>raw-write</code> call (it owns its content normalization through its
+						explicit <code>normalize</code> parameter) and the <code>normalize-file</code>{" "}
+						call (its arguments carry a file path - a normalized dash inside a filename
+						would corrupt the target).
+					</p>
+					<p>
+						And the overpass invisibility contract: the tool-results arm replaces the
+						bytes PRE-COMMIT - the waterfall settles before the result is appended to
+						the durable log - so the model only ever sees the normalized output and
+						never notices the replacement; the exemption list plus the{" "}
+						<code>&lt;&lt;&lt;CCR:</code> marker guard define what passes untouched.
+						That is the write-path counterpart of the governance trio's never-notify
+						precedent: the result is built from the author's own content, and the
+						observation-policy's version record is refreshed by the re-emitted
+						fs/observed.
+					</p>
+				</Concept>
+			</div>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Scope</th>
+							<th>Default</th>
+							<th>Gates</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Scopes.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Scope}</strong>
+								</td>
+								<td>{Row.Default}</td>
+								<td>{Row.Gates}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				<code>toolResultsExempt</code> (volatile): a tool result whose exec name is
+				listed passes the tool-results arm by identity - <code>read</code>,{" "}
+				<code>edit</code>, <code>raw-write</code>, <code>normalize-file</code>,{" "}
+				<code>ccr_retrieve</code>, <code>subagent</code>,{" "}
+				<code>ask_user_question</code> by default.
+			</p>
+			<div class="concept-list">
+				<Concept
+					Id="fullwidth-overpass"
+					Title="The overpass arms: opt-in listeners on two more seams"
+					Diagram="Two additional listeners, both registered at apply and both opt-in (gated at RUNTIME on the scope cells, so flipping a scope lands through the P10 volatile-refresh without any re-registration): the tool-results arm on tools/post-execute with { prepend: true }, and the step-batch arm on agent/pre-step in default order."
+				>
+					<p>
+						<strong>Tool results</strong> - <code>tools/post-execute</code>,{" "}
+						<code>&#123; prepend: true &#125;</code> (OUTERMOST vs the{" "}
+						<a href="/plugins/hook-dsh-ccr/">ccr hook's</a> own prepended gate: the ccr
+						compression sees the NORMALIZED bytes; the <code>&lt;&lt;&lt;CCR:</code>{" "}
+						marker guard makes any load order safe). Accepted, non-value-carrying
+						decisions only; TEXT blocks only; N = 0 is a true no-op - no ledger line;
+						fail-open.
+					</p>
+					<p>
+						<strong>Step batch</strong> - <code>agent/pre-step</code>, default order.
+						While <code>scopes.batch</code> is on, every incoming batch is normalized;
+						the command's one-shot arm fires ONCE regardless of the scope value and is
+						cleared after one use. Text blocks only; never the assistant/tool history.
+					</p>
+					<p>The overpass lines (N &gt; 0 only):</p>
+				</Concept>
+			</div>
+			<div class="code-block">{LedgerLines.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The <code>normalize-overpass</code> command (registered through the{" "}
+				<code>commands</code> service when it is present - probe-once, a missing service
+				simply skips the registration):
+			</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Input</th>
+							<th>Effect</th>
+						</tr>
+					</thead>
+					<tbody>
+						{CommandRows.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Input}</strong>
+								</td>
+								<td>{Row.Effect}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
 		</section>
 
 		<section class="section">

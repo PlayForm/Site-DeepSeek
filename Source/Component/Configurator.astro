@@ -1,6 +1,6 @@
 ---
 // Configurator: the setup page's interactive configurator - the selection
-// (the 12 package toggles + the ENGINE choice + the profile name) generating
+// (the 14 package toggles + the ENGINE choice + the profile name) generating
 // the setup page's own output live: the one-click INSTALL-ALL command block,
 // the profile wiring (the bundles list JSON + the cordis.patch.yml inserts)
 // and the verification lines (the activation ledgers).
@@ -56,6 +56,8 @@ const Order = [
 	"invisible",
 	"fullwidth",
 	"file",
+	"ccr",
+	"tool-coach",
 ] as const;
 
 type SlotKey = (typeof Order)[number];
@@ -249,6 +251,84 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 		Line: "hook-dsh-normalize-file: activated (replacement=-, logFile=~/.dsh/hook-dsh-normalize-file.log)",
 		Note: null,
 	},
+	ccr: {
+		Pkg: "@playform/hook-dsh-ccr",
+		Patch: [
+			"- insert:",
+			"      - id: ccr",
+			'        name: "@playform/hook-dsh-ccr"',
+			"        config:",
+			"            log: true",
+			"            logFile: /Users/nikola/.dsh/ccr.log",
+			"            targets:",
+			"                - bash",
+			"                - glob",
+			"                - grep",
+			"                - read",
+			"                - web_fetch",
+			"                - web_search",
+			"                - list",
+			"                - search",
+			"            exempt:",
+			"                - write",
+			"                - edit",
+			"                - raw-write",
+			"                - subagent",
+			"                - ask_user_question",
+			"                - ccr_retrieve",
+			"            thresholdBytes: 2048",
+			"            inlineThresholdBytes: 1024",
+			"            autoExpand: true",
+			"            autoExpandLimitBytes: 102400",
+			"            compressFailures: false",
+			"            multipliers:",
+			"                terminal: 1",
+			"                error: 8",
+			"                grep: 2",
+			"                paths: 2",
+			"                file: 1",
+			"                json: 1",
+			"                web: 2",
+			"                default: 1",
+			"            previewMaxChars: 240",
+			"            ttlSeconds: 3600",
+			"            storeBudgetBytes: 268435456",
+			'            journalPath: ""',
+			"            contextEngine: false",
+			"            contextEngineThresholdPct: 30",
+			"            protectFirstTurns: 2",
+			"            protectLastTurns: 4",
+		].join("\n"),
+		Line: "ccr: activated (bundle 0.0.1, targets 8, budget 268435456)",
+		Note: null,
+	},
+	"tool-coach": {
+		Pkg: "@playform/hook-dsh-tool-coach",
+		Patch: [
+			"- insert:",
+			"      - id: hook-dsh-tool-coach",
+			'        name: "@playform/hook-dsh-tool-coach"',
+			"        config:",
+			"            log: true",
+			"            logFile: ~/.dsh/hook-dsh-tool-coach.log",
+			"            enabled: true",
+			"            judgeTools:",
+			"                - bash",
+			"                - pwsh",
+			"            threshold: 3",
+			"            window: 8",
+			"            cooldown: 10",
+			"            escalateThreshold: 6",
+			"            cleanWindow: 12",
+			"            enforce: off",
+			"            enforceThreshold: 4",
+			"            fetchLive: true",
+			"            maxSectionTools: 8",
+			"            sectionTtl: 20",
+		].join("\n"),
+		Line: null,
+		Note: "# the coach: no activation line - every knob is volatile, and the tier-0 ledger opens with offense <tool> <class> <pattern>",
+	},
 };
 
 /**
@@ -271,6 +351,8 @@ const EtsNames: Record<SlotKey, string> = {
 	invisible: "ets-hook-dsh-normalize-invisible",
 	fullwidth: "ets-hook-dsh-normalize-fullwidth",
 	file: "ets-hook-dsh-normalize-file",
+	ccr: "ets-hook-dsh-ccr",
+	"tool-coach": "ets-hook-dsh-tool-coach",
 };
 
 function RenameEts(Slots: Record<SlotKey, Slot>): Record<SlotKey, Slot> {
@@ -293,6 +375,39 @@ function RenameEts(Slots: Record<SlotKey, Slot>): Record<SlotKey, Slot> {
 
 const EffectTSSlots = RenameEts(ClassicSlots);
 
+/**
+ * The tool-coach ets exception: the EffectTS twin's real patch
+ * (EffectTS/packages/ets-hook-dsh-tool-coach/cordis.patch.yml) keeps the
+ * Classic entry id (id: hook-dsh-tool-coach) and only swaps the name to the
+ * ets- form, unlike every other entry (which carries the ets- id too).
+ * RenameEts would rename the id, so the correct real body is reinstalled.
+ */
+EffectTSSlots["tool-coach"] = {
+	...EffectTSSlots["tool-coach"],
+	Patch: [
+		"- insert:",
+		"      - id: hook-dsh-tool-coach",
+		'        name: "@playform/ets-hook-dsh-tool-coach"',
+		"        config:",
+		"            log: true",
+		"            logFile: ~/.dsh/hook-dsh-tool-coach.log",
+		"            enabled: true",
+		"            judgeTools:",
+		"                - bash",
+		"                - pwsh",
+		"            threshold: 3",
+		"            window: 8",
+		"            cooldown: 10",
+		"            escalateThreshold: 6",
+		"            cleanWindow: 12",
+		"            enforce: off",
+		"            enforceThreshold: 4",
+		"            fetchLive: true",
+		"            maxSectionTools: 8",
+		"            sectionTtl: 20",
+	].join("\n"),
+};
+
 const Engines: Record<string, { Slots: Record<SlotKey, Slot>; Base: string | null }> = {
 	classic: { Slots: ClassicSlots, Base: null },
 	ets: {
@@ -301,7 +416,7 @@ const Engines: Record<string, { Slots: Record<SlotKey, Slot>; Base: string | nul
 	},
 };
 
-/** The toggle groups: the four package families in roster order. */
+/** The toggle groups: the five package families in roster order. */
 const Groups: { Name: string; Keys: SlotKey[] }[] = [
 	{ Name: "CORE", Keys: ["core"] },
 	{ Name: "FACTORY", Keys: ["factory"] },
@@ -310,6 +425,7 @@ const Groups: { Name: string; Keys: SlotKey[] }[] = [
 		Name: "NORMALIZE · 7",
 		Keys: ["dash", "quotes", "ellipsis", "spaces", "invisible", "fullwidth", "file"],
 	},
+	{ Name: "GUARDIANS", Keys: ["ccr", "tool-coach"] },
 ];
 
 /** The default state: the wiring the setup page's examples document. */

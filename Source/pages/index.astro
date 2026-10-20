@@ -8,13 +8,15 @@ import FlavorBadge from "@Component/FlavorBadge.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Showcase from "@Component/Showcase.astro";
 import StatsBand from "@Component/StatsBand.astro";
+import SupportsButton from "@Component/SupportsButton.astro";
 import Terminal from "@Component/Terminal.astro";
 import TerminalTray from "@Component/TerminalTray.astro";
 import { Counts, Families, Totals } from "@Library/Content";
 import { DotSep } from "@Library/FileIcon";
 
-// The twelve packages: grouped Core & Factory / Governance / Normalize, each
-// with its package name, @-sentence identity and one-sentence description.
+// The fifteen packages: grouped Core & Factory / Governance / Guardians /
+// Live prompt / Normalize, each with its package name, @-sentence identity and
+// one-sentence description.
 const Core = [
 	{
 		Name: "hook-dsh-core",
@@ -101,6 +103,24 @@ const Normalize = [
 	},
 ];
 
+// The guardians: the two new-generation family members - the CCR compressor
+// and the terminal coach - hooked on the tool layer rather than the file
+// system, each with its own plugin page.
+const Guardians = [
+	{
+		Name: "hook-dsh-ccr",
+		Role: "ROLE: COMPRESSOR",
+		Sentence: Families.Ccr,
+		Desc: "The tool-output compressor: hooks the tools/post-execute waterfall and replaces oversized results of the allow-listed target tools with a one-line type-aware preview plus a <<<CCR:hash|type|size>>> retrieval marker - the original stays retrievable through the registered ccr_retrieve tool over the sha256-24 LRU store.",
+	},
+	{
+		Name: "hook-dsh-tool-coach",
+		Role: "ROLE: COACH",
+		Sentence: Families.Coach,
+		Desc: "The terminal coach: judges every bash/pwsh call through the four-tier ladder - silent ledger lines, live-fetched coaching notes, a persistent system-prompt discipline section, an optional hard deny - teaching the model to stop using the terminal for file content.",
+	},
+];
+
 // The use-case showcases: the pin, the govern and the normalize before/
 // after stories. The pairs are the REAL example content from the plugin
 // pages (byte-exact); the facts are the REAL ledger excerpts and the
@@ -123,11 +143,48 @@ const NormalizeAfter = [
 	'  "The refactor is complete - every call site updated, ranges 10-15',
 	'   covered, and the odd U+2015 bar - swept too."',
 ];
+const CompressBefore = [
+	"$ make -C packages/core test",
+	"resolving 214 modules...",
+	"compiling 96 files...",
+	"[ ... 137 more lines ... ]",
+	"smoke: 146 checks green",
+	"make: *** Error 1",
+];
+// The one-line preview + marker: the README's terminal example (the
+// `[terminal:...]` preview line plus the `<<<CCR:hash|type|size>>>` marker;
+// the hash is the sha256-24 store key, matched exactly on retrieval).
+const CompressAfter = [
+	"[terminal:exit 0 | 142 lines | make: *** Error 1]",
+	"<<<CCR:9d3c1f0a7b2e4d5c6a8b9c0d|terminal|5231>>>",
+];
+const CompressFact = "ccr: compressed bash terminal 5231 -> 9d3c1f0a7b2e4d5c6a8b9c0d";
+
+// The supports-buttons: the real manifest facts behind each governance
+// showcase, from the plugin READMEs. The pinner handles package.json ONLY
+// (pure P pass - no ncu, no jobs, no subprocess); the family's Cargo
+// coverage lives in the cargo-governor sibling. The lines render through
+// set:html, so the inline entities are intentional.
+const PinSupports = [
+	`package.json - the pinner's ONLY gate. Every ranged dependency version in any agent-written package.json is rewritten to its static version: <code>&quot;@playform/build&quot;: &quot;^0.3.4&quot;</code> -&gt; <code>&quot;@playform/build&quot;: &quot;0.3.4&quot;</code>.`,
+	`Protected by the pin-policy keep-list: <code>pin-policy.json</code> keeps named ranges as authored - keep-list wins.`,
+	`Pure pin pass: no ncu, no jobs, no subprocess, no cooldown. A fully pinned manifest leaves the governor's update stage nothing to do.`,
+	`Exclusion-first: paths containing node_modules / .git / .dsh / .pnpm / .store are skipped silently (<code>skipped (excluded) &lt;path&gt;</code>).`,
+	`Cargo.toml is NOT handled by the pinner - the family's Cargo coverage lives in <a href="/plugins/hook-dsh-cargo-governor/">hook-dsh-cargo-governor</a>.`,
+	`The full story: <a href="/plugins/hook-dsh-package-pinner/">the pinner page</a>.`,
+];
+const GovernSupports = [
+	`package.json - the chain pass canonicalizes chain-governed pins to the effective registry's resolved versions (<code>&quot;0.4.1&quot;</code> -&gt; <code>&quot;^0.4.5&quot;</code> for a dep in the nearest registry.json), then the update stage runs <code>npm-check-updates</code> (programmatic by default, or the absolute ncuBin binary) as a detached, contained continuation in the jobs envelope.`,
+	`The cordis-trap guard: ncu's reject list is always policy.reject + the chain-governed dep names - a chain pin is never bumped to public npm latest.`,
+	`Cargo.toml - handled by <a href="/plugins/hook-dsh-cargo-governor/">hook-dsh-cargo-governor</a> (the same architecture): surgical rewrites on the raw TOML lines (never a TOML stringify - comments survive), full-version normalization (shorthand padded, <code>pinStyle &quot;exact&quot;</code>), and the update stage driven by <code>cargo upgrade --exclude</code> through the ctx.subprocess seam.`,
+	`Silence: the transcript shows only what the author wrote; the ledger shows what actually happened (<code>governed &lt;path&gt; -&gt; &lt;version&gt;</code>).`,
+	`The full story: <a href="/plugins/hook-dsh-package-governor/">the governor page</a>.`,
+];
 ---
 
 <Base
 	Title="DSH Family @ PlayForm - Tame the model's output and govern the project's files."
-	Description="The DeepSeek Harness Plugin Family for PlayForm: twelve TypeScript packages - the core, the factory service, the governance trio and the seven-member normalize family. CLASSIC and EFFECT-TS releases."
+	Description="The DeepSeek Harness Plugin Family for PlayForm: fifteen TypeScript packages - the core, the factory service, the governance trio, the seven-member normalize family, the CCR compressor and tool-coach guardians, and the live-containers hook (shipped disabled). CLASSIC and EFFECT-TS releases."
 >
 	<main class="container container--main">
 		<!-- Eyebrow badges -->
@@ -158,7 +215,7 @@ const NormalizeAfter = [
 					<p class="hero__sub">
 						The <BrandIcon Name="deepseek" /> DeepSeek Harness Plugin Family for
 						PlayForm: every model's output normalized to clean ASCII characters, every
-						manifest pinned and governed under the author's control - twelve TypeScript
+						manifest pinned and governed under the author's control - fifteen TypeScript
 						packages, smoke-arbitrated.</p>
 					<p class="hero__sub">
 						Model output, clean and governed.
@@ -212,7 +269,7 @@ const NormalizeAfter = [
 		</section>
 
 		<!-- The stats band: the three verified family facts from the content
-			library - 12 packages, the 733 + 746 check totals, the 0.0.1
+			library - 14 packages, the 1008 + 1021 check totals, the 0.0.1
 			release - the proof strip between the hero and the plugins. -->
 		<StatsBand />
 
@@ -256,7 +313,24 @@ const NormalizeAfter = [
 				))}
 			</div>
 
-			<!-- Group 3: Normalize -->
+			<!-- Group 3: Guardians -->
+			<p class="section-kicker">Guardians &amp; Compression</p>
+			<div class="grid grid--2" style="margin-bottom: var(--space-md)">
+				{Guardians.map((Package) => (
+					<Card
+						Name={Package.Name}
+						Href={`/plugins/${Package.Name}/`}
+						NameTone="primary"
+						Sentence={Package.Sentence}
+						Desc={Package.Desc}
+						Muted
+					>
+						<Badge slot="badge" Variant="outline">{Package.Role}</Badge>
+					</Card>
+				))}
+			</div>
+
+			<!-- Group 4: Normalize -->
 			<p class="section-kicker">Normalize</p>
 			<div class="grid grid--3">
 				{Normalize.map((Package) => (
@@ -285,7 +359,7 @@ const NormalizeAfter = [
 						<BrandIcon Name="typescript" Size="1.333em" ClassName="version-card__icon" />
 					</div>
 					<p class="version-card__body">
-						The twelve contracts in plain TypeScript - classes, Maps and plain
+						The fifteen contracts in plain TypeScript - classes, Maps and plain
 						functions, zero runtime framework dependencies.</p>
 					<p class="version-card__body">
 						The straightforward integration release.
@@ -303,7 +377,7 @@ const NormalizeAfter = [
 						<BrandIcon Name="effect" Size="1.333em" ClassName="version-card__icon" />
 					</div>
 					<p class="version-card__body">
-						The same twelve contracts re-expressed on Effect-TS services and layers -
+						The same fifteen contracts re-expressed on Effect-TS services and layers -
 						same behavior, same smokes, different runtime plumbing.
 					</p>
 					<div class="version-card__facts">
@@ -314,16 +388,19 @@ const NormalizeAfter = [
 			</div>
 		</section>
 
-		<!-- The use cases: what the family accomplishes - the pin, the govern
-			and the normalize before/after stories, each a full-width wide
-			card (one card per row, spanning the section's width - the
-			squished three-column grid replaced by the wide stack; the
-			normalize card keeps its Compare slider full-width for the drag).
-			The pairs are the real example content from the plugin pages; the
-			fact lines are the real ledger excerpts; the totals strip is the
-			content library's pair. -->
+		<!-- The use cases: what the family accomplishes - the pin, the govern,
+			the normalize and the compress before/after stories, each a
+			full-width wide card (one card per row, spanning the section's
+			width - the squished three-column grid replaced by the wide stack;
+			the normalize card keeps its Compare slider full-width for the
+			drag). The pairs are the real example content from the plugin
+			pages; the fact lines are the real ledger excerpts; the totals
+			strip is the content library's pair. The two governance cards
+			close with the supports-buttons: the manifests each module
+			actually handles, click-to-expand (the site's class-toggle
+			pattern - there is no <details> anywhere on the site). -->
 		<section class="section" id="use-cases">
-			<SectionHeader Title="The use cases" Meta="PIN · GOVERN · NORMALIZE" />
+			<SectionHeader Title="The use cases" Meta="PIN · GOVERN · NORMALIZE · COMPRESS" />
 			<div class="use-cases">
 				<Showcase
 					Wide
@@ -334,7 +411,9 @@ const NormalizeAfter = [
 					Before={PinBefore}
 					After={PinAfter}
 					Fact={PinFact}
-				/>
+				>
+					<SupportsButton Manifests={["package.json"]} Detail={PinSupports} slot="supports" />
+				</Showcase>
 				<Showcase
 					Wide
 					Kicker="THE GOVERN"
@@ -344,7 +423,13 @@ const NormalizeAfter = [
 					Before={GovernBefore}
 					After={GovernAfter}
 					Fact={GovernFact}
-				/>
+				>
+					<SupportsButton
+						Manifests={["package.json", "Cargo.toml"]}
+						Detail={GovernSupports}
+						slot="supports"
+					/>
+				</Showcase>
 				<Showcase
 					Wide
 					Kicker="THE NORMALIZE"
@@ -361,9 +446,184 @@ const NormalizeAfter = [
 						Start={50}
 					/>
 				</Showcase>
+				<Showcase
+					Wide
+					Kicker="THE COMPRESS"
+					Title="Big tool output, one line and a marker"
+					Lead="The ccr hook replaces an oversized tool result with a one-line type-aware preview plus the retrieval marker - the original stays retrievable through the registered ccr_retrieve tool."
+					Href="/plugins/hook-dsh-ccr/"
+					Before={CompressBefore}
+					After={CompressAfter}
+					Fact={CompressFact}
+				/>
 			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The six stream flavors plus normalize-file now also expose the volatile
+				<code>scopes</code> surface (conversation / reasoning / toolInput / toolResults /
+				files / batch, with <code>toolResultsExempt</code>) with live
+				<code>loader/volatile-update</code> toggles - and the overpass arms
+				(<code>tools/post-execute</code> tool results + <code>agent/pre-step</code> step
+				batch) reachable through the <code>normalize-overpass</code> command.
+			</p>
 			<p class="section-kicker" style="margin-top: var(--space-md)">
 				<Fragment set:html={DotSep(`${Totals.Meta()} · the ledger strings, byte-identical`)} />
+			</p>
+		</section>
+
+		<!-- The coachy tool-coach section: the same technical-minimalist
+			system, a DIFFERENT palette and structure. The palette reuses the
+			two sanctioned non-blue tokens already in the system (the section
+			root aliases them locally - no new hex); the structure is a
+			two-column coaching board instead of the header-then-grid shape
+			every other section uses: a sticky tier-ladder rail on the left,
+			the interactive judge demo on the right. All copy comes from the
+			hook-dsh-tool-coach README/SCHEME (the ledger strings byte-exact). -->
+		<section class="section coach" id="coach">
+			<header class="coach__header">
+				<p class="coach__kicker">THE COACH</p>
+				<h2 class="coach__title">A guardian that coaches the model, tier by tier.</h2>
+				<p class="coach__lead">
+					The one-sentence rule the coach enforces: <strong>the terminal runs
+					COMMANDS (builds, tests, git, package managers); the tools handle
+					CONTENT.</strong> Terminal file edits are invisible to the plugin
+					system - the <code>fs/observed</code> chain (the governor's, the
+					pinner's and the normalize plugins' trigger) fires only on tool-layer
+					writes, so a <code>sed -i</code> edit bypasses all of them. The coach
+					goes where that regression flows: the terminal tool calls.
+				</p>
+			</header>
+
+			<div class="coach__board">
+				<!-- The tier ladder rail: four steps, click-to-focus. -->
+				<nav class="coach__ladder" aria-label="The coaching ladder">
+					<button
+						type="button"
+						class="coach__tier is-active"
+						data-coach-tier="0"
+						aria-pressed="true"
+					>
+						<span class="coach__tier-n">TIER 0</span>
+						<span class="coach__tier-name">LEDGER</span>
+						<span class="coach__tier-brief">every offense, silent</span>
+					</button>
+					<button
+						type="button"
+						class="coach__tier"
+						data-coach-tier="1"
+						aria-pressed="false"
+					>
+						<span class="coach__tier-n">TIER 1</span>
+						<span class="coach__tier-name">NOTE</span>
+						<span class="coach__tier-brief">threshold 3 &middot; window 8 &middot; cooldown 10</span>
+					</button>
+					<button
+						type="button"
+						class="coach__tier"
+						data-coach-tier="2"
+						aria-pressed="false"
+					>
+						<span class="coach__tier-n">TIER 2</span>
+						<span class="coach__tier-name">SECTION</span>
+						<span class="coach__tier-brief">escalate 6 &middot; clean window 12</span>
+					</button>
+					<button
+						type="button"
+						class="coach__tier"
+						data-coach-tier="3"
+						aria-pressed="false"
+					>
+						<span class="coach__tier-n">TIER 3</span>
+						<span class="coach__tier-name">DENY</span>
+						<span class="coach__tier-brief">enforce off by default</span>
+					</button>
+				</nav>
+
+				<!-- The judge demo stage: click a bash call, the coach judges it. -->
+				<div class="coach__stage">
+					<p class="coach__focus" data-coach-focus></p>
+					<div class="coach__calls">
+						<button
+							type="button"
+							class="coach__call"
+							data-coach-call
+							data-call-kind="clean"
+							aria-label="Judge: pnpm test"
+						><code>$ pnpm test</code></button>
+						<button
+							type="button"
+							class="coach__call"
+							data-coach-call
+							data-call-kind="read"
+							data-call-pattern="cat"
+							aria-label="Judge: cat config.json"
+						><code>$ cat config.json</code></button>
+						<button
+							type="button"
+							class="coach__call"
+							data-coach-call
+							data-call-kind="write"
+							data-call-pattern="--in-place"
+							aria-label="Judge: sed -i 's/a/b/' app.ts"
+						><code>$ sed -i 's/a/b/' app.ts</code></button>
+						<button
+							type="button"
+							class="coach__call"
+							data-coach-call
+							data-call-kind="write"
+							data-call-pattern="&lt;catch-all&gt;"
+							aria-label="Judge: echo x > notes.md"
+						><code>$ echo x &gt; notes.md</code></button>
+						<button
+							type="button"
+							class="coach__call"
+							data-coach-call
+							data-call-kind="exempt"
+							data-call-pattern="git diff"
+							aria-label="Judge: git diff > patch.txt"
+						><code>$ git diff &gt; patch.txt</code></button>
+					</div>
+					<div class="coach__tray rail-orange">
+						<TerminalTray Label="THE COACHING LEDGER">
+							<span class="coach__status" data-coach-status role="status" aria-live="polite">
+								0 STRIKES
+							</span>
+						</TerminalTray>
+						<div class="coach__screen" data-coach-screen></div>
+					</div>
+					<button
+						type="button"
+						class="coach__enforce"
+						data-coach-enforce
+						aria-pressed="false"
+					>TIER 3 (ENFORCE): OFF</button>
+				</div>
+			</div>
+
+			<div class="coach__notes">
+				<p class="coach__note">
+					<strong>Detection is deliberately adversarial.</strong> The pattern table is
+					one input, not the authority: the command is normalized first (heredoc
+					bodies stripped, subshells and variables wrapped, quote layers removed),
+					then the pattern rows, an intent-marker scan, a craft library for the
+					obfuscated variants, and a catch-all - any write-intent marker on a
+					non-/dev/null path lands as write, so novel zero-day forms still count.
+					Exemptions are checked per pipeline after normalization: an exempt head
+					dominates its pipe (<code>git diff &gt; patch.txt</code> is exempt), a bare
+					<code>echo x &gt; tracked.md</code> is not.
+				</p>
+				<p class="coach__note">
+					<strong>Every note names the correct tool with its LIVE registry data,</strong>
+					fetched through <code>ctx.tools.schemas()</code> (the same way the model
+					itself is given tools): the tool name, the first sentence of its
+					description (&le; 120 chars) and the primary parameter key. Any fetch
+					failure degrades to the static table and logs
+					<code>schema fetch failed -&gt; static fallback</code> - a note never fails
+					a waterfall.
+				</p>
+			</div>
+			<p class="coach__cta-row">
+				<a class="coach__cta" href="/plugins/hook-dsh-tool-coach/">MEET THE COACH</a>
+				<a class="coach__cta coach__cta--secondary" href="/plugins/hook-dsh-ccr/">ITS SIBLING ON THE SAME WATERFALL: THE CCR HOOK</a>
 			</p>
 		</section>
 
@@ -405,7 +665,7 @@ const NormalizeAfter = [
 				<p>
 					the hook-dsh-* hooks: zero runtime overhead normalizers with zero unicode drift.
 				</p>
-				<p>the twelve packages: pinned under atomic version gates.</p>
+				<p>the fifteen packages: pinned under atomic version gates.</p>
 			</div>
 		</section>
 	</main>
@@ -421,6 +681,372 @@ const NormalizeAfter = [
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-md);
+	}
+
+	/* ---- The coachy tool-coach section ----
+		A different palette and a different structure, on the same
+		technical-minimalist system: the palette reuses the two sanctioned
+		non-blue tokens already in the system, aliased locally so the
+		section reads as its own stage while staying byte-equal to the
+		system tokens (no new hex); the structure is a two-column coaching
+		board (the sticky tier-ladder rail + the judge demo stage) instead
+		of the header-then-grid shape every other section uses. Zero
+		elevation: hairlines, flat fills, the radius tokens only. */
+	.coach {
+		--coach-red: var(--color-pin-red);
+		--coach-orange: var(--color-accent-orange);
+	}
+
+	.coach__header {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
+		max-width: 60rem;
+	}
+
+	.coach__kicker {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		color: var(--coach-orange);
+	}
+
+	.coach__title {
+		margin: 0;
+		font-size: var(--text-headline-lg);
+		line-height: var(--leading-headline-lg);
+		font-weight: var(--weight-headline-lg);
+		letter-spacing: var(--tracking-headline-lg);
+		color: var(--color-on-surface);
+	}
+
+	.coach__lead {
+		margin: 0;
+		font-size: var(--text-body-sm);
+		line-height: var(--leading-body-sm);
+		color: var(--color-on-surface-variant);
+	}
+
+	.coach__board {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-md);
+		align-items: start;
+		margin-top: var(--space-md);
+	}
+
+	/* The tier ladder rail: sticky at desktop (it stays visible while the
+	   stage's demo scrolls), a horizontal wrap below the breakpoint. */
+	.coach__ladder {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+	}
+
+	.coach__tier {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		grid-template-rows: auto auto;
+		column-gap: var(--space-sm);
+		row-gap: 2px;
+		align-items: baseline;
+		text-align: left;
+		padding: var(--space-sm) var(--space-md);
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-md);
+		background: var(--color-surface-container-lowest);
+		cursor: pointer;
+		transition:
+			border-color var(--duration-fast) var(--ease-crisp),
+			background-color var(--duration-fast) var(--ease-crisp);
+	}
+
+	.coach__tier:hover {
+		border-color: var(--coach-orange);
+	}
+
+	.coach__tier.is-active {
+		border-color: var(--coach-orange);
+		background: var(--color-surface-container-low);
+	}
+
+	/* The lit state: the tier whose line just fired in the demo stays
+	   highlighted in the red whistle tone (class-driven, no keyframes -
+	   the reduced-motion guard stills transitions). */
+	.coach__tier.is-lit {
+		border-color: var(--coach-red);
+	}
+
+	.coach__tier.is-lit .coach__tier-name {
+		color: var(--coach-red);
+	}
+
+	.coach__tier-n {
+		grid-row: 1 / span 2;
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-ink-muted);
+	}
+
+	.coach__tier-name {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: 600;
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		color: var(--color-on-surface);
+	}
+
+	.coach__tier-brief {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		color: var(--color-ink-muted);
+		white-space: nowrap;
+	}
+
+	.coach__stage {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-md);
+		min-width: 0;
+	}
+
+	.coach__focus {
+		margin: 0;
+		font-size: var(--text-body-sm);
+		line-height: var(--leading-body-sm);
+		color: var(--color-on-surface-variant);
+		min-height: 3.5em;
+	}
+
+	.coach__calls {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-xs);
+	}
+
+	/* The bash call cards: the filter-chip / engine-pill look (the site's
+	   established chip voice), judged states driven by classes only. */
+	.coach__call {
+		display: inline-flex;
+		align-items: center;
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		padding: var(--space-xs) var(--space-md);
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-md);
+		background: var(--color-surface-container-low);
+		color: var(--color-ink-secondary);
+		cursor: pointer;
+		transition:
+			background-color var(--duration-fast) var(--ease-crisp),
+			border-color var(--duration-fast) var(--ease-crisp),
+			color var(--duration-fast) var(--ease-crisp);
+	}
+
+	.coach__call code {
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		letter-spacing: inherit;
+		background: none;
+		padding: 0;
+	}
+
+	.coach__call:hover {
+		border-color: var(--color-harness-blue);
+	}
+
+	.coach__call:active {
+		transform: scale(0.97);
+	}
+
+	/* The verdict flashes: EXEMPT reads blue-muted (the system's clean
+	   tone), an offense reads the red whistle tone - class changes only. */
+	.coach__call.is-clean {
+		border-color: var(--color-primary-container);
+		color: var(--color-primary);
+		background: var(--color-harness-blue-subtle);
+	}
+
+	.coach__call.is-offense {
+		border-color: var(--coach-red);
+		color: var(--coach-red);
+	}
+
+	/* The verdict tray: the TerminalTray chrome on top, the accumulated
+	   ledger lines below. The 2px orange rail comes from the shared
+	   .rail-orange class in Global.css - this rule only adds the other
+	   three hairlines so the rail's border-top is never overridden. */
+	.coach__tray {
+		border-left: 1px solid var(--color-outline-variant);
+		border-right: 1px solid var(--color-outline-variant);
+		border-bottom: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-lg);
+		padding: var(--space-md);
+		background: var(--color-surface-container-lowest);
+	}
+
+	.coach__status {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		color: var(--color-ink-muted);
+	}
+
+	.coach__screen {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		min-height: 6.5em;
+		max-height: 16em;
+		overflow-y: auto;
+		padding: var(--space-sm) var(--space-md);
+		border-radius: var(--radius-md);
+		background: var(--color-surface-container-low);
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+	}
+
+	/* The demo's injected lines and notices: :global - the elements are
+	   created by the page's script, so they carry no scope attribute and
+	   the scoped selectors would never match. */
+	.coach__screen :global(.coach__line) {
+		overflow-wrap: anywhere;
+		color: var(--color-ink-secondary);
+	}
+
+	.coach__screen :global(.coach__line--offense) {
+		color: var(--coach-red);
+	}
+
+	.coach__screen :global(.coach__line--deny) {
+		color: var(--coach-red);
+		font-weight: 600;
+	}
+
+	.coach__screen :global(.coach__notice) {
+		overflow-wrap: anywhere;
+		margin-top: 2px;
+		padding: var(--space-xs) var(--space-sm);
+		border: 1px solid var(--coach-orange);
+		border-radius: var(--radius-md);
+		background: var(--color-surface-container-lowest);
+		color: var(--color-on-surface);
+	}
+
+	.coach__screen :global(.coach__notice strong) {
+		color: var(--coach-red);
+	}
+
+	/* The enforce toggle: the engine-pill voice; armed it reads red. */
+	.coach__enforce {
+		align-self: flex-start;
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		padding: var(--space-xs) var(--space-md);
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-md);
+		background: var(--color-surface-container-low);
+		color: var(--color-ink-secondary);
+		cursor: pointer;
+		transition:
+			border-color var(--duration-fast) var(--ease-crisp),
+			color var(--duration-fast) var(--ease-crisp);
+	}
+
+	.coach__enforce:hover {
+		border-color: var(--coach-red);
+	}
+
+	.coach__enforce.is-armed {
+		border-color: var(--coach-red);
+		color: var(--coach-red);
+	}
+
+	.coach__notes {
+		display: grid;
+		gap: var(--space-sm);
+		margin-top: var(--space-md);
+	}
+
+	.coach__note {
+		margin: 0;
+		font-size: var(--text-body-sm);
+		line-height: var(--leading-body-sm);
+		color: var(--color-on-surface-variant);
+	}
+
+	.coach__cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-sm);
+		margin-top: var(--space-md);
+	}
+
+	.coach__cta {
+		font-family: var(--font-mono);
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		letter-spacing: var(--tracking-label-sm);
+		text-transform: uppercase;
+		padding: var(--space-xs) var(--space-md);
+		border: 1px solid var(--coach-orange);
+		border-radius: var(--radius-md);
+		color: var(--color-on-surface);
+		background: var(--color-surface-container-lowest);
+	}
+
+	.coach__cta:hover {
+		text-decoration: none;
+		color: var(--coach-orange);
+	}
+
+	.coach__cta--secondary {
+		border-color: var(--color-outline-variant);
+		color: var(--color-ink-secondary);
+	}
+
+	.coach__cta--secondary:hover {
+		color: var(--coach-orange);
+	}
+
+	/* Two columns from the 900px breakpoint (the wide cards'
+	   breakpoint): the ladder rail left and sticky, the stage right. */
+	@media (min-width: 900px) {
+		.coach__board {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+		}
+
+		.coach__ladder {
+			position: sticky;
+			top: var(--space-lg);
+		}
 	}
 </style>
 
@@ -546,4 +1172,173 @@ const NormalizeAfter = [
 			StartStreaming();
 		});
 	}
+
+	// ---- The coach judge demo: the tier ladder + the strike accumulation
+	// ---- (the tool-coach section above). The copy comes from
+	// hook-dsh-tool-coach's README/SCHEME; the ledger lines are the
+	// module's byte-exact templates instantiated with the demo's own
+	// calls. Clicking a tier card focuses the stage's explanation;
+	// clicking a bash call card judges it: the verdict flash on the card,
+	// the offense line in the tray, the tier-1 note at the 3rd same-class
+	// strike, the tier-2 section at 6 total offenses, and - when the
+	// enforce chip is armed - the tier-3 deny reason on write-class calls.
+	const TierExplanations: Record<string, string> = {
+		"0": "Tier 0 - the durable log: every detected offense logs offense <tool> <class> <pattern> immediately, and the model sees nothing. Exemptions log exempt <tool> <pattern-head> only when a row would have matched.",
+		"1": "Tier 1 - the note: the offense's class reaching threshold (3) strikes within window (8) judged calls, with cooldown (10) between notes, appends a UserMessage additionalContexts note - source {kind: 'tool-coach', form: 'notice', summary: '<tool> <class> \u00d7 <n>'} - naming the correct tool with its LIVE registry description.",
+		"2": "Tier 2 - the persistent section: total offenses since the last note reaching escalateThreshold (6) turn on the system-prompt/assemble 'Tool discipline' section - 3 fixed rules plus the live-fetched tool table (maxSectionTools 8 rows max); off again after cleanWindow (12) clean calls.",
+		"3": "Tier 3 - the deny: enforce ('off' | 'write' | 'all') armed and per-class strikes since the last note reaching enforceThreshold (4), the tools/pre-execute listener returns {kind: 'deny', reason} - the deny reason IS the lesson. Discovery and control are NEVER denied.",
+	};
+
+	const CoachFocus = document.querySelector<HTMLElement>("[data-coach-focus]")!;
+	const CoachScreen = document.querySelector<HTMLElement>("[data-coach-screen]")!;
+	const CoachStatus = document.querySelector<HTMLElement>("[data-coach-status]")!;
+	const TierButtons = [...document.querySelectorAll<HTMLElement>("[data-coach-tier]")];
+	const CallButtons = [...document.querySelectorAll<HTMLElement>("[data-coach-call]")];
+	const EnforceButton = document.querySelector<HTMLElement>("[data-coach-enforce]")!;
+
+	let WriteStrikes = 0;
+	let ReadStrikes = 0;
+	let TotalOffenses = 0;
+	let CleanStreak = 0;
+	let Escalated = false;
+	let EnforceArmed = false;
+
+	function PushLine(Text: string, Mod = "") {
+		const Line = document.createElement("div");
+		Line.className = `coach__line${Mod ? ` coach__line--${Mod}` : ""}`;
+		Line.textContent = Text;
+		CoachScreen.appendChild(Line);
+		CoachScreen.scrollTop = CoachScreen.scrollHeight;
+	}
+
+	// The notice blocks: innerHTML with static literals only (the text is
+	// page-authored, never user data).
+	function PushNotice(Html: string) {
+		const Note = document.createElement("div");
+		Note.className = "coach__notice";
+		Note.innerHTML = Html;
+		CoachScreen.appendChild(Note);
+		CoachScreen.scrollTop = CoachScreen.scrollHeight;
+	}
+
+	function LightTier(N: string) {
+		TierButtons.forEach((Tier) => {
+			if (Tier.getAttribute("data-coach-tier") === N) Tier.classList.add("is-lit");
+		});
+	}
+
+	function UpdateStatus() {
+		CoachStatus.textContent = `${TotalOffenses} STRIKES`;
+	}
+
+	function Judge(Call: HTMLElement) {
+		const Kind = Call.getAttribute("data-call-kind");
+		const Pattern = Call.getAttribute("data-call-pattern") ?? "";
+
+		if (Kind === "clean") {
+			Call.classList.add("is-clean");
+			CleanStreak += 1;
+			if (Escalated && CleanStreak >= 4) {
+				PushLine("persistent section cleared (4 clean calls)");
+				Escalated = false;
+				CleanStreak = 0;
+			}
+			return;
+		}
+
+		if (Kind === "exempt") {
+			Call.classList.add("is-clean");
+			CleanStreak += 1;
+			// The exemption line: only when a row would have matched (the
+			// exempt head dominates its pipe).
+			PushLine(`exempt bash ${Pattern}`);
+			if (Escalated && CleanStreak >= 4) {
+				PushLine("persistent section cleared (4 clean calls)");
+				Escalated = false;
+				CleanStreak = 0;
+			}
+			return;
+		}
+
+		Call.classList.add("is-offense");
+		CleanStreak = 0;
+		TotalOffenses += 1;
+		UpdateStatus();
+
+		if (Kind === "read") {
+			ReadStrikes += 1;
+			PushLine(`offense bash read ${Pattern}`, "offense");
+			if (ReadStrikes >= 3) {
+				PushLine(`strike ${ReadStrikes}/3 bash read -> note read`, "offense");
+				PushNotice(
+					"<strong>bash read \u00d7 3</strong> - use the read tool - reads a file from the local filesystem (param: path), fetched live via ctx.tools.schemas().",
+				);
+				LightTier("1");
+				ReadStrikes = 0;
+			}
+		}
+
+		if (Kind === "write") {
+			if (EnforceArmed) {
+				// Tier 3: the deny reason IS the lesson; the deny resets the
+				// note counters, and the offense still counts (the denied
+				// call flows through post-execute).
+				PushLine(`denied bash write ${Pattern} -> use edit`, "deny");
+				PushNotice(
+					"<strong>denied</strong> - use the edit tool - performs exact string replacement in a file (param: file_path); discovery and control are never denied.",
+				);
+				LightTier("3");
+				WriteStrikes = 0;
+			} else {
+				WriteStrikes += 1;
+				PushLine(`offense bash write ${Pattern}`, "offense");
+				if (WriteStrikes >= 3) {
+					PushLine(`strike ${WriteStrikes}/3 bash write -> note edit`, "offense");
+					PushNotice(
+						"<strong>bash write \u00d7 3</strong> - use the edit tool - performs exact string replacement in a file (param: file_path), fetched live via ctx.tools.schemas().",
+					);
+					LightTier("1");
+					WriteStrikes = 0;
+				}
+			}
+		}
+
+		// Tier 2: total offenses since the last note (the demo counts every
+		// offense; idempotent - the section never re-escalates while on).
+		if (!Escalated && TotalOffenses >= 6) {
+			PushLine(`escalated persistent section (${TotalOffenses} strikes)`);
+			PushNotice(
+				"<strong>Tool discipline</strong> - 3 fixed rules plus the live-fetched tool table (8 rows max); off again after the clean window.",
+			);
+			LightTier("2");
+			Escalated = true;
+		}
+	}
+
+	CallButtons.forEach((Call) => {
+		Call.addEventListener("click", () => Judge(Call));
+	});
+
+	TierButtons.forEach((Tier) => {
+		Tier.addEventListener("click", () => {
+			TierButtons.forEach((Other) => {
+				const Active = Other === Tier;
+				Other.classList.toggle("is-active", Active);
+				Other.setAttribute("aria-pressed", Active ? "true" : "false");
+			});
+			CoachFocus.textContent =
+				TierExplanations[Tier.getAttribute("data-coach-tier") ?? "0"] ?? "";
+		});
+	});
+
+	EnforceButton.addEventListener("click", () => {
+		EnforceArmed = !EnforceArmed;
+		EnforceButton.classList.toggle("is-armed", EnforceArmed);
+		EnforceButton.setAttribute("aria-pressed", EnforceArmed ? "true" : "false");
+		// A static literal; textContent is safe here.
+		EnforceButton.textContent = EnforceArmed
+			? "TIER 3 (ENFORCE): WRITE"
+			: "TIER 3 (ENFORCE): OFF";
+		if (EnforceArmed) LightTier("3");
+	});
 </script>

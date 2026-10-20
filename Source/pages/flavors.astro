@@ -66,7 +66,7 @@ const Flavors = [
 
 <Base
 	Title="Flavors & Roles - DSH Family @ PlayForm"
-	Description="The seven normalize flavors (dash, quotes, ellipsis, spaces, invisible, fullwidth, file) and the two governance roles (governor, pinner) of the DeepSeek Harness Plugin Family."
+	Description="The seven normalize flavors (dash, quotes, ellipsis, spaces, invisible, fullwidth, file), the two governance roles (governor, pinner) and the two guardians (the ccr compressor, the tool-coach) of the DeepSeek Harness Plugin Family."
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -74,13 +74,13 @@ const Flavors = [
 				ECOSYSTEM: @PLAYFORM
 			</Badge>
 			<Badge>
-				{Counts.Normalizers} FLAVORS / {Counts.Roles} ROLES
+				{Counts.Normalizers} FLAVORS / {Counts.Roles} ROLES / {Counts.Groups.Guardians} GUARDIANS
 			</Badge>
 		</div>
 
 		<PageHero
 			Title="Flavors & Roles"
-			Sub={"Nine capabilities, two kinds.\nThe seven normalize flavors turn model output streams and project files into clean ASCII; the two governance roles keep the project's manifests pinned and governed under the author's control."}
+			Sub={"Eleven capabilities, three kinds.\nThe seven normalize flavors turn model output streams and project files into clean ASCII; the two governance roles keep the project's manifests pinned and governed under the author's control; and the two guardians watch the model itself - the ccr compressor shrinking oversized tool output, the tool-coach coaching the terminal calls."}
 		/>
 
 		<!-- The seven flavors -->
@@ -101,6 +101,17 @@ const Flavors = [
 					</Card>
 				))}
 			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				Each flavor now shares a granular <code>scopes</code> surface - conversation /
+				reasoning / toolInput / toolResults / files / batch, every scope volatile and
+				hot-flippable through <code>loader/volatile-update</code> - plus two opt-in{" "}
+				<strong>overpass arms</strong>: the tool-results arm on{" "}
+				<code>tools/post-execute</code> and the step-batch arm on{" "}
+				<code>agent/pre-step</code>, driven by the <code>normalize-overpass</code>{" "}
+				command. The consumer-side companion on that same waterfall is the{" "}
+				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> - the compressor whose{" "}
+				<code>&lt;&lt;&lt;CCR:</code> marker guard makes any load order safe.
+			</p>
 		</section>
 
 		<!-- One stream through the whole family: the chain showcase - every
@@ -132,9 +143,9 @@ const Flavors = [
 			</p>
 		</section>
 
-		<!-- The two roles -->
+		<!-- The roles: the two governance roles + the guardian/coach family -->
 		<section class="section">
-			<SectionHeader Title="The two roles" Meta="GOVERNANCE" />
+			<SectionHeader Title="The roles" Meta="GOVERNANCE + THE GUARDIANS" />
 			<div class="grid grid--2">
 				<Card Variant="primary">
 					<div class="card__top">
@@ -164,6 +175,16 @@ const Flavors = [
 					</p>
 				</Card>
 			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				And the third role family, the <strong>guardians</strong>: where governance
+				rewrites the author's files, a guardian watches the <em>model</em>. The{" "}
+				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> compresses oversized tool output on
+				the <code>tools/post-execute</code> waterfall, and the{" "}
+				<a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges every terminal call
+				through a four-tier coaching ladder - the coach that catches the terminal edits
+				neither governance role can see (<code>fs/observed</code> fires only on tool-layer
+				writes).
+			</p>
 		</section>
 
 		<!-- The badge sprite -->

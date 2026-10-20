@@ -89,15 +89,18 @@ const Criticals = [
 	},
 ];
 
-// The P5 journal excerpt, verbatim from Package-10.md:86-90 (the third
-// boot's shared domain) - the ellipsis character and the <- arrow kept
-// byte-exact via the \uXXXX escape route (Lessons.md's reliable routes).
+// The P5 journal excerpt, quoted byte-exact from the package READMEs'
+// ledger samples (the pinner's, the governor's and the cargo-governor's
+// cascades - Package-10.md:86-90, the original source, is no longer in the
+// corpus): the three activation lines of the interlock cascade, the
+// governed version token and the dispatched update stage, with the arrow
+// kept via the \uXXXX escape route (Lessons.md's reliable routes).
 const JournalExcerpt = [
-	"16:44:43.232 activated | activated (pinner, \u2026)",
-	"16:44:43.301 activated | activated (anywhere mode, \u2026)   \u2190 the governor's (was missing)",
-	"16:44:43.302 activated | cargo                            \u2190 the cargo's (was missing)",
-	"16:45:42.178 governed  | <version token>                  \u2190 the interlock cascade",
-	"16:45:42.196 dispatched | programmatic                    \u2190 the update stage",
+	"[2026-10-03T09:15:22.411Z] activated (pinner, logFile=~/.dsh/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
+	"[2026-10-03T09:15:22.411Z] activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+	"[2026-10-03T09:15:22.411Z] activated (cargo flavor, logFile=~/.dsh/hook-dsh-cargo-governor.log, updateMode=cargo, cargoBin=/usr/local/bin/cargo, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery), keepFile=(discovery))",
+	"[2026-10-03T09:16:01.880Z] governed ~/Projects/acme/tool/package.json \u2192 42",
+	"[2026-10-03T09:16:34.120Z] update stage dispatched for ~/Projects/acme/engine (cargo via /usr/local/bin/cargo, built-in default policy)",
 ];
 
 // The live governance matrix from the final battery, verbatim outcomes.
@@ -312,14 +315,14 @@ const Lessons = [
 				<Concept
 					Id="case-growth"
 					Title="From five bundles to twelve packages"
-					Diagram={`The growth across one commit era - the Oct 3-6, 2026 stretch ending at 5982aa8 - five bundles and ${History.OriginChecks} smoke checks growing into twelve packages with ${Totals.PairHyphen()} across ${Counts.Suites} suites as the final count.`}
+					Diagram={`The growth across one commit era - the Oct 3-6, 2026 stretch ending at 5982aa8 - five bundles and ${History.OriginChecks} smoke checks growing into twelve packages, the base the fifteen-package family (with ${Totals.PairHyphen()} across ${Counts.Suites} suites today) stands on.`}
 				>
 					<p>
 						The family grew from <strong>five bundles and {History.OriginChecks} smoke checks</strong> to{" "}
 						<strong>twelve packages</strong> across one commit era - the Oct
-						3&ndash;6, 2026 stretch that ends at <code>5982aa8</code> - with{" "}
-						<strong><Fragment set:html={DotSep(Totals.PairHyphen())} /></strong> across twelve suites as
-						the final count.
+						3&ndash;6, 2026 stretch that ends at <code>5982aa8</code> - the base
+						that the guardians era (Phase VII) extended to{" "}
+						<strong>fifteen packages</strong>.
 					</p>
 					<p>
 						The suites print their own totals; the
@@ -1143,7 +1146,92 @@ const Lessons = [
 			</div>
 			<div class="action-row">
 				<a class="action" href="/versions/">The two releases</a>
-				<a class="action action--secondary" href="/plugins/">The twelve packages</a>
+				<a class="action action--secondary" href="/plugins/">The fifteen packages</a>
+			</div>
+		</section>
+
+		<!-- Phase VII: The guardians - the 2026-10 widening, told in the page's
+		     narrative voice. The earlier phases keep their numbers; this closes
+		     the arc without renumbering anything. -->
+		<section class="section" id="phase-7-guardians">
+			<div class="section-header">
+				<div class="section-header__left">
+					<span class="section-header__marker"></span>
+					<h2 class="section-header__title">Phase VII - The guardians</h2>
+				</div>
+				<span class="section-header__meta">
+					Ccr <ArrowIcon Direction="right" Tone="accent" /> Coach
+				</span>
+			</div>
+			<div class="concept-list">
+				<Concept
+					Id="case-p7-ccr"
+					Title="The CCR port: going where a proxy cannot"
+					Diagram="Aphrodite's CCR pipeline ported into the family: the tools/post-execute waterfall - the interceptable wrapper around every normalized dispatch result, before it becomes model content - replacing oversized tool output with a one-line type-aware preview plus a <<<CCR:hash|type|size>>> marker, the original retrievable through the registered ccr_retrieve tool, auto-expand returning small results full while they are cheap."
+				>
+					<p>
+						The compression feature arrived by port:{" "}
+						<a href="/plugins/hook-dsh-ccr/">the ccr hook</a> hooks the{" "}
+						<code class="code-token">tools/post-execute</code> waterfall - the one point
+						that can legally replace model-visible output for all tools - and replaces
+						oversized results of the allow-listed target tools with a one-line
+						type-aware preview plus a{" "}
+						<code>&lt;&lt;&lt;CCR:&lt;hash&gt;|&lt;type&gt;|&lt;size&gt;&gt;&gt;&gt;</code>{" "}
+						marker.
+					</p>
+					<p>
+						The original stays retrievable through the registered{" "}
+						<code>ccr_retrieve</code> tool over a sha256-24 LRU store;{" "}
+						<code>autoExpand</code> returns small results FULL while they are cheap
+						(no marker reaches the model); and the compression is deliberately VISIBLE
+						at the result layer - the opposite of the governance family's silence.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p7-coach"
+					Title="The tool-coach: the adversary inside the detection"
+					Diagram="The regression the harness could not see: terminal file edits are invisible to fs/observed (it fires only on tool-layer writes), so a sed -i bypassed the governor, the pinner and the normalize plugins entirely - the coach goes where that regression flows, over bash and pwsh, with adversarial detection (normalization, intent markers, a craft library, a write-intent catch-all) and a dynamic ctx.tools.schemas() instruction fetch."
+				>
+					<p>
+						The honest gap the era exposed: a terminal edit (<code>sed -i</code>,{" "}
+						<code>python -c</code>) never fires{" "}
+						<code class="code-token">fs/observed</code>, so every silent-rewrite plugin
+						stood down while the file changed.{" "}
+						<a href="/plugins/hook-dsh-tool-coach/">The tool-coach</a> goes where that
+						regression flows: a four-tier ladder over the terminal tool calls - ledger
+						lines, live-fetched coaching notes, a persistent system-prompt section, and
+						an optional <code>enforce</code> deny tier.
+					</p>
+					<p>
+						Detection is deliberately adversarial: the pipeline strips heredoc bodies,
+						collapses <code>$(...)</code> substitutions and quote layers, scans intent
+						markers and a craft library, and keeps a write-intent catch-all so novel
+						zero-day forms still count - while every note names the correct tool with
+						its LIVE registry description fetched through{" "}
+						<code>ctx.tools.schemas()</code>.
+					</p>
+				</Concept>
+				<Concept
+					Id="case-p7-scopes"
+					Title="The scopes widening: granularity without re-registration"
+					Diagram={'The normalize family gaining a granular volatile scopes surface (conversation/reasoning/toolInput/toolResults/files/batch + toolResultsExempt) with live loader/volatile-update toggles, plus the overpass arms (tools/post-execute tool results + agent/pre-step step batch) and the normalize-overpass command - the per-call {"__normalize":false first-key marker and the effective gate normalizeToolArguments || scopes.toolInput keeping every existing profile working.'}
+				>
+					<p>
+						The normalize family's control widened without breaking a single existing
+						profile: each flavor now carries a granular{" "}
+						<code>scopes</code> object - conversation / reasoning / toolInput /
+						toolResults / files / batch - all volatile, every flip landing through the
+						<code>loader/volatile-update</code> refresh with no remount and no new
+						activation line.
+					</p>
+					<p>
+						The effective tool-input gate stays{" "}
+						<code>normalizeToolArguments || scopes.toolInput</code>, the per-call{" "}
+						<code>&#123;"__normalize":false&#125;</code> first-key marker survives as the
+						escape hatch, and two opt-in overpass arms extend the flavors past the
+						stream - reachable through the <code>normalize-overpass</code> command.
+					</p>
+				</Concept>
 			</div>
 		</section>
 

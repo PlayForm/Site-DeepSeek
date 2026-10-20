@@ -126,13 +126,17 @@ function Unanimous(Values: string[]): string | null {
 
 /**
  * Parse the smoke README's manifest line - the printed per-suite summary
- * "**core 14 / factory 34 / ... / normalize-file 71** - live in this ...",
- * em-dash or hyphen separated. Returns null when the line is not found.
+ * "**core 14 / factory 34 / ... / normalize-file 71** - live as per-test
+ * folders ..." (the restructure layout; the retired "live in this
+ * directory" spelling accepted as a fallback), em-dash or hyphen
+ * separated. Returns null when the line is not found.
  */
 function ReadSmokeManifest(Tree: string): Record<string, number> | null {
 	const Text = ReadText(join(Root, Tree, "smokes", "README.md"));
 	if (!Text) return null;
-	const Match = Text.match(/\*\*([^*]+)\*\* [\u2014-] live in this/);
+	const Match =
+		Text.match(/\*\*([^*]+)\*\* [\u2014-] live as per-test/) ??
+		Text.match(/\*\*([^*]+)\*\* [\u2014-] live in this/);
 	if (!Match) return null;
 	const Counts: Record<string, number> = {};
 	for (const [, Suite, Count] of Match[1].matchAll(/([\w-]+) (\d+)/g)) {
@@ -155,6 +159,8 @@ const SuiteKeys = [
 	["Invisible", "invisible"],
 	["Fullwidth", "fullwidth"],
 	["File", "normalize-file"],
+	["Ccr", "ccr"],
+	["Coach", "tool-coach"],
 ] as const;
 
 /** A per-suite smoke-count pair: the CLASSIC checks against the EFFECT-TS checks. */

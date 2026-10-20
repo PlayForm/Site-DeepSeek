@@ -23,8 +23,9 @@
 //   - Decisions: the twelve decisions plus the abort-signal fix;
 //   - Sprite: the 11 shields-style symbols in /assets/badges.svg;
 //   - Steps: the four setup steps; Copyright: the 2025 footer line;
-//   - Roles: the two governance roles; Groups.Core / Groups.Governance: the
-//     plugins-page section groupings (Groups.Normalize is live).
+//   - Roles: the two governance roles; Groups.Core / Groups.Governance /
+//     Groups.Guardians: the plugins-page section groupings (Groups.Normalize
+//     is live).
 // History's per-suite deltas and total are LIVE - derived from the merged
 // pairs - and mirror the fallback record below.
 //
@@ -59,27 +60,29 @@ const Fallback = {
 		Invisible: { Classic: 62, EffectTS: 62 },
 		Fullwidth: { Classic: 62, EffectTS: 62 },
 		File: { Classic: 71, EffectTS: 71 },
+		Ccr: { Classic: 146, EffectTS: 146 },
+		Coach: { Classic: 129, EffectTS: 129 },
 	},
 	Totals: {
-		/** The CLASSIC total: 733 checks across the twelve suites. */
-		Classic: 733,
-		/** The EFFECT-TS total: 746 checks (core +3, factory +7, governor +3). */
-		EffectTS: 746,
-		/** "733 checks Classic · 746 EffectTS" - the pair the formatters mirror. */
+		/** The CLASSIC total: 1008 checks across the fourteen suites. */
+		Classic: 1008,
+		/** The EFFECT-TS total: 1021 checks (core +3, factory +7, governor +3). */
+		EffectTS: 1021,
+		/** "1008 checks Classic · 1021 EffectTS" - the pair the formatters mirror. */
 	},
 	Versions: {
-		/** The release version of all twelve packages in both trees. */
+		/** The release version of all fifteen packages in both trees. */
 		Release: "0.0.1",
 		/** The effect dependency pin of the EffectTS packages. */
-		Effect: "4.0.2",
+		Effect: "4.0.5",
 	},
-	Packages: 12,
-	Suites: 12,
+	Packages: 15,
+	Suites: 14,
 	Normalizers: 7,
 	StreamFlavors: 6,
 	Roles: 2,
 	Methods: 19,
-	Groups: { Core: 2, Governance: 3 },
+	Groups: { Core: 2, Governance: 3, Guardians: 2, Live: 1 },
 	/** The v1-record migration facts (Package-13.md: the loud, per-record fix). */
 	Migration: { Records: 76, CompatibleVersions: [1] as const },
 	/** The era facts the case study's history rests on (the Oct 3-6, 2026 stretch). */
@@ -124,20 +127,24 @@ export const Counts: {
 	Invisible: Pair;
 	Fullwidth: Pair;
 	File: Pair;
+	/** The CCR compressor's smoke suite (the 146-check suite, both trees). */
+	Ccr: Pair;
+	/** The tool-coach guardian's smoke suite (the 129-check suite, both trees). */
+	Coach: Pair;
 	/** The seven normalize packages: the six stream flavors + the file tool. */
 	Normalizers: number;
 	/** The six stream flavor hooks (the file tool is the seventh sibling). */
 	StreamFlavors: number;
 	/** The two governance roles: GOVERNOR and PINNER. */
 	Roles: number;
-	/** The twelve release packages. */
+	/** The fifteen release packages. */
 	Packages: number;
-	/** The twelve smoke suites (one per package). */
+	/** The fourteen smoke suites (the .mjs suites; the live-containers suite is the package-internal per-test folders). */
 	Suites: number;
 	/** The factory's callable-method ledger. */
 	Methods: number;
 	/** The registry groups as the plugins page sections count them. */
-	Groups: { Core: number; Governance: number; Normalize: number };
+	Groups: { Core: number; Governance: number; Guardians: number; Normalize: number; Live: number };
 } = {
 	Core: Pick(Live.SuitePairs.Core, Fallback.Counts.Core),
 	Factory: Pick(Live.SuitePairs.Factory, Fallback.Counts.Factory),
@@ -151,6 +158,8 @@ export const Counts: {
 	Invisible: Pick(Live.SuitePairs.Invisible, Fallback.Counts.Invisible),
 	Fullwidth: Pick(Live.SuitePairs.Fullwidth, Fallback.Counts.Fullwidth),
 	File: Pick(Live.SuitePairs.File, Fallback.Counts.File),
+	Ccr: Pick(Live.SuitePairs.Ccr, Fallback.Counts.Ccr),
+	Coach: Pick(Live.SuitePairs.Coach, Fallback.Counts.Coach),
 	Normalizers: Pick(Live.Normalizers, Fallback.Normalizers),
 	StreamFlavors: Pick(Live.StreamFlavors, Fallback.StreamFlavors),
 	Roles: Fallback.Roles,
@@ -160,11 +169,13 @@ export const Counts: {
 	Groups: {
 		Core: Fallback.Groups.Core,
 		Governance: Fallback.Groups.Governance,
+		Guardians: Fallback.Groups.Guardians,
 		Normalize: Pick(Live.Normalizers, Fallback.Normalizers),
+		Live: Fallback.Groups.Live,
 	},
 };
 
-/** The twelve per-suite pairs, in suite order - the totals' live source. */
+/** The fourteen per-suite pairs, in suite order - the totals' live source. */
 const SuiteOrder = [
 	Counts.Core,
 	Counts.Factory,
@@ -178,26 +189,28 @@ const SuiteOrder = [
 	Counts.Invisible,
 	Counts.Fullwidth,
 	Counts.File,
+	Counts.Ccr,
+	Counts.Coach,
 ];
 
 /** The family-wide smoke totals, derived from the per-suite pairs. */
 export const Totals = {
-	/** The CLASSIC total: the sum of the twelve CLASSIC pair counts. */
+	/** The CLASSIC total: the sum of the fourteen CLASSIC pair counts. */
 	Classic: SuiteOrder.reduce((Sum, PairCount) => Sum + PairCount.Classic, 0),
-	/** The EFFECT-TS total: the sum of the twelve EFFECT-TS pair counts. */
+	/** The EFFECT-TS total: the sum of the fourteen EFFECT-TS pair counts. */
 	EffectTS: SuiteOrder.reduce((Sum, PairCount) => Sum + PairCount.EffectTS, 0),
-	/** "733 checks Classic · 746 EffectTS" - the sentence-case totals pair. */
+	/** "1008 checks Classic · 1021 EffectTS" - the sentence-case totals pair. */
 	Pair: (): string => `${Totals.Classic} checks Classic · ${Totals.EffectTS} EffectTS`,
-	/** "733 checks Classic · 746 Effect-TS" - the pair with the hyphenated tree name. */
+	/** "1008 checks Classic · 1021 Effect-TS" - the pair with the hyphenated tree name. */
 	PairHyphen: (): string => `${Totals.Classic} checks Classic · ${Totals.EffectTS} Effect-TS`,
-	/** "12 SUITES · 733 CHECKS CLASSIC · 746 EFFECT-TS · ALL PASS" - the meta strip. */
+	/** "14 SUITES · 1008 CHECKS CLASSIC · 1021 EFFECT-TS · ALL PASS" - the meta strip. */
 	Meta: (): string =>
 		`${Counts.Suites} SUITES · ${Totals.Classic} CHECKS CLASSIC · ${Totals.EffectTS} EFFECT-TS · ALL PASS`,
 };
 
 /** The release versions: read live from the release trees' package.json files. */
 export const Versions = {
-	/** The release version of all twelve packages in both trees. */
+	/** The release version of all fifteen packages in both trees. */
 	Release: Pick(Live.Release, Fallback.Versions.Release),
 	/** The effect dependency pin of the EffectTS packages. */
 	Effect: Pick(Live.Effect, Fallback.Versions.Effect),
@@ -262,7 +275,7 @@ export const Migration = {
 		`compatibleVersions [${Migration.CompatibleVersions.join(", ")}] (${Migration.Records} v1 ${Plural(Migration.Records, Migration.Unit)} auto-migrated)`,
 } as const;
 
-/** The register #15 identities: the @-sentence release names of the twelve packages. */
+/** The register #15 identities: the @-sentence release names of the fifteen packages. */
 export const Families = {
 	Core: "Hook @ DSH @ Core",
 	Factory: "Plugin @ DSH @ Factory",
@@ -276,6 +289,9 @@ export const Families = {
 	Invisible: "Hook @ DSH @ Normalize @ Invisible",
 	Fullwidth: "Hook @ DSH @ Normalize @ Fullwidth",
 	File: "Hook @ DSH @ Normalize @ File",
+	Ccr: "Hook @ DSH @ Ccr",
+	Coach: "Hook @ DSH @ Tool @ Coach",
+	LiveContainers: "Hook @ DSH @ Live @ Containers",
 } as const;
 
 /** The per-suite additive EFFECT-TS deltas over the CLASSIC counts (live-derived). */

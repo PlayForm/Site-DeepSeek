@@ -41,16 +41,17 @@ function Current(Href: string) {
 // The site identity: canonical, Open Graph and Twitter URLs composed from
 // Links.Site (the registry) + the page path; the og:image is the rendered
 // brand asset. The JSON-LD describes the family as a SoftwareApplication
-// with the twelve packages as parts (the values from the content library).
+// with the fifteen packages as parts (the values from the content library).
 const SiteUrl = Links.Site.replace(/\/$/, "");
 const Canonical = `${SiteUrl}${Path === "/" ? "/" : Path}`;
 const OgImage = `${SiteUrl}/Brand/OG.png`;
 
-// The twelve release packages (the register #15 names, npm form) - the
+// The fifteen release packages (the register #15 names, npm form) - the
 // SoftwareApplication's parts. The names are LIVE: Library/Live.ts reads the
 // Classic tree's package.json files at build time, kept in this canonical
 // order, with any package missing from the list appended alphabetically.
 const CanonicalPackages = [
+	"@playform/hook-dsh-ccr",
 	"@playform/hook-dsh-core",
 	"@playform/plugin-dsh-factory",
 	"@playform/hook-dsh-package-governor",
@@ -63,6 +64,8 @@ const CanonicalPackages = [
 	"@playform/hook-dsh-normalize-invisible",
 	"@playform/hook-dsh-normalize-fullwidth",
 	"@playform/hook-dsh-normalize-file",
+	"@playform/hook-dsh-tool-coach",
+	"@playform/hook-dsh-live-containers",
 ];
 const Packages = [
 	...CanonicalPackages.filter((Name) => Live.PackageNames.includes(Name)),
@@ -74,7 +77,7 @@ const JsonLd = {
 	"@type": "SoftwareApplication",
 	name: "DSH Family @ PlayForm",
 	description:
-		"The DeepSeek Harness plugin family: deterministic AI engine harnesses for production workloads - twelve packages, twelve smoke suites.",
+		"The DeepSeek Harness plugin family: deterministic AI engine harnesses for production workloads - fifteen packages, fourteen smoke suites.",
 	url: SiteUrl,
 	applicationCategory: "DeveloperApplication",
 	operatingSystem: "Any",

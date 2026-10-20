@@ -12,7 +12,7 @@ import { DotSep } from "@Library/FileIcon";
 const Invariants = [
 	{
 		Id: "INVARIANT 01",
-		Desc: "The twelve contracts are identical across the two trees; only the runtime plumbing differs.",
+		Desc: "The fifteen contracts are identical across the two trees; only the runtime plumbing differs.",
 	},
 	{
 		Id: "INVARIANT 02",
@@ -21,6 +21,14 @@ const Invariants = [
 	{
 		Id: "INVARIANT 03",
 		Desc: "The @-sentence identity holds in both trees: the scope stays @playform, the family/type marker leads.",
+	},
+	{
+		Id: "INVARIANT 04",
+		Desc: "Every knob of the two new plugins is volatile: the ccr gate's thresholds and the tool-coach's whole schema land on the next judged call through loader/volatile-update, without remounting.",
+	},
+	{
+		Id: "INVARIANT 05",
+		Desc: "The smokes cover the new suites: the ccr suite (146 checks) and the tool-coach suite (129 checks) run in both trees, byte-asserting the same ledger strings.",
 	},
 ];
 
@@ -36,29 +44,45 @@ const OperatingSet = [
 	{
 		State: "OPERATING",
 		Tree: "CLASSIC",
-		Detail: "@playform/hook-dsh-* x 12 + @playform/plugin-dsh-factory",
+		Detail: "@playform/hook-dsh-* x 14 + @playform/plugin-dsh-factory",
 		Version: Versions.Release,
-		Note: "plain TypeScript - classes, Maps, plain functions",
+		Note: "plain TypeScript - classes, Maps, plain functions; the ccr compressor and the tool-coach guardian included",
 	},
 	{
 		State: "OPERATING",
 		Tree: "EFFECT-TS",
-		Detail: "@playform/ets-hook-dsh-* x 12 + @playform/ets-plugin-dsh-factory + @playform/ets-base-dsh",
+		Detail: "@playform/ets-hook-dsh-* x 14 + @playform/ets-plugin-dsh-factory + @playform/ets-base-dsh",
 		Version: Versions.Release,
-		Note: `Effect-TS services & layers - effect pinned at ${Versions.Effect}; the base @playform/ets-base-dsh carries the shared plumbing`,
+		Note: `Effect-TS services & layers - effect pinned at ${Versions.Effect}; the base @playform/ets-base-dsh carries the shared plumbing; the ets ccr and tool-coach twins included`,
 	},
 ];
 
 /*
  * THE RECORD - the changelog. The monorepo root CHANGELOG.md, verbatim
- * (byte-exact - it is the record). Site/CHANGELOG.md carries only the
- * one-line "Initial version"; the root file is the narrative source.
+ * (byte-exact for the shipped entries - it is the record), with this page
+ * maintaining the newer entries on top (the four guardians-era features;
+ * the root file's next update is a family-lane item). Site/CHANGELOG.md
+ * carries only the one-line "Initial version"; the root file is the
+ * narrative source.
  */
-const ChangelogSource = "the monorepo CHANGELOG.md - verbatim";
+const ChangelogSource = "the monorepo CHANGELOG.md - verbatim (plus this page's newer entries)";
 const Changelog = `## 0.0.1
 
 ### Added
 
+- The CCR hook (hook-dsh-ccr) with the tools/post-execute compression gate:
+  the type-aware one-line previews and the <<<CCR:hash|type|size>>> retrieval
+  markers, the registered ccr_retrieve tool, auto-expand, the sha256-24 LRU
+  store, and the phase-4 context engine (implemented, off by default).
+- The tool-coach guardian (hook-dsh-tool-coach) with the four-tier coaching
+  ladder over the terminal tool calls: tier-0 ledger, tier-1 live-fetched
+  notes (ctx.tools.schemas()), tier-2 the persistent system-prompt section,
+  tier-3 the optional enforce deny tier.
+- The granular volatile scopes for the normalize family
+  (conversation/reasoning/toolInput/toolResults/files/batch +
+  toolResultsExempt) with the live loader/volatile-update toggles.
+- The overpass mechanism: the tools/post-execute and agent/pre-step arms and
+  the normalize-overpass command (files sweep owned by normalize-file).
 - The initial release of the DeepSeek Harness Plugin Family for PlayForm:
   the twelve packages in the three implementations (the Boilerplate
   reference, the Classic release, the Effect-TS release), the Site, and
@@ -96,7 +120,7 @@ const Changelog = `## 0.0.1
 			Sub={`This page is the release and operating-state overview - not a listing.\nIt answers three questions: what is operating right now (the dual trees and the Effect-TS pin), what changed at this release (the record below), and what both trees hold (the invariants).\nThe plugin pages list the products; this page states the state of the family.\nBoth releases are at version ${Versions.Release}.`}
 		>
 			<Fragment slot="sub-1">
-				The dual engine distribution: the same twelve contracts, built twice -{" "}
+				The dual engine distribution: the same fifteen contracts, built twice -{" "}
 				<BrandIcon Name="typescript" />{" "}CLASSIC in plain TypeScript,{" "}
 				<BrandIcon Name="effect" />{" "}EFFECT-TS on Effect-TS services and layers - same behavior, same smokes, different runtime plumbing.
 			</Fragment>
@@ -117,7 +141,7 @@ const Changelog = `## 0.0.1
 					</div>
 				))}
 				<div class="opset__foot">
-					STATE: DUAL TREE · IDENTICAL TWELVE CONTRACTS · {Totals.Meta()}
+					STATE: DUAL TREE · IDENTICAL FOURTEEN CONTRACTS · {Totals.Meta()}
 				</div>
 			</div>
 		</section>
@@ -132,8 +156,9 @@ const Changelog = `## 0.0.1
 				</div>
 				<pre class="record__text">{Changelog}</pre>
 				<p class="record__wording">
-					The text above is the record, byte-exact from the repository file - this
-					page maintains the changelog, so the release history lives where the
+					The shipped entries above are byte-exact from the repository file; the four
+					entries on top are the guardians-era additions this page maintains first -
+					this page maintains the changelog, so the release history lives where the
 					operating state lives.
 				</p>
 			</div>
@@ -159,7 +184,7 @@ const Changelog = `## 0.0.1
 				<Concept
 					Id="versions-arbiter"
 					Title="The smokes are the arbiter"
-					Diagram="The twelve smoke suites loading the REAL built Target of their own bundle and asserting the ledger strings byte-identically - and the Effect-TS tree proving parity with these numbers before any swap-in."
+					Diagram="The fourteen smoke suites loading the REAL built Target of their own bundle and asserting the ledger strings byte-identically - and the Effect-TS tree proving parity with these numbers before any swap-in."
 				>
 					<p>
 						Every suite loads the REAL built Target of its bundle and asserts the ledger
@@ -217,6 +242,20 @@ const Changelog = `## 0.0.1
 					Desc={NormalizeFamily("the tables, the dispatch, the gate exemptions, the count lines.")}
 				>
 					<Badge slot="badge">{Counts.Normalizers} SUITES</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="hook-dsh-ccr"
+					Desc={SuiteCount(Counts.Ccr, "the gate order, the marker bytes, the round-trip retrieval, the evictions, the journal, and the context-engine decision math.")}
+				>
+					<Badge slot="badge">SMOKE</Badge>
+				</Card>
+				<Card
+					Variant="white"
+					Name="hook-dsh-tool-coach"
+					Desc={SuiteCount(Counts.Coach, "the four tiers, the cooldown and window math, the live fetch fallback, and the tracing-hygiene mode.")}
+				>
+					<Badge slot="badge">SMOKE</Badge>
 				</Card>
 			</div>
 			<div class="concept-list">

@@ -72,6 +72,8 @@ const SuiteOrder = [
 	["Invisible", "invisible"],
 	["Fullwidth", "fullwidth"],
 	["File", "normalize-file"],
+	["Ccr", "ccr"],
+	["Coach", "tool-coach"],
 ];
 
 const Counts = {};
@@ -125,7 +127,12 @@ const Trees = {
 // The Classic README separates the count list with an em dash, the EffectTS
 // one with a hyphen - accept either.
 function ParseSmokeReadme(Text) {
+	// The restructure moved the fourteen mechanics suites to per-test folders
+	// under the packages; the count line now says "live as per-test folders"
+	// instead of "live in this directory" (all four spellings accepted).
 	const Match =
+		Text.match(/\*\*([^*]+)\*\* — live as per-test/) ||
+		Text.match(/\*\*([^*]+)\*\* - live as per-test/) ||
 		Text.match(/\*\*([^*]+)\*\* — live in this directory/) ||
 		Text.match(/\*\*([^*]+)\*\* - live in this directory/);
 	if (!Match) throw new Error("smoke count line not found");

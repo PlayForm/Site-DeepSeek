@@ -11,7 +11,7 @@ import { Counts, Totals, Migration, Families, Versions } from "@Library/Content"
 import { DotSep } from "@Library/FileIcon";
 import { Link, Links } from "@Library/Links";
 
-// The twelve plugins, each with its @-sentence identity, install snippet
+// The fifteen plugins, each with its @-sentence identity, install snippet
 // and the registry tags that drive the filter/search logic.
 const Core = [
 	{
@@ -58,6 +58,36 @@ const Governance = [
 		Sentence: Families.GovernorCargo,
 		Desc: "The Cargo.toml governor: the Rust-sided flavor of the package governor - surgical chain-pin rewrites on the raw TOML lines and cargo upgrade driven through the [subprocess seam](Harness:packages/subprocess/subprocess).",
 		Install: `npm install @playform/hook-dsh-cargo-governor@${Versions.Release}`,
+	},
+];
+
+const Guardians = [
+	{
+		Name: "hook-dsh-ccr",
+		Role: "ROLE: COMPRESSOR",
+		Tags: "ccr compression retrieve hook",
+		Sentence: Families.Ccr,
+		Desc: "The tool-output compressor: hooks the [tools/post-execute](Harness:docs/subsystems/tools.md) waterfall and replaces oversized results of the allow-listed target tools with a one-line type-aware preview plus a `<<<CCR:hash|type|size>>>` retrieval marker - gated on thresholdBytes x the per-type multipliers, with auto-expand returning small results FULL and the original kept retrievable through the registered ccr_retrieve tool over the sha256-24 LRU store.",
+		Install: `npm install @playform/hook-dsh-ccr@${Versions.Release}`,
+	},
+	{
+		Name: "hook-dsh-tool-coach",
+		Role: "ROLE: COACH",
+		Tags: "coach guardian terminal hook",
+		Sentence: Families.Coach,
+		Desc: "The terminal coach: judges every bash/pwsh call through a four-tier ladder - tier-0 ledger lines for every offense, tier-1 live-fetched coaching notes at the strike threshold, tier-2 a persistent system-prompt discipline section, tier-3 (opt-in) tools/pre-execute denies - teaching the model to stop using the terminal for file content.",
+		Install: `npm install @playform/hook-dsh-tool-coach@${Versions.Release}`,
+	},
+];
+
+const Live = [
+	{
+		Name: "hook-dsh-live-containers",
+		Role: "ROLE: LIVE PROMPT",
+		Tags: "live prompt containers hook",
+		Sentence: Families.LiveContainers,
+		Desc: "The live-containers hook: keeps dynamic, modifiable conversation blocks in the system prompt - each enabled block a labeled stanza recomputed at every request (the canonical example: a time block always holding the current time at ask-time), appended as ONE [system-prompt/assemble](Harness:docs/event-producer-consumer.md) section with interpolate: false, each block inside a fixed LIVE CONTAINER frame so the model cannot mistake it for harness state. Ships DISABLED - the IDLE-forever posture.",
+		Install: `npm install @playform/hook-dsh-live-containers@${Versions.Release}`,
 	},
 ];
 
@@ -120,7 +150,7 @@ const Normalize = [
 	},
 ];
 
-// The ontological registry: the twelve plugins in pipeline sequence.
+// The ontological registry: the fifteen plugins in pipeline sequence.
 const Registry = [
 	...Core.map((Plugin, Index) => ({
 		Seq: `0${Index + 1}`,
@@ -140,12 +170,26 @@ const Registry = [
 		Sentence: Plugin.Sentence,
 		Rules: "Stream gate • single-pass transform",
 	})),
+	...Guardians.map((Plugin, Index) => ({
+		Seq: String(Index + 13).padStart(2, "0"),
+		Coordinate: `@playform/${Plugin.Name}`,
+		Sentence: Plugin.Sentence,
+		Rules: Index === 0
+			? "Tool results - compress - cache - retrieve"
+			: "Terminal judge - coach ladder - deny",
+	})),
+	...Live.map((Plugin) => ({
+		Seq: "15",
+		Coordinate: `@playform/${Plugin.Name}`,
+		Sentence: Plugin.Sentence,
+		Rules: "System prompt - live blocks - volatile knobs",
+	})),
 ];
 ---
 
 <Base
 	Title="Plugins - DSH Family @ PlayForm"
-	Description="The twelve plugins of the DeepSeek Harness Plugin Family for PlayForm, each with its @-sentence identity and its install snippet (the npm install form, pinned at the release version)."
+	Description="The fifteen plugins of the DeepSeek Harness Plugin Family for PlayForm, each with its @-sentence identity and its install snippet (the npm install form, pinned at the release version)."
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -158,7 +202,7 @@ const Registry = [
 		<PageHero
 			Title="Plugins"
 			Sub={
-				'The twelve TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity: the scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.\nThe install rows show the published npm form (npm install @playform/<pkg>@0.0.1) - all twelve packages are on npm at the v0.0.1 release; the /setup/ flow wires them into a profile.'
+				'The fifteen TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity: the scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.\nThe install rows show the published npm form (npm install @playform/<pkg>@0.0.1) - all fifteen packages are on npm at the v0.0.1 release; the /setup/ flow wires them into a profile.'
 			}
 		/>
 
@@ -169,7 +213,7 @@ const Registry = [
 				<input
 					class="filter-bar__input"
 					type="search"
-					placeholder="Search the twelve plugins by name, role or flavor..."
+					placeholder="Search the fifteen plugins by name, role or flavor..."
 					aria-label="Filter plugins"
 					data-filter
 				/>
@@ -189,6 +233,15 @@ const Registry = [
 				</button>
 				<button type="button" class="filter-chip" data-filter-chip="pinner" aria-pressed="false">
 					PINNER
+				</button>
+				<button type="button" class="filter-chip" data-filter-chip="ccr" aria-pressed="false">
+					CCR
+				</button>
+				<button type="button" class="filter-chip" data-filter-chip="coach" aria-pressed="false">
+					COACH
+				</button>
+				<button type="button" class="filter-chip" data-filter-chip="live" aria-pressed="false">
+					LIVE
 				</button>
 				<button type="button" class="filter-chip" data-filter-chip="normalize" aria-pressed="false">
 					NORMALIZE
@@ -251,6 +304,54 @@ const Registry = [
 						Copy={Plugin.Install}
 					>
 						<Badge slot="badge" Variant="active">
+							{Plugin.Role}
+						</Badge>
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<!-- Guardians -->
+		<section class="section">
+			<SectionHeader Title="Guardians" Meta={`${Counts.Groups.Guardians} PLUGINS`} />
+			<div class="grid grid--2">
+				{Guardians.map((Plugin) => (
+					<Card
+						Variant="white"
+						Name={Plugin.Name}
+						Href={`/plugins/${Plugin.Name}/`}
+						NameTone="primary"
+						Sentence={Plugin.Sentence}
+						Desc={Plugin.Desc}
+						Install={Plugin.Install}
+						Tags={Plugin.Tags}
+						Copy={Plugin.Install}
+					>
+						<Badge slot="badge" Variant="outline">
+							{Plugin.Role}
+						</Badge>
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<!-- Live prompt -->
+		<section class="section">
+			<SectionHeader Title="Live prompt" Meta={`${Counts.Groups.Live} PLUGIN - SHIPS DISABLED`} />
+			<div class="grid grid--2">
+				{Live.map((Plugin) => (
+					<Card
+						Variant="white"
+						Name={Plugin.Name}
+						Href={`/plugins/${Plugin.Name}/`}
+						NameTone="primary"
+						Sentence={Plugin.Sentence}
+						Desc={Plugin.Desc}
+						Install={Plugin.Install}
+						Tags={Plugin.Tags}
+						Copy={Plugin.Install}
+					>
+						<Badge slot="badge" Variant="outline">
 							{Plugin.Role}
 						</Badge>
 					</Card>
@@ -332,8 +433,8 @@ const Registry = [
 			<div class="concept-list">
 				<Concept
 					Id="plugins-seams"
-					Title="The seven seams the twelve live on"
-					Diagram="The twelve plugins attaching to the DeepSeek Harness through the fixed seam set - the [model stream waterfall](Harness:packages/llm/llm/src/index.ts), the [filesystem events](Harness:packages/fs/fs/src/index.ts), the tool layer, the [subprocess seam](Harness:packages/subprocess/subprocess), the [jobs envelope](Harness:packages/jobs), the [storage domain](Harness:packages/storage/storage-domain) and the session ledger - with the DeepSeek internals each seam works through."
+					Title="The ten seams the fifteen live on"
+					Diagram="The fifteen plugins attaching to the DeepSeek Harness through the fixed seam set - the [model stream waterfall](Harness:packages/llm/llm/src/index.ts), the [filesystem events](Harness:packages/fs/fs/src/index.ts), the tool layer, the [tools/post-execute waterfall](Harness:docs/subsystems/tools.md), the agent/pre-step step boundary, the commands service, the [subprocess seam](Harness:packages/subprocess/subprocess), the [jobs envelope](Harness:packages/jobs), the [storage domain](Harness:packages/storage/storage-domain) and the session ledger - with the DeepSeek internals each seam works through."
 				>
 					<p>
 						Every plugin operates inside the <BrandIcon Name="deepseek" /> DeepSeek
@@ -350,7 +451,7 @@ const Registry = [
 						and the session ledger.
 					</p>
 					<p>
-						This is where the twelve live, and the DeepSeek internals they work through:
+						This is where the fifteen live, and the DeepSeek internals they work through:
 					</p>
 				</Concept>
 			</div>
@@ -406,9 +507,62 @@ const Registry = [
 							</td>
 							<td>
 								<a href={Link(Links.DeepSeekHarness, "packages/fs/tool-fs")}>dsh-tool-fs</a>
-								; ctx.tools.register
+								; ctx.tools.register; ctx.tools.schemas()
 							</td>
-							<td>raw-write (normalize + govern flags); normalize-file</td>
+							<td>
+								raw-write (normalize + govern flags); normalize-file; the tool-coach's
+								dynamic instruction fetch through{" "}
+								<code class="code-token">ctx.tools.schemas()</code>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>
+									<a
+										href={Link(
+											Links.DeepSeekHarness,
+											"docs/subsystems/tools.md",
+										)}
+									>tools/post-execute</a>
+								</strong>{" "}
+								(the tool-result waterfall)
+							</td>
+							<td>
+								The interceptable wrapper around every NORMALIZED dispatch result,
+								before it becomes model content
+							</td>
+							<td>
+								ccr compression; the normalize flavors' tool-results overpass arm;
+								tool-coach tier-1 notes
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>
+									<a
+										href={Link(
+											Links.DeepSeekHarness,
+											"docs/event-producer-consumer.md",
+										)}
+									>agent/pre-step</a>
+								</strong>{" "}
+								(the step-boundary waterfall)
+							</td>
+							<td>The per-step payload (agent, messages, turn, step) + the next() decision</td>
+							<td>
+								The normalize flavors' step-batch overpass arm; the tool-coach's
+								user-message reset; ccr's phase-4 context-engine observer
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>commands</strong> (the command service)
+							</td>
+							<td>Probe-once registration - a missing service simply skips it</td>
+							<td>
+								The normalize family's <code class="code-token">normalize-overpass</code>{" "}
+								command; ccr's probe-once registration
+							</td>
 						</tr>
 						<tr>
 							<td>
@@ -453,7 +607,7 @@ const Registry = [
 								<strong>Sessions / the ledgers</strong>
 							</td>
 							<td>The durable ledger files ([&lt;ISO&gt;] &lt;message&gt;)</td>
-							<td>All twelve, through the factory's Append</td>
+							<td>All fifteen, through the factory's Append</td>
 						</tr>
 					</tbody>
 				</table>
@@ -491,6 +645,30 @@ const Registry = [
 						</tr>
 					</thead>
 					<tbody>
+						<tr>
+							<td>
+								<strong>
+									<a
+										href={Link(
+											Links.OurRepo,
+											"Classic/packages/hook-dsh-ccr/Source",
+										)}
+									>hook-dsh-ccr</a>
+								</strong>
+							</td>
+							<td>{Counts.Ccr.Classic}</td>
+							<td>
+								<strong>
+									<a
+										href={Link(
+											Links.OurRepo,
+											"Classic/packages/hook-dsh-tool-coach/Source",
+										)}
+									>hook-dsh-tool-coach</a>
+								</strong>
+							</td>
+							<td>{Counts.Coach.Classic}</td>
+						</tr>
 						<tr>
 							<td>
 								<strong>hook-dsh-core</strong>
@@ -635,13 +813,21 @@ const Registry = [
 				<Concept
 					Id="plugins-smoke-counts"
 					Title="The checks are the CLASSIC counts"
-					Diagram={`The CLASSIC totals per suite against the EFFECT-TS totals on the same contracts - core ${Counts.Core.EffectTS}, factory ${Counts.Factory.EffectTS}, governor ${Counts.Governor.EffectTS} - summing to ${Totals.EffectTS} vs Classic's ${Totals.Classic}.`}
+					Diagram={`The CLASSIC totals per suite against the EFFECT-TS totals on the same contracts - core ${Counts.Core.EffectTS}, factory ${Counts.Factory.EffectTS}, governor ${Counts.Governor.EffectTS} - summing to ${Totals.EffectTS} vs Classic's ${Totals.Classic}. The ccr and tool-coach suites sit at ${Counts.Ccr.EffectTS} and ${Counts.Coach.EffectTS} checks in BOTH trees (the new suites shipped with parity from day one).`}
 				>
 					<p>
 						<BrandIcon Name="effect" /> The EFFECT-TS suites add coverage on the same
 						contracts (core {Counts.Core.EffectTS}, factory {Counts.Factory.EffectTS},
 						governor {Counts.Governor.EffectTS} - {Totals.EffectTS} total vs Classic's{" "}
 						{Totals.Classic}).
+					</p>
+					<p>
+						The two new suites shipped with parity: the ccr suite runs{" "}
+						{Counts.Ccr.EffectTS} checks in both trees and the tool-coach suite{" "}
+						{Counts.Coach.EffectTS} in both - the ccr suite covering the gate order,
+						the marker bytes, the round-trip retrieval and the context-engine math,
+						the tool-coach suite covering the four tiers, the live fetch and the
+						tracing-hygiene mode.
 					</p>
 				</Concept>
 				<Concept
@@ -812,6 +998,25 @@ const Registry = [
 					<p>
 						The consumers bring their own metal while the factory pours the mold, and
 						the smokes are the arbiter after every change.
+					</p>
+				</Concept>
+				<Concept
+					Id="plugins-arch-guard"
+					Title="The shared waterfall: the overpass arm and the CCR marker guard"
+					Diagram="The tools/post-execute waterfall shared by the new features: the normalize flavors' tool-results overpass arm registered { prepend: true } - the OUTERMOST prepend, so the ccr compression sees the NORMALIZED bytes - and the `<<<CCR:` marker guard making any load order safe."
+				>
+					<p>
+						The <a href="/plugins/hook-dsh-ccr/">ccr hook</a> and the{" "}
+						<a href="/plugins/hook-dsh-normalize-dash/">normalize flavors'</a>{" "}
+						tool-results overpass arm share the{" "}
+						<code class="code-token">tools/post-execute</code> waterfall: the overpass
+						is the OUTERMOST prepend (<code>&#123; prepend: true &#125;</code>), so the
+						ccr compression sees the NORMALIZED bytes.
+					</p>
+					<p>
+						And the <code>&lt;&lt;&lt;CCR:</code> marker guard makes any load order
+						safe - the marker passes through the whole normalize family untouched, so
+						a compressed result is never re-normalized into a different marker.
 					</p>
 				</Concept>
 			</div>

@@ -156,6 +156,14 @@ const Related = [
 		Name: "hook-dsh-cargo-governor",
 		Desc: "The Rust-sided sibling: same architecture for Cargo.toml, with the update stage driven by cargo upgrade.",
 	},
+	{
+		Name: "hook-dsh-ccr",
+		Desc: "The tools/post-execute sibling: a new generation of family members now shares the waterfall space this hook helped define - the CCR compressor and the normalize flavors' overpass arm both live on tool results.",
+	},
+	{
+		Name: "hook-dsh-tool-coach",
+		Desc: "The guardian on the terminal tools: hooks the same tool layer this hook's triggers come from, coaching the model to stop editing files through bash.",
+	},
 ];
 ---
 
@@ -326,6 +334,27 @@ const Related = [
 					<p>
 						That lets the raw-write tool's per-call govern selection drive the same
 						chain pass and update stage directly through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>.
+					</p>
+				</Concept>
+				<Concept
+					Id="governor-waterfall-siblings"
+					Title="The new siblings on the tool-result waterfall"
+					Diagram="The CCR compressor and the normalize flavors' overpass arm now share the tools/post-execute waterfall space - the overpass is the OUTERMOST prepend, so the ccr compression sees the NORMALIZED bytes, and the `<<<CCR:` marker guard makes any load order safe. This hook stays on fs/observed - a terminal edit (sed -i) never fires it, which is exactly why the tool-coach guardian exists."
+				>
+					<p>
+						The family widened in 2026-10: the{" "}
+						<a href="/plugins/hook-dsh-ccr/">ccr hook</a> and the normalize flavors'
+						tool-results overpass arm now share the{" "}
+						<code class="code-token">tools/post-execute</code> waterfall - the overpass
+						is the OUTERMOST prepend, so the ccr compression sees the NORMALIZED bytes,
+						and the <code>&lt;&lt;&lt;CCR:</code> marker guard makes any load order safe.
+					</p>
+					<p>
+						This hook is untouched by that: it still listens on{" "}
+						<code class="code-token">fs/observed</code> only - and a terminal edit
+						(<code>sed -i</code>, <code>python -c</code>) never fires it, which is
+						exactly why the <a href="/plugins/hook-dsh-tool-coach/">tool-coach</a>{" "}
+						guardian exists.
 					</p>
 				</Concept>
 			</div>

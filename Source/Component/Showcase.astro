@@ -180,6 +180,12 @@ const AfterHtml = HasPair
 			<span class="showcase__fact-text">{Fact}</span>
 		</div>
 	)}
+
+	<!-- The supports row: the "supports: <manifest>" chip buttons plus the
+	     click-to-expand use-case panel (the SupportsButton component), the
+	     card's closing row after the ledger fact - the ledger line stays
+	     attached to the story, the manifest chips close the card. -->
+	<slot name="supports" />
 </article>
 
 <style>

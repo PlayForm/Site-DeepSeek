@@ -40,8 +40,16 @@ const DemoSteps = [
 			"    - id: plugin-dsh-factory",
 			'      name: "@playform/plugin-dsh-factory"',
 			"      config: {}",
+			"- insert:",
+			"    - id: ccr",
+			'      name: "@playform/hook-dsh-ccr"',
+			"      config: { targets: [bash, ...], thresholdBytes: 2048, ... }",
+			"- insert:",
+			"    - id: hook-dsh-tool-coach",
+			'      name: "@playform/hook-dsh-tool-coach"',
+			"      config: { threshold: 3, window: 8, cooldown: 10, ... }",
 		],
-		Outcome: "Each insert: entry declares the loader row and its config; the loader rejects unknown ids.",
+		Outcome: "Each insert: entry declares the loader row and its config; the loader rejects unknown ids. The full real bodies (from each package's cordis.patch.yml) are in the Configurator and the patch example below.",
 	},
 	{
 		N: 3,
@@ -121,6 +129,31 @@ const PatchExample = [
 	'            replacement: "-"',
 	"            normalizeReasoning: true",
 	"            normalizeToolArguments: true",
+	"- insert:",
+	"      - id: ccr",
+	'        name: "@playform/hook-dsh-ccr"',
+	"        config:",
+	"            log: true",
+	"            logFile: /Users/nikola/.dsh/ccr.log",
+	"            targets: [bash, glob, grep, read, web_fetch, web_search, list, search]",
+	"            exempt: [write, edit, raw-write, subagent, ask_user_question, ccr_retrieve]",
+	"            thresholdBytes: 2048",
+	"            autoExpand: true",
+	"            compressFailures: false",
+	'            journalPath: ""',
+	"- insert:",
+	"      - id: hook-dsh-tool-coach",
+	'        name: "@playform/hook-dsh-tool-coach"',
+	"        config:",
+	"            log: true",
+	"            logFile: ~/.dsh/hook-dsh-tool-coach.log",
+	"            enabled: true",
+	"            judgeTools: [bash, pwsh]",
+	"            threshold: 3",
+	"            window: 8",
+	"            cooldown: 10",
+	"            enforce: off",
+	"            fetchLive: true",
 ];
 
 // The verify step: the activation lines each ledger gains at boot.
@@ -128,6 +161,8 @@ const VerifyLines = [
 	"hook-dsh-package-governor: activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
 	"hook-dsh-package-pinner: activated (pinner, logFile=~/.dsh/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
 	"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
+	"ccr: activated (bundle 0.0.1, targets 8, budget 268435456)",
+	"# the tool-coach writes no activation line - its tier-0 ledger opens with the first offense line",
 ];
 
 // The byte-exact update-stage ledger lines (the verifyCommand trap): the
@@ -211,6 +246,31 @@ const Knobs = [
 			},
 		],
 	},
+	{
+		Group: "The guardians",
+		Fields: [
+			{
+				Name: "ccr: thresholdBytes / previewMaxChars / multipliers",
+				Effect: "the compression gate's volatile knobs - hot-editable; targets/exempt/the store are structural (remount on edit)",
+			},
+			{
+				Name: "ccr: autoExpand / compressFailures / journalPath",
+				Effect: "auto-expand on by default (small results stored and returned FULL); failures pass through; the store is memory-only until journalPath is set",
+			},
+			{
+				Name: "coach: threshold / window / cooldown",
+				Effect: "3 strikes within an 8-judged-call window, 10 calls between notes - every cell volatile",
+			},
+			{
+				Name: "coach: escalateThreshold / cleanWindow / enforce",
+				Effect: "the persistent section at 6, cleared after 12 clean calls; the deny tier off by default (enforce: 'off')",
+			},
+			{
+				Name: "coach: judgeTools / fetchLive / maxSectionTools / sectionTtl",
+				Effect: "the judged tools (bash, pwsh), the live ctx.tools.schemas() fetch, the 8-row section table, the 20-call section cache",
+			},
+		],
+	},
 ];
 ---
 
@@ -234,7 +294,7 @@ const Knobs = [
 			Sub={"Four steps: add the bundles to the profile, add the patch entries, restart, verify the ledgers.\nEvery step below is the actual wiring the loader reads - no separate configuration UI exists."}
 		/>
 
-		<!-- The configurator: the selection (the 12 package toggles + the
+		<!-- The configurator: the selection (the 14 package toggles + the
 			engine + the profile name) generating the wiring live - the
 			install commands, the profile wiring and the verification
 			ledgers, from the same data the steps below document. -->
@@ -424,7 +484,7 @@ const Knobs = [
 				<Concept
 					Id="setup-full-tables"
 					Title="The full tables live on each plugin page"
-					Diagram="The plugin pages carrying the full config table for each bundle - the six pages linked from this section."
+					Diagram="The plugin pages carrying the full config table for each bundle - the eight pages linked from this section."
 				>
 					<p>
 						Each plugin's full table lives on its page: the
@@ -433,7 +493,9 @@ const Knobs = [
 						<BrandIcon Name="rust" />{" "}
 						<a href="/plugins/hook-dsh-cargo-governor/">cargo governor</a>, the
 						<a href="/plugins/hook-dsh-normalize-dash/">dash flavor</a>, the
-						<a href="/plugins/hook-dsh-normalize-file/">normalize-file tool</a> and the
+						<a href="/plugins/hook-dsh-normalize-file/">normalize-file tool</a>, the{" "}
+						<a href="/plugins/hook-dsh-ccr/">ccr compressor</a>, the{" "}
+						<a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> and the
 						<a href="/plugins/plugin-dsh-factory/">factory service</a>.
 					</p>
 				</Concept>
@@ -465,19 +527,28 @@ const Knobs = [
 				<Concept
 					Id="setup-optional-toolargs"
 					Title="normalizeToolArguments: false"
-					Diagram="The schema default OFF for tool-call arguments - execution-critical raw JSON - and the two pass-through exemptions (edit/raw-write by identity, the __normalize:false marker) when a patch turns it on."
+					Diagram="The schema default OFF for tool-call arguments - execution-critical raw JSON - and the structural pass-through exemptions (edit/raw-write/normalize-file by identity, the __normalize:false first-key marker) when a patch turns it on."
 				>
 					<Badge Variant="outline">DEFAULT OFF</Badge>
 					<p>
 						The default.</p>
 					<p>Tool-call arguments are execution-critical raw JSON - rewriting
 						them is the user's accepted risk, so the schema default is OFF and the
-						example patch turns it on.
+						example patch turns it on. Effective tool-input normalization is{" "}
+						<code>normalizeToolArguments || scopes.toolInput</code> - the field is kept
+						and OR-ed in, so this knob and the granular scopes compose.
 					</p>
 					<p>
-						Even when on, edit and raw-write calls pass through by identity, and a{" "}
+						Even when on, the three structural exemptions pass through by identity -{" "}
+						<code>edit</code> (its <code>old_string</code> must match the real file
+						bytes), <code>raw-write</code> (it owns its content normalization through
+						its explicit <code>normalize</code> parameter) and{" "}
+						<code>normalize-file</code> (its arguments carry a file path) - and a{" "}
 						<code>&#123;"__normalize":false&#125;</code>-marked call passes through
-						unnormalized.
+						unnormalized: the per-call "leave that search alone" control, whose marker
+						must be the FIRST key (the core strips the marker entry, so the executed
+						call carries no unknown key; a first delta shorter than the marker is
+						invisible to the probe and the call normalizes normally).
 					</p>
 				</Concept>
 				<Concept
@@ -555,6 +626,60 @@ const Knobs = [
 					</p>
 					<p>Silence is the invariant; the ledger is the receipt.</p>
 				</Concept>
+				<Concept
+					Id="setup-optional-scopes"
+					Title="scopes.toolInput / toolResults / batch: off"
+					Diagram="The granular volatile scopes' defaults are exactly the pre-scopes behavior: conversation and reasoning on, toolInput / toolResults / batch off, files on - the whole object one volatile cell, so a flip lands on the next judged call with no remount."
+				>
+					<Badge Variant="outline">DEFAULT OFF</Badge>
+					<p>
+						The granular scopes keep the historical behavior by default: only{" "}
+						<code>conversation</code>, <code>reasoning</code> and <code>files</code> are
+						on; <code>toolInput</code>, <code>toolResults</code> and <code>batch</code>{" "}
+						are off. Effective tool-input normalization is{" "}
+						<code>normalizeToolArguments || scopes.toolInput</code>, so an existing
+						patch that turns the field on keeps working unchanged.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-optional-overpass"
+					Title="The overpass arms: opt-in"
+					Diagram="The two extra listeners registered at apply but gated at RUNTIME on the scope cells - the tools/post-execute tool-results arm (the OUTERMOST prepend) and the agent/pre-step step-batch arm - reachable through the normalize-overpass command; the file sweep is owned by the normalize-file hook."
+				>
+					<Badge Variant="outline">OPT-IN</Badge>
+					<p>
+						The overpass arms ship registered but inert: they gate at runtime on{" "}
+						<code>scopes.toolResults</code> and <code>scopes.batch</code>, so arming
+						them is a config flip (or the <code>normalize-overpass</code> command), not
+						a re-registration. The <code>files &lt;path...&gt;</code> sweep is owned by
+						the <a href="/plugins/hook-dsh-normalize-file/">normalize-file hook</a>.
+					</p>
+					<p>
+						And the invisibility contract: a tool-result normalization replaces the
+						bytes PRE-COMMIT - the waterfall settles before the result is appended to
+						the durable log - so the model only ever sees the normalized output, the
+						write-path counterpart of the governance trio's never-notify precedent.
+					</p>
+				</Concept>
+				<Concept
+					Id="setup-optional-guardians"
+					Title="The guardians' off-by-default surfaces"
+					Diagram="ccr's compressFailures off (failures pass through, the error x8 tier is the only beneficiary) and journalPath empty (memory-only store); the tool-coach's enforce tier 'off' (coaching only, no denies) with enabled as the master switch."
+				>
+					<Badge Variant="outline">COACHING, NOT POLICING</Badge>
+					<p>
+						<a href="/plugins/hook-dsh-ccr/">ccr</a>: <code>compressFailures</code> is
+						off (failures pass through; the error ×8 tier is the only beneficiary) and{" "}
+						<code>journalPath</code> is empty - the store is memory-only until you point
+						it at a JSONL file.
+					</p>
+					<p>
+						<a href="/plugins/hook-dsh-tool-coach/">The tool-coach</a>:{" "}
+						<code>enforce: 'off'</code> - the deny tier is the configurable last resort;
+						out of the box the coach only logs and notes. Every knob of both plugins is
+						volatile - a flip lands on the next judged call.
+					</p>
+				</Concept>
 			</div>
 		</section>
 
@@ -621,6 +746,16 @@ const Knobs = [
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-file/Source")}>hook-dsh-normalize-file</a></td>
 							<td>~/.dsh/hook-dsh-normalize-file.log</td>
 							<td>activated (replacement=-, ...)</td>
+						</tr>
+						<tr>
+							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-ccr/Source")}>hook-dsh-ccr</a></td>
+							<td>~/.dsh/ccr.log</td>
+							<td>activated (bundle 0.0.1, targets 8, budget 268435456)</td>
+						</tr>
+						<tr>
+							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-tool-coach/Source")}>hook-dsh-tool-coach</a></td>
+							<td>~/.dsh/hook-dsh-tool-coach.log</td>
+							<td>no boot line - the tier-0 ledger starts at the first offense</td>
 						</tr>
 					</tbody>
 				</table>

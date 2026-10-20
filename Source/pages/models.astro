@@ -124,6 +124,16 @@ const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDT
 							what is already on disk; the governor and pinner keep every manifest pinned -
 							regardless of which engine wrote the output.
 						</p>
+						<p>
+							The 2026-10 widening is engine-independent too: the granular{" "}
+							<code>scopes</code> arms and the <code>normalize-overpass</code> command are
+							transforms on the harness's own waterfalls, the{" "}
+							<a href="/plugins/hook-dsh-ccr/">ccr</a> compression is an engine-independent
+							tool-result transform, and the{" "}
+							<a href="/plugins/hook-dsh-tool-coach/">tool-coach's</a> coaching is
+							engine-independent behavior - none of them depend on which model produced
+							the tokens.
+						</p>
 					</Concept>
 				</div>
 			</div>
@@ -134,7 +144,7 @@ const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDT
 			<div class="notation">
 				<p>DSH Family @ PlayForm: the complete deterministic stream governor matrix.</p>
 				<p>the hook-dsh-* hooks: zero runtime overhead normalizers with zero unicode drift.</p>
-				<p>the twelve packages: pinned under atomic version gates.</p>
+				<p>the fifteen packages: pinned under atomic version gates.</p>
 			</div>
 		</section>
 	</main>
