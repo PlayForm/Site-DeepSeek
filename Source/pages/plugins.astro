@@ -201,9 +201,7 @@ const Registry = [
 
 		<PageHero
 			Title="Plugins"
-			Sub={
-				'The fifteen TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity. The scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.\nThe install rows show the published npm form (npm install @playform/<pkg>@0.0.1) - ALL fifteen packages are on npm at the v0.0.1 release; the /setup/ flow wires them into a profile.'
-			}
+			Sub={`The fifteen TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity. The scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.\nThe install rows use the npm form (npm install @playform/<pkg>@${Versions.Release}). hook-dsh-ccr, hook-dsh-tool-coach, and hook-dsh-live-containers are publish-pending - build those three from source until they land; the /setup/ flow wires them into a profile.`}
 		/>
 
 		<!-- Registry filter bar: search + filter chips + live count -->

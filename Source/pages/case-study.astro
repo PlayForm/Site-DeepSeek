@@ -330,13 +330,13 @@ const Lessons = [
 				<Concept
 					ID="case-arbiter"
 					Title="The smokes were the arbiter"
-					Diagram={`Zero assertion rewrites across refactors, renames and a framework port - the Effect-TS port ADDING ${History.EffectDelta} checks (core +${History.Deltas.Core}, factory +${History.Deltas.Factory}, governor +${History.Deltas.Governor}), its totals running higher with every shared assertion intact.`}
+					Diagram={`Zero assertion rewrites across refactors, renames and a framework port - the Effect-TS port ADDING ${History.EffectDelta} checks (factory +${History.Deltas.Factory}, governor +${History.Deltas.Governor}; core at parity), its totals running higher with every shared assertion intact.`}
 				>
 					<p>
 						Zero assertion rewrites across refactors, renames and a framework port.
 					</p>
 					<p>
-						The Effect-TS port actually <strong>adds {History.EffectDelta} checks</strong> (core +{History.Deltas.Core}, factory +{History.Deltas.Factory}, governor +{History.Deltas.Governor}).
+						The Effect-TS port actually <strong>adds {History.EffectDelta} checks</strong> (factory +{History.Deltas.Factory}, governor +{History.Deltas.Governor}; core at parity).
 						Its totals run higher than the Classic's with EVERY shared assertion intact.
 						The port proved parity by extending coverage, NOT by rewriting assertions.
 					</p>

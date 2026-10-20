@@ -80,8 +80,8 @@ const Config = [
 	{
 		Field: "ncuBin",
 		Type: "string",
-		Default: "/usr/local/bin/ncu",
-		Meaning: "absolute - host PATH != shell PATH",
+		Default: "ncu",
+		Meaning: "PATH-resolved; set an absolute path when the host PATH differs",
 	},
 	{
 		Field: "updateMode",
@@ -554,7 +554,7 @@ const Related = [
 					"            strict: false # explicit only; never default-delete unknown deps",
 					"            mutationTools: [write, edit, str_replace_editor]",
 					"            maxUpdateFailures: 3 # circuit breaker: pause a dir's update stage",
-					"            ncuBin: /usr/local/bin/ncu # absolute - host PATH != shell PATH",
+					"            ncuBin: ncu # PATH-resolved; set an absolute path when the host PATH differs",
 					'            updateMode: programmatic # "programmatic" (default) | "bin"',
 					'            policyFile: "" # optional global update-policy.json (else discovery, else built-in)',
 					"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",

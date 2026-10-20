@@ -13,7 +13,7 @@
 //     *-dsh-hook / plugin-dsh-factory forms, the EffectTS tree the ets-*
 //     forms) - every npm name is @playform/ + its directory, and the stale
 //     pre-splice forms (hook-dsh-*) are gone;
-//   - the additive Effect-TS deltas (core +3, factory +7, governor +3) vs
+//   - the additive Effect-TS deltas (core 0, factory +7, governor +3) vs
 //     History.Deltas and the EffectDelta sum;
 //   - the Live.ts layer: the build-time snapshot equals what this script
 //     re-derives (the Release/Effect/SuitePairs/Packages/Normalizers/
@@ -164,6 +164,14 @@ Check("Totals.EffectTS = the sum of the EFFECT-TS pairs", SumEffectTS, TotalsEff
 // --- 3. The release versions and the names, across every package ---
 const Release = ContentSource.match(/Release: "([^"]+)"/)?.[1];
 const Effect = ContentSource.match(/Effect: "([^"]+)"/)?.[1];
+// WS3 removed the four unused direct `effect` dependencies; these packages
+// ride on the shared ets-base-dsh and carry no pin of their own.
+const EffectFree = new Set([
+	"ets-hook-dsh-ccr",
+	"ets-hook-dsh-core",
+	"ets-hook-dsh-live-containers",
+	"ets-hook-dsh-tool-coach",
+]);
 for (const [Tree, Packages] of Object.entries(Trees)) {
 	for (const Package of Packages) {
 		if (Package.Error) {
@@ -179,7 +187,11 @@ for (const [Tree, Packages] of Object.entries(Trees)) {
 			Package.Name,
 		);
 		if (Tree === "EffectTS") {
-			Check(`${Tree}/${Package.Dir}: effect pin vs Versions.Effect`, Effect, Package.Effect);
+			Check(
+				`${Tree}/${Package.Dir}: effect pin vs Versions.Effect`,
+				EffectFree.has(Package.Dir) ? null : Effect,
+				Package.Effect,
+			);
 		}
 	}
 }
@@ -232,8 +244,8 @@ Check(
 	Trees.EffectTS.map((Package) => Package.Dir),
 );
 
-// --- 4. The additive Effect-TS deltas (core +3, factory +7, governor +3) ---
-const Deltas = { Core: 3, Factory: 7, Governor: 3 };
+// --- 4. The additive Effect-TS deltas (core 0, factory +7, governor +3) ---
+const Deltas = { Core: 0, Factory: 7, Governor: 3 };
 for (const [Key, Expected] of Object.entries(Deltas)) {
 	Check(
 		`History.Deltas.${Key} = the additive coverage`,
@@ -243,6 +255,7 @@ for (const [Key, Expected] of Object.entries(Deltas)) {
 }
 Check(
 	"History.EffectDelta = the sum of the deltas",
+	// 0 + 7 + 3 = 10 checks.
 	Object.values(Deltas).reduce((Sum, N) => Sum + N, 0),
 	ExtractNumber(/EffectDelta: (\d+)/),
 );

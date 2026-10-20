@@ -17,14 +17,15 @@ interface Props {
 
 // The primary nav: the current entry is highlighted via aria-current.
 // The order is importance + usage: the landing, then the family listing
-// and install entry (Plugins), the interactive demo (Workbench), the
-// recurring engine-support lookup (Models), the returning-user changelog
+// and install entry (Plugins), the two interactive demos (Workbench, Matrix),
+// the recurring engine-support lookup (Models), the returning-user changelog
 // (Versions), the one-time install walkthrough (Setup), the secondary
 // taxonomy (Flavors), and the narrative (Case Study).
 const Nav = [
 	{ Href: "/", Label: "Overview" },
 	{ Href: "/plugins/", Label: "Plugins" },
 	{ Href: "/workbench/", Label: "Workbench" },
+	{ Href: "/matrix/", Label: "Matrix" },
 	{ Href: "/models/", Label: "Models" },
 	{ Href: "/versions/", Label: "Versions" },
 	{ Href: "/setup/", Label: "Setup" },

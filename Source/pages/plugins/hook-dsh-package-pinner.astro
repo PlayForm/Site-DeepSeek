@@ -227,11 +227,9 @@ const Related = [
 						<p class="section-kicker">Diagram - Family position</p>
 						<figure class="diagram-figure" set:html={FamilySVG} />
 						<p>
-							Show the pinner's relationship to <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>, hook-dsh-core, and
-							the sibling package governor.</p>
-						<p>Label the shared fs/observed seam.
-						
-						</p>
+							The pinner sits beside <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a> and hook-dsh-core,
+							and next to its sibling, the package governor.</p>
+						<p>Both siblings hang off the same fs/observed seam.</p>
 					</div>
 
 					<h3 id="pinner-family-position" class="concept-block__title">
@@ -258,12 +256,8 @@ const Related = [
 						<p class="section-kicker">Diagram - Composition</p>
 						<figure class="diagram-figure" set:html={PinSVG} />
 						<p>
-							Show ^0.3.4 -> pinner -> 0.3.4 -> governor update stage: nothing to do.</p>
-						<p>
-							Show the governor's chain pass separately, noting that it may still
-							re-canonicalize chain pins.
-						
-						</p>
+							A ranged pin becomes static, and the governor's update stage has nothing left to bump.</p>
+						<p>The governor's chain pass still runs; it may re-canonicalize a chain pin.</p>
 					</div>
 
 					<h3 id="pinner-composition" class="concept-block__title">
@@ -290,8 +284,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Policy precedence</p>
 						<figure class="diagram-figure" set:html={KeepSVG} />
 						<p>
-							Show a keep-listed dependency bypassing prefix removal and retaining its
-							authored range.
+							A keep-listed dependency keeps its authored range; the prefix removal never touches it.
 						</p>
 					</div>
 
@@ -317,13 +310,8 @@ const Related = [
 						<p class="section-kicker">Diagram - Independent ledgers</p>
 						<figure class="diagram-figure" set:html={LedgersSVG} />
 						<p>
-							Show pinner -&gt;{" "}
-							<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />pinner.log</span> and governor -&gt;{" "}
-							<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />governor.log</span> as separate
-							paths.</p>
-						<p>Mark activation as independent.
-						
-						</p>
+							The pinner writes its own <span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />pinner.log</span>; the governor writes <span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />governor.log</span>.</p>
+						<p>Activating one never activates the other.</p>
 					</div>
 
 					<h3 id="pinner-ledger-independence" class="concept-block__title">
@@ -350,7 +338,7 @@ const Related = [
 					>
 						<p class="section-kicker">Diagram - Injected services</p>
 						<figure class="diagram-figure" set:html={InjectSVG} />
-						<p>Show fs and pluginFactory as the pinner's two injected services.</p>
+						<p>The pinner injects two services: fs and pluginFactory.</p>
 					</div>
 
 					<h3 id="pinner-injection" class="concept-block__title">
@@ -402,9 +390,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Core helpers</p>
 						<figure class="diagram-figure" set:html={CoreHelpersSVG} />
 						<p>
-							Show hook-dsh-core supplying <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and suppression composer
-							to the pinner.
-						</p>
+							hook-dsh-core supplies <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and the suppression composer.</p>
 					</div>
 
 					<h3 id="pinner-core-helpers" class="concept-block__title">
@@ -426,10 +412,7 @@ const Related = [
 					>
 						<p class="section-kicker">Diagram - Local ownership</p>
 						<figure class="diagram-figure" set:html={OwnedSVG} />
-						<p>
-							Show the pinner-owned boundary containing the range law, decode logic,
-							and ledger strings.
-						</p>
+						<p>The bundle owns the range law, the decode logic, and its ledger strings.</p>
 					</div>
 
 					<h3 id="pinner-owned-logic" class="concept-block__title">
@@ -450,13 +433,8 @@ const Related = [
 					>
 						<p class="section-kicker">Diagram - Direct governance</p>
 						<figure class="diagram-figure" set:html={DirectGovernSVG} />
-						<p>
-							Show apply-time registration with Factory.RegisterGovern.</p>
-						<p>Then show the
-							raw-write tool's per-call govern selection reaching the same pin pass
-							through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>, alongside the fs/observed event path.
-						
-						</p>
+						<p>The pinner registers its steps at apply time with Factory.RegisterGovern.</p>
+						<p>The raw-write tool's per-call govern selection reaches the same pin pass through <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source/Function/Govern.ts")}>Factory.Govern</a>, alongside the fs/observed path.</p>
 					</div>
 
 					<h3 id="pinner-direct-govern" class="concept-block__title">
@@ -567,8 +545,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Idempotence</p>
 						<figure class="diagram-figure" set:html={IdemSVG} />
 						<p>
-							Show a second write of an already-pinned <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> passing the range
-							law untouched - the no-op rewrite P(P(c)) = P(c).
+							A second write of an already-pinned <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> passes the range law untouched: the no-op rewrite P(P(c)) = P(c).
 						</p>
 					</div>
 
@@ -592,10 +569,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Keep-list policy</p>
 						<figure class="diagram-figure" set:html={KeepPolicySVG} />
 						<p>
-							Show <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />pin-policy.json</span></a> protecting a selected dependency from prefix
-							removal, the union of every readable discovered policy, and the P3
-							chain-keys interlock keeping the governor's ^resolved chain pins
-							unstripped.
+							<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />pin-policy.json</span></a> protects a selected dependency from prefix removal; the effective keep-list is the union of every readable policy, and the P3 chain-keys interlock keeps the governor's ^resolved pins unstripped.
 						</p>
 					</div>
 
@@ -626,8 +600,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Wildcard behavior</p>
 						<figure class="diagram-figure" set:html={WildcardSVG} />
 						<p>
-							Show "^1.*" stripped to "1.*" - the law strips only the one leading
-							notation and leaves the content untouched.
+							"^1.*" becomes "1.*": the law strips the one leading notation and leaves the content untouched.
 						</p>
 					</div>
 
@@ -652,10 +625,7 @@ const Related = [
 					>
 						<p class="section-kicker">Diagram - Refusal guard</p>
 						<figure class="diagram-figure" set:html={RefusalSVG} />
-						<p>
-							Show a non-dependency section change being REFUSED and logged instead of
-							applied.
-						</p>
+						<p>A non-dependency section change is refused and logged, never applied.</p>
 					</div>
 
 					<h3 id="pinner-refusal-guard" class="concept-block__title">
@@ -680,9 +650,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Version coherence</p>
 						<figure class="diagram-figure" set:html={VersionCoherSVG} />
 						<p>
-							Show the guarded write carrying replaceIfVersion at the observed version
-							- a racing author write fails safely (no clobber), and the re-emit
-							re-enters this listener as a Stash-gated no-op.
+							The guarded write carries replaceIfVersion at the observed version: a racing author write fails safely, and the re-emit re-enters this listener as a Stash-gated no-op.
 						</p>
 					</div>
 

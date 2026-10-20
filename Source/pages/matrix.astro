@@ -81,7 +81,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 
 <Base
 	Title="Matrix - DSH Family @ PlayForm"
-	Description="The Interactive Matrix Stream Inspector. Raw model emission versus canonical normalized output across the DeepSeek V4 Flash, GLM 5.3 Flash and raw LLM engine routes."
+	Description="The Interactive Matrix Stream Inspector. Raw model emission versus canonical normalized output across the DeepSeek V4.1 Flash, GLM 5.3 Flash and raw LLM engine routes."
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -94,7 +94,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 
 		<PageHero
 			Title="Interactive Matrix Stream Inspector"
-			Sub={"Raw model emission versus canonical normalized output, engine by engine.\nThe inspector highlights EVERY unicode anomaly in the raw payload. The inspector shows the deterministic result after the armed flavor hooks."}
+			Sub={"The per-engine inspector: raw model emission against normalized output, one engine at a time.\nIt highlights every unicode anomaly in the raw payload and shows the result after the armed flavor hooks. For the full gate with metrics and the trace, open the Workbench."}
 		/>
 
 		<!-- Controls -->
@@ -108,7 +108,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 					data-active
 					aria-pressed="true"
 				>
-					<span class="dot"></span> DeepSeek V4 Flash
+					<span class="dot"></span> DeepSeek V4.1 Flash
 				</button>
 				<button type="button" class="engine-pill" data-engine="glm" aria-pressed="false">
 					<span class="dot"></span> <BrandIcon Name="zhipu" Size="0.8em" /> GLM 5.3 Flash
@@ -258,7 +258,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 				</div>
 				<div class="workbench-controls__group">
 					<span class="bench-status hook-tally" data-benchmark-status role="status" aria-live="polite">
-						<Fragment set:html={DotSep(`${Counts.Suites} suites · ${Totals.Pair()} · ALL PASS (the ledger strings, byte-identical)`)} />
+						<Fragment set:html={DotSep(`${Counts.Suites} suites · ${Totals.Pair()} · MECHANICS PASS (the ledger strings, byte-identical)`)} />
 					</span>
 					<button type="button" class="engine-pill" data-action="copy">
 						Copy Normalized Output

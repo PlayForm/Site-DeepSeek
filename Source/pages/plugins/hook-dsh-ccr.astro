@@ -95,7 +95,7 @@ const Config = [
 	{
 		Field: "logFile",
 		Type: "string",
-		Default: "/Users/nikola/.dsh/ccr.log",
+		Default: "~/.dsh/ccr.log",
 		Meaning: "the CCR hook's ledger, SEPARATE from the family's logs (ONE log per module); volatile",
 	},
 	{
@@ -197,7 +197,7 @@ const Oversized = [
 	"compiling 96 files...",
 	"linking Target/Library.js...",
 	"[ ... 137 more lines ... ]",
-	"smoke: 146 checks green",
+	"smoke: 147 checks green",
 	"make: *** Error 1",
 ];
 
@@ -307,6 +307,10 @@ const Related = [
 			<div class="snippet-list">
 				<Terminal Pkg="hook-dsh-ccr"/>
 			</div>
+			<p class="page-hero__sub">
+				Publish-pending - build from source until the npm release lands.
+				The command above is the npm form the release will publish.
+			</p>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
 					<span class="live-dot"></span>INSPECTED
@@ -828,7 +832,7 @@ const Related = [
 				<Concept
 					ID="ccr-ledger-forms"
 					Title="The durable forms carry the timestamp, not the module"
-					Diagram="The durable file lines being the [ISO] message forms - the factory's Append layer adds the hook-dsh-ccr prefix and the timestamp; the strings below are the module's own composed messages, byte-exact. The TTL eviction shares the budget eviction's form: ccr: evicted <hash> (ttl)."
+					Diagram="The durable file lines being the [ISO] message forms - the factory's Append layer adds the timestamp; the logger line adds the ccr: prefix; the strings below are the module's own composed messages, byte-exact. The TTL eviction shares the budget eviction's form: ccr: evicted <hash> (ttl)."
 				>
 					<p>
 						The durable file lines are the <code>[ISO] message</code> forms - the

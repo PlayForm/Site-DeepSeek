@@ -54,27 +54,27 @@ export interface Pair {
 /** The fallback constants: served ONLY when a live source is unavailable. */
 const Fallback = {
 	Counts: {
-		Core: { Classic: 14, EffectTS: 17 },
-		Factory: { Classic: 34, EffectTS: 41 },
-		Governor: { Classic: 78, EffectTS: 81 },
+		Core: { Classic: 14, EffectTS: 14 },
+		Factory: { Classic: 35, EffectTS: 42 },
+		Governor: { Classic: 79, EffectTS: 82 },
 		Pinner: { Classic: 32, EffectTS: 32 },
 		Cargo: { Classic: 62, EffectTS: 62 },
-		Dash: { Classic: 132, EffectTS: 132 },
-		Quotes: { Classic: 62, EffectTS: 62 },
-		Ellipsis: { Classic: 62, EffectTS: 62 },
-		Spaces: { Classic: 62, EffectTS: 62 },
-		Invisible: { Classic: 62, EffectTS: 62 },
-		Fullwidth: { Classic: 62, EffectTS: 62 },
-		File: { Classic: 71, EffectTS: 71 },
-		CCR: { Classic: 146, EffectTS: 146 },
+		Dash: { Classic: 184, EffectTS: 184 },
+		Quotes: { Classic: 104, EffectTS: 104 },
+		Ellipsis: { Classic: 104, EffectTS: 104 },
+		Spaces: { Classic: 104, EffectTS: 104 },
+		Invisible: { Classic: 104, EffectTS: 104 },
+		Fullwidth: { Classic: 104, EffectTS: 104 },
+		File: { Classic: 112, EffectTS: 112 },
+		CCR: { Classic: 147, EffectTS: 147 },
 		Coach: { Classic: 129, EffectTS: 129 },
 	},
 	Totals: {
-		/** The CLASSIC total: 1008 checks across the fourteen suites. */
-		Classic: 1008,
-		/** The EFFECT-TS total: 1021 checks (core +3, factory +7, governor +3). */
-		EffectTS: 1021,
-		/** "1008 checks Classic · 1021 EffectTS" - the pair the formatters mirror. */
+		/** The CLASSIC total: 1314 checks across the fourteen suites. */
+		Classic: 1314,
+		/** The EFFECT-TS total: 1324 checks (factory +7, governor +3; core at parity). */
+		EffectTS: 1324,
+		/** "1314 checks Classic · 1324 EffectTS" - the pair the formatters mirror. */
 	},
 	Versions: {
 		/** The release version of all fifteen packages in both trees. */
@@ -99,10 +99,10 @@ const Fallback = {
 		OriginChecks: 231,
 		/** The factory's original callable-method count at the consolidation. */
 		OriginMethods: 15,
-		/** The additive EFFECT-TS coverage: 13 checks (core +3, factory +7, governor +3). */
-		EffectDelta: 13,
+		/** The additive EFFECT-TS coverage: 10 checks (factory +7, governor +3; core at parity). */
+		EffectDelta: 10,
 		/** The per-suite additive EFFECT-TS deltas over the CLASSIC counts. */
-		Deltas: { Core: 3, Factory: 7, Governor: 3 },
+		Deltas: { Core: 0, Factory: 7, Governor: 3 },
 	},
 	/** The case study's decision index: the twelve decisions plus the abort-signal fix. */
 	Decisions: { Index: 12, Count: 13 },
@@ -133,7 +133,7 @@ export const Counts: {
 	Invisible: Pair;
 	Fullwidth: Pair;
 	File: Pair;
-	/** The CCR compressor's smoke suite (the 146-check suite, BOTH trees). */
+	/** The CCR compressor's smoke suite (the 147-check suite, BOTH trees). */
 	CCR: Pair;
 	/** The tool-coach guardian's smoke suite (the 129-check suite, BOTH trees). */
 	Coach: Pair;
@@ -205,13 +205,13 @@ export const Totals = {
 	Classic: SuiteOrder.reduce((Sum, PairCount) => Sum + PairCount.Classic, 0),
 	/** The EFFECT-TS total: the sum of the fourteen EFFECT-TS pair counts. */
 	EffectTS: SuiteOrder.reduce((Sum, PairCount) => Sum + PairCount.EffectTS, 0),
-	/** "1008 checks Classic · 1021 EffectTS" - the sentence-case totals pair. */
+	/** "1314 checks Classic · 1324 EffectTS" - the sentence-case totals pair. */
 	Pair: (): string => `${Totals.Classic} checks Classic · ${Totals.EffectTS} EffectTS`,
-	/** "1008 checks Classic · 1021 Effect-TS" - the pair with the hyphenated tree name. */
+	/** "1314 checks Classic · 1324 Effect-TS" - the pair with the hyphenated tree name. */
 	PairHyphen: (): string => `${Totals.Classic} checks Classic · ${Totals.EffectTS} Effect-TS`,
-	/** "14 SUITES · 1008 CHECKS CLASSIC · 1021 EFFECT-TS · ALL PASS" - the meta strip. */
+	/** "14 SUITES · 1314 CHECKS CLASSIC · 1324 EFFECT-TS · MECHANICS PASS" - the meta strip. */
 	Metadata: (): string =>
-		`${Counts.Suites} SUITES · ${Totals.Classic} CHECKS CLASSIC · ${Totals.EffectTS} EFFECT-TS · ALL PASS`,
+		`${Counts.Suites} SUITES · ${Totals.Classic} CHECKS CLASSIC · ${Totals.EffectTS} EFFECT-TS · MECHANICS PASS`,
 };
 
 /** The release versions: read live from the release trees' package.json files. */

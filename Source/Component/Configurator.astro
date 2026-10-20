@@ -13,9 +13,9 @@
 // The verification lines are the ledger forms the packages write (the
 // governor's and the pinner's are the page's byte-exact strings; the
 // remaining flavors follow the same format).
-// The command block is the published npm route (`npm install @playform/<pkg>@0.0.1` inside ~/.dsh).
-// The family is on npm since the v0.0.1 release (2026-10-09, provenance via
-// OIDC trusted publishing).
+// The command block is the npm route (`npm install @playform/<pkg>@0.0.1` inside ~/.dsh).
+// hook-dsh-ccr and hook-dsh-tool-coach are publish-pending - build them from source;
+// the published packages install from the registry (provenance via OIDC trusted publishing).
 //
 // THE STATE: the selection persists in the URL query (?engine=&p=&profile= -
 // shareable) and in localStorage.
@@ -101,12 +101,12 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			"            strict: false",
 			"            mutationTools: [write, edit, str_replace_editor, raw-write]",
 			"            maxUpdateFailures: 3",
-			"            ncuBin: /usr/local/bin/ncu",
+			"            ncuBin: ncu",
 			"            updateMode: programmatic",
 			'            policyFile: ""',
 			`            exclude: ${Exclusions}`,
 		].join("\n"),
-		Line: "hook-dsh-package-governor: activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+		Line: "hook-dsh-package-governor: activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
 		Note: null,
 	},
 	pinner: {
@@ -264,7 +264,7 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-ccr"',
 			"        config:",
 			"            log: true",
-			"            logFile: /Users/nikola/.dsh/ccr.log",
+			"            logFile: ~/.dsh/ccr.log",
 			"            targets:",
 			"                - bash",
 			"                - glob",
@@ -476,7 +476,7 @@ function WiringOutput(Engine: string, Pkgs: SlotKey[], Profile: string): string 
 		Pkgs.length > 0
 			? Pkgs.map(
 					(Key) =>
-						`    "${Slots[Key].Pkg}": "link:../bundles/${Slots[Key].Pkg.replace("@playform/", "")}"`,
+						`    "${Slots[Key].Pkg}": "link:./bundles/${Slots[Key].Pkg.replace("@playform/", "")}"`,
 				).join(",\n")
 			: "";
 	const Bundles =
@@ -608,7 +608,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 		<div class="cfg__panel">
 			<div class="cfg__bar">
 				<span class="cfg__title">
-					<Fragment set:html={DotSep(`1 · INSTALL-ALL · PUBLISHED ROUTE · NPM · ${Versions.Release}`)} />
+					<Fragment set:html={DotSep(`1 · INSTALL-ALL · NPM · ${Versions.Release}`)} />
 				</span>
 				<span class="cfg__status">COPIED</span>
 				<button type="button" class="cfg__copy" aria-label="Copy the install commands">
@@ -653,8 +653,10 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 	</div>
 
 	<p class="cfg__note">
-		The commands are the published npm route - the family is on npm since the v0.0.1 release.
-		Run them inside <code>~/.dsh</code> against the registry.
+		The commands are the npm form.
+		hook-dsh-ccr and hook-dsh-tool-coach are publish-pending - build those two from source until they land.
+		hook-dsh-live-containers is publish-pending too and is not in this selection (it ships disabled).
+		Run the published commands inside <code>~/.dsh</code> against the registry.
 		The selection persists in the URL and in localStorage - share the URL to hand over the exact setup.
 	</p>
 </div>
@@ -722,7 +724,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 				Pkgs.length > 0
 					? Pkgs.map(
 							(Key) =>
-								`    "${Slots[Key].Pkg}": "link:../bundles/${Slots[Key].Pkg.replace("@playform/", "")}"`,
+								`    "${Slots[Key].Pkg}": "link:./bundles/${Slots[Key].Pkg.replace("@playform/", "")}"`,
 						).join(",\n")
 					: "";
 			const Bundles =

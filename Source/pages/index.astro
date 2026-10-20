@@ -148,7 +148,7 @@ const CompressBefore = [
 	"resolving 214 modules...",
 	"compiling 96 files...",
 	"[ ... 137 more lines ... ]",
-	"smoke: 146 checks green",
+	"smoke: 147 checks green",
 	"make: *** Error 1",
 ];
 // The one-line preview + marker: the README's terminal example (the
@@ -252,12 +252,14 @@ const CargoFact =
 			<div class="hero__split">
 				<div class="hero__lead">
 					<p class="hero__sub">
-						The <BrandIcon Name="deepseek" /> DeepSeek Harness Plugin Family for PlayForm: EVERY model's output normalized to clean ASCII characters.
-					EVERY manifest pinned and governed under the author's control - fifteen TypeScript packages, smoke-arbitrated.</p>
+						The <BrandIcon Name="deepseek" /> DeepSeek Harness Plugin Family for PlayForm: model output normalized to clean ASCII as it streams, manifests pinned and governed under the author's control - fifteen TypeScript packages, smoke-arbitrated.</p>
 					<p class="hero__sub">
 						Model output, clean and governed.
 					</p>
 					<Terminal Pkg="hook-dsh-core" Rail />
+					<p class="hero__sub">
+						The install is step 0. The profile wiring - the bundles list, the patch, the restart - is on the <a href="/setup/">setup page</a>.
+					</p>
 				</div>
 
 				<!-- Live stream gate preview (the hero's right column): the gate as
@@ -311,7 +313,7 @@ const CargoFact =
 		</section>
 
 		<!-- The stats band: the three verified family facts from the content
-			library - 14 packages, the 1008 + 1021 check totals, the 0.0.1
+			library - 15 packages, the derived check totals, the 0.0.1
 			release - the proof strip between the hero and the plugins. -->
 		<StatsBand />
 
@@ -710,7 +712,7 @@ const CargoFact =
 				<p class="independence__title">Built to serve any LLM.</p>
 				<p class="independence__body">
 					Extensively battle-tested on <BrandIcon Name="deepseek" />{" "}
-					<strong>DeepSeek V4 Flash</strong> &amp;
+					<strong>DeepSeek V4.1 Flash</strong> &amp;
 					<BrandIcon Name="zhipu" />{" "}
 					<strong>GLM 5.3 Flash</strong> token output streams.</p>
 				<p class="independence__body">
@@ -726,9 +728,9 @@ const CargoFact =
 			<div class="notation">
 				<p>DSH Family @ PlayForm: the complete deterministic stream governor matrix.</p>
 				<p>
-					the hook-dsh-* hooks: zero runtime overhead normalizers with zero unicode drift.
+					the hook-dsh-* hooks: in-stream normalizers with no second pass over the transcript.
 				</p>
-				<p>the fifteen packages: pinned under atomic version gates.</p>
+				<p>the fifteen packages: pinned and governed by the manifest hooks.</p>
 			</div>
 		</section>
 	</main>
