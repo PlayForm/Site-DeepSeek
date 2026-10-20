@@ -348,23 +348,31 @@ const Spans = [
 		</section>
 
 		<!-- The arms beyond the demo: text-only note (the stream-gate demo
-		     itself stays untouched). -->
+		     itself stays untouched). One sentence per paragraph - the
+		     sentence text stays byte-exact, only the paragraphing changes. -->
 		<section class="section">
 			<p class="page-hero__sub">
 				<strong>Beyond the demo:</strong> this workbench models the{" "}
-				<strong>conversation arm</strong> (<code>llm/stream</code>) only. The family's
-				other arms - tool input, tool results, step batch, files - are configurable via
-				the volatile <code>scopes</code> surface (conversation / reasoning / toolInput /
-				toolResults / files / batch, every scope hot-flippable through{" "}
-				<code>loader/volatile-update</code>), reachable in the live profile through the{" "}
-				<code>normalize-overpass</code> command. And tool output can additionally be{" "}
-				<strong>compressed</strong>: the{" "}
-				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> replaces oversized results of the
-				target tools with a one-line preview plus a{" "}
+				<strong>conversation arm</strong> (<code>llm/stream</code>) only.
+			</p>
+			<p class="page-hero__sub">
+				The family's other arms - tool input, tool results, step batch, files - are
+				configurable via the volatile <code>scopes</code> surface (conversation /
+				reasoning / toolInput / toolResults / files / batch, every scope
+				hot-flippable through <code>loader/volatile-update</code>), reachable in the
+				live profile through the <code>normalize-overpass</code> command.
+			</p>
+			<p class="page-hero__sub">
+				And tool output can additionally be <strong>compressed</strong>: the{" "}
+				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> replaces oversized results of
+				the target tools with a one-line preview plus a{" "}
 				<code>&lt;&lt;&lt;CCR:</code> retrieval marker, while the{" "}
-				<a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges the terminal calls
-				the stream never sees. The <a href="/plugins/hook-dsh-normalize-dash/">flavor
-				pages</a> carry the full scopes and overpass tables.
+				<a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges the terminal
+				calls the stream never sees.
+			</p>
+			<p class="page-hero__sub">
+				The <a href="/plugins/hook-dsh-normalize-dash/">flavor pages</a> carry the
+				full scopes and overpass tables.
 			</p>
 		</section>
 	</main>

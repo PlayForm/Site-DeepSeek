@@ -151,12 +151,13 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 	/* The manifest accents: package.json reads in the npm red family
 	   (the --color-pin-red token, the same hue family as the official
 	   #C12127 npm mark it carries), Cargo.toml in the accent orange - the
-	   two chips are unmistakably different at a glance, the rest state
-	   already colored (border + ink on the lightest fill), the open state
-	   inverting to the solid accent with the on-primary ink (both accents
-	   keep 4.5:1+ with the white 13px mono). The brand icons whiten with
-	   the ink on the solid ground (brightness/invert - a transform, no new
-	   hex), so the official marks stay legible on both states. */
+	   two chips are unmistakably different at a glance. The SELECTED
+	   state keeps the SOLID accent fill (the user's ruling: the pressed
+	   button stays red/orange) with the on-primary ink, NO box shadow and
+	   no ring on the button - THE ICON ITSELF CHANGES COLOR: the mark
+	   inverts to the light ink (brightness(0) + invert(1) - a transform,
+	   no new hex) so the official mark reads on the solid ground. The
+	   unselected state stays the light tint with the accent icon. */
 	.supports__chip--npm {
 		border-color: var(--color-pin-red);
 		color: var(--color-pin-red);
@@ -246,16 +247,41 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 		color: var(--color-accent-orange);
 	}
 
+	/* The enriched line content: the site's existing patterns, simple and
+	   modern. Code tokens (the tool names, the paths, the versions) get
+	   the same mono chip the paragraphs and card descriptions carry - the
+	   container-low fill, the hairline border, the radius token, the
+	   1px/0.375em padding (the shared code-token rule at Global.css;
+	   :global because the lines render via set:html). Key terms
+	   (<strong>) carry the on-surface ink at full weight - the
+	   highlight-without-color treatment that keeps the panel quiet. */
+	.supports__line :global(code) {
+		font-size: var(--text-label-sm);
+		line-height: var(--leading-label-sm);
+		font-weight: var(--weight-label-sm);
+		background: var(--color-surface-container-lowest);
+		border: 1px solid var(--color-outline-variant);
+		border-radius: var(--radius-default);
+		padding: 1px 0.375em;
+		color: var(--color-on-surface);
+		overflow-wrap: anywhere;
+	}
+
+	.supports__line :global(a code) {
+		color: var(--color-primary);
+	}
+
+	.supports__line :global(strong) {
+		font-weight: 600;
+		color: var(--color-on-surface);
+	}
+
 	.supports__line :global(a) {
 		color: var(--color-primary);
 	}
 
 	.supports__line :global(a:hover) {
 		text-decoration: none;
-	}
-
-	.supports__line :global(code) {
-		color: var(--color-ink);
 	}
 </style>
 

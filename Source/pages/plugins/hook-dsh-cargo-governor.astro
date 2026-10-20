@@ -105,7 +105,10 @@ const Related = [
 			<h1 class="page-hero__title">hook-dsh-cargo-governor</h1>
 			<p class="page-hero__sub">
 				{Families.GovernorCargo} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness
-				Plugin Family for PlayForm.</em> The{" "}
+				Plugin Family for PlayForm.</em>
+			</p>
+			<p class="page-hero__sub">
+				The{" "}
 				<strong><span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" />Cargo.toml</span> flavor of the silent <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> governor</strong> - the same
 				architecture, the same API-awareness discipline, the same silence toward the author,
 				but for <BrandIcon Name="rust" /> RUST manifests, with the update stage driven by
@@ -114,12 +117,14 @@ const Related = [
 				co-opt into the TypeScript ecosystem, so there is no <BrandIcon Name="npm" Size="0.75em" />{" "}
 				<code class="code-token">npm</code>-library equivalent - the update stage operates
 				at the exclusionary level through
-				the <code class="code-token">cargo</code> CLI.</p>
+				the <code class="code-token">cargo</code> CLI.
+			</p>
 			<p class="page-hero__sub">Chain canonicalization + full-version normalization + surgical TOML
 				rewriting + <code>cargo upgrade --exclude</code> - comments survive.</p>
 			<p class="page-hero__sub">Every claim
 				below is live-verified (2026-10-03, live).
-			
+
+
 			</p>
 		</section>
 
@@ -624,15 +629,24 @@ const Related = [
 		<section class="section">
 			<SectionHeader Title="Known limits" Meta="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>The verifyCommand trap (the cargo flavor).</strong> The update stage's
+				<strong>The verifyCommand trap (the cargo flavor).</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The update stage's
 				verifyCommand can fail with a non-zero status: on a fixture workspace without a
 				buildable target, <code>cargo check</code> fails and the ledger records the
 				failure - the same cordis registry trap class as the npm sibling's, the expected
-				outcome, not a bug. Exit 127 (the runner unavailable) is non-fatal; any other
+				outcome, not a bug.
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Exit 127 (the runner unavailable) is non-fatal; any other
 				failure fails the stage and counts toward the circuit breaker.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>The fixture paths.</strong> The fixture ledgers carry the neutralized
+				<strong>The fixture paths.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The fixture ledgers carry the neutralized
 				display forms (<code>&lt;repo-root&gt;/</code>, <code>$DSH_HOME/</code>); the
 				personal absolute paths exist only in the internal Boilerplate copies.
 			</p>

@@ -186,18 +186,23 @@ const Related = [
 			<h1 class="page-hero__title">hook-dsh-package-governor</h1>
 			<p class="page-hero__sub">
 				{Families.GovernorPackage} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness
-				Plugin Family for PlayForm.</em> The <strong>silent <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> governor</strong> of
+				Plugin Family for PlayForm.</em>
+			</p>
+			<p class="page-hero__sub">
+				The <strong>silent <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> governor</strong> of
 				the DeepSeek Harness - a plugin on the <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> event (the <a href={Link(Links.DeepSeekHarness, "vendor/cordis")}>cordis</a>
 				event every harness file write dispatches; the tool layer is the only dispatcher)
 				that governs every
-				<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> written by any agent, anywhere.</p>
+				<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> written by any agent, anywhere.
+			</p>
 			<p class="page-hero__sub">A pure chain pass
 				canonicalizes chain-governed dependency pins, then an update stage lets
 				<BrandIcon Name="npm" Size="0.75em" /> <code class="code-token">npm-check-updates</code> bump the public ones - and the author
 				never learns.</p>
 			<p class="page-hero__sub">A factory flavor: the family's furnace does the plumbing; this package
 				is the model logic.
-			
+
+
 			</p>
 		</section>
 
@@ -686,16 +691,25 @@ const Related = [
 		<section class="section">
 			<SectionHeader Title="Known limits" Meta="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>The verifyCommand trap.</strong> The update stage's verifyCommand can fail
+				<strong>The verifyCommand trap.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The update stage's verifyCommand can fail
 				with a non-zero status: on a vendored-fork workspace the forks are not on the
 				public registry, so a <code>verifyCommand: pnpm install</code> fails and the
 				ledger records the failure - the documented cordis registry trap, the expected
-				outcome, not a bug. Exit 127 (the runner unavailable) is non-fatal; any other
+				outcome, not a bug.
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Exit 127 (the runner unavailable) is non-fatal; any other
 				failure fails the stage and counts toward the circuit breaker (
 				<code>maxUpdateFailures</code>, default 3).
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>The fixture paths.</strong> The live battery's fixture ledgers carry the
+				<strong>The fixture paths.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The live battery's fixture ledgers carry the
 				neutralized display forms (<code>&lt;repo-root&gt;/</code>,{" "}
 				<code>$DSH_HOME/</code>); the personal absolute paths exist only in the internal
 				Boilerplate copies - never copy a live battery into a release archive as-is.

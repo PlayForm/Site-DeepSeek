@@ -274,7 +274,10 @@ const Related = [
 			<h1 class="page-hero__title">hook-dsh-ccr</h1>
 			<p class="page-hero__sub">
 				{Families.Ccr} &bull; <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness
-				Plugin Family for PlayForm.</em> The <strong>tool-output compressor</strong> of
+				Plugin Family for PlayForm.</em>
+			</p>
+			<p class="page-hero__sub">
+				The <strong>tool-output compressor</strong> of
 				the DeepSeek Harness - a plugin on the
 				<a href={Link(Links.DeepSeekHarness, "docs/subsystems/tools.md")}><code>tools/post-execute</code></a>
 				waterfall (the interceptable wrapper around every NORMALIZED dispatch result,
@@ -282,12 +285,16 @@ const Related = [
 				one-line type-aware preview plus a retrieval marker,
 				<code>&lt;&lt;&lt;CCR:&lt;hash&gt;|&lt;type&gt;|&lt;size&gt;&gt;&gt;&gt;</code>,
 				while keeping the original retrievable through the registered
-				<code class="code-token">ccr_retrieve</code> tool.</p>
+				<code class="code-token">ccr_retrieve</code> tool.
+			</p>
 			<p class="page-hero__sub">Ported from Aphrodite's CCR pipeline: compress, cache,
 				retrieve - at the injection point a proxy cannot reach, the tool result itself.
+			</p>
+			<p class="page-hero__sub">
 				With auto-expand on (the default), a result at or under
 				<code>autoExpandLimitBytes</code> is stored but returned FULL - no marker
-				reaches the model while the content is cheap enough to keep inline.</p>
+				reaches the model while the content is cheap enough to keep inline.
+			</p>
 			<p class="page-hero__sub">A factory flavor: the family's furnace composes the
 				schema; this package is the model logic.
 			</p>
@@ -809,7 +816,10 @@ const Related = [
 		<section class="section">
 			<SectionHeader Title="Known limits" Meta="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>The context engine is implemented and OFF by default.</strong> The
+				<strong>The context engine is implemented and OFF by default.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The
 				phase-4 engine (<code>contextEngine: true</code>) adds one
 				<code>agent/pre-step</code> listener and turns the post-execute listener into an
 				observer; its honest MVP does not remove bytes from the model's context - the
@@ -819,16 +829,28 @@ const Related = [
 				decision output is ready to drive a replacement channel when one exists.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>The deliberate scoping.</strong> No proxy mode, no live containers (the
+				<strong>The deliberate scoping.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				No proxy mode, no live containers (the
 				post-execute point sees finalized results only), no poll worker, no chain split;
 				the <code>system-prompt/assemble</code> CCR-handling directive section remains
-				unimplemented. Failures pass through unless <code>compressFailures</code> is on -
+				unimplemented.
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Failures pass through unless <code>compressFailures</code> is on -
 				the error <code>&#215;8</code> tier is the only beneficiary.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>The journal is best-effort.</strong> A journal failure degrades to
+				<strong>The journal is best-effort.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				A journal failure degrades to
 				memory-only; the file is the plugin's own diagnostic file, never a governed
-				write. And <code>inlineThresholdBytes</code> is parsed but inert under the
+				write.
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				And <code>inlineThresholdBytes</code> is parsed but inert under the
 				default thresholds - it maps Aphrodite's <code>inline_threshold</code> and stays
 				in the schema for the store-shape parity.
 			</p>

@@ -161,14 +161,20 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 				File target: synced
 			</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
-				This demo models the <strong>conversation arm</strong> only. Beyond it, the
+				This demo models the <strong>conversation arm</strong> only.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
+				Beyond it, the
 				family's granular volatile <code>scopes</code> surface gates every arm
 				independently - conversation / reasoning / toolInput / toolResults / files /
 				batch, all hot-flippable through <code>loader/volatile-update</code> - and two{" "}
 				<strong>overpass arms</strong> extend the flavors past the stream: the
 				tool-results arm (<code>tools/post-execute</code>, the OUTERMOST prepend) and
 				the step-batch arm (<code>agent/pre-step</code>), reachable through the{" "}
-				<code>normalize-overpass</code> command. On the same waterfall, the{" "}
+				<code>normalize-overpass</code> command.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-sm)">
+				On the same waterfall, the{" "}
 				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> compresses oversized tool output;
 				the <a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges the terminal
 				calls.

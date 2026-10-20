@@ -81,7 +81,10 @@ const Related = [
 			<h1 class="page-hero__title">hook-dsh-core</h1>
 			<p class="page-hero__sub">
 				{Families.Core} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin Family
-				for PlayForm.</em> The pure machinery layer of the DSH plugin family: the harness-free
+				for PlayForm.</em>
+			</p>
+			<p class="page-hero__sub">
+				The pure machinery layer of the DSH plugin family: the harness-free
 				commonalities both halves of the family are built from - one library, two halves,
 				explained as diagram-first concept blocks below.
 			</p>
@@ -877,11 +880,17 @@ const Related = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				License: CC0-1.0. The unit smoke (<span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" />core-smoke.mjs</span> in the family's smokes/ directory)
+				License: CC0-1.0.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The unit smoke (<span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" />core-smoke.mjs</span> in the family's smokes/ directory)
 				exercises every helper with no fake context at all - {Counts.Core.Classic} checks in
 				<BrandIcon Name="typescript" />{" "}
 				CLASSIC, {Counts.Core.EffectTS} in <BrandIcon Name="effect" />{" "}
-				EFFECT-TS. The family's smoke baseline:{" "}
+				EFFECT-TS.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The family's smoke baseline:{" "}
 				<Fragment set:html={DotSep(`${Counts.Suites} suites · ${Totals.Pair()}· ALL PASS.`)} />
 			</p>
 		</section>

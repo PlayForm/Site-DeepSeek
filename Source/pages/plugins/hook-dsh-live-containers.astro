@@ -202,20 +202,34 @@ const Related = [
 			<h1 class="page-hero__title">hook-dsh-live-containers</h1>
 			<p class="page-hero__sub">
 				{Families.LiveContainers} &bull; <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness
-				Plugin Family for PlayForm.</em> The <strong>live-containers hook</strong> of the
+				Plugin Family for PlayForm.</em>
+			</p>
+			<p class="page-hero__sub">
+				The <strong>live-containers hook</strong> of the
 				DeepSeek Harness - a plugin that keeps <strong>dynamic, modifiable conversation
-				blocks in the system prompt</strong>. Each enabled block is a labeled stanza
+				blocks in the system prompt</strong>.
+			</p>
+			<p class="page-hero__sub">
+				Each enabled block is a labeled stanza
 				recomputed at every request - the canonical example is a time block that always
 				holds the current time at ask-time while the rest of the conversation stays
-				static. The blocks ride the <code>system-prompt/assemble</code> waterfall as ONE
+				static.
+			</p>
+			<p class="page-hero__sub">
+				The blocks ride the <code>system-prompt/assemble</code> waterfall as ONE
 				appended section named <code>live-containers</code> (<code>interpolate: false</code>,
 				so only the plugin's own substitution engine touches its <code>{"{{token}}"}</code>{" "}
 				groups), each block inside a fixed frame so the model cannot mistake it for
-				harness state.</p>
-			<p class="page-hero__sub"><strong>Planned - not yet in the profile.</strong> The
+				harness state.
+			</p>
+			<p class="page-hero__sub"><strong>Planned - not yet in the profile.</strong></p>
+			<p class="page-hero__sub">The
 				plugin ships DISABLED (the IDLE-forever posture): the bundle entry declares{" "}
 				<code>enabled: false</code> only, the plugin never appears in the profile's
-				bundles, and it enables only by an explicit ACTIVATE. A cold mount logs{" "}
+				bundles, and it enables only by an explicit ACTIVATE.
+			</p>
+			<p class="page-hero__sub">
+				A cold mount logs{" "}
 				<code>disabled (enabled=false)</code> and every listener no-ops to a passthrough.
 			</p>
 			<p class="page-hero__sub">A NON-MANIFEST factory flavor: the family's furnace

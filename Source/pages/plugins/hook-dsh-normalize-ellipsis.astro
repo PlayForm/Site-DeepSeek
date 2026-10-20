@@ -575,23 +575,30 @@ const LedgerStrings = [
 						The <code>scopes</code> object gates every arm of the{" "}
 						<code>hook-dsh-normalize-ellipsis</code> hook independently - conversation,
 						reasoning, toolInput, toolResults, files, batch - with the defaults exactly
-						the pre-scopes behavior. The whole object is <strong>volatile</strong>: one
-						leaf change commits one <code>loader/volatile-update</code> dispatch whose
-						whole object the State's refresh listener re-reads - live, silent, no
-						remount, no new activation line (a flip lands on the next stream).
+						the pre-scopes behavior.
+					</p>
+					<p>
+						The whole object is <strong>volatile</strong>: one leaf change commits one{" "}
+						<code>loader/volatile-update</code> dispatch whose whole object the State's
+						refresh listener re-reads - live, silent, no remount, no new activation
+						line (a flip lands on the next stream).
 					</p>
 					<p>
 						The tool-input arm: effective tool-input normalization is{" "}
 						<code>normalizeToolArguments || scopes.toolInput</code> - the field is kept
-						and OR-ed in, so every existing profile keeps working. It is the only
-						execution-critical arm, and it carries the per-call escape hatch: a call
-						whose arguments open with the{" "}
-						<code>&#123;"__normalize":false&#125;</code> FIRST-key marker passes through
-						unnormalized, the marker entry stripped (the executed call carries no
-						unknown key) - the "leave that search alone" control for a deliberate search
-						for an irregular character. The marker must be the first key: a first delta
-						shorter than the marker is invisible to the probe and the call normalizes
-						normally.
+						and OR-ed in, so every existing profile keeps working.
+					</p>
+					<p>
+						It is the only execution-critical arm, and it carries the per-call escape
+						hatch: a call whose arguments open with the{" "}
+						<code>&#123;"__normalize":false&#125;</code> FIRST-key marker passes
+						through unnormalized, the marker entry stripped (the executed call carries
+						no unknown key) - the "leave that search alone" control for a deliberate
+						search for an irregular character.
+					</p>
+					<p>
+						The marker must be the first key: a first delta shorter than the marker is
+						invisible to the probe and the call normalizes normally.
 					</p>
 					<p>
 						Three structural exemptions are never rewritten: the <code>edit</code> call
@@ -607,6 +614,8 @@ const LedgerStrings = [
 						the durable log - so the model only ever sees the normalized output and
 						never notices the replacement; the exemption list plus the{" "}
 						<code>&lt;&lt;&lt;CCR:</code> marker guard define what passes untouched.
+					</p>
+					<p>
 						That is the write-path counterpart of the governance trio's never-notify
 						precedent: the result is built from the author's own content, and the
 						observation-policy's version record is refreshed by the re-emitted
@@ -654,16 +663,21 @@ const LedgerStrings = [
 						<code>&#123; prepend: true &#125;</code> (OUTERMOST vs the{" "}
 						<a href="/plugins/hook-dsh-ccr/">ccr hook's</a> own prepended gate: the ccr
 						compression sees the NORMALIZED bytes; the <code>&lt;&lt;&lt;CCR:</code>{" "}
-						marker guard makes any load order safe). Accepted, non-value-carrying
-						decisions only; TEXT blocks only; N = 0 is a true no-op - no ledger line;
-						fail-open.
+						marker guard makes any load order safe).
+					</p>
+					<p>
+						Accepted, non-value-carrying decisions only; TEXT blocks only; N = 0 is a
+						true no-op - no ledger line; fail-open.
 					</p>
 					<p>
 						<strong>Step batch</strong> - <code>agent/pre-step</code>, default order.
+					</p>
+					<p>
 						While <code>scopes.batch</code> is on, every incoming batch is normalized;
 						the command's one-shot arm fires ONCE regardless of the scope value and is
-						cleared after one use. Text blocks only; never the assistant/tool history.
+						cleared after one use.
 					</p>
+					<p>Text blocks only; never the assistant/tool history.</p>
 					<p>The overpass lines (N &gt; 0 only):</p>
 				</Concept>
 			</div>

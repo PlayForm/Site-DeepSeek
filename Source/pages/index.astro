@@ -538,11 +538,16 @@ const CargoFact =
 				<p class="coach__lead">
 					The one-sentence rule the coach enforces: <strong>the terminal runs
 					COMMANDS (builds, tests, git, package managers); the tools handle
-					CONTENT.</strong> Terminal file edits are invisible to the plugin
-					system - the <code>fs/observed</code> chain (the governor's, the
-					pinner's and the normalize plugins' trigger) fires only on tool-layer
-					writes, so a <code>sed -i</code> edit bypasses all of them. The coach
-					goes where that regression flows: the terminal tool calls.
+					CONTENT.</strong>
+				</p>
+				<p class="coach__lead">
+					Terminal file edits are invisible to the plugin system - the
+					<code>fs/observed</code> chain (the governor's, the pinner's and the
+					normalize plugins' trigger) fires only on tool-layer writes, so a
+					<code>sed -i</code> edit bypasses all of them.
+				</p>
+				<p class="coach__lead">
+					The coach goes where that regression flows: the terminal tool calls.
 				</p>
 			</header>
 
@@ -653,24 +658,31 @@ const CargoFact =
 
 			<div class="coach__notes">
 				<p class="coach__note">
-					<strong>Detection is deliberately adversarial.</strong> The pattern table is
-					one input, not the authority: the command is normalized first (heredoc
-					bodies stripped, subshells and variables wrapped, quote layers removed),
-					then the pattern rows, an intent-marker scan, a craft library for the
-					obfuscated variants, and a catch-all - any write-intent marker on a
-					non-/dev/null path lands as write, so novel zero-day forms still count.
+					<strong>Detection is deliberately adversarial.</strong>
+				</p>
+				<p class="coach__note">
+					The pattern table is one input, not the authority: the command is
+					normalized first (heredoc bodies stripped, subshells and variables
+					wrapped, quote layers removed), then the pattern rows, an intent-marker
+					scan, a craft library for the obfuscated variants, and a catch-all - any
+					write-intent marker on a non-/dev/null path lands as write, so novel
+					zero-day forms still count.
+				</p>
+				<p class="coach__note">
 					Exemptions are checked per pipeline after normalization: an exempt head
-					dominates its pipe (<code>git diff &gt; patch.txt</code> is exempt), a bare
-					<code>echo x &gt; tracked.md</code> is not.
+					dominates its pipe (<code>git diff &gt; patch.txt</code> is exempt), a
+					bare <code>echo x &gt; tracked.md</code> is not.
 				</p>
 				<p class="coach__note">
 					<strong>Every note names the correct tool with its LIVE registry data,</strong>
 					fetched through <code>ctx.tools.schemas()</code> (the same way the model
 					itself is given tools): the tool name, the first sentence of its
-					description (&le; 120 chars) and the primary parameter key. Any fetch
-					failure degrades to the static table and logs
-					<code>schema fetch failed -&gt; static fallback</code> - a note never fails
-					a waterfall.
+					description (&le; 120 chars) and the primary parameter key.
+				</p>
+				<p class="coach__note">
+					Any fetch failure degrades to the static table and logs
+					<code>schema fetch failed -&gt; static fallback</code> - a note never
+					fails a waterfall.
 				</p>
 			</div>
 			<p class="coach__cta-row">

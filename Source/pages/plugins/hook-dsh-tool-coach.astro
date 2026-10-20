@@ -309,19 +309,31 @@ const Related = [
 			<h1 class="page-hero__title">hook-dsh-tool-coach</h1>
 			<p class="page-hero__sub">
 				{Families.Coach} &bull; <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness
-				Plugin Family for PlayForm.</em> The <strong>terminal coach</strong> of the
+				Plugin Family for PlayForm.</em>
+			</p>
+			<p class="page-hero__sub">
+				The <strong>terminal coach</strong> of the
 				DeepSeek Harness - a plugin that teaches the model to stop using the terminal
-				for file content. The one-sentence rule it enforces: <strong>the terminal runs
+				for file content.
+			</p>
+			<p class="page-hero__sub">
+				The one-sentence rule it enforces: <strong>the terminal runs
 				COMMANDS (builds, tests, git, package managers); the tools handle
-				CONTENT.</strong> It watches the terminal tool calls (<code>bash</code>,
+				CONTENT.</strong>
+			</p>
+			<p class="page-hero__sub">
+				It watches the terminal tool calls (<code>bash</code>,
 				<code>pwsh</code>; the dedicated tools are never judged) and runs a four-tier
 				coaching ladder that escalates from silent observation to a persistent
-				system-prompt section to an optional hard deny.</p>
+				system-prompt section to an optional hard deny.
+			</p>
 			<p class="page-hero__sub">Why it exists: terminal file edits are invisible to the
 				plugin system - the harness's <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> chain
 				(the trigger of the governor, the pinner and the normalize plugins) fires ONLY
 				on tool-layer writes, so a <code>sed -i</code>/<code>python -c</code> edit
-				bypasses all of them. The coach goes where that regression flows.</p>
+				bypasses all of them.
+			</p>
+			<p class="page-hero__sub">The coach goes where that regression flows.</p>
 			<p class="page-hero__sub">A NON-MANIFEST factory flavor: the family's furnace
 				composes the schema and the volatile refresh; this package owns its schema and
 				its strings.
@@ -506,7 +518,10 @@ const Related = [
 					<p>
 						Tier 3 is off by default (<code>enforce: 'off'</code>);
 						<code>write</code> denies only write-class segments, <code>all</code>{" "}
-						adds read and search. Discovery and control are <strong>never
+						adds read and search.
+					</p>
+					<p>
+						Discovery and control are <strong>never
 						denied</strong>, even at <code>all</code> - flagging them hard would
 						dilute the write/read signal.
 					</p>
@@ -730,21 +745,33 @@ const Related = [
 		<section class="section">
 			<SectionHeader Title="Known limits" Meta="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>The coach teaches; it does not rewrite.</strong> No tier modifies the
+				<strong>The coach teaches; it does not rewrite.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				No tier modifies the
 				model's history: tier 1 appends a note to the current turn's
 				<code>additionalContexts</code>, tier 2 appends a section to the system prompt,
 				tier 3 blocks the call before execution - the past turns are never touched.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>The live fetch can fail, gracefully.</strong> A throwing
+				<strong>The live fetch can fail, gracefully.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				A throwing
 				<code>ctx.tools.schemas()</code> degrades to the static
 				<code>STATIC_TOOL_LINES</code> table and logs
 				<code>schema fetch failed -&gt; static fallback</code>; the waterfall continues -
-				a note never fails a waterfall. <code>fetchLive: false</code> uses the static
+				a note never fails a waterfall.
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				<code>fetchLive: false</code> uses the static
 				table unconditionally with no failure line.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>Detection is heuristic by design.</strong> The catch-all keeps the
+				<strong>Detection is heuristic by design.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The catch-all keeps the
 				recall high (novel write forms still count); exemptions keep the precision
 				acceptable (builds, tests, git, package managers, file lifecycle) - the balance
 				is documented in the smoke battery's exempt cases, including the

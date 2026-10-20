@@ -164,11 +164,15 @@ const Related = [
 			<h1 class="page-hero__title">hook-dsh-package-pinner</h1>
 			<p class="page-hero__sub">
 				{Families.PinnerPackage} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness
-				Plugin Family for PlayForm.</em> The <strong>silent version pinner</strong> of the
+				Plugin Family for PlayForm.</em>
+			</p>
+			<p class="page-hero__sub">
+				The <strong>silent version pinner</strong> of the
 				DeepSeek Harness - a plugin on the
 				<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> event that pins every dependency version in a written
 				<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span> to its STATIC version:{" "}
-				<code>"@playform/build": "^0.3.4"</code> becomes <code>"0.3.4"</code>.</p>
+				<code>"@playform/build": "^0.3.4"</code> becomes <code>"0.3.4"</code>.
+			</p>
 			<p class="page-hero__sub">One leading
 				range prefix (<code>^</code>,<code>~</code>, or <code>=</code>) is stripped, in
 				every dependency section the config declares - and the author never learns.</p>
@@ -176,7 +180,8 @@ const Related = [
 				factory flavor: pure P-only - no ncu, no jobs, no subprocess, no cooldown.</p>
 			<p class="page-hero__sub">Just the
 				pin.
-			
+
+
 			</p>
 		</section>
 
@@ -329,7 +334,10 @@ const Related = [
 					<p class="page-hero__sub">
 						The pinner and governor use separate ledgers:
 						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>pinner.log</code></span> and{" "}
-						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>governor.log</code></span>. Activating either
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>governor.log</code></span>.
+					</p>
+					<p class="page-hero__sub">
+						Activating either
 						plugin never implies activation of the other.
 					</p>
 				</section>
@@ -352,7 +360,10 @@ const Related = [
 
 					<p class="page-hero__sub">
 						The pinner declares
-						<code>inject: ["fs", "pluginFactory"]</code>. It composes shared machinery
+						<code>inject: ["fs", "pluginFactory"]</code>.
+					</p>
+					<p class="page-hero__sub">
+						It composes shared machinery
 						with its own pinning logic.
 					</p>
 				</section>
@@ -782,14 +793,23 @@ const Related = [
 		<section class="section">
 			<SectionHeader Title="Known limits" Meta="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>Load order is not list order.</strong> The pinner can activate before the
+				<strong>Load order is not list order.</strong>
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The pinner can activate before the
 				governor at boot - the registration order is not controlled by the bundles-list
-				order. Never rely on it for step ordering: the sequential fold and the
+				order.
+			</p>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				Never rely on it for step ordering: the sequential fold and the
 				fresh-version writes make the order irrelevant, and each plugin's ledger answers
 				for its own activation.
 			</p>
 			<p class="page-hero__sub">
-				<strong>The composition holds under either order.</strong> A fully pinned manifest
+				<strong>The composition holds under either order.</strong>
+			</p>
+			<p class="page-hero__sub">
+				A fully pinned manifest
 				leaves the governor's update stage nothing to do, and the chain pass may still
 				re-canonicalize chain pins - the two passes are idempotent under either
 				activation sequence.
