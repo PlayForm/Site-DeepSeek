@@ -23,17 +23,17 @@ const { Title, Meta } = Astro.props;
 // only ever appear in the plain text runs (GOVERNANCE / GOVERNED /
 // NORMALIZERS never match - whole words only) and the visible bytes stay
 // byte-exact.
-const IdentityPattern = /\b(PIN|GOVERN|NORMALIZE)\b/g;
+const Pattern = /\b(PIN|GOVERN|NORMALIZE)\b/g;
 
-function IdentityWords(Text: string): string {
-	return Text.replace(IdentityPattern, (Word) => {
-		const Cls =
+function Emphasize(Text: string): string {
+	return Text.replace(Pattern, (Word) => {
+		const Class =
 			Word === "PIN"
 				? "word-pin"
 				: Word === "GOVERN"
 					? "word-govern"
 					: "word-normalize";
-		return `<span class="${Cls}">${Word}</span>`;
+		return `<span class="${Class}">${Word}</span>`;
 	});
 }
 ---
@@ -44,6 +44,6 @@ function IdentityWords(Text: string): string {
 		<h2 class="section-header__title">{Title}</h2>
 	</div>
 	{Meta && (
-		<span class="section-header__meta" set:html={DotSep(IdentityWords(Mention(Meta)))} />
+		<span class="section-header__meta" set:html={DotSep(Emphasize(Mention(Meta)))} />
 	)}
 </div>

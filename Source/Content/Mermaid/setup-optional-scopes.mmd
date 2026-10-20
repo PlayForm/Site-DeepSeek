@@ -1,10 +1,10 @@
 flowchart LR
-	SCOPES["the granular volatile scopes -<br/>defaults exactly the pre-scopes behavior"]
+	SCOPES["The granular volatile scopes -<br/>defaults exactly the pre-scopes behavior"]
 	ON["conversation - reasoning - files ON"]
 	OFF["toolInput - toolResults - batch OFF"]
-	GATE["effective tool-input normalization -<br/>normalizeToolArguments or scopes.toolInput -<br/>an existing patch keeps working unchanged"]
-	CELL["the whole object one volatile cell"]
-	FLIP["a flip lands on the next judged call<br/>with no remount"]
+	GATE["Effective tool-input normalization -<br/>normalizeToolArguments or scopes.toolInput -<br/>an existing patch keeps working unchanged"]
+	CELL["The whole object one volatile cell"]
+	FLIP["A flip lands on the next judged call<br/>with no remount"]
 	SCOPES --> ON
 	SCOPES --> OFF
 	SCOPES --> GATE

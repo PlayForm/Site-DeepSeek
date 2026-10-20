@@ -1,6 +1,6 @@
 flowchart LR
-	WRITE["the rewrite carries replaceIfVersion<br/>at the observed version"] --> RACE{"a racing author write?"}
-	RACE -- "no - the version is still the observed one" --> OK["the write proceeds"]
-	RACE -- "yes" --> FAIL["fails safely - no clobber"]
-	OK -. "the re-emit" .-> REEMIT["re-enters this listener"]
-	REEMIT --> NOOP["the Stash token gate<br/>makes it a no-op"]
+	WRITE["The rewrite carries replaceIfVersion<br/>at the observed version"] --> RACE{"A racing author write?"}
+	RACE -- "No - the version is still the observed one" --> OK["The write proceeds"]
+	RACE -- "Yes" --> FAIL["Fails safely - no clobber"]
+	OK -. "The re-emit" .-> REEMIT["Re-enters this listener"]
+	REEMIT --> NOOP["The Stash token gate<br/>makes it a no-op"]

@@ -31,7 +31,7 @@ const { Label, Orange = false, Icon = false } = Astro.props;
 // Only the RAW word carries the orange (the site's only-RAW rule): a
 // leading RAW word (any case) gets wrapped, any other label renders
 // untouched.
-const RawMatch = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
+const Match = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
 ---
 
 <div class="tray" role="group" aria-label={Label}>

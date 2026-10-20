@@ -29,11 +29,11 @@ const {
 /** The composed command: the literal Command wins; Pkg is composed against
  * the library's release version; the default is the core hook at that same
  * dynamic version - a single library bump re-versions every install box. */
-const Cmd =
+const Composed =
 	Command ?? (Pkg ? `npm install @playform/${Pkg}@${Versions.Release}` : `npm install @playform/hook-dsh-core@${Versions.Release}`);
 ---
 
-<div class={`terminal${Rail ? " rail-orange" : ""}`} data-command={Cmd}>
+<div class={`terminal${Rail ? " rail-orange" : ""}`} data-command={Composed}>
 	<div class="terminal__bar">
 		<span class="terminal__label">
 			<svg

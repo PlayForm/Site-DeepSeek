@@ -4,10 +4,10 @@ flowchart LR
 	C["cause"]
 	SUP["Suppress - the shared suppression-line composer"]
 	LINE["module: kind error (suppressed): cause"]
-	LOG["the consumer's logger"]
-	LED["not a ledger entry"]
+	LOG["The consumer's logger"]
+	LED["Not a ledger entry"]
 	M --> SUP
 	K --> SUP
 	C --> SUP
 	SUP --> LINE --> LOG
-	LOG -. "never" .-> LED
+	LOG -. "Never" .-> LED

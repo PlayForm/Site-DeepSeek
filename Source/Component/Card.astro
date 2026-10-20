@@ -37,10 +37,10 @@ const {
 	Href,
 } = Astro.props;
 
-const CardClass = `card${Variant === "default" ? "" : ` card--${Variant}`}`;
+const Class = `card${Variant === "default" ? "" : ` card--${Variant}`}`;
 ---
 
-<article class={CardClass} data-package={Name} data-tags={Tags}>
+<article class={Class} data-package={Name} data-tags={Tags}>
 	{Name ? (
 		<div class="card__top">
 			{Href ? (

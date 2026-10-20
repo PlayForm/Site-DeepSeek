@@ -1,5 +1,5 @@
 flowchart LR
-	CUR["current document"] --> GUARD{"Refusal - compare"}
-	PROP["proposed document"] --> GUARD
-	GUARD -- "differences confined to the declared dependency sections" --> PASS["passes this guard"]
-	GUARD -- "a difference elsewhere" --> REF["the refusal line<br/>the rewrite is prevented"]
+	CUR["Current document"] --> GUARD{"Refusal - compare"}
+	PROP["Proposed document"] --> GUARD
+	GUARD -- "Differences confined to the declared dependency sections" --> PASS["Passes this guard"]
+	GUARD -- "A difference elsewhere" --> REF["The refusal line<br/>the rewrite is prevented"]

@@ -1,5 +1,5 @@
 flowchart LR
-	FILE["a supplied readable policy file"] --> R{"reads and parses?"}
-	R -- "yes" --> LOAD["loaded policy"]
-	R -- "read or parse failure" --> DEF["module-provided defaults"]
-	QUIET["quiet mode"] -. "controls diagnostics - not policy selection" .-> LOAD
+	FILE["A supplied readable policy file"] --> R{"Reads and parses?"}
+	R -- "Yes" --> LOAD["Loaded policy"]
+	R -- "Read or parse failure" --> DEF["Module-provided defaults"]
+	QUIET["Quiet mode"] -. "Controls diagnostics - not policy selection" .-> LOAD

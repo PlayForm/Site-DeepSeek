@@ -338,7 +338,7 @@ const ClassicSlots: Record<SlotKey, Slot> = {
  * (the classical hook-dsh-package-governor -> the ets ets-hook-dsh-package-governor), and the
  * factory renames to ets-plugin-dsh-factory.
  */
-const EtsNames: Record<SlotKey, string> = {
+const ETSNames: Record<SlotKey, string> = {
 	core: "ets-hook-dsh-core",
 	factory: "ets-plugin-dsh-factory",
 	governor: "ets-hook-dsh-package-governor",
@@ -355,16 +355,16 @@ const EtsNames: Record<SlotKey, string> = {
 	"tool-coach": "ets-hook-dsh-tool-coach",
 };
 
-function RenameEts(Slots: Record<SlotKey, Slot>): Record<SlotKey, Slot> {
+function RenameETS(Slots: Record<SlotKey, Slot>): Record<SlotKey, Slot> {
 	const Out: Record<SlotKey, Slot> = {} as Record<SlotKey, Slot>;
 	for (const Key of Order) {
 		const Slot = Slots[Key];
 		const Classic = Slot.Pkg.replace("@playform/", "");
-		const Id = EtsNames[Key];
+		const ID = ETSNames[Key];
 		const Swap = (Text: string) =>
-			Text.split(Classic).join(Id);
+			Text.split(Classic).join(ID);
 		Out[Key] = {
-			Pkg: `@playform/${Id}`,
+			Pkg: `@playform/${ID}`,
 			Patch: Slot.Patch ? Swap(Slot.Patch) : null,
 			Line: Slot.Line ? Swap(Slot.Line) : null,
 			Note: Slot.Note,
@@ -373,14 +373,14 @@ function RenameEts(Slots: Record<SlotKey, Slot>): Record<SlotKey, Slot> {
 	return Out;
 }
 
-const EffectTSSlots = RenameEts(ClassicSlots);
+const EffectTSSlots = RenameETS(ClassicSlots);
 
 /**
  * The tool-coach ets exception: the EffectTS twin's real patch
  * (EffectTS/packages/ets-hook-dsh-tool-coach/cordis.patch.yml) keeps the
  * Classic entry id (id: hook-dsh-tool-coach) and only swaps the name to the
  * ets- form, unlike every other entry (which carries the ets- id too).
- * RenameEts would rename the id, so the correct real body is reinstalled.
+ * RenameETS would rename the id, so the correct real body is reinstalled.
  */
 EffectTSSlots["tool-coach"] = {
 	...EffectTSSlots["tool-coach"],

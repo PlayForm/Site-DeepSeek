@@ -1,12 +1,12 @@
 flowchart LR
-	CORE["the normalization half"]
+	CORE["The normalization half"]
 	DASH["Dashes - a character class"]
 	QUOTES["Quotes - a character map"]
 	ELLIPSIS["Ellipsis - a character class"]
 	SPACES["Spaces - a character class"]
 	INVISIBLE["Invisible - a character class"]
 	FULLWIDTH["Fullwidth - a character map"]
-	FLAVORS["each corresponding flavor<br/>not every flavor applies every table"]
+	FLAVORS["Each corresponding flavor<br/>not every flavor applies every table"]
 	CORE --> DASH --> FLAVORS
 	CORE --> QUOTES --> FLAVORS
 	CORE --> ELLIPSIS --> FLAVORS

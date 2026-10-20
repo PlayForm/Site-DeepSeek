@@ -122,7 +122,7 @@ const A11y = Label
 	? { role: "img" as const, "aria-label": Label }
 	: { "aria-hidden": "true" as const };
 
-const Cls = `brand-icon brand-icon--${Name}${
+const Class = `brand-icon brand-icon--${Name}${
 	Tone === "accent" ? " brand-icon--accent" : ""
 }${ClassName ? ` ${ClassName}` : ""}`;
 
