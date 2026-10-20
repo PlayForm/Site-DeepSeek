@@ -1,8 +1,13 @@
 ---
-// SupportsButton: the "supports:" chip row + the click-to-expand panel for
-// the use-case Showcase cards. Each chip names a manifest the module
-// handles; clicking it expands the shared panel with the real use-case
-// lines (from the plugin READMEs).
+// SupportsButton: the "supports:" chip row + the click-to-expand panels
+// for the use-case Showcase cards. Each chip names a manifest the module
+// handles - carrying the manifest's brand icon and its accent color
+// (package.json = the npm red family via the official npm mark +
+// --color-pin-red; Cargo.toml = the official cargo/rust gear mark + the
+// accent orange) - and selecting it expands THAT manifest's use-case
+// panel (the per-function breakdown) and swaps the coupled Showcase's
+// before/after example to the manifest's story (the dsh:example event,
+// see Showcase.astro).
 //
 // The site's established interactivity pattern (there is no <details>
 // anywhere on the site): a class-toggle button with aria-expanded, like
@@ -11,40 +16,69 @@
 // the button and the hidden attribute on the panel, driven by this
 // component's own small script. Zero elevation: hairline chips, a flat
 // tray panel, the radius tokens only.
+import BrandIcon from "@Component/BrandIcon.astro";
+
 interface Props {
 	/** The manifest names rendered as the clickable chips. */
 	Manifests: string[];
-	/** The expanded lines (real use-case content; rendered via set:html,
-	 so inline <code>/<a> markup is intentional). */
-	Detail: string[];
+	/** The default panel lines (the single-manifest case passes just
+		this; also the fallback for any manifest without a Details entry). */
+	Detail?: string[];
+	/** The per-manifest panel lines, keyed by manifest name: each entry
+		is the manifest's per-function breakdown (one tagged line per
+		functionality step), rendered via set:html so inline
+		<code>/<a>/<span> markup is intentional. */
+	Details?: Record<string, string[]>;
+	/** The coupled Showcase's data-showcase-id: selecting a chip swaps
+		that showcase's example to the manifest's story. Omit when the
+		chips have no example variants to swap. */
+	ShowcaseId?: string;
 }
 
-const { Manifests, Detail } = Astro.props;
+const { Manifests, Detail, Details, ShowcaseId } = Astro.props;
 
-// The shared panel's id: one panel per button group (all chips in this
-// component instance expand the same panel). The manifest names are
-// lowercase identifiers, so the id is a valid DOM id.
+// The shared panel id prefix: one id per chip's panel (the manifest slug
+// disambiguates). The manifest names are lowercase identifiers, so the
+// slugs are valid DOM ids.
 const Id = `supports-${Manifests.join("-").toLowerCase()}`;
+const Slug = (Manifest: string) => Manifest.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+// The manifest identity: the brand icon + the accent kind per known
+// manifest (package.json = the npm red family; Cargo.toml = the accent
+// orange). Unknown manifests keep the neutral chip (no icon, no accent).
+const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> = {
+	"package.json": { Icon: "npm", Kind: "npm" },
+	"Cargo.toml": { Icon: "cargo", Kind: "cargo" },
+};
 ---
 
-<div class="supports">
+<div class="supports" data-showcase-id={ShowcaseId}>
 	<p class="supports__row">
 		<span class="supports__label">supports:</span>
-		{Manifests.map((Manifest) => (
-			<button
-				type="button"
-				class="supports__chip"
-				data-supports-toggle
-				aria-expanded="false"
-				aria-controls={Id}
-			>
-				{Manifest}
-			</button>
-		))}
+		{Manifests.map((Manifest) => {
+			const Identity = ManifestIdentity[Manifest];
+			return (
+				<button
+					type="button"
+					class={`supports__chip${Identity ? ` supports__chip--${Identity.Kind}` : ""}`}
+					data-supports-toggle
+					data-manifest={Manifest}
+					aria-expanded="false"
+					aria-controls={`${Id}-${Slug(Manifest)}`}
+				>
+					{Identity && <BrandIcon Name={Identity.Icon} Size="0.8em" />}
+					{Manifest}
+				</button>
+			);
+		})}
 	</p>
-	<div class="supports__panel" id={Id} hidden>
-		{Detail.map((Line) => <p class="supports__line" set:html={Line} />)}
-	</div>
+	{Manifests.map((Manifest) => (
+		<div class="supports__panel" id={`${Id}-${Slug(Manifest)}`} data-panel={Manifest} hidden>
+			{(Details?.[Manifest] ?? Detail ?? []).map((Line) => (
+				<p class="supports__line" set:html={Line} />
+			))}
+		</div>
+	))}
 </div>
 
 <style>
@@ -76,9 +110,13 @@ const Id = `supports-${Manifests.join("-").toLowerCase()}`;
 	}
 
 	/* The chips: the filter-chip / engine-pill look - hairline border, the
-	   surface-container-low fill, the 13px mono floor; the open state
-	   matches the filter-chip hover (the Harness Blue border). */
+	   surface-container-low fill, the 13px mono floor; a flex row so the
+	   manifest's brand icon rides the label (the npm wordmark keeps its
+	   official wide ratio, the cargo gear its cropped square). */
 	.supports__chip {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--gap-icon);
 		font-family: var(--font-mono);
 		font-size: var(--text-label-sm);
 		line-height: var(--leading-label-sm);
@@ -110,6 +148,57 @@ const Id = `supports-${Manifests.join("-").toLowerCase()}`;
 		border-color: var(--color-primary-container);
 	}
 
+	/* The manifest accents: package.json reads in the npm red family
+	   (the --color-pin-red token, the same hue family as the official
+	   #C12127 npm mark it carries), Cargo.toml in the accent orange - the
+	   two chips are unmistakably different at a glance, the rest state
+	   already colored (border + ink on the lightest fill), the open state
+	   inverting to the solid accent with the white ink (both accents keep
+	   4.5:1+ with the white 13px mono). The brand icons whiten with the
+	   ink on the solid ground (brightness/invert - a transform, no new
+	   hex), so the official marks stay legible on both states. */
+	.supports__chip--npm {
+		border-color: var(--color-pin-red);
+		color: var(--color-pin-red);
+		background: var(--color-surface-container-lowest);
+	}
+
+	.supports__chip--npm:hover {
+		border-color: var(--color-pin-red);
+		background: var(--color-surface-container-low);
+	}
+
+	.supports__chip--npm.is-open {
+		background: var(--color-pin-red);
+		border-color: var(--color-pin-red);
+		color: #ffffff;
+	}
+
+	.supports__chip--npm.is-open .brand-icon {
+		filter: brightness(0) invert(1);
+	}
+
+	.supports__chip--cargo {
+		border-color: var(--color-accent-orange);
+		color: var(--color-accent-orange);
+		background: var(--color-surface-container-lowest);
+	}
+
+	.supports__chip--cargo:hover {
+		border-color: var(--color-accent-orange);
+		background: var(--color-surface-container-low);
+	}
+
+	.supports__chip--cargo.is-open {
+		background: var(--color-accent-orange);
+		border-color: var(--color-accent-orange);
+		color: #ffffff;
+	}
+
+	.supports__chip--cargo.is-open .brand-icon {
+		filter: brightness(0) invert(1);
+	}
+
 	/* The panel: the surface-container-low tray, radius-md, zero elevation. */
 	.supports__panel {
 		display: grid;
@@ -138,6 +227,25 @@ const Id = `supports-${Manifests.join("-").toLowerCase()}`;
 		color: var(--color-ink-secondary);
 	}
 
+	/* The per-function mini-label: the line's leading tag (THE CHAIN
+	   PASS, THE UPDATE STAGE, ...) - the mono uppercase unit that breaks
+	   the long use-case paragraphs into one-tagged-line-per-step. The tag
+	   takes its manifest's accent (the npm red family / the orange), the
+	   neutral fallback keeps the ink-muted. */
+	.supports__tag {
+		font-weight: 600;
+		text-transform: uppercase;
+		color: var(--color-ink-muted);
+	}
+
+	.supports__tag--npm {
+		color: var(--color-pin-red);
+	}
+
+	.supports__tag--cargo {
+		color: var(--color-accent-orange);
+	}
+
 	.supports__line :global(a) {
 		color: var(--color-primary);
 	}
@@ -152,23 +260,47 @@ const Id = `supports-${Manifests.join("-").toLowerCase()}`;
 </style>
 
 <script>
-	// Each chip toggles the shared panel; aria-expanded mirrors the state.
-	// Opening a chip closes its siblings in the same group (one panel per
-	// group), so the expanded story is always exactly one manifest's.
-	document.querySelectorAll<HTMLElement>("[data-supports-toggle]").forEach((Chip) => {
-		Chip.addEventListener("click", () => {
-			const Panel = document.getElementById(Chip.getAttribute("aria-controls") ?? "");
-			const Open = Chip.getAttribute("aria-expanded") === "true";
-			// Close all chips in this group; open the clicked one.
-			Chip.parentElement?.querySelectorAll<HTMLElement>("[data-supports-toggle]").forEach((Other) => {
-				Other.setAttribute("aria-expanded", "false");
-				Other.classList.remove("is-open");
+	// The chip selection: one open chip + its panel per group (opening a
+	// chip closes its siblings), aria-expanded mirroring the state, and -
+	// when the group is coupled to a showcase (data-showcase-id) - the
+	// dsh:example event telling the showcase to swap its example to the
+	// selected manifest's story. The wiring is idempotent (the
+	// data-supports-wired flag per group): a dev HMR re-run of this
+	// module re-queries the same groups and must not stack a second set
+	// of listeners.
+	document.querySelectorAll<HTMLElement>(".supports").forEach((Group) => {
+		if (Group.dataset["supportsWired"] === "true") return;
+		Group.dataset["supportsWired"] = "true";
+
+		Group.querySelectorAll<HTMLElement>("[data-supports-toggle]").forEach((Chip) => {
+			Chip.addEventListener("click", () => {
+				const Panel = document.getElementById(Chip.getAttribute("aria-controls") ?? "");
+				const Open = Chip.getAttribute("aria-expanded") === "true";
+
+				// Close all chips + panels in this group; open the clicked one.
+				Group.querySelectorAll<HTMLElement>("[data-supports-toggle]").forEach((Other) => {
+					Other.setAttribute("aria-expanded", "false");
+					Other.classList.remove("is-open");
+				});
+				Group.querySelectorAll<HTMLElement>("[data-panel]").forEach((Other) => {
+					Other.hidden = true;
+				});
+
+				if (!Open) {
+					Chip.setAttribute("aria-expanded", "true");
+					Chip.classList.add("is-open");
+					if (Panel) Panel.hidden = false;
+					// The example swap: tell the coupled showcase which
+					// manifest is now selected (see Showcase.astro).
+					const ShowcaseId = Group.dataset["showcaseId"];
+					const Manifest = Chip.dataset["manifest"];
+					if (ShowcaseId && Manifest) {
+						document.dispatchEvent(
+							new CustomEvent("dsh:example", { detail: { Id: ShowcaseId, Manifest } }),
+						);
+					}
+				}
 			});
-			if (!Open) {
-				Chip.setAttribute("aria-expanded", "true");
-				Chip.classList.add("is-open");
-			}
-			if (Panel) Panel.hidden = Open;
 		});
 	});
 </script>

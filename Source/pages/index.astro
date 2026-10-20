@@ -164,22 +164,61 @@ const CompressFact = "ccr: compressed bash terminal 5231 -> 9d3c1f0a7b2e4d5c6a8b
 // showcase, from the plugin READMEs. The pinner handles package.json ONLY
 // (pure P pass - no ncu, no jobs, no subprocess); the family's Cargo
 // coverage lives in the cargo-governor sibling. The lines render through
-// set:html, so the inline entities are intentional.
+// set:html, so the inline entities are intentional. Each line carries a
+// leading per-function tag (THE GATE, THE CHAIN PASS, ...) - the
+// one-tagged-line-per-step breakdown instead of a wall of text.
+const Tag = (Kind: string, Label: string) =>
+	`<span class="supports__tag supports__tag--${Kind}">${Label}</span>`;
+
 const PinSupports = [
-	`package.json - the pinner's ONLY gate. Every ranged dependency version in any agent-written package.json is rewritten to its static version: <code>&quot;@playform/build&quot;: &quot;^0.3.4&quot;</code> -&gt; <code>&quot;@playform/build&quot;: &quot;0.3.4&quot;</code>.`,
-	`Protected by the pin-policy keep-list: <code>pin-policy.json</code> keeps named ranges as authored - keep-list wins.`,
-	`Pure pin pass: no ncu, no jobs, no subprocess, no cooldown. A fully pinned manifest leaves the governor's update stage nothing to do.`,
-	`Exclusion-first: paths containing node_modules / .git / .dsh / .pnpm / .store are skipped silently (<code>skipped (excluded) &lt;path&gt;</code>).`,
-	`Cargo.toml is NOT handled by the pinner - the family's Cargo coverage lives in <a href="/plugins/hook-dsh-cargo-governor/">hook-dsh-cargo-governor</a>.`,
-	`The full story: <a href="/plugins/hook-dsh-package-pinner/">the pinner page</a>.`,
+	`${Tag("npm", "THE GATE")} package.json - the pinner's ONLY gate. Every ranged dependency version in any agent-written package.json is rewritten to its static version: <code>&quot;@playform/build&quot;: &quot;^0.3.4&quot;</code> -&gt; <code>&quot;@playform/build&quot;: &quot;0.3.4&quot;</code>.`,
+	`${Tag("npm", "THE KEEP-LIST")} Protected by the pin-policy keep-list: <code>pin-policy.json</code> keeps named ranges as authored - keep-list wins.`,
+	`${Tag("npm", "THE PASS")} Pure pin pass: no ncu, no jobs, no subprocess, no cooldown. A fully pinned manifest leaves the governor's update stage nothing to do.`,
+	`${Tag("npm", "THE EXCLUSIONS")} Exclusion-first: paths containing node_modules / .git / .dsh / .pnpm / .store are skipped silently (<code>skipped (excluded) &lt;path&gt;</code>).`,
+	`${Tag("npm", "NOT CARGO")} Cargo.toml is NOT handled by the pinner - the family's Cargo coverage lives in <a href="/plugins/hook-dsh-cargo-governor/">hook-dsh-cargo-governor</a>.`,
+	`${Tag("npm", "THE FULL STORY")} <a href="/plugins/hook-dsh-package-pinner/">the pinner page</a>.`,
 ];
-const GovernSupports = [
-	`package.json - the chain pass canonicalizes chain-governed pins to the effective registry's resolved versions (<code>&quot;0.4.1&quot;</code> -&gt; <code>&quot;^0.4.5&quot;</code> for a dep in the nearest registry.json), then the update stage runs <code>npm-check-updates</code> (programmatic by default, or the absolute ncuBin binary) as a detached, contained continuation in the jobs envelope.`,
-	`The cordis-trap guard: ncu's reject list is always policy.reject + the chain-governed dep names - a chain pin is never bumped to public npm latest.`,
-	`Cargo.toml - handled by <a href="/plugins/hook-dsh-cargo-governor/">hook-dsh-cargo-governor</a> (the same architecture): surgical rewrites on the raw TOML lines (never a TOML stringify - comments survive), full-version normalization (shorthand padded, <code>pinStyle &quot;exact&quot;</code>), and the update stage driven by <code>cargo upgrade --exclude</code> through the ctx.subprocess seam.`,
-	`Silence: the transcript shows only what the author wrote; the ledger shows what actually happened (<code>governed &lt;path&gt; -&gt; &lt;version&gt;</code>).`,
-	`The full story: <a href="/plugins/hook-dsh-package-governor/">the governor page</a>.`,
+
+// The governor's per-manifest breakdown: the package.json story (the
+// chain pass + the detached ncu + the cordis-trap guard + the silence)
+// and the Cargo.toml story (the surgical rewrite + the normalization +
+// the cargo upgrade bridge), each as its own tagged lines. The Cargo
+// facts are byte-exact from the cargo-governor README.
+const GovernDetails = {
+	"package.json": [
+		`${Tag("npm", "THE CHAIN PASS")} canonicalizes chain-governed pins to the effective registry's resolved versions (<code>&quot;0.4.1&quot;</code> -&gt; <code>&quot;^0.4.5&quot;</code> for a dep in the nearest registry.json).`,
+		`${Tag("npm", "THE UPDATE STAGE")} then runs <code>npm-check-updates</code> (programmatic by default, or the absolute ncuBin binary) as a detached, contained continuation in the jobs envelope.`,
+		`${Tag("npm", "THE CORDIS-TRAP GUARD")} ncu's reject list is always policy.reject + the chain-governed dep names - a chain pin is never bumped to public npm latest.`,
+		`${Tag("npm", "THE SILENCE")} the transcript shows only what the author wrote; the ledger shows what actually happened (<code>governed &lt;path&gt; -&gt; &lt;version&gt;</code>).`,
+		`${Tag("npm", "THE FULL STORY")} <a href="/plugins/hook-dsh-package-governor/">the governor page</a>.`,
+	],
+	"Cargo.toml": [
+		`${Tag("cargo", "THE SAME ARCHITECTURE")} the Cargo.toml flavor of the silent package.json governor, in <a href="/plugins/hook-dsh-cargo-governor/">hook-dsh-cargo-governor</a> - chain pass + full-version normalization + surgical rewrite + the Rust-side update stage.`,
+		`${Tag("cargo", "THE SURGICAL REWRITE")} rewrites on the raw TOML lines (never a TOML stringify - comments survive), so the pair above keeps the author's comments and inline spacing byte-for-byte.`,
+		`${Tag("cargo", "THE NORMALIZATION")} full-version normalization, shorthand padded: <code>serde = &quot;1.0&quot;</code> -&gt; <code>serde = &quot;1.0.0&quot;</code> (<code>=1.0</code> keeps its <code>=</code> under <code>pinStyle &quot;exact&quot;</code>; complex ranges left as-is).`,
+		`${Tag("cargo", "THE UPDATE STAGE")} driven by <code>cargo upgrade --exclude</code> through the ctx.subprocess seam - the rejects and the chain deps become one --exclude flag per crate, so the CLI never bumps a chain pin.`,
+		`${Tag("cargo", "THE LEDGER")} <code>[2026-10-03T09:16:01.880Z] governed ~/Projects/acme/engine/Cargo.toml \u2192 42</code> - the fact line under the pair above.`,
+	],
+};
+
+// The Cargo.toml example: the cargo-governor README's real before/after
+// pair (byte-exact) - the surgical rewrite keeps the comments and the
+// inline spacing, the chain pass resolves the chain-governed dep to the
+// registry's version, and the normalization pads the shorthand.
+const CargoBefore = [
+	"[dependencies]",
+	"# the engine \u2014 keep the comment alive",
+	`serde = "1.0"              # shorthand: must become 1.0.0`,
+	`tokio = { version = "0.4.1", features = ["full"] }  # chain-governed`,
 ];
+const CargoAfter = [
+	"[dependencies]",
+	"# the engine \u2014 keep the comment alive",
+	`serde = "1.0.0"            # shorthand: must become 1.0.0`,
+	`tokio = { version = "0.4.5", features = ["full"] }  # chain-governed`,
+];
+const CargoFact =
+	"[2026-10-03T09:16:01.880Z] governed ~/Projects/acme/engine/Cargo.toml \u2192 42";
 ---
 
 <Base
@@ -501,14 +540,13 @@ const GovernSupports = [
 			</header>
 
 			<div class="coach__board">
-				<!-- The tier ladder rail: four steps, click-to-focus. -->
+				<!-- The tier ladder rail: four steps, click-to-focus, one active
+					at a time. The selection is the script's machine's state (no
+					static active class here - the initial render applies Focus 0
+					deterministically, so the markup never carries a stale
+					selection if the script is delayed). -->
 				<nav class="coach__ladder" aria-label="The coaching ladder">
-					<button
-						type="button"
-						class="coach__tier is-active"
-						data-coach-tier="0"
-						aria-pressed="true"
-					>
+					<button type="button" class="coach__tier" data-coach-tier="0">
 						<span class="coach__tier-n">TIER 0</span>
 						<span class="coach__tier-name">LEDGER</span>
 						<span class="coach__tier-brief">every offense, silent</span>
@@ -1605,39 +1643,52 @@ const GovernSupports = [
 	}
 
 	// The event wiring: every input maps to one defined transition, then
-	// the single render applies it.
-	CallButtons.forEach((Call) => {
-		Call.addEventListener("click", () => {
-			const Next = transition(Machine, {
-				Kind: "judge",
-				CallKind: (Call.getAttribute("data-call-kind") ?? "clean") as CallKind,
-				Pattern: Call.getAttribute("data-call-pattern") ?? "",
-				Target: Call,
+	// the single render applies it. The wiring is IDEMPOTENT (the
+	// data-coach-wired flag on the section): a dev HMR re-run of this
+	// module re-queries the same DOM elements, and without the guard each
+	// re-run would stack a second set of listeners whose closures hold
+	// their own fresh machine - two renders per click, the stale one last.
+	// With the flag, a re-run sees the wiring in place and skips it whole
+	// (the first run's closures keep owning the DOM and the live machine,
+	// so no state is reset either).
+	const CoachBoard = document.querySelector<HTMLElement>(".coach__board")!;
+	if (CoachBoard.dataset["coachWired"] !== "true") {
+		CoachBoard.dataset["coachWired"] = "true";
+
+		CallButtons.forEach((Call) => {
+			Call.addEventListener("click", () => {
+				const Next = transition(Machine, {
+					Kind: "judge",
+					CallKind: (Call.getAttribute("data-call-kind") ?? "clean") as CallKind,
+					Pattern: Call.getAttribute("data-call-pattern") ?? "",
+					Target: Call,
+				});
+				Machine = Next.Machine;
+				render(Next);
 			});
+		});
+
+		TierButtons.forEach((Tier) => {
+			Tier.addEventListener("click", () => {
+				const Next = transition(Machine, {
+					Kind: "tier",
+					Tier: (Tier.getAttribute("data-coach-tier") ?? "0") as TierN,
+				});
+				Machine = Next.Machine;
+				render(Next);
+			});
+		});
+
+		EnforceButton.addEventListener("click", () => {
+			const Next = transition(Machine, { Kind: "enforce" });
 			Machine = Next.Machine;
 			render(Next);
 		});
-	});
 
-	TierButtons.forEach((Tier) => {
-		Tier.addEventListener("click", () => {
-			const Next = transition(Machine, {
-				Kind: "tier",
-				Tier: (Tier.getAttribute("data-coach-tier") ?? "0") as TierN,
-			});
-			Machine = Next.Machine;
-			render(Next);
-		});
-	});
-
-	EnforceButton.addEventListener("click", () => {
-		const Next = transition(Machine, { Kind: "enforce" });
-		Machine = Next.Machine;
-		render(Next);
-	});
-
-	// The initial render: the machine's shipped state applied to the DOM
-	// deterministically (tier 0 focused with its explanation, the idle
-	// status, the chip off, no lights, no verdicts).
-	render({ Machine, Effects: [] });
+		// The initial render: the machine's shipped state applied to the
+		// DOM deterministically (tier 0 focused with its explanation, the
+		// idle status, the chip off, no lights, no verdicts) - the ladder
+		// always shows exactly one active tier after load.
+		render({ Machine, Effects: [] });
+	}
 </script>

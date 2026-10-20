@@ -49,6 +49,16 @@ interface Props {
 		at the wide breakpoint; the slot-mode card keeps the stacked rows
 		so the Compare slider spans the full card width. */
 	Wide?: boolean;
+	/** The card id, for the per-manifest example swap (the supports
+		chips' dsh:example events address the card by it). */
+	Id?: string;
+	/** The per-manifest example variants: keyed by the manifest name the
+		supports chips carry (e.g. "package.json", "Cargo.toml"). Each
+		variant is server-rendered with the same mark/key treatment as the
+		default pair and embedded as an inert template; the supports
+		chips' selection swaps the live pair + fact from the template
+		(byte-exact, no client re-computation). */
+	Examples?: Record<string, { Before: string[]; After: string[]; Fact: string }>;
 }
 
 const {
@@ -62,6 +72,8 @@ const {
 	Fact,
 	FactLabel = "LEDGER",
 	Wide = false,
+	Id,
+	Examples,
 } = Astro.props;
 
 function Escape(Text: string): string {
@@ -144,10 +156,30 @@ const BeforeHtml = HasPair
 const AfterHtml = HasPair
 	? After.map((Line, Index) => JsonKey(MarkLine(Line, Before![Index] ?? ""))).join("\n")
 	: "";
+
+// The per-manifest example variants: each rendered with the SAME
+// mark/key treatment as the default pair (the two screens' before/after
+// cross-marking + the fact), embedded as an inert template the swap
+// script clones over the live pair + fact. The variant screens carry the
+// data-screen hooks the live pair carries, so a cloned child lands on
+// the same nth-child grid cell.
+const ExampleVariants = Examples
+	? Object.entries(Examples).map(([Manifest, Example]) => ({
+			Manifest,
+			BeforeHtml: Example.Before.map((Line, Index) =>
+				JsonKey(MarkLine(Line, Example.After[Index] ?? "")),
+			).join("\n"),
+			AfterHtml: Example.After.map((Line, Index) =>
+				JsonKey(MarkLine(Line, Example.Before[Index] ?? "")),
+			).join("\n"),
+			Fact: Example.Fact,
+		}))
+	: [];
 ---
 
 <article
 	class={`showcase${Wide ? ` showcase--wide${HasPair ? "" : " showcase--slot"}` : ""}`}
+	data-showcase-id={Id}
 >
 	<div class="showcase__head">
 		<span class="showcase__kicker">
@@ -163,27 +195,42 @@ const AfterHtml = HasPair
 	</div>
 
 	{HasPair ? (
-		<div class="showcase__pair">
+		<div class="showcase__pair" data-showcase-pair>
 			<span class="showcase__side-label">Before</span>
 			<span class="showcase__side-label">After</span>
-			<pre class="showcase__screen" set:html={BeforeHtml}></pre>
+			<pre class="showcase__screen" data-screen="before" set:html={BeforeHtml}></pre>
 			<span class="showcase__flow" aria-hidden="true">
 				<BrandIcon Name="swap" />
 			</span>
-			<pre class="showcase__screen" set:html={AfterHtml}></pre>
+			<pre class="showcase__screen" data-screen="after" set:html={AfterHtml}></pre>
 		</div>
 	) : (
 		<slot />
 	)}
 
 	{Fact && (
-		<div class="showcase__fact">
+		<div class="showcase__fact" data-showcase-fact>
 			<span class="showcase__fact-label">
 				<BrandIcon Name="terminal" Size="0.9em" />
 				{FactLabel}
 			</span>
 			<span class="showcase__fact-text">{Fact}</span>
 		</div>
+	)}
+
+	{ExampleVariants.length > 0 && (
+		/* The per-manifest example variants: inert templates the supports
+		   chips' selection swaps in (see the script below) - the default
+		   pair stays the server-rendered props above. */
+		ExampleVariants.map((Variant) => (
+			<template data-example={Variant.Manifest}>
+				<pre class="showcase__screen" data-screen="before" set:html={Variant.BeforeHtml} />
+				<pre class="showcase__screen" data-screen="after" set:html={Variant.AfterHtml} />
+				<span class="showcase__fact-text" data-fact-text>
+					{Variant.Fact}
+				</span>
+			</template>
+		))
 	)}
 </article>
 
@@ -197,6 +244,40 @@ const AfterHtml = HasPair
      the article's own layout is unchanged, and the chips' right-aligned
      placement stays (the SupportsButton's own styles). -->
 <slot name="supports" />
+
+<script>
+	// The per-manifest example swap: the supports chips (SupportsButton)
+	// emit dsh:example on document with { Id, Manifest } - the card
+	// addressed by data-showcase-id swaps its live pair screens + fact
+	// text from the server-rendered template of the selected manifest
+	// (byte-exact, no client re-computation; the nth-child grid cells
+	// stay stable because the cloned children carry the same data-screen
+	// hooks). One script serves every showcase on the page.
+	document.addEventListener("dsh:example", (Event) => {
+		const Detail = (Event as CustomEvent).detail as { Id?: string; Manifest?: string };
+		if (!Detail?.Id || !Detail?.Manifest) return;
+		const Root = document.querySelector<HTMLElement>(
+			`[data-showcase-id="${Detail.Id}"]`,
+		);
+		if (!Root) return;
+		const Template = Root.querySelector<HTMLTemplateElement>(
+			`template[data-example="${Detail.Manifest}"]`,
+		);
+		if (!Template) return;
+		const Pair = Root.querySelector<HTMLElement>("[data-showcase-pair]");
+		const FactText = Root.querySelector<HTMLElement>(
+			"[data-showcase-fact] .showcase__fact-text",
+		);
+		const TemplateBefore = Template.content.querySelector("[data-screen='before']");
+		const TemplateAfter = Template.content.querySelector("[data-screen='after']");
+		const TemplateFact = Template.content.querySelector("[data-fact-text]");
+		const LiveBefore = Pair?.querySelector("[data-screen='before']");
+		const LiveAfter = Pair?.querySelector("[data-screen='after']");
+		if (LiveBefore && TemplateBefore) LiveBefore.replaceWith(TemplateBefore.cloneNode(true));
+		if (LiveAfter && TemplateAfter) LiveAfter.replaceWith(TemplateAfter.cloneNode(true));
+		if (FactText && TemplateFact) FactText.replaceWith(TemplateFact.cloneNode(true));
+	});
+</script>
 
 <style>
 	.showcase {
