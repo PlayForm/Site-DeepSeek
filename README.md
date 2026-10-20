@@ -9,10 +9,10 @@ headers, zero elevation (1px hairlines, no shadows, no gradients).
 | Route              | Contents                                                                                                                                                                                                                          |
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `/`                | The landing page: eyebrow badges, hero (the mission), terminal install, action row, plugins grid, versions cards, flavor strip, model independence, notation                                                                      |
-| `/plugins/`        | The twelve plugins with their @-sentence identities, the install snippets (the `npm install` form, pinned at the v0.0.1 release), a filterable registry, the pipeline manifest table, the harness seams, the smoke baseline and the architecture-in-action cards          |
-| `/plugins/<name>/` | Twelve plugin detail pages (one per package) built from the packages' real documentation: the install bar, the harness seams, Where It Fits, the Problem, How It Works, the Config, In Action (literal characters) and the Ledger |
+| `/plugins/`        | The fifteen plugins with their @-sentence identities, the install snippets (the `npm install` form, pinned at the v0.1.0 release), a filterable registry, the pipeline manifest table, the harness seams, the smoke baseline and the architecture-in-action cards          |
+| `/plugins/<name>/` | Fifteen plugin detail pages (one per package) built from the packages' real documentation: the install bar, the harness seams, Where It Fits, the Problem, How It Works, the Config, In Action (literal characters) and the Ledger |
 | `/setup/`          | The four-step profile setup (bundles list, cordis.patch.yml entries, restart, ledger verification), the configurable surface and the defaults-off optionality                                                                     |
-| `/versions/`       | The dual engine distribution: CLASSIC (plain TypeScript) vs EFFECT-TS (services & layers), both 0.0.1, the shared invariants and the smoke baseline                                                                               |
+| `/versions/`       | The dual engine distribution: CLASSIC (plain TypeScript) vs EFFECT-TS (services & layers), both 0.1.0, the shared invariants and the smoke baseline                                                                               |
 | `/flavors/`        | The seven normalize flavors (dash, quotes, ellipsis, spaces, invisible, fullwidth, file), the two governance roles, and the 11-badge sprite                                                                                       |
 | `/models/`         | The model-agnostic story: the family normalizes any LLM's output; battle-tested on DeepSeek V4 Flash and GLM 5.3 Flash                                                                                                            |
 | `/workbench/`      | The interactive Stream Gate & Normalization Workbench: live raw-vs-clean terminals, flavor hook switchboard, telemetry metrics, trace ribbon                                                                                      |
@@ -27,7 +27,7 @@ The old `/products/` routes are gone (renamed to `/plugins/`); stale links land 
 Source/
 	Layout/          the layout shell (Base: header, footer, fonts, meta)
 	Component/       the UI components (Badge, Card, SectionHeader, PageHero, Terminal)
-	pages/           the Astro pages (index, plugins, versions, flavors, models, workbench, matrix, plugins/<12 detail pages>)
+	pages/           the Astro pages (index, plugins, versions, flavors, models, workbench, matrix, plugins/<15 detail pages>)
 	Script/          the client scripts
 	Stylesheet/      the design system (Base.css: Tailwind; Global.css: tokens + layout)
 Public/            static assets copied verbatim (404.html, _headers, Manifest.json, robots.txt, assets/)
@@ -68,7 +68,7 @@ The engineering lessons from building this site, where they bit - the corrected 
   stay plain ASCII.
 - **The containment law.** Every label's bounding box must sit fully inside the viewBox; the
   pipeline fails a render whose label pokes out rather than shipping a cropped diagram.
-- **The build is the arbiter.** `pnpm run prepublishOnly` (astro build, 21 pages) after every
+- **The build is the arbiter.** `pnpm run prepublishOnly` (astro build, 24 pages) after every
   change; the dev server (`pnpm run Run`, :9999) serves the same tree.
 
 ## Build

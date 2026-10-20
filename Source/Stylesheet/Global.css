@@ -475,8 +475,8 @@
 }
 
 /* ---- The index stats band: the proof strip under the hero ----
-	The three verified family facts (12 packages / 733 + 746 checks /
-	0.0.1 release) in one hairline band, three cells split by vertical
+	The three verified family facts (31 packages / 1314 + 1324 checks /
+	0.1.0 release) in one hairline band, three cells split by vertical
 	1px rules; mono values + uppercase mono labels, the same flat
 	voice as the metric cards. Stacks with horizontal rules on the
 	narrow viewports. */

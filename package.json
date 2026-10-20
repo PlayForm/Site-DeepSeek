@@ -1,6 +1,6 @@
 {
 	"name": "@playform/dsh-family-site",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"private": true,
 	"description": "The website for the DeepSeek Harness Plugin Family for PlayForm.",
 	"keywords": [
@@ -52,7 +52,7 @@
 		"@astrojs/ts-plugin": "1.10.12",
 		"jsdom": "30.1.3",
 		"mermaid": "12.2.0",
-		"puppeteer": "25.14.0"
+		"puppeteer": "25.15.0"
 	},
 	"publishConfig": {
 		"access": "restricted",

@@ -1,7 +1,7 @@
 ---
 // FlavorBadge: the "FLAVOR: X" label as the user's two-part stack - the
 // FLAVOR prefix in the accent-orange token, the flavor name in the
-// badge's own ink, and the release-version badge (v0.0.1 from the
+// badge's own ink, and the release-version badge (v0.1.0 from the
 // content library) underneath in the black ink color. The stack is a
 // semantic flex column with a CSS gap - never a <br> - and both chips
 // stay mono at the 13px floor. STACKED by default (the boxes and the
@@ -26,7 +26,7 @@ const { Flavor, Variant = "muted", Icon = false } = Astro.props;
 
 // The row is one labelled unit for assistive tech: role="group" with an
 // aria-label naming the flavor AND the release version together, so a
-// screen reader announces "Flavor DASH, version 0.0.1" as one chip instead
+// screen reader announces "Flavor DASH, version 0.1.0" as one chip instead
 // of two loose text runs (the visible content is unchanged).
 ---
 <span class="flavor-stack" role="group" aria-label={`Flavor ${Flavor}, version ${Versions.Release}`}>

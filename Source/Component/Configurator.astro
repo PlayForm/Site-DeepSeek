@@ -13,7 +13,7 @@
 // The verification lines are the ledger forms the packages write (the
 // governor's and the pinner's are the page's byte-exact strings; the
 // remaining flavors follow the same format).
-// The command block is the npm route (`npm install @playform/<pkg>@0.0.1` inside ~/.dsh).
+// The command block is the npm route (`npm install @playform/<pkg>@0.1.0` inside ~/.dsh).
 // hook-dsh-ccr and hook-dsh-tool-coach are publish-pending - build them from source;
 // the published packages install from the registry (provenance via OIDC trusted publishing).
 //
@@ -304,7 +304,7 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			"            protectFirstTurns: 2",
 			"            protectLastTurns: 4",
 		].join("\n"),
-		Line: "ccr: activated (bundle 0.0.1, targets 8, budget 268435456)",
+		Line: "ccr: activated (bundle 0.1.0, targets 8, budget 268435456)",
 		Note: null,
 	},
 	"tool-coach": {

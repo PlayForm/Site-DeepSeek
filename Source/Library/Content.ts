@@ -77,8 +77,8 @@ const Fallback = {
 		/** "1314 checks Classic · 1324 EffectTS" - the pair the formatters mirror. */
 	},
 	Versions: {
-		/** The release version of all fifteen packages in both trees. */
-		Release: "0.0.1",
+		/** The release version of all thirty-one packages in both trees. */
+		Release: "0.1.0",
 		/** The effect dependency pin of the EffectTS packages. */
 		Effect: "4.0.5",
 	},
