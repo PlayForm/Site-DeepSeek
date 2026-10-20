@@ -49,7 +49,7 @@ const DemoSteps = [
 			'      name: "@playform/hook-dsh-tool-coach"',
 			"      config: { threshold: 3, window: 8, cooldown: 10, ... }",
 		],
-		Outcome: "Each insert: entry declares the loader row and its config; the loader rejects unknown ids. The full real bodies (from each package's cordis.patch.yml) are in the Configurator and the patch example below.",
+		Outcome: "EACH insert: entry declares the loader row and its config; the loader rejects unknown ids. The full real bodies (from each package's cordis.patch.yml) are in the Configurator and the patch example below.",
 	},
 	{
 		N: 3,
@@ -70,7 +70,7 @@ const DemoSteps = [
 			"hook-dsh-package-governor: activated (anywhere mode, logFile=..., updateMode=..., ncuBin=..., exclude=[...], policyFile=(discovery))",
 			"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
 		],
-		Outcome: "The ledger answers 'did it activate' - each plugin writes its activation line at boot.",
+		Outcome: "The ledger answers 'did it activate' - EACH plugin writes its activation line at boot.",
 	},
 ];
 
@@ -183,7 +183,7 @@ const Knobs = [
 		Fields: [
 			{
 				Name: "log / logFile",
-				Effect: "the durable ledger file (each plugin keeps its own, separate by default)",
+				Effect: "the durable ledger file (EACH plugin keeps its own, separate by default)",
 			},
 			{
 				Name: "mutationTools",
@@ -203,7 +203,7 @@ const Knobs = [
 			},
 			{
 				Name: "strict",
-				Effect: "strip unknown dependencies - explicit only, never a default-delete",
+				Effect: "strip unknown dependencies - explicit ONLY, NEVER a default-delete",
 			},
 			{
 				Name: "policyFile / keepFile / sections",
@@ -220,7 +220,7 @@ const Knobs = [
 			},
 			{
 				Name: "replacement",
-				Effect: "the transform's only knob on class flavors (dash - / ellipsis ... / spaces space / invisible empty) - hot-editable, the next stream picks it up with no remount",
+				Effect: "the transform's ONLY knob on class flavors (dash - / ellipsis ... / spaces space / invisible empty) - hot-editable, the next stream picks it up with NO remount",
 			},
 			{
 				Name: "normalizeReasoning",
@@ -238,11 +238,11 @@ const Knobs = [
 			{ Name: "log / logFile", Effect: "the normalize-file ledger" },
 			{
 				Name: "replacement",
-				Effect: "the dash step's replacement - the transform's only knob",
+				Effect: "the dash step's replacement - the transform's ONLY knob",
 			},
 			{
 				Name: "normalize (per call)",
-				Effect: "the raw-write tool's sibling flag: absent/false = verbatim, true = all six transforms, or the flavor-name array",
+				Effect: "the raw-write tool's sibling flag: absent/false = verbatim, true = ALL six transforms, or the flavor-name array",
 			},
 		],
 	},
@@ -259,7 +259,7 @@ const Knobs = [
 			},
 			{
 				Name: "coach: threshold / window / cooldown",
-				Effect: "3 strikes within an 8-judged-call window, 10 calls between notes - every cell volatile",
+				Effect: "3 strikes within an 8-judged-call window, 10 calls between notes - EVERY cell volatile",
 			},
 			{
 				Name: "coach: escalateThreshold / cleanWindow / enforce",
@@ -278,7 +278,7 @@ const Knobs = [
      a content attribute and any <a> there truncates the tag at build. -->
 <Base
 	Title="Setup - DSH Family @ PlayForm"
-	Description="How to configure the DeepSeek Harness Plugin Family in a profile: the bundle list, the cordis.patch.yml entries, the restart, the activation lines in each ledger - and the full configurable surface with its defaults-off posture."
+	Description="How to configure the DeepSeek Harness Plugin Family in a profile: the bundle list, the cordis.patch.yml entries, the restart, the activation lines in EACH ledger. And the full configurable surface with its defaults-off posture."
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -291,7 +291,7 @@ const Knobs = [
 
 		<PageHero
 			Title="Set up the family in a DeepSeek Harness profile."
-			Sub={"Four steps: add the bundles to the profile, add the patch entries, restart, verify the ledgers.\nEvery step below is the actual wiring the loader reads - no separate configuration UI exists."}
+			Sub={"Four steps: add the bundles to the profile, add the patch entries, restart, verify the ledgers.\nEVERY step below is the actual wiring the loader reads - NO separate configuration UI exists."}
 		/>
 
 		<!-- The configurator: the selection (the 14 package toggles + the
@@ -324,8 +324,8 @@ const Knobs = [
 				>
 					<p>
 						A profile's <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> lists the bundles as{" "}
-						<code>link:</code> dependencies and in the <code>dsh.profile.bundles</code>{" "}
-						list - the list is what activates them.
+						<code>link:</code> dependencies and in the <code>dsh.profile.bundles</code> list.
+						The list is what activates them.
 					</p>
 				</Concept>
 				<Concept
@@ -335,12 +335,13 @@ const Knobs = [
 				>
 					<p>
 						The linked checkout must carry its own{" "}
-						<code class="code-token">node_modules</code>, and each bundle needs
-						its own <span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />pnpm-workspace.yaml</span> (<code>packages: [.]</code>).
+						<code class="code-token">node_modules</code>.
+						EACH bundle needs its own <span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />pnpm-workspace.yaml</span> (<code>packages: [.]</code>).
 					</p>
 					<p>
 						An install inside a bundle under the profile's workspace acts on the
-						workspace root and does nothing to the bundle.
+						workspace root.
+						It does nothing to the bundle.
 					</p>
 				</Concept>
 				<Concept
@@ -350,10 +351,9 @@ const Knobs = [
 				>
 					<p>
 						<BrandIcon Name="playform" />{" "}
-						<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code> for a
-						built bundle today, or{" "}
-						<code>npm install @playform/&lt;pkg&gt;@0.0.1</code> in the profile directory - the
-						family is live on <code class="code-token">npm</code> since the v0.0.1
+						<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code> for a built bundle today, or{" "}
+						<code>npm install @playform/&lt;pkg&gt;@0.0.1</code> in the profile directory.
+						The family is LIVE on <code class="code-token">npm</code> since the v0.0.1
 						release (provenance via OIDC trusted publishing).
 					</p>
 				</Concept>
@@ -371,12 +371,12 @@ const Knobs = [
 					Diagram="A [cordis.patch.yml](Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml) insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
 				>
 					<p>
-						Each bundle ships a <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> whose <code>insert:</code> entries
-						declare the loader row and the config.</p>
-					<p>A bare <code>id:</code> row patches
-						an existing entry; the loader rejects unknown ids with{" "}
-						<code>entry "..." not found</code>.
-					
+						Each bundle ships a <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a>.
+						Its <code>insert:</code> entries declare the loader row and the config.
+					</p>
+					<p>
+						A bare <code>id:</code> row patches an existing entry.
+						The loader rejects unknown ids with <code>entry "..." not found</code>.
 					</p>
 				</Concept>
 				<Concept
@@ -385,14 +385,13 @@ const Knobs = [
 					Diagram="The factory's insert: row registering the service with an empty config, while the consumers' rows carry the actual configuration."
 				>
 					<p>
-						It registers the service, and the consumers'
-						rows do the rest.
+						It registers the service.
+						The consumers' rows do the rest.
 					</p>
 					<p>
-						The example below is the deployed combination: the two governance plugins
-						with <code class="code-token">raw-write</code> added to mutationTools, and
-						the dash flavor with the example
-						patch's opt-in <code class="code-token">toolArgs</code>.
+						The example below is the deployed combination.
+						The two governance plugins have <code class="code-token">raw-write</code> added to mutationTools.
+						The dash flavor has the example patch's opt-in <code class="code-token">toolArgs</code>.
 					</p>
 				</Concept>
 			</div>
@@ -409,12 +408,12 @@ const Knobs = [
 					Diagram="Install-time vs boot-time: the file: dependency alone not activating, the bundles list plus the restart loading the entries from each bundle's built Target/."
 				>
 					<p>
-						Bundle layers compose when the host boots - activation is at the next start,
-						not at install time.
+						Bundle layers compose when the host boots.
+						Activation is at the next start, NOT at install time.
 					</p>
 					<p>
-						A <code>file:</code> dependency alone is NOT activation: the bundles list
-						plus the restart is what loads the entries from each bundle's built{" "}
+						A <code>file:</code> dependency alone is NOT activation.
+						The bundles list plus the restart is what loads the entries from EACH bundle's built{" "}
 						<code>Target/</code>.
 					</p>
 				</Concept>
@@ -424,8 +423,8 @@ const Knobs = [
 					Diagram="The loop: edit a linked bundle's source, build its Target, restart the host - the rebuilt Target fresh on every restart."
 				>
 					<p>
-						Every rebuild of a linked bundle's Target is fresh on the next restart, so
-						the dev loop is edit - build - restart.
+						EVERY rebuild of a linked bundle's Target is fresh on the next restart.
+						The dev loop is edit - build - restart.
 					</p>
 				</Concept>
 			</div>
@@ -441,12 +440,12 @@ const Knobs = [
 					Diagram="Each plugin writing its activation line to its own ~/.dsh/<name>.log at boot - the ledger and the runtime's inspect providers as the activation assessors."
 				>
 					<p>
-						"Did it activate" is answerable from the ledger alone: each plugin writes
-						its activation line to its own ~/.dsh/&lt;name&gt;.log at boot.
+						"Did it activate" is answerable from the ledger alone.
+						EACH plugin writes its activation line to its own ~/.dsh/&lt;name&gt;.log at boot.
 					</p>
 					<p>
-						The ledgers and the runtime's inspect providers are the activation assessors
-						- the old <code>--dump-config</code> verification path is gone behind the
+						The ledgers and the runtime's inspect providers are the activation assessors.
+						The old <code>--dump-config</code> verification path is gone behind the
 						app-managed profile guard.
 					</p>
 				</Concept>
@@ -456,9 +455,10 @@ const Knobs = [
 					Diagram="The bundle patch layers projecting the live effective config - a patch config replacing the entry config wholesale, the schema-advertised defaults shown as possibly-not-running."
 				>
 					<p>
-						Read the effective config from the bundle patch layers, not the schema
-						projection alone: a patch config replaces the entry config wholesale, so the
-						defaults the schema advertises may not be what runs.
+						Read the effective config from the bundle patch layers, NOT the schema
+						projection alone.
+						A patch config replaces the entry config wholesale.
+						The defaults the schema advertises may NOT be what runs.
 					</p>
 				</Concept>
 			</div>
@@ -475,10 +475,9 @@ const Knobs = [
 					Diagram="The Config schemas behind every knob - the volatile cells (log, logFile, replacement, each plugin's own hot fields) committing without remounting the plugin."
 				>
 					<p>
-						Every knob below is a real field in the packages' Config schemas; volatile
-						cells (log, <code class="code-token">logFile</code>, replacement and each
-						plugin's own hot fields) commit
-						without remounting the plugin.
+						EVERY knob below is a real field in the packages' Config schemas.
+						Volatile cells (log, <code class="code-token">logFile</code>, replacement and EACH
+						plugin's own hot fields) commit WITHOUT remounting the plugin.
 					</p>
 				</Concept>
 				<Concept
@@ -487,7 +486,7 @@ const Knobs = [
 					Diagram="The plugin pages carrying the full config table for each bundle - the eight pages linked from this section."
 				>
 					<p>
-						Each plugin's full table lives on its page: the
+						EACH plugin's full table lives on its page: the
 						<a href="/plugins/hook-dsh-package-governor/">package governor</a>, the
 						<a href="/plugins/hook-dsh-package-pinner/">pinner</a>, the{" "}
 						<BrandIcon Name="rust" />{" "}
@@ -531,27 +530,29 @@ const Knobs = [
 				>
 					<Badge Variant="outline">DEFAULT OFF</Badge>
 					<p>
-						The default.</p>
-					<p>Tool-call arguments are execution-critical raw JSON - rewriting
-						them is the user's accepted risk, so the schema default is OFF and the
-						example patch turns it on.
+						The default.
+					</p>
+					<p>
+						Tool-call arguments are execution-critical raw JSON.
+						Rewriting them is the user's accepted risk.
+						The schema default is OFF and the example patch turns it on.
 					</p>
 					<p>
 						Effective tool-input normalization is{" "}
-						<code>normalizeToolArguments || scopes.toolInput</code> - the field is kept
-						and OR-ed in, so this knob and the granular scopes compose.
+						<code>normalizeToolArguments || scopes.toolInput</code>.
+						The field is kept and OR-ed in, so this knob and the granular scopes compose.
 					</p>
 					<p>
 						Even when on, the three structural exemptions pass through by identity -{" "}
 						<code>edit</code> (its <code>old_string</code> must match the real file
 						bytes), <code>raw-write</code> (it owns its content normalization through
 						its explicit <code>normalize</code> parameter) and{" "}
-						<code>normalize-file</code> (its arguments carry a file path) - and a{" "}
-						<code>&#123;"__normalize":false&#125;</code>-marked call passes through
-						unnormalized: the per-call "leave that search alone" control, whose marker
-						must be the FIRST key (the core strips the marker entry, so the executed
-						call carries no unknown key; a first delta shorter than the marker is
-						invisible to the probe and the call normalizes normally).
+						<code>normalize-file</code> (its arguments carry a file path).
+						And a <code>&#123;"__normalize":false&#125;</code>-marked call passes through
+						unnormalized: the per-call "leave that search alone" control.
+						Its marker must be the FIRST key (the core strips the marker entry, so the
+						executed call carries NO unknown key; a first delta shorter than the marker
+						is invisible to the probe and the call normalizes normally).
 					</p>
 				</Concept>
 				<Concept
@@ -561,11 +562,11 @@ const Knobs = [
 				>
 					<Badge Variant="outline">ESCAPE HATCH</Badge>
 					<p>
-						The raw-write tool's escape hatch: with no govern flag the write emits
-						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> exactly like a built-in write and the event path governs it as
-						always.
+						The raw-write tool's escape hatch: with NO govern flag the write emits
+						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a> exactly like a built-in write.
+						The event path governs it as always.
 					</p>
-					<p>The per-call direct chain only runs when you ask for it.</p>
+					<p>The per-call direct chain ONLY runs when you ask for it.</p>
 				</Concept>
 				<Concept
 					ID="setup-optional-normalize"

@@ -1,5 +1,5 @@
 flowchart LR
-	O["v2 journal open"] --> M{"per-record layout"}
-	M -- "v1 record" --> A["auto-migrate"]
-	M -- "invalid record" --> B["backup-and-skip"]
-	O -- "any open failure" --> L["loud failure line - never silent"]
+	O["v2 journal open"] --> M{"Per-record layout"}
+	M -- "v1 record" --> A["Auto-migrate"]
+	M -- "Invalid record" --> B["Backup-and-skip"]
+	O -- "Any open failure" --> L["Loud failure line - never silent"]

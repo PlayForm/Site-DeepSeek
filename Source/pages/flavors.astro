@@ -59,7 +59,7 @@ const Flavors = [
 	{
 		Flavor: "FILE",
 		Package: "hook-dsh-normalize-file",
-		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms (dash, quotes, ellipsis, spaces, invisible, fullwidth) to a file already on disk, writing only when something changed.",
+		Desc: "The file-content normalizer: the normalize-file tool. The read, count, write pipeline applies ALL six transforms (dash, quotes, ellipsis, spaces, invisible, fullwidth) to a file already on disk, writing ONLY when something changed.",
 	},
 ];
 ---
@@ -80,7 +80,7 @@ const Flavors = [
 
 		<PageHero
 			Title="Flavors & Roles"
-			Sub={"Eleven capabilities, three kinds.\nThe seven normalize flavors turn model output streams and project files into clean ASCII; the two governance roles keep the project's manifests pinned and governed under the author's control; and the two guardians watch the model itself - the ccr compressor shrinking oversized tool output, the tool-coach coaching the terminal calls."}
+			Sub={"Eleven capabilities, three kinds.\nThe seven normalize flavors turn model output streams and project files into clean ASCII. The two governance roles keep the project's manifests pinned and governed under the author's control. The two guardians watch the model itself - the ccr compressor shrinking oversized tool output, the tool-coach coaching the terminal calls."}
 		/>
 
 		<!-- The seven flavors -->
@@ -102,18 +102,18 @@ const Flavors = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				Each flavor now shares a granular <code>scopes</code> surface - conversation /
-				reasoning / toolInput / toolResults / files / batch, every scope volatile and
-				hot-flippable through <code>loader/volatile-update</code> - plus two opt-in{" "}
-				<strong>overpass arms</strong>: the tool-results arm on{" "}
-				<code>tools/post-execute</code> and the step-batch arm on{" "}
-				<code>agent/pre-step</code>, driven by the <code>normalize-overpass</code>{" "}
-				command.
+				Each flavor now shares a granular <code>scopes</code> surface.
+				Conversation / reasoning / toolInput / toolResults / files / batch: EVERY scope
+				volatile and hot-flippable through <code>loader/volatile-update</code>.
+				Two opt-in <strong>overpass arms</strong> come on top.
+				The tool-results arm on <code>tools/post-execute</code>.
+				The step-batch arm on <code>agent/pre-step</code>, driven by the{" "}
+				<code>normalize-overpass</code> command.
 			</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The consumer-side companion on that same waterfall is the{" "}
 				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> - the compressor whose{" "}
-				<code>&lt;&lt;&lt;CCR:</code> marker guard makes any load order safe.
+				<code>&lt;&lt;&lt;CCR:</code> marker guard makes ANY load order safe.
 			</p>
 		</section>
 
@@ -123,9 +123,10 @@ const Flavors = [
 		<section class="section">
 			<SectionHeader Title="One stream through the whole family" Meta="THE SIX-FLAVOR CHAIN" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The six stream flavors compose into one chain: a raw line carrying every family's
-				anomaly - an em dash, curly quotes, an ellipsis, a no-break space, a zero-width
-				space and a BOM, full-width digits - and the clean line after the pass.
+				The six stream flavors compose into ONE chain.
+				A raw line carries EVERY family's anomaly - an em dash, curly quotes, an
+				ellipsis, a no-break space, a zero-width space and a BOM, full-width digits.
+				And the clean line after the pass.
 			</p>
 			<Compare
 				ID="flavors-chain"
@@ -173,23 +174,24 @@ const Flavors = [
 						<Badge Variant="outline">hook-dsh-*-pinner</Badge>
 					</div>
 					<p class="card__desc" style="color: var(--color-on-primary-container)">
-						The pinning role: deterministically rewrites every ranged dependency version
+						The pinning role: deterministically rewrites EVERY ranged dependency version
 						to its static version, protected by a pin-policy keep-list.
 					</p>
 				</Card>
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				And the third role family, the <strong>guardians</strong>: where governance
-				rewrites the author's files, a guardian watches the <em>model</em>.
+				And the third role family, the <strong>guardians</strong>.
+				Where governance rewrites the author's files, a guardian watches the
+				<em>model</em>.
 			</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The{" "}
 				<a href="/plugins/hook-dsh-ccr/">ccr hook</a> compresses oversized tool output on
-				the <code>tools/post-execute</code> waterfall, and the{" "}
-				<a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges every terminal call
-				through a four-tier coaching ladder - the coach that catches the terminal edits
-				neither governance role can see (<code>fs/observed</code> fires only on tool-layer
-				writes).
+				the <code>tools/post-execute</code> waterfall.
+				The <a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> judges EVERY terminal
+				call through a four-tier coaching ladder.
+				It catches the terminal edits neither governance role can see
+				(<code>fs/observed</code> fires ONLY on tool-layer writes).
 			</p>
 		</section>
 
@@ -207,13 +209,13 @@ const Flavors = [
 				>
 					<p>
 						The standalone shields-style sprite lives at{" "}
-						<span class="hook-tally">/assets/badges.svg</span>: label segment{" "}
-						<span class="hook-tally">#003ec7</span> with white ink, value segment{" "}
-						<span class="hook-tally">#eef0ff</span> with{" "}
-						<span class="hook-tally">#0038b6</span> ink - blue and white only.
+						<span class="hook-tally">/assets/badges.svg</span>.
+						Label segment <span class="hook-tally">#003ec7</span> with white ink.
+						Value segment <span class="hook-tally">#eef0ff</span> with{" "}
+						<span class="hook-tally">#0038b6</span> ink - blue and white ONLY.
 					</p>
 					<p>
-						Reference each symbol as
+						Reference EACH symbol as
 						<span class="hook-tally">
 							&lt;use href="/assets/badges.svg#badge-classic"/&gt;
 						</span>

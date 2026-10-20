@@ -292,7 +292,7 @@ const Related = [
 
 <Base
 	Title="hook-dsh-tool-coach - DSH Family @ PlayForm"
-	Description={`${Families.Coach} - the terminal coach of the DeepSeek Harness: judges every bash/pwsh call through a four-tier ladder - tier-0 ledger lines, tier-1 live-fetched coaching notes, tier-2 a persistent system-prompt discipline section, tier-3 an optional hard deny - teaching the model to stop using the terminal for file content.`}
+	Description={`${Families.Coach} - the terminal coach of the DeepSeek Harness. Judges EVERY bash/pwsh call through a four-tier ladder - tier-0 ledger lines, tier-1 live-fetched coaching notes, tier-2 a persistent system-prompt discipline section, tier-3 an optional hard deny - teaching the model to stop using the terminal for file content.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -322,10 +322,8 @@ const Related = [
 				CONTENT.</strong>
 			</p>
 			<p class="page-hero__sub">
-				It watches the terminal tool calls (<code>bash</code>,
-				<code>pwsh</code>; the dedicated tools are never judged) and runs a four-tier
-				coaching ladder that escalates from silent observation to a persistent
-				system-prompt section to an optional hard deny.
+				It watches the terminal tool calls (<code>bash</code>, <code>pwsh</code>; the dedicated tools are NEVER judged).
+				It runs a four-tier coaching ladder that escalates from silent observation to a persistent system-prompt section to an optional hard deny.
 			</p>
 			<p class="page-hero__sub">Why it exists: terminal file edits are invisible to the
 				plugin system - the harness's <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> chain
@@ -377,7 +375,7 @@ const Related = [
 				<Concept
 					ID="coach-family-position"
 					Title="The family position"
-					Diagram={`${Families.Coach} as a hook child of the plugin-dsh-factory service - no hook children of its own - a NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema): the coach owns its schema and its strings. apply returns NOTHING; the state is exposed via ctx.__hookDshToolCoachState.`}
+					Diagram={`${Families.Coach} as a hook child of the plugin-dsh-factory service - no hook children of its own - a NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema): the coach owns its schema and its strings. ` + `apply returns NOTHING; the state is exposed via ctx.__hookDshToolCoachState.`}
 				>
 					<p>
 						A hook child of the{" "}
@@ -420,7 +418,7 @@ const Related = [
 				<Concept
 					ID="coach-ccr-ordering"
 					Title="Sharing the waterfall with the ccr hook, safely"
-					Diagram="The coach's tools/post-execute listener registering plain - AFTER the ccr { prepend: true } listener - so it observes the (possibly compressed) result; its tier-1 notes are append-only additionalContexts and the tier-2 section is append-only, touching nothing else (PTC + structured-output preserved). Order safety: the ccr {<<<CCR:} marker guard makes any load order safe, and the coach never replaces content."
+					Diagram={"The coach's tools/post-execute listener registering plain - AFTER the ccr { prepend: true } listener - so it observes the (possibly compressed) result; its tier-1 notes are append-only additionalContexts and the tier-2 section is append-only, touching nothing else (PTC + structured-output preserved). " + "Order safety: the ccr {<<<CCR:} marker guard makes any load order safe, and the coach never replaces content."}
 				>
 					<p>
 						The coach's <code>tools/post-execute</code> listener registers plain -
@@ -476,7 +474,7 @@ const Related = [
 					},
 					{
 						Seam: "system-prompt/assemble - the tier-2 section",
-						What: "Listener 4, after next(), append-only: when the escalation threshold is crossed it appends ONE section ({name: 'hook-dsh-tool-coach', text}) to next()'s assembly - touching nothing else, PTC + structured-output preserved. The text is cached for sectionTtl judged calls and invalidated on tools/change.",
+						What: "Listener 4, after next(), append-only: when the escalation threshold is crossed it appends ONE section ({name: 'hook-dsh-tool-coach', text}) to next()'s assembly - touching nothing else, PTC + structured-output preserved. " + "The text is cached for sectionTtl judged calls and invalidated on tools/change.",
 						Outcome:
 							"The persistent \"Tool discipline\" section: 3 fixed rules + the live-fetched tool table.",
 					},
@@ -488,7 +486,7 @@ const Related = [
 					},
 					{
 						Seam: "ctx.tools.schemas() - the live fetch",
-						What: "The dynamic instruction engine fetches each mapped tool's LIVE registry data through [ctx.tools.schemas()](Harness:docs/subsystems/tools.md) (the same way the model itself is given tools): the name, the FIRST SENTENCE of the description (\u2264 120 chars, parenthesis-aware) and the primary parameter key (parameters.properties[0]). Tier 1/3 fetch per note; tier 2 caches per sectionTtl.",
+						What: "The dynamic instruction engine fetches each mapped tool's LIVE registry data through [ctx.tools.schemas()](Harness:docs/subsystems/tools.md) (the same way the model itself is given tools): the name, the FIRST SENTENCE of the description (\u2264 120 chars, parenthesis-aware) and the primary parameter key (parameters.properties[0]). " + "Tier 1/3 fetch per note; tier 2 caches per sectionTtl.",
 						Outcome:
 							"Every note names the correct tool with its live description; any fetch failure degrades to the static STATIC_TOOL_LINES table and logs schema fetch failed -> static fallback - a note never fails a waterfall.",
 					},
@@ -603,7 +601,7 @@ const Related = [
 				<Concept
 					ID="coach-engine"
 					Title="Every note names the correct tool with its LIVE registry data"
-					Diagram="ctx.tools.schemas() fetched through the same injection the model's own tools arrive by: the tool name, the FIRST SENTENCE of its description (<= 120 chars, parenthesis-aware) and the primary parameter key (parameters.properties[0]). Tier 1/3 fetch per note; tier 2 caches for sectionTtl (20) judged calls and rebuilds on tools/change. Any fetch failure degrades to the static STATIC_TOOL_LINES table and logs schema fetch failed -> static fallback; fetchLive: false is the escape hatch (static only, no failure line)."
+					Diagram={"ctx.tools.schemas() fetched through the same injection the model's own tools arrive by: the tool name, the FIRST SENTENCE of its description (<= 120 chars, parenthesis-aware) and the primary parameter key (parameters.properties[0]). " + "Tier 1/3 fetch per note; tier 2 caches for sectionTtl (20) judged calls and rebuilds on tools/change. " + "Any fetch failure degrades to the static STATIC_TOOL_LINES table and logs schema fetch failed -> static fallback; fetchLive: false is the escape hatch (static only, no failure line)."}
 				>
 					<p>
 						Template fills are single-pass; user data is escaped before insertion, so
@@ -627,7 +625,7 @@ const Related = [
 				<Concept
 					ID="coach-config-schema"
 					Title="The exported Config schema"
-					Diagram="The factory's standalone Schema(false, {...}) helper validating and filling every default at load; every cell volatile - a flip lands on the next judged call. Fail-loud validation in apply: threshold >= 1, window >= threshold, cooldown >= 1, escalateThreshold >= threshold, cleanWindow >= 1, enforceThreshold >= 1, maxSectionTools 1-24, sectionTtl >= 1, every row pattern compiles + tool non-empty, no built-in duplicates, notes templates non-empty."
+					Diagram={"The factory's standalone Schema(false, {...}) helper validating and filling every default at load; every cell volatile - a flip lands on the next judged call. " + "Fail-loud validation in apply: threshold >= 1, window >= threshold, cooldown >= 1, escalateThreshold >= threshold, cleanWindow >= 1, enforceThreshold >= 1, maxSectionTools 1-24, sectionTtl >= 1, every row pattern compiles + tool non-empty, no built-in duplicates, notes templates non-empty."}
 				>
 					<p>
 						New patch entries are declared with <code>insert:</code>. Full example:
@@ -706,7 +704,7 @@ const Related = [
 				<Concept
 					ID="coach-in-action-deny"
 					Title="The tier-3 deny, when enforce is armed"
-					Diagram="With enforce: 'write' and the write-class strikes at the enforce threshold, the pre-execute listener returns {kind: 'deny', reason} - the reason being the NOTE_DENIED text - and logs denied bash write <pattern> -> use edit. The deny resets the note counters; the denied call still flows through post-execute, so counting continues."
+					Diagram={"With enforce: 'write' and the write-class strikes at the enforce threshold, the pre-execute listener returns {kind: 'deny', reason} - the reason being the NOTE_DENIED text - and logs denied bash write <pattern> -> use edit. " + "The deny resets the note counters; the denied call still flows through post-execute, so counting continues."}
 				>
 					<p>
 						With <code>enforce: 'write'</code> and the write-class strikes at the

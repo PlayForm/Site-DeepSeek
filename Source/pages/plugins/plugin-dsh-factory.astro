@@ -196,7 +196,10 @@ const Related = [
 		<p class="page-hero__sub" style="margin-top: var(--space-md)">
 			The profile wiring for this plugin - the bundles list, the patch entry and the restart -
 			is on the <a href="/setup/">setup page</a>.
-		</p> Meta="FAMILY POSITION: THE PARENT SERVICE" />
+		</p>
+
+		<section class="section">
+			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: THE PARENT SERVICE" />
 			<div class="concept-list">
 				<Concept
 					ID="factory-family-position"
@@ -204,10 +207,11 @@ const Related = [
 					Diagram={`${Families.Factory} as the family's parent service - every other package consuming it (the three governance hooks injecting the service; the six normalize flavors consuming State/Append and the Schema helper) - its own parent the filesystem service (inject: ["fs"]).`}
 				>
 					<p>
-						The family's parent service ({Families.Factory}) - every
-						other package consumes it (the three governance hooks inject the service;
-						the six normalize flavors consume State/Append and the Schema helper); its
-						own parent is the filesystem service (inject: ["fs"]).
+						The family's parent service ({Families.Factory}).
+						EVERY other package consumes it.
+						The three governance hooks inject the service.
+						The six normalize flavors consume State/Append and the Schema helper.
+						Its own parent is the filesystem service (inject: ["fs"]).
 					</p>
 				</Concept>
 				<Concept
@@ -217,8 +221,8 @@ const Related = [
 				>
 					<p>
 						The pure layer it deliberately does <strong>not</strong> re-export is{" "}
-						<strong>hook-dsh-core</strong> (its service surface stays stable); the hooks
-						import the core's helpers directly.
+						<strong>hook-dsh-core</strong> (its service surface stays stable).
+						The hooks import the core's helpers directly.
 					</p>
 				</Concept>
 				<Concept
@@ -228,10 +232,11 @@ const Related = [
 				>
 					<p>
 						The DSH plugin family is the DeepSeek Harness plugin layer of the PlayForm
-						ecosystem: TypeScript-first Source/{" "}
+						ecosystem.
+						TypeScript-first Source/{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> Target/, the deterministic
-						@playform build, prepublishOnly-only - the same conventions as every other
-						@playform package.
+						@playform build, prepublishOnly-only.
+						The same conventions as EVERY other @playform package.
 					</p>
 				</Concept>
 			</div>
@@ -262,35 +267,35 @@ const Related = [
 		<section class="section">
 			<SectionHeader Title="In the DeepSeek Harness" Meta="THE SERVICE BEHIND THE SEAMS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The factory is the family's bridge into the harness internals - it sits under every
-				consumer and drives the actual facilities:
+				The factory is the family's bridge into the harness internals.
+				It sits under EVERY consumer and drives the actual facilities:
 			</p>
 			<Seams
 				Seams={[
 					{
 						Seam: "The tool layer (write / edit / str_replace_editor)",
-						What: "The fs/observed events the governance hooks react to are fired by the tool layer only, for every harness write or edit; [GuardedWrite](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) and Refresh keep the author's next guarded write from ever failing a stale-version check.",
+						What: "The fs/observed events the governance hooks react to are fired by the tool layer ONLY, for EVERY harness write or edit. [GuardedWrite](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) and Refresh keep the author's next guarded write from ever failing a stale-version check.",
 						Outcome: "One trigger law for the whole machine, any agent, any thread.",
 					},
 					{
 						Seam: "ctx.fs - the filesystem service (dsh-fs)",
-						What: "Every write of a GOVERNED file goes through [ctx.fs](Harness:packages/fs/fs) (the [fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, the [fs/observed emit](Harness:packages/fs/fs/src/index.ts)); only the ledger append and auxiliary discovery reads are plain-fs exemptions, documented.",
+						What: "EVERY write of a GOVERNED file goes through [ctx.fs](Harness:packages/fs/fs) (the [fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts), the standing sandbox policy, the [fs/observed emit](Harness:packages/fs/fs/src/index.ts)). ONLY the ledger append and auxiliary discovery reads are plain-fs exemptions, documented.",
 						Outcome:
 							"Writes that the observation policy and the sandbox see like built-in writes.",
 					},
 					{
 						Seam: "ctx.jobs - the jobs facility",
-						What: "Attach registers the root's job controller (which serves every owner) and runs the update stages inside the [jobs envelope](Harness:packages/jobs) (kind governor-update, unowned), with the detached contained continuation as the probed fallback.",
-						Outcome: "Update stages that never block or abort the author's session.",
+						What: "Attach registers the root's job controller (which serves EVERY owner). It runs the update stages inside the [jobs envelope](Harness:packages/jobs) (kind governor-update, unowned), with the detached contained continuation as the probed fallback.",
+						Outcome: "Update stages that NEVER block or abort the author's session.",
 					},
 					{
 						Seam: "The storage domain",
-						What: "[Journal](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts) writes the package_governance v2 records when the [storage facility](Harness:packages/storage/storage-domain) is present (probed, graceful): the queue drains, or the records buffer/drop and the human ledger stays the complete record.",
+						What: "[Journal](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts) writes the package_governance v2 records when the [storage facility](Harness:packages/storage/storage-domain) is present (probed, graceful). The queue drains, or the records buffer/drop and the human ledger stays the complete record.",
 						Outcome: "A machine-readable governance history beside the human ledger.",
 					},
 					{
 						Seam: "Sessions / the ledger",
-						What: "Append composes the two wrappers - <State.Module>: <message> on the logger and [<ISO>] <message> in the durable ledger file - around every consumer message.",
+						What: "Append composes the two wrappers - <State.Module>: <message> on the logger and [<ISO>] <message> in the durable ledger file - around EVERY consumer message.",
 						Outcome:
 							'"Did it activate / what happened" is answerable from the ledger alone.',
 					},
@@ -308,19 +313,24 @@ const Related = [
 				>
 					<p>
 						Three independent consumers of the <em>same</em> machinery already existed.
-						The governor, the pinner and the cargo governor each maintained their own
+						The governor, the pinner and the cargo governor EACH maintained their own
 						copy of:
 					</p>
 					<ul class="concept-values">
 						<li>
-							the ledger (Append), the exclusion match (Match), the registry / policy
-							walk-up discovery (Discover/Parse), the union keep-list resolution with
-							the P3 chain-keys interlock, the g1 gate set, the version-guarded write
-							with the P4 sandbox fence, the P3/U2 observation-policy refresh, the
-							detached contained continuation scaffolding, the State construction with
-							defensive cell unwrap, the ctx.on wiring, the P1/P2/P5 lifecycle
-							effects, the Schemastery schema shape, and the probe-once
-							optional-service accessor.
+							the ledger (Append).
+							the exclusion match (Match).
+							the registry / policy walk-up discovery (Discover/Parse).
+							the union keep-list resolution with the P3 chain-keys interlock.
+							the g1 gate set.
+							the version-guarded write with the P4 sandbox fence.
+							the P3/U2 observation-policy refresh.
+							the detached contained continuation scaffolding.
+							the State construction with defensive cell unwrap.
+							the ctx.on wiring.
+							the P1/P2/P5 lifecycle effects.
+							the Schemastery schema shape.
+							and the probe-once optional-service accessor.
 						</li>
 					</ul>
 				</Concept>
@@ -330,7 +340,7 @@ const Related = [
 					Diagram="Every bug fix or hardening pass - the sandbox fence, the stale-version leak, the in-flight disposal - having to be applied three times; the factory making it apply once."
 				>
 					<p>
-						Every bug fix or hardening pass - the sandbox fence, the stale-version leak,
+						EVERY bug fix or hardening pass - the sandbox fence, the stale-version leak,
 						the in-flight disposal - had to be applied three times.
 					</p>
 					<p>
@@ -344,22 +354,23 @@ const Related = [
 			<SectionHeader Title="How It Works" Meta="THE FURNACE" />
 			<div class="code-block">{Furnace.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				A consumer never re-implements the mold - it injects the service (inject:
+				A consumer NEVER re-implements the mold.
+				It injects the service (inject:
 				["pluginFactory"], the loader holds it PENDING until the factory exists) and
-				supplies only its own three parts:
+				supplies ONLY its own three parts:
 			</p>
 			<div class="grid grid--3" style="margin-top: var(--space-sm)">
 				<Card
 					Variant="white"
 					Name="1. A Config extension"
-					Desc="export const Config = Schema({ logFile: ... }, { myField: ... }) via the standalone named Schema export - usable at module-evaluation time, before any service instance exists; shared: false emits the minimal block for non-manifest modules."
+					Desc="export const Config = Schema({ logFile: ... }, { myField: ... }) via the standalone named Schema export. Usable at module-evaluation time, before ANY service instance exists. shared: false emits the minimal block for non-manifest modules."
 				>
 					<Badge slot="badge">CONFIG</Badge>
 				</Card>
 				<Card
 					Variant="white"
 					Name="2. A transform"
-					Desc="The pure (current, section, keep) => { next, count, message? } | null function. current is the RAW file text (null when the read failed); the consumer decodes, applies its logic, logs its own no-op/refusal lines and returns null for every no-op path."
+					Desc="The pure (current, section, keep) => { next, count, message? } | null function. current is the RAW file text (null when the read failed). The consumer decodes, applies its logic, logs its own no-op/refusal lines and returns null for EVERY no-op path."
 				>
 					<Badge slot="badge">TRANSFORM</Badge>
 				</Card>
@@ -378,19 +389,23 @@ const Related = [
 					Diagram={"The three ownership boundaries: the consumer ledger strings (every message a hook logs - \"skipped (excluded) ...\", \"observed non-JSON package.json ... - skipped\", \"REFUSED rewrite ...\", \"pinned ...\", \"governed ... → ...\", the activated (...) proof - composed and logged by the hook through the factory's Append), the transforms (the consumer supplies the pure function; the factory only drives it inside Continue), and the update engines (the factory gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with)."}
 				>
 					<p>
-						The consumer
-						ledger strings - every message a hook logs - "skipped (excluded) ...",
-						"observed non-JSON package.json ... - skipped", "REFUSED rewrite ...",
-						"pinned ...", "governed ... → ...", the activated (...) proof - are composed
+						The consumer ledger strings - EVERY message a hook logs - are composed
 						and logged by the hook through the factory's Append.
+						"skipped (excluded) ...",
+						"observed non-JSON package.json ... - skipped", "REFUSED rewrite ...",
+						"pinned ...", "governed ... → ...", the activated (...) proof.
 					</p>
 					<p>
-						It does not own the transforms (the consumer supplies the pure function; the
-						factory only drives it inside Continue), nor the update engines (the factory
-						gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with).</p>
-					<p>Full
+						It does not own the transforms.
+						The consumer supplies the pure function; the factory ONLY drives it inside
+						Continue.
+						It does not own the update engines.
+						The factory gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build
+						with.</p>
+					<p>
+						Full
 						contract: <span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME.md</span>.
-					
+
 					</p>
 				</Concept>
 				<Concept
@@ -399,16 +414,23 @@ const Related = [
 					Diagram={`The three gates: tsc --noEmit - zero errors; pnpm run prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs (in the family's smokes/ directory) - ${Counts.Factory.Classic} checks, ALL PASS.`}
 				>
 					<p>
-						tsc --noEmit - zero errors; pnpm run
-						prepublishOnly - minified Target/ (+ <span class="file-mention"><BrandIcon Name="file-ts" Size="0.9em" />.d.ts</span> twins); node <span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" />factory-smoke.mjs</span>
+						tsc --noEmit - zero errors.
+						pnpm run
+						prepublishOnly - minified Target/ (+ <span class="file-mention"><BrandIcon Name="file-ts" Size="0.9em" />.d.ts</span> twins).
+						node <span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" />factory-smoke.mjs</span>
 						(in the family's smokes/ directory) - {Counts.Factory.Classic} checks, ALL
 						PASS.
 					</p>
 					<p>
-						The coverage: every primitive, the Gate matrix, both GuardedWrite postures,
-						the full Continue lifecycle, State defaults + cell unwrap, Attach's three
-						effects, Journal's queue/drain/silent-skip, Schema's volatile cells and
-						Seam's probe-once caching.
+						The coverage: EVERY primitive.
+						the Gate matrix.
+						BOTH GuardedWrite postures.
+						the full Continue lifecycle.
+						State defaults + cell unwrap.
+						Attach's three effects.
+						Journal's queue/drain/silent-skip.
+						Schema's volatile cells.
+						and Seam's probe-once caching.
 					</p>
 				</Concept>
 			</div>
@@ -423,12 +445,12 @@ const Related = [
 					Diagram="The factory registering no Config schema of its own - its Schema(shared?, m) instance method being the Schemastery schema factory every consumer builds its schema with."
 				>
 					<p>
-						The factory registers no Config schema of its own - it <strong>is</strong>{" "}
+						The factory registers NO Config schema of its own - it <strong>is</strong>{" "}
 						the config machinery.
 					</p>
 					<p>
 						Its <code>Schema(shared?, m)</code> instance method is the Schemastery
-						schema factory every consumer builds its schema with.
+						schema factory EVERY consumer builds its schema with.
 					</p>
 				</Concept>
 				<Concept
@@ -438,7 +460,7 @@ const Related = [
 				>
 					<p>
 						The standalone named <code>Schema</code> export makes the same factory
-						usable at module-evaluation time, before any service instance exists (the
+						usable at module-evaluation time, before ANY service instance exists (the
 						loader needs Config at load).
 					</p>
 				</Concept>
@@ -450,13 +472,13 @@ const Related = [
 					<p>
 						<code>shared: false</code> emits the minimal block (no
 						logFile/updateCooldownMs/mutationTools/policyFile/exclude) for non-manifest
-						modules like the normalize flavors; the shared defaults carry the family's
-						block.
+						modules like the normalize flavors.
+						The shared defaults carry the family's block.
 					</p>
 					<p>
-						Volatile cells (log, logFile and any consumer's own hot fields) commit
-						without remounting the plugin; the factory's State builder unwraps them
-						defensively.
+						Volatile cells (log, logFile and ANY consumer's own hot fields) commit
+						WITHOUT remounting the plugin.
+						The factory's State builder unwraps them defensively.
 					</p>
 				</Concept>
 				<Concept
@@ -465,20 +487,25 @@ const Related = [
 					Diagram="The granular-volatile fix: the factory's State builder now keeps the raw config's { get } cells in place and registers a loader/volatile-update listener that re-reads the whole object and refreshes the State fields LIVE - one leaf change, one dispatch, no remount, no new activation line. The normalize family's volatile scopes (conversation/reasoning/toolInput/toolResults/files/batch) and every volatile knob of the ccr hook and the tool-coach ride exactly this path."
 				>
 					<p>
-						The volatile-refresh fix (the granular-volatile plan): the State builder
-						keeps the raw config's <code>&#123; get &#125;</code> cells in place and
-						registers a <code>loader/volatile-update</code> listener that refreshes the
-						State fields in place - one leaf change commits one dispatch, the whole
-						object is re-read live, no remount, no new activation line.
+						The volatile-refresh fix (the granular-volatile plan).
+						The State builder keeps the raw config's <code>&#123; get &#125;</code> cells
+						IN PLACE.
+						It registers a <code>loader/volatile-update</code> listener that refreshes
+						the State fields IN PLACE.
+						ONE leaf change commits ONE dispatch.
+						The whole object is re-read LIVE.
+						NO remount.
+						NO new activation line.
 					</p>
 					<p>
 						The normalize family's volatile{" "}
 						<code>scopes</code> object (conversation / reasoning / toolInput /
 						toolResults / files / batch), the ccr hook's volatile{" "}
 						<code>thresholdBytes</code>/<code>previewMaxChars</code>/<code>multipliers</code>{" "}
-						and every volatile knob of the{" "}
+						and EVERY volatile knob of the{" "}
 						<a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> ride exactly this
-						path: <strong>a flip lands on the next judged call</strong>.
+						path.
+						<strong>a flip lands on the next judged call</strong>.
 					</p>
 				</Concept>
 			</div>
@@ -487,7 +514,7 @@ const Related = [
 		<section class="section">
 			<SectionHeader Title="In Action" Meta="A GOVERNED WRITE, END TO END" />
 			<p class="section-kicker">
-				The consumer supplies the transform - the only code in the chain it writes
+				The consumer supplies the transform - the ONLY code in the chain it writes
 			</p>
 			<CodeBlock Language="typescript" Source={InAction.join("\n")} />
 			<p class="section-kicker" style="margin-top: var(--space-md)">
@@ -501,13 +528,14 @@ const Related = [
 					Diagram="The one pass as the factory performs it: Gate deciding the actor and the path, Discover finding the nearest registry.json, Continue running the transform detached and contained, GuardedWrite carrying replaceIfVersion past the P4 sandbox fence, Refresh re-emitting the fresh version with the same actor, Append composing the logger's line from the module's message."
 				>
 					<p>
-						Gate decided the actor and the path,
-						Discover found the nearest <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />registry.json</span>, Continue ran the transform
-						detached and contained, GuardedWrite carried replaceIfVersion past the P4
-						sandbox fence, Refresh re-emitted the fresh version with the same actor, and
+						Gate decided the actor and the path.
+						Discover found the nearest <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />registry.json</span>.
+						Continue ran the transform detached and contained.
+						GuardedWrite carried replaceIfVersion past the P4 sandbox fence.
+						Refresh re-emitted the fresh version with the same actor.
 						Append composed the logger's line from the module's message.
 					</p>
-					<p>The consumer composed the only string in the chain.</p>
+					<p>The consumer composed the ONLY string in the chain.</p>
 				</Concept>
 			</div>
 		</section>
@@ -521,12 +549,13 @@ const Related = [
 					Diagram="The factory registering no activation line and owning no ledger strings - its Append(state, message) being the family's one ledger mechanism, composing exactly two wrappers around the CONSUMER's message."
 				>
 					<p>
-						The factory registers no activation line and owns no ledger strings - it is
-						a service, not a module.
+						The factory registers NO activation line and owns NO ledger strings - it is
+						a service, NOT a module.
 					</p>
 					<p>
-						Its <code>Append(state, message)</code> is the family's one ledger
-						mechanism, and it composes exactly two wrappers around the CONSUMER's
+						Its <code>Append(state, message)</code> is the family's ONE ledger
+						mechanism.
+						It composes exactly two wrappers around the CONSUMER's
 						message:
 					</p>
 				</Concept>
@@ -539,15 +568,17 @@ const Related = [
 					Diagram={"Every string a hook logs - \"skipped (excluded) ...\", \"governed <path> → <version>\", \"pinned <path> (N versions)\", the activated (...) proof - composed and logged by the hook, through the factory's Append - the factory's own composed strings parameterized machinery (the unreadable-policy line taking the policy file name; the suppressed-error lines taking state.Module as the prefix), staying byte-identical when a consumer keeps its historical name."}
 				>
 					<p>
-						Every string a hook logs - "skipped (excluded) ...", "governed &lt;path&gt;{" "}
+						EVERY string a hook logs is composed and logged by the hook, through the
+						factory's Append.
+						"skipped (excluded) ...", "governed &lt;path&gt;{" "}
 						→ &lt;version&gt;", "pinned &lt;path&gt; (N versions)", the activated (...)
-						proof - is composed and logged by the hook, through the factory's Append.
+						proof.
 					</p>
 					<p>
-						The factory's own composed strings are parameterized machinery (the
-						unreadable-policy line takes the policy file name; the suppressed-error
-						lines take state.Module as the prefix) and stay byte-identical when a
-						consumer keeps its historical name.
+						The factory's own composed strings are parameterized machinery.
+						The unreadable-policy line takes the policy file name.
+						The suppressed-error lines take state.Module as the prefix.
+						They stay byte-identical when a consumer keeps its historical name.
 					</p>
 				</Concept>
 			</div>
@@ -570,12 +601,14 @@ const Related = [
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				License: CC0-1.0.</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">The published artifact contains only the built output - files
-				whitelists Target/, <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> and the docs; Source/ never ships.</p>
-			<p class="page-hero__sub" style="margin-top: var(--space-md)">There are no
-				build/watch <BrandIcon Name="npm" Size="0.75em" /> npm scripts: the only npm script is
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">The published artifact contains ONLY the built output - files
+				whitelists Target/, <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a> and the docs.
+				Source/ NEVER ships.</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">There are NO
+				build/watch <BrandIcon Name="npm" Size="0.75em" /> npm scripts.
+				The ONLY npm script is
 				prepublishOnly.
-			
+
 			</p>
 		</section>
 	</main>

@@ -1,11 +1,11 @@
 flowchart LR
-	DEFAULT["by default - Effect's no-op Tracer<br/>zero cost - the identical synchronous build"]
-	SET["when enableTracing is set"]
-	OTLP["the OTLP exporter attaches<br/>the NodeSdk layer - the dsh.* spans<br/>leaving to any OTel collector"]
-	DYNAMIC["the exporter packages load dynamically"]
-	DEGRADE["an unloadable bundle<br/>degrades to the no-op"]
-	READONLY["the spans carry read-only facts"]
-	BYTES["a traced smoke run still produces<br/>byte-identical ledgers"]
-	DEFAULT -. "only" .-> SET --> OTLP
+	DEFAULT["By default - Effect's no-op Tracer<br/>zero cost - the identical synchronous build"]
+	SET["When enableTracing is set"]
+	OTLP["The OTLP exporter attaches<br/>the NodeSdk layer - the dsh.* spans<br/>leaving to any OTel collector"]
+	DYNAMIC["The exporter packages load dynamically"]
+	DEGRADE["An unloadable bundle<br/>degrades to the no-op"]
+	READONLY["The spans carry read-only facts"]
+	BYTES["A traced smoke run still produces<br/>byte-identical ledgers"]
+	DEFAULT -. "Only" .-> SET --> OTLP
 	DYNAMIC --> DEGRADE
 	READONLY --> BYTES

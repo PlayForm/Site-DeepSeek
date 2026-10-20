@@ -217,7 +217,7 @@ const Usage = [
 
 <Base
 	Title="hook-dsh-normalize-file - DSH Family @ PlayForm"
-	Description={`${Families.File} - the file-content normalizer: the normalize-family tool for files already on disk - read, count, write through all six transforms, writing only when something changed.`}
+	Description={`${Families.File} - the file-content normalizer: the normalize-family tool for files already on disk - read, count, write through ALL six transforms, writing ONLY when something changed.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -242,7 +242,7 @@ const Usage = [
 				<ArrowIcon Direction="right" Tone="accent" /> write pipeline over files ALREADY on
 				disk, beyond the tool layer.</p>
 			<p class="page-hero__sub">One agent-chosen file per call: the target's content is
-				read, the family's SIX transforms are applied with a per-character count, and only
+				read, the family's SIX transforms are applied with a per-character count, and ONLY
 				when N &gt; 0 is the rewritten content written back through the factory's ONE shared
 				write executor.</p>
 			<p class="page-hero__sub">N = 0 writes NOTHING - the no-op no-write rule.</p>
@@ -356,8 +356,8 @@ const Usage = [
 					Diagram="The six stream flavors covering only what the model is emitting right now, the raw-write tool's normalize: true covering only content being written - and this flavor covering the gap in between: pre-existing files, git-cloned material, script-created files - anything already on disk that the agent did not just write."
 				>
 					<p>
-						The six stream flavors cover only what the model is emitting right now; the
-						raw-write tool's <code>normalize: true</code> covers only content being
+						The six stream flavors cover ONLY what the model is emitting right now; the
+						raw-write tool's <code>normalize: true</code> covers ONLY content being
 						written.
 					</p>
 					<p>
@@ -410,7 +410,7 @@ const Usage = [
 				Seams={[
 					{
 						Seam: "The tool layer - the agent's toolset",
-						What: "The plugin registers the normalize-file tool into the agent's toolset: the agent calls it like any built-in tool, one agent-chosen file per call. Nothing runs without that explicit action - no [llm/stream](Harness:packages/llm/llm/src/index.ts), no [fs/observed](Harness:packages/fs/fs/src/index.ts) listener of any kind.",
+						What: "The plugin registers the normalize-file tool into the agent's toolset: the agent calls it like any built-in tool, one agent-chosen file per call. Nothing runs WITHOUT that explicit action - no [llm/stream](Harness:packages/llm/llm/src/index.ts), no [fs/observed](Harness:packages/fs/fs/src/index.ts) listener of any kind.",
 						Outcome: "Zero background activity: discoverable, visible, opt-in.",
 					},
 					{

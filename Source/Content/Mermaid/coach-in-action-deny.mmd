@@ -1,12 +1,12 @@
 flowchart LR
 	PRE["tools/pre-execute - registered unconditionally,<br/>a no-op unless enforce is not off"]
 	CHECK["enforce: 'write' and write-class strikes at<br/>enforceThreshold (4) since the last note"]
-	PASS["the call proceeds untouched"]
-	DENY["returns the deny - {kind: 'deny', reason},<br/>the reason IS the lesson, the NOTE_DENIED text"]
-	BLOCK["the call is blocked -<br/>rerun only the legitimate parts (build, test, git)"]
-	LED["logs the denied line -<br/>denied bash write pattern, then use edit"]
-	RESET["the deny resets the note counters"]
-	POST["the denied call still flows through tools/post-execute,<br/>so counting continues"]
+	PASS["The call proceeds untouched."]
+	DENY["Returns the deny - {kind: 'deny', reason},<br/>the reason IS the lesson, the NOTE_DENIED text."]
+	BLOCK["The call is blocked -<br/>rerun only the legitimate parts (build, test, git)."]
+	LED["Logs the denied line -<br/>denied bash write pattern, then use edit."]
+	RESET["The deny resets the note counters."]
+	POST["The denied call still flows through tools/post-execute,<br/>so counting continues."]
 	PRE --> CHECK
 	CHECK -. "below the threshold" .-> PASS
 	CHECK --> DENY

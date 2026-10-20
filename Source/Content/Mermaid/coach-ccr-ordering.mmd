@@ -1,10 +1,10 @@
 flowchart LR
-	CCR["the ccr listener - prepend: true,<br/>compressing results behind the CCR marker"]
-	COACH["the coach tools/post-execute listener - plain"]
-	OBS["it observes the (possibly compressed) result"]
-	T1["tier-1 notes - append-only additionalContexts"]
-	T2["tier-2 section - append-only, touching nothing else,<br/>PTC and structured-output preserved"]
-	SAFE["any load order is safe"]
+	CCR["The ccr listener - prepend: true,<br/>compressing results behind the CCR marker"]
+	COACH["The coach tools/post-execute listener - plain"]
+	OBS["It observes the (possibly compressed) result."]
+	T1["Tier-1 notes - append-only additionalContexts"]
+	T2["Tier-2 section - append-only, touching nothing else,<br/>PTC and structured-output preserved"]
+	SAFE["Any load order is safe."]
 	CCR -- "the coach registers AFTER it" --> COACH
 	COACH --> OBS
 	COACH --> T1

@@ -1,9 +1,9 @@
 flowchart LR
-	MARK["the first-key marker {__normalize: false}"]
-	TRACK["tracked per call id"]
-	RAW["passed as Raw - the fifth argument"]
+	MARK["The first-key marker {__normalize: false}"]
+	TRACK["Tracked per call id"]
+	RAW["Passed as Raw - the fifth argument"]
 	STRIP["Stream/Strip removes the marker"]
-	UNNORM["the argument content stays unnormalized"]
+	UNNORM["The argument content stays unnormalized"]
 	MARK --> TRACK --> RAW
 	RAW --> STRIP
 	RAW --> UNNORM

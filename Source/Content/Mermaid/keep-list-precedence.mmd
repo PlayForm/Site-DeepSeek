@@ -1,5 +1,5 @@
 flowchart LR
-	D["dependency on the pin-policy keep-list"] --> K{"keep-listed?"}
-	K -- "yes" --> S["prefix removal bypassed"]
-	S --> R["authored range retained - byte-identical"]
-	K -- "no" --> N["prefix removal proceeds"]
+	D["Dependency on the pin-policy keep-list"] --> K{"Keep-listed?"}
+	K -- "Yes" --> S["Prefix removal bypassed"]
+	S --> R["Authored range retained - byte-identical"]
+	K -- "No" --> N["Prefix removal proceeds"]

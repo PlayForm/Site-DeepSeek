@@ -1,24 +1,24 @@
 flowchart LR
-	SCOPES["the scopes object gating every arm of hook-dsh-normalize-file independently<br/>the defaults exactly the pre-scopes behavior"]
-	CONV["conversation, on by default<br/>text-delta text + the assembled text/reasoning blocks"]
-	REAS["reasoning, on by default<br/>the reasoning-delta sub-gate ANDed with normalizeReasoning"]
+	SCOPES["The scopes object gating every arm of hook-dsh-normalize-file independently<br/>the defaults exactly the pre-scopes behavior"]
+	CONV["Conversation, on by default<br/>text-delta text + the assembled text/reasoning blocks"]
+	REAS["Reasoning, on by default<br/>the reasoning-delta sub-gate ANDed with normalizeReasoning"]
 	TIN["toolInput, off by default<br/>OR-ed with normalizeToolArguments<br/>the only execution-critical arm"]
 	TRES["toolResults, off by default<br/>the tools/post-execute arm"]
-	FILES["files, on by default, and it gates the normalize-file tool<br/>off means the tool returns the unchanged changed:false result<br/>no read, no write, no ledger line"]
-	BATCH["batch, off by default<br/>the agent/pre-step arm"]
-	MARK["arguments opening with the {'__normalize':false} FIRST-key marker<br/>pass through unnormalized, the marker entry stripped"]
-	EXEMPT["the normalize-file call itself is a structural exemption<br/>plus the edit and raw-write calls, never rewritten -<br/>a normalized dash in a filename would corrupt the target"]
+	FILES["Files, on by default, and it gates the normalize-file tool<br/>off means the tool returns the unchanged changed:false result<br/>no read, no write, no ledger line"]
+	BATCH["Batch, off by default<br/>the agent/pre-step arm"]
+	MARK["Arguments opening with the {'__normalize':false} FIRST-key marker<br/>pass through unnormalized, the marker entry stripped"]
+	EXEMPT["The normalize-file call itself is a structural exemption<br/>plus the edit and raw-write calls, never rewritten -<br/>a normalized dash in a filename would corrupt the target"]
 	EXEMLIST["toolResultsExempt, volatile - a tool result whose exec name<br/>is listed passes the tool-results arm by identity"]
-	VOL["the whole object volatile - one leaf change commits<br/>one loader/volatile-update dispatch"]
-	READER["the State's refresh listener re-reads the whole object<br/>live, silent, no remount, no new activation line"]
+	VOL["The whole object volatile - one leaf change commits<br/>one loader/volatile-update dispatch"]
+	READER["The State's refresh listener re-reads the whole object<br/>live, silent, no remount, no new activation line"]
 	SCOPES --> CONV
 	SCOPES --> REAS
 	SCOPES --> TIN
 	SCOPES --> TRES
 	SCOPES --> BATCH
 	SCOPES --> FILES
-	TIN -. "the per-call escape hatch" .-> MARK
-	TIN -. "structural exemptions" .-> EXEMPT
-	TRES -. "by identity" .-> EXEMLIST
+	TIN -. "The per-call escape hatch" .-> MARK
+	TIN -. "Structural exemptions" .-> EXEMPT
+	TRES -. "By identity" .-> EXEMLIST
 	SCOPES --> VOL
 	VOL --> READER

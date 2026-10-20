@@ -4,13 +4,13 @@ flowchart LR
 	D2["devDependencies"]
 	D3["peerDependencies"]
 	D4["optionalDependencies"]
-	CONSUMER["a consumer"]
-	EXCL["exclusion segments - kept separate"]
+	CONSUMER["A consumer"]
+	EXCL["Exclusion segments - kept separate"]
 	SECTION --> D1 --> CONSUMER
 	SECTION --> D2 --> CONSUMER
 	SECTION --> D3 --> CONSUMER
 	SECTION --> D4 --> CONSUMER
-	CONSUMER -. "dependency sections stay separate from" .-> EXCL
+	CONSUMER -. "Dependency sections stay separate from" .-> EXCL
 	%% Invisible layout links only - no semantics.
 	D1 ~~~ D2
 	D2 ~~~ D3

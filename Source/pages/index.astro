@@ -40,14 +40,14 @@ const Governance = [
 		Tone: "ink",
 		Role: "ROLE: GOVERNOR",
 		Sentence: Families.GovernorPackage,
-		Desc: "The silent package.json governor: hooks fs/observed, rewrites chain-governed pins to the effective registry's resolved versions, and runs the update stage as a detached, contained continuation.",
+		Desc: "The silent package.json governor. Hooks fs/observed. Rewrites chain-governed pins to the effective registry's resolved versions. Runs the update stage as a detached, contained continuation.",
 	},
 	{
 		Name: "hook-dsh-package-pinner",
 		Tone: "ink",
 		Role: "ROLE: PINNER",
 		Sentence: Families.PinnerPackage,
-		Desc: "The silent package.json version pinner: hooks fs/observed and deterministically rewrites every ranged dependency version to its static version, protected by a pin-policy keep-list.",
+		Desc: "The silent package.json version pinner. Hooks fs/observed and deterministically rewrites EVERY ranged dependency version to its static version. Protected by a pin-policy keep-list.",
 	},
 	{
 		Name: "hook-dsh-cargo-governor",
@@ -111,13 +111,13 @@ const Guardians = [
 		Name: "hook-dsh-ccr",
 		Role: "ROLE: COMPRESSOR",
 		Sentence: Families.CCR,
-		Desc: "The tool-output compressor: hooks the tools/post-execute waterfall and replaces oversized results of the allow-listed target tools with a one-line type-aware preview plus a <<<CCR:hash|type|size>>> retrieval marker - the original stays retrievable through the registered ccr_retrieve tool over the sha256-24 LRU store.",
+		Desc: "The tool-output compressor. Hooks the tools/post-execute waterfall. Replaces oversized results of the allow-listed target tools with a one-line type-aware preview plus a <<<CCR:hash|type|size>>> retrieval marker. The original stays retrievable through the registered ccr_retrieve tool over the sha256-24 LRU store.",
 	},
 	{
 		Name: "hook-dsh-tool-coach",
 		Role: "ROLE: COACH",
 		Sentence: Families.Coach,
-		Desc: "The terminal coach: judges every bash/pwsh call through the four-tier ladder - silent ledger lines, live-fetched coaching notes, a persistent system-prompt discipline section, an optional hard deny - teaching the model to stop using the terminal for file content.",
+		Desc: "The terminal coach. Judges EVERY bash/pwsh call through the four-tier ladder - silent ledger lines, live-fetched coaching notes, a persistent system-prompt discipline section, an optional hard deny. Teaches the model to stop using the terminal for file content.",
 	},
 ];
 
@@ -171,7 +171,7 @@ const Tag = (Kind: string, Label: string) =>
 	`<span class="supports__tag supports__tag--${Kind}">${Label}</span>`;
 
 const PinSupports = [
-	`${Tag("npm", "THE GATE")} package.json - the pinner's ONLY gate. Every ranged dependency version in any agent-written package.json is rewritten to its static version: <code>&quot;@playform/build&quot;: &quot;^0.3.4&quot;</code> -&gt; <code>&quot;@playform/build&quot;: &quot;0.3.4&quot;</code>.`,
+	`${Tag("npm", "THE GATE")} package.json - the pinner's ONLY gate. EVERY ranged dependency version in ANY agent-written package.json is rewritten to its static version: <code>&quot;@playform/build&quot;: &quot;^0.3.4&quot;</code> -&gt; <code>&quot;@playform/build&quot;: &quot;0.3.4&quot;</code>.`,
 	`${Tag("npm", "THE KEEP-LIST")} Protected by the pin-policy keep-list: <code>pin-policy.json</code> keeps named ranges as authored - keep-list wins.`,
 	`${Tag("npm", "THE PASS")} Pure pin pass: no ncu, no jobs, no subprocess, no cooldown. A fully pinned manifest leaves the governor's update stage nothing to do.`,
 	`${Tag("npm", "THE EXCLUSIONS")} Exclusion-first: paths containing node_modules / .git / .dsh / .pnpm / .store are skipped silently (<code>skipped (excluded) &lt;path&gt;</code>).`,
@@ -188,15 +188,15 @@ const GovernDetails = {
 	"package.json": [
 		`${Tag("npm", "THE CHAIN PASS")} canonicalizes chain-governed pins to the effective registry's resolved versions (<code>&quot;0.4.1&quot;</code> -&gt; <code>&quot;^0.4.5&quot;</code> for a dep in the nearest registry.json).`,
 		`${Tag("npm", "THE UPDATE STAGE")} then runs <code>npm-check-updates</code> (programmatic by default, or the absolute ncuBin binary) as a detached, contained continuation in the jobs envelope.`,
-		`${Tag("npm", "THE CORDIS-TRAP GUARD")} ncu's reject list is always policy.reject + the chain-governed dep names - a chain pin is never bumped to public npm latest.`,
-		`${Tag("npm", "THE SILENCE")} the transcript shows only what the author wrote; the ledger shows what actually happened (<code>governed &lt;path&gt; -&gt; &lt;version&gt;</code>).`,
+		`${Tag("npm", "THE CORDIS-TRAP GUARD")} ncu's reject list is always policy.reject + the chain-governed dep names - a chain pin is NEVER bumped to public npm latest.`,
+		`${Tag("npm", "THE SILENCE")} the transcript shows ONLY what the author wrote; the ledger shows what actually happened (<code>governed &lt;path&gt; -&gt; &lt;version&gt;</code>).`,
 		`${Tag("npm", "THE FULL STORY")} <a href="/plugins/hook-dsh-package-governor/">the governor page</a>.`,
 	],
 	"Cargo.toml": [
 		`${Tag("cargo", "THE SAME ARCHITECTURE")} the Cargo.toml flavor of the silent package.json governor, in <a href="/plugins/hook-dsh-cargo-governor/">hook-dsh-cargo-governor</a> - chain pass + full-version normalization + surgical rewrite + the Rust-side update stage.`,
-		`${Tag("cargo", "THE SURGICAL REWRITE")} rewrites on the raw TOML lines (never a TOML stringify - comments survive), so the pair above keeps the author's comments and inline spacing byte-for-byte.`,
+		`${Tag("cargo", "THE SURGICAL REWRITE")} rewrites on the raw TOML lines (NEVER a TOML stringify - comments survive), so the pair above keeps the author's comments and inline spacing byte-for-byte.`,
 		`${Tag("cargo", "THE NORMALIZATION")} full-version normalization, shorthand padded: <code>serde = &quot;1.0&quot;</code> -&gt; <code>serde = &quot;1.0.0&quot;</code> (<code>=1.0</code> keeps its <code>=</code> under <code>pinStyle &quot;exact&quot;</code>; complex ranges left as-is).`,
-		`${Tag("cargo", "THE UPDATE STAGE")} driven by <code>cargo upgrade --exclude</code> through the ctx.subprocess seam - the rejects and the chain deps become one --exclude flag per crate, so the CLI never bumps a chain pin.`,
+		`${Tag("cargo", "THE UPDATE STAGE")} driven by <code>cargo upgrade --exclude</code> through the ctx.subprocess seam - the rejects and the chain deps become one --exclude flag per crate, so the CLI NEVER bumps a chain pin.`,
 		`${Tag("cargo", "THE LEDGER")} <code>[2026-10-03T09:16:01.880Z] governed ~/Projects/acme/engine/Cargo.toml \u2192 42</code> - the fact line under the pair above.`,
 	],
 };
@@ -252,10 +252,8 @@ const CargoFact =
 			<div class="hero__split">
 				<div class="hero__lead">
 					<p class="hero__sub">
-						The <BrandIcon Name="deepseek" /> DeepSeek Harness Plugin Family for
-						PlayForm: every model's output normalized to clean ASCII characters, every
-						manifest pinned and governed under the author's control - fifteen TypeScript
-						packages, smoke-arbitrated.</p>
+						The <BrandIcon Name="deepseek" /> DeepSeek Harness Plugin Family for PlayForm: EVERY model's output normalized to clean ASCII characters.
+					EVERY manifest pinned and governed under the author's control - fifteen TypeScript packages, smoke-arbitrated.</p>
 					<p class="hero__sub">
 						Model output, clean and governed.
 					</p>
@@ -453,7 +451,7 @@ const CargoFact =
 					ID="pin"
 					Kicker="THE PIN"
 					Title="Pinned manifests, deterministically"
-					Lead="The pinner rewrites every ranged dependency version to its static version - protected by the pin-policy keep-list."
+					Lead="The pinner rewrites EVERY ranged dependency version to its static version - protected by the pin-policy keep-list."
 					Href="/plugins/hook-dsh-package-pinner/"
 					Before={PinBefore}
 					After={PinAfter}
@@ -487,7 +485,7 @@ const CargoFact =
 					Wide
 					Kicker="THE NORMALIZE"
 					Title="Clean output as it is born"
-					Lead="The stream flavors rewrite the model's output at the llm/stream waterfall - live in the UI, durable in the transcript. Drag the handle."
+					Lead="The stream flavors rewrite the model's output at the llm/stream waterfall - LIVE in the UI, durable in the transcript. Drag the handle."
 					Href="/plugins/hook-dsh-normalize-dash/"
 					Fact={NormalizeFact}
 				>
@@ -503,7 +501,7 @@ const CargoFact =
 					Wide
 					Kicker="THE COMPRESS"
 					Title="Big tool output, one line and a marker"
-					Lead="The ccr hook replaces an oversized tool result with a one-line type-aware preview plus the retrieval marker - the original stays retrievable through the registered ccr_retrieve tool."
+					Lead="The ccr hook replaces an oversized tool result with a one-line type-aware preview plus the retrieval marker. The original stays retrievable through the registered ccr_retrieve tool."
 					Href="/plugins/hook-dsh-ccr/"
 					Before={CompressBefore}
 					After={CompressAfter}
@@ -511,12 +509,8 @@ const CargoFact =
 				/>
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The six stream flavors plus normalize-file now also expose the volatile
-				<code>scopes</code> surface (conversation / reasoning / toolInput / toolResults /
-				files / batch, with <code>toolResultsExempt</code>) with live
-				<code>loader/volatile-update</code> toggles - and the overpass arms
-				(<code>tools/post-execute</code> tool results + <code>agent/pre-step</code> step
-				batch) reachable through the <code>normalize-overpass</code> command.
+				The six stream flavors plus normalize-file now also expose the volatile <code>scopes</code> surface (conversation / reasoning / toolInput / toolResults / files / batch, with <code>toolResultsExempt</code>) with LIVE <code>loader/volatile-update</code> toggles.
+				The overpass arms (<code>tools/post-execute</code> tool results + <code>agent/pre-step</code> step batch) are reachable through the <code>normalize-overpass</code> command.
 			</p>
 			<p class="section-kicker" style="margin-top: var(--space-md)">
 				<Fragment set:html={DotSep(`${Totals.Meta()} · the ledger strings, byte-identical`)} />
@@ -541,10 +535,10 @@ const CargoFact =
 					CONTENT.</strong>
 				</p>
 				<p class="coach__lead">
-					Terminal file edits are invisible to the plugin system - the
-					<code>fs/observed</code> chain (the governor's, the pinner's and the
-					normalize plugins' trigger) fires only on tool-layer writes, so a
-					<code>sed -i</code> edit bypasses all of them.
+					Terminal file edits are invisible to the plugin system.
+					The <code>fs/observed</code> chain (the governor's, the pinner's and the
+					normalize plugins' trigger) fires ONLY on tool-layer writes.
+					A <code>sed -i</code> edit bypasses ALL of them.
 				</p>
 				<p class="coach__lead">
 					The coach goes where that regression flows: the terminal tool calls.
@@ -661,28 +655,30 @@ const CargoFact =
 					<strong>Detection is deliberately adversarial.</strong>
 				</p>
 				<p class="coach__note">
-					The pattern table is one input, not the authority: the command is
-					normalized first (heredoc bodies stripped, subshells and variables
-					wrapped, quote layers removed), then the pattern rows, an intent-marker
-					scan, a craft library for the obfuscated variants, and a catch-all - any
-					write-intent marker on a non-/dev/null path lands as write, so novel
+					The pattern table is ONE input, not the authority.
+					The command is normalized first (heredoc bodies stripped, subshells and
+					variables wrapped, quote layers removed).
+					Then come the pattern rows, an intent-marker scan, a craft library for the
+					obfuscated variants, and a catch-all.
+					ANY write-intent marker on a non-/dev/null path lands as write, so novel
 					zero-day forms still count.
 				</p>
 				<p class="coach__note">
-					Exemptions are checked per pipeline after normalization: an exempt head
-					dominates its pipe (<code>git diff &gt; patch.txt</code> is exempt), a
-					bare <code>echo x &gt; tracked.md</code> is not.
+					Exemptions are checked per pipeline after normalization.
+					An exempt head dominates its pipe (<code>git diff &gt; patch.txt</code> is exempt).
+					A bare <code>echo x &gt; tracked.md</code> is NOT.
 				</p>
 				<p class="coach__note">
-					<strong>Every note names the correct tool with its LIVE registry data,</strong>
+					<strong>EVERY note names the correct tool with its LIVE registry data,</strong>
 					fetched through <code>ctx.tools.schemas()</code> (the same way the model
-					itself is given tools): the tool name, the first sentence of its
-					description (&le; 120 chars) and the primary parameter key.
+					itself is given tools).
+					The note carries the tool name, the first sentence of its description
+					(&le; 120 chars) and the primary parameter key.
 				</p>
 				<p class="coach__note">
-					Any fetch failure degrades to the static table and logs
-					<code>schema fetch failed -&gt; static fallback</code> - a note never
-					fails a waterfall.
+					ANY fetch failure degrades to the static table and logs
+					<code>schema fetch failed -&gt; static fallback</code>.
+					A note NEVER fails a waterfall.
 				</p>
 			</div>
 			<p class="coach__cta-row">

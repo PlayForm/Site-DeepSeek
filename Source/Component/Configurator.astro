@@ -478,7 +478,7 @@ function WiringOutput(Engine: string, Pkgs: SlotKey[], Profile: string): string 
 		PatchKeys.length > 0
 			? PatchKeys.map((Key) => `        "${Slots[Key].Pkg}"`).join(",\n")
 			: "";
-	const Json = [
+	const JSON = [
 		"{",
 		`  "name": "${Name}",`,
 		Pkgs.length > 0 ? '  "dependencies": {' : '  "dependencies": {},',
@@ -494,7 +494,7 @@ function WiringOutput(Engine: string, Pkgs: SlotKey[], Profile: string): string 
 		"}",
 	].join("\n");
 	const Patch = PatchKeys.map((Key) => Slots[Key].Patch).join("\n");
-	const Parts = [Json];
+	const Parts = [JSON];
 	if (PatchKeys.length > 0) {
 		Parts.push("", "# cordis.patch.yml", Patch);
 	} else {
@@ -726,7 +726,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 				PatchKeys.length > 0
 					? PatchKeys.map((Key) => `        "${Slots[Key].Pkg}"`).join(",\n")
 					: "";
-			const Json = [
+			const JSON = [
 				"{",
 				`  "name": "${Profile}",`,
 				Pkgs.length > 0 ? '  "dependencies": {' : '  "dependencies": {},',
@@ -741,7 +741,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 				"  }",
 				"}",
 			].join("\n");
-			const Parts = [Json];
+			const Parts = [JSON];
 			if (PatchKeys.length > 0) {
 				Parts.push("", "# cordis.patch.yml", PatchKeys.map((Key) => Slots[Key].Patch).join("\n"));
 			} else {
@@ -775,7 +775,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 		const Wrap = (Kind: string, Text: string) =>
 			`<span class="cfg-tok-${Kind}">${Escape(Text)}</span>`;
 
-		const HighlightJsonLine = (Line: string) => {
+		const HighlightJSONLine = (Line: string) => {
 			const Match = Line.match(/^(\s*)"([^"]*)"(:)?(.*)$/);
 			if (!Match) return Escape(Line);
 			if (Match[3] !== ":") {
@@ -831,7 +831,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 						const Match = Line.match(/^(cd|pnpm)(\s.*)$/);
 						return Match ? Wrap("cmd", Match[1]) + Escape(Match[2]) : Escape(Line);
 					}
-					if (Mode === "json") return HighlightJsonLine(Line);
+					if (Mode === "json") return HighlightJSONLine(Line);
 					if (Mode === "yaml") return HighlightYamlLine(Line);
 					// The log mode: the verification lines' leading plugin id.
 					const Match = Line.match(/^([\w-]+)(:.*)$/);

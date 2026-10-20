@@ -1,6 +1,6 @@
 flowchart LR
 	RUN["a bash test run returns<br/>142 lines of build output"] --> SIZE["the serialized result crosses both gates:<br/>thresholdBytes 2048 x the terminal multiplier 1,<br/>and autoExpandLimitBytes 102400"]
-	SIZE --> CLS["the gate classifies the type - terminal"]
+	SIZE --> CLS["The gate classifies the type - terminal."]
 	CLS --> HS["the gate hashes the bytes - sha256-24"]
 	HS --> ST["the gate stores the content"]
 	ST --> REP["the model-visible result replaced with<br/>the preview line plus the marker"]

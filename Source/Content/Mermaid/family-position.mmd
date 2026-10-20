@@ -2,10 +2,10 @@ flowchart LR
 	PINNER["hook-dsh-package-pinner"]
 	FACTORY["plugin-dsh-factory - the service"]
 	CORE["hook-dsh-core - the helpers"]
-	GOV["the sibling package governor"]
+	GOV["The sibling package governor"]
 	SEAM["fs/observed - the shared seam"]
 	PINNER --> FACTORY
 	PINNER --> CORE
 	PINNER --> SEAM
 	GOV --> SEAM
-	PINNER -. "sibling of" .-> GOV
+	PINNER -. "Sibling of" .-> GOV

@@ -39,7 +39,7 @@ const Index = [
 const Originals = [
 	{
 		Name: "plugin-dsh-factory",
-		Desc: `The furnace: one service with ${History.OriginMethods} methods centralizing the machinery the hooks kept duplicating - the ledger, the gate, the guarded write, the wiring, the schema factory.`,
+		Desc: `The furnace: ONE service with ${History.OriginMethods} methods centralizing the machinery the hooks kept duplicating - the ledger, the gate, the guarded write, the wiring, the schema factory.`,
 		Badge: "SERVICE",
 	},
 	{
@@ -49,7 +49,7 @@ const Originals = [
 	},
 	{
 		Name: "hook-dsh-package-pinner",
-		Desc: "The static pinner: every ranged dependency version rewritten to its exact form, protected by a keep-list.",
+		Desc: "The static pinner: EVERY ranged dependency version rewritten to its exact form, protected by a keep-list.",
 		Badge: "HOOK",
 	},
 	{
@@ -59,7 +59,7 @@ const Originals = [
 	},
 	{
 		Name: "hook-dsh-mdash",
-		Desc: "The first stream normalizer: the dash family rewritten live in the model output, at the injection point a file hook does not have.",
+		Desc: "The FIRST stream normalizer: the dash family rewritten LIVE in the model output. At the injection point a file hook does NOT have.",
 		Badge: "NON-MANIFEST",
 	},
 ];
@@ -75,15 +75,15 @@ const Criticals = [
 	},
 	{
 		Finding:
-			"The build was nondeterministic: the build tool's TypeScript hook ran tsc then tsc-alias through an exec() that was never awaited, so the emitted declaration specifier style depended on timing - rebuilding did not reproduce the committed state.",
-		Fix: "Each bundle's prepublishOnly now runs the build with the racy hook neutralized, then explicit sequential tsc && tsc-alias - and a red tsc fails the build instead of shipping.\nRebuild twice, get an identical tree.",
+			"The build was nondeterministic: the build tool's TypeScript hook ran tsc then tsc-alias through an exec() that was never awaited, so the emitted declaration specifier style depended on timing - rebuilding did NOT reproduce the committed state.",
+		Fix: "EACH bundle's prepublishOnly now runs the build with the racy hook neutralized, then explicit sequential tsc && tsc-alias - and a red tsc fails the build instead of shipping.\nRebuild twice, get an identical tree.",
 		Badge: "P0",
 		Commit: "28ebc30",
 	},
 	{
 		Finding:
 			"The package governor still registered its in-flight key as the plain target key - the same key the factory's continuation uses.\nAn update running under key K plus an external edit could orphan the update's controller.\nThe cargo flavor had fixed the same collision locally a phase earlier.",
-		Fix: "The key helper moved factory-side - the SCHEME's §2.16, UpdateKey(target) yields update:<targetKey> - and both governors adopted it.\nCollision-window smoke cases went into the factory and governor suites the same day.",
+		Fix: "The key helper moved factory-side - the SCHEME's §2.16, UpdateKey(target) yields update:<targetKey> - and BOTH governors adopted it.\nCollision-window smoke cases went into the factory and governor suites the same day.",
 		Badge: "P1",
 		Commit: "1ed3564",
 	},
@@ -118,8 +118,8 @@ const Executors = [
 	{
 		Step: "1. resolve",
 		Builtin: "session-aware resolve options (cwd, escalation root)",
-		Raw: "same call, no cwd option - a real divergence, documented",
-		Factory: "none - the target arrives pre-resolved",
+		Raw: "same call, NO cwd option - a real divergence, documented",
+		Factory: "NONE - the target arrives pre-resolved",
 	},
 	{
 		Step: "2. fs/write-intent",
@@ -136,7 +136,7 @@ const Executors = [
 	{
 		Step: "4. writeText",
 		Builtin: "the five-argument call + denial remediation",
-		Raw: "same five arguments, no remediation",
+		Raw: "same five arguments, NO remediation",
 		Factory: "same five arguments, plus the stash pre-registration",
 	},
 	{
@@ -152,15 +152,15 @@ const Decisions = [
 	{
 		Decision: "Module-owned ledger strings; the smokes as the arbiter",
 		Rationale:
-			"The ledger strings are the family's PUBLIC INTERFACE - the only observable that survives a framework port. Mechanics change, strings never: that is why renames are safe (the terminology rename kept the cargo flavor literal; module ownership stops the blast radius at the module), why the Effect-TS port is provable (byte parity is the proof), and why the smokes are implementation-agnostic - the literal activated (cargo flavor, ...) survives every refactor",
+			"The ledger strings are the family's PUBLIC INTERFACE - the ONLY observable that survives a framework port. Mechanics change, strings never: that is why renames are safe (the terminology rename kept the cargo flavor literal; module ownership stops the blast radius at the module), why the Effect-TS port is provable (byte parity is the proof), and why the smokes are implementation-agnostic - the literal activated (cargo flavor, ...) survives EVERY refactor",
 		Technique:
-			"The transform contract + the smoke harness; renames change mechanics, never strings",
+			"The transform contract + the smoke harness; renames change mechanics, NEVER strings",
 		Evidence: "the handoff P2/P5; 3c29108, e106a98, 66bfd81",
 	},
 	{
 		Decision: "Stat-before-write version guard",
 		Rationale:
-			"In a multi-step fold every step wrote against the SAME observed version - only the first write could succeed; the fresh stat makes the fold converge in ANY step order",
+			"In a multi-step fold EVERY step wrote against the SAME observed version - ONLY the first write could succeed; the fresh stat makes the fold converge in ANY step order",
 		Technique:
 			"The guarded write's replaceIfVersion intent + a fresh version before each write",
 		Evidence: "5982aa8",
@@ -168,14 +168,14 @@ const Decisions = [
 	{
 		Decision: "Wrapped-actor governance marker + the direct path",
 		Rationale:
-			"The raw-write's actor carries {...exec, govern}; the gate's govern reason makes direct governance the only channel - the event path skips marked actors, so no flag means no chain (the escape hatch)",
+			"The raw-write's actor carries {...exec, govern}; the gate's govern reason makes direct governance the ONLY channel - the event path skips marked actors, so NO flag means NO chain (the escape hatch)",
 		Technique: `The gate's actor step + the factory's Govern (the fold entry, SCHEME ${Scheme.Govern}) + the step registry (RegisterGovern, ${Scheme.RegisterGovern})`,
 		Evidence: "2c8764e, 83ba8e5, e69c5d3",
 	},
 	{
 		Decision: "The sequential fold; the parallel toggle designed but gated",
 		Rationale:
-			"Detached chains raced (nondeterministic writes); same-file steps - canonicalize + pin on one package.json - DO race, so parallel only when disjointness is proven",
+			"Detached chains raced (nondeterministic writes); same-file steps - canonicalize + pin on ONE package.json - DO race, so parallel ONLY when disjointness is proven",
 		Technique:
 			"The direct-govern fold in the write executor's continuation; the per-call toggle rides the same govern flag shape",
 		Evidence: "d7a3c93, 140faa0",
@@ -183,7 +183,7 @@ const Decisions = [
 	{
 		Decision: "Per-record journal layout + the loud failure line",
 		Rationale:
-			"The v2 open failed silently against the v1 file (an exact-equality version check) and buffered every record into a never-drained buffer; silence made it undiagnosable",
+			"The v2 open failed silently against the v1 file (an exact-equality version check) and buffered EVERY record into a never-drained buffer; silence made it undiagnosable",
 		Technique: `layout: per-record, compatibleVersions: [${Migration.CompatibleVersions.join(", ")}], invalidRecords: backup-and-skip - one ledger line on open failure`,
 		Evidence: "4c0e83b, 756d566",
 	},
@@ -204,14 +204,14 @@ const Decisions = [
 	{
 		Decision: "One shared write executor owned by the factory",
 		Rationale:
-			"Three executors duplicated the same five-step pipeline; the factory is the only home both tool-style and continuation-style writes already depend on",
+			"Three executors duplicated the same five-step pipeline; the factory is the ONLY home BOTH tool-style and continuation-style writes already depend on",
 		Technique: `The factory's Write (the shared executor, SCHEME ${Scheme.Write}; the guarded write lives on as its alias)`,
 		Evidence: "91293d2",
 	},
 	{
 		Decision: "The core as pure delegate; the stream dispatch dependency-free",
 		Rationale:
-			"A cross-bundle symlink workaround for a nominal-type clash was fragile; generic structural shapes survive every narrowing",
+			"A cross-bundle symlink workaround for a nominal-type clash was fragile; generic structural shapes survive EVERY narrowing",
 		Technique: "Stream/Chunk + Stream/Block with no dsh-llm import anywhere",
 		Evidence: "98be27b, c2beb06",
 	},
@@ -219,7 +219,7 @@ const Decisions = [
 		Decision: "Host-era pins; verify from the installed app, never stale node_modules",
 		Rationale:
 			"The @deepseek-ai family pins must match the running host; the registry's latest tag is stale and the profile's old links lie",
-		Technique: "The package.json dependency fields + the smokes' host-era assertions - verified from the running app, never stale node_modules",
+		Technique: "The package.json dependency fields + the smokes' host-era assertions - verified from the running app, NEVER stale node_modules",
 		Evidence: "the handoff P12",
 	},
 	{
@@ -227,23 +227,23 @@ const Decisions = [
 		Rationale:
 			"Keep the working implementation onboard; the ledger strings stay the contract in BOTH implementations - and the port exists for register #13's three goals: external traceability, ecosystem interop, and hooking other transformers",
 		Technique:
-			"The stream gate, the Effect services + layers, and the tracing opt-in (no-op default; the OTLP layer attaches only when enableTracing is set - best-effort)",
+			"The stream gate, the Effect services + layers, and the tracing opt-in (no-op default; the OTLP layer attaches ONLY when enableTracing is set - best-effort)",
 		Evidence: "the monorepo plan; the versions page; Runtime.ts (the tracing knob)",
 	},
 	{
-		Decision: `Reversed hierarchical naming + version ${Versions.Release} + submodules (the .gitmodules draft prepared, not activated - register #16)`,
+		Decision: `Reversed hierarchical naming + version ${Versions.Release} + submodules (the .gitmodules draft prepared, NOT activated - register #16)`,
 		Rationale:
-			"Kind-first ordering mirrors the consumer topology - the hooks vs the factory service - and role-contiguous grouping keeps the shared-machinery families together (governor-cargo/governor-package, the normalize-* family); the @-sentence is the release identity (the README titles, register #15). The inversion was only safe because the ledger strings are module-owned - the mdash -> normalize-dash rename (register #5) is the proof: the renamed module changed only its own prefix, its identity, by design - every other ledger string stayed",
+			"Kind-first ordering mirrors the consumer topology - the hooks vs the factory service - and role-contiguous grouping keeps the shared-machinery families together (governor-cargo/governor-package, the normalize-* family); the @-sentence is the release identity (the README titles, register #15). The inversion was only safe because the ledger strings are module-owned - the mdash -> normalize-dash rename (register #5) is the proof: the renamed module changed ONLY its own prefix, its identity, by design - EVERY other ledger string stayed",
 		Technique:
-			"The package naming itself + the monorepo layout (one repository per package under submodule structure - the .gitmodules draft prepared, not activated, register #16)",
+			"The package naming itself + the monorepo layout (ONE repository per package under submodule structure - the .gitmodules draft prepared, NOT activated, register #16)",
 		Evidence: "the branding brief; register #5/#15/#16",
 	},
 	{
 		Decision: "The abort signal forwards to the seams, never onto the fiber",
 		Rationale:
-			"The Effect-TS write executor originally mapped the caller's signal into the run promise's options; a pre-aborted signal interrupted the whole fiber - the caller saw All fibers interrupted without error instead of the Classic aborted-before-write semantics",
+			"The Effect-TS write executor originally mapped the caller's signal into the run promise's options; a pre-aborted signal interrupted the whole fiber - the caller saw All fibers interrupted WITHOUT error instead of the Classic aborted-before-write semantics",
 		Technique:
-			"The Effect-TS Write executor with the signal mapping dropped - the signal rides the seams only, exactly the Classic mechanics",
+			"The Effect-TS Write executor with the signal mapping dropped - the signal rides the seams ONLY, exactly the Classic mechanics",
 		Evidence: "the dash suite's pre-aborted-write scenario (the Effect-TS round)",
 	},
 ];
@@ -252,23 +252,23 @@ const Decisions = [
 const Lessons = [
 	{
 		Name: "The smoke/live fidelity gap",
-		Desc: "Every real bug - the patch layers, the v2 journal open, the version guard, the delivery puzzle - was found LIVE, not by the smokes.\nThe smokes prove the mechanics; the live battery proves the wiring.\nNeither report is complete without the other.",
+		Desc: "EVERY real bug - the patch layers, the v2 journal open, the version guard, the delivery puzzle - was found LIVE, NOT by the smokes.\nThe smokes prove the mechanics; the LIVE battery proves the wiring.\nNeither report is complete WITHOUT the other.",
 	},
 	{
 		Name: "Load order is not list order",
-		Desc: "The pinner activated before the governor at the decisive boot - never rely on the bundle-list order for step ordering.\nThe fold plus the fresh-version writes make the order irrelevant.",
+		Desc: "The pinner activated before the governor at the decisive boot - NEVER rely on the bundle-list order for step ordering.\nThe fold plus the fresh-version writes make the order irrelevant.",
 	},
 	{
 		Name: "Timestamps are epoch UTC",
-		Desc: "The storage timestamps are epoch milliseconds; the local display adds +03.\nThe missing-records scares were filter mistakes, not lost data - one hour of arithmetic saved an hour of dread.",
+		Desc: "The storage timestamps are epoch milliseconds; the local display adds +03.\nThe missing-records scares were filter mistakes, NOT lost data - ONE hour of arithmetic saved an hour of dread.",
 	},
 	{
 		Name: "The subagent quirks",
-		Desc: "One file per response keeps agents alive; agents that batch die more often.\nAgents crash mid-flight without a closing message - recover from the on-disk state.\nAnd the subagents' own streams get normalized: their comment prose came out hyphenated.",
+		Desc: "ONE file per response keeps agents alive; agents that batch die more often.\nAgents crash mid-flight WITHOUT a closing message - recover from the on-disk state.\nAnd the subagents' own streams get normalized: their comment prose came out hyphenated.",
 	},
 	{
 		Name: "Verify the live effective config",
-		Desc: "The meta-lesson of the patch-layer saga: a schema projection is not the truth.\nThe patch layer replaces the entry config wholesale - read the composed layers, never just the defaults.",
+		Desc: "The meta-lesson of the patch-layer saga: a schema projection is NOT the truth.\nThe patch layer replaces the entry config wholesale - read the composed layers, NEVER just the defaults.",
 	},
 ];
 ---
@@ -319,13 +319,15 @@ const Lessons = [
 				>
 					<p>
 						The family grew from <strong>five bundles and {History.OriginChecks} smoke checks</strong> to{" "}
-						<strong>twelve packages</strong> across one commit era - the Oct
-						3&ndash;6, 2026 stretch that ends at <code>5982aa8</code> - the base
+						<strong>twelve packages</strong> across ONE commit era - the Oct
+						3&ndash;6, 2026 stretch that ends at <code>5982aa8</code>.
+						It is the base
 						that the guardians era (Phase VII) extended to{" "}
 						<strong>fifteen packages</strong>.
 					</p>
 					<p>
-						The suites print their own totals; the
+						The suites print their own totals.
+						The
 						<a href="/versions/">versions page</a> breaks the pair down per package.
 					</p>
 				</Concept>
@@ -340,8 +342,10 @@ const Lessons = [
 					</p>
 					<p>
 						The Effect-TS port actually <strong>adds {History.EffectDelta} checks</strong> (core +{History.Deltas.Core}, factory
-						+{History.Deltas.Factory}, governor +{History.Deltas.Governor}), so its totals run higher than the Classic's with every
-						shared assertion intact: the port proved parity by extending coverage, not by
+						+{History.Deltas.Factory}, governor +{History.Deltas.Governor}).
+						Its totals run higher than the Classic's with EVERY
+						shared assertion intact.
+						The port proved parity by extending coverage, NOT by
 						rewriting assertions.
 					</p>
 				</Concept>
@@ -351,13 +355,13 @@ const Lessons = [
 					Diagram="The real bugs - the shadowed patch layers, the silent journal open, the version guard that could only succeed once - marked as found live, while the suites and the restart each catch a different class of defect."
 				>
 					<p>
-						Every real bug - the shadowed patch layers, the silent journal open, the
-						version guard that could only succeed once - was found{" "}
-						<strong>live</strong>, not by the smokes.
+						EVERY real bug - the shadowed patch layers, the silent journal open, the
+						version guard that could ONLY succeed once - was found{" "}
+						<strong>live</strong>, NOT by the smokes.
 					</p>
 					<p>
-						That asymmetry is the story's spine, and the sections below keep it honest:
-						what the suites caught, what only a restart could catch, and which two
+						That asymmetry is the story's spine, and the sections below keep it honest.
+						What the suites caught, what ONLY a restart could catch, and which two
 						theories died on the way to the truth.
 					</p>
 				</Concept>
@@ -368,13 +372,14 @@ const Lessons = [
 				>
 					<p>
 						The spine underneath the counts: the ledger strings are the family's{" "}
-						<strong>public interface</strong> - the only observable that survives a
-						framework port - so renames and re-implementations change mechanics, never
+						<strong>public interface</strong> - the ONLY observable that survives a
+						framework port.
+						Renames and re-implementations change mechanics, NEVER
 						the bytes the suites assert.
 					</p>
 					<p>
 						Three implementations hold that contract: <strong>Boilerplate</strong> (the
-						live truth, still running on this host), <strong>Classic</strong> (the
+						LIVE truth, still running on this host), <strong>Classic</strong> (the
 						anonymized release) and <strong>Effect-TS</strong> (the port - built for
 						external traceability, ecosystem interop and hooking other transformers,
 						register #13).
@@ -410,7 +415,7 @@ const Lessons = [
 					<p>
 						Three independent hooks - the package governor, the package
 						pinner, the <BrandIcon Name="rust" /> <code class="code-token">cargo</code> governor - plus the dash
-						normalizer, each carrying its own
+						normalizer, EACH carrying its own
 						copy of the same machinery: ledgers, exclusion matching, policy loading,
 						guarded writes, wiring, schemas.
 					</p>
@@ -421,10 +426,10 @@ const Lessons = [
 					Diagram={`The consolidation (49e5b3d, 859f16a, 018919c) onto one factory service - ${History.OriginMethods} methods, one transform contract, and the ledger strings owned by the modules themselves.`}
 				>
 					<p>
-						Consolidate onto <strong>one factory service</strong>{" "}
+						Consolidate onto <strong>ONE factory service</strong>{" "}
 						(<code>49e5b3d</code>, <code>859f16a</code>,{" "}
 						<code>018919c</code>)
-						- {History.OriginMethods} methods, one transform contract, and the ledger strings owned by the
+						- {History.OriginMethods} methods, ONE transform contract, and the ledger strings owned by the
 						modules themselves.
 					</p>
 				</Concept>
@@ -436,7 +441,8 @@ const Lessons = [
 					<p>
 						The <code>Wire</code>/<code>Attach</code>/
 						<code>Continue</code> seam trio, and a transform leaf the factory drives but
-						never absorbs - each hook's transforms stay its identity.
+						NEVER absorbs.
+						EACH hook's transforms stay its identity.
 					</p>
 				</Concept>
 				<Concept
@@ -445,7 +451,7 @@ const Lessons = [
 					Diagram={`Five bundles green, ${History.OriginChecks} checks, and every ledger string byte-identical to pre-refactor behavior, smoke-asserted.`}
 				>
 					<p>
-						Five bundles green, {History.OriginChecks} checks, and every ledger string
+						Five bundles green, {History.OriginChecks} checks, and EVERY ledger string
 						byte-identical to pre-refactor behavior, smoke-asserted.
 					</p>
 				</Concept>
@@ -455,13 +461,15 @@ const Lessons = [
 					Diagram={`The factory's seam table growing as later phases move machinery in - by insertion (Write landing at the SCHEME's ${Scheme.Write}, renumbering everything after it), by alias (GuardedWrite sharing ${Scheme.Write}) and by uncounted helpers (UpdateKey, ${Scheme.UpdateKey}).`}
 				>
 					<p>
-						The factory's page shows the seam table this era produced; it has since grown
+						The factory's page shows the seam table this era produced.
+						It has since grown
 						from {History.OriginMethods} to {Methods.Count} methods as later phases moved machinery in.
 					</p>
 					<p>
 						The growth happened by insertion (Write landed at the{" "}
 						<span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />SCHEME</span>'s {Scheme.Write},
-						renumbering everything after it), by alias (GuardedWrite shares {Scheme.Write}) and by
+						renumbering everything after it).
+						It also happened by alias (GuardedWrite shares {Scheme.Write}) and by
 						uncounted helpers (<code class="code-token">UpdateKey</code>, {Scheme.UpdateKey}).
 					</p>
 				</Concept>
@@ -482,13 +490,15 @@ const Lessons = [
 					Diagram="The loader contract: a hook's inject and Config sitting on the loader's default export object, and apply returning nothing - a returned value silently killing event delivery."
 				>
 					<p>
-						Two live-verified fixes from this era never regressed since: a hook's{" "}
+						Two live-verified fixes from this era NEVER regressed since: a hook's{" "}
 						<code>inject</code> and <code>Config</code> must sit on the loader's default
-						export object, and <code>apply</code> must return nothing - a returned value
+						export object, and <code>apply</code> must return nothing.
+						A returned value
 						silently kills event delivery.
 					</p>
 					<p>
-						Both are the kind of bug no type checker sees; both were found with a restart
+						BOTH are the kind of bug NO type checker sees.
+						BOTH were found with a restart
 						and a missing ledger line.
 					</p>
 				</Concept>
@@ -508,10 +518,10 @@ const Lessons = [
 					Diagram="A confirmation agent re-verifying all five bundles - the three findings, each one a finding with a fix, none visible from the passing smokes alone."
 				>
 					<p>
-						A confirmation agent re-verified all five bundles and found three things that
+						A confirmation agent re-verified ALL five bundles and found three things that
 						rewrote the queue.
 					</p>
-					<p>Each is a finding with a fix; none was visible from the passing smokes alone.</p>
+					<p>EACH is a finding with a fix. NONE was visible from the passing smokes alone.</p>
 				</Concept>
 			</div>
 			<div class="grid grid--2">
@@ -538,7 +548,7 @@ const Lessons = [
 				>
 					<ul class="concept-values">
 						<li>
-							The module terminology rename (<code>3c29108</code> - mechanics only, the{" "}
+							The module terminology rename (<code>3c29108</code> - mechanics ONLY, the{" "}
 							<code>cargo flavor</code> literal in the activation string stays).
 						</li>
 						<li>
@@ -558,11 +568,11 @@ const Lessons = [
 					Diagram="The smoke suites living in /tmp and being lost once - replayed from the session archives step by step, then archived to ~/.dsh/smokes/ forever after."
 				>
 					<p>
-						One operational beat worth keeping: the smoke suites lived in{" "}
+						ONE operational beat worth keeping: the smoke suites lived in{" "}
 						<code>/tmp</code> and were lost once - replayed from the session archives step
 						by step, then archived to <code>~/.dsh/smokes/</code> forever after.
 					</p>
-					<p>The arbiter must not be disposable.</p>
+					<p>The arbiter must NOT be disposable.</p>
 				</Concept>
 			</div>
 		</section>
@@ -578,9 +588,9 @@ const Lessons = [
 				>
 					<p>
 						It exercised everything the smokes had proven: the
-						governor&nbsp;+&nbsp;pinner interlock on one manifest write, the update stages
+						governor&nbsp;+&nbsp;pinner interlock on ONE manifest write, the update stages
 						as real jobs, the cargo's actual <code>cargo upgrade</code> with the full
-						argv, the dash normalizer counting replacements in live streams.
+						argv, the dash normalizer counting replacements in LIVE streams.
 					</p>
 				</Concept>
 				<Concept
@@ -591,13 +601,16 @@ const Lessons = [
 					<p>
 						The{" "}
 						<BrandIcon Name="deepseek" /> harness's <a href={Link(Links.DeepSeekHarness, "packages/storage/storage-domain")}>storage domain</a>
-						enforces <strong>one open per name</strong>, so the shared journal domain was
+						enforces <strong>ONE open per name</strong>.
+						So the shared journal domain was
 						single-winner per boot.
 					</p>
 					<p>
-						At that boot only the pinner's records landed; the governor's and the cargo's
-						silently never did - while the human ledger files remained the complete
-						record, which is the only reason the loss was even noticed.
+						At that boot ONLY the pinner's records landed.
+						The governor's and the cargo's
+						silently NEVER did.
+						The human ledger files remained the complete
+						record, which is the ONLY reason the loss was even noticed.
 					</p>
 				</Concept>
 			</div>
@@ -608,8 +621,8 @@ const Lessons = [
 					Diagram="The first successful open binding its handle on the factory instance (952eaa1) with every module's records routing through it - then the boot-window race (aa53c91): records journaled before any open completes buffering in a capped, drop-when-full pre-bind queue, draining with timestamps preserved - the three-stage routing of shared sink, pre-bind buffer, then per-state fallback."
 				>
 					<p>
-						The first successful open binds its handle on the factory instance (
-						<code>952eaa1</code>), and every module's records route through it.
+						THE FIRST successful open binds its handle on the factory instance (
+						<code>952eaa1</code>), and EVERY module's records route through it.
 					</p>
 					<p>
 						The boot-window race came next (<code>aa53c91</code>): records journaled

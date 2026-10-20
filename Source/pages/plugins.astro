@@ -40,7 +40,7 @@ const Governance = [
 		Role: "ROLE: GOVERNOR",
 		Tags: "governor manifest package hook",
 		Sentence: Families.GovernorPackage,
-		Desc: "The silent package.json governor: hooks [fs/observed](Harness:packages/fs/fs/src/index.ts), rewrites chain-governed pins to the effective registry's resolved versions, and runs the update stage as a detached, contained continuation.",
+		Desc: "The silent package.json governor. Hooks [fs/observed](Harness:packages/fs/fs/src/index.ts). Rewrites chain-governed pins to the effective registry's resolved versions. Runs the update stage as a detached, contained continuation.",
 		Install: `npm install @playform/hook-dsh-package-governor@${Versions.Release}`,
 	},
 	{
@@ -48,7 +48,7 @@ const Governance = [
 		Role: "ROLE: PINNER",
 		Tags: "pinner manifest package hook",
 		Sentence: Families.PinnerPackage,
-		Desc: "The silent package.json version pinner: hooks [fs/observed](Harness:packages/fs/fs/src/index.ts) and deterministically rewrites every ranged dependency version to its static version, protected by a [pin-policy keep-list](Ours:Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts).",
+		Desc: "The silent package.json version pinner. Hooks [fs/observed](Harness:packages/fs/fs/src/index.ts) and deterministically rewrites EVERY ranged dependency version to its static version. Protected by a [pin-policy keep-list](Ours:Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts).",
 		Install: `npm install @playform/hook-dsh-package-pinner@${Versions.Release}`,
 	},
 	{
@@ -67,7 +67,7 @@ const Guardians = [
 		Role: "ROLE: COMPRESSOR",
 		Tags: "ccr compression retrieve hook",
 		Sentence: Families.CCR,
-		Desc: "The tool-output compressor: hooks the [tools/post-execute](Harness:docs/subsystems/tools.md) waterfall and replaces oversized results of the allow-listed target tools with a one-line type-aware preview plus a `<<<CCR:hash|type|size>>>` retrieval marker - gated on thresholdBytes x the per-type multipliers, with auto-expand returning small results FULL and the original kept retrievable through the registered ccr_retrieve tool over the sha256-24 LRU store.",
+		Desc: "The tool-output compressor. Hooks the [tools/post-execute](Harness:docs/subsystems/tools.md) waterfall. Replaces oversized results of the allow-listed target tools with a one-line type-aware preview plus a `<<<CCR:hash|type|size>>>` retrieval marker. Gated on thresholdBytes x the per-type multipliers, with auto-expand returning small results FULL. The original stays retrievable through the registered ccr_retrieve tool over the sha256-24 LRU store.",
 		Install: `npm install @playform/hook-dsh-ccr@${Versions.Release}`,
 	},
 	{
@@ -75,7 +75,7 @@ const Guardians = [
 		Role: "ROLE: COACH",
 		Tags: "coach guardian terminal hook",
 		Sentence: Families.Coach,
-		Desc: "The terminal coach: judges every bash/pwsh call through a four-tier ladder - tier-0 ledger lines for every offense, tier-1 live-fetched coaching notes at the strike threshold, tier-2 a persistent system-prompt discipline section, tier-3 (opt-in) tools/pre-execute denies - teaching the model to stop using the terminal for file content.",
+		Desc: "The terminal coach. Judges EVERY bash/pwsh call through a four-tier ladder - tier-0 ledger lines for every offense, tier-1 live-fetched coaching notes at the strike threshold, tier-2 a persistent system-prompt discipline section, tier-3 (opt-in) tools/pre-execute denies. Teaches the model to stop using the terminal for file content.",
 		Install: `npm install @playform/hook-dsh-tool-coach@${Versions.Release}`,
 	},
 ];
@@ -86,7 +86,7 @@ const Live = [
 		Role: "ROLE: LIVE PROMPT",
 		Tags: "live prompt containers hook",
 		Sentence: Families.LiveContainers,
-		Desc: "The live-containers hook: keeps dynamic, modifiable conversation blocks in the system prompt - each enabled block a labeled stanza recomputed at every request (the canonical example: a time block always holding the current time at ask-time), appended as ONE [system-prompt/assemble](Harness:docs/event-producer-consumer.md) section with interpolate: false, each block inside a fixed LIVE CONTAINER frame so the model cannot mistake it for harness state. Ships DISABLED - the IDLE-forever posture.",
+		Desc: "The live-containers hook. Keeps dynamic, modifiable conversation blocks in the system prompt. Each enabled block a labeled stanza recomputed at EVERY request (the canonical example: a time block always holding the current time at ask-time). Appended as ONE [system-prompt/assemble](Harness:docs/event-producer-consumer.md) section with interpolate: false. Each block inside a fixed LIVE CONTAINER frame so the model cannot mistake it for harness state. Ships DISABLED - the IDLE-forever posture.",
 		Install: `npm install @playform/hook-dsh-live-containers@${Versions.Release}`,
 	},
 ];
@@ -145,7 +145,7 @@ const Normalize = [
 		Flavor: "FILE",
 		Tags: "normalize flavor file stream hook tool",
 		Sentence: Families.File,
-		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing only when something changed.",
+		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing ONLY when something changed.",
 		Install: `npm install @playform/hook-dsh-normalize-file@${Versions.Release}`,
 	},
 ];
@@ -202,7 +202,7 @@ const Registry = [
 		<PageHero
 			Title="Plugins"
 			Sub={
-				'The fifteen TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity: the scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.\nThe install rows show the published npm form (npm install @playform/<pkg>@0.0.1) - all fifteen packages are on npm at the v0.0.1 release; the /setup/ flow wires them into a profile.'
+				'The fifteen TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity: the scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.\nThe install rows show the published npm form (npm install @playform/<pkg>@0.0.1) - ALL fifteen packages are on npm at the v0.0.1 release; the /setup/ flow wires them into a profile.'
 			}
 		/>
 
@@ -437,7 +437,7 @@ const Registry = [
 					Diagram="The fifteen plugins attaching to the DeepSeek Harness through the fixed seam set - the [model stream waterfall](Harness:packages/llm/llm/src/index.ts), the [filesystem events](Harness:packages/fs/fs/src/index.ts), the tool layer, the [tools/post-execute waterfall](Harness:docs/subsystems/tools.md), the agent/pre-step step boundary, the commands service, the [subprocess seam](Harness:packages/subprocess/subprocess), the [jobs envelope](Harness:packages/jobs), the [storage domain](Harness:packages/storage/storage-domain) and the session ledger - with the DeepSeek internals each seam works through."
 				>
 					<p>
-						Every plugin operates inside the <BrandIcon Name="deepseek" /> DeepSeek
+						EVERY plugin operates inside the <BrandIcon Name="deepseek" /> DeepSeek
 						Harness through a fixed set of seams - the{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}>model stream waterfall</a>
 						, the{" "}
@@ -624,12 +624,12 @@ const Registry = [
 					Diagram="Every suite loading the REAL built Target of its bundle and asserting the ledger strings byte-identically - the Effect-TS tree held to the same bar, its swap-in gated on its own parity."
 				>
 					<p>
-						Every suite loads the REAL built Target of its
+						EVERY suite loads the REAL built Target of its
 						bundle and asserts the ledger strings byte-identically.
 					</p>
 					<p>
 						<BrandIcon Name="effect" />{" "}
-						The Effect-TS tree is held to the same bar - its swap-in happens only after
+						The Effect-TS tree is held to the same bar - its swap-in happens ONLY after
 						its own smokes prove parity with these numbers.
 					</p>
 				</Concept>
@@ -823,10 +823,11 @@ const Registry = [
 					</p>
 					<p>
 						The two new suites shipped with parity: the ccr suite runs{" "}
-						{Counts.CCR.EffectTS} checks in both trees and the tool-coach suite{" "}
-						{Counts.Coach.EffectTS} in both - the ccr suite covering the gate order,
-						the marker bytes, the round-trip retrieval and the context-engine math,
-						the tool-coach suite covering the four tiers, the live fetch and the
+						{Counts.CCR.EffectTS} checks in BOTH trees and the tool-coach suite{" "}
+						{Counts.Coach.EffectTS} in BOTH.
+						The ccr suite covers the gate order, the marker bytes, the round-trip
+						retrieval and the context-engine math.
+						The tool-coach suite covers the four tiers, the live fetch and the
 						tracing-hygiene mode.
 					</p>
 				</Concept>
@@ -836,9 +837,9 @@ const Registry = [
 					Diagram="The two proofs side by side - the smokes proving the mechanics, the live battery proving the wiring - with the defects that were found live, not by the smokes."
 				>
 					<p>
-						The smokes prove the mechanics; the live battery proves the wiring - every
-						defect below was found live, not by the smokes, which is exactly why both
-						exist.
+						The smokes prove the mechanics; the live battery proves the wiring.
+						EVERY defect below was found live, not by the smokes, which is exactly why
+						both exist.
 					</p>
 				</Concept>
 			</div>
@@ -865,14 +866,14 @@ const Registry = [
 								"Classic/packages/plugin-dsh-factory/cordis.patch.yml",
 							)}
 						><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" />cordis.patch.yml</span></a>{" "}
-						patch config REPLACES the entry config wholesale - the schema defaults
-						(mutationTools) were shadowed in deployment, so the raw-write's fs/observed
-						never triggered the chain.
+						patch config REPLACES the entry config wholesale.
+						The schema defaults (mutationTools) were shadowed in deployment.
+						So the raw-write's fs/observed NEVER triggered the chain.
 					</p>
 					<p>
 						Solved: add raw-write to the three patch layers, and verify the LIVE
-						effective config from the bundle layers - the Config inspect provider
-						projects the schema, not the resolved config.
+						effective config from the bundle layers.
+						The Config inspect provider projects the schema, not the resolved config.
 					</p>
 				</Concept>
 				<Concept
@@ -883,8 +884,9 @@ const Registry = [
 					<Badge Variant="outline"><Fragment set:html={DotSep("LIVE-FOUND · FIXED")} /></Badge>
 					<p>
 						In the multi-step direct-govern fold every step wrote with the SAME observed
-						version - only the first write could succeed, the later steps failed the
-						stale-version check silently.
+						version.
+						ONLY the first write could succeed.
+						The later steps failed the stale-version check silently.
 					</p>
 					<p>
 						Solved:{" "}
@@ -895,7 +897,8 @@ const Registry = [
 							)}
 						>the sequential fold</a>{" "}
 						awaits each step's chain, and the chain pass stats the target before its
-						write (the fresh-version pattern) - the fold converges in any step order.
+						write (the fresh-version pattern).
+						The fold converges in ANY step order.
 					</p>
 				</Concept>
 				<Concept
@@ -912,8 +915,8 @@ const Registry = [
 								"Classic/packages/plugin-dsh-factory/Source/Function/Journal.ts",
 							)}
 						>v2 domain</a>{" "}
-						open failed SILENTLY against the v1 file (the exact-equality version check)
-						- the silence made it undiagnosable.
+						open failed SILENTLY against the v1 file (the exact-equality version check).
+						The silence made it undiagnosable.
 					</p>
 					<p>
 						Solved: per-record layout + {Migration.Sentence()} + backup-and-skip for

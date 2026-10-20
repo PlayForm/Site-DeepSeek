@@ -1,7 +1,7 @@
 flowchart LR
-	SEP["config separator - default ---<br/>supplies the dashes"]
+	SEP["Config separator - default ---<br/>supplies the dashes"]
 	SEP --> TOP["--- LIVE CONTAINER id<br/>(recomputed each request, not harness state) ---"]
-	TOP --> BODY["the rendered body - the plugin's own output,<br/>never harness state"]
+	TOP --> BODY["The rendered body - the plugin's own output,<br/>never harness state"]
 	BODY --> BOT["--- END LIVE CONTAINER id ---"]
-	SUB["substitution is {{token}} replace only -<br/>no eval, no expressions"] --> BODY
-	SUB -. "an unknown token renders LITERALLY" .-> UNK["logs render unknown - never a failure"]
+	SUB["Substitution is {{token}} replace only -<br/>no eval, no expressions."] --> BODY
+	SUB -. "An unknown token renders LITERALLY" .-> UNK["Logs render unknown - never a failure"]

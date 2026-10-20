@@ -1,12 +1,12 @@
 flowchart LR
-	ENGINE["the dynamic instruction engine"]
+	ENGINE["The dynamic instruction engine"]
 	FETCH["ctx.tools.schemas() - the live fetch,<br/>through the same injection the model's own tools arrive by"]
-	DATA["per mapped tool - the name, the FIRST SENTENCE of the<br/>description (at most 120 chars, parenthesis-aware),<br/>the primary parameter key (parameters.properties[0])"]
-	T13["tier 1 and tier 3 fetch per note"]
-	T2["tier 2 caches per sectionTtl (20) judged calls<br/>and rebuilds on tools/change"]
-	NOTE["every note names the correct tool<br/>with its LIVE registry description"]
-	STATIC["the static STATIC_TOOL_LINES table<br/>logs schema fetch failed -> static fallback"]
-	WF["the waterfall continues -<br/>a note never fails a waterfall"]
+	DATA["Per mapped tool - the name, the FIRST SENTENCE of the<br/>description (at most 120 chars, parenthesis-aware),<br/>the primary parameter key (parameters.properties[0])"]
+	T13["Tier 1 and tier 3 fetch per note."]
+	T2["Tier 2 caches per sectionTtl (20) judged calls<br/>and rebuilds on tools/change."]
+	NOTE["Every note names the correct tool<br/>with its LIVE registry description."]
+	STATIC["The static STATIC_TOOL_LINES table<br/>logs schema fetch failed -> static fallback"]
+	WF["The waterfall continues -<br/>a note never fails a waterfall."]
 	T13 --> FETCH
 	T2 --> FETCH
 	FETCH --> DATA

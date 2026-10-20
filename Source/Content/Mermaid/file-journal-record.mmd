@@ -1,6 +1,6 @@
 flowchart LR
-	W["write with count N &gt; 0"] --> L["human ledger - the count line"]
-	W --> J["one normalized record<br/>event normalized - path = the target's display path<br/>detail byte-identical to the count line"]
-	J --> S{"storage facility?"}
-	S -- "present" --> V["package_governance v2 domain"]
-	S -- "absent" --> D["buffer or drop<br/>the human ledger stays the complete record"]
+	W["Write with count N &gt; 0"] --> L["Human ledger - the count line"]
+	W --> J["One normalized record<br/>event normalized - path = the target's display path<br/>detail byte-identical to the count line"]
+	J --> S{"Storage facility?"}
+	S -- "Present" --> V["package_governance v2 domain"]
+	S -- "Absent" --> D["Buffer or drop<br/>the human ledger stays the complete record"]

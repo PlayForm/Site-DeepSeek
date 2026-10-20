@@ -1,10 +1,10 @@
 flowchart LR
 	COACH["hook-dsh-tool-coach -<br/>a NON-MANIFEST factory flavor"]
 	INJ["inject: [pluginFactory, tools]"]
-	SCHEMA["the config schema composed by the factory's<br/>standalone Schema(false, ...) helper"]
-	NOADV["no updateCooldownMs, no mutationTools,<br/>no policyFile, no exclude -<br/>machinery the module has none of"]
-	P10["the factory's loader/volatile-update refresh (P10)<br/>registered by the State builder"]
-	VOL["every knob volatile - hot-edited without remounting,<br/>a flip lands on the next judged call"]
+	SCHEMA["The config schema composed by the factory's<br/>standalone Schema(false, ...) helper"]
+	NOADV["No updateCooldownMs, no mutationTools,<br/>no policyFile, no exclude -<br/>machinery the module has none of"]
+	P10["The factory's loader/volatile-update refresh (P10)<br/>registered by the State builder"]
+	VOL["Every knob volatile - hot-edited without remounting,<br/>a flip lands on the next judged call."]
 	COACH --> INJ
 	INJ --> SCHEMA
 	SCHEMA -. "hooks the tool waterfalls, not fs/observed -<br/>the schema never advertises" .-> NOADV

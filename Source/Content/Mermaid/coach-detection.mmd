@@ -1,14 +1,14 @@
 flowchart LR
-	PIPE["a judged terminal call - one pipeline"]
-	SPLIT["segments split on the shell separators<br/>(semicolon, and, or, background)"]
-	NORM["normalize first - heredoc bodies stripped, subshells<br/>and backticks wrapped, variables marked, IFS to space,<br/>quote layers removed, leading command word lowercased"]
-	EX["exemptions checked per pipeline AFTER normalization -<br/>an exempt head dominates its pipe<br/>(a git diff to a patch file is exempt)"]
-	EXLOG["the exempt ledger line -<br/>the pipeline is not an offense"]
-	ROWS["the pattern rows - 24 built-in DEFAULT_PATTERNS<br/>user rows appended, no built-in duplicates - fail-loud"]
-	MARK["the intent-marker scan"]
-	CRAFT["the craft library for the obfuscated variants"]
-	CATCH["the catch-all - any write-intent marker on a<br/>non-/dev/null path lands as write"]
-	CLASSES["five classes - write, read, search, discovery, control<br/>class-priority resolution across chained segments"]
+	PIPE["A judged terminal call - one pipeline"]
+	SPLIT["Segments split on the shell separators<br/>(semicolon, and, or, background)"]
+	NORM["Normalize first - heredoc bodies stripped, subshells<br/>and backticks wrapped, variables marked, IFS to space,<br/>quote layers removed, leading command word lowercased"]
+	EX["Exemptions checked per pipeline AFTER normalization -<br/>an exempt head dominates its pipe<br/>(a git diff to a patch file is exempt)"]
+	EXLOG["The exempt ledger line -<br/>the pipeline is not an offense."]
+	ROWS["The pattern rows - 24 built-in DEFAULT_PATTERNS<br/>user rows appended, no built-in duplicates - fail-loud"]
+	MARK["The intent-marker scan"]
+	CRAFT["The craft library for the obfuscated variants"]
+	CATCH["The catch-all - any write-intent marker on a<br/>non-/dev/null path lands as write."]
+	CLASSES["Five classes - write, read, search, discovery, control<br/>class-priority resolution across chained segments"]
 	PIPE --> SPLIT
 	SPLIT --> NORM
 	NORM --> EX

@@ -51,7 +51,7 @@ const Imports = [
 const Related = [
 	{
 		Name: "plugin-dsh-factory",
-		Desc: "The family's parent service - deliberately re-exports NOTHING from the core (its service surface stays stable); the hooks import the core's helpers directly.",
+		Desc: "The family's parent service - deliberately re-exports NOTHING from the core (its service surface stays stable). The hooks import the core's helpers directly.",
 	},
 	{
 		Name: "hook-dsh-normalize-dash",
@@ -66,7 +66,7 @@ const Related = [
 
 <Base
 	Title="hook-dsh-core - DSH Family @ PlayForm"
-	Description={`${Families.Core} - the pure machinery layer of the DeepSeek Harness plugin family: the governance helpers and the stream-normalization tables and dispatch (dependency-free in CLASSIC; effect-backed in EFFECT-TS), consumed by all thirteen other packages.`}
+	Description={`${Families.Core} - the pure machinery layer of the DeepSeek Harness plugin family: the governance helpers and the stream-normalization tables and dispatch (dependency-free in CLASSIC; effect-backed in EFFECT-TS). Consumed by ALL thirteen other packages.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -85,7 +85,8 @@ const Related = [
 			</p>
 			<p class="page-hero__sub">
 				The pure machinery layer of the DSH plugin family: the harness-free
-				commonalities both halves of the family are built from - one library, two halves,
+				commonalities BOTH halves of the family are built from.
+				ONE library, two halves,
 				explained as diagram-first concept blocks below.
 			</p>
 		</section>
@@ -125,13 +126,14 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						The base library of the whole family ({Families.Core}) -
-						parent of none, child of none - consumed by all thirteen other packages.
+						parent of NONE, child of NONE - consumed by ALL thirteen other packages.
 					</p>
 
 					<p class="page-hero__sub">
 						The governance half <ArrowIcon Direction="right" Tone="accent" /> the
 						factory-era governance hooks (governor-package, pinner-package,
-						governor-cargo); the normalize half{" "}
+						governor-cargo).
+						The normalize half{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> the six stream normalizers
 						(normalize-dash, quotes, ellipsis, spaces, invisible, fullwidth).
 					</p>
@@ -143,10 +145,10 @@ const Related = [
 					Diagram="The core as a plain library dependency: no [cordis.patch.yml]('Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml'), no loader contract, no dsh plugin add row - publishable on its own and built with the same prepublishOnly sequence as the family bundles."
 				>
 					<p class="page-hero__sub">
-						The core is <strong>not a plugin bundle</strong>: no{" "}
-						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" /><code>cordis.patch.yml</code></span></a>, no loader contract, publishable on its own -
-						consumers link it as a plain library dependency, not as a bundle row, and
-						there is no <code>dsh plugin add</code> row for it.
+						The core is <strong>NOT a plugin bundle</strong>: no{" "}
+						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/cordis.patch.yml")}><span class="file-mention"><BrandIcon Name="file-yaml" Size="0.9em" /><code>cordis.patch.yml</code></span></a>, NO loader contract, publishable on its own -
+						consumers link it as a plain library dependency, NOT as a bundle row.
+						There is NO <code>dsh plugin add</code> row for it.
 					</p>
 
 					<p class="page-hero__sub">
@@ -154,7 +156,7 @@ const Related = [
 						ecosystem: TypeScript-first <code>Source/</code>{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> <code>Target/</code>, the
 						deterministic @playform build, prepublishOnly-only - the same conventions as
-						every other @playform package.
+						EVERY other @playform package.
 					</p>
 				</Concept>
 
@@ -170,7 +172,8 @@ const Related = [
 						same contracts with <code>effect</code> {Versions.Effect}{" "}
 						as the single runtime dependency - same behavior, same smokes, different
 						runtime plumbing.</p>
-					<p class="page-hero__sub">The inspect card's ZERO is the CLASSIC variant's fact; the{" "}
+					<p class="page-hero__sub">The inspect card's ZERO is the CLASSIC variant's fact.
+						The{" "}
 						<code>effect</code> {Versions.Effect} dependency belongs to the EFFECT-TS
 						variant.
 					</p>
@@ -187,7 +190,8 @@ const Related = [
 					Diagram="The core outside the plugin loader: no [cordis.patch.yml]('Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml'), no seams injected, no registration - the family's plugins carrying the machinery inside their own listeners and passes."
 				>
 					<p class="page-hero__sub">
-						The core is not a plugin and touches no seam itself - it is the shared
+						The core is NOT a plugin and touches NO seam itself.
+						It is the shared
 						machinery the family's plugins are made of, running wherever they run.
 					</p>
 				</Concept>
@@ -199,13 +203,14 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						The <a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a> seam supplies the stream-normalization half the
-						six flavors dispatch through: the six character tables, the two generic
+						six flavors dispatch through.
+						The half is the six character tables, the two generic
 						replacers and the per-chunk/per-block dispatch running inside each flavor's{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a> listener.
 					</p>
 
 					<p class="page-hero__sub">
-						Outcome: normalized text reaching the live UI and the durable transcript,
+						Outcome: normalized text reaching the LIVE UI and the durable transcript,
 						byte-predictable per chunk.
 					</p>
 				</Concept>
@@ -217,14 +222,15 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						The <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> + <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/write-intent</code></a> seams supply the
-						governance half the three governance hooks compose their passes from: the
+						governance half the three governance hooks compose their passes from.
+						The half is the
 						section list, the exclusion fence, the policy loader, <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and
 						the update-stage envelope.
 					</p>
 
 					<p class="page-hero__sub">
 						Outcome: governed manifests with the write's tool result unchanged (the
-						author never learns).
+						author NEVER learns).
 					</p>
 				</Concept>
 
@@ -234,14 +240,16 @@ const Related = [
 					Diagram="The ledger/session seam: the core supplying the byte-exact mechanics, every consumer logging through its own Append."
 				>
 					<p class="page-hero__sub">
-						The core owns no ledger file or module-specific ledger vocabulary and writes
-						nothing - every consumer logs through its own Append; the core only supplies
+						The core owns NO ledger file or module-specific ledger vocabulary and writes
+						nothing.
+						EVERY consumer logs through its own Append.
+						The core ONLY supplies
 						the byte-exact mechanics (the suppression composer, the diagnostics, the
 						refusal line, the <code>activated (...)</code> template).
 					</p>
 
 					<p class="page-hero__sub">
-						Outcome: identical line shapes across all fifteen plugins, in each plugin's
+						Outcome: identical line shapes across ALL fifteen plugins, in EACH plugin's
 						own ledger.
 					</p>
 				</Concept>
@@ -262,7 +270,7 @@ const Related = [
 						policy loader, <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> - and, for the normalize flavors, the same
 						per-chunk dispatch, block-end normalizer and character tables, copy-pasted
 						per flavor.</p>
-					<p class="page-hero__sub">Every fix had to be applied N times.
+					<p class="page-hero__sub">EVERY fix had to be applied N times.
 					
 					</p>
 				</Concept>
@@ -273,7 +281,7 @@ const Related = [
 					Diagram="The repeated copies converging on the core's single implementations, importable by any consumer."
 				>
 					<p class="page-hero__sub">
-						The core makes each of them exist <strong>once</strong>, importable by any
+						The core makes EACH of them exist <strong>once</strong>, importable by ANY
 						consumer.
 					</p>
 				</Concept>
@@ -306,7 +314,7 @@ const Related = [
 
 					<p class="page-hero__sub">
 						Consumers import the helpers directly.</p>
-					<p class="page-hero__sub">The core itself has no plugin loader
+					<p class="page-hero__sub">The core itself has NO plugin loader
 						contract.
 					
 					</p>
@@ -420,7 +428,7 @@ const Related = [
 
 					<p class="page-hero__sub">
 						The consumer sends the line to its logger.</p>
-					<p class="page-hero__sub">It is not a ledger entry.
+					<p class="page-hero__sub">It is NOT a ledger entry.
 					
 					</p>
 				</Concept>
@@ -450,14 +458,14 @@ const Related = [
 					Diagram="Show current and proposed documents being compared. Differences confined to declared dependency sections pass this guard; a difference elsewhere produces a refusal line and prevents the rewrite."
 				>
 					<p class="page-hero__sub">
-						<code>Refusal(...)</code> checks that only declared dependency sections
+						<code>Refusal(...)</code> checks that ONLY declared dependency sections
 						differ between the current and proposed documents.
 					</p>
 
 					<p class="page-hero__sub">
 						A difference anywhere else produces the shared refusal line.</p>
 					<p class="page-hero__sub">The consumer
-						must not apply that rewrite.
+						must NOT apply that rewrite.
 					
 					</p>
 				</Concept>
@@ -520,7 +528,7 @@ const Related = [
 					Diagram="Show Dashes, Quotes, Ellipsis, Spaces, Invisible, and Fullwidth as independent flavor inputs. Distinguish character classes from character maps; do not imply that every flavor applies every table."
 				>
 					<p class="page-hero__sub">
-						The normalization half supplies six character classes or maps, each used by
+						The normalization half supplies six character classes or maps, EACH used by
 						its corresponding flavor.
 					</p>
 
@@ -562,7 +570,7 @@ const Related = [
 					<p class="page-hero__sub">
 						A function replacer keeps replacement-string dollar patterns from being
 						interpreted.</p>
-					<p class="page-hero__sub">No shared
+					<p class="page-hero__sub">NO shared
 						<code>lastIndex</code> state is reused.
 					
 					</p>
@@ -590,8 +598,8 @@ const Related = [
 					Diagram="Show both replacers returning { text, count }. Show count === 0 leading the dispatch caller to return its original chunk or block object by identity."
 				>
 					<p class="page-hero__sub">
-						Both replacers return
-						<code>{"{ text, count }"}</code>.<code>count === 0</code> signals that no
+						BOTH replacers return
+						<code>{"{ text, count }"}</code>.<code>count === 0</code> signals that NO
 						replacement was made.
 					</p>
 
@@ -659,7 +667,8 @@ const Related = [
 						When enabled, <code>edit</code>, <code>raw-write</code>, and{" "}
 						<code>normalize-file</code> calls still pass through by identity.</p>
 					<p class="page-hero__sub">Raw-marked
-						calls use a separate bypass; other eligible calls receive the transform.
+						calls use a separate bypass.
+						Other eligible calls receive the transform.
 					
 					</p>
 				</Concept>
@@ -707,7 +716,7 @@ const Related = [
 					Diagram="A governance hook's listener catch composing the Suppress line from module, kind and cause, and sending it to its logger - never the ledger."
 				>
 					<p class="page-hero__sub">
-						Every contained throw in a governance hook's listener logs the same shape of
+						EVERY contained throw in a governance hook's listener logs the same shape of
 						line through <code>Suppress</code>:
 					</p>
 
@@ -720,7 +729,7 @@ const Related = [
 					Diagram="The transform calling [Refusal](Ours:Classic/packages/hook-dsh-core/Source/Function/Refusal.ts) before the write: a difference outside the declared dependency sections composing the refusal line and returning null - the rewrite never applied."
 				>
 					<p class="page-hero__sub">
-						Before any write, the transform runs <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> - only the declared
+						Before ANY write, the transform runs <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> - ONLY the declared
 						dependency sections may differ:
 					</p>
 
@@ -746,7 +755,7 @@ const Related = [
 					Diagram="‘he said ‘hello’ — loudly’ entering ReplaceMap with Quotes: the two curly quotes becoming straight, the em dash passing through untouched, count 2."
 				>
 					<p class="page-hero__sub">
-						The map replacer at work - the em dash is the Dashes class's job, not the
+						The map replacer at work - the em dash is the Dashes class's job, NOT the
 						Quotes map's:
 					</p>
 
@@ -776,8 +785,8 @@ const Related = [
 					Diagram="The loader skipping the core entirely: no Config registration, no context, no Schemastery schema, nothing to validate at load."
 				>
 					<p class="page-hero__sub">
-						The core registers no Config and needs none - it is not a plugin: no loader
-						contract, no context, no Schemastery schema, nothing to validate at load.
+						The core registers NO Config and needs NONE - it is NOT a plugin: NO loader
+						contract, NO context, NO Schemastery schema, nothing to validate at load.
 					</p>
 				</Concept>
 
@@ -787,7 +796,7 @@ const Related = [
 					Diagram="Policy's defaults, Replace's replacement and Chunk's injected transform as function parameters, decided by the consuming module's own config."
 				>
 					<p class="page-hero__sub">
-						Every knob it exposes is a function parameter (<code>Policy</code>'s
+						EVERY knob it exposes is a function parameter (<code>Policy</code>'s
 						defaults, <code>Replace</code>'s replacement, <code>Chunk</code>'s injected
 						transform), decided by the consuming module's own config.
 					</p>
@@ -799,7 +808,7 @@ const Related = [
 					Diagram="The two named-export import lines from [@playform/hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source) - the governance helpers on one line, the normalize helpers on the other."
 				>
 					<p class="page-hero__sub">
-						Named exports only - no plugin, no loader contract:
+						Named exports ONLY - NO plugin, NO loader contract:
 					</p>
 
 					<CodeBlock Language="typescript" Source={Imports.join("\n")} />
@@ -816,8 +825,8 @@ const Related = [
 					Diagram="The core with no ledger file, no logger, no plugin - nothing written by the core itself."
 				>
 					<p class="page-hero__sub">
-						The core owns no ledger file or module-specific ledger vocabulary and writes
-						nothing - no plugin, no logger, no ledger file.
+						The core owns NO ledger file or module-specific ledger vocabulary and writes
+						nothing - NO plugin, NO logger, NO ledger file.
 					</p>
 				</Concept>
 
@@ -829,7 +838,7 @@ const Related = [
 					<p class="page-hero__sub">
 						The core supplies the mechanics (the <code>Suppress</code> composer, the{" "}
 						<code>Policy</code> diagnostics, the <code>Refusal</code> line, the{" "}
-						<code>Activate</code> template), and every consumer logs them through its
+						<code>Activate</code> template), and EVERY consumer logs them through its
 						own Append (the factory's ledger service).
 					</p>
 				</Concept>
@@ -840,9 +849,10 @@ const Related = [
 					Diagram="The module name and the activation field list entering the shared mechanics from the consumer side; the template itself carries no module identity."
 				>
 					<p class="page-hero__sub">
-						Nothing in the core ever composes a <code>&lt;Module&gt;:</code> prefix or
+						Nothing in the core EVER composes a <code>&lt;Module&gt;:</code> prefix or
 						an activation proof's field list - the <code>activated (...)</code> template
-						is the mechanics only; the fields are the module's.
+						is the mechanics ONLY.
+						The fields are the module's.
 					</p>
 				</Concept>
 
@@ -853,7 +863,7 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						Suppression lines are logger-only - the consumer sends them to its logger,
-						never the ledger.</p>
+						NEVER the ledger.</p>
 					<p class="page-hero__sub">The policy diagnostics, the refusal line and the{" "}
 						<code>activated (...)</code> proof pass through the consumer's own Append,
 						which composes the logger line and the durable ledger line from the
@@ -884,7 +894,7 @@ const Related = [
 			</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The unit smoke (<span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" />core-smoke.mjs</span> in the family's smokes/ directory)
-				exercises every helper with no fake context at all - {Counts.Core.Classic} checks in
+				exercises EVERY helper with NO fake context at ALL - {Counts.Core.Classic} checks in
 				<BrandIcon Name="typescript" />{" "}
 				CLASSIC, {Counts.Core.EffectTS} in <BrandIcon Name="effect" />{" "}
 				EFFECT-TS.

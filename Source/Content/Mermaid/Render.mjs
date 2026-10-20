@@ -37,7 +37,7 @@ const mermaidUrl = pathToFileURL(
 	join(Here, "../../../node_modules/mermaid/dist/mermaid.esm.min.mjs"),
 ).href;
 
-const PageHtml = `<!DOCTYPE html>
+const PageHTML = `<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8" />
@@ -393,7 +393,7 @@ try {
 	await Page.setViewport({ width: 1600, height: 1200 });
 	// The page must be served from a file:// URL: a module script on an
 	// about:blank origin (setContent) is not allowed to import local files.
-	await writeFile(HostPath, PageHtml, "utf8");
+	await writeFile(HostPath, PageHTML, "utf8");
 	await Page.goto(pathToFileURL(HostPath).href, { waitUntil: "load" });
 	await Page.waitForFunction("window.__ready === true", { timeout: 30000 });
 

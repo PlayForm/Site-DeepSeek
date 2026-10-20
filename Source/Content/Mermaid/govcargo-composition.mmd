@@ -1,6 +1,6 @@
 flowchart LR
-	PREC["composition semantics - this module's precedence"]
+	PREC["Composition semantics - this module's precedence"]
 	CHAIN["chain"] --> STRIP["strip"] --> NORM["normalize"]
-	KEEP["keep-list wins over normalization<br/>never over the chain"]
+	KEEP["Keep-list wins over normalization<br/>never over the chain."]
 	PREC --> CHAIN
 	PREC --> KEEP
