@@ -1,9 +1,8 @@
 ---
 // Terminal install box: hairline panel, white command line, copy button
-// with a transient mono "COPIED" status in primary. The npm form (`npm
-// install @playform/<pkg>@0.0.1`) is the published-route command - the
-// family is on npm (v0.0.1, all 25 packages, provenance-verified), so the
-// label states the release version.
+// with a transient mono "COPIED" status in primary.
+// The npm form (`npm install @playform/<pkg>@0.0.1`) is the published-route command.
+// The family is on npm (v0.0.1, ALL 25 packages, provenance-verified), so the label states the release version.
 import { DotSep } from "@Library/FileIcon";
 import { Versions } from "@Library/Content";
 
@@ -27,8 +26,8 @@ const {
 } = Astro.props;
 
 /** The composed command: the literal Command wins; Pkg is composed against
- * the library's release version; the default is the core hook at that same
- * dynamic version - a single library bump re-versions every install box. */
+ * the library's release version.
+ * The default is the core hook at that same dynamic version - a single library bump re-versions EVERY install box. */
 const Composed =
 	Command ?? (Pkg ? `npm install @playform/${Pkg}@${Versions.Release}` : `npm install @playform/hook-dsh-core@${Versions.Release}`);
 ---
@@ -74,9 +73,8 @@ const Composed =
 </div>
 
 <script>
-	// Copy button: flash the transient mono "COPIED" status. The clipboard
-	// write itself is the global [data-copy] handler in Base.astro (which
-	// also drives the toast and the is-copied button state).
+	// Copy button: flash the transient mono "COPIED" status.
+	// The clipboard write itself is the global [data-copy] handler in Base.astro (which also drives the toast and the is-copied button state).
 	document.querySelectorAll<HTMLElement>(".terminal").forEach((Terminal) => {
 		const Button = Terminal.querySelector(".terminal__copy");
 		const Status = Terminal.querySelector(".terminal__status");

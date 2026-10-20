@@ -1,7 +1,6 @@
 ---
-// Seams: the plugin's integration points with the DeepSeek Harness
-// internals - the actual events, services and facilities the plugin
-// operates through, rendered as a seam table.
+// Seams: the plugin's integration points with the DeepSeek Harness internals.
+// The actual events, services and facilities the plugin operates through, rendered as a seam table.
 import BrandIcon from "@Component/BrandIcon.astro";
 import { Linkify } from "@Library/Links";
 
@@ -30,8 +29,9 @@ const { Seams } = Astro.props;
 			</tr>
 		</thead>
 		<tbody>
-			<!-- The cells render through Linkify: a [text](target) segment in the
-			     plain-text props becomes a safe <a>, everything else stays text. -->
+			<!-- The cells render through Linkify.
+			     A [text](target) segment in the plain-text props becomes a safe <a>.
+			     Everything else stays text. -->
 			{Seams.map((Row) => (
 				<tr>
 					<td>

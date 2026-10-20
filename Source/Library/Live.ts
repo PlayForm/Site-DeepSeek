@@ -1,30 +1,33 @@
-// Live.ts - the build-time data layer: the site's dynamic figures read
-// directly from the monorepo at build time (no runtime fetching).
+// Live.ts - the build-time data layer.
+// The site's dynamic figures are read directly from the monorepo at build
+// time.
+// There is NO runtime fetching.
 //
-// Every value the site renders is pulled here from the REAL sources:
+// EVERY value the site renders is pulled here from the REAL sources:
 //   - the package.json version fields of the three trees (Boilerplate,
-//     Classic, EffectTS); the release version is the UNANIMOUS version of
-//     the Classic + EffectTS release packages (the Boilerplate tree keeps
-//     its historical names and versions, so it is read but never polled
-//     for the release identity);
-//   - the effect dependency pin of the EffectTS packages;
-//   - the per-suite smoke counts, parsed from the two smoke README
-//     manifest lines (Classic/smokes/README.md and EffectTS/smokes/README.md
-//     - the suites are the arbiter, and the manifest line is their printed
-//     summary; the same line Scripts/Drift-Guard.mjs verifies against);
+//     Classic, EffectTS).
+//     The release version is the UNANIMOUS version of the Classic +
+//     EffectTS release packages.
+//     The Boilerplate tree keeps its historical names and versions, so it is
+//     read but NEVER polled for the release identity.
+//   - the effect dependency pin of the EffectTS packages.
+//   - the per-suite smoke counts, parsed from the two smoke README manifest
+//     lines (Classic/smokes/README.md and EffectTS/smokes/README.md).
+//     The suites are the arbiter, and the manifest line is their printed
+//     summary - the same line Scripts/Drift-Guard.mjs verifies against.
 //   - the package, suite, normalizer and stream-flavor counts, derived from
-//     the Classic release tree's package directories;
+//     the Classic release tree's package directories.
 //   - the factory's callable-method count, read from the §2 method sections
-//     of Classic/packages/plugin-dsh-factory/SCHEME.md plus one for the
+//     of Classic/packages/plugin-dsh-factory/SCHEME.md plus ONE for the
 //     shared §2.7 (Write + GuardedWrite), per the scheme's own heading.
 //
 // BUILD-TIME ONLY: this module reads the filesystem with node:fs and is
 // imported by Content.ts, which the .astro frontmatter (the server) imports.
-// It must never be imported from a browser <script> bundle.
+// It must NEVER be imported from a browser <script> bundle.
 //
-// Every reader returns null when its source is missing or unparseable;
-// Content.ts falls back to its documented constants then, so the build
-// never fails on a moved or renamed source.
+// EVERY reader returns null when its source is missing or unparseable.
+// Content.ts falls back to its documented constants then, so the build NEVER
+// fails on a moved or renamed source.
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
@@ -35,7 +38,7 @@ const Marker = join("Classic", "packages");
 
 /**
  * The monorepo root, found by walking up from the candidate directories
- * until one contains the marker. The candidates matter because Vite's SSR
+ * until ONE contains the marker. The candidates matter because Vite's SSR
  * bundle rewrites import.meta.url to the bundled chunk's location - the
  * source-relative path is tried first, then the build's working directory
  * (astro runs from Site/, the monorepo root's child) and the cwd itself.
@@ -49,7 +52,7 @@ function FindRoot(): string {
 	for (const Candidate of Candidates) {
 		if (Candidate && existsSync(join(Candidate, Marker))) return Candidate;
 	}
-	// No root found: every reader degrades to null (the documented fallbacks).
+	// NO root found: EVERY reader degrades to null (the documented fallbacks).
 	return "";
 }
 
@@ -176,7 +179,7 @@ const EffectTSPackages = ReadTree("EffectTS");
 const ClassicSmoke = ReadSmokeManifest("Classic");
 const EffectTSSmoke = ReadSmokeManifest("EffectTS");
 
-/** The per-suite pairs, present only when BOTH README manifests report the suite. */
+/** The per-suite pairs, present ONLY when BOTH README manifests report the suite. */
 const SuitePairs: Partial<Record<(typeof SuiteKeys)[number][0], SuitePair>> = {};
 for (const [Key, Suite] of SuiteKeys) {
 	const ClassicCount = ClassicSmoke?.[Suite];

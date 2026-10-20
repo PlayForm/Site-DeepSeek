@@ -1,21 +1,15 @@
 ---
-// TerminalTray: the flat terminal-window tray chrome for the stream
-// surfaces (the index hero preview, the workbench and matrix panes, the
-// Compare stage). A terminal window reads as three parts - the tray with
-// the window markers, the mono label, and the right-hand status - all on
-// the zero-elevation plane: flat markers (the first in Harness Blue, the
-// rest in the structural hairline tone), a 1px hairline under the tray,
-// no shadows, no gradients.
+// TerminalTray: the flat terminal-window tray chrome for the stream surfaces.
+// The surfaces: the index hero preview, the workbench and matrix panes, the Compare stage.
+// A terminal window reads as three parts - the tray with the window markers, the mono label and the right-hand status.
+// ALL on the zero-elevation plane: flat markers (the FIRST in Harness Blue, the rest in the structural hairline tone), a 1px hairline under the tray, NO shadows, NO gradients.
 //
-// The label follows the site's patterns: the mono label at the body-sm
-// size (uppercase, 600) with the shared --gap-icon between an icon and
-// the text. The right side is a slot - the pages' status/count markup
-// keeps its own classes.
+// The label follows the site's patterns: the mono label at the body-sm size (uppercase, 600) with the shared --gap-icon between an icon and the text.
+// The right side is a slot - the pages' status/count markup keeps its own classes.
 //
-// The tray markers are the tray bars' single indicator style - the flat
-// markers carry the raw/clean state (the first in Harness Blue, the rest
-// in the structural hairline tone), and the tray bars never render a
-// status dot (the user's declutter ruling: markers only, no dots).
+// The tray markers are the tray bars' single indicator style.
+// The flat markers carry the raw/clean state (the FIRST in Harness Blue, the rest in the structural hairline tone).
+// The tray bars NEVER render a status dot (the user's declutter ruling: markers ONLY, NO dots).
 interface Props {
 	/** The tray label (mono, uppercase). */
 	Label: string;
@@ -28,9 +22,9 @@ interface Props {
 
 const { Label, Orange = false, Icon = false } = Astro.props;
 
-// Only the RAW word carries the orange (the site's only-RAW rule): a
-// leading RAW word (any case) gets wrapped, any other label renders
-// untouched.
+// ONLY the RAW word carries the orange (the site's only-RAW rule): a
+// leading RAW word (ANY case) gets wrapped.
+// ANY other label renders untouched.
 const Match = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
 ---
 
@@ -115,8 +109,8 @@ const Match = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
 	}
 
 	/* The label text keeps the row's shrink/ellipsis behavior as its own
-	   flex item (the word + the rest stay one text run inside, so the
-	   shared --gap-icon applies only between the icon and the label). */
+	   flex item.
+	   The word + the rest stay one text run inside, so the shared --gap-icon applies ONLY between the icon and the label. */
 	.tray__label-text {
 		min-width: 0;
 		overflow: hidden;
@@ -124,7 +118,7 @@ const Match = Orange ? Label.match(/^RAW(?=[\s-]|$)/i) : null;
 		white-space: nowrap;
 	}
 
-	/* Only the RAW word takes the accent-orange token; the separator and
+	/* ONLY the RAW word takes the accent-orange token; the separator and
 	   the rest keep the label's ink (the site's only-RAW rule). */
 	.tray__label-raw {
 		color: var(--color-accent-orange);

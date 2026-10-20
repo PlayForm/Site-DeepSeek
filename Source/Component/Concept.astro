@@ -1,17 +1,12 @@
 ---
-// Concept: one independently explainable concept per block, the unit of
-// the diagram-first restructure. Each block carries a visible diagram
-// placeholder (a stable data-diagram identifier for the future diagram
-// agent), a short descriptive heading, and a body of one or two short
-// paragraphs explaining only that concept.
+// Concept: ONE independently explainable concept per block, the unit of the diagram-first restructure.
+// Each block carries a visible diagram placeholder (a stable data-diagram identifier for the future diagram agent).
+// A short descriptive heading and a body of ONE or TWO short paragraphs explaining ONLY that concept.
 //
-// The diagram proof-pipeline: a representative set of the placeholders has
-// been pre-rendered by Source/Content/Mermaid/Render.mjs into vendored SVGs
-// (Source/Content/Mermaid/<ID>.svg, no runtime Mermaid, no network). A
-// Concept whose ID has an SVG renders it as `data-diagram-status=
-// "implemented"`; every other block stays a placeholder for the full
-// implementation agent. The brief renders in BOTH states - its may / only /
-// never qualifications are the diagram's contract.
+// The diagram proof-pipeline: a representative set of the placeholders has been pre-rendered by Source/Content/Mermaid/Render.mjs into vendored SVGs (Source/Content/Mermaid/<ID>.svg, NO runtime Mermaid, NO network).
+// A Concept whose ID has an SVG renders it as `data-diagram-status="implemented"`.
+// Every other block stays a placeholder for the full implementation agent.
+// The brief renders in BOTH states - its may / ONLY / NEVER qualifications are the diagram's contract.
 import { Linkify } from "@Library/Links";
 import { DotSep } from "@Library/FileIcon";
 import { Enhance } from "@Library/DiagramNav";
@@ -32,11 +27,9 @@ interface Props {
 
 const { ID, Title, Diagram } = Astro.props;
 const SVG = Diagrams[`/Source/Content/Mermaid/${ID}.svg`] as string | undefined;
-// The diagrams as navigation: nodes naming a registered artifact (a plugin
-// package, the factory's cordis.patch.yml) become tree/Current links into
-// the monorepo (Library/DiagramNav.ts - the same registry Linkify uses).
-// The hover highlight of the related nodes is the shared overlay script in
-// Layout/Base.astro (it targets every svg.flowchart on the site).
+// The diagrams as navigation: nodes naming a registered artifact (a plugin package, the factory's cordis.patch.yml) become tree/Current links into the monorepo (Library/DiagramNav.ts - the same registry Linkify uses).
+// The hover highlight of the related nodes is the shared overlay script in Layout/Base.astro.
+// It targets EVERY svg.flowchart on the site.
 const NavSVG = SVG ? Enhance(SVG) : undefined;
 ---
 
@@ -56,8 +49,8 @@ const NavSVG = SVG ? Enhance(SVG) : undefined;
 		<!-- The brief renders through Linkify: a [text](target) segment in the
 		     plain-text prop becomes a safe <a>, everything else stays text. -->
 		<p class="concept__diagram-brief" set:html={DotSep(Linkify(Diagram))} />
-		<!-- Optional vendor mark projected into the diagram area (e.g. the
-		     Zhipu AI mark beside the two-routes diagram on the models page). -->
+		<!-- Optional vendor mark projected into the diagram area, e.g. the
+		     Zhipu AI mark beside the two-routes diagram on the models page. -->
 		<span class="concept__diagram-brand"><slot name="diagram-brand" /></span>
 	</div>
 	<h3 id={`${ID}-title`} class="concept__title">
@@ -73,7 +66,7 @@ const NavSVG = SVG ? Enhance(SVG) : undefined;
 	.concept {
 		display: grid;
 		/* The track law: minmax(0, 1fr) so the diagram's intrinsic
-		   min-content (a wide SVG's natural width) can never pin the
+		   min-content (a wide SVG's natural width) can NEVER pin the
 		   concept's track past the viewport - the same zero-minimum
 		   floor the product grids use. */
 		grid-template-columns: minmax(0, 1fr);
@@ -86,8 +79,9 @@ const NavSVG = SVG ? Enhance(SVG) : undefined;
 		/* The track law: an auto track's base size is the items'
 		   min-content contribution, and a wide diagram SVG's intrinsic
 		   width would pin the track past the viewport (the same
-		   minmax(0, 1fr) floor the product grids use); the zero minimum
-		   lets the figure shrink and the svg's max-width cap the scale. */
+		   minmax(0, 1fr) floor the product grids use).
+		   The zero minimum lets the figure shrink and the svg's
+		   max-width cap the scale. */
 		grid-template-columns: minmax(0, 1fr);
 		gap: var(--space-md);
 		padding: var(--space-lg);
@@ -99,7 +93,7 @@ const NavSVG = SVG ? Enhance(SVG) : undefined;
 	/* The implemented diagram: a shallow horizontal band spanning the block's
 	   width, above the brief and the body. The SVG scales responsively - the
 	   viewBox keeps its aspect, so a left-to-right diagram stays a wide strip
-	   at every viewport width. */
+	   at EVERY viewport width. */
 	.concept__diagram-figure {
 		margin: 0;
 		min-width: 0;
@@ -119,12 +113,12 @@ const NavSVG = SVG ? Enhance(SVG) : undefined;
 	}
 
 	/* The descriptive-title layout: the info icon opens the title on the
-	   LEFT; the flex centering keeps the icon on the title's optical
+	   LEFT. The flex centering keeps the icon on the title's optical
 	   center line, and the muted tone + headline-lg scale come from the
 	   shared Global.css law. The gap is the md step (12px), stepped up
 	   twice from the bare 4px icon token at the user's feel: the icon
-	   pushes the text more inward, so the circled-i + title read as one
-	   deliberate unit in both themes. */
+	   pushes the text more inward, so the circled-i + title read as ONE
+	   deliberate unit in BOTH themes. */
 	.concept__title {
 		display: flex;
 		align-items: center;
@@ -132,10 +126,10 @@ const NavSVG = SVG ? Enhance(SVG) : undefined;
 	}
 
 	/* The wrap law for the concept prose: a slash-joined technical run
-	   (the browser never breaks after "/") or a long identifier in a
+	   (the browser NEVER breaks after "/") or a long identifier in a
 	   body paragraph would pin the body's auto track past the viewport.
 	   overflow-wrap: anywhere keeps the prose's normal wrapping and
-	   breaks only a word that cannot fit. */
+	   breaks ONLY a word that cannot fit. */
 	.concept__diagram-brief,
 	.concept__body :global(p) {
 		overflow-wrap: anywhere;
@@ -146,7 +140,7 @@ const NavSVG = SVG ? Enhance(SVG) : undefined;
 	}
 
 	/* The optional projected vendor mark in the diagram area: a zero-height
-	   flex row when the slot is empty (the wrapper never adds spacing), a
+	   flex row when the slot is empty (the wrapper NEVER adds spacing), a
 	   single em-sized mark on the diagram's left edge when projected. */
 	.concept__diagram-brand {
 		display: flex;

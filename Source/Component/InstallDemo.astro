@@ -1,14 +1,12 @@
 ---
-// InstallDemo: the profile-wiring steps visualized - the four install-demo
-// cards (add the bundles, patch the entries, restart, verify the ledgers)
-// as flat terminal-window cards: the step chip, the mono title, the file
-// path meta, the real wiring lines on the tray, and the outcome line.
-// Every line is the actual wiring the loader reads (or a real claim from
-// the setup page) - nothing invented. Zero elevation: the hairline plane,
-// the #F8FAFC trays.
+// InstallDemo: the profile-wiring steps visualized.
+// The four install-demo cards: add the bundles, patch the entries, restart, verify the ledgers.
+// Each renders as a flat terminal-window card: the step chip, the mono title, the file path meta, the real wiring lines on the tray and the outcome line.
+// Every line is the actual wiring the loader reads (or a real claim from the setup page) - NOTHING invented.
+// Zero elevation: the hairline plane, the #F8FAFC trays.
 //
-// The meta line renders through Mention (Library/FileIcon.ts): a file
-// mention in a meta carries its file-type icon (the .log names as chips).
+// The meta line renders through Mention (Library/FileIcon.ts).
+// A file mention in a meta carries its file-type icon (the .log names as chips).
 import { Mention } from "@Library/FileIcon";
 
 interface Step {
@@ -32,7 +30,7 @@ const { Steps } = Astro.props;
 
 // The wiring lines render in a pre element: the HTML minification
 // pass collapses newlines in regular element text, which would
-// merge the multi-line wiring into one line under white-space:
+// merge the multi-line wiring into ONE line under white-space:
 // pre-wrap. A pre's content survives the minifier byte-exact.
 ---
 
@@ -60,7 +58,7 @@ const { Steps } = Astro.props;
 
 	/* The four cards sit two per row at the site's 2-column breakpoint and
 		collapse to the single column below it: 2x2 on the desktop widths,
-		never the single 4-across row. */
+		NEVER the single 4-across row. */
 	@media (min-width: 640px) {
 		.install-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));

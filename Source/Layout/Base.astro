@@ -197,11 +197,9 @@ const JSONLd = {
 					))}
 				</nav>
 				<!-- The light/dark switch: the LIGHT / DARK two-cell mono chip.
-					The active cell is attribute-driven pure CSS (the cells are
-					correct before any script runs); the script only flips the
-					html[data-theme] attribute and persists the choice. The
-					pin state stays functional (data-pinned + the title)
-					without any visible mode text. -->
+					The active cell is attribute-driven pure CSS (the cells are correct before ANY script runs).
+					The script ONLY flips the html[data-theme] attribute and persists the choice.
+					The pin state stays functional (data-pinned + the title) WITHOUT ANY visible mode text. -->
 				<button
 					class="theme-toggle"
 					type="button"
@@ -215,12 +213,10 @@ const JSONLd = {
 					<span class="theme-toggle__sep" aria-hidden="true">/</span>
 					<span class="theme-toggle__cell" data-theme-cell="dark">DARK</span>
 				</button>
-				<!-- The mobile nav toggle: the flat three-line hamburger in
-					the avatar's old slot. The open state lives on the header
-					(data-nav-open, set by the script); aria-expanded mirrors
-					it for AT and aria-controls points at the nav above. The
-					button is .js-gated in CSS - a no-JS document shows no
-					dead control and the nav stays hidden as before. -->
+				<!-- The mobile nav toggle: the flat three-line hamburger in the avatar's old slot.
+					The open state lives on the header (data-nav-open, set by the script).
+					aria-expanded mirrors it for AT and aria-controls points at the nav above.
+					The button is .js-gated in CSS - a no-JS document shows NO dead control and the nav stays hidden as before. -->
 				<button
 					class="nav-toggle"
 					type="button"
@@ -246,9 +242,8 @@ const JSONLd = {
 			</div>
 		</header>
 
-		<!-- The case-study reading gauge: the 2px scroll-progress rail along
-			the viewport's top edge, rendered only on the case study (the one
-			long-form page whose scroll position is worth gauging). -->
+		<!-- The case-study reading gauge: the 2px scroll-progress rail along the viewport's top edge.
+			Rendered ONLY on the case study (the ONE long-form page whose scroll position is worth gauging). -->
 		{Path.startsWith("/case-study") && (
 			<div class="scroll-progress" data-scroll-progress aria-hidden="true">
 				<span class="scroll-progress__bar"></span>
@@ -280,10 +275,9 @@ const JSONLd = {
 		</footer>
 
 		<script>
-			// The global action feedback channel: a single toast instance plus
-			// the delegated copy-trigger handler (the registry cards, the
-			// package install rows, the detail-page snippets). Page scripts
-			// reach it through window.__dshToast.
+			// The global action feedback channel: a single toast instance plus the delegated copy-trigger handler.
+			// The handler covers the registry cards, the package install rows and the detail-page snippets.
+			// Page scripts reach it through window.__dshToast.
 			const Toast = document.querySelector<HTMLElement>("[data-toast]")!;
 			const ToastMsg = Toast.querySelector<HTMLElement>("[data-toast-msg]")!;
 			let ToastTimer: ReturnType<typeof setTimeout> | undefined;
@@ -321,10 +315,9 @@ const JSONLd = {
 		</script>
 
 		<script>
-			// The theme switch: flips the html[data-theme] attribute, persists
-			// the choice to localStorage, and keeps aria-checked in sync. The
-			// cell highlighting is attribute-driven CSS (no script needed);
-			// with no stored choice the OS prefers-color-scheme stays live.
+			// The theme switch: flips the html[data-theme] attribute, persists the choice to localStorage and keeps aria-checked in sync.
+			// The cell highlighting is attribute-driven CSS (NO script needed).
+			// With NO stored choice, the OS prefers-color-scheme stays LIVE.
 			const ThemeToggle = document.querySelector<HTMLElement>("[data-theme-toggle]");
 			const ApplyTheme = (Theme: string) => {
 				document.documentElement.setAttribute("data-theme", Theme);
@@ -336,9 +329,9 @@ const JSONLd = {
 				document.documentElement.getAttribute("data-theme") === "dark"
 					? "dark"
 					: "light";
-			// The pin state (data-pinned + the title) stays functional;
-			// there is deliberately NO visible mode text ("LOCK"/"OS") next
-			// to the switcher - the user asked for that label to be gone.
+			// The pin state (data-pinned + the title) stays functional.
+			// There is deliberately NO visible mode text ("LOCK"/"OS") next to the switcher.
+			// The user asked for that label to be gone.
 			const SyncMode = () => {
 				let Pinned = false;
 				try {
@@ -374,13 +367,11 @@ const JSONLd = {
 				}
 			} catch {}
 
-			// The mobile nav toggle: the hamburger opens the dropdown tray
-			// on narrow viewports. The open state lives on the header
-			// element (data-nav-open) so the tray CSS stays attribute-driven;
-			// aria-expanded and the label mirror it for AT. Esc, an outside
-			// click and the 768px breakpoint close the tray; a nav-link
-			// click navigates and the view-transition page-load closes it
-			// after the swap.
+			// The mobile nav toggle: the hamburger opens the dropdown tray on narrow viewports.
+			// The open state lives on the header element (data-nav-open) so the tray CSS stays attribute-driven.
+			// aria-expanded and the label mirror it for AT.
+			// Esc, an outside click and the 768px breakpoint close the tray.
+			// A nav-link click navigates and the view-transition page-load closes it after the swap.
 			const NavToggle = document.querySelector<HTMLElement>("[data-nav-toggle]");
 			const SiteHeader = NavToggle?.closest<HTMLElement>(".site-header");
 			if (NavToggle && SiteHeader) {
@@ -410,15 +401,14 @@ const JSONLd = {
 				document.addEventListener("astro:page-load", () => SetNav(false));
 			}
 
-			// Section reveals: every main .section fades up as it enters the
-			// viewport (one gesture - the slow duration + snap easing, no
-			// stagger). Reduced-motion users get the full-opacity state from
-			// the script, and the .js-gated CSS renders everything visible
-			// without JavaScript at all. Re-arms on every view transition.
-			// A scroll fallback catches the fast-scroll / anchor-jump cases
-			// (an instant scroll can outrun the observer's sampling, leaving
-			// sections that are in view unrevealed): any unrevealed section
-			// whose top has crossed the reveal line is revealed on scroll.
+			// Section reveals: EVERY main .section fades up as it enters the viewport.
+			// ONE gesture - the slow duration + snap easing, NO stagger.
+			// Reduced-motion users get the full-opacity state from the script.
+			// The .js-gated CSS renders everything visible WITHOUT JavaScript at all.
+			// Re-arms on EVERY view transition.
+			// A scroll fallback catches the fast-scroll / anchor-jump cases.
+			// An instant scroll can outrun the observer's sampling, leaving sections that are in view unrevealed.
+			// ANY unrevealed section whose top has crossed the reveal line is revealed on scroll.
 			const InitReveals = () => {
 				const Sections = document.querySelectorAll<HTMLElement>("main .section");
 				if (!Sections.length) return;
@@ -464,10 +454,9 @@ const JSONLd = {
 			document.addEventListener("astro:page-load", InitReveals);
 			InitReveals();
 
-			// The case-study reading gauge: a 2px rail along the top edge,
-			// scaleX-driven from the scroll position (transform-only, no
-			// layout thrash, rAF-throttled). A reading gauge, not a
-			// decorative animation - it stays under reduced motion.
+			// The case-study reading gauge: a 2px rail along the top edge, scaleX-driven from the scroll position.
+			// Transform-only, NO layout thrash, rAF-throttled.
+			// A reading gauge, NOT a decorative animation - it stays under reduced motion.
 			const Progress = document.querySelector<HTMLElement>("[data-scroll-progress]");
 			if (Progress) {
 				const Update = () => {
@@ -491,16 +480,13 @@ const JSONLd = {
 		</script>
 
 		<script>
-			// The diagram overlay: hover/focus on a pre-baked Mermaid node
-			// highlights the RELATED nodes - the node itself, its direct
-			// neighbors (read from the edge ids L_FROM_TO_0 between the node
-			// ids flowchart-FROM-N / flowchart-TO-N) and the connecting
-			// edges - while the rest of the diagram recedes slightly. The
-			// styles are the token-based rules in Global.css (.diagram-nav),
-			// so the highlight follows both themes. The linked nodes (the
-			// tree/Current anchors Library/DiagramNav.ts bakes at build
-			// time) are keyboard-focusable, so focus drives the same
-			// highlight.
+			// The diagram overlay: hover/focus on a pre-baked Mermaid node highlights the RELATED nodes.
+			// The RELATED nodes: the node itself, its direct neighbors and the connecting edges.
+			// The neighbors are read from the edge ids L_FROM_TO_0 between the node ids flowchart-FROM-N / flowchart-TO-N.
+			// The rest of the diagram recedes slightly.
+			// The styles are the token-based rules in Global.css (.diagram-nav), so the highlight follows BOTH themes.
+			// The linked nodes (the tree/Current anchors Library/DiagramNav.ts bakes at build time) are keyboard-focusable.
+			// Focus drives the same highlight.
 			const SetupDiagram = (SVG: SVGSVGElement) => {
 				if (SVG.dataset["diagramNav"]) return;
 				SVG.dataset["diagramNav"] = "true";
@@ -513,8 +499,8 @@ const JSONLd = {
 				});
 				if (!Nodes.size) return;
 
-				// Adjacency from the edge paths' data-id (L_FROM_TO_0): split
-				// the body at the point where both halves name known nodes.
+				// Adjacency from the edge paths' data-id (L_FROM_TO_0).
+				// Split the body at the point where BOTH halves name known nodes.
 				const Edges = new Map<SVGPathElement, [string, string]>();
 				SVG.querySelectorAll<SVGPathElement>(".edgePaths path[data-id]").forEach(
 					(Path) => {
@@ -570,10 +556,9 @@ const JSONLd = {
 					Node.addEventListener("focusout", Clear);
 				});
 
-				// The linked nodes are anchors WRAPPING the node groups, so a
-				// focus event bubbles up from the anchor, never through the
-				// inner g.node - the anchors get their own focus listeners
-				// (same highlight, same clear).
+				// The linked nodes are anchors WRAPPING the node groups.
+				// A focus event bubbles up from the anchor, NEVER through the inner g.node.
+				// The anchors get their own focus listeners (same highlight, same clear).
 				SVG.querySelectorAll("a.diagram-node-link > g.node").forEach((Node) => {
 					const Entry = [...Nodes.entries()].find(([, El]) => El === Node);
 					if (!Entry) return;

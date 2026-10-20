@@ -1,22 +1,17 @@
 ---
-// Compare: the draggable before/after split-handle slider - the raw input
-// versus the normalized output, one pane revealing the other under the
-// Harness Blue handle. The site's patterns, applied:
-//   - em-sized icons, token gaps (--gap-icon), the 1px structural
-//     hairlines, zero elevation - no shadows, no gradients;
-//   - the Harness Blue handle (a 2px rule + a flat white grip with a 1px
-//     blue border), the RAW pane with the 2px accent-orange rail;
-//   - drag (pointer capture, frame-paced: one style write per frame,
-//     the easing transitions off for the drag's duration), keyboard
-//     (arrow keys, home/end) and the reduced-motion static split (no
-//     pointer listeners, the global motion guard already stills any
-//     transition).
+// Compare: the draggable before/after split-handle slider.
+// The raw input versus the normalized output, ONE pane revealing the other under the Harness Blue handle.
+// The site's patterns, applied:
+//   - em-sized icons, token gaps (--gap-icon), the 1px structural hairlines, zero elevation - NO shadows, NO gradients;
+//   - the Harness Blue handle (a 2px rule + a flat white grip with a 1px blue border), the RAW pane with the 2px accent-orange rail;
+//   - drag (pointer capture, frame-paced: ONE style write per frame, the easing transitions off for the drag's duration);
+//   - keyboard (arrow keys, home/end);
+//   - the reduced-motion static split (NO pointer listeners, the global motion guard already stills ANY transition).
 //
-// The panes carry the byte-exact example lines the pages already hold -
-// the Raw lines are escaped and the flavor's own character classes are
-// flagged with the site's existing .anom / .zwsp markers (the same
-// highlight the workbench and matrix demos run, per the real transform
-// tables). Flavor "all" applies every class (the family chain).
+// The panes carry the byte-exact example lines the pages already hold.
+// The Raw lines are escaped and the flavor's own character classes are flagged with the site's existing .anom / .zwsp markers.
+// The same highlight the workbench and matrix demos run, per the real transform tables.
+// Flavor "all" applies EVERY class (the family chain).
 import TerminalTray from "@Component/TerminalTray.astro";
 
 interface Props {
@@ -53,11 +48,11 @@ const {
 	CleanLabel = "NORMALIZED - what reaches the transcript",
 } = Astro.props;
 
-// The legend's RAW word: only the RAW word takes the accent-orange token
+// The legend's RAW word: ONLY the RAW word takes the accent-orange token
 // - the separator and the rest keep the legend's ink (the site's only-RAW
 // rule, the same treatment the stream pane labels run). The pages' custom
-// labels keep their bytes: a leading RAW word (any case) gets wrapped,
-// any other label renders untouched (the file page's "Before - ...").
+// labels keep their bytes: a leading RAW word (ANY case) gets wrapped,
+// ANY other label renders untouched (the file page's "Before - ...").
 const Match = RawLabel.match(/^RAW(?=[\s-]|$)/i);
 
 // ---- Escape: every character becomes safe HTML text ----
@@ -73,7 +68,7 @@ function Escape(Text: string): string {
 // tables the workbench and matrix demos run (and the READMEs they cite).
 // The markers the site already uses ([ZWSP], [NBSP]) plus the explicit
 // marker forms for the other invisible characters the invisible flavor
-// removes - all rendered in the existing .zwsp chip style. ----
+// removes - ALL rendered in the existing .zwsp chip style. ----
 const Classes: Record<string, RegExp> = {
 	dash: /[\u2013\u2014\u2015]/g,
 	quotes: /[\u2018\u2019\u201C\u201D]/g,
@@ -95,9 +90,9 @@ const Invisible: Array<[RegExp, string]> = [
 	[/\uFEFF/g, "[BOM]"],
 ];
 
-// The file tool runs the family chain on disk: its example's visible
-// anomalies are the dash family (the quotes/ellipsis in its before line
-// are already ASCII in the README's literal example).
+// The file tool runs the family chain on disk.
+// Its example's visible anomalies are the dash family.
+// The quotes/ellipsis in its before line are already ASCII in the README's literal example.
 const FileClass = /[\u2013\u2014\u2015]/g;
 
 function Highlight(Text: string): string {
@@ -109,9 +104,9 @@ function Highlight(Text: string): string {
 		Out = Out.replace(Classes.quotes, (Mark) => `<span class="anom">${Mark}</span>`);
 	}
 	if (Flavor === "ellipsis" || Flavor === "all") {
-		// The real U+2026 glyph stays visible in the raw pane (flagged),
-		// exactly like the index hero's and the workbench's highlight - the
-		// clean pane is where the three-dot sequence appears.
+		// The real U+2026 glyph stays visible in the raw pane (flagged).
+		// Exactly like the index hero's and the workbench's highlight.
+		// The clean pane is where the three-dot sequence appears.
 		Out = Out.replace(Classes.ellipsis, '<span class="anom">\u2026</span>');
 	}
 	if (Flavor === "spaces" || Flavor === "all") {
@@ -139,9 +134,9 @@ const CleanText = Clean.join("\n");
 	</TerminalTray>
 
 	<!-- The panes' state, announced: the split position updates this polite
-	     live region at a sane rate (throttled in the script below - at most
-	     one announcement per 600ms, plus a forced one on drag release) so
-	     the raw/clean balance is perceivable without per-frame chatter. -->
+	     live region at a sane rate.
+	     Throttled in the script below - at most ONE announcement per 600ms, plus a forced one on drag release.
+	     So the raw/clean balance is perceivable WITHOUT per-frame chatter. -->
 	<p class="visually-hidden" role="status" aria-live="polite" data-compare-status>
 		Raw 50% • normalized 50%
 	</p>
@@ -150,9 +145,9 @@ const CleanText = Clean.join("\n");
 		<pre class="compare__screen compare__screen--clean">{CleanText}</pre>
 		<pre class="compare__screen compare__screen--raw rail-orange" set:html={RawHTML}></pre>
 		<!-- The step markers: the 25 / 50 / 75 snap positions as flat
-		     hairline ticks on the stage's top and bottom edges
-		     (pointer-events: none - the drag and the click pass
-		     through; the script snaps onto them on release). -->
+		     hairline ticks on the stage's top and bottom edges.
+		     pointer-events: none - the drag and the click pass through;
+		     the script snaps onto them on release. -->
 		<div class="compare__steps" aria-hidden="true">
 			<i style="left: 25%"></i>
 			<i style="left: 50%"></i>
@@ -245,7 +240,7 @@ const CleanText = Clean.join("\n");
 	}
 
 	/* The handle: the 2px Harness Blue rule with the flat white grip -
-	   zero elevation, the grip's only state change is the border stroke
+	   zero elevation. The grip's ONLY state change is the border stroke
 	   under the focus ring the global [tabindex]:focus-visible rule
 	   provides. */
 	.compare__handle {
@@ -262,9 +257,9 @@ const CleanText = Clean.join("\n");
 	}
 
 	/* The drag state: while the pointer drags, the split follows the
-	   pointer 1:1 - the easing transitions (which glide the keyboard
+	   pointer 1:1. The easing transitions (which glide the keyboard
 	   steps and the click-jump) are disabled under [data-dragging], so
-	   the handle and the clip never chase the pointer. */
+	   the handle and the clip NEVER chase the pointer. */
 	.compare__stage[data-dragging] .compare__screen--raw,
 	.compare__stage[data-dragging] .compare__handle {
 		transition: none;
@@ -311,7 +306,7 @@ const CleanText = Clean.join("\n");
 		border: 1px solid var(--color-harness-blue);
 	}
 
-	/* The legend: the RAW signature on the left (orange dot, only the RAW
+	/* The legend: the RAW signature on the left (orange dot, ONLY the RAW
 	   word orange), the NORMALIZED signature on the right (blue dot). */
 	.compare__legend {
 		display: flex;
@@ -335,10 +330,10 @@ const CleanText = Clean.join("\n");
 		color: var(--color-ink-secondary);
 	}
 
-	/* Only the RAW word takes the accent-orange token; the separator and
+	/* ONLY the RAW word takes the accent-orange token; the separator and
 	   the rest keep the item's ink-secondary (the site's only-RAW rule -
 	   the label wrapper keeps the word + the rest one text run, so the
-	   shared --gap-icon stays between the dot and the label only). */
+	   shared --gap-icon stays between the dot and the label ONLY). */
 	.compare__legend-raw {
 		color: var(--color-accent-orange);
 	}
@@ -346,8 +341,8 @@ const CleanText = Clean.join("\n");
 	/* The dots sit on the label's optical center: the plain inline-flex
 	   centering (align-items: center above) lands the dot on the line
 	   box, and at the 13px label size the glyphs' mass sits within half
-	   a pixel of that line center - so no margin lift is needed (the
-	   tray/badge -0.1875em lift would overshoot at this size). Both
+	   a pixel of that line center - so NO margin lift is needed (the
+	   tray/badge -0.1875em lift would overshoot at this size). BOTH
 	   panes share the same geometry. */
 	.compare__legend-item .dot {
 		width: 8px;
@@ -383,20 +378,18 @@ const CleanText = Clean.join("\n");
 	// The split-handle slider: pointer drag (with pointer capture), stage
 	// clicks, and the keyboard (arrow keys step by 5, home/end jump to the
 	// ends). The position lives in the --compare-pos CSS var on the stage;
-	// aria-valuenow mirrors it. The drag is frame-paced: the pointermove
-	// stream is coalesced into one style write per requestAnimationFrame
-	// callback, and the [data-dragging] state on the stage switches the
-	// clip/handle transitions off for the drag's duration (the click-jump
-	// and the keyboard steps keep their glide). Reduced-motion users keep
-	// the static split (no pointer listeners are attached - the split
-	// still moves with the keyboard, and the global motion guard already
-	// stills the transition).
+	// aria-valuenow mirrors it.
+	// The drag is frame-paced: the pointermove stream is coalesced into ONE style write per requestAnimationFrame callback.
+	// The [data-dragging] state on the stage switches the clip/handle transitions off for the drag's duration.
+	// The click-jump and the keyboard steps keep their glide.
+	// Reduced-motion users keep the static split (NO pointer listeners are attached - the split still moves with the keyboard).
+	// The global motion guard already stills the transition.
 	document.querySelectorAll<HTMLElement>("[data-compare]").forEach((Stage) => {
 		const Handle = Stage.querySelector<HTMLElement>("[data-handle]");
 		const Initial = Number(Stage.dataset["start"] ?? 50);
-		// The accessible state: the handle's aria-valuetext names both
-		// panes' shares, and the figure's polite live region echoes the
-		// same split at a sane rate (throttled; forced on drag release).
+		// The accessible state: the handle's aria-valuetext names BOTH
+		// panes' shares.
+		// The figure's polite live region echoes the same split at a sane rate (throttled; forced on drag release).
 		const Status = Stage.closest("figure")?.querySelector<HTMLElement>(
 			"[data-compare-status]",
 		);
@@ -430,12 +423,10 @@ const CleanText = Clean.join("\n");
 			Apply(((ClientX - Rect.left) / Rect.width) * 100);
 		};
 
-		// The snap points: the 25 / 50 / 75 step markers. Applied on drag
-		// RELEASE only - during the drag the split tracks the pointer
-		// freely (the 0.00% tracking stays untouched); when the pointer
-		// lifts within 4% of a snap position, the split glides onto it
-		// (the eased transitions are back by then, so the snap reads as
-		// one glide - the demos land on the instructive splits).
+		// The snap points: the 25 / 50 / 75 step markers. Applied on drag RELEASE ONLY.
+		// During the drag the split tracks the pointer freely (the 0.00% tracking stays untouched).
+		// When the pointer lifts within 4% of a snap position, the split glides onto it.
+		// The eased transitions are back by then, so the snap reads as ONE glide - the demos land on the instructive splits.
 		const SnapPoints = [25, 50, 75];
 		const Snap = () => {
 			const Now = Number(Handle?.getAttribute("aria-valuenow") ?? Initial);
@@ -464,31 +455,25 @@ const CleanText = Clean.join("\n");
 			}
 		});
 
-		// The drag + the stage click-to-jump: only when motion is allowed.
-		// Reduced-motion users keep the static split (the keyboard above
-		// still works - it is not motion). Pressing anywhere on the stage
-		// (the handle or the panes) captures the pointer, so the drag runs
-		// from any starting point; the handle's own press just starts it
-		// on the handle line.
+		// The drag + the stage click-to-jump: ONLY when motion is allowed.
+		// Reduced-motion users keep the static split (the keyboard above still works - it is NOT motion).
+		// Pressing ANYWHERE on the stage (the handle or the panes) captures the pointer, so the drag runs from ANY starting point.
+		// The handle's own press just starts it on the handle line.
 		//
-		// The pacing: pointermove events can outrun the display (120Hz
-		// mice, high-rate touch), so the drag never writes per event - the
-		// pending client X is coalesced into one requestAnimationFrame
-		// callback, one style write per frame, and the frame's rect read
-		// precedes its write (no read/write interleaving, no forced
-		// reflow). The [data-dragging] state disables the easing
-		// transitions for the duration of the drag, so the split tracks
-		// the pointer 1:1 instead of chasing it; the click-jump and the
-		// keyboard steps keep their glide (the transitions return on
-		// release).
+		// The pacing: pointermove events can outrun the display (120Hz mice, high-rate touch).
+		// So the drag NEVER writes per event - the pending client X is coalesced into ONE requestAnimationFrame callback.
+		// ONE style write per frame, and the frame's rect read precedes its write (NO read/write interleaving, NO forced reflow).
+		// The [data-dragging] state disables the easing transitions for the duration of the drag.
+		// So the split tracks the pointer 1:1 instead of chasing it.
+		// The click-jump and the keyboard steps keep their glide (the transitions return on release).
 		if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 			let PendingX: number | null = null;
 			let Frame: number | null = null;
 
 			const EndDrag = () => {
 				// Flush the final pending position while the drag state
-				// still disables the transitions (the release must not
-				// glide to the last pointer spot).
+				// still disables the transitions.
+				// The release must NOT glide to the last pointer spot.
 				if (Frame !== null) {
 					cancelAnimationFrame(Frame);
 					Frame = null;
@@ -497,13 +482,12 @@ const CleanText = Clean.join("\n");
 					if (X !== null) MoveTo(X);
 				}
 				// The drag state lifts before the snap: the eased
-				// transitions are back on, so the snap onto the nearest
-				// 25 / 50 / 75 step (within 4%, after the free-drag
-				// flush) reads as one glide instead of a jump.
+				// transitions are back on.
+				// So the snap onto the nearest 25 / 50 / 75 step (within 4%, after the free-drag flush) reads as ONE glide instead of a jump.
 				delete Stage.dataset["dragging"];
 				Snap();
-				// The drag's final state is announced regardless of the
-				// throttle window (the pointer stream itself is silent).
+				// The drag's final state is announced regardless of the throttle window.
+				// The pointer stream itself is silent.
 				Announce(true);
 			};
 
