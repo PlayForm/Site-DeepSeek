@@ -560,7 +560,7 @@ const JSONLd = {
 				// A focus event bubbles up from the anchor, NEVER through the inner g.node.
 				// The anchors get their own focus listeners (same highlight, same clear).
 				SVG.querySelectorAll("a.diagram-node-link > g.node").forEach((Node) => {
-					const Entry = [...Nodes.entries()].find(([, El]) => El === Node);
+					const Entry = [...Nodes.entries()].find(([, Element]) => Element === Node);
 					if (!Entry) return;
 					const Key = Entry[0];
 					Node.parentElement?.addEventListener("focusin", () => Highlight(Key));
