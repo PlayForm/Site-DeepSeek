@@ -303,6 +303,16 @@ const Spans = [
 					<span class="stream-hub__paused" aria-hidden="true">
 						<span class="stream-hub__paused-word">PAUSED</span><span class="dot-sep" aria-hidden="true"></span>HOVER TO RESUME
 					</span>
+					<!-- The settled tag, split: only the SETTLED word carries the
+					     primary-blue token (the normalized signature); the
+					     separator and the rest keep the on-surface-variant ink.
+					     Hidden until the stage is settled (see the
+					     .stream-hub__settled rules in Global.css) - one pass over
+					     the pool played, no line repeats; the restart toggle above
+					     the stage resumes by a new pass. -->
+					<span class="stream-hub__settled" aria-hidden="true">
+						<span class="stream-hub__settled-word">SETTLED</span><span class="dot-sep" aria-hidden="true"></span>PLAYED ONCE
+					</span>
 				</div>
 				<div class="stream-pane">
 					<TerminalTray Label="CANONICAL SANITIZED STREAM" Icon>
@@ -363,6 +373,15 @@ const Spans = [
 <script>
 	// Stream gate simulation: raw token batches enter the left terminal, pass
 	// the armed flavor hooks, and land in the right terminal as clean ASCII.
+	//
+	// The stream is one-pass-then-settle: the tick loop plays each line of
+	// the selected engine's pool exactly once (raw and clean beside each
+	// other in the same tick) and when the pass completes the stream
+	// settles - the stage freezes with the panes keeping the final content,
+	// the hub lands the SETTLED tag, and the toggle reads Restart. No pass
+	// repeats, so no line repetition ever scrolls the terminals; the
+	// restart toggle, the engine/runtime pills and the burst/clear actions
+	// lift the state (see the Push/Settle/Restart trio below).
 	//
 	// Live in the SCRIPT, not the frontmatter: Astro compiles this block into
 	// its own module, so a frontmatter constant is NOT in scope here - the
@@ -485,6 +504,12 @@ const Spans = [
 	let CleanBytes = 0;
 	let Paused = false;
 	let HoverPaused = false;
+	// The one-pass-then-settle state: RunIndex counts the lines the current
+	// pass has played (one pass over the selected engine's pool), Settled
+	// marks the pass complete - no pass repeats, so no line repetition ever
+	// scrolls the terminals (see the Push/Settle/Restart trio below).
+	let RunIndex = 0;
+	let Settled = false;
 
 	function Transform(Text: string) {
 		let Clean = Text;
@@ -533,19 +558,27 @@ const Spans = [
 		// (the pane content itself is deliberately NOT a live region).
 		const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
 		const Now = Date.now();
-		if (StreamStatus && !Paused && !HoverPaused && Now - LastStatusAt >= 5000) {
+		if (StreamStatus && !Paused && !HoverPaused && !Settled && Now - LastStatusAt >= 5000) {
 			LastStatusAt = Now;
 			StreamStatus.textContent = `Stream running\u2003raw ${RawBytes.toLocaleString("en-US")} bytes\u2003normalized ${CleanBytes.toLocaleString("en-US")} bytes`;
 		}
 
 		Tally.textContent = `${Armed.size} of ${Total} Active`;
-		ToggleButton.textContent = Paused ? "Resume Stream" : "Pause Stream";
+		// The toggle carries the stream state: Pause while a pass plays,
+		// Resume while paused, Restart once the pass settles (a settled
+		// stream resumes only by a new pass - the click handler below).
+		ToggleButton.textContent = Settled ? "Restart Stream" : Paused ? "Resume Stream" : "Pause Stream";
 		ToggleButton.classList.toggle("engine-pill--active", Paused);
 	}
 
 	function PushChunk() {
 		const Pool = EngineSeeds[Engine] ?? Seeds;
-		const Seed = Pool[Math.floor(Math.random() * Pool.length)];
+		// The deterministic pass order: the pass counter indexes the pool
+		// directly (the modulo rule - a pass never repeats a line within
+		// itself, and the burst's finite pass uses the same counter), so no
+		// random cycling ever scrolls the terminals.
+		const Seed = Pool[RunIndex % Pool.length];
+		RunIndex += 1;
 		const [Clean] = Transform(Seed);
 		RawBytes += new TextEncoder().encode(Seed).length;
 		CleanBytes += new TextEncoder().encode(Clean).length;
@@ -563,10 +596,50 @@ const Spans = [
 		Render();
 	}
 
+	// The pass guard: a push plays the pass's next line(s) - raw and clean
+	// beside each other in the same tick - and settles the stream when the
+	// selected engine's pool is exhausted. One pass, then the stream stops
+	// with the panes keeping the final content; no pass repeats, so no line
+	// repetition ever scrolls the terminals. A settled stream has no pass
+	// to push - the guard skips its work (the same pattern the hover-pause
+	// uses); the restart toggle, the engine/runtime pills and the burst
+	// lift the state (Restart below).
 	function Push() {
 		if (Paused || HoverPaused) return;
+		if (Settled) return;
+		const Pool = EngineSeeds[Engine] ?? Seeds;
+		if (RunIndex >= Pool.length) {
+			Settle();
+			return;
+		}
 		const Batch = RuntimeBatch[Runtime] ?? 1;
-		for (let Index = 0; Index < Batch; Index += 1) PushChunk();
+		for (let Index = 0; Index < Batch && RunIndex < Pool.length; Index += 1) PushChunk();
+		if (RunIndex >= Pool.length) Settle();
+	}
+
+	// One pass complete: the stage freezes (the .is-settled class - the same
+	// motion selectors the hover-pause stills, see Global.css), the hub
+	// lands the SETTLED tag, the accessible status announces the settle,
+	// and the toggle reads Restart. The tick interval itself keeps running;
+	// the push guard skips its work while settled.
+	function Settle() {
+		if (Settled) return;
+		Settled = true;
+		StreamStage.classList.add("is-settled");
+		const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+		if (StreamStatus) StreamStatus.textContent = "Stream settled\u2003pool played once";
+		Render();
+	}
+
+	// A new pass: the pass counter resets and the settle state lifts (the
+	// stage unfreezes, the hub's SETTLED tag hides, the toggle reads Pause
+	// again). Used by the restart toggle, the engine pills (each engine
+	// gets its own pass played from the pool's first line), the runtime
+	// pills and the burst.
+	function Restart() {
+		RunIndex = 0;
+		Settled = false;
+		StreamStage.classList.remove("is-settled");
 	}
 
 	// The tick interval is rescheduled when the ingest engine changes (the
@@ -579,23 +652,28 @@ const Spans = [
 	}
 	Schedule();
 
-	// Prime the panes with three chunks so the gate reads live on load.
-	for (let Index = 0; Index < 3; Index += 1) PushChunk();
+	// Prime the panes with the pass's first line so the gate reads live on
+	// load; the pass plays out over the regular ticks and settles when the
+	// selected engine's pool is exhausted (PushChunk's pass counter starts
+	// at the pool's top).
+	PushChunk();
 
 	// Hover-to-pause on the dual-terminal stage: hovering the raw/clean
 	// panes suspends the stream ticks (the push guard returns early) and
 	// the .is-paused class freezes the dots, the spin and the caret while
 	// the hub shows the PAUSED tag, so the terminals can be read at
 	// leisure. Leaving resumes with the next regular tick (the interval
-	// itself keeps running; the guard skips its work while hovered).
-	// Reduced-motion users keep the stock behavior - no listeners attached.
+	// itself keeps running; the guard skips its work while hovered). A
+	// settled pass has no stream to pause - the settle freeze already
+	// stills the motion - so the guards skip it. Reduced-motion users keep
+	// the stock behavior - no listeners attached.
 	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 		// The pause/resume is announced through the visually-hidden
 		// stream status element (role=status, aria-live=polite above the
 		// stage) - the hover-pause state change reaches assistive tech
 		// even though the visible PAUSED tag is aria-hidden.
 		StreamStage.addEventListener("mouseenter", () => {
-			if (HoverPaused) return;
+			if (HoverPaused || Settled) return;
 			HoverPaused = true;
 			StreamStage.classList.add("is-paused");
 			const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
@@ -606,7 +684,7 @@ const Spans = [
 			HoverPaused = false;
 			StreamStage.classList.remove("is-paused");
 			const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
-			if (StreamStatus) StreamStatus.textContent = "Stream running";
+			if (StreamStatus && !Settled) StreamStatus.textContent = "Stream running";
 		});
 	}
 
@@ -669,8 +747,13 @@ const Spans = [
 			const Id = Pill.dataset["runtime"]!;
 			if (RuntimeBatch[Id]) {
 				Runtime = Id;
+				// A settled stream resumes by a new pass over the same pool
+				// (the batch size is what the switch promises to show); a
+				// playing pass keeps its position - only the per-tick
+				// batch changes.
+				if (Settled) Restart();
 				const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
-				if (StreamStatus && !Paused && !HoverPaused) {
+				if (StreamStatus && !Paused && !HoverPaused && !Settled) {
 					StreamStatus.innerHTML = `Stream running<span class="dot-sep" aria-hidden="true"></span>${Pill.textContent?.trim()}`;
 				}
 			}
@@ -695,6 +778,13 @@ const Spans = [
 				Engine = Id;
 				TickMs = EngineTicks[Id] ?? 900;
 				Schedule();
+				// The selected engine's own pass plays from its pool's first
+				// line immediately (a settled stream resumes; a playing pass
+				// restarts at the new pool's top - each engine gets its own
+				// one-pass stream), then the per-engine cadence takes over
+				// the remaining lines.
+				Restart();
+				Push();
 			}
 			Toast?.(`Ingest: ${Pill.textContent?.trim()}`);
 		});
@@ -702,6 +792,18 @@ const Spans = [
 
 	// Pause / clear / burst / copy actions.
 	ToggleButton.addEventListener("click", () => {
+		// A settled stream restarts: a new pass over the selected engine's
+		// pool plays from the pool's first line (the settle state lifts, the
+		// hub tag hides, the toggle reads Pause again). A settled stream has
+		// no stream to pause - the restart IS its resume.
+		if (Settled) {
+			Restart();
+			const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
+			if (StreamStatus) StreamStatus.textContent = "Stream running";
+			Render();
+			Toast?.("Stream restarted");
+			return;
+		}
 		Paused = !Paused;
 		ToggleButton.setAttribute("aria-pressed", String(Paused));
 		const StreamStatus = document.querySelector<HTMLElement>("[data-stream-status]");
@@ -713,11 +815,23 @@ const Spans = [
 	document.querySelector("[data-action='clear']")?.addEventListener("click", () => {
 		RawTerminal.textContent = "";
 		CleanTerminal.textContent = "";
+		// The clear is the buffers' visual clear only - a playing pass keeps
+		// its position (the counter is the pass's state, not the panes'), so
+		// the pass plays out deterministically; a settled stream stays
+		// settled and restarts by the toggle above.
 		Toast?.("Buffers cleared");
 	});
 
 	document.querySelector("[data-action='burst']")?.addEventListener("click", () => {
-		for (let Index = 0; Index < 12; Index += 1) Push();
+		// The burst synthesizes the selected engine's full pass instantly: a
+		// new pass from the pool's first line, played to exhaustion, then
+		// settled. Still exactly one pass, so no line repetition; the
+		// deterministic order keeps the raw/clean panes paired.
+		if (Paused || HoverPaused) return;
+		Restart();
+		const Pool = EngineSeeds[Engine] ?? Seeds;
+		while (RunIndex < Pool.length) PushChunk();
+		Settle();
 		Toast?.("Synthesized burst ingest");
 	});
 

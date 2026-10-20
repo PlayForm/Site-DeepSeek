@@ -3233,23 +3233,31 @@ a .code-token {
 	flex-shrink: 0;
 }
 
-/* ---- Hover-to-pause: the streams freeze while the cursor reads ----
+/* ---- Hover-to-pause + one-pass settle: the streams freeze when read ----
 	The index preview and the workbench/matrix stages toggle .is-paused
-	on hover: the tick loops suspend (see the page scripts) and the motion
-	language - the pipe pulse, the caret blink, the hub spin, the anomaly
-	flash - freezes in place via animation-play-state. The tray bars carry
-	no live-dot (the flat tray markers are their single indicator), so the
-	pause rule covers the stage's remaining motion only. Only the word
-	PAUSED carries the accent-orange token (the raw/stream signature); the
-	separator and the rest of the status render in the status's normal
-	color, so the state is unmistakable without the whole line shouting -
-	and the RAW stays orange while the CLEAN stays blue. */
+	on hover, and toggle .is-settled when their one-pass stream completes
+	(the one-pass-then-settle rule, see the page scripts): the tick loops
+	suspend or stop (see the page scripts) and the motion language - the
+	pipe pulse, the caret blink, the hub spin, the anomaly flash - freezes
+	in place via animation-play-state. The tray bars carry no live-dot (the
+	flat tray markers are their single indicator), so the pause rule covers
+	the stage's remaining motion only. Only the word PAUSED carries the
+	accent-orange token (the raw/stream signature); the separator and the
+	rest of the status render in the status's normal color, so the state is
+	unmistakable without the whole line shouting - and the RAW stays orange
+	while the CLEAN stays blue. */
 .terminal-demo.is-paused .flow-line__pulse,
 .terminal-demo.is-paused .stream-caret,
+.terminal-demo.is-settled .flow-line__pulse,
+.terminal-demo.is-settled .stream-caret,
 .stream-grid.is-paused .dot,
 .stream-grid.is-paused .spin,
 .stream-grid.is-paused .stream-caret,
-.stream-grid.is-paused .anom {
+.stream-grid.is-paused .anom,
+.stream-grid.is-settled .dot,
+.stream-grid.is-settled .spin,
+.stream-grid.is-settled .stream-caret,
+.stream-grid.is-settled .anom {
 	animation-play-state: paused;
 }
 
@@ -3258,6 +3266,14 @@ a .code-token {
 	the orange - the separator and the rest keep the status's own color. */
 .terminal-demo.is-paused .terminal-demo__status .status-paused {
 	color: var(--color-accent-orange);
+}
+
+/* The index status line flips to the settled text with the SETTLED word
+	wrapped in .status-settled (see the page script); only that word takes
+	the primary blue - the normalized signature (the CLEAN stays blue), the
+	separator and the rest keep the status's own color. */
+.terminal-demo.is-settled .terminal-demo__status .status-settled {
+	color: var(--color-primary);
 }
 
 /* The workbench/matrix paused tag: the flow divider announces the paused
@@ -3286,10 +3302,42 @@ a .code-token {
 
 .stream-grid.is-paused .stream-hub__paused {
 	display: block;
-	animation: dsh-paused-in var(--duration-slow) var(--ease-snap);
+	animation: dsh-hub-tag-in var(--duration-slow) var(--ease-snap);
 }
 
-@keyframes dsh-paused-in {
+/* The workbench/matrix settled tag: the same flow divider announces the
+	settled state - the one-pass stream has completed (the one-pass-then-
+	settle rule, see the page scripts), so the tag appears under the hub
+	core with the restart affordance's promise (PLAYED ONCE). The markup
+	carries the two parts (only the SETTLED word takes the primary blue -
+	the normalized signature; the separator and the rest keep the
+	on-surface-variant ink), hidden until the stage is settled. The
+	entrance reuses the paused tag's one-shot keyframe (the shared
+	dsh-hub-tag-in, renamed from the pause-specific dsh-paused-in), so the
+	tag fades/slides in on settle instead of popping; the layout behavior
+	of the display toggle is unchanged. */
+.stream-hub__settled {
+	display: none;
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	line-height: var(--leading-label-sm);
+	font-weight: var(--weight-label-sm);
+	letter-spacing: var(--tracking-label-sm);
+	color: var(--color-on-surface-variant);
+	white-space: nowrap;
+	text-transform: uppercase;
+}
+
+.stream-hub__settled-word {
+	color: var(--color-primary);
+}
+
+.stream-grid.is-settled .stream-hub__settled {
+	display: block;
+	animation: dsh-hub-tag-in var(--duration-slow) var(--ease-snap);
+}
+
+@keyframes dsh-hub-tag-in {
 	from {
 		opacity: 0;
 		transform: translateY(2px);
@@ -3302,10 +3350,13 @@ a .code-token {
 	two-bar pause glyph in the accent-orange live-writing tone (the
 	outline keeps it legible on both the light and the dark canvas), with
 	the hot spot on the glyph's center. Fine pointers only - touch has no
-	cursor to replace. */
+	cursor to replace. A settled stage has nothing to pause (the settle
+	freeze already stills the motion), so the affordance hides from the
+	settled stages - the restart is what the toggle promises, not the
+	cursor. */
 @media (hover: hover) and (pointer: fine) {
-	.terminal-demo,
-	.stream-grid {
+	.terminal-demo:not(.is-settled),
+	.stream-grid:not(.is-settled) {
 		cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cg fill='%23bf3003' stroke='%23ffffff' stroke-width='1'%3E%3Crect x='6' y='5' width='4.5' height='14' rx='1.5'/%3E%3Crect x='13.5' y='5' width='4.5' height='14' rx='1.5'/%3E%3C/g%3E%3C/svg%3E")
 				12 12,
 			pointer;
@@ -3316,15 +3367,18 @@ a .code-token {
 	While the stage is live-writing, the first tray marker breathes
 	softly - an opacity pulse only (no scale, no color change: the flat
 	marker language holds, the pulse just marks "this tray is writing").
-	The pause freezes it with the rest of the stage motion; the global
-	reduced-motion guard kills it outright. */
+	The pause and the settle freeze it with the rest of the stage motion
+	(a settled stage is not live-writing); the global reduced-motion guard
+	kills it outright. */
 .terminal-demo .tray__marker--first,
 .stream-grid .tray__marker--first {
 	animation: dsh-marker-pulse 2.4s var(--ease-crisp) infinite;
 }
 
 .terminal-demo.is-paused .tray__marker--first,
-.stream-grid.is-paused .tray__marker--first {
+.terminal-demo.is-settled .tray__marker--first,
+.stream-grid.is-paused .tray__marker--first,
+.stream-grid.is-settled .tray__marker--first {
 	animation-play-state: paused;
 }
 

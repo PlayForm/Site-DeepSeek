@@ -229,7 +229,12 @@ const GovernSupports = [
 					NORMALIZED OUTPUT pane on the right lands the clean ASCII. Both
 					panes are height-bounded (fixed line budget, overflow hidden):
 					every generation appends the next response inside the panes, the
-					oldest lines scroll out, and the page below never shifts. -->
+					oldest lines scroll out, and the page below never shifts. The
+					stream is one-pass-then-settle (see the script below): each
+					sample line plays exactly once - no pass repeats, so no line
+					repetition - and when the pass completes the stream settles
+					(the panes keep the final content, the caret/pulse freeze, the
+					status lands SETTLED); a settled pass restarts on click. -->
 				<section class="terminal-demo" data-demo>
 					<TerminalTray Label="LIVE STREAM GATE PREVIEW">
 						<span class="terminal-demo__status" data-demo-status role="status" aria-live="polite">
@@ -1056,6 +1061,13 @@ const GovernSupports = [
 	// the pipe pulse carries them through the gate; clean ASCII lands in the
 	// right pane. Both panes are height-bounded, so every generation appends
 	// the next response inside the panes and the page below never shifts.
+	//
+	// The stream is one-pass-then-settle: the tick loop plays each sample
+	// line exactly once (raw and clean beside it in the same tick) and when
+	// the pass completes the stream settles - the interval stops, the panes
+	// keep the final content, the caret/pulse freeze, and the status lands
+	// the SETTLED state. No pass repeats, so no line repetition; a settled
+	// pass restarts on click.
 	const Seeds = [
 		"Plan review \u2014 phase one: the config \u201Cdrift\u201D is real\u2026 wait for it\u2026",
 		"Balance\u00A0sheet sync \u2014 \u2018quoted\u2019 values\u00A0kept\u2026",
@@ -1070,6 +1082,9 @@ const GovernSupports = [
 	let Chars = 0;
 	let Index = 0;
 	let Paused = false;
+	// The one-pass-then-settle state: Settled marks the sample pass complete
+	// (the Tick/Settle pair below).
+	let Settled = false;
 	let Timer: ReturnType<typeof setInterval> | undefined;
 
 	function CleanUp(Text: string) {
@@ -1111,8 +1126,17 @@ const GovernSupports = [
 		}
 	}
 
+	// The one-pass-then-settle tick: the pass counter indexes the sample
+	// pool directly (no modulo, no cycling), so each sample line plays
+	// exactly once and raw/clean stay beside each other in the same tick.
+	// When the pool is exhausted the stream settles and the tick guard
+	// keeps the interval's later fires inert.
 	function Tick() {
-		const Seed = Seeds[Index % Seeds.length];
+		if (Index >= Seeds.length) {
+			Settle();
+			return;
+		}
+		const Seed = Seeds[Index];
 		Index += 1;
 		const Before = Seed;
 		const After = CleanUp(Seed);
@@ -1126,6 +1150,22 @@ const GovernSupports = [
 		AppendResponse(Clean, After);
 
 		Status.innerHTML = `NORMALIZING<span class="dot-sep" aria-hidden="true"></span>${Chars.toLocaleString("en-US")} CHARS`;
+		if (Index >= Seeds.length) Settle();
+	}
+
+	// One pass complete: the interval stops (no pending tick can flush), the
+	// panes keep the final content, and the caret/pulse settle with the
+	// stage class (the .is-settled rules in Global.css - the same motion
+	// selectors the hover-pause stills). The status lands the settled state:
+	// only the word SETTLED carries the primary-blue token (the normalized
+	// signature; see the .status-settled rule in Global.css), the separator
+	// and the rest keep the status's own color. The string is a static
+	// literal, so innerHTML is safe here.
+	function Settle() {
+		Settled = true;
+		StopStreaming();
+		Demo.classList.add("is-settled");
+		Status.innerHTML = `<span class="status-settled">SETTLED</span><span class="dot-sep" aria-hidden="true"></span>${Chars.toLocaleString("en-US")} CHARS NORMALIZED`;
 	}
 
 	function StartStreaming() {
@@ -1149,11 +1189,13 @@ const GovernSupports = [
 	// Hover-to-pause: hovering the gate preview stops the tick loop and
 	// freezes the caret and the pipe pulse (the .is-paused class) so the
 	// panes can be read at leisure; leaving resumes with the next regular
-	// tick. Reduced-motion users keep the stock behavior - the guard
-	// already stills the animations, so no listeners are attached.
+	// tick. A settled pass has no stream to pause - the settle freeze
+	// already stills the animations - so the guards skip it. Reduced-motion
+	// users keep the stock behavior - the guard already stills the
+	// animations, so no listeners are attached.
 	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 		Demo.addEventListener("mouseenter", () => {
-			if (Paused) return;
+			if (Paused || Settled) return;
 			Paused = true;
 			Demo.classList.add("is-paused");
 			// The split status: only the word PAUSED carries the accent-orange
@@ -1168,20 +1210,67 @@ const GovernSupports = [
 			if (!Paused) return;
 			Paused = false;
 			Demo.classList.remove("is-paused");
+			if (Settled) return;
 			Status.innerHTML = `NORMALIZING<span class="dot-sep" aria-hidden="true"></span>${Chars.toLocaleString("en-US")} CHARS`;
 			StartStreaming();
 		});
 	}
 
+	// A settled pass restarts on click: the panes clear, the counters reset,
+	// and the same one-pass stream plays again - still exactly once per
+	// pass, so no repetition. During a pass (or a hover-pause) the click is
+	// ignored; the guard keeps the restart a settled-state affordance. The
+	// restart is motion-independent, so it works for reduced-motion users
+	// too (their animations are stillled by the global guard).
+	Demo.addEventListener("click", () => {
+		if (!Settled) return;
+		Settled = false;
+		Index = 0;
+		Chars = 0;
+		Raw.textContent = "";
+		Clean.textContent = "";
+		Demo.classList.remove("is-settled");
+		Status.innerHTML = `NORMALIZING<span class="dot-sep" aria-hidden="true"></span>0 CHARS`;
+		StartStreaming();
+		Tick();
+	});
+
 	// ---- The coach judge demo: the tier ladder + the strike accumulation
-	// ---- (the tool-coach section above). The copy comes from
-	// hook-dsh-tool-coach's README/SCHEME; the ledger lines are the
-	// module's byte-exact templates instantiated with the demo's own
-	// calls. Clicking a tier card focuses the stage's explanation;
-	// clicking a bash call card judges it: the verdict flash on the card,
-	// the offense line in the tray, the tier-1 note at the 3rd same-class
-	// strike, the tier-2 section at 6 total offenses, and - when the
-	// enforce chip is armed - the tier-3 deny reason on write-class calls.
+	// ---- (the tool-coach section above) - implemented as a PROPER, TYPED
+	// ---- STATE MACHINE (the user's feedback: toggle-able, properly typed,
+	// ---- deterministic, structured). The design:
+	//
+	// The states (the discriminated union `CoachState` - what the coach IS
+	// doing, mirroring the real module's ladder semantics):
+	//   idle      - no call judged yet;
+	//   judging   - a call judged within the window (the verdict rides the
+	//               state);
+	//   noting    - a tier-1 note fired (the 3rd same-class strike);
+	//   escalated - tier-2 section on (6 total offenses);
+	//   denied    - a tier-3 deny fired (enforce armed, write-class call);
+	//   cleared   - the section cleared (4 clean calls in the window).
+	//
+	// The events (`CoachEvent`): each call card maps to ONE defined judge
+	// transition (clean/exempt/read/write), the tier cells map to the focus
+	// toggle, the enforce chip maps to the arm toggle.
+	//
+	// The effects (`CoachEffect[]`): what a transition asks the render to
+	// apply - the ledger lines, the tier notices, the verdict flash, the
+	// ladder lights. The step is deterministic: same machine + same event =
+	// same transition.
+	//
+	// The context (`CoachContext`): the strike accumulation the ladder
+	// semantics read (the per-class strikes, the total offenses, the clean
+	// streak, the enforce arm, the section state, the reached tiers).
+	//
+	// The render is one deterministic function of the machine: the ladder's
+	// focus + lights, the focus area's explanation, the status (the strike
+	// count + the exact state word), the enforce chip, and the call cards'
+	// verdict flashes. The COPY (the tier texts, the call labels, the
+	// ledger strings) stays byte-exact - only the interactivity + the state
+	// structure changed. The copy comes from hook-dsh-tool-coach's
+	// README/SCHEME; the ledger lines are the module's byte-exact templates
+	// instantiated with the demo's own calls.
 	const TierExplanations: Record<string, string> = {
 		"0": "Tier 0 - the durable log: every detected offense logs offense <tool> <class> <pattern> immediately, and the model sees nothing. Exemptions log exempt <tool> <pattern-head> only when a row would have matched.",
 		"1": "Tier 1 - the note: the offense's class reaching threshold (3) strikes within window (8) judged calls, with cooldown (10) between notes, appends a UserMessage additionalContexts note - source {kind: 'tool-coach', form: 'notice', summary: '<tool> <class> \u00d7 <n>'} - naming the correct tool with its LIVE registry description.",
@@ -1189,19 +1278,72 @@ const GovernSupports = [
 		"3": "Tier 3 - the deny: enforce ('off' | 'write' | 'all') armed and per-class strikes since the last note reaching enforceThreshold (4), the tools/pre-execute listener returns {kind: 'deny', reason} - the deny reason IS the lesson. Discovery and control are NEVER denied.",
 	};
 
+	// The demo's machine types.
+	type TierN = "0" | "1" | "2" | "3";
+	type CallKind = "clean" | "read" | "write" | "exempt";
+
+	// The states: the discriminated union of the ladder phases.
+	type CoachState =
+		| { Kind: "idle" }
+		| { Kind: "judging"; Call: CallKind; Verdict: "clean" | "offense" }
+		| { Kind: "noting"; Call: CallKind }
+		| { Kind: "escalated" }
+		| { Kind: "denied"; Call: CallKind }
+		| { Kind: "cleared" };
+
+	// The state words: the exact machine state, visible in the status area.
+	const StateWords: Record<CoachState["Kind"], string> = {
+		idle: "IDLE",
+		judging: "JUDGING",
+		noting: "NOTING",
+		escalated: "ESCALATED",
+		denied: "DENIED",
+		cleared: "CLEARED",
+	};
+
+	// The events: the demo's inputs.
+	type CoachEvent =
+		| { Kind: "judge"; CallKind: CallKind; Pattern: string; Target: HTMLElement }
+		| { Kind: "tier"; Tier: TierN }
+		| { Kind: "enforce" };
+
+	// The effects: what a transition asks the render to apply.
+	type CoachEffect =
+		| { Kind: "line"; Text: string; Mod?: string }
+		| { Kind: "notice"; Html: string }
+		| { Kind: "light"; Tier: TierN }
+		| { Kind: "verdict"; Target: HTMLElement; Verdict: "clean" | "offense" };
+
+	// The strike context: the accumulation the ladder semantics read.
+	interface CoachContext {
+		ReadStrikes: number;
+		WriteStrikes: number;
+		TotalOffenses: number;
+		CleanStreak: number;
+		EnforceArmed: boolean;
+		SectionOn: boolean;
+		Reached: Set<TierN>;
+	}
+
+	// The machine: the state + the focus + the context.
+	interface CoachMachine {
+		State: CoachState;
+		Focus: TierN | null;
+		Context: CoachContext;
+	}
+
+	// The transition: the next machine + the effects to apply.
+	interface CoachTransition {
+		Machine: CoachMachine;
+		Effects: CoachEffect[];
+	}
+
 	const CoachFocus = document.querySelector<HTMLElement>("[data-coach-focus]")!;
 	const CoachScreen = document.querySelector<HTMLElement>("[data-coach-screen]")!;
 	const CoachStatus = document.querySelector<HTMLElement>("[data-coach-status]")!;
 	const TierButtons = [...document.querySelectorAll<HTMLElement>("[data-coach-tier]")];
 	const CallButtons = [...document.querySelectorAll<HTMLElement>("[data-coach-call]")];
 	const EnforceButton = document.querySelector<HTMLElement>("[data-coach-enforce]")!;
-
-	let WriteStrikes = 0;
-	let ReadStrikes = 0;
-	let TotalOffenses = 0;
-	let CleanStreak = 0;
-	let Escalated = false;
-	let EnforceArmed = false;
 
 	function PushLine(Text: string, Mod = "") {
 		const Line = document.createElement("div");
@@ -1221,98 +1363,197 @@ const GovernSupports = [
 		CoachScreen.scrollTop = CoachScreen.scrollHeight;
 	}
 
-	function LightTier(N: string) {
-		TierButtons.forEach((Tier) => {
-			if (Tier.getAttribute("data-coach-tier") === N) Tier.classList.add("is-lit");
-		});
+	// The initial machine: the shipped markup's default (tier 0 focused,
+	// the ledger idle, no strikes, no reached tiers).
+	let Machine: CoachMachine = {
+		State: { Kind: "idle" },
+		Focus: "0",
+		Context: {
+			ReadStrikes: 0,
+			WriteStrikes: 0,
+			TotalOffenses: 0,
+			CleanStreak: 0,
+			EnforceArmed: false,
+			SectionOn: false,
+			Reached: new Set<TierN>(),
+		},
+	};
+
+	// The step: deterministic - same machine + same event = same
+	// transition. The context is a fresh copy per judge transition (the
+	// step owns it; the previous machine object is discarded).
+	function transition(Machine: CoachMachine, Event: CoachEvent): CoachTransition {
+		switch (Event.Kind) {
+			// The tier focus toggle: clicking the focused tier deselects it
+			// (no focus, no explanation); clicking another focuses it. The
+			// render guarantees only one active at a time.
+			case "tier":
+				return {
+					Machine: { ...Machine, Focus: Machine.Focus === Event.Tier ? null : Event.Tier },
+					Effects: [],
+				};
+			// The enforce arm toggle: arming lights tier 3 (the deny path is
+			// reachable); disarming keeps the reached light (the ladder
+			// reflects the tiers the machine has reached).
+			case "enforce": {
+				const Context = { ...Machine.Context, EnforceArmed: !Machine.Context.EnforceArmed };
+				return {
+					Machine: { ...Machine, Context },
+					Effects: Context.EnforceArmed ? [{ Kind: "light", Tier: "3" }] : [],
+				};
+			}
+			// The judge transition: each call card maps to ONE defined judge
+			// transition below.
+			case "judge":
+				return judge(Machine, Event);
+		}
 	}
 
-	function UpdateStatus() {
-		CoachStatus.textContent = `${TotalOffenses} STRIKES`;
+	// The tier-2 escalation read: after every offense the fresh context is
+	// read - the section escalates at 6 total offenses (idempotent: never
+	// re-escalates while on). The context is the judge step's fresh copy,
+	// so the in-place mutation is the step's own.
+	function escalate(Machine: CoachMachine, Effects: CoachEffect[]): CoachTransition {
+		if (Machine.Context.SectionOn || Machine.Context.TotalOffenses < 6) return { Machine, Effects };
+		Machine.Context.SectionOn = true;
+		return {
+			Machine: { State: { Kind: "escalated" }, Focus: Machine.Focus, Context: Machine.Context },
+			Effects: [
+				...Effects,
+				{ Kind: "line", Text: `escalated persistent section (${Machine.Context.TotalOffenses} strikes)` },
+				{
+					Kind: "notice",
+					Html: "<strong>Tool discipline</strong> - 3 fixed rules plus the live-fetched tool table (8 rows max); off again after the clean window.",
+				},
+				{ Kind: "light", Tier: "2" },
+			],
+		};
 	}
 
-	function Judge(Call: HTMLElement) {
-		const Kind = Call.getAttribute("data-call-kind");
-		const Pattern = Call.getAttribute("data-call-pattern") ?? "";
+	// The clean-window read: a clean/exempt call extends the streak - the
+	// section clears at 4 clean calls while it is on.
+	function cleared(Machine: CoachMachine, Effects: CoachEffect[]): CoachTransition {
+		if (!Machine.Context.SectionOn || Machine.Context.CleanStreak < 4) {
+			return {
+				Machine: {
+					State: { Kind: "judging", Call: Event_CallKind, Verdict: "clean" },
+					Focus: Machine.Focus,
+					Context: Machine.Context,
+				},
+				Effects,
+			};
+		}
+		Machine.Context.SectionOn = false;
+		Machine.Context.CleanStreak = 0;
+		return {
+			Machine: { State: { Kind: "cleared" }, Focus: Machine.Focus, Context: Machine.Context },
+			Effects: [...Effects, { Kind: "line", Text: "persistent section cleared (4 clean calls)" }],
+		};
+	}
 
-		if (Kind === "clean") {
-			Call.classList.add("is-clean");
-			CleanStreak += 1;
-			if (Escalated && CleanStreak >= 4) {
-				PushLine("persistent section cleared (4 clean calls)");
-				Escalated = false;
-				CleanStreak = 0;
+	function judge(Machine: CoachMachine, Event: Extract<CoachEvent, { Kind: "judge" }>): CoachTransition {
+		const Context = { ...Machine.Context };
+		const Effects: CoachEffect[] = [{ Kind: "verdict", Target: Event.Target, Verdict: "clean" }];
+
+		// The clean/exempt branch: the streak extends (the exempt call still
+		// logs its byte-exact line - only when a row would have matched, the
+		// exempt head dominates its pipe), then the clean-window read.
+		if (Event.CallKind === "clean" || Event.CallKind === "exempt") {
+			Context.CleanStreak += 1;
+			Effects.push({ Kind: "verdict", Target: Event.Target, Verdict: "clean" });
+			if (Event.CallKind === "exempt") Effects.push({ Kind: "line", Text: `exempt bash ${Event.Pattern}` });
+			if (Context.SectionOn && Context.CleanStreak >= 4) {
+				Effects.push({ Kind: "line", Text: "persistent section cleared (4 clean calls)" });
+				Context.SectionOn = false;
+				Context.CleanStreak = 0;
+				return {
+					Machine: { State: { Kind: "cleared" }, Focus: Machine.Focus, Context },
+					Effects,
+				};
 			}
-			return;
+			return {
+				Machine: { State: { Kind: "judging", Call: Event.CallKind, Verdict: "clean" }, Focus: Machine.Focus, Context },
+				Effects,
+			};
 		}
 
-		if (Kind === "exempt") {
-			Call.classList.add("is-clean");
-			CleanStreak += 1;
-			// The exemption line: only when a row would have matched (the
-			// exempt head dominates its pipe).
-			PushLine(`exempt bash ${Pattern}`);
-			if (Escalated && CleanStreak >= 4) {
-				PushLine("persistent section cleared (4 clean calls)");
-				Escalated = false;
-				CleanStreak = 0;
-			}
-			return;
-		}
+		// The offense branch: the ledger logs the offense (byte-exact), the
+		// clean streak resets, and the strike accumulates per class.
+		Context.CleanStreak = 0;
+		Context.TotalOffenses += 1;
+		Context.Reached.add("0");
+		Effects.push({ Kind: "verdict", Target: Event.Target, Verdict: "offense" });
 
-		Call.classList.add("is-offense");
-		CleanStreak = 0;
-		TotalOffenses += 1;
-		UpdateStatus();
-
-		if (Kind === "read") {
-			ReadStrikes += 1;
-			PushLine(`offense bash read ${Pattern}`, "offense");
-			if (ReadStrikes >= 3) {
-				PushLine(`strike ${ReadStrikes}/3 bash read -> note read`, "offense");
-				PushNotice(
-					"<strong>bash read \u00d7 3</strong> - use the read tool - reads a file from the local filesystem (param: path), fetched live via ctx.tools.schemas().",
+		if (Event.CallKind === "read") {
+			Context.ReadStrikes += 1;
+			Effects.push({ Kind: "line", Text: `offense bash read ${Event.Pattern}`, Mod: "offense" });
+			if (Context.ReadStrikes >= 3) {
+				Effects.push(
+					{ Kind: "line", Text: `strike ${Context.ReadStrikes}/3 bash read -> note read`, Mod: "offense" },
+					{
+						Kind: "notice",
+						Html: "<strong>bash read \u00d7 3</strong> - use the read tool - reads a file from the local filesystem (param: path), fetched live via ctx.tools.schemas().",
+					},
+					{ Kind: "light", Tier: "1" },
 				);
-				LightTier("1");
-				ReadStrikes = 0;
-			}
-		}
-
-		if (Kind === "write") {
-			if (EnforceArmed) {
-				// Tier 3: the deny reason IS the lesson; the deny resets the
-				// note counters, and the offense still counts (the denied
-				// call flows through post-execute).
-				PushLine(`denied bash write ${Pattern} -> use edit`, "deny");
-				PushNotice(
-					"<strong>denied</strong> - use the edit tool - performs exact string replacement in a file (param: file_path); discovery and control are never denied.",
+				Context.Reached.add("1");
+				Context.ReadStrikes = 0;
+				return escalate(
+					{ Machine: { State: { Kind: "noting", Call: "read" }, Focus: Machine.Focus, Context }, Effects },
+					Effects,
 				);
-				LightTier("3");
-				WriteStrikes = 0;
-			} else {
-				WriteStrikes += 1;
-				PushLine(`offense bash write ${Pattern}`, "offense");
-				if (WriteStrikes >= 3) {
-					PushLine(`strike ${WriteStrikes}/3 bash write -> note edit`, "offense");
-					PushNotice(
-						"<strong>bash write \u00d7 3</strong> - use the edit tool - performs exact string replacement in a file (param: file_path), fetched live via ctx.tools.schemas().",
-					);
-					LightTier("1");
-					WriteStrikes = 0;
-				}
+			}
+			return {
+				Machine: { State: { Kind: "judging", Call: "read", Verdict: "offense" }, Focus: Machine.Focus, Context },
+				Effects,
+			};
+		}
+
+		// The write branch: while enforce is armed the deny fires (the deny
+		// reason IS the lesson; the denied call flows through post-execute,
+		// so the offense still counts), otherwise the write strikes
+		// accumulate to the tier-1 note.
+		if (Event.CallKind === "write") {
+			if (Context.EnforceArmed) {
+				Effects.push(
+					{ Kind: "line", Text: `denied bash write ${Event.Pattern} -> use edit`, Mod: "deny" },
+					{
+						Kind: "notice",
+						Html: "<strong>denied</strong> - use the edit tool - performs exact string replacement in a file (param: file_path); discovery and control are never denied.",
+					},
+					{ Kind: "light", Tier: "3" },
+				);
+				Context.Reached.add("3");
+				Context.WriteStrikes = 0;
+				return escalate(
+					{ Machine: { State: { Kind: "denied", Call: "write" }, Focus: Machine.Focus, Context }, Effects },
+					Effects,
+				);
+			}
+			Context.WriteStrikes += 1;
+			Effects.push({ Kind: "line", Text: `offense bash write ${Event.Pattern}`, Mod: "offense" });
+			if (Context.WriteStrikes >= 3) {
+				Effects.push(
+					{ Kind: "line", Text: `strike ${Context.WriteStrikes}/3 bash write -> note edit`, Mod: "offense" },
+					{
+						Kind: "notice",
+						Html: "<strong>bash write \u00d7 3</strong> - use the edit tool - performs exact string replacement in a file (param: file_path), fetched live via ctx.tools.schemas().",
+					},
+					{ Kind: "light", Tier: "1" },
+				);
+				Context.Reached.add("1");
+				Context.WriteStrikes = 0;
+				return escalate(
+					{ Machine: { State: { Kind: "noting", Call: "write" }, Focus: Machine.Focus, Context }, Effects },
+					Effects,
+				);
 			}
 		}
 
-		// Tier 2: total offenses since the last note (the demo counts every
-		// offense; idempotent - the section never re-escalates while on).
-		if (!Escalated && TotalOffenses >= 6) {
-			PushLine(`escalated persistent section (${TotalOffenses} strikes)`);
-			PushNotice(
-				"<strong>Tool discipline</strong> - 3 fixed rules plus the live-fetched tool table (8 rows max); off again after the clean window.",
-			);
-			LightTier("2");
-			Escalated = true;
-		}
+		return escalate(
+			{ Machine: { State: { Kind: "judging", Call: Event.CallKind, Verdict: "offense" }, Focus: Machine.Focus, Context }, Effects },
+			Effects,
+		);
 	}
 
 	CallButtons.forEach((Call) => {
