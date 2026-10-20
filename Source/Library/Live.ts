@@ -77,7 +77,7 @@ function ReadText(Path: string): string | null {
 }
 
 /** Read a JSON file, or null when it is missing or unparseable. */
-function ReadJson(Path: string): any {
+function ReadJSON(Path: string): any {
 	try {
 		return JSON.parse(readFileSync(Path, "utf8"));
 	} catch {
@@ -101,7 +101,7 @@ function ReadDirs(Path: string): string[] | null {
 function ReadTree(Tree: string): TreePackage[] {
 	const Dir = join(Root, Tree, "packages");
 	return (ReadDirs(Dir) ?? []).flatMap((PackageDir) => {
-		const Package = ReadJson(join(Dir, PackageDir, "package.json"));
+		const Package = ReadJSON(join(Dir, PackageDir, "package.json"));
 		if (!Package || typeof Package.version !== "string") return [];
 		const Pin =
 			Package.dependencies?.["effect"] ??
@@ -159,7 +159,7 @@ const SuiteKeys = [
 	["Invisible", "invisible"],
 	["Fullwidth", "fullwidth"],
 	["File", "normalize-file"],
-	["Ccr", "ccr"],
+	["CCR", "ccr"],
 	["Coach", "tool-coach"],
 ] as const;
 

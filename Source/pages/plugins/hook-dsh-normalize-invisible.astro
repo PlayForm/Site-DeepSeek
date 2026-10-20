@@ -309,7 +309,7 @@ const LedgerStrings = [
 			<SectionHeader Title="Where It Fits" Meta={FamilyPosition(5)} />
 			<div class="concept-list">
 				<Concept
-					Id="invisible-family-position"
+					ID="invisible-family-position"
 					Title="The family position"
 					Diagram={`${Families.Invisible} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the fifth of the six stream normalizer siblings.`}
 				>
@@ -363,7 +363,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="invisible-non-manifest"
+					ID="invisible-non-manifest"
 					Title="A non-manifest factory consumer"
 					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."}
 				>
@@ -432,7 +432,7 @@ const LedgerStrings = [
 			<SectionHeader Title="The Problem" Meta="WHY THE INVISIBLE FLAVOR EXISTS" />
 			<div class="concept-list">
 				<Concept
-					Id="invisible-problem"
+					ID="invisible-problem"
 					Title="The perfect smugglers"
 					Diagram="Zero-width and format characters carrying no visible width - a zero-width joiner inside a file path, a right-to-left mark inside a command, the U+202E visual-spoofing override in what looks like plain text: none showing up in the transcript, all of them changing what a parser, shell or diff sees."
 				>
@@ -459,7 +459,7 @@ const LedgerStrings = [
 			<div class="code-block">{Pipeline.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
-					Id="invisible-transform"
+					ID="invisible-transform"
 					Title="The transform: the core's Invisible class"
 					Diagram="The core's Invisible class, applied per text segment through the core's generic class-to-string Replace."
 				>
@@ -475,7 +475,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="invisible-removal"
+					ID="invisible-removal"
 					Title="All are removed - the default is REMOVAL"
 					Diagram='All covered characters removed (default replacement: "" - REMOVAL) per text segment.'
 				>
@@ -507,7 +507,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="invisible-mechanics"
+					ID="invisible-mechanics"
 					Title="Chunk-boundary-safe, function-replaced, counted"
 					Diagram="No context rules, chunk-boundary-safe - single-character replacement, no lookahead, per-chunk application never disagreeing with whole-text application; the replacement applied with a function replacer so a custom replacement containing $ patterns is inserted literally; replaced characters counted per stream for the ledger line."
 				>
@@ -557,7 +557,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="invisible-volatile"
+					ID="invisible-volatile"
 					Title="Volatile cells commit without remounting"
 					Diagram="The volatile cells committing without remounting the plugin - the factory's State builder unwrapping them defensively."
 				>
@@ -604,7 +604,7 @@ const LedgerStrings = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="invisible-scopes"
+					ID="invisible-scopes"
 					Title="Every arm gated independently - and all volatile"
 					Diagram="The scopes object gating every arm of the hook-dsh-normalize-invisible hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 				>
@@ -691,7 +691,7 @@ const LedgerStrings = [
 			</p>
 			<div class="concept-list">
 				<Concept
-					Id="invisible-overpass"
+					ID="invisible-overpass"
 					Title="The overpass arms: opt-in listeners on two more seams"
 					Diagram="Two additional listeners, both registered at apply and both opt-in (gated at RUNTIME on the scope cells, so flipping a scope lands through the P10 volatile-refresh without any re-registration): the tool-results arm on tools/post-execute with { prepend: true }, and the step-batch arm on agent/pre-step in default order."
 				>
@@ -768,14 +768,14 @@ const LedgerStrings = [
 				different to a parser
 			</p>
 			<Compare
-				Id="invisible-stream"
+				ID="invisible-stream"
 				Flavor="invisible"
 				Raw={StreamExample.slice(0, 4)}
 				Clean={StreamExample.slice(4)}
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="invisible-in-action"
+					ID="invisible-in-action"
 					Title="The smugglers simply vanish"
 					Diagram="The smugglers sitting inside the word password and around the colon - a diff seeing a password that does not match the author's text, a parser tokenizing differently, a shell splicing a command - and after the pass all of them simply gone, the output line being what the reader should see."
 				>
@@ -791,7 +791,7 @@ const LedgerStrings = [
 					</p>
 				</Concept>
 				<Concept
-					Id="invisible-hot-and-pass"
+					ID="invisible-hot-and-pass"
 					Title="Hot-editable, and the same pass elsewhere"
 					Diagram={"The count line on a normal completion with replacements made - the replacement hot-editable (the default \"\" removes; a non-empty value such as \"?\" would mark each smuggler's position for debugging), and the same pass running over reasoning deltas when normalizeReasoning is on and over tool-call arguments when the example patch enables normalizeToolArguments - with the edit name exempt and raw-marker calls passing through unnormalized."}
 				>

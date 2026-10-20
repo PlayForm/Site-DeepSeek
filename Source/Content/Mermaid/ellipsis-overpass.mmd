@@ -1,24 +1,24 @@
 flowchart LR
-	APPLY["two additional listeners, both registered at apply<br/>and both opt-in, gated at runtime on the scope cells"]
-	FLIP["flipping a scope lands through the P10 volatile-refresh<br/>without any re-registration"]
-	TRES["the tool-results arm on tools/post-execute<br/>with { prepend: true }, outermost vs the ccr hook's own prepended gate"]
-	CCRGUARD["the CCR marker guard makes any load order safe<br/>the ccr compression sees the normalized bytes"]
-	RULES["accepted, non-value-carrying decisions only<br/>text blocks only, N = 0 a true no-op with no ledger line<br/>fail-open"]
-	BATCH["the step-batch arm on agent/pre-step in default order<br/>while scopes.batch is on, every incoming batch is normalized"]
-	ONESHOT["the command's one-shot arm fires once regardless of the scope value<br/>cleared after one use - text blocks only, never the assistant/tool history"]
+	APPLY["Two additional listeners, both registered at apply<br/>and both opt-in, gated at runtime on the scope cells"]
+	FLIP["Flipping a scope lands through the P10 volatile-refresh<br/>without any re-registration"]
+	TRES["The tool-results arm on tools/post-execute<br/>with { prepend: true }, outermost vs the ccr hook's own prepended gate"]
+	CCRGUARD["The CCR marker guard makes any load order safe<br/>the ccr compression sees the normalized bytes."]
+	RULES["Accepted, non-value-carrying decisions only<br/>text blocks only, N = 0 a true no-op with no ledger line<br/>fail-open"]
+	BATCH["The step-batch arm on agent/pre-step in default order<br/>while scopes.batch is on, every incoming batch is normalized."]
+	ONESHOT["The command's one-shot arm fires once regardless of the scope value<br/>cleared after one use - text blocks only, never the assistant/tool history"]
 	LEDGER["the hook-dsh-normalize-ellipsis overpass ledger lines<br/>for N above zero only"]
-	CMD["the normalize-overpass command, registered through the<br/>commands service when present - probe-once, a missing<br/>service simply skips the registration"]
-	DECLINE["files paths declined - the sweep is owned<br/>by the normalize-file hook"]
+	CMD["The normalize-overpass command, registered through the<br/>commands service when present - probe-once, a missing<br/>service simply skips the registration."]
+	DECLINE["File paths declined - the sweep is owned<br/>by the normalize-file hook"]
 	APPLY --> TRES
 	APPLY --> BATCH
 	APPLY ~~~ FLIP
 	TRES --> RULES
-	TRES -. "the marker guard" .-> CCRGUARD
+	TRES -. "The marker guard" .-> CCRGUARD
 	TRES --> LEDGER
 	BATCH --> ONESHOT
 	BATCH --> LEDGER
-	CMD -. "batch arms it" .-> ONESHOT
-	CMD -. "results on or off flips scopes.toolResults<br/>via the settings service, never direct State mutation" .-> TRES
-	CMD -. "files paths" .-> DECLINE
+	CMD -. "Batch arms it" .-> ONESHOT
+	CMD -. "Results on or off flips scopes.toolResults<br/>via the settings service, never direct State mutation" .-> TRES
+	CMD -. "File paths" .-> DECLINE
 
 %% Invisible layout links only - no semantics.

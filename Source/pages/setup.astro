@@ -318,7 +318,7 @@ const Knobs = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="setup-bundles-list"
+					ID="setup-bundles-list"
 					Title="The bundles list is what activates"
 					Diagram="The profile's package.json with the link: dependencies on the left and the dsh.profile.bundles list on the right - the list marking which entries actually activate."
 				>
@@ -329,7 +329,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-workspace-boundary"
+					ID="setup-workspace-boundary"
 					Title="The linked checkout needs its own workspace"
 					Diagram="The profile workspace and a linked bundle side by side - the bundle carrying its own node_modules and pnpm-workspace.yaml, with an install inside the bundle landing in the bundle's own workspace, never the profile's root."
 				>
@@ -344,7 +344,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-remote-installs"
+					ID="setup-remote-installs"
 					Title="Remote installs work the same way"
 					Diagram="The tarball route into the same bundles list - dsh plugin --profile add of a built bundle; the npm install route against the registry is the other path in, live since the v0.0.1 release."
 				>
@@ -366,7 +366,7 @@ const Knobs = [
 			<SectionHeader Title="Step 2 - The patch entries" Meta="cordis.patch.yml" />
 			<div class="concept-list">
 				<Concept
-					Id="setup-patch-rows"
+					ID="setup-patch-rows"
 					Title="The insert: entries declare the loader row"
 					Diagram="A [cordis.patch.yml](Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml) insert: entry mapping to its loader row and config - a bare id: row patching an existing entry, and an unknown id rejected by the loader."
 				>
@@ -380,7 +380,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-factory-config"
+					ID="setup-factory-config"
 					Title="The factory needs no config"
 					Diagram="The factory's insert: row registering the service with an empty config, while the consumers' rows carry the actual configuration."
 				>
@@ -404,7 +404,7 @@ const Knobs = [
 			<SectionHeader Title="Step 3 - Restart" Meta="BUNDLE LAYERS COMPOSE AT HOST BOOT" />
 			<div class="concept-list">
 				<Concept
-					Id="setup-boot-activation"
+					ID="setup-boot-activation"
 					Title="Activation is at the next start, not at install time"
 					Diagram="Install-time vs boot-time: the file: dependency alone not activating, the bundles list plus the restart loading the entries from each bundle's built Target/."
 				>
@@ -419,7 +419,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-dev-loop"
+					ID="setup-dev-loop"
 					Title="The dev loop is edit - build - restart"
 					Diagram="The loop: edit a linked bundle's source, build its Target, restart the host - the rebuilt Target fresh on every restart."
 				>
@@ -436,7 +436,7 @@ const Knobs = [
 			<SectionHeader Title="Step 4 - Verify" Meta="THE LEDGERS' ACTIVATION LINES" />
 			<div class="concept-list">
 				<Concept
-					Id="setup-ledger-verify"
+					ID="setup-ledger-verify"
 					Title="The ledger answers 'did it activate'"
 					Diagram="Each plugin writing its activation line to its own ~/.dsh/<name>.log at boot - the ledger and the runtime's inspect providers as the activation assessors."
 				>
@@ -451,7 +451,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-effective-config"
+					ID="setup-effective-config"
 					Title="Read the effective config, not the schema"
 					Diagram="The bundle patch layers projecting the live effective config - a patch config replacing the entry config wholesale, the schema-advertised defaults shown as possibly-not-running."
 				>
@@ -470,7 +470,7 @@ const Knobs = [
 			<SectionHeader Title="The configurable surface" Meta="REAL SCHEMA FIELDS" />
 			<div class="concept-list">
 				<Concept
-					Id="setup-real-fields"
+					ID="setup-real-fields"
 					Title="Real schema fields, hot-editable"
 					Diagram="The Config schemas behind every knob - the volatile cells (log, logFile, replacement, each plugin's own hot fields) committing without remounting the plugin."
 				>
@@ -482,7 +482,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-full-tables"
+					ID="setup-full-tables"
 					Title="The full tables live on each plugin page"
 					Diagram="The plugin pages carrying the full config table for each bundle - the eight pages linked from this section."
 				>
@@ -525,7 +525,7 @@ const Knobs = [
 			<SectionHeader Title="Optional by default" Meta="WHAT STAYS OFF UNLESS YOU ASK" />
 			<div class="concept-list">
 				<Concept
-					Id="setup-optional-toolargs"
+					ID="setup-optional-toolargs"
 					Title="normalizeToolArguments: false"
 					Diagram="The schema default OFF for tool-call arguments - execution-critical raw JSON - and the structural pass-through exemptions (edit/raw-write/normalize-file by identity, the __normalize:false first-key marker) when a patch turns it on."
 				>
@@ -555,7 +555,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-optional-govern"
+					ID="setup-optional-govern"
 					Title="govern: absent"
 					Diagram="The raw-write tool with no govern flag emitting [fs/observed](Harness:packages/fs/fs/src/index.ts) exactly like a built-in write - the event path governing it as always, the per-call direct chain running only when asked."
 				>
@@ -568,7 +568,7 @@ const Knobs = [
 					<p>The per-call direct chain only runs when you ask for it.</p>
 				</Concept>
 				<Concept
-					Id="setup-optional-normalize"
+					ID="setup-optional-normalize"
 					Title="normalize: absent (raw-write)"
 					Diagram="The raw-write tool's default posture: content landing verbatim, byte-for-byte - normalization happening only when the call selects it, all six transforms or specific flavors."
 				>
@@ -583,7 +583,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-optional-tracing"
+					ID="setup-optional-tracing"
 					Title="Tracing: no-op by default"
 					Diagram="The Effect-TS release wrapping every governance stage in spans while shipping Effect's no-op Tracer - the OTLP exporter attaching only when configured, spans never altering ledger strings or timing-sensitive gates."
 				>
@@ -600,7 +600,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-optional-parallel"
+					ID="setup-optional-parallel"
 					Title="The parallel-govern toggle"
 					Diagram="The direct-govern path running SEQUENTIAL (the awaited fold - the live-verified race fix) against the inherently concurrent event path - the designed per-call toggle riding the same govern flag shape in both releases."
 				>
@@ -616,7 +616,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-optional-best-effort"
+					ID="setup-optional-best-effort"
 					Title="Best-effort everywhere"
 					Diagram="The four best-effort postures: storage records buffering or dropping without a facility, excluded paths logging one line and moving on, a no-op write writing nothing, a thrown-away stream writing no ledger line."
 				>
@@ -630,7 +630,7 @@ const Knobs = [
 					<p>Silence is the invariant; the ledger is the receipt.</p>
 				</Concept>
 				<Concept
-					Id="setup-optional-scopes"
+					ID="setup-optional-scopes"
 					Title="scopes.toolInput / toolResults / batch: off"
 					Diagram="The granular volatile scopes' defaults are exactly the pre-scopes behavior: conversation and reasoning on, toolInput / toolResults / batch off, files on - the whole object one volatile cell, so a flip lands on the next judged call with no remount."
 				>
@@ -648,7 +648,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-optional-overpass"
+					ID="setup-optional-overpass"
 					Title="The overpass arms: opt-in"
 					Diagram="The two extra listeners registered at apply but gated at RUNTIME on the scope cells - the tools/post-execute tool-results arm (the OUTERMOST prepend) and the agent/pre-step step-batch arm - reachable through the normalize-overpass command; the file sweep is owned by the normalize-file hook."
 				>
@@ -671,7 +671,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-optional-guardians"
+					ID="setup-optional-guardians"
 					Title="The guardians' off-by-default surfaces"
 					Diagram="ccr's compressFailures off (failures pass through, the error x8 tier is the only beneficiary) and journalPath empty (memory-only store); the tool-coach's enforce tier 'off' (coaching only, no denies) with enabled as the master switch."
 				>
@@ -700,7 +700,7 @@ const Knobs = [
 			<SectionHeader Title="One ledger per plugin" Meta="~/.dsh/<name>.log" />
 			<div class="concept-list">
 				<Concept
-					Id="setup-separate-ledgers"
+					ID="setup-separate-ledgers"
 					Title="Separate ledgers, separate concerns"
 					Diagram="The governor's, the pinner's and the cargo governor's ledgers as three separate files - activating one never implying another."
 				>
@@ -711,7 +711,7 @@ const Knobs = [
 					</p>
 				</Concept>
 				<Concept
-					Id="setup-line-format"
+					ID="setup-line-format"
 					Title="The line format"
 					Diagram="One message flowing through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source) into its two forms: [ISO] message in the file, plugin: message on the logger."
 				>

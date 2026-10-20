@@ -296,7 +296,7 @@ const Usage = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="file-family-position"
+					ID="file-family-position"
 					Title="The family position"
 					Diagram={`${Families.File} as a tool-child of the plugin-dsh-factory service and the hook-dsh-core machinery - the seventh sibling, the one flavor that works on files already on disk instead of model output.`}
 				>
@@ -351,7 +351,7 @@ const Usage = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="file-gap"
+					ID="file-gap"
 					Title="The gap in between"
 					Diagram="The six stream flavors covering only what the model is emitting right now, the raw-write tool's normalize: true covering only content being written - and this flavor covering the gap in between: pre-existing files, git-cloned material, script-created files - anything already on disk that the agent did not just write."
 				>
@@ -367,7 +367,7 @@ const Usage = [
 					</p>
 				</Concept>
 				<Concept
-					Id="file-precedent"
+					ID="file-precedent"
 					Title="The file-hook precedent is direct"
 					Diagram="The normalize-dashes-for-execute-code.sh hook sweeping script-created files after the fact - DSH making the same rewrite an explicit, visible, opt-in TOOL call instead of a background hook, with normalize-tabs.sh (the repair hook for a repair hook) as the cautionary tale that keeps it that way."
 				>
@@ -383,7 +383,7 @@ const Usage = [
 					</p>
 				</Concept>
 				<Concept
-					Id="file-non-manifest"
+					ID="file-non-manifest"
 					Title="A non-manifest factory consumer - the only one that writes"
 					Diagram={"The tool's factory surface: injecting [\"pluginFactory\", \"fs\", \"tools\"], using State, Append (the ledger), Journal (the P5 storage record) and - uniquely in the family - Write, the ONE shared write executor - with the tool's writes carrying the call's exec as the actor, so the governance trio's Gate (which pins mutationTools to write/edit/str_replace_editor) never treats them as a trigger."}
 				>
@@ -444,7 +444,7 @@ const Usage = [
 			<SectionHeader Title="The Problem" Meta="WHY THE FILE TOOL EXISTS" />
 			<div class="concept-list">
 				<Concept
-					Id="file-problem-invisible"
+					ID="file-problem-invisible"
 					Title="Files that never passed through a write tool are invisible"
 					Diagram="Files that never passed through a write tool being invisible to every normalization layer DSH has - raw-write's normalize: true an explicit per-call opt-in for NEW writes, the six stream flavors only rewriting model output, never touching disk - a pre-existing file keeping every typographic character it was born with, exactly the characters that break parsers, shells, diffs and byte-exact edit matches downstream."
 				>
@@ -463,7 +463,7 @@ const Usage = [
 					</p>
 				</Concept>
 				<Concept
-					Id="file-problem-rewriter"
+					ID="file-problem-rewriter"
 					Title="The fix cannot be another silent rewriter"
 					Diagram="Files rewritten behind the agent only at the price of the edit tool's old_string contract - the agent reading bytes X, a background rewriter silently changing them to X', the next edit failing or half-matching - the cautionary precedent of normalize-tabs.sh, a repair hook for a repair hook, existing to repair the damage after-the-fact rewriting caused."
 				>
@@ -499,7 +499,7 @@ const Usage = [
 			<div class="code-block">{Pipeline.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
-					Id="file-whole-chain"
+					ID="file-whole-chain"
 					Title="The whole-chain transform, applied at write time"
 					Diagram="The transformation being exactly the raw-write normalize: true chain - the core's tables and replacers, applied whole at write time - no stream dispatch to gate: the tool registering NO event listener, the six transforms applied to the entire file content in one pass, the count being the ledger's N and the no-op condition in one."
 				>
@@ -514,7 +514,7 @@ const Usage = [
 					</p>
 				</Concept>
 				<Concept
-					Id="file-governance-bound"
+					ID="file-governance-bound"
 					Title="Governance bounded passes"
 					Diagram="The write going through Factory.Write and emitting fs/observed - but the governors' Gate requiring the actor tool name in their mutationTools pin, normalize-file never added to any such list, so these writes never trigger a chain pass."
 				>
@@ -534,7 +534,7 @@ const Usage = [
 					</p>
 				</Concept>
 				<Concept
-					Id="file-edit-contract"
+					ID="file-edit-contract"
 					Title="The edit old_string contract, kept safe because visible"
 					Diagram="The edit old_string contract safe because visible - the diff card showing the before/after in the same turn, and the tool description saying to re-read before editing."
 				>
@@ -545,7 +545,7 @@ const Usage = [
 					</p>
 				</Concept>
 				<Concept
-					Id="file-race"
+					ID="file-race"
 					Title="The raw-write read-before-write race, closed"
 					Diagram="Tool calls serialized and Factory.Write's before read at write time - a prior normalize-file in the same turn already reflected. No race."
 				>
@@ -596,7 +596,7 @@ const Usage = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="file-minimal-config"
+					ID="file-minimal-config"
 					Title="The minimal config surface"
 					Diagram="No stream flags (normalizeReasoning, normalizeToolArguments) and no fs/observed fields (updateCooldownMs, mutationTools, policyFile, exclude) - the minimal shared: false block plus the two knobs being the whole config surface, because the tool registers no listener of any kind; volatile cells committing without remounting the plugin."
 				>
@@ -632,7 +632,7 @@ const Usage = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="file-scopes"
+					ID="file-scopes"
 					Title="Every arm gated independently - and all volatile"
 					Diagram="The scopes object gating every arm of the hook-dsh-normalize-file hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 				>
@@ -722,7 +722,7 @@ const Usage = [
 			</p>
 			<div class="concept-list">
 				<Concept
-					Id="file-overpass"
+					ID="file-overpass"
 					Title="The overpass arms: opt-in listeners on two more seams"
 					Diagram="Two additional listeners, both registered at apply and both opt-in (gated at RUNTIME on the scope cells, so flipping a scope lands through the P10 volatile-refresh without any re-registration): the tool-results arm on tools/post-execute with { prepend: true }, and the step-batch arm on agent/pre-step in default order. The file hook owns the sweep."
 				>
@@ -784,7 +784,7 @@ const Usage = [
 				<BrandIcon Name="swap" />Before - the file as it sits on disk
 			</p>
 			<Compare
-				Id="file-before-after"
+				ID="file-before-after"
 				Flavor="file"
 				Raw={BeforeAfter.slice(0, 4)}
 				Clean={BeforeAfter.slice(4)}
@@ -793,7 +793,7 @@ const Usage = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="file-in-action-count"
+					ID="file-in-action-count"
 					Title="The counted write"
 					Diagram="Every em dash (U+2014) becoming the ASCII hyphen-minus, the curly quotes straight ones, the ellipsis three periods - five characters replaced, so N = 5 and the write happens; the result carrying the outcome, the diff card showing the before/after in the same turn, the ledger getting the count line."
 				>
@@ -809,7 +809,7 @@ const Usage = [
 					</p>
 				</Concept>
 				<Concept
-					Id="file-in-action-noop"
+					ID="file-in-action-noop"
 					Title="The no-op and the error cases"
 					Diagram="A file with nothing to replace being a no-op: changed: false, the file staying byte-identical, no write, no count line, no journal record - a missing, binary or undecodable target being an error result with no write - and re-reading before editing, because the file's bytes change under you."
 				>
@@ -838,7 +838,7 @@ const Usage = [
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
-					Id="file-ledger-lines"
+					ID="file-ledger-lines"
 					Title="Two lines, and the lines that never get written"
 					Diagram="The activation line written by apply() - the count line following only a successful N > 0 write, a no-op writing no line, a failed read or an aborted call writing none either."
 				>
@@ -849,7 +849,7 @@ const Usage = [
 					</p>
 				</Concept>
 				<Concept
-					Id="file-journal-record"
+					ID="file-journal-record"
 					Title="The journaled record"
 					Diagram="Each N > 0 write also journaling one normalized record into the shared package_governance v2 domain (event normalized, path = the target's display path, detail byte-identical to the count line) - best-effort: with no storage facility the record buffers or drops and the human ledger stays the complete record."
 				>

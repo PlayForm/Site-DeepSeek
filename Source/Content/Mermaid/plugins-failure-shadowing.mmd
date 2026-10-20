@@ -1,5 +1,5 @@
 flowchart LR
-	PATCH["the bundle's cordis.patch.yml<br/>patch config"] --> REPLACE["replaces the entry config wholesale"]
-	REPLACE --> SHADOW["the schema defaults - mutationTools<br/>shadowed in deployment"]
-	SHADOW --> NEVER["the raw-write's fs/observed<br/>never triggering the chain"]
-	FIX["the fix - adding raw-write to<br/>the three patch layers"] --> VER["the LIVE effective config verified<br/>from the bundle layers"]
+	PATCH["The bundle's cordis.patch.yml<br/>patch config"] --> REPLACE["Replaces the entry config wholesale"]
+	REPLACE --> SHADOW["The schema defaults - mutationTools<br/>shadowed in deployment"]
+	SHADOW --> NEVER["The raw-write's fs/observed<br/>never triggering the chain"]
+	FIX["The fix - adding raw-write to<br/>the three patch layers"] --> VER["The LIVE effective config verified<br/>from the bundle layers"]

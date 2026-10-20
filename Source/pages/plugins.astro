@@ -66,7 +66,7 @@ const Guardians = [
 		Name: "hook-dsh-ccr",
 		Role: "ROLE: COMPRESSOR",
 		Tags: "ccr compression retrieve hook",
-		Sentence: Families.Ccr,
+		Sentence: Families.CCR,
 		Desc: "The tool-output compressor: hooks the [tools/post-execute](Harness:docs/subsystems/tools.md) waterfall and replaces oversized results of the allow-listed target tools with a one-line type-aware preview plus a `<<<CCR:hash|type|size>>>` retrieval marker - gated on thresholdBytes x the per-type multipliers, with auto-expand returning small results FULL and the original kept retrievable through the registered ccr_retrieve tool over the sha256-24 LRU store.",
 		Install: `npm install @playform/hook-dsh-ccr@${Versions.Release}`,
 	},
@@ -432,7 +432,7 @@ const Registry = [
 			<SectionHeader Title="Where the family operates" Meta="THE HARNESS SEAMS" />
 			<div class="concept-list">
 				<Concept
-					Id="plugins-seams"
+					ID="plugins-seams"
 					Title="The ten seams the fifteen live on"
 					Diagram="The fifteen plugins attaching to the DeepSeek Harness through the fixed seam set - the [model stream waterfall](Harness:packages/llm/llm/src/index.ts), the [filesystem events](Harness:packages/fs/fs/src/index.ts), the tool layer, the [tools/post-execute waterfall](Harness:docs/subsystems/tools.md), the agent/pre-step step boundary, the commands service, the [subprocess seam](Harness:packages/subprocess/subprocess), the [jobs envelope](Harness:packages/jobs), the [storage domain](Harness:packages/storage/storage-domain) and the session ledger - with the DeepSeek internals each seam works through."
 				>
@@ -619,7 +619,7 @@ const Registry = [
 			<SectionHeader Title="The smoke baseline" Meta={Totals.Meta()} />
 			<div class="concept-list">
 				<Concept
-					Id="plugins-smoke-arbiter"
+					ID="plugins-smoke-arbiter"
 					Title="The smokes are the arbiter"
 					Diagram="Every suite loading the REAL built Target of its bundle and asserting the ledger strings byte-identically - the Effect-TS tree held to the same bar, its swap-in gated on its own parity."
 				>
@@ -656,7 +656,7 @@ const Registry = [
 									>hook-dsh-ccr</a>
 								</strong>
 							</td>
-							<td>{Counts.Ccr.Classic}</td>
+							<td>{Counts.CCR.Classic}</td>
 							<td>
 								<strong>
 									<a
@@ -811,9 +811,9 @@ const Registry = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="plugins-smoke-counts"
+					ID="plugins-smoke-counts"
 					Title="The checks are the CLASSIC counts"
-					Diagram={`The CLASSIC totals per suite against the EFFECT-TS totals on the same contracts - core ${Counts.Core.EffectTS}, factory ${Counts.Factory.EffectTS}, governor ${Counts.Governor.EffectTS} - summing to ${Totals.EffectTS} vs Classic's ${Totals.Classic}. The ccr and tool-coach suites sit at ${Counts.Ccr.EffectTS} and ${Counts.Coach.EffectTS} checks in BOTH trees (the new suites shipped with parity from day one).`}
+					Diagram={`The CLASSIC totals per suite against the EFFECT-TS totals on the same contracts - core ${Counts.Core.EffectTS}, factory ${Counts.Factory.EffectTS}, governor ${Counts.Governor.EffectTS} - summing to ${Totals.EffectTS} vs Classic's ${Totals.Classic}. The ccr and tool-coach suites sit at ${Counts.CCR.EffectTS} and ${Counts.Coach.EffectTS} checks in BOTH trees (the new suites shipped with parity from day one).`}
 				>
 					<p>
 						<BrandIcon Name="effect" /> The EFFECT-TS suites add coverage on the same
@@ -823,7 +823,7 @@ const Registry = [
 					</p>
 					<p>
 						The two new suites shipped with parity: the ccr suite runs{" "}
-						{Counts.Ccr.EffectTS} checks in both trees and the tool-coach suite{" "}
+						{Counts.CCR.EffectTS} checks in both trees and the tool-coach suite{" "}
 						{Counts.Coach.EffectTS} in both - the ccr suite covering the gate order,
 						the marker bytes, the round-trip retrieval and the context-engine math,
 						the tool-coach suite covering the four tiers, the live fetch and the
@@ -831,7 +831,7 @@ const Registry = [
 					</p>
 				</Concept>
 				<Concept
-					Id="plugins-smoke-wiring"
+					ID="plugins-smoke-wiring"
 					Title="Why both exist"
 					Diagram="The two proofs side by side - the smokes proving the mechanics, the live battery proving the wiring - with the defects that were found live, not by the smokes."
 				>
@@ -852,7 +852,7 @@ const Registry = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="plugins-failure-shadowing"
+					ID="plugins-failure-shadowing"
 					Title="The patch-layer config shadowing"
 					Diagram="The bundle's [cordis.patch.yml](Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml) patch config replacing the entry config wholesale - the schema defaults (mutationTools) shadowed in deployment, the raw-write's fs/observed never triggering the chain - and the fix adding raw-write to the three patch layers with the LIVE effective config verified from the bundle layers."
 				>
@@ -876,7 +876,7 @@ const Registry = [
 					</p>
 				</Concept>
 				<Concept
-					Id="plugins-failure-race"
+					ID="plugins-failure-race"
 					Title="The same-observed-version guard race"
 					Diagram="The multi-step direct-govern fold with every step writing the SAME observed version - only the first write succeeding, the later steps failing the stale-version check silently - and the fix: the sequential fold awaiting each step's chain with the chain pass statting the target before its write."
 				>
@@ -899,7 +899,7 @@ const Registry = [
 					</p>
 				</Concept>
 				<Concept
-					Id="plugins-failure-storage"
+					ID="plugins-failure-storage"
 					Title="The P5 v2 storage open failure"
 					Diagram={`The package_governance v2 domain open failing SILENTLY against the v1 file on the exact-equality version check - and the fix: per-record layout, compatibleVersions [${Migration.CompatibleVersions.join(", ")}], backup-and-skip for invalid records, and a loud failure line.`}
 				>
@@ -921,7 +921,7 @@ const Registry = [
 					</p>
 				</Concept>
 				<Concept
-					Id="plugins-failure-reprocessing"
+					ID="plugins-failure-reprocessing"
 					Title="The cross-module re-processing bound"
 					Diagram="A governed write re-firing [fs/observed](Harness:packages/fs/fs/src/index.ts) with the interlock re-entering the listeners by design - and the three bounds keeping the re-pass safe: the Stash idempotence gate, the P3/U2 refresh re-emitting with the same actor, and the live battery proving bounded, self-canonicalizing re-passes."
 				>
@@ -948,7 +948,7 @@ const Registry = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="plugins-arch-hooks"
+					ID="plugins-arch-hooks"
 					Title="Hooks - where the family attaches"
 					Diagram="The three attachment points: the [llm/stream waterfall wrap](Harness:packages/llm/llm/src/index.ts) (next() first, options untouched, per-chunk), the [fs/observed listeners](Harness:packages/fs/fs/src/index.ts) (sync, after content is on disk, fired by the tool layer only), and the tool registrations into the agent's toolset ([raw-write](Ours:Classic/packages/hook-dsh-normalize-dash/Source), [normalize-file](Ours:Classic/packages/hook-dsh-normalize-file/Source))."
 				>
@@ -969,7 +969,7 @@ const Registry = [
 					</p>
 				</Concept>
 				<Concept
-					Id="plugins-arch-delegations"
+					ID="plugins-arch-delegations"
 					Title="Delegations - who does the work"
 					Diagram="The work splitting across the family: the [factory's Direct-govern steps](Ours:Classic/packages/plugin-dsh-factory/Source) (per basename, the raw-write govern selection), the [core's Dispatch/Settle envelope builder](Ours:Classic/packages/hook-dsh-core/Source) (a new update stage reducing to a child runner plus strings), the [subprocess seam](Harness:packages/subprocess/subprocess) for the external tools, and the Effect-TS services mirroring the same seams."
 				>
@@ -986,7 +986,7 @@ const Registry = [
 					</p>
 				</Concept>
 				<Concept
-					Id="plugins-arch-inversions"
+					ID="plugins-arch-inversions"
 					Title="Inversions - who owns what"
 					Diagram="The ownership boundaries: the Dependencies injection builders (every collection, child stage and string injected), the module-owned ledger strings (the byte-identical contract), the consumers bringing their own metal while the factory pours the mold, and the smokes as the arbiter after every change."
 				>
@@ -1001,7 +1001,7 @@ const Registry = [
 					</p>
 				</Concept>
 				<Concept
-					Id="plugins-arch-guard"
+					ID="plugins-arch-guard"
 					Title="The shared waterfall: the overpass arm and the CCR marker guard"
 					Diagram="The tools/post-execute waterfall shared by the new features: the normalize flavors' tool-results overpass arm registered { prepend: true } - the OUTERMOST prepend, so the ccr compression sees the NORMALIZED bytes - and the `<<<CCR:` marker guard making any load order safe."
 				>

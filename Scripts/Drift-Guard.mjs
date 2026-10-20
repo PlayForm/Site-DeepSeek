@@ -72,7 +72,7 @@ const SuiteOrder = [
 	["Invisible", "invisible"],
 	["Fullwidth", "fullwidth"],
 	["File", "normalize-file"],
-	["Ccr", "ccr"],
+	["CCR", "ccr"],
 	["Coach", "tool-coach"],
 ];
 

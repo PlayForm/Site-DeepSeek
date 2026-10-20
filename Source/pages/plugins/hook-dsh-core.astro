@@ -119,7 +119,7 @@ const Related = [
 			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: THE BASE LIBRARY" />
 			<div class="concept-list">
 				<Concept
-					Id="core-family-position"
+					ID="core-family-position"
 					Title="Family position"
 					Diagram={`${Families.Core} as the base library of the whole family - parent of none, child of none - with the factory-era governance hooks consuming the governance half and the six stream normalizers consuming the normalize half.`}
 				>
@@ -138,7 +138,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-library-not-bundle"
+					ID="core-library-not-bundle"
 					Title="Library consumption, not bundle registration"
 					Diagram="The core as a plain library dependency: no [cordis.patch.yml]('Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml'), no loader contract, no dsh plugin add row - publishable on its own and built with the same prepublishOnly sequence as the family bundles."
 				>
@@ -159,7 +159,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-runtime-variants"
+					ID="core-runtime-variants"
 					Title="CLASSIC versus EFFECT-TS runtime dependencies"
 					Diagram={`The dual engine distribution: CLASSIC shipping dependency-free, EFFECT-TS shipping the same contracts on effect ${Versions.Effect} as its single runtime dependency - same behavior, same smokes, different runtime plumbing.`}
 				>
@@ -182,7 +182,7 @@ const Related = [
 			<SectionHeader Title="In the DeepSeek Harness" Meta="WHERE THE MACHINERY RUNS" />
 			<div class="concept-list">
 				<Concept
-					Id="core-seam-none"
+					ID="core-seam-none"
 					Title="No direct seam registration"
 					Diagram="The core outside the plugin loader: no [cordis.patch.yml]('Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml'), no seams injected, no registration - the family's plugins carrying the machinery inside their own listeners and passes."
 				>
@@ -193,7 +193,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-seam-normalization"
+					ID="core-seam-normalization"
 					Title="Normalization inside consumer listeners"
 					Diagram="The [llm/stream seam](Harness:packages/llm/llm/src/index.ts) supplying the stream-normalization half, with each flavor's listener running the tables, the replacers and the Chunk/Block dispatch inside itself."
 				>
@@ -211,7 +211,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-seam-governance"
+					ID="core-seam-governance"
 					Title="Governance inside consumer passes"
 					Diagram="The [fs/observed + fs/write-intent seams](Harness:packages/fs/fs/src/index.ts) supplying the governance half, with the three governance hooks composing their passes from the section list, the exclusion fence, the policy loader, the refusal guard and the update-stage envelope."
 				>
@@ -229,7 +229,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-seam-logging"
+					ID="core-seam-logging"
 					Title="Consumer-owned logging"
 					Diagram="The ledger/session seam: the core supplying the byte-exact mechanics, every consumer logging through its own Append."
 				>
@@ -252,7 +252,7 @@ const Related = [
 			<SectionHeader Title="The Problem" Meta="WHY THE CORE EXISTS" />
 			<div class="concept-list">
 				<Concept
-					Id="core-problem-repeated"
+					ID="core-problem-repeated"
 					Title="The same pure functions, re-implemented per hook"
 					Diagram="The same pure functions copy-pasted across the family's hooks: the NPM section list, the exclusion segments, the suppression-line composer, the policy loader, [the refusal guard](Ours:Classic/packages/hook-dsh-core/Source/Function/Refusal.ts) - and, for the normalize flavors, the same per-chunk dispatch, block-end normalizer and character tables."
 				>
@@ -268,7 +268,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-problem-once"
+					ID="core-problem-once"
 					Title="Each of them exists once"
 					Diagram="The repeated copies converging on the core's single implementations, importable by any consumer."
 				>
@@ -279,7 +279,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-problem-anywhere"
+					ID="core-problem-anywhere"
 					Title="Inside the harness or entirely outside it"
 					Diagram="The same imported helpers running inside a DeepSeek Harness plugin listener and in a standalone script with no harness at all."
 				>
@@ -295,7 +295,7 @@ const Related = [
 
 			<div class="concept-list">
 				<Concept
-					Id="core-two-halves"
+					ID="core-two-halves"
 					Title="Two halves, one library"
 					Diagram="Show @playform/hook-dsh-core branching into governance helpers and normalization machinery. Connect each half to its consuming hooks. Do not depict the core as a registered plugin."
 				>
@@ -313,7 +313,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-structure-substitution"
+					ID="core-structure-substitution"
 					Title="Structure versus substitution"
 					Diagram="Show the shared dispatch choosing eligible chunk or block fields, then invoking a flavor-provided transform. Label dispatch as structure and the flavor as substitution."
 				>
@@ -348,7 +348,7 @@ const Related = [
 
 			<div class="concept-list">
 				<Concept
-					Id="core-section-list"
+					ID="core-section-list"
 					Title="Dependency sections"
 					Diagram="Show Section supplying four dependency-section names to a consumer. Keep dependency sections separate from exclusion segments."
 				>
@@ -373,7 +373,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-exclusion-defaults"
+					ID="core-exclusion-defaults"
 					Title="Default exclusion segments"
 					Diagram="Show Default supplying built-in exclusion segments to the consuming module. Do not depict the core itself listening for filesystem events."
 				>
@@ -404,7 +404,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-suppression"
+					ID="core-suppression"
 					Title="Suppression-line composition"
 					Diagram="Show module, kind, and cause entering Suppress; show the resulting string sent to the consumer's logger, not its ledger."
 				>
@@ -426,7 +426,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-policy"
+					ID="core-policy"
 					Title="Policy loading and fallback"
 					Diagram="Show a supplied readable policy file producing loaded policy; show read or parse failure falling back to module-provided defaults. Mark quiet mode as controlling diagnostics, not policy selection."
 				>
@@ -445,7 +445,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-refusal"
+					ID="core-refusal"
 					Title="Non-dependency refusal guard"
 					Diagram="Show current and proposed documents being compared. Differences confined to declared dependency sections pass this guard; a difference elsewhere produces a refusal line and prevents the rewrite."
 				>
@@ -463,7 +463,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-update-envelope"
+					ID="core-update-envelope"
 					Title="Shared update-stage envelope"
 					Diagram="Show Update returning Dispatch and Settle. Group gates, P2 registration, the jobs envelope, P5 records, and U2 refresh as shared responsibilities. Keep the child runner and module-specific strings outside that shared boundary."
 				>
@@ -488,7 +488,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-activation"
+					ID="core-activation"
 					Title="Activation-line composition"
 					Diagram="Show module-provided fields entering Activate and producing activated (...). Label prefix, suffix, comma-separated k=v formatting, and absent-field omission as shared mechanics."
 				>
@@ -515,7 +515,7 @@ const Related = [
 
 			<div class="concept-list">
 				<Concept
-					Id="core-normalization-tables"
+					ID="core-normalization-tables"
 					Title="Six normalization tables"
 					Diagram="Show Dashes, Quotes, Ellipsis, Spaces, Invisible, and Fullwidth as independent flavor inputs. Distinguish character classes from character maps; do not imply that every flavor applies every table."
 				>
@@ -549,7 +549,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-replace"
+					ID="core-replace"
 					Title="Character-class replacement"
 					Diagram="Show text, a character class, and a replacement string entering Replace and returning text plus count. Annotate the fresh per-call gu regex and function replacer."
 				>
@@ -569,7 +569,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-replace-map"
+					ID="core-replace-map"
 					Title="Character-map replacement"
 					Diagram="Show source characters looking up replacement characters in a map. Annotate code-point-escaped regex keys, a fresh per-call regex, and a function replacer."
 				>
@@ -585,7 +585,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-result-contract"
+					ID="core-result-contract"
 					Title="Text and replacement count"
 					Diagram="Show both replacers returning { text, count }. Show count === 0 leading the dispatch caller to return its original chunk or block object by identity."
 				>
@@ -608,7 +608,7 @@ const Related = [
 
 			<div class="concept-list">
 				<Concept
-					Id="core-chunk-dispatch"
+					ID="core-chunk-dispatch"
 					Title="Per-chunk dispatch"
 					Diagram="Show text-delta, optional reasoning-delta, optional tool-call-delta, and block-end routing through Chunk. Show other chunk types returning unchanged by identity."
 				>
@@ -626,7 +626,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-block-dispatch"
+					ID="core-block-dispatch"
 					Title="Block-end normalization"
 					Diagram="Show TextBlock text, ReasoningBlock text and its runtime thinking string, and optional ToolCallBlock arguments. Show other blocks passing through by identity."
 				>
@@ -646,7 +646,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-tool-arguments"
+					ID="core-tool-arguments"
 					Title="Tool-argument eligibility"
 					Diagram="With ToolArgs enabled, show three outcomes: exempt edit/raw-write/normalize-file calls pass through by identity; raw-marked calls follow the raw path; remaining eligible calls receive normalization. Note that ToolArgs defaults to off."
 				>
@@ -665,7 +665,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-raw-marker"
+					ID="core-raw-marker"
 					Title="Per-call raw marker"
 					Diagram="Show the first-key __normalize:false marker being tracked per call id and passed as Raw. Show Stream/Strip removing the marker while leaving the argument content unnormalized."
 				>
@@ -684,7 +684,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-dispatch-properties"
+					ID="core-dispatch-properties"
 					Title="Dispatch guarantees"
 					Diagram="Show eligible content flowing through the injected transform without reordering or buffering. Show unsupported shapes and unchanged results taking identity-preserving passthrough paths."
 				>
@@ -702,7 +702,7 @@ const Related = [
 			<SectionHeader Title="In Action" Meta="THE HELPERS IN A CONSUMER'S CODE" />
 			<div class="concept-list">
 				<Concept
-					Id="core-in-action-suppression"
+					ID="core-in-action-suppression"
 					Title="Suppression in a consumer's listener"
 					Diagram="A governance hook's listener catch composing the Suppress line from module, kind and cause, and sending it to its logger - never the ledger."
 				>
@@ -715,7 +715,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-in-action-refusal"
+					ID="core-in-action-refusal"
 					Title="The refusal guard before any write"
 					Diagram="The transform calling [Refusal](Ours:Classic/packages/hook-dsh-core/Source/Function/Refusal.ts) before the write: a difference outside the declared dependency sections composing the refusal line and returning null - the rewrite never applied."
 				>
@@ -728,7 +728,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-in-action-replace"
+					ID="core-in-action-replace"
 					Title="Class replacement at work"
 					Diagram="‘first — then 10–15 total’ entering Replace with the Dashes class and the '-' replacement, returning the normalized text plus count 2."
 				>
@@ -741,7 +741,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-in-action-replace-map"
+					ID="core-in-action-replace-map"
 					Title="Map replacement at work"
 					Diagram="‘he said ‘hello’ — loudly’ entering ReplaceMap with Quotes: the two curly quotes becoming straight, the em dash passing through untouched, count 2."
 				>
@@ -754,7 +754,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-in-action-unchanged"
+					ID="core-in-action-unchanged"
 					Title="Unchanged means identity"
 					Diagram="count === 0 flowing back to the dispatch caller, which returns its original chunk or block object by identity - no copy, no reordering, no buffering."
 				>
@@ -771,7 +771,7 @@ const Related = [
 			<SectionHeader Title="The Config" Meta="NONE - NOT A PLUGIN" />
 			<div class="concept-list">
 				<Concept
-					Id="core-config-none"
+					ID="core-config-none"
 					Title="No plugin-level Config"
 					Diagram="The loader skipping the core entirely: no Config registration, no context, no Schemastery schema, nothing to validate at load."
 				>
@@ -782,7 +782,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-config-parameters"
+					ID="core-config-parameters"
 					Title="Every knob is a function parameter"
 					Diagram="Policy's defaults, Replace's replacement and Chunk's injected transform as function parameters, decided by the consuming module's own config."
 				>
@@ -794,7 +794,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-config-imports"
+					ID="core-config-imports"
 					Title="Named-export imports"
 					Diagram="The two named-export import lines from [@playform/hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source) - the governance helpers on one line, the normalize helpers on the other."
 				>
@@ -811,7 +811,7 @@ const Related = [
 			<SectionHeader Title="The Ledger" Meta="THE CORE OWNS NO LEDGER STRINGS" />
 			<div class="concept-list">
 				<Concept
-					Id="core-ledger-file"
+					ID="core-ledger-file"
 					Title="No core-owned ledger file"
 					Diagram="The core with no ledger file, no logger, no plugin - nothing written by the core itself."
 				>
@@ -822,7 +822,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-ledger-formatting"
+					ID="core-ledger-formatting"
 					Title="Shared line formatting only"
 					Diagram="The four shared mechanics - the Suppress composer, the Policy diagnostics, the Refusal line, the Activate template - as the core's only contributions to the ledger shapes."
 				>
@@ -835,7 +835,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-ledger-module-fields"
+					ID="core-ledger-module-fields"
 					Title="Module-owned names and activation fields"
 					Diagram="The module name and the activation field list entering the shared mechanics from the consumer side; the template itself carries no module identity."
 				>
@@ -847,7 +847,7 @@ const Related = [
 				</Concept>
 
 				<Concept
-					Id="core-ledger-destinations"
+					ID="core-ledger-destinations"
 					Title="Logger versus ledger destinations"
 					Diagram="The Suppress line going to the consumer's logger; the refusal, policy-diagnostic and activation lines passing through the consumer's Append - the logger line and the durable ledger line composed around the consumer's message."
 				>

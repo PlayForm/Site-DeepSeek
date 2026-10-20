@@ -69,14 +69,14 @@ function NodeLabel(Group: string): string {
  * transform - the node's own `<g class="node" transform=...>` keeps the
  * geometry byte-identical; only the anchor is added around it.
  */
-export function Enhance(Svg: string): string {
+export function Enhance(SVG: string): string {
 	// `node` but never `nodes` (the lookalike container class): the
 	// lookahead keeps the scanner on the actual node groups.
 	const NodeOpen = /<g class="node(?![a-z])/g;
 	let Out = "";
 	let Cursor = 0;
 	for (;;) {
-		const Match = NodeOpen.exec(Svg);
+		const Match = NodeOpen.exec(SVG);
 		if (Match === null) break;
 		const Start = Match.index;
 		// Find this group's matching `</g>` with a depth scan (the node
@@ -87,7 +87,7 @@ export function Enhance(Svg: string): string {
 		let Depth = 0;
 		let End = -1;
 		for (;;) {
-			const TokenMatch = Token.exec(Svg);
+			const TokenMatch = Token.exec(SVG);
 			if (TokenMatch === null) break;
 			Depth += TokenMatch[0] === "</g>" ? -1 : 1;
 			if (Depth === 0) {
@@ -96,12 +96,12 @@ export function Enhance(Svg: string): string {
 			}
 		}
 		if (End < 0) break;
-		const Url = DiagramNodeLink(NodeLabel(Svg.slice(Start, End)));
-		if (Url !== null) {
-			Out += Svg.slice(Cursor, Start);
-			Out += `<a class="diagram-node-link" href="${Url}">${Svg.slice(Start, End)}</a>`;
+		const URL = DiagramNodeLink(NodeLabel(SVG.slice(Start, End)));
+		if (URL !== null) {
+			Out += SVG.slice(Cursor, Start);
+			Out += `<a class="diagram-node-link" href="${URL}">${SVG.slice(Start, End)}</a>`;
 			Cursor = End;
 		}
 	}
-	return Out + Svg.slice(Cursor);
+	return Out + SVG.slice(Cursor);
 }

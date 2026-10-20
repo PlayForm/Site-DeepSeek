@@ -375,7 +375,7 @@ const Related = [
 			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: A GUARDIAN HOOK" />
 			<div class="concept-list">
 				<Concept
-					Id="coach-family-position"
+					ID="coach-family-position"
 					Title="The family position"
 					Diagram={`${Families.Coach} as a hook child of the plugin-dsh-factory service - no hook children of its own - a NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema): the coach owns its schema and its strings. apply returns NOTHING; the state is exposed via ctx.__hookDshToolCoachState.`}
 				>
@@ -418,7 +418,7 @@ const Related = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="coach-ccr-ordering"
+					ID="coach-ccr-ordering"
 					Title="Sharing the waterfall with the ccr hook, safely"
 					Diagram="The coach's tools/post-execute listener registering plain - AFTER the ccr { prepend: true } listener - so it observes the (possibly compressed) result; its tier-1 notes are append-only additionalContexts and the tier-2 section is append-only, touching nothing else (PTC + structured-output preserved). Order safety: the ccr {<<<CCR:} marker guard makes any load order safe, and the coach never replaces content."
 				>
@@ -436,7 +436,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="coach-non-manifest"
+					ID="coach-non-manifest"
 					Title="Machinery-wise it is a NON-MANIFEST factory flavor"
 					Diagram={'inject: ["pluginFactory", "tools"] - the config schema composed by the factory\'s standalone Schema(false, {...}) helper (the NON-MANIFEST posture: the coach hooks the tool waterfalls, not fs/observed, so the schema never advertises updateCooldownMs/mutationTools/policyFile/exclude) - plus the factory\'s loader/volatile-update refresh (P10) registered by the State builder.'}
 				>
@@ -511,7 +511,7 @@ const Related = [
 			<SectionHeader Title="The four tiers" Meta="THE COACHING LADDER" />
 			<div class="concept-list">
 				<Concept
-					Id="coach-tiers"
+					ID="coach-tiers"
 					Title="From silent observation to the optional hard deny"
 					Diagram="Counting in judged calls, per-agent (a WeakMap keyed on the Agent object): tier 0 logs every offense; tier 1 notes at the threshold with the cooldown; tier 2 turns on the persistent section at the escalation threshold and clears after the clean window; tier 3 denies at the enforce threshold - off by default (enforce: 'off')."
 				>
@@ -557,7 +557,7 @@ const Related = [
 			<SectionHeader Title="Detection" Meta="DELIBERATELY ADVERSARIAL" />
 			<div class="concept-list">
 				<Concept
-					Id="coach-detection"
+					ID="coach-detection"
 					Title="The pattern table is one input, not the authority"
 					Diagram="Per pipeline (segments split on ; / && / || / &): normalize first (heredoc bodies stripped, subshells and backticks wrapped, variables marked, $IFS to space, quote layers removed, leading command word lowercased), then the pattern rows (24 built-in DEFAULT_PATTERNS; user rows appended, no built-in duplicates - fail-loud), an intent-marker scan, a craft library for the obfuscated variants, and the catch-all - any write-intent marker on a non-/dev/null path lands as write, so novel zero-day forms still count."
 				>
@@ -601,7 +601,7 @@ const Related = [
 			<SectionHeader Title="The dynamic instruction engine" Meta="LIVE-FETCHED TOOL TABLE" />
 			<div class="concept-list">
 				<Concept
-					Id="coach-engine"
+					ID="coach-engine"
 					Title="Every note names the correct tool with its LIVE registry data"
 					Diagram="ctx.tools.schemas() fetched through the same injection the model's own tools arrive by: the tool name, the FIRST SENTENCE of its description (<= 120 chars, parenthesis-aware) and the primary parameter key (parameters.properties[0]). Tier 1/3 fetch per note; tier 2 caches for sectionTtl (20) judged calls and rebuilds on tools/change. Any fetch failure degrades to the static STATIC_TOOL_LINES table and logs schema fetch failed -> static fallback; fetchLive: false is the escape hatch (static only, no failure line)."
 				>
@@ -625,7 +625,7 @@ const Related = [
 			<SectionHeader Title="The Config" Meta="SCHEMA + DEFAULTS AT LOAD - EVERY CELL VOLATILE" />
 			<div class="concept-list">
 				<Concept
-					Id="coach-config-schema"
+					ID="coach-config-schema"
 					Title="The exported Config schema"
 					Diagram="The factory's standalone Schema(false, {...}) helper validating and filling every default at load; every cell volatile - a flip lands on the next judged call. Fail-loud validation in apply: threshold >= 1, window >= threshold, cooldown >= 1, escalateThreshold >= threshold, cleanWindow >= 1, enforceThreshold >= 1, maxSectionTools 1-24, sectionTtl >= 1, every row pattern compiles + tool non-empty, no built-in duplicates, notes templates non-empty."
 				>
@@ -687,7 +687,7 @@ const Related = [
 			<SectionHeader Title="In Action" Meta="ONE COACHED STREAM" />
 			<div class="concept-list">
 				<Concept
-					Id="coach-in-action-stream"
+					ID="coach-in-action-stream"
 					Title="A cat stream, judged and coached"
 					Diagram="The model reading file content through the terminal - cat config.json four times inside the window - each offense logging its tier-0 line silently, the fourth crossing the threshold and firing the tier-1 note with the LIVE-fetched read description; six total offenses escalating the persistent section; twelve clean calls clearing it."
 				>
@@ -704,7 +704,7 @@ const Related = [
 			<div class="code-block">{LedgerExcerpt.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
-					Id="coach-in-action-deny"
+					ID="coach-in-action-deny"
 					Title="The tier-3 deny, when enforce is armed"
 					Diagram="With enforce: 'write' and the write-class strikes at the enforce threshold, the pre-execute listener returns {kind: 'deny', reason} - the reason being the NOTE_DENIED text - and logs denied bash write <pattern> -> use edit. The deny resets the note counters; the denied call still flows through post-execute, so counting continues."
 				>
@@ -724,7 +724,7 @@ const Related = [
 			<SectionHeader Title="The Ledger" Meta="ONE LOG PER MODULE" />
 			<div class="concept-list">
 				<Concept
-					Id="coach-ledger-log"
+					ID="coach-ledger-log"
 					Title="The ten strings are the contract"
 					Diagram="One log per module - logFile (default ~/.dsh/hook-dsh-tool-coach.log) - the ten strings byte-exact with the hook-dsh-tool-coach: logger prefix (the factory's Append layer; each line [ISO] <message> in the file): offense, strike, cooldown suppressed, escalated persistent section, persistent section cleared, section rebuilt, denied, exempt, schema fetch failed, disabled."
 				>

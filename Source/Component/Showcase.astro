@@ -51,7 +51,7 @@ interface Props {
 	Wide?: boolean;
 	/** The card id, for the per-manifest example swap (the supports
 		chips' dsh:example events address the card by it). */
-	Id?: string;
+	ID?: string;
 	/** The per-manifest example variants: keyed by the manifest name the
 		supports chips carry (e.g. "package.json", "Cargo.toml"). Each
 		variant is server-rendered with the same mark/key treatment as the
@@ -72,7 +72,7 @@ const {
 	Fact,
 	FactLabel = "LEDGER",
 	Wide = false,
-	Id,
+	ID,
 	Examples,
 } = Astro.props;
 
@@ -121,7 +121,7 @@ function MarkLine(Raw: string, Other: string): string {
 // span is already in place and the key regex (which cannot cross a tag's
 // ampersands) only ever sees the plain key run. The visible bytes stay
 // byte-exact.
-function JsonKey(Line: string): string {
+function JSONKey(Line: string): string {
 	return Line.replace(
 		/(&quot;[^&]*?&quot;)(?=\s*:)/g,
 		'<span class="showcase__key">$1</span>'
@@ -150,11 +150,11 @@ function IdentityWords(Text: string): string {
 		return `<span class="${Cls}">${Word}</span>`;
 	});
 }
-const BeforeHtml = HasPair
-	? Before.map((Line, Index) => JsonKey(MarkLine(Line, After![Index] ?? ""))).join("\n")
+const BeforeHTML = HasPair
+	? Before.map((Line, Index) => JSONKey(MarkLine(Line, After![Index] ?? ""))).join("\n")
 	: "";
-const AfterHtml = HasPair
-	? After.map((Line, Index) => JsonKey(MarkLine(Line, Before![Index] ?? ""))).join("\n")
+const AfterHTML = HasPair
+	? After.map((Line, Index) => JSONKey(MarkLine(Line, Before![Index] ?? ""))).join("\n")
 	: "";
 
 // The per-manifest example variants: each rendered with the SAME
@@ -166,11 +166,11 @@ const AfterHtml = HasPair
 const ExampleVariants = Examples
 	? Object.entries(Examples).map(([Manifest, Example]) => ({
 			Manifest,
-			BeforeHtml: Example.Before.map((Line, Index) =>
-				JsonKey(MarkLine(Line, Example.After[Index] ?? "")),
+			BeforeHTML: Example.Before.map((Line, Index) =>
+				JSONKey(MarkLine(Line, Example.After[Index] ?? "")),
 			).join("\n"),
-			AfterHtml: Example.After.map((Line, Index) =>
-				JsonKey(MarkLine(Line, Example.Before[Index] ?? "")),
+			AfterHTML: Example.After.map((Line, Index) =>
+				JSONKey(MarkLine(Line, Example.Before[Index] ?? "")),
 			).join("\n"),
 			Fact: Example.Fact,
 		}))
@@ -179,7 +179,7 @@ const ExampleVariants = Examples
 
 <article
 	class={`showcase${Wide ? ` showcase--wide${HasPair ? "" : " showcase--slot"}` : ""}`}
-	data-showcase-id={Id}
+	data-showcase-id={ID}
 >
 	<div class="showcase__head">
 		<span class="showcase__kicker">
@@ -198,11 +198,11 @@ const ExampleVariants = Examples
 		<div class="showcase__pair" data-showcase-pair>
 			<span class="showcase__side-label">Before</span>
 			<span class="showcase__side-label">After</span>
-			<pre class="showcase__screen" data-screen="before" set:html={BeforeHtml}></pre>
+			<pre class="showcase__screen" data-screen="before" set:html={BeforeHTML}></pre>
 			<span class="showcase__flow" aria-hidden="true">
 				<BrandIcon Name="swap" />
 			</span>
-			<pre class="showcase__screen" data-screen="after" set:html={AfterHtml}></pre>
+			<pre class="showcase__screen" data-screen="after" set:html={AfterHTML}></pre>
 		</div>
 	) : (
 		<slot />
@@ -224,8 +224,8 @@ const ExampleVariants = Examples
 		   pair stays the server-rendered props above. */
 		ExampleVariants.map((Variant) => (
 			<template data-example={Variant.Manifest}>
-				<pre class="showcase__screen" data-screen="before" set:html={Variant.BeforeHtml} />
-				<pre class="showcase__screen" data-screen="after" set:html={Variant.AfterHtml} />
+				<pre class="showcase__screen" data-screen="before" set:html={Variant.BeforeHTML} />
+				<pre class="showcase__screen" data-screen="after" set:html={Variant.AfterHTML} />
 				<span class="showcase__fact-text" data-fact-text>
 					{Variant.Fact}
 				</span>
@@ -247,17 +247,17 @@ const ExampleVariants = Examples
 
 <script>
 	// The per-manifest example swap: the supports chips (SupportsButton)
-	// emit dsh:example on document with { Id, Manifest } - the card
+	// emit dsh:example on document with { ID, Manifest } - the card
 	// addressed by data-showcase-id swaps its live pair screens + fact
 	// text from the server-rendered template of the selected manifest
 	// (byte-exact, no client re-computation; the nth-child grid cells
 	// stay stable because the cloned children carry the same data-screen
 	// hooks). One script serves every showcase on the page.
 	document.addEventListener("dsh:example", (Event) => {
-		const Detail = (Event as CustomEvent).detail as { Id?: string; Manifest?: string };
-		if (!Detail?.Id || !Detail?.Manifest) return;
+		const Detail = (Event as CustomEvent).detail as { ID?: string; Manifest?: string };
+		if (!Detail?.ID || !Detail?.Manifest) return;
 		const Root = document.querySelector<HTMLElement>(
-			`[data-showcase-id="${Detail.Id}"]`,
+			`[data-showcase-id="${Detail.ID}"]`,
 		);
 		if (!Root) return;
 		const Template = Root.querySelector<HTMLTemplateElement>(

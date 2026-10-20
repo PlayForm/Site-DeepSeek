@@ -42,9 +42,9 @@ function Current(Href: string) {
 // Links.Site (the registry) + the page path; the og:image is the rendered
 // brand asset. The JSON-LD describes the family as a SoftwareApplication
 // with the fifteen packages as parts (the values from the content library).
-const SiteUrl = Links.Site.replace(/\/$/, "");
-const Canonical = `${SiteUrl}${Path === "/" ? "/" : Path}`;
-const OgImage = `${SiteUrl}/Brand/OG.png`;
+const SiteURL = Links.Site.replace(/\/$/, "");
+const Canonical = `${SiteURL}${Path === "/" ? "/" : Path}`;
+const OgImage = `${SiteURL}/Brand/OG.png`;
 
 // The fifteen release packages (the register #15 names, npm form) - the
 // SoftwareApplication's parts. The names are LIVE: Library/Live.ts reads the
@@ -72,13 +72,13 @@ const Packages = [
 	...Live.PackageNames.filter((Name) => !CanonicalPackages.includes(Name)),
 ];
 
-const JsonLd = {
+const JSONLd = {
 	"@context": "https://schema.org",
 	"@type": "SoftwareApplication",
 	name: "DSH Family @ PlayForm",
 	description:
 		"The DeepSeek Harness plugin family: deterministic AI engine harnesses for production workloads - fifteen packages, fourteen smoke suites.",
-	url: SiteUrl,
+	url: SiteURL,
 	applicationCategory: "DeveloperApplication",
 	operatingSystem: "Any",
 	softwareVersion: Versions.Release,
@@ -149,7 +149,7 @@ const JsonLd = {
 		<meta name="twitter:image" content={OgImage} />
 
 		<!-- Structured data: the family as a SoftwareApplication -->
-		<script type="application/ld+json" set:html={JSON.stringify(JsonLd)} />
+		<script type="application/ld+json" set:html={JSON.stringify(JSONLd)} />
 
 		<!-- Fonts: self-hosted (Public/Font, OFL - see Public/Font/LICENSE.md).
 			Preload the faces above the fold; crossorigin per the font spec. -->
@@ -501,14 +501,14 @@ const JsonLd = {
 			// tree/Current anchors Library/DiagramNav.ts bakes at build
 			// time) are keyboard-focusable, so focus drives the same
 			// highlight.
-			const SetupDiagram = (Svg: SVGSVGElement) => {
-				if (Svg.dataset["diagramNav"]) return;
-				Svg.dataset["diagramNav"] = "true";
+			const SetupDiagram = (SVG: SVGSVGElement) => {
+				if (SVG.dataset["diagramNav"]) return;
+				SVG.dataset["diagramNav"] = "true";
 
 				const Nodes = new Map<string, SVGGElement>();
-				Svg.querySelectorAll<SVGGElement>("g.node").forEach((Node) => {
-					const Id = Node.getAttribute("id") ?? "";
-					const Key = Id.match(/^flowchart-(.+)-\d+$/)?.[1];
+				SVG.querySelectorAll<SVGGElement>("g.node").forEach((Node) => {
+					const ID = Node.getAttribute("id") ?? "";
+					const Key = ID.match(/^flowchart-(.+)-\d+$/)?.[1];
 					if (Key) Nodes.set(Key, Node);
 				});
 				if (!Nodes.size) return;
@@ -516,7 +516,7 @@ const JsonLd = {
 				// Adjacency from the edge paths' data-id (L_FROM_TO_0): split
 				// the body at the point where both halves name known nodes.
 				const Edges = new Map<SVGPathElement, [string, string]>();
-				Svg.querySelectorAll<SVGPathElement>(".edgePaths path[data-id]").forEach(
+				SVG.querySelectorAll<SVGPathElement>(".edgePaths path[data-id]").forEach(
 					(Path) => {
 						const Body = (Path.getAttribute("data-id") ?? "")
 							.replace(/^L_/, "")
@@ -546,14 +546,14 @@ const JsonLd = {
 				});
 
 				const Clear = () => {
-					Svg.classList.remove("diagram-nav--active");
-					Svg.querySelectorAll("[data-related]").forEach((Node) =>
+					SVG.classList.remove("diagram-nav--active");
+					SVG.querySelectorAll("[data-related]").forEach((Node) =>
 						Node.removeAttribute("data-related"),
 					);
 				};
 				const Highlight = (Key: string) => {
 					Clear();
-					Svg.classList.add("diagram-nav--active");
+					SVG.classList.add("diagram-nav--active");
 					Nodes.get(Key)?.setAttribute("data-related", "");
 					Adjacent.get(Key)?.forEach((Other) => {
 						Nodes.get(Other)?.setAttribute("data-related", "");
@@ -574,7 +574,7 @@ const JsonLd = {
 				// focus event bubbles up from the anchor, never through the
 				// inner g.node - the anchors get their own focus listeners
 				// (same highlight, same clear).
-				Svg.querySelectorAll("a.diagram-node-link > g.node").forEach((Node) => {
+				SVG.querySelectorAll("a.diagram-node-link > g.node").forEach((Node) => {
 					const Entry = [...Nodes.entries()].find(([, El]) => El === Node);
 					if (!Entry) return;
 					const Key = Entry[0];

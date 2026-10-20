@@ -313,7 +313,7 @@ const Lessons = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="case-growth"
+					ID="case-growth"
 					Title="From five bundles to twelve packages"
 					Diagram={`The growth across one commit era - the Oct 3-6, 2026 stretch ending at 5982aa8 - five bundles and ${History.OriginChecks} smoke checks growing into twelve packages, the base the fifteen-package family (with ${Totals.PairHyphen()} across ${Counts.Suites} suites today) stands on.`}
 				>
@@ -330,7 +330,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-arbiter"
+					ID="case-arbiter"
 					Title="The smokes were the arbiter"
 					Diagram={`Zero assertion rewrites across refactors, renames and a framework port - the Effect-TS port ADDING ${History.EffectDelta} checks (core +${History.Deltas.Core}, factory +${History.Deltas.Factory}, governor +${History.Deltas.Governor}), its totals running higher with every shared assertion intact.`}
 				>
@@ -346,7 +346,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-live"
+					ID="case-live"
 					Title="Found live, not by the smokes"
 					Diagram="The real bugs - the shadowed patch layers, the silent journal open, the version guard that could only succeed once - marked as found live, while the suites and the restart each catch a different class of defect."
 				>
@@ -362,7 +362,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-ledger-contract"
+					ID="case-ledger-contract"
 					Title="The ledger strings are the public interface"
 					Diagram="The spine underneath the counts: renames and re-implementations changing mechanics, never the bytes the suites assert - with the three implementations holding the contract: Boilerplate, Classic and Effect-TS."
 				>
@@ -403,7 +403,7 @@ const Lessons = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="case-p1-setup"
+					ID="case-p1-setup"
 					Title="The setup: the same machinery, copied"
 					Diagram="Three independent hooks - the package governor, the package pinner, the cargo governor - plus the dash normalizer, each carrying its own copy of the same machinery: ledgers, exclusion matching, policy loading, guarded writes, wiring, schemas."
 				>
@@ -416,7 +416,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p1-decision"
+					ID="case-p1-decision"
 					Title="The decision: one factory service"
 					Diagram={`The consolidation (49e5b3d, 859f16a, 018919c) onto one factory service - ${History.OriginMethods} methods, one transform contract, and the ledger strings owned by the modules themselves.`}
 				>
@@ -429,7 +429,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p1-technique"
+					ID="case-p1-technique"
 					Title="The technique: the seam trio and the transform leaf"
 					Diagram="The Wire / Attach / Continue seam trio, and a transform leaf the factory drives but never absorbs - each hook's transforms staying its identity."
 				>
@@ -440,7 +440,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p1-outcome"
+					ID="case-p1-outcome"
 					Title="The outcome: green and byte-identical"
 					Diagram={`Five bundles green, ${History.OriginChecks} checks, and every ledger string byte-identical to pre-refactor behavior, smoke-asserted.`}
 				>
@@ -450,7 +450,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p1-methods"
+					ID="case-p1-methods"
 					Title={`The factory has since grown from ${History.OriginMethods} to ${Methods.Count} methods`}
 					Diagram={`The factory's seam table growing as later phases move machinery in - by insertion (Write landing at the SCHEME's ${Scheme.Write}, renumbering everything after it), by alias (GuardedWrite sharing ${Scheme.Write}) and by uncounted helpers (UpdateKey, ${Scheme.UpdateKey}).`}
 				>
@@ -477,7 +477,7 @@ const Lessons = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="case-p1-fixes"
+					ID="case-p1-fixes"
 					Title="Two live-verified fixes that never regressed"
 					Diagram="The loader contract: a hook's inject and Config sitting on the loader's default export object, and apply returning nothing - a returned value silently killing event delivery."
 				>
@@ -503,7 +503,7 @@ const Lessons = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="case-p2-audit"
+					ID="case-p2-audit"
 					Title="The audit found three things that rewrote the queue"
 					Diagram="A confirmation agent re-verifying all five bundles - the three findings, each one a finding with a fix, none visible from the passing smokes alone."
 				>
@@ -532,7 +532,7 @@ const Lessons = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="case-p2-queue"
+					ID="case-p2-queue"
 					Title="The rest of the queue, executed in one session"
 					Diagram="The four queue items: the module terminology rename (3c29108), the standalone schema helper (060e3b6), the core extraction (1fef4ca) and the granularization splits (711d5b2)."
 				>
@@ -553,7 +553,7 @@ const Lessons = [
 					</ul>
 				</Concept>
 				<Concept
-					Id="case-p2-arbiter"
+					ID="case-p2-arbiter"
 					Title="The arbiter must not be disposable"
 					Diagram="The smoke suites living in /tmp and being lost once - replayed from the session archives step by step, then archived to ~/.dsh/smokes/ forever after."
 				>
@@ -572,7 +572,7 @@ const Lessons = [
 			<SectionHeader Title="Phase III - Going live" Meta="THE JOURNAL SAGA" />
 			<div class="concept-list">
 				<Concept
-					Id="case-p3-battery"
+					ID="case-p3-battery"
 					Title="The first live battery"
 					Diagram="The first live battery exercising everything the smokes had proven: the governor + pinner interlock on one manifest write, the update stages as real jobs, the cargo's actual cargo upgrade with the full argv, the dash normalizer counting replacements in live streams."
 				>
@@ -584,7 +584,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p3-one-open"
+					ID="case-p3-one-open"
 					Title="The first live-only failure: one open per name"
 					Diagram="The harness's storage domain enforcing one open per name - the shared journal domain single-winner per boot, only the pinner's records landing while the governor's and the cargo's silently never did, the human ledger files remaining the complete record."
 				>
@@ -603,7 +603,7 @@ const Lessons = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="case-p3-fix"
+					ID="case-p3-fix"
 					Title="The fix, in two commits"
 					Diagram="The first successful open binding its handle on the factory instance (952eaa1) with every module's records routing through it - then the boot-window race (aa53c91): records journaled before any open completes buffering in a capped, drop-when-full pre-bind queue, draining with timestamps preserved - the three-stage routing of shared sink, pre-bind buffer, then per-state fallback."
 				>
@@ -626,7 +626,7 @@ const Lessons = [
 			<div class="code-block">{JournalExcerpt.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
-					Id="case-p3-before-after"
+					ID="case-p3-before-after"
 					Title="Before the fix, one module; after it, all four"
 					Diagram="The same file before and after the fix - one module's activations becoming all four, with the interlock cascade and the dispatched update stage recording themselves in the same place."
 				>
@@ -639,7 +639,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p3-dispatch"
+					ID="case-p3-dispatch"
 					Title="The dispatch resolves at the dispatch"
 					Diagram="The update stage's awaited promise resolving at the dispatch while the background job keeps running - the caller never awaiting the job."
 				>
@@ -657,7 +657,7 @@ const Lessons = [
 			<SectionHeader Title="Phase IV - The stream family" Meta="SIX FLAVORS + THE GATE" />
 			<div class="concept-list">
 				<Concept
-					Id="case-p4-generalize"
+					ID="case-p4-generalize"
 					Title="The dash normalizer generalized"
 					Diagram="The core taking over the pure machinery - generic over structural shapes, no dependency on the host's LLM types - replacing the fragile cross-bundle symlink workaround for the nominal-type clash with a durable design (98be27b, c2beb06)."
 				>
@@ -671,7 +671,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p4-siblings"
+					ID="case-p4-siblings"
 					Title="Five sibling flavors on the same template"
 					Diagram="Quotes, ellipsis, spaces, invisible and fullwidth following the same template - each with its own ledger, activation line and count line (ad4c2c3, 68afdcd)."
 				>
@@ -682,7 +682,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p4-toolargs"
+					ID="case-p4-toolargs"
 					Title="The tool-args gate and its three-way refinement"
 					Diagram="The tool-args gate (1d827ad) and its three-way refinement (9d6e195): edit calls passing by identity - the old-string must match the real file bytes - and a per-call marker letting a single call opt out entirely, smoke-verified but not reachable from the structured tool interface at the time."
 				>
@@ -711,7 +711,7 @@ const Lessons = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="case-p4-selfaware"
+					ID="case-p4-selfaware"
 					Title="The family normalizes itself"
 					Diagram="The agents building the family seeing their own comment prose come out with ASCII hyphens, because their output streams run through the same flavors - and the planned cosmetic pass cancelled by the user: em-dashes live only in the README examples, never in code."
 				>
@@ -726,7 +726,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p4-live-pages"
+					ID="case-p4-live-pages"
 					Title="The workbench and the matrix run exactly these flavors live"
 					Diagram="The workbench letting you watch the gate make its per-call decisions, and the matrix showing the raw-vs-canonical payload pair engine by engine."
 				>
@@ -749,7 +749,7 @@ const Lessons = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="case-p5-rawwrite"
+					ID="case-p5-rawwrite"
 					Title="The raw-write tool landed first"
 					Diagram="The raw-write tool (bb9a6fd): a write wrapper with an explicit normalize parameter, exempt from stream normalization by name like edit, mirroring the built-in write's filesystem path so the governance hooks see its writes."
 				>
@@ -761,7 +761,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p5-diagnosis"
+					ID="case-p5-diagnosis"
 					Title="The three-round diagnosis"
 					Diagram="The live tests showing the writes never triggered the governance chain - the emit-context theory and the listener-scope theory both refuted by delivery research with code, simulation and live policy evidence: the event is delivered; the gate rejects the actor."
 				>
@@ -783,7 +783,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p5-reasons"
+					ID="case-p5-reasons"
 					Title="The gate's reason vocabulary"
 					Diagram="The g1 gate's seven rejection reasons in decision order - target, govern, actor, kind, idempotent, basename, excluded - with the misdiagnosis landing on the actor reason and the marker moving the same flow to the govern reason."
 				>
@@ -810,7 +810,7 @@ const Lessons = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="case-p5-patch-layers"
+					ID="case-p5-patch-layers"
 					Title="The real blocker: the patch layers"
 					Diagram="The deployed mutationTools value of all three governance bundles being [write, edit, str_replace_editor] - no raw-write - even though the schema default included it, the bundles' own patch layers setting it explicitly, and a patch layer's config replacing the entry config wholesale, shadowing the default."
 				>
@@ -830,7 +830,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p5-patch-fix"
+					ID="case-p5-patch-fix"
 					Title="The one-line fix and the standing lesson"
 					Diagram="The fix (affa730) being one line in three patch files - and it becoming the family's standing lesson about verifying the live effective config."
 				>
@@ -843,7 +843,7 @@ const Lessons = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="case-p5-journal-silent"
+					ID="case-p5-journal-silent"
 					Title="The journal migration that failed silently"
 					Diagram="The journal domain bumping to v2 to carry the stream counts (4c0e83b) - every boot after it landing zero records: the v2 open failing against the v1 file on an exact-equality version check, the open's catch swallowing it, every record draining into a never-drained buffer and dying with the process."
 				>
@@ -858,7 +858,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p5-journal-fix"
+					ID="case-p5-journal-fix"
 					Title="The fix: per-record, and loud"
 					Diagram="The fix (756d566): a per-record layout that auto-migrates the v1 records, backup-and-skip for invalid ones, and a loud failure line on any open failure - because the silence is what made it undiagnosable."
 				>
@@ -872,7 +872,7 @@ const Lessons = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="case-p5-commonalization"
+					ID="case-p5-commonalization"
 					Title="Three executors become one"
 					Diagram="The write-path audit finding the built-in write, the raw-write tool and the factory's guarded write all implementing the same five steps, three times - and the merge (91293d2): the factory's Write becoming the shared executor, the guarded write living on as its alias, the update envelope and the activation composer folded into the core the same pass."
 				>
@@ -888,7 +888,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p5-granular"
+					ID="case-p5-granular"
 					Title="The fine-grained control"
 					Diagram={`The control split (e69c5d3): normalize selecting the transforms, govern selecting the chain steps through the factory's Govern - the fold entry, SCHEME ${Scheme.Govern} - and a step registry the modules populate (RegisterGovern, ${Scheme.RegisterGovern}).`}
 				>
@@ -901,7 +901,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p5-marker"
+					ID="case-p5-marker"
 					Title="The governance marker inverts the event path"
 					Diagram="The governance marker (2c8764e, 83ba8e5) inverting the event path into a direct path: the raw-write's actor carrying the govern selection, so direct governance is the only channel and no flag means no chain - the escape hatch."
 				>
@@ -960,7 +960,7 @@ const Lessons = [
 			</p>
 			<div class="concept-list">
 				<Concept
-					Id="case-p5-fold"
+					ID="case-p5-fold"
 					Title="The sequential fold"
 					Diagram="The direct steps' detached chains racing - nondeterministic writes on the same file - and the fold awaiting each step's chain before the next reads (d7a3c93, 140faa0)."
 				>
@@ -971,7 +971,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p5-stat-guard"
+					ID="case-p5-stat-guard"
 					Title="The stat-before-write guard that made it converge"
 					Diagram="The deeper bug: every step writing against the version observed at the triggering event, so only the first write could succeed and the later steps failed the stale-version check silently - and the fix (5982aa8): the chain pass statting the target before its write and taking the fresh version, the fold converging in any step order."
 				>
@@ -988,7 +988,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p5-abort"
+					ID="case-p5-abort"
 					Title="The abort-signal fix belongs to the Effect-TS port"
 					Diagram="The write executor originally mapping the caller's abort signal onto the run promise's options - a pre-aborted signal interrupting the whole fiber, the caller seeing all fibers interrupted without error instead of the Classic aborted-before-write behavior - and the fix dropping the signal mapping so the signal forwards to the seams only."
 				>
@@ -1023,7 +1023,7 @@ const Lessons = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="case-p6-releases"
+					ID="case-p6-releases"
 					Title="Two official releases off one source"
 					Diagram="The completed codebase becoming the boilerplate: the Classic implementation staying live-first, the Effect-TS port shipping only after its smokes prove parity - the ledger strings remaining the contract in both (register #13)."
 				>
@@ -1035,7 +1035,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p6-port-goals"
+					ID="case-p6-port-goals"
 					Title="Why the port exists beyond the parity discipline"
 					Diagram="Register #13's three goals: external traceability, ecosystem interop, and hooking other transformers from the same Effect ecosystem into the same governed machinery."
 				>
@@ -1047,7 +1047,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p6-triad"
+					ID="case-p6-triad"
 					Title="The triad's roles stay fixed"
 					Diagram="The three implementations and their fixed roles: Boilerplate as the live truth, Classic as the anonymized release, Effect-TS as the port."
 				>
@@ -1059,7 +1059,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p6-parallel"
+					ID="case-p6-parallel"
 					Title="The parallel-govern toggle, designed in from the start"
 					Diagram="The Effect-TS mapping planning the parallel-govern toggle in from the start - concurrency being different there, designing the toggle first beating retrofitting it."
 				>
@@ -1070,7 +1070,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p6-tracing"
+					ID="case-p6-tracing"
 					Title="Tracing is an opt-in knob"
 					Diagram="The factory running Effect's no-op Tracer by default - zero cost, the identical synchronous build - with the OTLP exporter attaching only when enableTracing is set (the NodeSdk layer, the dsh.* spans leaving to any OTel collector), the exporter packages loading dynamically so an unloadable bundle degrades to the no-op, and the spans carrying read-only facts so a traced smoke run still produces byte-identical ledgers."
 				>
@@ -1088,7 +1088,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p6-prep"
+					ID="case-p6-prep"
 					Title="The release prep anonymized and de-personalized every bundle"
 					Diagram="The clean releases: the governor's ncuBin default re-pinned to a portable PATH-resolved value (the internal Boilerplate baseline keeping the functional real path by design), and the READMEs rebuilt on a single shared skeleton."
 				>
@@ -1103,7 +1103,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p6-naming"
+					ID="case-p6-naming"
 					Title="The naming inverted (register #15)"
 					Diagram={`Packages reading as @-sentences - ${Families.GovernorPackage} - and grouping alphabetically by kind, role and domain: kind-first ordering mirroring the consumer topology (the hooks vs the factory service), role-contiguous grouping keeping the shared-machinery families together (governor-cargo/governor-package, the normalize-* family), at version ${Versions.Release}.`}
 				>
@@ -1120,7 +1120,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p6-submodules"
+					ID="case-p6-submodules"
 					Title="The submodule structure: prepared, not activated"
 					Diagram="One repository per package under submodule structure - register #16: the .gitmodules draft is prepared and tracked, but git does not read it under that name - nothing is activated, no commits yet, everything still in this monorepo."
 				>
@@ -1133,7 +1133,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p6-site"
+					ID="case-p6-site"
 					Title="The Site you are reading is the last item"
 					Diagram="The integration showcase - the versions page carrying the two engines side by side."
 				>
@@ -1160,12 +1160,12 @@ const Lessons = [
 					<h2 class="section-header__title">Phase VII - The guardians</h2>
 				</div>
 				<span class="section-header__meta">
-					Ccr <ArrowIcon Direction="right" Tone="accent" /> Coach
+					CCR <ArrowIcon Direction="right" Tone="accent" /> Coach
 				</span>
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="case-p7-ccr"
+					ID="case-p7-ccr"
 					Title="The CCR port: going where a proxy cannot"
 					Diagram="Aphrodite's CCR pipeline ported into the family: the tools/post-execute waterfall - the interceptable wrapper around every normalized dispatch result, before it becomes model content - replacing oversized tool output with a one-line type-aware preview plus a <<<CCR:hash|type|size>>> marker, the original retrievable through the registered ccr_retrieve tool, auto-expand returning small results full while they are cheap."
 				>
@@ -1188,7 +1188,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p7-coach"
+					ID="case-p7-coach"
 					Title="The tool-coach: the adversary inside the detection"
 					Diagram="The regression the harness could not see: terminal file edits are invisible to fs/observed (it fires only on tool-layer writes), so a sed -i bypassed the governor, the pinner and the normalize plugins entirely - the coach goes where that regression flows, over bash and pwsh, with adversarial detection (normalization, intent markers, a craft library, a write-intent catch-all) and a dynamic ctx.tools.schemas() instruction fetch."
 				>
@@ -1212,7 +1212,7 @@ const Lessons = [
 					</p>
 				</Concept>
 				<Concept
-					Id="case-p7-scopes"
+					ID="case-p7-scopes"
 					Title="The scopes widening: granularity without re-registration"
 					Diagram={'The normalize family gaining a granular volatile scopes surface (conversation/reasoning/toolInput/toolResults/files/batch + toolResultsExempt) with live loader/volatile-update toggles, plus the overpass arms (tools/post-execute tool results + agent/pre-step step batch) and the normalize-overpass command - the per-call {"__normalize":false first-key marker and the effective gate normalizeToolArguments || scopes.toolInput keeping every existing profile working.'}
 				>

@@ -290,7 +290,7 @@ const LedgerStrings = [
 			<SectionHeader Title="Where It Fits" Meta={FamilyPosition(3)} />
 			<div class="concept-list">
 				<Concept
-					Id="ellipsis-family-position"
+					ID="ellipsis-family-position"
 					Title="The family position"
 					Diagram={`${Families.Ellipsis} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the third of the six stream normalizer siblings.`}
 				>
@@ -344,7 +344,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="ellipsis-non-manifest"
+					ID="ellipsis-non-manifest"
 					Title="A non-manifest factory consumer"
 					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."}
 				>
@@ -413,7 +413,7 @@ const LedgerStrings = [
 			<SectionHeader Title="The Problem" Meta="WHY THE ELLIPSIS FLAVOR EXISTS" />
 			<div class="concept-list">
 				<Concept
-					Id="ellipsis-problem"
+					ID="ellipsis-problem"
 					Title="The collapsed typographic run is simply wrong downstream"
 					Diagram="Text processors collapsing the typographic three-dot run into a single code point - U+2026, the horizontal ellipsis - while code blocks, commands and diffs expect three literal dots."
 				>
@@ -437,7 +437,7 @@ const LedgerStrings = [
 			<div class="code-block">{Pipeline.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
-					Id="ellipsis-transform"
+					ID="ellipsis-transform"
 					Title="The transform: the core's Ellipsis class"
 					Diagram="Exactly the core's Ellipsis class (@playform/hook-dsh-core's Normalize/Ellipsis), applied per text segment through the core's generic class-to-string Replace."
 				>
@@ -455,7 +455,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="ellipsis-coverage"
+					ID="ellipsis-coverage"
 					Title="One code point, one replacement"
 					Diagram="U+2026 (horizontal ellipsis - the typographic three-dot run collapsed into one code point by text processors) becoming the config replacement (default ..., the ASCII three-dot sequence - the ellipsis's own ASCII spelling) - no context rules, whole-chunk replacement, no lookahead, chunk-boundary-safe."
 				>
@@ -472,7 +472,7 @@ const LedgerStrings = [
 					</p>
 				</Concept>
 				<Concept
-					Id="ellipsis-mechanics"
+					ID="ellipsis-mechanics"
 					Title="The function replacer and the per-code-point count"
 					Diagram="The replacement applied with a function replacer, so a custom replacement containing $ patterns is inserted literally - and replaced characters counted per stream for the ledger line, each replaced ellipsis code point counting once even though the default replacement emits three characters."
 				>
@@ -520,7 +520,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="ellipsis-volatile"
+					ID="ellipsis-volatile"
 					Title="Volatile cells commit without remounting"
 					Diagram="The volatile cells committing without remounting the plugin - the factory's State builder unwrapping them defensively."
 				>
@@ -567,7 +567,7 @@ const LedgerStrings = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="ellipsis-scopes"
+					ID="ellipsis-scopes"
 					Title="Every arm gated independently - and all volatile"
 					Diagram="The scopes object gating every arm of the hook-dsh-normalize-ellipsis hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 				>
@@ -654,7 +654,7 @@ const LedgerStrings = [
 			</p>
 			<div class="concept-list">
 				<Concept
-					Id="ellipsis-overpass"
+					ID="ellipsis-overpass"
 					Title="The overpass arms: opt-in listeners on two more seams"
 					Diagram="Two additional listeners, both registered at apply and both opt-in (gated at RUNTIME on the scope cells, so flipping a scope lands through the P10 volatile-refresh without any re-registration): the tool-results arm on tools/post-execute with { prepend: true }, and the step-batch arm on agent/pre-step in default order."
 				>
@@ -720,14 +720,14 @@ const LedgerStrings = [
 				what reaches the transcript
 			</p>
 			<Compare
-				Id="ellipsis-stream"
+				ID="ellipsis-stream"
 				Flavor="ellipsis"
 				Raw={StreamExample.slice(0, 4)}
 				Clean={StreamExample.slice(4)}
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="ellipsis-in-action"
+					ID="ellipsis-in-action"
 					Title="The counted expansion"
 					Diagram="The single U+2026 code point becoming the three-dot ASCII sequence ... - dots that were already ASCII untouched, each replaced code point counting once in the ledger even though it expands to three characters."
 				>
@@ -744,7 +744,7 @@ const LedgerStrings = [
 					</p>
 				</Concept>
 				<Concept
-					Id="ellipsis-hot-replacement"
+					ID="ellipsis-hot-replacement"
 					Title="The replacement is hot-editable"
 					Diagram="The replacement changed in the config - say to . . . - with the very next stream picking it up with no remount."
 				>
@@ -754,7 +754,7 @@ const LedgerStrings = [
 					</p>
 				</Concept>
 				<Concept
-					Id="ellipsis-pass-coverage"
+					ID="ellipsis-pass-coverage"
 					Title="The same pass runs over reasoning and tool-call arguments"
 					Diagram="The pass running over reasoning deltas when normalizeReasoning is on, and over tool-call arguments when the example patch enables normalizeToolArguments - with the edit name exempt and raw-marker calls passing through unnormalized."
 				>

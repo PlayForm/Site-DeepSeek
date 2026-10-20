@@ -110,7 +110,7 @@ const Guardians = [
 	{
 		Name: "hook-dsh-ccr",
 		Role: "ROLE: COMPRESSOR",
-		Sentence: Families.Ccr,
+		Sentence: Families.CCR,
 		Desc: "The tool-output compressor: hooks the tools/post-execute waterfall and replaces oversized results of the allow-listed target tools with a one-line type-aware preview plus a <<<CCR:hash|type|size>>> retrieval marker - the original stays retrievable through the registered ccr_retrieve tool over the sha256-24 LRU store.",
 	},
 	{
@@ -450,7 +450,7 @@ const CargoFact =
 			<div class="use-cases">
 				<Showcase
 					Wide
-					Id="pin"
+					ID="pin"
 					Kicker="THE PIN"
 					Title="Pinned manifests, deterministically"
 					Lead="The pinner rewrites every ranged dependency version to its static version - protected by the pin-policy keep-list."
@@ -463,7 +463,7 @@ const CargoFact =
 				</Showcase>
 				<Showcase
 					Wide
-					Id="govern"
+					ID="govern"
 					Kicker="THE GOVERN"
 					Title="Governed pins, silently"
 					Lead="The governor canonicalizes chain-governed pins to the effective registry's resolved versions - then runs the update stage detached."
@@ -492,7 +492,7 @@ const CargoFact =
 					Fact={NormalizeFact}
 				>
 					<Compare
-						Id="index-normalize"
+						ID="index-normalize"
 						Flavor="dash"
 						Raw={NormalizeBefore}
 						Clean={NormalizeAfter}
@@ -1369,7 +1369,7 @@ const CargoFact =
 	// The effects: what a transition asks the render to apply.
 	type CoachEffect =
 		| { Kind: "line"; Text: string; Mod?: string }
-		| { Kind: "notice"; Html: string }
+		| { Kind: "notice"; HTML: string }
 		| { Kind: "light"; Tier: TierN }
 		| { Kind: "verdict"; Target: HTMLElement; Verdict: "clean" | "offense" };
 
@@ -1414,10 +1414,10 @@ const CargoFact =
 
 	// The notice blocks: innerHTML with static literals only (the text is
 	// page-authored, never user data).
-	function PushNotice(Html: string) {
+	function PushNotice(HTML: string) {
 		const Note = document.createElement("div");
 		Note.className = "coach__notice";
-		Note.innerHTML = Html;
+		Note.innerHTML = HTML;
 		CoachScreen.appendChild(Note);
 		CoachScreen.scrollTop = CoachScreen.scrollHeight;
 	}
@@ -1483,7 +1483,7 @@ const CargoFact =
 				{ Kind: "line", Text: `escalated persistent section (${Machine.Context.TotalOffenses} strikes)` },
 				{
 					Kind: "notice",
-					Html: "<strong>Tool discipline</strong> - 3 fixed rules plus the live-fetched tool table (8 rows max); off again after the clean window.",
+					HTML: "<strong>Tool discipline</strong> - 3 fixed rules plus the live-fetched tool table (8 rows max); off again after the clean window.",
 				},
 				{ Kind: "light", Tier: "2" },
 			],
@@ -1534,7 +1534,7 @@ const CargoFact =
 					{ Kind: "line", Text: `strike ${Context.ReadStrikes}/3 bash read -> note read`, Mod: "offense" },
 					{
 						Kind: "notice",
-						Html: "<strong>bash read \u00d7 3</strong> - use the read tool - reads a file from the local filesystem (param: path), fetched live via ctx.tools.schemas().",
+						HTML: "<strong>bash read \u00d7 3</strong> - use the read tool - reads a file from the local filesystem (param: path), fetched live via ctx.tools.schemas().",
 					},
 					{ Kind: "light", Tier: "1" },
 				);
@@ -1561,7 +1561,7 @@ const CargoFact =
 					{ Kind: "line", Text: `denied bash write ${Event.Pattern} -> use edit`, Mod: "deny" },
 					{
 						Kind: "notice",
-						Html: "<strong>denied</strong> - use the edit tool - performs exact string replacement in a file (param: file_path); discovery and control are never denied.",
+						HTML: "<strong>denied</strong> - use the edit tool - performs exact string replacement in a file (param: file_path); discovery and control are never denied.",
 					},
 					{ Kind: "light", Tier: "3" },
 				);
@@ -1579,7 +1579,7 @@ const CargoFact =
 					{ Kind: "line", Text: `strike ${Context.WriteStrikes}/3 bash write -> note edit`, Mod: "offense" },
 					{
 						Kind: "notice",
-						Html: "<strong>bash write \u00d7 3</strong> - use the edit tool - performs exact string replacement in a file (param: file_path), fetched live via ctx.tools.schemas().",
+						HTML: "<strong>bash write \u00d7 3</strong> - use the edit tool - performs exact string replacement in a file (param: file_path), fetched live via ctx.tools.schemas().",
 					},
 					{ Kind: "light", Tier: "1" },
 				);
@@ -1613,7 +1613,7 @@ const CargoFact =
 					PushLine(Effect.Text, Effect.Mod ?? "");
 					break;
 				case "notice":
-					PushNotice(Effect.Html);
+					PushNotice(Effect.HTML);
 					break;
 				// The lights are the ladder render's business (deterministic
 				// from the machine below); the effect only records the reach.

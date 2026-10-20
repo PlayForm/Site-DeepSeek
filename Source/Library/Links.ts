@@ -130,12 +130,12 @@ export function Linkify(Text: string): string {
 	for (;;) {
 		const Match = Rest.match(Pattern);
 		if (!Match || Match.index === undefined) break;
-		const Url = Resolve(Match[2]);
+		const URL = Resolve(Match[2]);
 		Out += Mention(Rest.slice(0, Match.index));
 		Out +=
-			Url === null
+			URL === null
 				? Mention(Match[0])
-				: `<a href="${Escape(Url)}">${Mention(Match[1])}</a>`;
+				: `<a href="${Escape(URL)}">${Mention(Match[1])}</a>`;
 		Rest = Rest.slice(Match.index + Match[0].length);
 	}
 	return Out + Mention(Rest);

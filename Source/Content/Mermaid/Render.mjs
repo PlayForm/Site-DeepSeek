@@ -1,7 +1,7 @@
 // Render.mjs - the diagram proof-pipeline's build-time renderer.
 //
-// Renders every Mermaid source in this directory (<Id>.mmd) into a vendored
-// SVG (<Id>.svg, committed next to the source), so the site ships pre-rendered,
+// Renders every Mermaid source in this directory (<ID>.mmd) into a vendored
+// SVG (<ID>.svg, committed next to the source), so the site ships pre-rendered,
 // offline diagrams with NO runtime Mermaid. Run with:
 //
 //     pnpm run Diagrams   (in Site/)
@@ -140,17 +140,17 @@ const PageHtml = `<!DOCTYPE html>
 					theme: "base",
 				},
 			});
-			window.__render = async (Id, Text) => {
+			window.__render = async (ID, Text) => {
 				const Stage = document.getElementById("stage");
 				Stage.innerHTML = "";
-				const { svg } = await mermaid.render(\`dsh-diagram-\${Id}\`, Text);
+				const { svg } = await mermaid.render(\`dsh-diagram-\${ID}\`, Text);
 				// Inject the render so the labels can be measured AS LAID OUT:
 				// the containment law needs real geometry, not string math.
 				Stage.innerHTML = svg;
-				const Svg = Stage.querySelector("svg");
-				if (!Svg) throw new Error("mermaid rendered no <svg>");
-				const View = Svg.viewBox.baseVal;
-				const Boxes = [...Svg.querySelectorAll("text")]
+				const SVG = Stage.querySelector("svg");
+				if (!SVG) throw new Error("mermaid rendered no <svg>");
+				const View = SVG.viewBox.baseVal;
+				const Boxes = [...SVG.querySelectorAll("text")]
 					.map((T) => T.getBBox())
 					.filter((B) => B.width > 0 || B.height > 0);
 				// The layout reserves the measured label widths, so with the
@@ -169,15 +169,15 @@ const PageHtml = `<!DOCTYPE html>
 					MaxX > View.x + View.width + 0.01 ||
 					MaxY > View.y + View.height + 0.01
 				) {
-					Svg.setAttribute(
+					SVG.setAttribute(
 						"viewBox",
 						\`\${MinX - Pad} \${MinY - Pad} \${MaxX - MinX + 2 * Pad} \${MaxY - MinY + 2 * Pad}\`,
 					);
 				}
 				// The containment law, enforced on the FINAL geometry: every
 				// label's bounding box must sit fully inside the viewBox.
-				const Final = Svg.viewBox.baseVal;
-				for (const T of Svg.querySelectorAll("text")) {
+				const Final = SVG.viewBox.baseVal;
+				for (const T of SVG.querySelectorAll("text")) {
 					const B = T.getBBox();
 					if (B.width === 0 && B.height === 0) continue;
 					const Outside = Math.max(
@@ -192,7 +192,7 @@ const PageHtml = `<!DOCTYPE html>
 						);
 					}
 				}
-				const Out = new XMLSerializer().serializeToString(Svg);
+				const Out = new XMLSerializer().serializeToString(SVG);
 				Stage.innerHTML = "";
 				// Mermaid's HTML labels emit void \`<br>\` tags, which are invalid
 				// XML (and break strict SVG parsers). Self-close them.
@@ -300,9 +300,9 @@ const Normalize = (Text) => Unescape(Text).replace(/\s+/g, " ").trim();
 // never close. Walk BOTH tag kinds by position instead: an outer opening
 // starts a new line, the inner runs that follow inside it supply its
 // words. Empty placeholder labels (unlabeled edges) contribute nothing.
-const SvgLines = (Svg) => {
+const SVGLines = (SVG) => {
 	const Lines = [];
-	for (const TextMatch of Svg.matchAll(/<text[\s>][^>]*>([\s\S]*?)<\/text>/g)) {
+	for (const TextMatch of SVG.matchAll(/<text[\s>][^>]*>([\s\S]*?)<\/text>/g)) {
 		const Tokens = [];
 		// Mermaid 12 writes the wrap-line class as "text-outer-tspan row"
 		// (the row class marks the grid row), so the class match tolerates
@@ -353,8 +353,8 @@ const SourceLabels = (Text) => {
 	}
 	return Labels;
 };
-const SvgHasLabels = (Svg, Labels) => {
-	const Lines = SvgLines(Svg);
+const SVGHasLabels = (SVG, Labels) => {
+	const Lines = SVGLines(SVG);
 	// The space-exact form: rendered lines joined with single spaces. A
 	// label whose words got glued together (spaces dropped at the wrap) can
 	// never match here.
@@ -399,33 +399,33 @@ try {
 
 	let Failed = 0;
 	for (const Source of Selected) {
-		const Id = Source.replace(/\.mmd$/, "");
-		const SvgPath = join(Here, `${Id}.svg`);
+		const ID = Source.replace(/\.mmd$/, "");
+		const SVGPath = join(Here, `${ID}.svg`);
 		try {
 			const Text = Substitute(await readFile(join(Here, Source), "utf8"));
-			const Svg = await Page.evaluate(
-				(DiagramId, DiagramText) => window.__render(DiagramId, DiagramText),
-				Id,
+			const SVG = await Page.evaluate(
+				(DiagramID, DiagramText) => window.__render(DiagramID, DiagramText),
+				ID,
 				Text,
 			);
 			// Drop any stale artifact, then write the vendored SVG.
-			await unlink(SvgPath).catch(() => {});
-			await writeFile(SvgPath, `${Svg.trim()}\n`, "utf8");
+			await unlink(SVGPath).catch(() => {});
+			await writeFile(SVGPath, `${SVG.trim()}\n`, "utf8");
 			// The label-presence law, enforced at render time.
-			const Missing = SvgHasLabels(Svg, SourceLabels(Text));
+			const Missing = SVGHasLabels(SVG, SourceLabels(Text));
 			if (Missing !== null) {
 				Failed += 1;
-				console.error(`MISSING TEXT ${Id}: ${Missing}`);
-				await writeFile("/tmp/debug-"+Id+".svg", Svg, "utf8");
-				await unlink(SvgPath).catch(() => {});
+				console.error(`MISSING TEXT ${ID}: ${Missing}`);
+				await writeFile("/tmp/debug-"+ID+".svg", SVG, "utf8");
+				await unlink(SVGPath).catch(() => {});
 				continue;
 			}
-			console.log(`rendered ${Id}.svg (${Svg.length} bytes) - all labels present`);
+			console.log(`rendered ${ID}.svg (${SVG.length} bytes) - all labels present`);
 		} catch (Error) {
 			Failed += 1;
-			console.error(`FAILED ${Id}: ${Error.message}`);
+			console.error(`FAILED ${ID}: ${Error.message}`);
 			// A failed source must not leave a stale SVG claiming implementation.
-			await unlink(SvgPath).catch(() => {});
+			await unlink(SVGPath).catch(() => {});
 		}
 	}
 	if (Failed > 0) {

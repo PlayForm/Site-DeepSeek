@@ -239,7 +239,7 @@ const Related = [
 			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: A GOVERNANCE HOOK" />
 			<div class="concept-list">
 				<Concept
-					Id="govpkg-family-position"
+					ID="govpkg-family-position"
 					Title="The family position"
 					Diagram={`${Families.GovernorPackage} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - no hook children of its own - one of three governance hooks sharing the fs/observed seam, each gating on its own basename and writing its own ledger.`}
 				>
@@ -293,7 +293,7 @@ const Related = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="govpkg-composition"
+					ID="govpkg-composition"
 					Title="Composition semantics when several are activated"
 					Diagram="The three-way composition: pin to bump-exact (a fully pinned manifest leaving ncu nothing to do, the chain pass may still re-canonicalize chain pins), chain > strip > normalize (the cargo module's precedence), keep-list wins (the pinner's pin-policy.json keeping ranges as authored) - the ledgers separate, activating one never implying another."
 				>
@@ -310,7 +310,7 @@ const Related = [
 					<p>The ledgers are separate; activating one never implies another.</p>
 				</Concept>
 				<Concept
-					Id="govpkg-factory-flavor"
+					ID="govpkg-factory-flavor"
 					Title="Machinery-wise it is a factory flavor"
 					Diagram='inject: ["fs", "pluginFactory"] - the gates, the discovery, the guarded write, the refresh, the continuation, the effects and the schema coming from plugin-dsh-factory; the pure helpers (Suppress, the policy loader) coming from hook-dsh-core; this bundle keeping only its own vocabulary: the Config extension, the chain pass, the update engine and every ledger string.'
 				>
@@ -326,7 +326,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govpkg-direct-govern"
+					ID="govpkg-direct-govern"
 					Title="The direct-govern registration"
 					Diagram={"Besides the fs/observed event path, its two steps registered with the factory's direct-govern registry at apply (Factory.RegisterGovern(\"package.json\", \"canonicalize\" | \"update\", ...)) - so the raw-write tool's per-call govern selection can drive the same chain pass and update stage directly through Factory.Govern."}
 				>
@@ -342,7 +342,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="governor-waterfall-siblings"
+					ID="governor-waterfall-siblings"
 					Title="The new siblings on the tool-result waterfall"
 					Diagram="The CCR compressor and the normalize flavors' overpass arm now share the tools/post-execute waterfall space - the overpass is the OUTERMOST prepend, so the ccr compression sees the NORMALIZED bytes, and the `<<<CCR:` marker guard makes any load order safe. This hook stays on fs/observed - a terminal edit (sed -i) never fires it, which is exactly why the tool-coach guardian exists."
 				>
@@ -405,7 +405,7 @@ const Related = [
 			<SectionHeader Title="The Problem" Meta="WHY THE GOVERNOR EXISTS" />
 			<div class="concept-list">
 				<Concept
-					Id="govpkg-problem"
+					ID="govpkg-problem"
 					Title="The fix must be invisible, and where the write happens"
 					Diagram="Agents editing package.json files constantly - every edit able to leave stale pins, stray version ranges, or deps that should track a governed registry - the fix having to happen where the write happens, on every write path (full writes, single-line edits, str_replace_editor patches alike), without the author's tool result changing by a single byte."
 				>
@@ -421,7 +421,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govpkg-why-observed"
+					ID="govpkg-why-observed"
 					Title="Why fs/observed"
 					Diagram="[fs/observed](Harness:packages/fs/fs/src/index.ts) being the only hook that runs after content is on disk - the [fs/write-intent waterfall](Harness:packages/fs/fs/src/index.ts) carrying a version guard but never the content."
 				>
@@ -438,7 +438,7 @@ const Related = [
 			<SectionHeader Title="How It Works" Meta="THE PIPELINE G = U ∘ P" />
 			<div class="concept-list">
 				<Concept
-					Id="govpkg-pipeline"
+					ID="govpkg-pipeline"
 					Title="The pipeline, gate by gate"
 					Diagram="The full pipeline as mechanics: fs/observed firing for every harness write (the tool layer only, any thread), the G1 gate deciding exclusion-first (the excluded path takes the ledger line; every other gate outcome is silent), the G2 registry discovery, the detached contained G3 chain pass (the pure transform ending in the GuardedWrite and the P3 re-emit), and the G4 update stage (the passage gate, the first-wins policy pick, the programmatic-or-bin dispatch, the verify and the U2 refresh) - ending in silence: the tool result shows exactly what the author wrote."
 				>
@@ -451,7 +451,7 @@ const Related = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="govpkg-anywhere-mode"
+					ID="govpkg-anywhere-mode"
 					Title="Anywhere mode, exclusion-first"
 					Diagram="No roots allowlist: any agent (main, subagent, workflow child) writing a package.json via the harness fs tools being governed - unless the path contains an excluded segment."
 				>
@@ -462,7 +462,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govpkg-no-recursion"
+					ID="govpkg-no-recursion"
 					Title="No recursion"
 					Diagram="The governor's rewrites going through the ctx.fs service (which dispatches no fs/* events - only the tool layer does) and the update stage being a continuation, not an author tool call."
 				>
@@ -473,7 +473,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govpkg-version-coherence"
+					ID="govpkg-version-coherence"
 					Title="Version coherence"
 					Diagram="The rewrite carrying replaceIfVersion at the observed version - a racing author write making it fail safely (no clobber)."
 				>
@@ -484,7 +484,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govpkg-cordis-trap"
+					ID="govpkg-cordis-trap"
 					Title="The cordis-trap guard"
 					Diagram="ncu's reject list always being policy.reject ∪ the chain-governed dep names - ncu must never bump a chain pin to public npm latest."
 				>
@@ -495,7 +495,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govpkg-silence"
+					ID="govpkg-silence"
 					Title="Silence"
 					Diagram="The model-facing write result built from the author's own content - a listener throw contained logger-only (the core's Suppress composer), the ledger best-effort."
 				>
@@ -506,7 +506,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govpkg-update-envelope"
+					ID="govpkg-update-envelope"
 					Title="The update envelope lives in the core"
 					Diagram="The G4 update-stage envelope - the Dispatch/Settle pair of the diagram (the gates, the jobs envelope, the breaker update, the U2 refresh) - living in [@playform/hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source), this module a thin delegate injecting its own collections, child stage and ledger strings, so the flow is not forked per governance module."
 				>
@@ -527,7 +527,7 @@ const Related = [
 			<SectionHeader Title="The Config" Meta="SCHEMA + DEFAULTS AT LOAD" />
 			<div class="concept-list">
 				<Concept
-					Id="govpkg-config-schema"
+					ID="govpkg-config-schema"
 					Title="The exported Config schema"
 					Diagram="The exported Config schema (the [factory's Schema helper](Ours:Classic/packages/plugin-dsh-factory/Source) extended with the module's own fields) validating and filling every default at load - invalid configuration failing loudly, new patch entries declared with insert:."
 				>
@@ -590,7 +590,7 @@ const Related = [
 			<SectionHeader Title="In Action" Meta="ONE GOVERNED WRITE" />
 			<div class="concept-list">
 				<Concept
-					Id="govpkg-in-action-setup"
+					ID="govpkg-in-action-setup"
 					Title="One governed write"
 					Diagram="The author writing a package.json anywhere with the write tool - one dep that should track the governed registry, one public dep left on a range."
 				>
@@ -608,7 +608,7 @@ const Related = [
 			<CodeBlock Language="json" Source={GovernedWrite.join("\n")} />
 			<div class="concept-list">
 				<Concept
-					Id="govpkg-in-action-pass"
+					ID="govpkg-in-action-pass"
 					Title="The chain pass canonicalizes; the update stage bumps"
 					Diagram="The chain pass finding @acme/chain-core in the nearest registry.json (effective 0.4.5) and canonicalizing it to ^0.4.5 - the public dep staying a range until the update stage's ncu run bumps it; the transcript showing only what the author wrote, the ledger showing what actually happened."
 				>
@@ -630,7 +630,7 @@ const Related = [
 			<div class="code-block">{LedgerExcerpt.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
-					Id="govpkg-in-action-reread"
+					ID="govpkg-in-action-reread"
 					Title="Read it back, write it again, or write inside an excluded path"
 					Diagram="Reading the file back and finding @acme/chain-core at ^0.4.5 (or already bumped by ncu if the policy allowed it) - writing again immediately with nothing complaining (no FS_STALE_VERSION, the re-emit making the second pass a no-op) - or writing inside node_modules/.git/.dsh and the ledger gaining one line, skipped (excluded) ..., while the file stays untouched."
 				>
@@ -653,7 +653,7 @@ const Related = [
 			<SectionHeader Title="The Ledger" Meta="ONE GLOBAL LOG" />
 			<div class="concept-list">
 				<Concept
-					Id="govpkg-ledger-log"
+					ID="govpkg-ledger-log"
 					Title="One global log"
 					Diagram='One global log (logFile, default ~/.dsh/hook-dsh-package-governor.log) recording activation, exclusions, chain-pass results, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
 				>
@@ -668,7 +668,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govpkg-ledger-em-dashes"
+					ID="govpkg-ledger-em-dashes"
 					Title="The em dashes are part of the literal strings"
 					Diagram="The registry-miss line ending with an em dash followed by chain pass skipped, the DONE/FAILED lines update: DONE + em dash + reason and update: FAILED + em dash + reason - byte-exact forms in the In Action excerpt, the em dashes living only in the example block."
 				>

@@ -257,7 +257,7 @@ const Related = [
 
 <Base
 	Title="hook-dsh-ccr - DSH Family @ PlayForm"
-	Description={`${Families.Ccr} - the CCR compressor of the DeepSeek Harness: hooks the tools/post-execute waterfall, replaces oversized tool output with a one-line type-aware preview plus the <<<CCR:hash|type|size>>> marker, and keeps the original retrievable through the registered ccr_retrieve tool.`}
+	Description={`${Families.CCR} - the CCR compressor of the DeepSeek Harness: hooks the tools/post-execute waterfall, replaces oversized tool output with a one-line type-aware preview plus the <<<CCR:hash|type|size>>> marker, and keeps the original retrievable through the registered ccr_retrieve tool.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -273,7 +273,7 @@ const Related = [
 		<section class="page-hero">
 			<h1 class="page-hero__title">hook-dsh-ccr</h1>
 			<p class="page-hero__sub">
-				{Families.Ccr} &bull; <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness
+				{Families.CCR} &bull; <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness
 				Plugin Family for PlayForm.</em>
 			</p>
 			<p class="page-hero__sub">
@@ -333,13 +333,13 @@ const Related = [
 			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: A GUARDIAN-COMPRESSION HOOK" />
 			<div class="concept-list">
 				<Concept
-					Id="ccr-family-position"
+					ID="ccr-family-position"
 					Title="The family position"
-					Diagram={`${Families.Ccr} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - no hook children of its own - the first family member hooked on the tools/post-execute waterfall rather than fs/observed: the compression is deliberately VISIBLE at the result layer (it IS the feature), the opposite of the governance family's silence.`}
+					Diagram={`${Families.CCR} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - no hook children of its own - the first family member hooked on the tools/post-execute waterfall rather than fs/observed: the compression is deliberately VISIBLE at the result layer (it IS the feature), the opposite of the governance family's silence.`}
 				>
 					<p>
 						A hook child of the{" "}
-						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.Ccr}) and the{" "}
+						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.CCR}) and the{" "}
 						<strong>hook-dsh-core</strong> helpers; it has no hook children of its own.
 					</p>
 					<p>
@@ -384,7 +384,7 @@ const Related = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="ccr-overpass-ordering"
+					ID="ccr-overpass-ordering"
 					Title="The ordering fact: normalized bytes in, any load order safe"
 					Diagram="The normalize flavors' tool-results overpass arm being the OUTERMOST prepend ({ prepend: true }), so the ccr compression sees the NORMALIZED bytes - and the <<<CCR: marker guard making any load order safe: the marker is pure ASCII (digits, lowercase hex, letters, pipes) and passes through the whole normalize family untouched, so the model can re-read it from its own transcript intact."
 				>
@@ -401,7 +401,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="ccr-non-manifest"
+					ID="ccr-non-manifest"
 					Title="Machinery-wise it is a NON-MANIFEST factory flavor"
 					Diagram={'inject: ["pluginFactory", "tools"] - the config schema composed by the factory\'s standalone Schema(false, {...}) helper (the NON-MANIFEST posture: no fs/observed machinery advertised, only the two universal volatile cells), the ccr_retrieve tool registered through the tools injection - the same registration the family\'s raw-write uses.'}
 				>
@@ -466,7 +466,7 @@ const Related = [
 			<SectionHeader Title="The Problem" Meta="WHY THE COMPRESSOR EXISTS" />
 			<div class="concept-list">
 				<Concept
-					Id="ccr-problem"
+					ID="ccr-problem"
 					Title="Every agent turn floods the context with raw tool output"
 					Diagram="bash runs, grep matches, read slices, web_fetch pages, glob paths - the model's context filling with megabytes of result the model mostly needs one line of; Aphrodite intercepting tool output before it reaches the LLM and replacing it with a ~15-token preview plus a marker."
 				>
@@ -483,7 +483,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="ccr-why-post-execute"
+					ID="ccr-why-post-execute"
 					Title="Why tools/post-execute"
 					Diagram="A proxy intercepting at the transport layer seeing the tool call but never the harness's normalized dispatch result; tools/post-execute being the only point that can legally replace model-visible output for ALL tools - with name + parsed arguments + caller agent on every event."
 				>
@@ -502,7 +502,7 @@ const Related = [
 			<SectionHeader Title="How It Works" Meta="THE GATE, THE STORE, THE RETRIEVAL" />
 			<div class="concept-list">
 				<Concept
-					Id="ccr-gate"
+					ID="ccr-gate"
 					Title="The gate order, step by step"
 					Diagram="The gate deciding exclusion-first: empty content passes, exempt tools pass always, failures pass unless compressFailures is on, non-target tools pass (the allow-list), anything at or under thresholdBytes x the type's multiplier passes; over the gate, auto-expand stores and returns FULL while the content is cheap enough, otherwise the result is replaced with the preview line plus the marker."
 				>
@@ -536,7 +536,7 @@ const Related = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="ccr-classifier"
+					ID="ccr-classifier"
 					Title="The classifier and the multipliers"
 					Diagram="The reduced 7-type set: error (a failure result, the x8 tier, when failures are compressed), the name table (bash -> terminal; grep/search -> grep; glob/list -> paths; read -> file; web_fetch/web_search -> web), and the shape fallback for other gated names (joined text parsing as a JSON object/array -> json; else default). Each type carries its multiplier on the byte gate."
 				>
@@ -572,7 +572,7 @@ const Related = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="ccr-previews"
+					ID="ccr-previews"
 					Title="The previews: pure per-type one-liners"
 					Diagram="The replacement content being ONE text block - [<type>:<preview>] on the first line and the <<<CCR:<24hex>|<type>|<size>>> marker on the second - every preview hard-cut to previewMaxChars (240)."
 				>
@@ -606,7 +606,7 @@ const Related = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="ccr-store"
+					ID="ccr-store"
 					Title="The store: LRU + TTL + optional JSONL journal"
 					Diagram="An in-memory LRU keyed by the sha256-24 hash of the full serialized content bytes (node:crypto, no native deps), with the storeBudgetBytes cap (256 MiB, least-recently-accessed eviction; the just-inserted entry is never evicted), the ttlSeconds TTL (3600; sweep on insert, gone on access), and the optional JSONL disk journal (journalPath, default empty = memory-only) - one {hash, type, size, ttlAt, payload} record per store, payload base64, loaded and TTL-compacted on boot."
 				>
@@ -618,7 +618,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="ccr-retrieval"
+					ID="ccr-retrieval"
 					Title="The retrieval: ccr_retrieve(hash, range?)"
 					Diagram="One registered tool: the hash matched EXACTLY - no prefix or fuzzy matching; range {start, count} a 0-based granular line slice (out-of-range bounds clamp - a retrieval never fails for asking past the end); unknown hash a self-describing error (re-run the original tool); expired hash ditto with the TTL reason; every hit refreshes lastAccessed (the LRU clock)."
 				>
@@ -629,7 +629,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="ccr-discipline"
+					ID="ccr-discipline"
 					Title="The waterfall discipline"
 					Diagram="next() always awaited FIRST (omitting it short-circuits the downstream post-execute listeners - the spill-policy precedent); pass-through returning the downstream decision unchanged; only an accepted, non-value-carrying decision replaced; the whole transform fail-open (an internal error logs a warning and keeps the inline content - never throws into the waterfall); the listener prepends so the gate sees the pristine result."
 				>
@@ -651,7 +651,7 @@ const Related = [
 			<SectionHeader Title="The Config" Meta="SCHEMA + DEFAULTS AT LOAD" />
 			<div class="concept-list">
 				<Concept
-					Id="ccr-config-schema"
+					ID="ccr-config-schema"
 					Title="The exported Config schema"
 					Diagram="The factory's standalone Schema(false, {...}) helper (the NON-MANIFEST posture) validating and filling every default at load - invalid configuration failing loudly, new patch entries declared with insert:. Volatile (hot-editable, no remount): log, logFile, thresholdBytes, previewMaxChars, multipliers. Everything else remounts on edit."
 				>
@@ -716,7 +716,7 @@ const Related = [
 			<SectionHeader Title="In Action" Meta="ONE COMPRESSED RESULT" />
 			<div class="concept-list">
 				<Concept
-					Id="ccr-in-action-gate"
+					ID="ccr-in-action-gate"
 					Title="One compressed result"
 					Diagram="A bash test run returning 142 lines of build output - the serialized result crossing thresholdBytes (2048) x the terminal multiplier (1) and autoExpandLimitBytes (102400) both - the gate classifying the type (terminal), hashing the bytes (sha256-24), storing the content, and replacing the model-visible result with the preview line plus the marker."
 				>
@@ -734,7 +734,7 @@ const Related = [
 			<CodeBlock Language="text" Source={Oversized.join("\n")} />
 			<div class="concept-list">
 				<Concept
-					Id="ccr-in-action-replace"
+					ID="ccr-in-action-replace"
 					Title="After - the one-line preview plus the marker"
 					Diagram="The model receiving ONE text block instead: the terminal preview line (exit code, line count, first significant line) plus the <<<CCR:<24hex>|terminal|5231>>> retrieval marker - the original staying retrievable through the registered ccr_retrieve tool."
 				>
@@ -750,7 +750,7 @@ const Related = [
 			<CodeBlock Language="text" Source={Replacement.join("\n")} />
 			<div class="concept-list">
 				<Concept
-					Id="ccr-in-action-retrieve"
+					ID="ccr-in-action-retrieve"
 					Title="The model retrieves - exactly, or in slices"
 					Diagram="The model calling ccr_retrieve with the marker's hash - the hash matched exactly (no prefix or fuzzy matching), range {start, count} slicing lines granularly (out-of-range bounds clamp), the success value {hash, type, size, text} rendered verbatim - or getting the self-describing miss error telling it to re-run the original tool."
 				>
@@ -768,7 +768,7 @@ const Related = [
 			<CodeBlock Language="text" Source={RetrieveCall.join("\n")} />
 			<div class="concept-list">
 				<Concept
-					Id="ccr-in-action-autoexpand"
+					ID="ccr-in-action-autoexpand"
 					Title="The auto-expand case: stored, but returned FULL"
 					Diagram="A result over the byte gate but at or under autoExpandLimitBytes (102400) with autoExpand on (the default) - stored with its own ledger line (ccr: stored ...) and returned FULL: no marker reaches the model while the content is cheap enough to keep inline."
 				>
@@ -786,7 +786,7 @@ const Related = [
 			<SectionHeader Title="The Ledger" Meta="ONE LOG PER MODULE" />
 			<div class="concept-list">
 				<Concept
-					Id="ccr-ledger-log"
+					ID="ccr-ledger-log"
 					Title="One log per module, the activation line first"
 					Diagram="logFile recording the activation line (written by apply(), so 'did it activate' is answerable from the ledger alone), every compress/store/eviction, every retrieval hit and miss, and the context engine's archive events - the strings the module composes itself (the factory never owns them), asserted byte-identical by the smoke."
 				>
@@ -796,7 +796,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="ccr-ledger-forms"
+					ID="ccr-ledger-forms"
 					Title="The durable forms carry the timestamp, not the module"
 					Diagram="The durable file lines being the [ISO] message forms - the factory's Append layer adds the hook-dsh-ccr prefix and the timestamp; the strings below are the module's own composed messages, byte-exact. The TTL eviction shares the budget eviction's form: ccr: evicted <hash> (ttl)."
 				>

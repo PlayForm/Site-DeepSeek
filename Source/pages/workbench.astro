@@ -12,7 +12,7 @@ import { Counts } from "@Library/Content";
 // default (it toggles like the rest, mirroring the workbench mock).
 const Hooks = [
 	{
-		Id: "dash",
+		ID: "dash",
 		Prefix: "NORM",
 		Token: "DASH",
 		Name: "Hyphen Standardizer",
@@ -21,7 +21,7 @@ const Hooks = [
 		Armed: true,
 	},
 	{
-		Id: "quotes",
+		ID: "quotes",
 		Prefix: "NORM",
 		Token: "QUOTES",
 		Name: "Curly Quotes",
@@ -30,7 +30,7 @@ const Hooks = [
 		Armed: true,
 	},
 	{
-		Id: "ellipsis",
+		ID: "ellipsis",
 		Prefix: "NORM",
 		Token: "ELLIPSIS",
 		Name: "Ellipsis Expander",
@@ -39,7 +39,7 @@ const Hooks = [
 		Armed: true,
 	},
 	{
-		Id: "spaces",
+		ID: "spaces",
 		Prefix: "NORM",
 		Token: "SPACES",
 		Name: "Whitespace Purge",
@@ -48,7 +48,7 @@ const Hooks = [
 		Armed: true,
 	},
 	{
-		Id: "invisible",
+		ID: "invisible",
 		Prefix: "STRIP",
 		Token: "ZWSP",
 		Name: "Zero-Width Strip",
@@ -57,7 +57,7 @@ const Hooks = [
 		Armed: true,
 	},
 	{
-		Id: "fullwidth",
+		ID: "fullwidth",
 		Prefix: "NORM",
 		Token: "FULLWIDTH",
 		Name: "Width Normalizer",
@@ -66,7 +66,7 @@ const Hooks = [
 		Armed: true,
 	},
 	{
-		Id: "file",
+		ID: "file",
 		Prefix: "NORM",
 		Token: "FILE",
 		Name: "File Content Normalizer",
@@ -78,15 +78,15 @@ const Hooks = [
 
 // Runtime pipeline profiles, per the workbench mock.
 const Runtimes = [
-	{ Id: "classic", Label: "Classic Pipeline" },
-	{ Id: "effect", Label: "Effect-TS v4 Fiber" },
+	{ ID: "classic", Label: "Classic Pipeline" },
+	{ ID: "effect", Label: "Effect-TS v4 Fiber" },
 ];
 
 // Ingest engines, per the workbench mock.
 const Engines = [
-	{ Id: "deepseek", Label: "DeepSeek Engine v4" },
-	{ Id: "glm", Label: "GLM Engine 5.3" },
-	{ Id: "raw", Label: "Raw Ingest Stream" },
+	{ ID: "deepseek", Label: "DeepSeek Engine v4" },
+	{ ID: "glm", Label: "GLM Engine 5.3" },
+	{ ID: "raw", Label: "Raw Ingest Stream" },
 ];
 
 // The pipeline stages the demo mirrors, in the family's real order (each
@@ -127,13 +127,13 @@ const Spans = [
 					<button
 						type="button"
 						class="engine-pill"
-						data-runtime={Runtime.Id}
+						data-runtime={Runtime.ID}
 						data-active={Index === 1 ? "" : undefined}
 					>
-						{Runtime.Id === "classic" && (
+						{Runtime.ID === "classic" && (
 							<BrandIcon Name="typescript" Size="0.8em" />
 						)}
-						{Runtime.Id === "effect" && <BrandIcon Name="effect" Size="0.8em" />}
+						{Runtime.ID === "effect" && <BrandIcon Name="effect" Size="0.8em" />}
 						{Runtime.Label}
 					</button>
 				))}
@@ -154,12 +154,12 @@ const Spans = [
 					<button
 						type="button"
 						class="engine-pill"
-						data-engine={Engine.Id}
+						data-engine={Engine.ID}
 						data-active={Index === 0 ? "" : undefined}
 						aria-pressed={Index === 0}
 					>
 						<span class="dot"></span>
-						{Engine.Id === "glm" && <BrandIcon Name="zhipu" Size="0.8em" />}
+						{Engine.ID === "glm" && <BrandIcon Name="zhipu" Size="0.8em" />}
 						{Engine.Label}
 					</button>
 				))}
@@ -245,7 +245,7 @@ const Spans = [
 					<button
 						type="button"
 						class={`hook-card ${Hook.Armed ? "is-armed" : "is-disarmed"}`}
-						data-hook={Hook.Id}
+						data-hook={Hook.ID}
 						data-armed={Hook.Armed ? "true" : "false"}
 						aria-pressed={Hook.Armed}
 					>
@@ -752,9 +752,9 @@ const Spans = [
 				});
 			Pill.setAttribute("data-active", "");
 			Pill.setAttribute("aria-pressed", "true");
-			const Id = Pill.dataset["runtime"]!;
-			if (RuntimeBatch[Id]) {
-				Runtime = Id;
+			const ID = Pill.dataset["runtime"]!;
+			if (RuntimeBatch[ID]) {
+				Runtime = ID;
 				// A settled stream resumes by a new pass over the same pool
 				// (the batch size is what the switch promises to show); a
 				// playing pass keeps its position - only the per-tick
@@ -781,10 +781,10 @@ const Spans = [
 				});
 			Pill.setAttribute("data-active", "");
 			Pill.setAttribute("aria-pressed", "true");
-			const Id = Pill.dataset["engine"]!;
-			if (EngineSeeds[Id]) {
-				Engine = Id;
-				TickMs = EngineTicks[Id] ?? 900;
+			const ID = Pill.dataset["engine"]!;
+			if (EngineSeeds[ID]) {
+				Engine = ID;
+				TickMs = EngineTicks[ID] ?? 900;
 				Schedule();
 				// The selected engine's own pass plays from its pool's first
 				// line immediately (a settled stream resumes; a playing pass

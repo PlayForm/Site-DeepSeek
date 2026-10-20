@@ -199,7 +199,7 @@ const Related = [
 			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: THE PARENT SERVICE" />
 			<div class="concept-list">
 				<Concept
-					Id="factory-family-position"
+					ID="factory-family-position"
 					Title="The family position"
 					Diagram={`${Families.Factory} as the family's parent service - every other package consuming it (the three governance hooks injecting the service; the six normalize flavors consuming State/Append and the Schema helper) - its own parent the filesystem service (inject: ["fs"]).`}
 				>
@@ -211,7 +211,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="factory-core-boundary"
+					ID="factory-core-boundary"
 					Title="The non-reexport boundary"
 					Diagram="The pure layer the factory deliberately does not re-export - [hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source) (its service surface stays stable) - the hooks importing the core's helpers directly."
 				>
@@ -222,7 +222,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="factory-conventions"
+					ID="factory-conventions"
 					Title="The ecosystem conventions"
 					Diagram="The DSH plugin family as the DeepSeek Harness plugin layer of the PlayForm ecosystem - TypeScript-first Source/ to Target/, the deterministic @playform build, prepublishOnly-only - the same conventions as every other @playform package."
 				>
@@ -302,7 +302,7 @@ const Related = [
 			<SectionHeader Title="The Problem" Meta="THREE CONSUMERS, ONE MACHINE" />
 			<div class="concept-list">
 				<Concept
-					Id="factory-problem-copies"
+					ID="factory-problem-copies"
 					Title="The triplicated machinery"
 					Diagram="Three independent consumers of the same machinery already existing - the governor, the pinner and the cargo governor each maintaining their own copy of: the ledger (Append), the exclusion match (Match), the registry / policy walk-up discovery (Discover/Parse), the union keep-list resolution with the P3 chain-keys interlock, the g1 gate set, the version-guarded write with the P4 sandbox fence, the P3/U2 observation-policy refresh, the detached contained continuation scaffolding, the State construction with defensive cell unwrap, the ctx.on wiring, the P1/P2/P5 lifecycle effects, the Schemastery schema shape, and the probe-once optional-service accessor."
 				>
@@ -325,7 +325,7 @@ const Related = [
 					</ul>
 				</Concept>
 				<Concept
-					Id="factory-problem-triple"
+					ID="factory-problem-triple"
 					Title="The triple-application cost"
 					Diagram="Every bug fix or hardening pass - the sandbox fence, the stale-version leak, the in-flight disposal - having to be applied three times; the factory making it apply once."
 				>
@@ -373,7 +373,7 @@ const Related = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="factory-not-owned"
+					ID="factory-not-owned"
 					Title="What the factory deliberately does NOT own"
 					Diagram={"The three ownership boundaries: the consumer ledger strings (every message a hook logs - \"skipped (excluded) ...\", \"observed non-JSON package.json ... - skipped\", \"REFUSED rewrite ...\", \"pinned ...\", \"governed ... → ...\", the activated (...) proof - composed and logged by the hook through the factory's Append), the transforms (the consumer supplies the pure function; the factory only drives it inside Continue), and the update engines (the factory gives them GuardedWrite/Refresh/Seam/Journal/UpdateKey to build with)."}
 				>
@@ -394,7 +394,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="factory-verification"
+					ID="factory-verification"
 					Title="Verification"
 					Diagram={`The three gates: tsc --noEmit - zero errors; pnpm run prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs (in the family's smokes/ directory) - ${Counts.Factory.Classic} checks, ALL PASS.`}
 				>
@@ -418,7 +418,7 @@ const Related = [
 			<SectionHeader Title="The Config" Meta="NONE - IT IS THE CONFIG MACHINERY" />
 			<div class="concept-list">
 				<Concept
-					Id="factory-config-machinery"
+					ID="factory-config-machinery"
 					Title="No schema of its own - it IS the config machinery"
 					Diagram="The factory registering no Config schema of its own - its Schema(shared?, m) instance method being the Schemastery schema factory every consumer builds its schema with."
 				>
@@ -432,7 +432,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="factory-config-entrypoints"
+					ID="factory-config-entrypoints"
 					Title="The two Schema entry points"
 					Diagram="The standalone named Schema export making the same factory usable at module-evaluation time, before any service instance exists (the loader needs Config at load) - alongside the instance method."
 				>
@@ -443,7 +443,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="factory-config-blocks"
+					ID="factory-config-blocks"
 					Title="shared: false vs the shared defaults"
 					Diagram="shared: false emitting the minimal block (no logFile/updateCooldownMs/mutationTools/policyFile/exclude) for non-manifest modules like the normalize flavors - the shared defaults carrying the family's block - volatile cells (log, logFile and any consumer's own hot fields) committing without remounting the plugin, the factory's State builder unwrapping them defensively."
 				>
@@ -460,7 +460,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="factory-config-volatile-refresh"
+					ID="factory-config-volatile-refresh"
 					Title="The volatile-refresh listener: hot edits land in place"
 					Diagram="The granular-volatile fix: the factory's State builder now keeps the raw config's { get } cells in place and registers a loader/volatile-update listener that re-reads the whole object and refreshes the State fields LIVE - one leaf change, one dispatch, no remount, no new activation line. The normalize family's volatile scopes (conversation/reasoning/toolInput/toolResults/files/batch) and every volatile knob of the ccr hook and the tool-coach ride exactly this path."
 				>
@@ -496,7 +496,7 @@ const Related = [
 			</p>
 			<div class="concept-list">
 				<Concept
-					Id="factory-in-action"
+					ID="factory-in-action"
 					Title="The factory's part of that one pass"
 					Diagram="The one pass as the factory performs it: Gate deciding the actor and the path, Discover finding the nearest registry.json, Continue running the transform detached and contained, GuardedWrite carrying replaceIfVersion past the P4 sandbox fence, Refresh re-emitting the fresh version with the same actor, Append composing the logger's line from the module's message."
 				>
@@ -516,7 +516,7 @@ const Related = [
 			<SectionHeader Title="The Ledger" Meta="TWO WRAPPERS, CONSUMER'S MESSAGE" />
 			<div class="concept-list">
 				<Concept
-					Id="factory-ledger-service"
+					ID="factory-ledger-service"
 					Title="A service, not a module"
 					Diagram="The factory registering no activation line and owning no ledger strings - its Append(state, message) being the family's one ledger mechanism, composing exactly two wrappers around the CONSUMER's message."
 				>
@@ -534,7 +534,7 @@ const Related = [
 			<div class="code-block">{LedgerLines.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
-					Id="factory-ledger-boundary"
+					ID="factory-ledger-boundary"
 					Title="The ownership boundary"
 					Diagram={"Every string a hook logs - \"skipped (excluded) ...\", \"governed <path> → <version>\", \"pinned <path> (N versions)\", the activated (...) proof - composed and logged by the hook, through the factory's Append - the factory's own composed strings parameterized machinery (the unreadable-policy line taking the policy file name; the suppressed-error lines taking state.Module as the prefix), staying byte-identical when a consumer keeps its historical name."}
 				>

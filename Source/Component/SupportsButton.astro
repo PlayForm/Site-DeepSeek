@@ -32,10 +32,10 @@ interface Props {
 	/** The coupled Showcase's Id (its data-showcase-id): selecting a chip
 		swaps that showcase's example to the manifest's story. Omit when
 		the chips have no example variants to swap. */
-	ShowcaseId?: string;
+	ShowcaseID?: string;
 }
 
-const { Manifests, Detail, Details, ShowcaseId } = Astro.props;
+const { Manifests, Detail, Details, ShowcaseID } = Astro.props;
 
 // The shared panel id prefix: one id per chip's panel (the manifest slug
 // disambiguates). The manifest names are lowercase identifiers, so the
@@ -52,7 +52,7 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 };
 ---
 
-<div class="supports" data-showcase-target={ShowcaseId}>
+<div class="supports" data-showcase-target={ShowcaseID}>
 	<p class="supports__row">
 		<span class="supports__label">supports:</span>
 		{Manifests.map((Manifest) => {
@@ -155,9 +155,9 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 	   state keeps the SOLID accent fill (the user's ruling: the pressed
 	   button stays red/orange) with the on-primary ink, NO box shadow and
 	   no ring on the button - THE ICON ITSELF CHANGES COLOR: the mark
-	   inverts to the light ink (brightness(0) + invert(1) - a transform,
-	   no new hex) so the official mark reads on the solid ground. The
-	   unselected state stays the light tint with the accent icon. */
+	   renders in the on-primary ink on the solid ground (CSS fill/stroke
+	   overriding the SVG presentation attributes). The unselected state
+	   stays the light tint with the accent icon. */
 	.supports__chip--npm {
 		border-color: var(--color-pin-red);
 		color: var(--color-pin-red);
@@ -175,8 +175,8 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 		color: var(--color-on-primary);
 	}
 
-	.supports__chip--npm.is-open .brand-icon {
-		filter: brightness(0) invert(1);
+	.supports__chip--npm.is-open :global(.brand-icon path) {
+		fill: var(--color-on-primary);
 	}
 
 	.supports__chip--cargo {
@@ -196,8 +196,16 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 		color: var(--color-on-primary);
 	}
 
-	.supports__chip--cargo.is-open .brand-icon {
-		filter: brightness(0) invert(1);
+	/* The icon's color change on the solid fill: CSS fill/stroke override
+	   the SVG presentation attributes (the official #C12127 fill, the
+	   gear's #000 stroke) so the mark renders in the on-primary ink.
+	   NOTE: a brightness/invert filter was rejected - the build's inline
+	   pipeline mangles invert(1) into the invalid invert() (the same
+	   mangling the reduced-motion 1ms note documents), which would kill
+	   the rule in the built CSS. */
+	.supports__chip--cargo.is-open :global(.brand-icon path) {
+		fill: var(--color-on-primary);
+		stroke: var(--color-on-primary);
 	}
 
 	/* The panel: the surface-container-low tray, radius-md, zero elevation. */
@@ -318,11 +326,11 @@ const ManifestIdentity: Record<string, { Icon: "npm" | "cargo"; Kind: string }> 
 					if (Panel) Panel.hidden = false;
 					// The example swap: tell the coupled showcase which
 					// manifest is now selected (see Showcase.astro).
-					const ShowcaseId = Group.dataset["showcaseTarget"];
+					const ShowcaseID = Group.dataset["showcaseTarget"];
 					const Manifest = Chip.dataset["manifest"];
-					if (ShowcaseId && Manifest) {
+					if (ShowcaseID && Manifest) {
 						document.dispatchEvent(
-							new CustomEvent("dsh:example", { detail: { Id: ShowcaseId, Manifest } }),
+							new CustomEvent("dsh:example", { detail: { Id: ShowcaseID, Manifest } }),
 						);
 					}
 				}

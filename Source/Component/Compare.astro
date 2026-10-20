@@ -35,7 +35,7 @@ interface Props {
 		| "file"
 		| "all";
 	/** A stable id - the page may mount several Comparers. */
-	Id: string;
+	ID: string;
 	/** Initial handle position, percent (default 50). */
 	Start?: number;
 	/** The legend labels under the stage. */
@@ -47,7 +47,7 @@ const {
 	Raw,
 	Clean,
 	Flavor,
-	Id,
+	ID,
 	Start = 50,
 	RawLabel = "RAW - what the model wrote",
 	CleanLabel = "NORMALIZED - what reaches the transcript",
@@ -129,11 +129,11 @@ function Highlight(Text: string): string {
 	return Out;
 }
 
-const RawHtml = Raw.map(Highlight).join("\n");
+const RawHTML = Raw.map(Highlight).join("\n");
 const CleanText = Clean.join("\n");
 ---
 
-<figure class="compare" id={Id}>
+<figure class="compare" id={ID}>
 	<TerminalTray Label="Before / After">
 		<span class="compare__hint" aria-hidden="true">DRAG <span class="compare__keys">← →</span></span>
 	</TerminalTray>
@@ -148,7 +148,7 @@ const CleanText = Clean.join("\n");
 
 	<div class="compare__stage" data-compare data-start={Start}>
 		<pre class="compare__screen compare__screen--clean">{CleanText}</pre>
-		<pre class="compare__screen compare__screen--raw rail-orange" set:html={RawHtml}></pre>
+		<pre class="compare__screen compare__screen--raw rail-orange" set:html={RawHTML}></pre>
 		<!-- The step markers: the 25 / 50 / 75 snap positions as flat
 		     hairline ticks on the stage's top and bottom edges
 		     (pointer-events: none - the drag and the click pass

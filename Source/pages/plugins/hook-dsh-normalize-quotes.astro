@@ -295,7 +295,7 @@ const LedgerStrings = [
 			<SectionHeader Title="Where It Fits" Meta={FamilyPosition(2)} />
 			<div class="concept-list">
 				<Concept
-					Id="quotes-family-position"
+					ID="quotes-family-position"
 					Title="The family position"
 					Diagram={`${Families.Quotes} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the second of the six stream normalizer siblings.`}
 				>
@@ -349,7 +349,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="quotes-non-manifest"
+					ID="quotes-non-manifest"
 					Title="A non-manifest factory consumer"
 					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."}
 				>
@@ -418,7 +418,7 @@ const LedgerStrings = [
 			<SectionHeader Title="The Problem" Meta="WHY THE QUOTES FLAVOR EXISTS" />
 			<div class="concept-list">
 				<Concept
-					Id="quotes-problem"
+					ID="quotes-problem"
 					Title="A curly quote is simply the wrong character"
 					Diagram="Smart-quote processors and code editors emitting typographic quotes - every parser, shell and diff understanding the straight ASCII ones - a curly quote in code blocks, commands and file paths being simply the wrong character."
 				>
@@ -442,7 +442,7 @@ const LedgerStrings = [
 			<div class="code-block">{Pipeline.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
-					Id="quotes-transform"
+					ID="quotes-transform"
 					Title="The transform: the core's Quotes map"
 					Diagram="Exactly the core's Quotes map (@playform/hook-dsh-core's Normalize/Quotes), applied per text segment through the core's ReplaceMap - eight entries, each typographic quote code point to its ASCII straight counterpart."
 				>
@@ -486,7 +486,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="quotes-mechanics"
+					ID="quotes-mechanics"
 					Title="Chunk-boundary-safe, function-replaced, counted"
 					Diagram="No context rules - one character in, its straight counterpart out; chunk-boundary-safe: single-character substitution, no lookahead - per-chunk application never disagreeing with whole-text application; the mapping values returned through a function replacer so they are inserted literally (no $-pattern interpretation); replaced characters counted per stream for the ledger line."
 				>
@@ -537,7 +537,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="quotes-no-replacement"
+					ID="quotes-no-replacement"
 					Title="There is no replacement field (MAP flavor)"
 					Diagram="The MAP flavor carrying no replacement field - volatile cells committing without remounting the plugin, the factory's State builder unwrapping them defensively."
 				>
@@ -590,7 +590,7 @@ const LedgerStrings = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="quotes-scopes"
+					ID="quotes-scopes"
 					Title="Every arm gated independently - and all volatile"
 					Diagram="The scopes object gating every arm of the hook-dsh-normalize-quotes hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 				>
@@ -677,7 +677,7 @@ const LedgerStrings = [
 			</p>
 			<div class="concept-list">
 				<Concept
-					Id="quotes-overpass"
+					ID="quotes-overpass"
 					Title="The overpass arms: opt-in listeners on two more seams"
 					Diagram="Two additional listeners, both registered at apply and both opt-in (gated at RUNTIME on the scope cells, so flipping a scope lands through the P10 volatile-refresh without any re-registration): the tool-results arm on tools/post-execute with { prepend: true }, and the step-batch arm on agent/pre-step in default order."
 				>
@@ -743,14 +743,14 @@ const LedgerStrings = [
 				what reaches the transcript
 			</p>
 			<Compare
-				Id="quotes-stream"
+				ID="quotes-stream"
 				Flavor="quotes"
 				Raw={StreamExample.slice(0, 4)}
 				Clean={StreamExample.slice(4)}
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="quotes-in-action"
+					ID="quotes-in-action"
 					Title="Every typographic quote becomes its ASCII counterpart"
 					Diagram="Every typographic quote in the incoming text - the four single forms and the four double forms - becoming its ASCII counterpart, straight quotes already there untouched (the count only counting replacements) - the difference between a command that runs and one that fails for no visible reason."
 				>
@@ -765,7 +765,7 @@ const LedgerStrings = [
 					</p>
 				</Concept>
 				<Concept
-					Id="quotes-pass-coverage"
+					ID="quotes-pass-coverage"
 					Title="The same pass runs over reasoning and tool-call arguments"
 					Diagram="The count line on a normal completion with replacements made - and the same pass running over reasoning deltas when normalizeReasoning is on, and over tool-call arguments when the example patch enables normalizeToolArguments - with the edit name exempt and raw-marker calls passing through unnormalized."
 				>

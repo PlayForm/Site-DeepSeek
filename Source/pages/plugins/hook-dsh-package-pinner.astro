@@ -24,21 +24,21 @@ const Diagrams = import.meta.glob("/Source/Content/Mermaid/*.svg", {
 // naming a registered artifact of the family become tree/Current links
 // into the monorepo; the related-node hover highlight is the shared
 // overlay script in Layout/Base.astro.
-const Enh = (Id: string) => Enhance(Diagrams[`/Source/Content/Mermaid/${Id}.svg`] ?? "");
-const PinSvg = Enh("pin-then-bump-exact");
-const KeepSvg = Enh("keep-list-precedence");
-const FamilySvg = Enh("family-position");
-const LedgersSvg = Enh("independent-ledgers");
-const InjectSvg = Enh("injected-services");
-const FactoryRespSvg = Enh("factory-responsibilities");
-const CoreHelpersSvg = Enh("core-helpers");
-const OwnedSvg = Enh("pinner-owned-logic");
-const DirectGovernSvg = Enh("direct-govern-entry");
-const IdemSvg = Enh("idempotence");
-const KeepPolicySvg = Enh("keep-list-policy");
-const WildcardSvg = Enh("wildcard-behavior");
-const RefusalSvg = Enh("refusal-guard");
-const VersionCoherSvg = Enh("version-coherence");
+const Diagram = (ID: string) => Enhance(Diagrams[`/Source/Content/Mermaid/${ID}.svg`] ?? "");
+const PinSVG = Diagram("pin-then-bump-exact");
+const KeepSVG = Diagram("keep-list-precedence");
+const FamilySVG = Diagram("family-position");
+const LedgersSVG = Diagram("independent-ledgers");
+const InjectSVG = Diagram("injected-services");
+const FactoryRespSVG = Diagram("factory-responsibilities");
+const CoreHelpersSVG = Diagram("core-helpers");
+const OwnedSVG = Diagram("pinner-owned-logic");
+const DirectGovernSVG = Diagram("direct-govern-entry");
+const IdemSVG = Diagram("idempotence");
+const KeepPolicySVG = Diagram("keep-list-policy");
+const WildcardSVG = Diagram("wildcard-behavior");
+const RefusalSVG = Diagram("refusal-guard");
+const VersionCoherSVG = Diagram("version-coherence");
 
 // The pipeline P = Rewrite ∘ Pin ∘ Resolve ∘ Decode diagram, from the package README.
 const Pipeline = [
@@ -225,7 +225,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Family position</p>
-						<figure class="diagram-figure" set:html={FamilySvg} />
+						<figure class="diagram-figure" set:html={FamilySVG} />
 						<p>
 							Show the pinner's relationship to <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a>, hook-dsh-core, and
 							the sibling package governor.</p>
@@ -256,7 +256,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Composition</p>
-						<figure class="diagram-figure" set:html={PinSvg} />
+						<figure class="diagram-figure" set:html={PinSVG} />
 						<p>
 							Show ^0.3.4 -> pinner -> 0.3.4 -> governor update stage: nothing to do.</p>
 						<p>
@@ -288,7 +288,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Policy precedence</p>
-						<figure class="diagram-figure" set:html={KeepSvg} />
+						<figure class="diagram-figure" set:html={KeepSVG} />
 						<p>
 							Show a keep-listed dependency bypassing prefix removal and retaining its
 							authored range.
@@ -315,7 +315,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Independent ledgers</p>
-						<figure class="diagram-figure" set:html={LedgersSvg} />
+						<figure class="diagram-figure" set:html={LedgersSVG} />
 						<p>
 							Show pinner -&gt;{" "}
 							<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />pinner.log</span> and governor -&gt;{" "}
@@ -349,7 +349,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Injected services</p>
-						<figure class="diagram-figure" set:html={InjectSvg} />
+						<figure class="diagram-figure" set:html={InjectSVG} />
 						<p>Show fs and pluginFactory as the pinner's two injected services.</p>
 					</div>
 
@@ -375,7 +375,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Factory machinery</p>
-						<figure class="diagram-figure" set:html={FactoryRespSvg} />
+						<figure class="diagram-figure" set:html={FactoryRespSVG} />
 						<p>
 							Group the factory-provided responsibilities: gate, discovery, union
 							keep-list, guarded write, refresh, continuation, effects, and schema.
@@ -400,7 +400,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Core helpers</p>
-						<figure class="diagram-figure" set:html={CoreHelpersSvg} />
+						<figure class="diagram-figure" set:html={CoreHelpersSVG} />
 						<p>
 							Show hook-dsh-core supplying <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and suppression composer
 							to the pinner.
@@ -425,7 +425,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Local ownership</p>
-						<figure class="diagram-figure" set:html={OwnedSvg} />
+						<figure class="diagram-figure" set:html={OwnedSVG} />
 						<p>
 							Show the pinner-owned boundary containing the range law, decode logic,
 							and ledger strings.
@@ -449,7 +449,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Direct governance</p>
-						<figure class="diagram-figure" set:html={DirectGovernSvg} />
+						<figure class="diagram-figure" set:html={DirectGovernSVG} />
 						<p>
 							Show apply-time registration with Factory.RegisterGovern.</p>
 						<p>Then show the
@@ -565,7 +565,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Idempotence</p>
-						<figure class="diagram-figure" set:html={IdemSvg} />
+						<figure class="diagram-figure" set:html={IdemSVG} />
 						<p>
 							Show a second write of an already-pinned <span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span> passing the range
 							law untouched - the no-op rewrite P(P(c)) = P(c).
@@ -590,7 +590,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Keep-list policy</p>
-						<figure class="diagram-figure" set:html={KeepPolicySvg} />
+						<figure class="diagram-figure" set:html={KeepPolicySVG} />
 						<p>
 							Show <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts")}><span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />pin-policy.json</span></a> protecting a selected dependency from prefix
 							removal, the union of every readable discovered policy, and the P3
@@ -624,7 +624,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Wildcard behavior</p>
-						<figure class="diagram-figure" set:html={WildcardSvg} />
+						<figure class="diagram-figure" set:html={WildcardSVG} />
 						<p>
 							Show "^1.*" stripped to "1.*" - the law strips only the one leading
 							notation and leaves the content untouched.
@@ -651,7 +651,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Refusal guard</p>
-						<figure class="diagram-figure" set:html={RefusalSvg} />
+						<figure class="diagram-figure" set:html={RefusalSVG} />
 						<p>
 							Show a non-dependency section change being REFUSED and logged instead of
 							applied.
@@ -678,7 +678,7 @@ const Related = [
 						data-diagram-status="implemented"
 					>
 						<p class="section-kicker">Diagram - Version coherence</p>
-						<figure class="diagram-figure" set:html={VersionCoherSvg} />
+						<figure class="diagram-figure" set:html={VersionCoherSVG} />
 						<p>
 							Show the guarded write carrying replaceIfVersion at the observed version
 							- a racing author write fails safely (no clobber), and the re-emit

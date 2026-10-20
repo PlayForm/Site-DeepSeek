@@ -161,7 +161,7 @@ const Related = [
 			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: THE RUST-SIDED SIBLING" />
 			<div class="concept-list">
 				<Concept
-					Id="govcargo-family-position"
+					ID="govcargo-family-position"
 					Title="The family position"
 					Diagram={`${Families.GovernorCargo} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - the Rust-sided sibling of the two npm governance hooks on the same fs/observed seam, one of three governance hooks, each gating on its own basename and writing its own ledger.`}
 				>
@@ -186,7 +186,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govcargo-disjoint"
+					ID="govcargo-disjoint"
 					Title="The basenames are disjoint"
 					Diagram="The cargo module never seeing a package.json event and the npm plugins never seeing a Cargo.toml event - one trigger law covering the whole machine, npm and Rust alike."
 				>
@@ -198,7 +198,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govcargo-composition"
+					ID="govcargo-composition"
 					Title="Composition semantics"
 					Diagram="chain > strip > normalize (this module's precedence), keep-list wins over normalization - never over the chain."
 				>
@@ -211,7 +211,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govcargo-factory-flavor"
+					ID="govcargo-factory-flavor"
 					Title="Machinery-wise it is a factory flavor"
 					Diagram="gates, discovery, the guarded write, the refresh, the continuation, the effects, the schema and the namespaced UpdateKey coming from [plugin-dsh-factory](Ours:Classic/packages/plugin-dsh-factory/Source); the policy loader and the suppression composer from [hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source); this bundle keeping the Cargo-specific residue: the TOML identification, the surgical pin, the full-version directive, and the cargo upgrade bridge."
 				>
@@ -228,7 +228,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govcargo-direct-govern"
+					ID="govcargo-direct-govern"
 					Title="The direct-govern registration"
 					Diagram={"Besides the fs/observed event path, its two steps registered with the factory's direct-govern registry at apply (Factory.RegisterGovern(\"Cargo.toml\", \"cargo\" | \"update\", ...)) - so the raw-write tool's per-call govern selection can drive the same chain + normalization pass and update stage directly through Factory.Govern."}
 				>
@@ -283,7 +283,7 @@ const Related = [
 			<SectionHeader Title="The Problem" Meta="WHY THE CARGO GOVERNOR EXISTS" />
 			<div class="concept-list">
 				<Concept
-					Id="govcargo-problem"
+					ID="govcargo-problem"
 					Title="A decorated TOML document and no in-process library path"
 					Diagram="Rust manifests drifting the same way npm manifests do - but Cargo.toml being a TOML document people decorate with comments, and there being no in-process library path: the only update tool being the cargo CLI - a governor for Cargo.toml having to rewrite surgically (never a TOML stringify) and delegate its update stage across the Rust/TS boundary, while still hooking the same fs/observed event the npm hooks use, so one trigger law covers the whole machine."
 				>
@@ -307,7 +307,7 @@ const Related = [
 			<SectionHeader Title="How It Works" Meta="THE PIPELINE G = U ∘ P" />
 			<div class="concept-list">
 				<Concept
-					Id="govcargo-chain-pass"
+					ID="govcargo-chain-pass"
 					Title="The G3 chain pass, planned in three steps"
 					Diagram={"The same G1/G2 gates and Stash seeding as the npm governor - the G3 chain pass parsing with smol-toml (IDENTIFICATION ONLY) and planning: 1. CHAIN - a dep in registry.effectiveLatest to the bare resolved version (Cargo's implicit caret) or =resolved with pinStyle \"exact\", always the FULL form (shorthand padded); 2. STRIP - strict-mode unknown deps; 3. NORMALIZE - every other simple version (the full-version directive below; the keep-list wins to byte-identical)."}
 				>
@@ -333,7 +333,7 @@ const Related = [
 					</ul>
 				</Concept>
 				<Concept
-					Id="govcargo-surgical"
+					ID="govcargo-surgical"
 					Title="The surgical line-level edit on the raw text"
 					Diagram="The rewrite being a surgical line-level edit on the raw text - comments, inline comments, blank lines and spacing surviving byte-for-byte - then GuardedWrite, the ledger governed <path> → <version>, then Refresh."
 				>
@@ -361,7 +361,7 @@ const Related = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="govcargo-full-version"
+					ID="govcargo-full-version"
 					Title="The full-version normalization directive"
 					Diagram='No shorthand like "1.0" remaining in a governed Cargo.toml - every dependency version expanded to its MOST SPECIFIC form.'
 				>
@@ -395,7 +395,7 @@ const Related = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="govcargo-toml-rewrite"
+					ID="govcargo-toml-rewrite"
 					Title="Why comments survive"
 					Diagram="smol-toml (the ONE runtime dependency, carried by the bundle's own node_modules) used for PARSING ONLY - identification of the dep entries in [dependencies], [dev-dependencies], [build-dependencies], [target.'cfg(...)'.dependencies] (and its dev/build variants), and [workspace.dependencies] (handled natively) - the handled entry shapes, the never-rewritten shapes (path, git, inherited workspace = true), non-dependency sections NEVER touched, the refusal guard refusing any plan entry outside an identified dependency table, and Pin aborting (never a partial rewrite) if a planned entry cannot be located in the text."
 				>
@@ -422,7 +422,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govcargo-rust-side"
+					ID="govcargo-rust-side"
 					Title="The Rust side (live-verified)"
 					Diagram={"cargo 1.100.0-nightly + cargo-edit 0.13.13, resolved through cargoBin - --exclude being ONE flag per crate (the comma form silently IGNORED, the exact inverse of ncu's one-comma-argument reject list) - NO --exact flag in cargo-edit 0.13.13, exact pins enforced at the manifest level by the chain pass (pinStyle: \"exact\" to =resolved) - cargo upgrade preserving comments and formatting (it edits via toml_edit)."}
 				>
@@ -443,7 +443,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govcargo-missing-edit"
+					ID="govcargo-missing-edit"
 					Title="When cargo-edit is NOT installed"
 					Diagram="cargo upgrade exiting 101 with no such command: upgrade - the module logging update: cargo-edit unavailable: ... and failing gracefully."
 				>
@@ -460,7 +460,7 @@ const Related = [
 			<SectionHeader Title="The Config" Meta="SCHEMA + DEFAULTS AT LOAD" />
 			<div class="concept-list">
 				<Concept
-					Id="govcargo-config-schema"
+					ID="govcargo-config-schema"
 					Title="The exported Config schema"
 					Diagram="The exported Config schema validating and filling every default at load - new patch entries declared with insert:."
 				>
@@ -492,7 +492,7 @@ const Related = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="govcargo-policy-mapping"
+					ID="govcargo-policy-mapping"
 					Title="The update-stage policy mapping"
 					Diagram={"The update-policy.json mapping (same discovery as the npm governor): reject to --exclude <crate> (ONE flag per crate); allow to -p <crate> (repeatable); incompatible/pinned/compatible to --incompatible/--pinned/--compatible; pinStyle with NO CLI equivalent (manifest-level via the chain pass); verifyCommand running after the upgrade via the subprocess seam, exit 127 non-fatal - the built-in default mirroring cargo upgrade's own semantics: no rejects, incompatible: \"ignore\", pinned: \"ignore\", pinStyle: \"caret\", no verifyCommand (never install implicitly)."}
 				>
@@ -523,7 +523,7 @@ const Related = [
 			<SectionHeader Title="In Action" Meta="ONE GOVERNED WRITE" />
 			<div class="concept-list">
 				<Concept
-					Id="govcargo-in-action-setup"
+					ID="govcargo-in-action-setup"
 					Title="One governed write"
 					Diagram="The author saving a Cargo.toml with comments, a shorthand version, and a chain-governed dep."
 				>
@@ -540,7 +540,7 @@ const Related = [
 			<CodeBlock Language="toml" Source={CargoBefore.join("\n")} />
 			<div class="concept-list">
 				<Concept
-					Id="govcargo-in-action-surgical"
+					ID="govcargo-in-action-surgical"
 					Title="The surgical rewrite, same text"
 					Diagram="With the nearest registry.json resolving tokio to 0.4.5 - the surgical rewrite producing the same text, same comments, same inline spacing."
 				>
@@ -561,7 +561,7 @@ const Related = [
 			<div class="code-block">{LedgerExcerpt.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
-					Id="govcargo-in-action-exclude"
+					ID="govcargo-in-action-exclude"
 					Title="The exclude protection, the re-write, and the graceful failure"
 					Diagram="The policy's chain deps plus rejects becoming one --exclude flag per crate - serde and tokio protected from the CLI bump (tokio by the chain, serde by the normalization pass already writing its full form) - reading the file back to see the governed state, writing again immediately with nothing complaining (no FS_STALE_VERSION) - writing inside node_modules/.git/.dsh and the ledger gaining skipped (excluded) ... while the file stays untouched - removing cargo-edit and the pass failing gracefully: update: cargo-edit unavailable: ..., the manifest untouched, the breaker counting the failure."
 				>
@@ -591,7 +591,7 @@ const Related = [
 			<SectionHeader Title="The Ledger" Meta="ONE GLOBAL LOG" />
 			<div class="concept-list">
 				<Concept
-					Id="govcargo-ledger-log"
+					ID="govcargo-ledger-log"
 					Title="One global log, SEPARATE from the npm ledgers"
 					Diagram='One global log (logFile, default ~/.dsh/hook-dsh-cargo-governor.log - SEPARATE from the npm ledgers) recording activation, exclusions, chain-pass results, refusals, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
 				>
@@ -607,7 +607,7 @@ const Related = [
 					</p>
 				</Concept>
 				<Concept
-					Id="govcargo-ledger-em-dashes"
+					ID="govcargo-ledger-em-dashes"
 					Title="The em dashes are part of the literal strings"
 					Diagram="The registry-miss line ending with an em dash followed by chain pass skipped, the DONE line update: DONE + em dash + reason - byte-exact forms in the In Action excerpt, the em dashes living only in the example block."
 				>

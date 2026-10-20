@@ -11,23 +11,23 @@ import { DotSep } from "@Library/FileIcon";
 
 const Invariants = [
 	{
-		Id: "INVARIANT 01",
+		ID: "INVARIANT 01",
 		Desc: "The fifteen contracts are identical across the two trees; only the runtime plumbing differs.",
 	},
 	{
-		Id: "INVARIANT 02",
+		ID: "INVARIANT 02",
 		Desc: "The smoke suites arbitrate both releases; every suite loads the real built Target of its bundle.",
 	},
 	{
-		Id: "INVARIANT 03",
+		ID: "INVARIANT 03",
 		Desc: "The @-sentence identity holds in both trees: the scope stays @playform, the family/type marker leads.",
 	},
 	{
-		Id: "INVARIANT 04",
+		ID: "INVARIANT 04",
 		Desc: "Every knob of the two new plugins is volatile: the ccr gate's thresholds and the tool-coach's whole schema land on the next judged call through loader/volatile-update, without remounting.",
 	},
 	{
-		Id: "INVARIANT 05",
+		ID: "INVARIANT 05",
 		Desc: "The smokes cover the new suites: the ccr suite (146 checks) and the tool-coach suite (129 checks) run in both trees, byte-asserting the same ledger strings.",
 	},
 ];
@@ -170,7 +170,7 @@ const Changelog = `## 0.0.1
 			<ul class="state-rail">
 				{Invariants.map((Invariant) => (
 					<li class="state-rail__entry">
-						<span class="state-rail__id">{Invariant.Id}</span>
+						<span class="state-rail__id">{Invariant.ID}</span>
 						<p class="state-rail__desc">{Invariant.Desc}</p>
 					</li>
 				))}
@@ -182,7 +182,7 @@ const Changelog = `## 0.0.1
 			<SectionHeader Title="The smoke baseline" Meta="THE ARBITER OF THE OPERATING STATE" />
 			<div class="concept-list">
 				<Concept
-					Id="versions-arbiter"
+					ID="versions-arbiter"
 					Title="The smokes are the arbiter"
 					Diagram="The fourteen smoke suites loading the REAL built Target of their own bundle and asserting the ledger strings byte-identically - and the Effect-TS tree proving parity with these numbers before any swap-in."
 				>
@@ -246,7 +246,7 @@ const Changelog = `## 0.0.1
 				<Card
 					Variant="white"
 					Name="hook-dsh-ccr"
-					Desc={SuiteCount(Counts.Ccr, "the gate order, the marker bytes, the round-trip retrieval, the evictions, the journal, and the context-engine decision math.")}
+					Desc={SuiteCount(Counts.CCR, "the gate order, the marker bytes, the round-trip retrieval, the evictions, the journal, and the context-engine decision math.")}
 				>
 					<Badge slot="badge">SMOKE</Badge>
 				</Card>
@@ -260,7 +260,7 @@ const Changelog = `## 0.0.1
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="versions-caveat"
+					ID="versions-caveat"
 					Title="The honest caveat, learned live"
 					Diagram="The split of proof: the smokes proving the mechanics, the live battery proving the wiring - with the three real defects marked where they were actually found."
 				>

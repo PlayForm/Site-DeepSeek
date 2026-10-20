@@ -270,7 +270,7 @@ const Related = [
 			<SectionHeader Title="Where It Fits" Meta="FAMILY POSITION: A LIVE PROMPT HOOK" />
 			<div class="concept-list">
 				<Concept
-					Id="live-family-position"
+					ID="live-family-position"
 					Title="The family position"
 					Diagram={`${Families.LiveContainers} as a hook child of the plugin-dsh-factory service - no hook children of its own - a NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema): the plugin owns its schema and its strings. apply returns NOTHING; the state is exposed via ctx.__hookDshLiveContainersState.`}
 				>
@@ -360,7 +360,7 @@ const Related = [
 			<SectionHeader Title="The fixed frame" Meta="THE MODEL-FACING CONTRACT" />
 			<div class="concept-list">
 				<Concept
-					Id="live-frame"
+					ID="live-frame"
 					Title="Every block renders inside the same frame"
 					Diagram="The dashes come from config separator (default ---). The frame text is the plugin's own output - never harness state - and the parenthetical says so to the model on every block: (recomputed each request; not harness state)."
 				>
@@ -386,7 +386,7 @@ const Related = [
 			<SectionHeader Title="The block kinds" Meta="PHASE 1 RENDERS SIX - THE CATALOG KINDS SKIP" />
 			<div class="concept-list">
 				<Concept
-					Id="live-kinds"
+					ID="live-kinds"
 					Title="One registry, two consumers"
 					Diagram="The KINDS registry drives both the fail-loud config validation (an unknown kind throws at load) and the render dispatch. Phase 1 renders six kinds; the wave-2 catalog kinds (todo-list, command-runner, session-stats, ... - 14 entries in the default block table, three enabled) are ACCEPTED in config and render as skipped blocks - reason 'unknown kind' - until the wave-2 render engine lands."
 				>
@@ -428,7 +428,7 @@ const Related = [
 			<SectionHeader Title="The Config" Meta="SCHEMA + DEFAULTS AT LOAD - EVERY KNOB VOLATILE" />
 			<div class="concept-list">
 				<Concept
-					Id="live-config-schema"
+					ID="live-config-schema"
 					Title="The exported Config schema"
 					Diagram="The factory's standalone Schema(false, {...}) helper validating and filling every default at load; every knob volatile - a flip lands on the next assembly. Fail-loud validation in apply: sectionName/separator non-empty, refresh in {request, ttl}, ttlCalls >= 1, sectionBudgetBytes >= 1, every block id non-empty and unique, kind in the KINDS registry, template non-empty, vars a dict of strings, trigger and scope in their unions."
 				>
@@ -478,7 +478,7 @@ const Related = [
 			<SectionHeader Title="In Action" Meta="ONE ACTIVATED SESSION" />
 			<div class="concept-list">
 				<Concept
-					Id="live-in-action-stream"
+					ID="live-in-action-stream"
 					Title="The time block, recomputed at every ask"
 					Diagram="With the plugin ACTIVATEd (enabled: true) and the default table: the time block re-renders per request so {{time}} always holds the current wall clock; the wave-2 entries skip as 'unknown kind'; with refresh: ttl the section text holds for ttlCalls (8) assemblies and the prefix stays reusable; an oversized body collapses its oldest frames - never silently dropped."
 				>
@@ -499,7 +499,7 @@ const Related = [
 			<SectionHeader Title="The Ledger" Meta="ONE LOG PER MODULE" />
 			<div class="concept-list">
 				<Concept
-					Id="live-ledger-log"
+					ID="live-ledger-log"
 					Title="The nine strings are the contract"
 					Diagram="One log per module - logFile (default ~/.dsh/live-containers.log) - the nine strings byte-exact with the live-containers: logger prefix (the factory's Append layer; each line [ISO] <message> in the file): disabled, activated, block rendered, block skipped, section rebuilt (ttl), section rebuilt (tools/change), render failed, render unknown, failsafe section-collapse."
 				>

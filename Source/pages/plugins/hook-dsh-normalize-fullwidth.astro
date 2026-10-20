@@ -308,7 +308,7 @@ const LedgerStrings = [
 			<SectionHeader Title="Where It Fits" Meta={FamilyPosition(6)} />
 			<div class="concept-list">
 				<Concept
-					Id="fullwidth-family-position"
+					ID="fullwidth-family-position"
 					Title="The family position"
 					Diagram={`${Families.Fullwidth} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the sixth of the six stream normalizer siblings.`}
 				>
@@ -362,7 +362,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="fullwidth-non-manifest"
+					ID="fullwidth-non-manifest"
 					Title="A non-manifest factory consumer"
 					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."}
 				>
@@ -431,7 +431,7 @@ const LedgerStrings = [
 			<SectionHeader Title="The Problem" Meta="WHY THE FULLWIDTH FLAVOR EXISTS" />
 			<div class="concept-list">
 				<Concept
-					Id="fullwidth-problem"
+					ID="fullwidth-problem"
 					Title="Full-width forms are invisible on screen and wrong everywhere else"
 					Diagram="CJK input methods emitting full-width punctuation, digits and letters - a full-width comma or digit in a command, code block or path invisible on screen and wrong for every parser, shell and diff."
 				>
@@ -453,7 +453,7 @@ const LedgerStrings = [
 			<div class="code-block">{Pipeline.join("\n")}</div>
 			<div class="concept-list">
 				<Concept
-					Id="fullwidth-transform"
+					ID="fullwidth-transform"
 					Title="The transform: the core's Fullwidth map"
 					Diagram="Exactly the core's Fullwidth map (@playform/hook-dsh-core's Normalize/Fullwidth), applied per text segment through the core's ReplaceMap - the standard fullwidth-to-halfwidth mapping over the whole range."
 				>
@@ -493,7 +493,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="fullwidth-mechanics"
+					ID="fullwidth-mechanics"
 					Title="Chunk-boundary-safe, function-replaced, counted"
 					Diagram="No context rules - one character in, its half-width counterpart out; chunk-boundary-safe: single-character substitution, no lookahead - per-chunk application never disagreeing with whole-text application; the mapping values returned through a function replacer so they are inserted literally (no $-pattern interpretation - the table's backslash, circumflex, vertical bar and tilde values being exactly the characters a string replacement would corrupt); replaced characters counted per stream for the ledger line."
 				>
@@ -545,7 +545,7 @@ const LedgerStrings = [
 			</div>
 			<div class="concept-list">
 				<Concept
-					Id="fullwidth-no-replacement"
+					ID="fullwidth-no-replacement"
 					Title="There is no replacement field (MAP flavor)"
 					Diagram="The MAP flavor carrying no replacement field - volatile cells committing without remounting the plugin, the factory's State builder unwrapping them defensively."
 				>
@@ -598,7 +598,7 @@ const LedgerStrings = [
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="fullwidth-scopes"
+					ID="fullwidth-scopes"
 					Title="Every arm gated independently - and all volatile"
 					Diagram="The scopes object gating every arm of the hook-dsh-normalize-fullwidth hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 				>
@@ -685,7 +685,7 @@ const LedgerStrings = [
 			</p>
 			<div class="concept-list">
 				<Concept
-					Id="fullwidth-overpass"
+					ID="fullwidth-overpass"
 					Title="The overpass arms: opt-in listeners on two more seams"
 					Diagram="Two additional listeners, both registered at apply and both opt-in (gated at RUNTIME on the scope cells, so flipping a scope lands through the P10 volatile-refresh without any re-registration): the tool-results arm on tools/post-execute with { prepend: true }, and the step-batch arm on agent/pre-step in default order."
 				>
@@ -752,14 +752,14 @@ const LedgerStrings = [
 				what reaches the transcript
 			</p>
 			<Compare
-				Id="fullwidth-stream"
+				ID="fullwidth-stream"
 				Flavor="fullwidth"
 				Raw={StreamExample.slice(0, 4)}
 				Clean={StreamExample.slice(4)}
 			/>
 			<div class="concept-list">
 				<Concept
-					Id="fullwidth-in-action"
+					ID="fullwidth-in-action"
 					Title="Every full-width code point becomes its half-width counterpart"
 					Diagram="Every full-width code point in the incoming text - the solidus U+FF0F, the letters U+FF55-U+FF4E, the digits U+FF11-U+FF13 and the exclamation U+FF01 - becoming its U+0021-U+007E half-width counterpart, ASCII characters already half-width untouched - what keeps a pasted path openable and a pasted number parseable."
 				>
@@ -785,7 +785,7 @@ const LedgerStrings = [
 					</p>
 				</Concept>
 				<Concept
-					Id="fullwidth-pass-coverage"
+					ID="fullwidth-pass-coverage"
 					Title="The same pass runs over reasoning and tool-call arguments"
 					Diagram="The count line on a normal completion with replacements made - and the same pass running over reasoning deltas when normalizeReasoning is on, and over tool-call arguments when the example patch enables normalizeToolArguments - with the edit name exempt and raw-marker calls passing through unnormalized."
 				>

@@ -60,7 +60,7 @@ const Fallback = {
 		Invisible: { Classic: 62, EffectTS: 62 },
 		Fullwidth: { Classic: 62, EffectTS: 62 },
 		File: { Classic: 71, EffectTS: 71 },
-		Ccr: { Classic: 146, EffectTS: 146 },
+		CCR: { Classic: 146, EffectTS: 146 },
 		Coach: { Classic: 129, EffectTS: 129 },
 	},
 	Totals: {
@@ -128,7 +128,7 @@ export const Counts: {
 	Fullwidth: Pair;
 	File: Pair;
 	/** The CCR compressor's smoke suite (the 146-check suite, both trees). */
-	Ccr: Pair;
+	CCR: Pair;
 	/** The tool-coach guardian's smoke suite (the 129-check suite, both trees). */
 	Coach: Pair;
 	/** The seven normalize packages: the six stream flavors + the file tool. */
@@ -158,7 +158,7 @@ export const Counts: {
 	Invisible: Pick(Live.SuitePairs.Invisible, Fallback.Counts.Invisible),
 	Fullwidth: Pick(Live.SuitePairs.Fullwidth, Fallback.Counts.Fullwidth),
 	File: Pick(Live.SuitePairs.File, Fallback.Counts.File),
-	Ccr: Pick(Live.SuitePairs.Ccr, Fallback.Counts.Ccr),
+	CCR: Pick(Live.SuitePairs.CCR, Fallback.Counts.CCR),
 	Coach: Pick(Live.SuitePairs.Coach, Fallback.Counts.Coach),
 	Normalizers: Pick(Live.Normalizers, Fallback.Normalizers),
 	StreamFlavors: Pick(Live.StreamFlavors, Fallback.StreamFlavors),
@@ -189,7 +189,7 @@ const SuiteOrder = [
 	Counts.Invisible,
 	Counts.Fullwidth,
 	Counts.File,
-	Counts.Ccr,
+	Counts.CCR,
 	Counts.Coach,
 ];
 
@@ -228,8 +228,8 @@ export const Scheme = {
 	Govern: "§2.18",
 } as const;
 
-/** The count in the page's word form: 19 → "Nineteen", 21 → "Twenty-One". */
-export function CountWord(Count: number): string {
+/** Spell a count in the page's word form: 19 → "Nineteen", 21 → "Twenty-One". */
+export function Word(Count: number): string {
 	const Ones = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
 	const Teens = [
 		"Ten",
@@ -257,7 +257,7 @@ export const Methods = {
 	/** The callable-method count of the factory service. */
 	Count: Pick(Live.Methods, Fallback.Methods),
 	/** The count in the page's word form. */
-	Word: CountWord(Pick(Live.Methods, Fallback.Methods)),
+	Word: Word(Pick(Live.Methods, Fallback.Methods)),
 	/** "19 METHODS" - the meta strip form. */
 	Meta: (): string => `${Methods.Count} METHODS`,
 };
@@ -272,7 +272,7 @@ export const Migration = {
 	Unit: "record",
 	/** "compatibleVersions [1] (76 v1 records auto-migrated)" - the sentence fragment. */
 	Sentence: (): string =>
-		`compatibleVersions [${Migration.CompatibleVersions.join(", ")}] (${Migration.Records} v1 ${Plural(Migration.Records, Migration.Unit)} auto-migrated)`,
+		`compatibleVersions [${Migration.CompatibleVersions.join(", ")}] (${Migration.Records} v1 ${Pluralize(Migration.Records, Migration.Unit)} auto-migrated)`,
 } as const;
 
 /** The register #15 identities: the @-sentence release names of the fifteen packages. */
@@ -289,7 +289,7 @@ export const Families = {
 	Invisible: "Hook @ DSH @ Normalize @ Invisible",
 	Fullwidth: "Hook @ DSH @ Normalize @ Fullwidth",
 	File: "Hook @ DSH @ Normalize @ File",
-	Ccr: "Hook @ DSH @ Ccr",
+	CCR: "Hook @ DSH @ CCR",
 	Coach: "Hook @ DSH @ Tool @ Coach",
 	LiveContainers: "Hook @ DSH @ Live @ Containers",
 } as const;
@@ -344,7 +344,7 @@ export const Copyright = {
 } as const;
 
 /** Pluralize a unit the site's voice way: 1 record, 76 records. */
-export function Plural(Count: number, Unit: string): string {
+export function Pluralize(Count: number, Unit: string): string {
 	return Count === 1 ? Unit : `${Unit}s`;
 }
 

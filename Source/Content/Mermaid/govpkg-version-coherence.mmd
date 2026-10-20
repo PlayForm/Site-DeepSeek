@@ -1,4 +1,4 @@
 flowchart LR
-	W["rewrite carries replaceIfVersion<br/>at the observed version"] --> C{"version still the observed one?"}
-	C -- "yes" --> P["write proceeds"]
-	C -- "no - a racing author write" --> F["fails safely - no clobber"]
+	W["Rewrite carries replaceIfVersion<br/>at the observed version."] --> C{"Version still the observed one?"}
+	C -- "Yes" --> P["Write proceeds."]
+	C -- "No - a racing author write" --> F["Fails safely - no clobber."]

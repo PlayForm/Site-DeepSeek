@@ -1,14 +1,14 @@
 flowchart LR
-	AGENT["a confirmation agent<br/>re-verifies all five bundles"]
-	F1["finding 1 - a finding with a fix"]
-	F2["finding 2 - a finding with a fix"]
-	F3["finding 3 - a finding with a fix"]
-	SMOKES["none visible from<br/>the passing smokes alone"]
+	AGENT["A confirmation agent<br/>re-verifies all five bundles"]
+	F1["Finding 1 - a finding with a fix"]
+	F2["Finding 2 - a finding with a fix"]
+	F3["Finding 3 - a finding with a fix"]
+	SMOKES["None visible from<br/>the passing smokes alone"]
 	AGENT --> F1
 	AGENT --> F2
 	AGENT --> F3
-	F1 -. "invisible to" .-> SMOKES
-	F2 -. "invisible to" .-> SMOKES
-	F3 -. "invisible to" .-> SMOKES
+	F1 -. "Invisible to" .-> SMOKES
+	F2 -. "Invisible to" .-> SMOKES
+	F3 -. "Invisible to" .-> SMOKES
 	F1 ~~~ F2
 	F2 ~~~ F3

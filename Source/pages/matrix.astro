@@ -12,13 +12,13 @@ import { DotSep } from "@Library/FileIcon";
 
 // The flavor gate hooks of the inspector, with their before/after notes.
 const Hooks = [
-	{ Id: "dash", Label: "Dash", Note: "\u2014 to -" },
-	{ Id: "quotes", Label: "Quotes", Note: '\u201C\u201D to ""' },
-	{ Id: "ellipsis", Label: "Ellipsis", Note: "\u2026 to ..." },
-	{ Id: "spaces", Label: "Spaces", Note: "\\u00A0 to \\x20" },
-	{ Id: "invisible", Label: "Invisible", Note: "ZWSP to \u2205" },
-	{ Id: "fullwidth", Label: "Fullwidth", Note: "\uFF21 to A" },
-	{ Id: "file", Label: "File", Note: "disk sync" },
+	{ ID: "dash", Label: "Dash", Note: "\u2014 to -" },
+	{ ID: "quotes", Label: "Quotes", Note: '\u201C\u201D to ""' },
+	{ ID: "ellipsis", Label: "Ellipsis", Note: "\u2026 to ..." },
+	{ ID: "spaces", Label: "Spaces", Note: "\\u00A0 to \\x20" },
+	{ ID: "invisible", Label: "Invisible", Note: "ZWSP to \u2205" },
+	{ ID: "fullwidth", Label: "Fullwidth", Note: "\uFF21 to A" },
+	{ ID: "file", Label: "File", Note: "disk sync" },
 ];
 
 // The raw JSON payload from the inspector mock, with the anomalies inline.
@@ -141,14 +141,14 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 			/>
 			<div class="hook-grid">
 				{Hooks.map((Hook) => (
-					<label class="hook-card is-armed" data-hook={Hook.Id}>
+					<label class="hook-card is-armed" data-hook={Hook.ID}>
 						<span class="hook-card__top">
 							<span class="hook-card__name">{Hook.Label}</span>
 							<input
 								class="hook-check"
 								type="checkbox"
 								checked
-								data-flavor={Hook.Id}
+								data-flavor={Hook.ID}
 							/>
 						</span>
 						<span class="hook-card__rule">
@@ -276,7 +276,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 			<SectionHeader Title="The suites behind this demo" Meta="SMOKE CHECKS PER FLAVOR" />
 			<div class="concept-list">
 				<Concept
-					Id="matrix-authority"
+					ID="matrix-authority"
 					Title="A client-side demo with a real authority behind it"
 					Diagram="The inspector running the same per-chunk rules the packages run, client-side - and the flavor's smoke suite loading the built package and asserting the ledger strings byte-identically."
 				>
@@ -288,7 +288,7 @@ const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normal
 						the built package and asserts the ledger strings byte-identically.
 					</p>
 					<p>
-						That makes fourteen suites family-wide: the ccr suite ({Counts.Ccr.Classic}{" "}
+						That makes fourteen suites family-wide: the ccr suite ({Counts.CCR.Classic}{" "}
 						checks) and the tool-coach suite ({Counts.Coach.Classic} checks) exist
 						outside this demo - they arbitrate the tool-result compression and the
 						terminal coaching, not the stream demo above.
