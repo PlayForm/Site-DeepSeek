@@ -154,10 +154,13 @@ reads text in perspective. The old conversation's rule ("internal modules
 remain flat and readable") is the binding one; the projection applies to
 the shell, the door, and the meters.
 
-At 1440 x 900 the field holds four rows of 116px modules with 12px gaps
-(500px) in a 428px window, so it scrolls by about 72px. That is by
-design: the shelf and the status strip are fixed, the field is the roll.
-At 1600 x 1000 the four rows fit.
+At 1440 x 900 the field holds the 14 plates plus the four bay rails: five
+plate rows, 838px of content in the 423px field, so it scrolls by about
+415px. That is by design: the shelf and the status strip are fixed, the
+field is the roll, and the four bay groups are collapsible (default
+expanded) - collapsing them makes the field fit. At 1600 x 1000 it still
+scrolls by about 600px. The 06 estimate of a 72px scroll was wrong; the
+canary measured the real number.
 
 ## 6. The meters
 

@@ -18,14 +18,14 @@ square, the back running off the page's top and right edges.
 
 ## 2. The registry field scrolls
 
-**Accepted.** At 1440x900 the 14 plates in the 428px field scroll by about
-72px. The shelf and the status strip stay fixed; the field is the roll.
-At 1600x1000 the four rows fit without scrolling.
-
-The four bay groups inside the field are **collapsible sections**: a
-reader who wants the whole screen at once collapses them; the default is
-expanded. The shorter 98px plate is rejected - it costs the sentence's
-second line, and the sentence is the module's purpose.
+**Accepted.** At 1440x900 the 14 plates plus the four bay rails make five
+plate rows: 838px of content in the 423px field, so it scrolls by about
+415px (the canary measured it; the earlier ~72px estimate was wrong). The
+shelf and the status strip stay fixed; the field is the roll. The four bay
+groups are collapsible (default expanded), and collapsing them makes the
+field fit. At 1600x1000 it still scrolls by about 600px. The shorter 98px
+plate is rejected - it costs the sentence's second line, and the sentence
+is the module's purpose.
 
 ## 3. The display screen stays
 

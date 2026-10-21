@@ -17,6 +17,7 @@ plugin modules and the meters.
 | [06-THE-BIG-CABINET.md](06-THE-BIG-CABINET.md) | the exact geometry: coordinates, angles, thicknesses, tokens, the responsive reductions |
 | [07-REVIEW-AMENDMENTS.md](07-REVIEW-AMENDMENTS.md) | the review's four decisions (the single-activation lock, the door rest, the density rule, the reference board), the build order, and the wording |
 | [08-FINAL-DECISIONS.md](08-FINAL-DECISIONS.md) | the four final product decisions (the fixed camera, the field scroll, the display screen, the small-label floor) and the Mode A canary |
+| [09-CANARY-RESULT.md](09-CANARY-RESULT.md) | the canary's evidence, the deviations, the decisions, and the next tasks |
 
 ## What changed from the previous edition
 

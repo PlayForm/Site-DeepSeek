@@ -22,6 +22,12 @@ No two-step unlock-then-open. The lock is the real accessible control:
 `<button>`, `aria-expanded`, Enter/Space, Esc closes, the focus returns to
 the lock on close.
 
+The canary implements the door as the hit target (a real `<button>` with
+the lock drawn inside it) and the close plate as a second real button on
+the fixed stile; the lock remains the visual key. This is the accepted
+equivalent (09 section 3.3): one activation, the larger accessible target,
+the fixed close control.
+
 ## 2. The open-door rest position
 
 After the swing, the door must not cover the interior or the neighboring
