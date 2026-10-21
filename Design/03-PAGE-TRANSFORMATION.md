@@ -1,174 +1,221 @@
 # 03 - The Page Transformation
 
-Every page becomes a cabinet or a bay inside one. The content stays; the
-containers, the surfaces, and the interactions change. The order below is
-the recommended build order too.
+Every page is one cabinet. The content stays; the containers, the
+surfaces, and the interactions change. The order below is the recommended
+build order too.
 
-## 1. The landing (`/`)
+## 1. The two cabinet modes
 
-The page is one large cabinet, centered, in front of the gray routing
-network.
+One shell, two behaviours, chosen by whether the interior is bounded:
 
-- **The header rail** (the fixed shell above the cabinet): the brand
-  plate, the nav tabs, the version plate, the theme lever.
-- **The cabinet**: the extruded shell (the top, the right, the front
-  frame), the thick door, the big keylock at the right middle.
-- **The closed door**: the identity plate ("DSH FAMILY // INSTRUMENT
-  CABINET"), the one-sentence claim, the ingest terminal (the install
-  command), the meter bank (31 packages, 1314 + 1324 checks, 0.1.0), the
-  two engine nameplates (Classic, Effect-TS), the "OPEN CABINET" hint on
-  the lock.
-- **The open cabinet**: the door swings left; the interior mounting plate
-  is revealed: the bays.
-  - **BAY 01 - SYSTEM OVERVIEW & INGEST**: the terminal, the counters,
-    the verification lamps.
-  - **BAY 02 - DUAL-ENGINE CHASSIS**: the two engines as the mounted
-    modules with the specs and the "HASH IDENTICAL" strip.
-  - **BAY 03 - THE PLUGIN RACK**: the five category cabinets in a
-    horizontal rack (the section 2 below), or the five cabinet doors as
-    the entry points.
-  - **BAY 04 - THE WORKBENCH**: the 3-stage stream sanitizer (the input
-    tray, the stages, the output) and the 4-tier penalty rail.
-- **The base plate**: the spec line, the revision, the organization, the
-  copyright.
+| Mode | The front | The door | The interior | Pages |
+| --- | --- | --- | --- | --- |
+| **A - the instrument** | exactly one viewport, locked | present, closed or open | a fixed shelf, a scrolling field, a status strip | the registry screens, the landing, the detail pages, the workbench, the matrix, the setup |
+| **B - the dossier** | content height, the page scrolls | none: the cover is removed, the cabinet is in service | the bays in the page's flow, on the dark plate | the versions, the models, the flavors, the case study |
 
-The landing's lock opens the main cabinet; the internals are the whole
-documentation. The closed face must already be useful: the install, the
-counters, the engines, the entry to the plugins.
+Mode B is the honest reduction. A 6000px-tall article behind a 6000px door
+is not a door; it is a wall. The long-form pages keep the shell, the
+lintel, the base plate, and the dark plate with the light insets, and
+they lose the swing. The 404 is mode A.
 
-## 2. The plugins page (`/plugins/`)
+## 2. The registry sequence (`/plugins/`)
 
-The page is a **horizontal rack of five category cabinets**. The user's
-example: the pipe plugins (the hooks) in the first box as the internals,
-the visual/UI plugins in another.
+The page is a **horizontal sequence of page-sized cabinets**. It replaces
+the five-cabinet rack entirely.
 
 ```text
-[ THE ENGINE ] [ THE FLOW ] [ THE GOVERNORS ] [ THE SERVICES ] [ THE DISPLAY ]
-     |             |               |                |               |
-  the door      the door        the door         the door        the door
-  + lock        + lock          + lock           + lock          + lock
+   +------------------------------------------------------+  +------------------------------+
+   | CAB-01  THE HOOKS                                    |  | CAB-02  THE DISPLAY          |
+   | lintel: h1 | serial | tabs | lamps                    |  | lintel                       |
+   | +--------------------------------------------------+ |  | +--------------------------+ |
+   | |                                                  | |  | |                          | |
+   | |                 THE DOOR (white)                 | |  | |      THE DOOR            | |
+   | |   cover: the title, the claim, the count, lock    | |  | |                          | |
+   | |                                                  | |  | |                          | |
+   | +--------------------------------------------------+ |  | +--------------------------+ |
+   | base plate: spec | revision | SCREEN 01 / 02 | gauge  |  | base plate                   |
+   +------------------------------------------------------+  +------------------------------+
+                          scroll right ->
 ```
 
-- **The rack**: the five cabinets side by side, each with its door,
-  lock, and identity plate; the horizontal scroll with the scroll snap;
-  the category selector above (the rail tabs) and the keyboard (the left
-  and right arrows move the rack; the tab focuses the active cabinet).
-- **The closed cabinet**: the category plate, the count (the module
-  count), the status lamps (the ACTIVE/VERIFIED), the one-line purpose,
-  the lock.
-- **The open cabinet**: the door swings; the mounting plate shows the
-  modules of that category as the `InstrumentModule` faceplates: the
-  identity, the sentence, the primary readout (the meter, the terminal,
-  or the preview), the Inspect tray, the link to the detail page.
-- **The filter**: the tag selector as the segmented switch (the
-  ALL/GOVERNANCE/STREAM/FILE/...), the count updates.
-- **The publish-pending state**: the pending modules carry the amber/
-  pending lamp and the "build from source" plate; the install box does
-  not promise a 404.
-- **The mobile**: the rack stacks vertically; the doors become the
-  inline expansions; the internals stack.
+**The sequence.** One scroller, two panels each the scroller's own width,
+`scroll-snap-type: x mandatory`, `scroll-snap-align: start`. The body has
+no vertical overflow: the cabinet is the viewport. A horizontal swipe, a
+tab click, the left and right arrows, Home and End, or a `#hash` moves
+between screens. The panel width is the scroller's width, not `100vw`, so
+a visible scrollbar can never push a panel half off the page.
 
-The order: the engine first (the foundation), then the flow (the pipes),
-the governors, the services, the display. The user's "pipe first" variant
-is a one-line reorder of the rack.
+**The tabs.** Two `role="tab"` buttons in the lintel, "01 THE HOOKS / 14"
+and "02 THE DISPLAY / 1 + 1", in a `role="tablist"`; the panels are
+`role="tabpanel"` with `tabindex="0"`. The scroll position updates
+`aria-selected` through an IntersectionObserver at 0.6 threshold; the tab
+click scrolls the sequence; the hash is written with `history.replaceState`
+on settle, never `pushState`, so the back button is not polluted by
+scrolling.
 
-## 3. The plugin detail pages (`/plugins/<name>/`)
+**Screen 01 - THE HOOKS (CAB-01).** The door is closed by default; opening
+it is the page's primary action. The cover carries the category code, the
+title, the claim, "14 MODULES", the ACTIVE and VERIFIED lamps, and the
+lock. The interior:
 
-Each page is one cabinet at the single-plugin scale.
+```text
+shelf     M-01 MODULES 14 | M-02 CHECKS 1314 / 1324 | M-03 RELEASE 0.1.0 | calibration
+field     THE MACHINERY   core, factory                      2 plates
+          THE GOVERNORS   governor, pinner, cargo            3 plates
+          THE FLOW        dash, quotes, ellipsis, spaces,
+                          invisible, fullwidth, file          7 plates
+          THE SERVICES    ccr, tool-coach                     2 plates
+status    14 MODULES | the filter (ALL / GOVERN / NORMALIZE / SERVICE) | the field gauge
+```
 
-- **The closed door**: the identity plate (the package name, the module
-  code, the family position), the purpose (the sentence), the primary
-  readout (the package's key value: the budget, the version, the
-  transform, the tier), the install terminal, the lock.
-- **The open cabinet**: the door swings; the interior plate shows the
-  plugin's internals in three layers:
-  - **CONNECTIONS**: the seams it listens on, what enters, what leaves,
-    the dependencies (the `WiringDiagram`).
+The four bay groups are the old cabinet names, demoted from objects to
+labels, which is where a grouping belongs. The order is the dependency
+order: the machinery first, then the governors, the flow, the services.
+
+**Screen 02 - THE DISPLAY (CAB-02).** The door is closed by default. The
+interior carries `hook-dsh-live-containers` and, beside it, the planned
+Harness panel as a labelled preview (PLANNED, not shipped, with the same
+amber pending plate the registry uses). The field is deliberately sparse:
+one module, one preview, and the container anatomy as a light inset. The
+panel preview is the site's own visual language applied to the family's
+future UI, which is the design issue the current site names in its
+handoff.
+
+**The publish-pending state.** `hook-dsh-ccr`, `hook-dsh-tool-coach`, and
+`hook-dsh-live-containers` are not on the registry. Their plates carry the
+amber PENDING lamp and the "build from source" line; their install boxes
+never promise a 404. The state is a first-class plate, not a sentence in
+the hero.
+
+**The mobile.** The sequence stacks vertically; each cabinet is mode A
+with the depth at 0 and the cover band; the tabs become anchor links; the
+field is in flow.
+
+## 3. The landing (`/`)
+
+Mode A, the door **open by default**: the landing is a workspace, and its
+conversion path must not be behind a latch.
+
+- **The lintel** (88px, and 160px on the landing): the h1, the claim, the
+  ingest terminal, the two engine plates.
+- **The interior**:
+  - **BAY 01 - SYSTEM OVERVIEW**: the shelf meters, the verification
+    lamps, the ingest terminal repeated.
+  - **BAY 02 - THE DUAL-ENGINE CHASSIS**: the two engines as mounted
+    modules, the specs, the HASH IDENTICAL strip.
+  - **BAY 03 - THE REGISTRY**: two screen plates (CAB-01, CAB-02) linking
+    to `/plugins/#hooks` and `/plugins/#ui`; the count on each.
+  - **BAY 04 - THE WORKBENCH**: the 3-stage sanitizer and the 4-tier
+    penalty rail, as a preview of `/workbench/`.
+- **The cover** (the closed state): the identity, the claim, the install
+  terminal, the three meter readings, and the lock. One click away, not
+  the default.
+
+## 4. The detail pages (`/plugins/<name>/`)
+
+Mode A, the door **open by default**; the cover is one click away and
+carries the identity, the key figure, and the install.
+
+- **The lintel**: the package name, the module code, the family position,
+  the back link to its screen.
+- **The interior**:
+  - **CONNECTIONS**: the seams, what enters, what leaves, the
+    dependencies (`WiringDiagram`).
   - **MECHANISM**: the pipeline, the gate order, the tables, the config
-    (the `ControlPanel`, the `DocumentWindow`).
-  - **EVIDENCE**: the ledger lines, the smoke counts, the known limits,
-    the examples (the `TerminalReadout`, the `MeterCounter`).
-- **The sections** map from the current template: Where It Fits ->
-  the connections; In the Harness -> the wiring; The Problem -> the
-  purpose plate; How It Works -> the mechanism; The Config -> the
-  control panel; In Action -> the readouts; The Ledger -> the evidence;
-  Known limits -> the caveats plate; Related plugins -> the rack strip.
-- **The compare**: the flavor pages use the `ShutterWindow` (the RAW vs
-  the NORMALIZED) in the mechanism.
-- **The lock**: the same big keylock; the closed face is the summary;
-  the open state is the documentation.
+    (`ControlPanel`, `DocumentWindow`).
+  - **EVIDENCE**: the ledger lines, the smoke counts, the known limits
+    (`TerminalReadout`, `ReadoutBank`).
+- **The section mapping** from the current template: Where It Fits -> the
+  connections; In the Harness -> the wiring; The Problem -> the cover;
+  How It Works -> the mechanism; The Config -> the control panel; In
+  Action -> the readouts; The Ledger -> the evidence; Known limits -> the
+  caveat plate; Related plugins -> a strip of three module plates.
+- **The flavour pages** put the `ShutterWindow` in the mechanism.
+- **The field** scrolls; the shelf carries the plugin's own figure (the
+  budget, the check count, the version) in one meter, and the page's
+  checks in a second.
 
-## 4. The workbench (`/workbench/`)
+## 5. The workbench (`/workbench/`)
 
-The bench is a wide instrument bay:
+Mode A, open. The bench is the interior:
 
-- the input tray (the sample stream, the editable);
-- the processing stages (the gate switches: the conversation, the
-  reasoning, the tool input, the tool results, the files, the batch);
-- the output tray (the six flavor panes);
-- the patch cables (the connectors between the stages, the labeled
-  endpoints);
-- the penalty rail (the tiers) and the strike/reset controls;
-- the keyboard and the reduced motion.
+- the input tray (the sample stream, editable) in a light inset;
+- the six gate switches as labelled rockers on the plate;
+- the six flavour panes as a bank of light insets;
+- the patch cables as the `WiringDiagram` between the stages;
+- the penalty rail as four tier plates with the strike and reset controls;
+- the keyboard and the reduced motion unchanged.
 
-## 5. The matrix (`/matrix/`)
+The door is parked; the cover, if opened, shows the bench's title and its
+one-line claim.
 
-The relay array: the matrix of the relays/lamps (the stream states), the
-gate switches, the per-flavor smoke table, the live indicator lamps. The
-matrix is the "bus" view of the same mechanics.
+## 6. The matrix (`/matrix/`)
 
-## 6. The setup (`/setup/`)
+Mode A, open. The relay array: the gate switches, the matrix canvas of the
+stream states, the per-flavour smoke table as a `HeatmapTable`-style grid
+of lamps, the live indicators. The matrix is the bus view of the same
+mechanics as the workbench, and it keeps its density.
 
-The wiring panel:
+## 7. The setup (`/setup/`)
 
-- the configurator as the control panel (the 14 rockers, the engine
-  selector, the profile plate);
-- the generated wiring: the bundles list as the terminal block, the patch
-  inserts as the wiring diagram, the verification lines as the readouts;
-- the four steps as the numbered wiring stages (the add, the patch, the
-  restart, the verify);
+Mode A, open. The wiring panel inside the cabinet:
+
+- the configurator as the `ControlPanel`: the 14 rockers, the engine
+  selector, the profile plate;
+- the generated wiring: the bundles as a terminal block, the patch inserts
+  as a `WiringDiagram`, the verification lines as readouts;
+- the four steps as four numbered wiring stages (add, patch, restart,
+  verify);
 - the configurable surface as the field table;
-- the optional-by-default as the "NORMALLY OPEN" plate bank;
+- the optional-by-default surfaces as a "NORMALLY OPEN" plate bank;
 - the ledgers as the logbook plate.
 
-## 7. The versions (`/versions/`)
+## 8. The versions (`/versions/`)
 
-The counter and the record: the operating set as the meter bank (the
-release, the engines, the checks); the changelog as the logbook (the
-stamped entries); the invariants as the spec plate; the smoke baseline as
-the calibration certificate.
+Mode B. The operating set as the shelf meters (the release, the engines,
+the checks); the changelog as the logbook of stamped entries; the
+invariants as the spec plate; the smoke baseline as the calibration
+certificate. The front grows with the page; the right wall runs the full
+height.
 
-## 8. The models (`/models/`)
+## 9. The models (`/models/`)
 
-The engine selection: the two engine nameplates (the dials or the
-segmented switch), the reference routes, the coverage plate, the
-per-model notes. The page is the "engine room" of the cabinet.
+Mode B. The engine room: the two engine nameplates, the reference routes,
+the coverage plate, the per-model notes. The shelf carries the model
+counts.
 
-## 9. The flavors (`/flavors/`)
+## 10. The flavors (`/flavors/`)
 
-The specimen board: the seven flavor plates (the six stream + the file),
-the chain as the signal path, the roles as the governance plate, the badge
-sprite as the stamp sheet.
+Mode B. The specimen board: the seven flavour plates (the six stream plus
+the file), the chain as the signal path, the roles as the governance
+plate, the badge sprite as the stamp sheet.
 
-## 10. The case study (`/case-study/`)
+## 11. The case study (`/case-study/`)
 
-The dossier: the long-form as the bound logbook (the stamped pages, the
-phase tabs, the reading gauge as the tape measure), the decision index as
-the index plate, the lessons as the closing plate.
+Mode B. The dossier: the long-form as a bound logbook of light insets on
+the dark plate, the phase tabs as bay headers, the reading gauge as the
+tape measure along the right wall, the decision index as the index plate,
+the lessons as the closing plate.
 
-## 11. The 404
+## 12. The 404
 
-The disconnected cabinet: the open door, the cut wire, the "NO SIGNAL"
-plate, the links home. It stays a standalone page with no external font
-dependency.
+Mode A, one screen. The disconnected cabinet: the shell intact, the
+interior black and empty, the door hanging off one hinge at 12 degrees,
+the cut cable, the NO SIGNAL plate, the links home. It keeps its own
+shell with no external font dependency, and it is not built from the
+shared layout.
 
-## 12. The shared behavior
+## 13. The shared behaviour
 
-- The door/lock on the landing, the plugins rack, the detail pages, and
-  the 404.
-- The trays on the modules.
-- The background routing on the landing and the plugins page (the
-  quieter variant elsewhere).
-- The header rail, the base plate, the notice lamp on every page.
-- The reduced motion path: the doors open instantly, the trays appear,
-  the content is immediate.
+- **The door** exists in mode A only: closed on the registry screens,
+  open on the landing, the detail pages, the workbench, the matrix, and
+  the setup; always togglable; the state persisted per page in
+  `sessionStorage` and reset by a `#hash` deep link to a module.
+- **The lintel, the base plate, the notice lamp, and the header rail** on
+  every page.
+- **The routing texture** on the field plate and the cover; nowhere else.
+- **The reduced-motion path**: the doors open instantly, the trays
+  appear, the sequence jumps, the content is immediate.
+- **The scroll**: the registry screens and the workspaces scroll
+  horizontally between screens and vertically only inside the field; the
+  dossier pages scroll vertically as before.

@@ -1,220 +1,257 @@
 # 02 - The Component Map
 
-Every current component maps to one instrument element. The rule: a
+Every current component maps to one instrument element. The rule holds: a
 component keeps its content contract and its data props; only the surface,
-the anatomy, and the interaction change. The new primitives are listed
-first; the current components follow.
+the anatomy, and the interaction change. The new primitives come first,
+the current components follow, and the Ely borrowings are last.
 
-## The new primitives
+## 1. The new primitives
 
 | Primitive | What it is | Anatomy |
 | --- | --- | --- |
-| `Cabinet` | the extruded enclosure | the shell (the top, the right, the front frame), the background slot, the cast shadow, the reveal gap |
-| `CabinetDoor` | the thick hinged front | the slab, the hinge (the left pivot), the closure seam, the faceplate, the apertures, the trims, the labels, the lock, the handle |
-| `CabinetLock` | the quarter-turn keylock | the steel ring, the keyhole, the LOCKED/OPEN label, the turn indicator; the states locked/turning/unlocked; a real button |
-| `Faceplate` | the thin plate | the 2-3 unit plate, the cut edge, the mounting |
-| `Aperture` | the cut opening | the stepped black corner trims, the short inner wall, the dark cavity |
-| `DigitWheel` | the mechanical digit cell | the tabular digit, the divider, the red last wheel |
-| `MeterCounter` | the counter window | the label, the digit cells, the unit, the revision |
-| `MountingPlate` | the interior back plate | the plate, the rails, the module mounts, the wiring stubs |
-| `ModuleRack` | the horizontal cabinet rack | the five cabinets, the scroll snap, the selector, the keyboard |
+| `PageCabinet` | the page-sized assembly | the shell, the lintel, the stile, the base plate, the interior, the door; one per page |
+| `CabinetShell` | the extruded box | the front (pure white), the top plane, the right wall, the 1px line; built with `calc()` clip-path polygons |
+| `CabinetLintel` | the fixed head band | the h1, the serial, the screen tabs, the status lamps, the mode switch |
+| `CabinetStile` | the fixed right band | the latch, the close plate, the hinge knuckles |
+| `BasePlate` | the bottom rail | the spec line, the revision, the organization, the copyright, the field gauge |
+| `CabinetDoor` | the thick slab | the face, the top face, the right face, the gap, the hinge, the swing state |
+| `DoorCover` | the printed cover | the category code, the title, the claim, the module count, the lamps, the calibration grid |
+| `DoorLock` | the quarter-turn cylinder | the ring, the keyhole, the LOCKED/OPEN legend, the turn indicator; locked/turning/released |
+| `ClosePlate` | the fixed close control | a 56 x 72 plate on the stile, visible only when open |
+| `InteriorCavity` | the black box | the void, the left and bottom walls, the plate, the clip |
+| `FieldPlate` | the mounting plate | the flat frontal plate, the routing texture at 8-12 percent, the 1px interior line |
+| `MeterShelf` | the fixed instrument shelf | the three meters, the calibration plate, the shelf's front edge |
+| `IsoMeter` | the isometric meter body | the front (the window), the top (the model code), the right (the ticks), the plinth, the seal |
+| `ApertureTrim` | the stepped black corner | four separate shapes: the upper cap, the lower cap, the side segment, the tab |
+| `DigitWheel` | the mechanical digit | the tabular numeral, the 1px divider, the red last wheel |
+| `ModuleField` | the module grid | 4/3/2/1 columns, the scroll, the fade, the gauge |
+| `ModulePlate` | the mounted faceplate | the identity strip, the sentence, the footer, the Inspect disclosure |
+| `ModuleTray` | the module's reveal | the dark tray, the three columns, the detail link |
+| `FieldGauge` | the scroll indicator | the track on the right wall, the thumb, the count |
+| `ScreenSequence` | the horizontal page set | the scroller, the snap, the tabs, the hash, the keyboard |
+| `ScreenTab` | one screen's control | the code, the title, the count, the active marker |
 | `PlateTag` | the stamped label | the mono uppercase text, the optional code, the optional lamp |
-| `BayHeader` | the compartment header | the marker bar, the title, the meta, the status lamp |
-| `StatusLamp` | the indicator | the 6-8px lamp, the color meaning, the optional label |
-| `WiringDiagram` | the conduit schematic | the routes, the terminal blocks, the labels, the junctions |
-| `RoutingBackground` | the gray network | the SVG routes, the crossings, the glyphs, the occlusion |
-| `PushButton` | the execution button | the hard-edged cap, the short travel, the label |
+| `BayHeader` | the bay's header rail | the marker, the title, the meta, the lamp |
+| `StatusLamp` | the indicator | the 6px lamp, the colour meaning, the text label |
+| `TerminalReadout` | the command window | the label plate, the `$`, the command, the copy, the COPIED lamp |
+| `DocumentWindow` | the light inset | the near-white window, the mono, the line marks, the copy |
+| `ReadoutBank` | the banked windows | the shared frame, the seam dividers |
+| `ShutterWindow` | the RAW/NORMALIZED split | the two apertures, the sliding shutter, the orange rail, the keyboard |
+| `ControlPanel` | the setup surface | the rockers, the engine selector, the profile plate, the generated wiring |
+| `WiringDiagram` | the conduit schematic | the terminal blocks, the labelled wires, the junctions, the 45 degree runs |
+| `RoutingTexture` | the etched network | the plate's routes, the crossings, the glyphs; `aria-hidden` |
+| `PushButton` | the execution control | the hard-edged cap, the short travel, the label, the lamp |
+| `EngravedMark` | the etched brand mark | the same SVG in the three shell tones |
+| `NoticeLamp` | the transient notice | the plate, the mono message, the progress line, 2.6s |
+| `LeverSwitch` | the theme control | the two positions, the lever, the active lamp |
+| `HeaderRail` | the fixed site header | the brand plate, the 9 tabs, the version plate, the lever, the mobile tray |
+| `DisconnectedCabinet` | the 404 | the open door off one hinge, the cut cable, the NO SIGNAL plate |
 
-## The current components
+## 2. The current components
 
-### PageHero -> CabinetHeader
+### PageHero -> CabinetLintel + DoorCover
 
-- **Now**: the h1 + the sub lines.
-- **New**: the cabinet header plate: the title (the Inter display), the
-  sub (the body), the serial/model plate (the mono, the right-aligned),
-  the status lamp, the optional badges as the `PlateTag`s. The header
-  sits on the fixed shell above the door, not on the door itself.
-- **States**: the default; the compact (the interior pages).
+- **Now**: the h1 and one or two sub lines.
+- **New**: two pieces. The **lintel** keeps the h1 (24/640) and the serial,
+  always visible, on the fixed front above the door. The **cover** carries
+  the large title, the claim, the module count, and the lamps, on the door.
+  The h1 is never duplicated: the cover's title is a `<p>`, not a second
+  heading, unless the page has no lintel title.
+- **States**: the default; the compact (the detail pages).
 
 ### SectionHeader -> BayHeader
 
-- **Now**: the blue marker + the title + the mono meta.
-- **New**: the bay header rail: the engraved marker (the blue, the red,
-  or the orange, by the bay's role), the title, the meta (the mono
-  uppercase), the right-aligned status lamp. The rail is the top edge of
-  the recessed bay; it reads as a label plate, not a floating heading.
+- **Now**: the blue marker, the title, the mono meta.
+- **New**: the bay's rail on the interior plate: the engraved marker (the
+  blue, the red, the orange, or the grey, by the bay's role), the title,
+  the meta, the right-aligned lamp. The rail is a 1px rule with a 3px
+  marker, not a floating heading.
 
 ### Badge -> PlateTag
 
-- **Now**: the mono chip with the variants.
-- **New**: the stamped plate tag: the mono uppercase label, the 1px
-  border, the 2-4px radius, the optional code, the optional lamp. The
-  variants map: primary -> the blue tag; classic -> the ink tag; effect ->
-  the blue-tinted tag; flavor -> the flavor tag; muted -> the neutral.
-- **States**: the default; the active (the blue fill); the disabled (the
-  muted).
+- **Now**: the mono chip with variants.
+- **New**: the stamped tag: the mono uppercase, 1px border, 2px radius,
+  the optional code, the optional lamp. primary -> the blue tag; classic
+  -> the ink tag; effect -> the blue-tinted tag; flavor -> the flavour
+  tag; muted -> the neutral; pending -> the amber tag (the publish state).
+- **States**: default, active, disabled, pending.
 
-### Card -> InstrumentModule
+### Card -> ModulePlate + ModuleTray
 
-- **Now**: the hairline card with the name, the sentence, the desc, the
+- **Now**: the hairline card: the name, the sentence, the description, the
   install row, the tags.
-- **New**: the mounted faceplate: the identity strip (the name, the code,
-  the status lamp), the sentence, the primary readout (the meter, the
-  terminal, the preview), the footer strip (the status + the Inspect [+]),
-  and the telescoping tray (the connections, the mechanism, the evidence).
-- **States**: closed, hovered, focused, selected, open, loading, empty,
-  error, stale. The faceplate stays visible while the tray is open.
+- **New**: the white faceplate on the black plate: the identity strip (the
+  code, the name, the lamp), the sentence, the footer (the check count and
+  the Inspect [+] disclosure), and the tray. The install row moves to the
+  detail page and the ingest terminal; the card keeps a one-line link.
+- **States**: closed, hovered, focused, open, loading, empty, error,
+  stale, pending. The plate stays visible while the tray is open.
 - **Content mapping**: the name -> the identity; the sentence -> the
-  purpose; the desc -> the body; the install -> the terminal readout; the
-  tags -> the plate tags; the href -> the module's detail page.
+  sentence; the desc -> the tray's evidence; the install -> the detail
+  page; the tags -> the plate tags; the href -> the module's detail page.
 
-### StatsBand -> MeterBank
+### StatsBand -> MeterShelf
 
-- **Now**: the three cells (the packages, the checks, the release).
-- **New**: the meter bank: three counter windows on the cabinet's face,
-  each with the label, the digit cells, the unit, and the revision. The
-  checks cell shows `1314 + 1324` as two windows or one dual window; the
-  release shows `0.1.0`; the packages show `31`.
-- **States**: the loaded; the stale (the calibration date); the error (the
-  dashes, the red lamp).
+- **Now**: three cells in one hairline band.
+- **New**: the fixed shelf with three isometric meters. The checks meter
+  shows the Classic and Effect-TS totals as two windows in one body; the
+  release meter shows the version with its last two wheels red; the
+  modules meter shows the screen's count. The calibration plate carries
+  the revision and the calibration date.
+- **States**: loaded, stale (the calibration due lamp), error (dashes and
+  the red lamp).
 
 ### Terminal -> TerminalReadout
 
 - **Now**: the hairline panel, the bar, the command, the copy.
-- **New**: the dark recessed terminal window on the faceplate: the label
-  plate (the mono, the dot separators), the `$` prompt, the command, the
-  copy control, the transient COPIED lamp. The orange rail for the
-  input/raw surfaces.
-- **States**: the default; the copied; the disabled (the pending package).
+- **New**: the dark window inside a light inset: the label plate, the `$`
+  prompt, the command, the copy, the transient COPIED lamp. The orange
+  rail for the RAW and input surfaces.
+- **States**: default, copied, disabled (the pending package).
 
 ### TerminalTray -> ReadoutBank
 
-- **Now**: the set of terminal panes.
-- **New**: the bank of readout windows in one recessed frame, each with
-  its label; the dividers are the seams; the bank reads as one instrument.
+- **Now**: a set of terminal panes.
+- **New**: the banked windows in one recessed frame, each with its label;
+  the seams divide them; the bank reads as one instrument.
 
 ### CodeBlock -> DocumentWindow
 
 - **Now**: the syntax-highlighted block.
-- **New**: the light inset document window (the pale recess, the mono, the
-  line marks); the top-left label plate; the copy control.
+- **New**: the light inset: the near-white window, the 1px line, the mono,
+  the line marks, the copy control.
 
 ### Compare -> ShutterWindow
 
 - **Now**: the draggable split.
-- **New**: the two apertures (the RAW and the NORMALIZED) with the sliding
-  shutter: the RAW pane carries the orange rail and the anomaly marks; the
-  handle is the shutter grip; the keyboard (the arrows, the home/end); the
-  reduced motion static split. The shutter is the "sliding shutter" door
-  mechanism from the reference.
+- **New**: two apertures (RAW and NORMALIZED) with the sliding shutter;
+  the RAW carries the orange rail and the anomaly marks; the keyboard
+  (arrows, Home, End); the reduced-motion static split.
 
 ### Configurator -> ControlPanel
 
 - **Now**: the toggles, the engine, the profile, the generated output.
-- **New**: the control panel: the bank of the 14 toggle switches (the
-  labeled rockers with the state lamps), the engine selector (the
-  segmented switch or the small dial), the profile name plate, the
-  generated wiring (the terminal block list + the patch inserts) and the
-  verification lines in the readout windows; the copy as the push button.
-- **States**: the default; the dirty; the copied; the invalid.
+- **New**: the interior control panel: the 14 labelled rockers with lamps,
+  the engine selector (the segmented switch), the profile plate, the
+  generated wiring (the terminal block and the patch inserts), the
+  verification lines; the copy as a push button. The same URL and
+  localStorage state, the same server-rendered default.
 
 ### Showcase -> Bay
 
-- **Now**: the tab switcher + the terminal panes.
-- **New**: the bay instrument: the rail tabs (the flat tabs with the
-  active marker), the content as the readout, the status strip.
+- **Now**: the tab switcher and the terminal panes.
+- **New**: the bay instrument: the rail tabs with the active marker, the
+  content as the readout, the status strip.
 
 ### Seams -> WiringDiagram
 
 - **Now**: the seam diagram row.
-- **New**: the conduit schematic: the terminal blocks, the labeled wires,
-  the junction dots, the 45-degree runs; the "what enters, what leaves"
-  story.
+- **New**: the conduit schematic: the terminal blocks, the labelled wires,
+  the junction dots, the 45 degree runs.
 
 ### InstallDemo -> IngestTerminal
 
-- **Now**: the install command + the copy.
-- **New**: the ingest terminal: the plate label ("INGEST COMMAND"), the
-  dark readout with the command, the copy, the verification note (the
-  dependencies, the target).
+- **Now**: the install command and the copy.
+- **New**: the ingest terminal: the plate label, the dark window with the
+  command, the copy, the dependency and target notes.
 
 ### FlavorBadge -> FlavorTag
 
-- **Now**: the flavor chip.
-- **New**: the flavor tag: the color-coded plate tag (the orange for the
-  raw, the blue for the normalized), the code (the flavor number), the
-  label.
+- **Now**: the flavour chip.
+- **New**: the flavour plate tag: the orange for the raw, the blue for the
+  normalised, the flavour number, the label.
 
 ### SupportsButton -> PushButton
 
-- **Now**: the support CTA.
-- **New**: the hard-edged push button with the short travel; the label;
-  the focus ring; the optional lamp.
+- **Now**: the support call-to-action.
+- **New**: the hard-edged cap with the short travel, the label, the focus
+  ring, the optional lamp.
 
 ### BrandIcon -> EngravedMark
 
 - **Now**: the brand glyph.
-- **New**: the etched/engraved mark on the plate; the same SVG, the
-  optical alignment, the optional stamped border.
+- **New**: the etched mark in the three shell tones, optically aligned to
+  the plate's grid (Ely's `mark.ts` draws its own logo exactly this way).
 
 ### ArrowIcon -> IndicatorNeedle
 
 - **Now**: the decorative arrow.
-- **New**: the small indicator needle/chevron; the ink-muted; the
-  `aria-hidden`.
+- **New**: the small needle or chevron, in the muted ink, `aria-hidden`.
 
 ### Concept -> SchematicPanel
 
-- **Now**: the titled concept + the optional diagram.
+- **Now**: the titled concept and the optional diagram.
 - **New**: the schematic panel: the title plate, the diagram (the Mermaid
-  SVG or the wiring), the notation; the recessed document window.
+  SVG or the wiring), the notation, in a light inset on the dark plate.
 
 ### The footer -> BasePlate
 
 - **Now**: the nav links, the note, the copyright.
-- **New**: the base plate: the engraved links, the spec line, the
-  revision, the organization, the copyright; the plate is the cabinet's
-  bottom rail.
+- **New**: the base plate: the engraved spec line, the revision, the
+  organization, the copyright, and (on the registry screens) the field
+  gauge and the screen position. The nine nav links live in the fixed
+  header, so the base plate is a spec plate, not a second nav.
 
 ### The toast -> NoticeLamp
 
 - **Now**: the transient status.
-- **New**: the notice plate/lamp: the rail, the mono message, the progress
-  line; the same 2.6s life.
+- **New**: the notice plate: the rail, the mono message, the progress line,
+  the same 2.6s life.
 
 ### The theme toggle -> LeverSwitch
 
 - **Now**: the LIGHT/DARK chip.
-- **New**: the two-position lever switch (the LIGHT and the DARK plates,
-  the lever, the active lamp); the same localStorage and OS behavior.
+- **New**: the two-position lever with the LIGHT and DARK plates, the
+  lever, the active lamp; the same localStorage pin and OS fallback.
 
 ### The nav -> HeaderRail
 
-- **Now**: the 9 links.
-- **New**: the rail tabs on the fixed header: the active tab gets the blue
-  marker; the brand plate; the version plate; the theme lever; the mobile
-  menu as the sliding tray.
+- **Now**: the nine links.
+- **New**: the fixed rail: the brand plate, the nine tabs with the blue
+  active marker, the version plate, the lever, the mobile tray. The rail
+  sits above the cabinet's top plane and is the only element with a
+  translucent ground.
 
 ### The 404 -> DisconnectedCabinet
 
 - **Now**: the standalone error page.
-- **New**: the disconnected cabinet: the open door, the cut wire, the
-  "NO SIGNAL" plate, the links home; the same no-external-dependency rule.
+- **New**: the disconnected cabinet: the shell, the interior black and
+  empty, the door hanging off one hinge at 12 degrees, the cut cable, the
+  NO SIGNAL plate, the links home. It keeps its own shell with no external
+  font dependency.
 
-## The plugin categories and the module rack
+## 3. The screens and their modules
 
-The five cabinets and their modules:
+The registry is a horizontal sequence of page-sized cabinets. The data is
+derived from `Content.ts`, never hard-coded in a page.
 
-| Cabinet | Modules |
-| --- | --- |
-| THE ENGINE | hook-dsh-core, plugin-dsh-factory |
-| THE FLOW | normalize-dash, normalize-quotes, normalize-ellipsis, normalize-spaces, normalize-invisible, normalize-fullwidth, normalize-file |
-| THE GOVERNORS | package-governor, package-pinner, cargo-governor |
-| THE SERVICES | ccr, tool-coach |
-| THE DISPLAY | live-containers |
+| Screen | Code | Modules | Bay groups |
+| --- | --- | --- | --- |
+| THE HOOKS | CAB-01 | 14 | THE MACHINERY (core, factory), THE GOVERNORS (3), THE FLOW (7), THE SERVICES (ccr, tool-coach) |
+| THE DISPLAY | CAB-02 | 1 + 1 planned | THE CONTAINERS (live-containers), THE PANEL (planned preview) |
 
-Each module inside a cabinet is an `InstrumentModule` with the identity,
-the readout, the Inspect tray, and the link to its detail page. The
-cabinet's door and lock are the category-level reveal; the module trays
-are the per-plugin reveal. The detail page repeats the cabinet pattern at
-the single-plugin scale.
+The machinery is in screen 01 on purpose: the hooks depend on it, and the
+door should reveal the whole system, not a subset of it. If the field
+becomes too dense, moving core and factory to their own screen is a
+change to the screen data only, not to the layout.
+
+Screen 03 exists only when a third category exists. The sequence is
+data-driven: `Screens` is an array, and the tabs, the hash, the snap
+points, and the base plate's position readout all come from it.
+
+## 4. The Ely borrowings
+
+| Ely file | What is taken | Where it lands |
+| --- | --- | --- |
+| `frontend/src/iso/engine.ts` | the `Block` model, `faces()`, `painted()`, `bounds()`, `inside()`, `rise()` | `Source/Library/Iso.ts`, the meter and mark geometry |
+| `frontend/src/iso/draw.ts` | the paint order (right, front, top), one fill per face, one stroke per drawing, the `accent` flag | the shell and meter faces |
+| `frontend/src/iso/models.ts` | the model-as-data idiom (`b(x, z, w, d, h, y, accent)`, the beat sweep) | the meter models, the mark |
+| `frontend/src/iso/mark.ts` | the polygon emitter and the padded bounds | `EngravedMark` |
+| `frontend/src/iso/Iso.tsx` | `role="img"` plus a label on a drawn object, the reduced-motion still path | every `IsoMeter`, the mark |
+| `frontend/src/styles.css` | the token set, `--iso-line` / `--iso-side` / `--iso-shade`, the focus ring, the skip link, the `.button` anatomy, the 160ms ease-out, the reduced-motion reset | `Global.css`, the shell tokens, `PushButton`, the focus system |
+| `frontend/src/theme.ts` | the external-store mode hook and the localStorage pin | the door and theme state stores |
+| `gpui-components.md` | the catalog anatomy: `SegmentedControl`, `Meter`, `Gauge`, `Statistic`, `PropertyGrid`, `KeyValueList`, `RowExpansion`, `Accordion`, `ToolCallCard`, `AgentStatus`, `CommandBlock`, `LogViewer`, `BeforeAfter`, `TableToolbar`, `Elevation`, `ReducedMotionProvider` | the screen tabs, the meters, the module trays, the terminals, the matrix, the compare, the theme |
+
+Ely's isometric projection is **not** taken; the site's frontal oblique
+replaces it (see 01 section 2). Ely's sound-on-hover (`marimba.ts`) is
+not taken: a documentation site must not make noise.
