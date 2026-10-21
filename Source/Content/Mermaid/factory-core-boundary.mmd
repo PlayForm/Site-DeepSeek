@@ -1,6 +1,6 @@
 flowchart LR
 	BOUNDARY["The non-reexport boundary"]
-	CORE["The pure layer the factory deliberately<br/>does not re-export - hook-dsh-core"]
+	CORE["The pure layer the factory deliberately<br/>does not re-export - lib-dsh-core"]
 	STABLE["Its service surface stays stable."]
 	HOOKS["The hooks import the core's helpers directly."]
 	BOUNDARY --> CORE

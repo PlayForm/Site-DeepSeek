@@ -5,7 +5,7 @@ const puppeteer = require(path.join(process.cwd(), "node_modules", "puppeteer"))
 
 const PORT = process.argv[2] || 9999;
 const WIDTHS = (process.argv[3] ? process.argv[3].split(",") : ["1100", "1280", "1440", "1024", "900", "800", "640", "480"]).map(Number);
-const PAGES = ["/", "/plugins/", "/flavors/", "/versions/", "/setup/", "/plugins/hook-dsh-normalize-dash/", "/plugins/hook-dsh-normalize-quotes/", "/plugins/hook-dsh-core/", "/workbench/", "/matrix/", "/models/", "/case-study/"];
+const PAGES = ["/", "/plugins/", "/flavors/", "/versions/", "/setup/", "/plugins/hook-dsh-normalize-dash/", "/plugins/hook-dsh-normalize-quotes/", "/plugins/lib-dsh-core/", "/workbench/", "/matrix/", "/models/", "/case-study/"];
 
 (async () => {
   const browser = await puppeteer.launch({

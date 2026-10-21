@@ -35,13 +35,13 @@ const NodeLinks: ReadonlyArray<readonly [RegExp, string]> = [
 	[/hook-dsh-cargo-governor/, "Ours:Classic/packages/hook-dsh-cargo-governor/Source"],
 	[/hook-dsh-normalize-dash/, "Ours:Classic/packages/hook-dsh-normalize-dash/Source"],
 	[/hook-dsh-normalize-ellipsis/, "Ours:Classic/packages/hook-dsh-normalize-ellipsis/Source"],
-	[/hook-dsh-normalize-file/, "Ours:Classic/packages/hook-dsh-normalize-file/Source"],
+	[/plugin-dsh-normalize-file/, "Ours:Classic/packages/plugin-dsh-normalize-file/Source"],
 	[/hook-dsh-normalize-fullwidth/, "Ours:Classic/packages/hook-dsh-normalize-fullwidth/Source"],
 	[/hook-dsh-normalize-invisible/, "Ours:Classic/packages/hook-dsh-normalize-invisible/Source"],
 	[/hook-dsh-normalize-quotes/, "Ours:Classic/packages/hook-dsh-normalize-quotes/Source"],
 	[/hook-dsh-normalize-spaces/, "Ours:Classic/packages/hook-dsh-normalize-spaces/Source"],
 	[/plugin-dsh-factory/, "Ours:Classic/packages/plugin-dsh-factory/Source"],
-	[/hook-dsh-core/, "Ours:Classic/packages/hook-dsh-core/Source"],
+	[/lib-dsh-core/, "Ours:Classic/packages/lib-dsh-core/Source"],
 	// The factory's patch config, named verbatim in some labels.
 	[/cordis\.patch\.yml/, "Ours:Classic/packages/plugin-dsh-factory/cordis.patch.yml"],
 ] as const;

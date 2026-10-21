@@ -54,7 +54,7 @@ const Siblings = [
 		This: false,
 	},
 	{
-		Flavor: "hook-dsh-normalize-file (this bundle)",
+		Flavor: "plugin-dsh-normalize-file (this bundle)",
 		Layer: "files already on disk (tool)",
 		Mechanism: "all SIX, at write time, through Factory.Write",
 		This: true,
@@ -160,9 +160,9 @@ const CommandRows = [
 	},
 ];
 const LedgerLines = [
-	"hook-dsh-normalize-file: overpass: normalized N char(s) in tool result <toolName> <callId>",
-	"hook-dsh-normalize-file: overpass: normalized N char(s) in step batch (turn T step S)",
-	"hook-dsh-normalize-file: overpass: swept K file(s), normalized M char(s)",
+	"plugin-dsh-normalize-file: overpass: normalized N char(s) in tool result <toolName> <callId>",
+	"plugin-dsh-normalize-file: overpass: normalized N char(s) in step batch (turn T step S)",
+	"plugin-dsh-normalize-file: overpass: swept K file(s), normalized M char(s)",
 ];
 
 const Config = [
@@ -176,7 +176,7 @@ const Config = [
 	{
 		Field: "logFile",
 		Type: "string",
-		Default: "~/.dsh/hook-dsh-normalize-file.log",
+		Default: "~/.dsh/plugin-dsh-normalize-file.log",
 		Volatile: "yes",
 		Meaning: "the normalize-file ledger (separate from the family's logs)",
 	},
@@ -202,8 +202,8 @@ const BeforeAfter = [
 
 // The ledger strings, from the README.
 const LedgerStrings = [
-	"hook-dsh-normalize-file: activated (replacement=-, logFile=~/.dsh/hook-dsh-normalize-file.log)",
-	"hook-dsh-normalize-file: normalized 5 char(s) in <project>/notes/report.md",
+	"plugin-dsh-normalize-file: activated (replacement=-, logFile=~/.dsh/plugin-dsh-normalize-file.log)",
+	"plugin-dsh-normalize-file: normalized 5 char(s) in <project>/notes/report.md",
 ];
 
 // The tool call shape, from the README's Usage.
@@ -216,7 +216,7 @@ const Usage = [
 ---
 
 <Base
-	Title="hook-dsh-normalize-file - DSH Family @ PlayForm"
+	Title="plugin-dsh-normalize-file - DSH Family @ PlayForm"
 	Description={`${Families.File} - the file-content normalizer: the normalize-family tool for files already on disk - read, count, write through ALL six transforms, writing ONLY when something changed.`}
 >
 	<main class="container container--main">
@@ -232,7 +232,7 @@ const Usage = [
 
 		<section class="page-hero">
 			<h1 class="page-hero__title">
-				<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-file/Source")}>hook-dsh-normalize-file</a>
+				<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-normalize-file/Source")}>plugin-dsh-normalize-file</a>
 			</h1>
 			<p class="page-hero__sub">
 				{Families.File} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin Family
@@ -262,7 +262,7 @@ const Usage = [
 
 		<section class="section">
 			<div class="snippet-list">
-				<Terminal Pkg="hook-dsh-normalize-file"/>
+				<Terminal Pkg="plugin-dsh-normalize-file"/>
 			</div>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
@@ -270,7 +270,7 @@ const Usage = [
 				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
-					<span class="hook-tally">@playform/hook-dsh-normalize-file</span>
+					<span class="hook-tally">@playform/plugin-dsh-normalize-file</span>
 					<span class="workbench-controls__label">Release:</span>
 					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
@@ -298,7 +298,7 @@ const Usage = [
 				<Concept
 					ID="file-family-position"
 					Title="The family position"
-					Diagram={`${Families.File} as a tool-child of the plugin-dsh-factory service and the hook-dsh-core machinery - the seventh sibling, the one flavor that works on files already on disk instead of model output.`}
+					Diagram={`${Families.File} as a tool-child of the plugin-dsh-factory service and the lib-dsh-core machinery - the seventh sibling, the one flavor that works on files already on disk instead of model output.`}
 				>
 					<p>
 						A tool-child of the{" "}
@@ -310,7 +310,7 @@ const Usage = [
 								)}
 							>plugin-dsh-factory</a>
 						</strong>{" "}
-						service ({Families.File}) and the <strong>hook-dsh-core</strong> machinery;
+						service ({Families.File}) and the <strong>lib-dsh-core</strong> machinery;
 						the seventh sibling - the one flavor that works on files already on disk
 						instead of model output.
 					</p>
@@ -634,11 +634,11 @@ const Usage = [
 				<Concept
 					ID="file-scopes"
 					Title="Every arm gated independently - and all volatile"
-					Diagram="The scopes object gating every arm of the hook-dsh-normalize-file hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
+					Diagram="The scopes object gating every arm of the plugin-dsh-normalize-file hook independently - the defaults exactly the pre-scopes behavior - with the whole object volatile: one leaf change commits one loader/volatile-update dispatch whose whole object the State's refresh listener re-reads - live, silent, no remount, no new activation line."
 				>
 					<p>
 						The <code>scopes</code> object gates EVERY arm of the{" "}
-						<code>hook-dsh-normalize-file</code> hook independently - conversation,
+						<code>plugin-dsh-normalize-file</code> hook independently - conversation,
 						reasoning, toolInput, toolResults, files, batch - with the defaults exactly
 						the pre-scopes behavior.
 					</p>
@@ -831,7 +831,7 @@ const Usage = [
 			<SectionHeader Title="The Ledger" Metadata="TWO LINES VIA FACTORY APPEND" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				Two lines, both written through the factory's <code>Append</code> (the
-				hook-dsh-normalize-file: prefix is the logger's
+				plugin-dsh-normalize-file: prefix is the logger's
 				<code>&lt;State.Module&gt;:</code>; the durable file line is
 				<code>[&lt;ISO&gt;] &lt;message&gt;</code>):
 			</p>
@@ -896,8 +896,8 @@ const Usage = [
 				</Card>
 				<Card
 					Variant="white"
-					Name="hook-dsh-core"
-					Href="/plugins/hook-dsh-core/"
+					Name="lib-dsh-core"
+					Href="/plugins/lib-dsh-core/"
 					Desc="The six transform tables and the generic Replace/ReplaceMap replacers this tool chains."
 					Muted
 				>

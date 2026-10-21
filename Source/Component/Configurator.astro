@@ -72,7 +72,7 @@ const Exclusions = "[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.a
 /** The Classic tree's slots (@playform/dsh-*), from the real patch files. */
 const ClassicSlots: Record<SlotKey, Slot> = {
 	core: {
-		Pkg: "@playform/hook-dsh-core",
+		Pkg: "@playform/lib-dsh-core",
 		Patch: null,
 		Line: null,
 		Note: "# the core: a library bundle - no patch entry, no ledger line",
@@ -243,17 +243,17 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 		Note: null,
 	},
 	file: {
-		Pkg: "@playform/hook-dsh-normalize-file",
+		Pkg: "@playform/plugin-dsh-normalize-file",
 		Patch: [
 			"- insert:",
-			"      - id: hook-dsh-normalize-file",
-			'        name: "@playform/hook-dsh-normalize-file"',
+			"      - id: plugin-dsh-normalize-file",
+			'        name: "@playform/plugin-dsh-normalize-file"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/hook-dsh-normalize-file.log",
+			"            logFile: ~/.dsh/plugin-dsh-normalize-file.log",
 			'            replacement: "-"',
 		].join("\n"),
-		Line: "hook-dsh-normalize-file: activated (replacement=-, logFile=~/.dsh/hook-dsh-normalize-file.log)",
+		Line: "plugin-dsh-normalize-file: activated (replacement=-, logFile=~/.dsh/plugin-dsh-normalize-file.log)",
 		Note: null,
 	},
 	ccr: {
@@ -344,7 +344,7 @@ const ClassicSlots: Record<SlotKey, Slot> = {
  * factory renames to ets-plugin-dsh-factory.
  */
 const ETSNames: Record<SlotKey, string> = {
-	core: "ets-hook-dsh-core",
+	core: "ets-lib-dsh-core",
 	factory: "ets-plugin-dsh-factory",
 	governor: "ets-hook-dsh-package-governor",
 	pinner: "ets-hook-dsh-package-pinner",
@@ -355,7 +355,7 @@ const ETSNames: Record<SlotKey, string> = {
 	spaces: "ets-hook-dsh-normalize-spaces",
 	invisible: "ets-hook-dsh-normalize-invisible",
 	fullwidth: "ets-hook-dsh-normalize-fullwidth",
-	file: "ets-hook-dsh-normalize-file",
+	file: "ets-plugin-dsh-normalize-file",
 	ccr: "ets-hook-dsh-ccr",
 	"tool-coach": "ets-hook-dsh-tool-coach",
 };

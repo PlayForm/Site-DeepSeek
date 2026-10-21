@@ -19,7 +19,7 @@ import { DotSep } from "@Library/FileIcon";
 // one-sentence description.
 const Core = [
 	{
-		Name: "hook-dsh-core",
+		Name: "lib-dsh-core",
 		Tone: "primary",
 		Role: "ROLE: CORE",
 		Sentence: Families.Core,
@@ -96,7 +96,7 @@ const Normalize = [
 		Desc: "Maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterparts in model output streams.",
 	},
 	{
-		Name: "hook-dsh-normalize-file",
+		Name: "plugin-dsh-normalize-file",
 		Flavor: "FILE",
 		Sentence: Families.File,
 		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing only when something changed.",
@@ -256,7 +256,7 @@ const CargoFact =
 					<p class="hero__sub">
 						Model output, clean and governed.
 					</p>
-					<Terminal Pkg="hook-dsh-core" Rail />
+					<Terminal Pkg="lib-dsh-core" Rail />
 					<p class="hero__sub">
 						The install is step 0. The profile wiring - the bundles list, the patch, the restart - is on the <a href="/setup/">setup page</a>.
 					</p>

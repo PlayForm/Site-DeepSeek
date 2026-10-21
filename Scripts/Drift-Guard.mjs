@@ -9,10 +9,12 @@
 //   - the release versions: the version field of EVERY package.json in both
 //     trees vs Versions.Release, and the effect dependency pin of every
 //     EffectTS package vs Versions.Effect;
-//   - the name forms: the post-splice naming (the Classic tree the
-//     *-dsh-hook / plugin-dsh-factory forms, the EffectTS tree the ets-*
-//     forms) - every npm name is @playform/ + its directory, and the stale
-//     pre-splice forms (hook-dsh-*) are gone;
+//   - the name forms: the post-splice naming under the role-prefix contract
+//     (the Classic tree the plugin-* / hook-* / lib-* forms, the EffectTS
+//     tree the same names under the ets- prefix) - every npm name is
+//     @playform/ + its directory, and the stale pre-role forms (the old
+//     hook-* spelling of the core and the file tool, the bare panel names)
+//     are gone;
 //   - the additive Effect-TS deltas (core 0, factory +7, governor +3) vs
 //     History.Deltas and the EffectDelta sum;
 //   - the Live.ts layer: the build-time snapshot equals what this script
@@ -168,7 +170,7 @@ const Effect = ContentSource.match(/Effect: "([^"]+)"/)?.[1];
 // ride on the shared ets-base-dsh and carry no pin of their own.
 const EffectFree = new Set([
 	"ets-hook-dsh-ccr",
-	"ets-hook-dsh-core",
+	"ets-lib-dsh-core",
 	"ets-hook-dsh-live-containers",
 	"ets-hook-dsh-tool-coach",
 ]);
@@ -197,15 +199,17 @@ for (const [Tree, Packages] of Object.entries(Trees)) {
 }
 
 // --- 3b. The splice's name forms: the new shapes on, the stale forms gone ---
-// The post-splice convention: the Classic tree the hook-dsh-* packages plus
-// the plugin-dsh-factory, the EffectTS tree the same names under the ets-
-// prefix plus the ets-plugin-dsh-factory and the shared ets-base-dsh base.
+// The role-prefix contract (2026-10-21): the Classic tree the plugin-* /
+// hook-* / lib-* packages, the EffectTS tree the same names under the ets-
+// prefix plus the shared ets-base-dsh base. The roles are plugin (the
+// service and the tool plugins), hook (the event listeners), client (the UI
+// halves) and lib (the shared libraries).
 const NameForm = {
-	Classic: (Dir) => Dir === "plugin-dsh-factory" || /^hook-dsh-[a-z0-9-]+$/.test(Dir),
+	Classic: (Dir) =>
+		Dir === "plugin-dsh-factory" ||
+		/^(plugin|hook|lib)-dsh-[a-z0-9-]+$/.test(Dir),
 	EffectTS: (Dir) =>
-		Dir === "ets-plugin-dsh-factory" ||
-		Dir === "ets-base-dsh" ||
-		/^ets-hook-dsh-[a-z0-9-]+$/.test(Dir),
+		Dir === "ets-base-dsh" || /^ets-(plugin|hook|lib)-dsh-[a-z0-9-]+$/.test(Dir),
 };
 for (const [Tree, Packages] of Object.entries(Trees)) {
 	Check(
@@ -214,8 +218,9 @@ for (const [Tree, Packages] of Object.entries(Trees)) {
 		Packages.every((Package) => NameForm[Tree](Package.Dir)),
 	);
 }
-// The stale pre-splice forms (the *-dsh-hook word order, the ets-* spellings
-// without the shared hook-dsh- body) must be gone from the names and the
+// The stale pre-role forms (the *-dsh-hook word order, the ets-* spellings
+// without the shared hook-dsh- body, the hook-* spelling of the core and
+// the file tool, the bare panel names) must be gone from the names and the
 // directories alike.
 const StaleForm = (Text) => {
 	const Stem = Text.replace(/^@playform\//, "");
@@ -223,7 +228,9 @@ const StaleForm = (Text) => {
 		(/[a-z0-9]-dsh-hook$/.test(Stem) && Stem !== "ets-base-dsh") ||
 		Stem === "dsh-plugin-factory" ||
 		Stem === "ets-dsh-plugin-factory" ||
-		/(^|\/)dsh-hook-/.test(Stem)
+		/(^|\/)dsh-hook-/.test(Stem) ||
+		/(^|\/)(ets-)?hook-dsh-(core|normalize-file)$/.test(Stem) ||
+		/(^|\/)(ets-)?dsh-panel-family(-host)?$/.test(Stem)
 	);
 };
 for (const [Tree, Packages] of Object.entries(Trees)) {

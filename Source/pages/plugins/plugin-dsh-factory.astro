@@ -106,7 +106,7 @@ const LedgerLines = [
 
 const Related = [
 	{
-		Name: "hook-dsh-core",
+		Name: "lib-dsh-core",
 		Desc: "The pure layer the factory deliberately does not re-export - the hooks import the core's helpers directly.",
 	},
 	{
@@ -210,10 +210,10 @@ const Related = [
 				<Concept
 					ID="factory-core-boundary"
 					Title="The non-reexport boundary"
-					Diagram="The pure layer the factory deliberately does not re-export - [hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source) (its service surface stays stable) - the hooks importing the core's helpers directly."
+					Diagram="The pure layer the factory deliberately does not re-export - [lib-dsh-core](Ours:Classic/packages/lib-dsh-core/Source) (its service surface stays stable) - the hooks importing the core's helpers directly."
 				>
 					<p>
-						The pure layer it deliberately does <strong>NOT</strong> re-export is <strong>hook-dsh-core</strong> (its service surface stays stable).
+						The pure layer it deliberately does <strong>NOT</strong> re-export is <strong>lib-dsh-core</strong> (its service surface stays stable).
 						The hooks import the core's helpers directly.
 					</p>
 				</Concept>

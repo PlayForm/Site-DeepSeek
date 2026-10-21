@@ -44,8 +44,8 @@ const RefusalLines = [
 
 // The named-export imports, from the README's Usage block.
 const Imports = [
-	'import { Suppress, Refusal, Section, Default, Policy } from "@playform/hook-dsh-core";',
-	'import { Replace, ReplaceMap, Dashes, Chunk } from "@playform/hook-dsh-core";',
+	'import { Suppress, Refusal, Section, Default, Policy } from "@playform/lib-dsh-core";',
+	'import { Replace, ReplaceMap, Dashes, Chunk } from "@playform/lib-dsh-core";',
 ];
 
 const Related = [
@@ -65,7 +65,7 @@ const Related = [
 ---
 
 <Base
-	Title="hook-dsh-core - DSH Family @ PlayForm"
+	Title="lib-dsh-core - DSH Family @ PlayForm"
 	Description={`${Families.Core} - the pure machinery layer of the DeepSeek Harness plugin family: the governance helpers and the stream-normalization tables and dispatch (dependency-free in CLASSIC; effect-backed in EFFECT-TS). Consumed by thirteen packages as a direct dependency.`}
 >
 	<main class="container container--main">
@@ -78,7 +78,7 @@ const Related = [
 		</div>
 
 		<section class="page-hero">
-			<h1 class="page-hero__title">hook-dsh-core</h1>
+			<h1 class="page-hero__title">lib-dsh-core</h1>
 			<p class="page-hero__sub">
 				{Families.Core} • <BrandIcon Name="deepseek" /> <em>The DeepSeek Harness Plugin Family
 				for PlayForm.</em>
@@ -93,7 +93,7 @@ const Related = [
 
 		<section class="section">
 			<div class="snippet-list">
-				<Terminal Pkg="hook-dsh-core"/>
+				<Terminal Pkg="lib-dsh-core"/>
 			</div>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
@@ -101,7 +101,7 @@ const Related = [
 				</span>
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Namespace:</span>
-					<span class="hook-tally">@playform/hook-dsh-core</span>
+					<span class="hook-tally">@playform/lib-dsh-core</span>
 					<span class="workbench-controls__label">Release:</span>
 					<Badge Variant="outline">v{Versions.Release}</Badge>
 				</div>
@@ -224,7 +224,7 @@ const Related = [
 						The <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> + <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/write-intent</code></a> seams supply the
 						governance half the three governance hooks compose their passes from.
 						The half is the
-						section list, the exclusion fence, the policy loader, <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and
+						section list, the exclusion fence, the policy loader, <a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and
 						the update-stage envelope.
 					</p>
 
@@ -262,12 +262,12 @@ const Related = [
 				<Concept
 					ID="core-problem-repeated"
 					Title="The same pure functions, re-implemented per hook"
-					Diagram="The same pure functions copy-pasted across the family's hooks: the NPM section list, the exclusion segments, the suppression-line composer, the policy loader, [the refusal guard](Ours:Classic/packages/hook-dsh-core/Source/Function/Refusal.ts) - and, for the normalize flavors, the same per-chunk dispatch, block-end normalizer and character tables."
+					Diagram="The same pure functions copy-pasted across the family's hooks: the NPM section list, the exclusion segments, the suppression-line composer, the policy loader, [the refusal guard](Ours:Classic/packages/lib-dsh-core/Source/Function/Refusal.ts) - and, for the normalize flavors, the same per-chunk dispatch, block-end normalizer and character tables."
 				>
 					<p class="page-hero__sub">
 						The family's hooks kept re-implementing the same pure functions: the NPM
 						section list, the exclusion segments, the suppression-line composer, the
-						policy loader, <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> - and, for the normalize flavors, the same
+						policy loader, <a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> - and, for the normalize flavors, the same
 						per-chunk dispatch, block-end normalizer and character tables, copy-pasted
 						per flavor.</p>
 					<p class="page-hero__sub">EVERY fix had to be applied N times.
@@ -305,10 +305,10 @@ const Related = [
 				<Concept
 					ID="core-two-halves"
 					Title="Two halves, one library"
-					Diagram="Show @playform/hook-dsh-core branching into governance helpers and normalization machinery. Connect each half to its consuming hooks. Do not depict the core as a registered plugin."
+					Diagram="Show @playform/lib-dsh-core branching into governance helpers and normalization machinery. Connect each half to its consuming hooks. Do not depict the core as a registered plugin."
 				>
 					<p class="page-hero__sub">
-						<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source")}><code>@playform/hook-dsh-core</code></a> exposes named exports for two
+						<a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-core/Source")}><code>@playform/lib-dsh-core</code></a> exposes named exports for two
 						responsibilities: governance and normalization.
 					</p>
 
@@ -726,10 +726,10 @@ const Related = [
 				<Concept
 					ID="core-in-action-refusal"
 					Title="The refusal guard before any write"
-					Diagram="The transform calling [Refusal](Ours:Classic/packages/hook-dsh-core/Source/Function/Refusal.ts) before the write: a difference outside the declared dependency sections composing the refusal line and returning null - the rewrite never applied."
+					Diagram="The transform calling [Refusal](Ours:Classic/packages/lib-dsh-core/Source/Function/Refusal.ts) before the write: a difference outside the declared dependency sections composing the refusal line and returning null - the rewrite never applied."
 				>
 					<p class="page-hero__sub">
-						Before ANY write, the transform runs <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> - ONLY the declared
+						Before ANY write, the transform runs <a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> - ONLY the declared
 						dependency sections may differ:
 					</p>
 
@@ -805,7 +805,7 @@ const Related = [
 				<Concept
 					ID="core-config-imports"
 					Title="Named-export imports"
-					Diagram="The two named-export import lines from [@playform/hook-dsh-core](Ours:Classic/packages/hook-dsh-core/Source) - the governance helpers on one line, the normalize helpers on the other."
+					Diagram="The two named-export import lines from [@playform/lib-dsh-core](Ours:Classic/packages/lib-dsh-core/Source) - the governance helpers on one line, the normalize helpers on the other."
 				>
 					<p class="page-hero__sub">
 						Named exports ONLY - NO plugin, NO loader contract:

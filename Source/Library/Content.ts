@@ -283,7 +283,7 @@ export const Migration = {
 
 /** The register #15 identities: the @-sentence release names of the fifteen packages. */
 export const Families = {
-	Core: "Hook @ DSH @ Core",
+	Core: "Lib @ DSH @ Core",
 	Factory: "Plugin @ DSH @ Factory",
 	GovernorPackage: "Hook @ DSH @ Governor @ Package",
 	PinnerPackage: "Hook @ DSH @ Pinner @ Package",
@@ -294,7 +294,7 @@ export const Families = {
 	Spaces: "Hook @ DSH @ Normalize @ Spaces",
 	Invisible: "Hook @ DSH @ Normalize @ Invisible",
 	Fullwidth: "Hook @ DSH @ Normalize @ Fullwidth",
-	File: "Hook @ DSH @ Normalize @ File",
+	File: "Plugin @ DSH @ Normalize @ File",
 	CCR: "Hook @ DSH @ CCR",
 	Coach: "Hook @ DSH @ Tool @ Coach",
 	LiveContainers: "Hook @ DSH @ Live @ Containers",

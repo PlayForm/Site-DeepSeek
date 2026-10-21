@@ -238,7 +238,7 @@ export const Live = {
 	/** The stream-flavor hooks (the normalize packages minus the file tool). */
 	StreamFlavors:
 		NormalizePackages.filter(
-			(Package) => Package.Dir !== "hook-dsh-normalize-file",
+			(Package) => Package.Dir !== "plugin-dsh-normalize-file",
 		).length || null,
 	/** The factory's callable-method count, from the SCHEME's §2 sections. */
 	Methods: ReadMethodCount(),

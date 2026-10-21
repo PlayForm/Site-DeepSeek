@@ -131,8 +131,8 @@ const Related = [
 		Desc: "The sibling governor on the same seam: pin → bump-exact, since a fully pinned manifest leaves the governor's update stage nothing to do.",
 	},
 	{
-		Name: "hook-dsh-core",
-		Desc: "Supplies the [refusal guard (Refusal)](Ours:Classic/packages/hook-dsh-core/Source/Function/Refusal.ts) and the suppression composer (Suppress) this bundle composes its lines with.",
+		Name: "lib-dsh-core",
+		Desc: "Supplies the [refusal guard (Refusal)](Ours:Classic/packages/lib-dsh-core/Source/Function/Refusal.ts) and the suppression composer (Suppress) this bundle composes its lines with.",
 	},
 	{
 		Name: "hook-dsh-ccr",
@@ -227,7 +227,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Family position</p>
 						<figure class="diagram-figure" set:html={FamilySVG} />
 						<p>
-							The pinner sits beside <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a> and hook-dsh-core,
+							The pinner sits beside <a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a> and lib-dsh-core,
 							and next to its sibling, the package governor.</p>
 						<p>Both siblings hang off the same fs/observed seam.</p>
 					</div>
@@ -240,7 +240,7 @@ const Related = [
 					<p class="page-hero__sub">
 						<strong>{Families.PinnerPackage}</strong> is a hook child of the{" "}
 						<a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}><code>plugin-dsh-factory</code></a> service and the
-						<code>hook-dsh-core</code> helpers.</p>
+						<code>lib-dsh-core</code> helpers.</p>
 					<p class="page-hero__sub">It is a sibling of the package governor
 						on the same <a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a> seam.
 
@@ -390,7 +390,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Core helpers</p>
 						<figure class="diagram-figure" set:html={CoreHelpersSVG} />
 						<p>
-							hook-dsh-core supplies <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and the suppression composer.</p>
+							lib-dsh-core supplies <a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and the suppression composer.</p>
 					</div>
 
 					<h3 id="pinner-core-helpers" class="concept-block__title">
@@ -399,7 +399,7 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						<code>hook-dsh-core</code> supplies <a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and the suppression
+						<code>lib-dsh-core</code> supplies <a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-core/Source/Function/Refusal.ts")}>the refusal guard</a> and the suppression
 						composer.
 					</p>
 				</section>

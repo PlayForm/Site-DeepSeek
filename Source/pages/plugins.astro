@@ -26,13 +26,13 @@ const PublishPending = new Set([
 // and the registry tags that drive the filter/search logic.
 const Core = [
 	{
-		Name: "hook-dsh-core",
+		Name: "lib-dsh-core",
 		Tone: "primary",
 		Role: "ROLE: CORE",
 		Tags: "core factory service hook",
 		Sentence: Families.Core,
 		Desc: "The pure commonalities of the family (dependency-free in CLASSIC; effect-backed in EFFECT-TS): the section lists, the exclusion segments, the suppression composer, the policy loader, the refusal guard and the normalize/Stream machinery.",
-		Install: `npm install @playform/hook-dsh-core@${Versions.Release}`,
+		Install: `npm install @playform/lib-dsh-core@${Versions.Release}`,
 	},
 	{
 		Name: "plugin-dsh-factory",
@@ -152,12 +152,12 @@ const Normalize = [
 		Install: `npm install @playform/hook-dsh-normalize-fullwidth@${Versions.Release}`,
 	},
 	{
-		Name: "hook-dsh-normalize-file",
+		Name: "plugin-dsh-normalize-file",
 		Flavor: "FILE",
 		Tags: "normalize flavor file stream hook tool",
 		Sentence: Families.File,
 		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing ONLY when something changed.",
-		Install: `npm install @playform/hook-dsh-normalize-file@${Versions.Release}`,
+		Install: `npm install @playform/plugin-dsh-normalize-file@${Versions.Release}`,
 	},
 ];
 
@@ -690,7 +690,7 @@ const Registry = [
 						</tr>
 						<tr>
 							<td>
-								<strong>hook-dsh-core</strong>
+								<strong>lib-dsh-core</strong>
 							</td>
 							<td>{Counts.Core.Classic}</td>
 							<td>
@@ -807,9 +807,9 @@ const Registry = [
 									<a
 										href={Link(
 											Links.OurRepo,
-											"Classic/packages/hook-dsh-normalize-file/Source",
+											"Classic/packages/plugin-dsh-normalize-file/Source",
 										)}
-									>hook-dsh-normalize-file</a>
+									>plugin-dsh-normalize-file</a>
 								</strong>
 							</td>
 							<td>{Counts.File.Classic}</td>
@@ -975,7 +975,7 @@ const Registry = [
 				<Concept
 					ID="plugins-arch-hooks"
 					Title="Hooks - where the family attaches"
-					Diagram="The three attachment points: the [llm/stream waterfall wrap](Harness:packages/llm/llm/src/index.ts) (next() first, options untouched, per-chunk), the [fs/observed listeners](Harness:packages/fs/fs/src/index.ts) (sync, after content is on disk, fired by the tool layer only), and the tool registrations into the agent's toolset ([raw-write](Ours:Classic/packages/hook-dsh-normalize-dash/Source), [normalize-file](Ours:Classic/packages/hook-dsh-normalize-file/Source))."
+					Diagram="The three attachment points: the [llm/stream waterfall wrap](Harness:packages/llm/llm/src/index.ts) (next() first, options untouched, per-chunk), the [fs/observed listeners](Harness:packages/fs/fs/src/index.ts) (sync, after content is on disk, fired by the tool layer only), and the tool registrations into the agent's toolset ([raw-write](Ours:Classic/packages/hook-dsh-normalize-dash/Source), [normalize-file](Ours:Classic/packages/plugin-dsh-normalize-file/Source))."
 				>
 					<p>
 						The{" "}
@@ -996,7 +996,7 @@ const Registry = [
 				<Concept
 					ID="plugins-arch-delegations"
 					Title="Delegations - who does the work"
-					Diagram="The work splitting across the family: the [factory's Direct-govern steps](Ours:Classic/packages/plugin-dsh-factory/Source) (per basename, the raw-write govern selection), the [core's Dispatch/Settle envelope builder](Ours:Classic/packages/hook-dsh-core/Source) (a new update stage reducing to a child runner plus strings), the [subprocess seam](Harness:packages/subprocess/subprocess) for the external tools, and the Effect-TS services mirroring the same seams."
+					Diagram="The work splitting across the family: the [factory's Direct-govern steps](Ours:Classic/packages/plugin-dsh-factory/Source) (per basename, the raw-write govern selection), the [core's Dispatch/Settle envelope builder](Ours:Classic/packages/lib-dsh-core/Source) (a new update stage reducing to a child runner plus strings), the [subprocess seam](Harness:packages/subprocess/subprocess) for the external tools, and the Effect-TS services mirroring the same seams."
 				>
 					<p>
 						The factory's Direct-govern steps (per basename, the raw-write govern

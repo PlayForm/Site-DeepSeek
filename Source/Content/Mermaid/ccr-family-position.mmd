@@ -1,7 +1,7 @@
 flowchart LR
 	CCRR["Hook @ DSH @ CCR - a hook child of the factory<br/>service and the core helpers,<br/>no hook children of its own"]
 	CCRR --> FACTORY["plugin-dsh-factory - the service"]
-	CCRR --> CORE["hook-dsh-core - the helpers"]
+	CCRR --> CORE["lib-dsh-core - the helpers"]
 	CCRR --> SEAM["tools/post-execute - the first family member<br/>hooked on the result waterfall, not fs/observed"]
 	CCRR --> VIS["The compression deliberately VISIBLE at the<br/>result layer - it IS the feature."]
 	VIS -. "The opposite of" .-> GOV["The governance family -<br/>deliberately silent at the result layer"]

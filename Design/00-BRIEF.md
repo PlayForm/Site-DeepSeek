@@ -67,8 +67,8 @@ The first screen carries **all of the initial hook plugins**, as asked:
 `hook-dsh-package-governor`, `hook-dsh-package-pinner`,
 `hook-dsh-cargo-governor`, the six stream normalizers
 (`dash`, `quotes`, `ellipsis`, `spaces`, `invisible`, `fullwidth`),
-`hook-dsh-normalize-file`, `hook-dsh-ccr`, and `hook-dsh-tool-coach`.
-`hook-dsh-core` and `plugin-dsh-factory` are included **as the machinery**:
+`plugin-dsh-normalize-file`, `hook-dsh-ccr`, and `hook-dsh-tool-coach`.
+`lib-dsh-core` and `plugin-dsh-factory` are included **as the machinery**:
 they sit in the first interior bay, above the module field, because every
 hook in the field depends on them and because a cabinet with its power
 supply removed is a prop. The alternative - a separate ENGINE screen - is

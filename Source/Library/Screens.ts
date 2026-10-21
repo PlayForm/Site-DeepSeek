@@ -24,7 +24,7 @@ export interface Module {
 	Name: string;
 	/** The plate's role line (ROLE: GOVERNOR). */
 	Role: string;
-	/** The @-sentence identity (Hook @ DSH @ Core). */
+	/** The @-sentence identity (Lib @ DSH @ Core). */
 	Sentence: string;
 	/** The tray's evidence paragraph (the Linkify source). */
 	Desc: string;
@@ -111,7 +111,7 @@ const Machinery: Bay = {
 	Modules: [
 		Mount(
 			"MAC-01",
-			"hook-dsh-core",
+			"lib-dsh-core",
 			"ROLE: CORE",
 			Families.Core,
 			"The pure commonalities of the family (dependency-free in CLASSIC; effect-backed in EFFECT-TS): the section lists, the exclusion segments, the suppression composer, the policy loader, the refusal guard and the normalize/Stream machinery.",
@@ -228,7 +228,7 @@ const Flow: Bay = {
 		),
 		Mount(
 			"NRM-07",
-			"hook-dsh-normalize-file",
+			"plugin-dsh-normalize-file",
 			"ROLE: FILE TOOL",
 			Families.File,
 			"The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing ONLY when something changed.",

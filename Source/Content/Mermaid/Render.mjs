@@ -58,7 +58,7 @@ const PageHTML = `<!DOCTYPE html>
 			// <tspan> as its own chunk: the leading (and trailing) space of a
 			// chunk is collapsed away when the text renders. The joining
 			// spaces therefore vanish from the rendered output - labels read
-			// "Hook@DSH@Core", "Governancehelpers" - AND from Mermaid's own
+			// "Lib@DSH@Core", "Governancehelpers" - AND from Mermaid's own
 			// width measurement (getComputedTextLength collapses the same
 			// way), so every label box is sized too narrow and edge-adjacent
 			// labels spill past the viewBox, clipping their first characters.
@@ -268,8 +268,8 @@ if (Filter && Selected.length === 0) {
 // in the rendered SVG's text content WITH its separators. Mermaid renders
 // labels as word-wrapped <tspan> runs; the joining spaces live in the runs
 // (as U+00A0 - see the Space Law in the page), so the check normalizes those
-// back to plain spaces and compares the single-space form: "Hook @ DSH @
-// Core", never "Hook@DSH@Core". A line wrap is allowed only as an actual
+// back to plain spaces and compares the single-space form: "Lib @ DSH @
+// Core", never "Lib@DSH@Core". A line wrap is allowed only as an actual
 // line break (wrapped lines are joined with a space, never glued); a label
 // that appears only in the whitespace-free form has had its spaces dropped
 // and fails the pipeline. A render that loses text or spaces must fail,

@@ -237,7 +237,7 @@ const Related = [
 		Desc: "The family's furnace: the Schema helper composing this module's NON-MANIFEST config schema, the effects and the wiring.",
 	},
 	{
-		Name: "hook-dsh-core",
+		Name: "lib-dsh-core",
 		Desc: "The family's pure commonalities - the same helpers every hook builds on.",
 	},
 	{
@@ -342,12 +342,12 @@ const Related = [
 				<Concept
 					ID="ccr-family-position"
 					Title="The family position"
-					Diagram={`${Families.CCR} as a hook child of the plugin-dsh-factory service and the hook-dsh-core helpers - no hook children of its own - the first family member hooked on the tools/post-execute waterfall rather than fs/observed: the compression is deliberately VISIBLE at the result layer (it IS the feature), the opposite of the governance family's silence.`}
+					Diagram={`${Families.CCR} as a hook child of the plugin-dsh-factory service and the lib-dsh-core helpers - no hook children of its own - the first family member hooked on the tools/post-execute waterfall rather than fs/observed: the compression is deliberately VISIBLE at the result layer (it IS the feature), the opposite of the governance family's silence.`}
 				>
 					<p>
 						A hook child of the{" "}
 						<strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.CCR}) and the{" "}
-						<strong>hook-dsh-core</strong> helpers. It has NO hook children of its own.
+						<strong>lib-dsh-core</strong> helpers. It has NO hook children of its own.
 					</p>
 					<p>
 						THE FIRST family member hooked on the{" "}

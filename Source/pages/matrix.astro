@@ -72,11 +72,11 @@ const Suites = [
 		Package: "hook-dsh-normalize-fullwidth",
 		Checks: String(Counts.Fullwidth.Classic),
 	},
-	{ Flavor: "File", Package: "hook-dsh-normalize-file", Checks: String(Counts.File.Classic) },
+	{ Flavor: "File", Package: "plugin-dsh-normalize-file", Checks: String(Counts.File.Classic) },
 ];
 
 // The pipeline chain shown in the inspection vector header.
-const Pipeline = ["hook-dsh-core", "normalize-dash", "normalize-quotes", "normalize-ellipsis"];
+const Pipeline = ["lib-dsh-core", "normalize-dash", "normalize-quotes", "normalize-ellipsis"];
 ---
 
 <Base

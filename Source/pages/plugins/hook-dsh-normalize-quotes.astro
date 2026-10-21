@@ -297,7 +297,7 @@ const LedgerStrings = [
 				<Concept
 					ID="quotes-family-position"
 					Title="The family position"
-					Diagram={`${Families.Quotes} as a hook child of the plugin-dsh-factory service and the hook-dsh-core machinery - the second of the six stream normalizer siblings.`}
+					Diagram={`${Families.Quotes} as a hook child of the plugin-dsh-factory service and the lib-dsh-core machinery - the second of the six stream normalizer siblings.`}
 				>
 					<p>
 						A hook child of the{" "}
@@ -309,7 +309,7 @@ const LedgerStrings = [
 								)}
 							>plugin-dsh-factory</a>
 						</strong>{" "}
-						service ({Families.Quotes}) and the <strong>hook-dsh-core</strong> machinery;
+						service ({Families.Quotes}) and the <strong>lib-dsh-core</strong> machinery;
 						the second of the six stream normalizer siblings.
 					</p>
 				</Concept>
@@ -444,12 +444,12 @@ const LedgerStrings = [
 				<Concept
 					ID="quotes-transform"
 					Title="The transform: the core's Quotes map"
-					Diagram="Exactly the core's Quotes map (@playform/hook-dsh-core's Normalize/Quotes), applied per text segment through the core's ReplaceMap - eight entries, each typographic quote code point to its ASCII straight counterpart."
+					Diagram="Exactly the core's Quotes map (@playform/lib-dsh-core's Normalize/Quotes), applied per text segment through the core's ReplaceMap - eight entries, each typographic quote code point to its ASCII straight counterpart."
 				>
 					<p>
 						<strong>The transform</strong> - exactly the core's <code>Quotes</code> map
 						(
-						<a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-core/Source")}>@playform/hook-dsh-core</a>
+						<a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-core/Source")}>@playform/lib-dsh-core</a>
 						's Normalize/Quotes), applied per text segment through the core's{" "}
 						<code>ReplaceMap</code> - eight entries, each typographic quote code point
 						to its ASCII straight counterpart:
@@ -805,8 +805,8 @@ const LedgerStrings = [
 			<div class="grid grid--3">
 				<Card
 					Variant="white"
-					Name="hook-dsh-core"
-					Href="/plugins/hook-dsh-core/"
+					Name="lib-dsh-core"
+					Href="/plugins/lib-dsh-core/"
 					Desc="Supplies the Quotes MAP, the ReplaceMap replacer and the generic Chunk/Block dispatch this flavor is a thin closure over."
 					Muted
 				>
