@@ -1,0 +1,58 @@
+---
+// CabinetDoor: the 1288 x 596 x 16 slab standing 8px in front of the front
+// plane (Design 06 section 4, T04). The top and right faces are clipped
+// parallelograms; the front face carries the printed cover; the transparent
+// hit button covers the face and is the single activation target.
+//
+// The displacement is -(gap + thickness) on x and +(gap + thickness) on y,
+// so the front face lands flush with the page's left edge and on the base
+// plate, and the thickness and the gap show on the top and the right only.
+// The slab is positioned by PageCabinet; the geometry lives in Cabinet.css.
+import DoorCover from "@Component/DoorCover.astro";
+
+interface Props {
+	Code: string;
+	ScreenTitle: string;
+	Claim: string;
+	ModuleCount: number;
+	ScreenIndex: number;
+	ScreenTotal: number;
+	InteriorId: string;
+	Lamps: { Tone: "active" | "pending" | "idle" | "error" | "selected"; Label: string }[];
+}
+
+const {
+	Code,
+	ScreenTitle,
+	Claim,
+	ModuleCount,
+	ScreenIndex,
+	ScreenTotal,
+	InteriorId,
+	Lamps,
+} = Astro.props;
+---
+
+<div class="cabinet-door" data-door-panel>
+	<div class="cabinet-door__top" aria-hidden="true"></div>
+	<div class="cabinet-door__right" aria-hidden="true"></div>
+	<div class="cabinet-door__face">
+		<DoorCover
+			Code={Code}
+			ScreenTitle={ScreenTitle}
+			Claim={Claim}
+			ModuleCount={ModuleCount}
+			ScreenIndex={ScreenIndex}
+			ScreenTotal={ScreenTotal}
+			Lamps={Lamps}
+		/>
+		<button
+			class="cabinet-door__hit"
+			type="button"
+			data-door-open
+			aria-expanded="false"
+			aria-controls={InteriorId}
+			aria-label={`Open the cabinet: ${ScreenTitle}`}
+		></button>
+	</div>
+</div>

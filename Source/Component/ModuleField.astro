@@ -1,0 +1,36 @@
+---
+// ModuleField: the plugin grid inside the cabinet (Design 02, T07).
+//
+// Four columns at the reference width, three at 1024, two at 768, one on
+// the phone. The bay groups are header rails on the same grid; the field
+// is the only scroll surface and it is a labelled, keyboard-reachable
+// region. The top and bottom 24px fades mark the roll.
+import BayHeader from "@Component/BayHeader.astro";
+import ModulePlate from "@Component/ModulePlate.astro";
+import type { Bay } from "@Library/Screens";
+
+interface Props {
+	Bays: Bay[];
+	Label?: string;
+}
+
+const { Bays, Label = "The module field" } = Astro.props;
+---
+
+<div class="module-field" role="group" aria-label={Label} tabindex="0" data-field>
+	<div class="module-field__fade module-field__fade--top" aria-hidden="true"></div>
+	<div class="module-field__grid">
+		{Bays.map((Bay) => {
+			const BayId = `bay-${Bay.Title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+			return (
+				<div class="module-bay" data-bay id={BayId}>
+					<BayHeader Title={Bay.Title} Meta={Bay.Meta} Tone={Bay.Tone} BayId={BayId} />
+					{Bay.Modules.map((Module) => (
+						<ModulePlate Module={Module} Href={`/plugins/${Module.Name}/`} />
+					))}
+				</div>
+			);
+		})}
+	</div>
+	<div class="module-field__fade module-field__fade--bottom" aria-hidden="true"></div>
+</div>

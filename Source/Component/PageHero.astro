@@ -6,13 +6,21 @@
 interface Props {
 	Title: string;
 	Sub?: string;
+	// The heading level. h1 by default (every existing page keeps it); the
+	// registry page passes h2 while its cabinet's lintel carries the h1 and
+	// the old hero coexists with the new cabinet.
+	Level?: "h1" | "h2";
 }
 
-const { Title, Sub } = Astro.props;
+const { Title, Sub, Level = "h1" } = Astro.props;
 ---
 
 <section class="page-hero">
-	<h1 class="page-hero__title">{Title}</h1>
+	{Level === "h1" ? (
+		<h1 class="page-hero__title">{Title}</h1>
+	) : (
+		<h2 class="page-hero__title">{Title}</h2>
+	)}
 	{Sub &&
 		Sub.split("\n").map((Line, Index) =>
 			Index === 1 && Astro.slots.has("sub-1") ? (

@@ -5,11 +5,22 @@ import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import FlavorBadge from "@Component/FlavorBadge.astro";
+import PageCabinet from "@Component/PageCabinet.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import { Counts, Totals, Migration, Families, Versions } from "@Library/Content";
+import { HooksScreen } from "@Library/Screens";
 import { DotSep } from "@Library/FileIcon";
 import { Link, Links } from "@Library/Links";
+
+// The three packages the registry does not carry yet: their legacy cards
+// must not promise an install that 404s (the cabinet's plates carry the
+// amber PENDING lamp and the build-from-source line instead).
+const PublishPending = new Set([
+	"hook-dsh-ccr",
+	"hook-dsh-tool-coach",
+	"hook-dsh-live-containers",
+]);
 
 // The fifteen plugins, each with its @-sentence identity, install snippet
 // and the registry tags that drive the filter/search logic.
@@ -191,6 +202,15 @@ const Registry = [
 	Title="Plugins - DSH Family @ PlayForm"
 	Description="The fifteen plugins of the DeepSeek Harness Plugin Family for PlayForm. Each with its @-sentence identity and its install snippet (the npm install form, pinned at the release version)."
 >
+	<!-- THE CANARY: one full-width Mode A cabinet, built alongside the
+		current registry page. The cabinet is the shell, the door, the lock,
+		the shelf and the fourteen module plates; the page's existing hero,
+		cards and tables stay below until the swap (T13). The skip link lives
+		in the shared layout so it is the page's first focusable element. -->
+	<div class="registry-canary">
+		<PageCabinet Screen={HooksScreen} ScreenIndex={1} ScreenTotal={1} HeadingLevel="h1" />
+	</div>
+
 	<main class="container container--main">
 		<div class="eyebrow-row">
 			<Badge Variant="primary" Dot>
@@ -200,6 +220,7 @@ const Registry = [
 		</div>
 
 		<PageHero
+			Level="h2"
 			Title="Plugins"
 			Sub={`The fifteen TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity. The scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.\nThe install rows use the npm form (npm install @playform/<pkg>@${Versions.Release}). hook-dsh-ccr, hook-dsh-tool-coach, and hook-dsh-live-containers are publish-pending - build those three from source until they land; the /setup/ flow wires them into a profile.`}
 		/>
@@ -321,9 +342,9 @@ const Registry = [
 						NameTone="primary"
 						Sentence={Plugin.Sentence}
 						Desc={Plugin.Desc}
-						Install={Plugin.Install}
+						Install={PublishPending.has(Plugin.Name) ? undefined : Plugin.Install}
 						Tags={Plugin.Tags}
-						Copy={Plugin.Install}
+						Copy={PublishPending.has(Plugin.Name) ? undefined : Plugin.Install}
 					>
 						<Badge slot="badge" Variant="outline">
 							{Plugin.Role}
@@ -345,9 +366,9 @@ const Registry = [
 						NameTone="primary"
 						Sentence={Plugin.Sentence}
 						Desc={Plugin.Desc}
-						Install={Plugin.Install}
+						Install={PublishPending.has(Plugin.Name) ? undefined : Plugin.Install}
 						Tags={Plugin.Tags}
-						Copy={Plugin.Install}
+						Copy={PublishPending.has(Plugin.Name) ? undefined : Plugin.Install}
 					>
 						<Badge slot="badge" Variant="outline">
 							{Plugin.Role}

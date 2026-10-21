@@ -1,0 +1,154 @@
+---
+// PageCabinet: the page-sized instrument cabinet (Design 06, T02-T07).
+//
+// One cabinet: the shell (the front, the top plane, the right wall), the
+// lintel (the h1, the serial, the lamps), the aperture with the black
+// interior (the shelf, the field, the status strip), the stile with the
+// close plate, the base plate, and the door assembly (the slab, the gap,
+// the cover, the lock, the hinge).
+//
+// The door is closed by default on the registry screens. One activation
+// (a click on the door, Enter or Space on its button) turns the lock and
+// opens it; the close plate on the fixed stile closes it; Esc closes it.
+// The state persists per cabinet in sessionStorage and a #hash deep link
+// to a module opens the cabinet that holds it.
+import CabinetDoor from "@Component/CabinetDoor.astro";
+import CabinetShell from "@Component/CabinetShell.astro";
+import ClosePlate from "@Component/ClosePlate.astro";
+import InteriorCavity from "@Component/InteriorCavity.astro";
+import MeterShelf from "@Component/MeterShelf.astro";
+import ModuleField from "@Component/ModuleField.astro";
+import StatusLamp from "@Component/StatusLamp.astro";
+import { Copyright, Versions } from "@Library/Content";
+import type { Screen } from "@Library/Screens";
+
+interface Props {
+	Screen: Screen;
+	ScreenIndex: number;
+	ScreenTotal: number;
+	/** The door's server-rendered default; the registry screens are closed. */
+	DoorOpen?: boolean;
+	/** The lintel heading level: h1 on the page's first screen, h2 after.
+	 *  "p" is the temporary coexistence state while the page still keeps its
+	 *  own h1 (the canary sits beside the current content; the swap promotes
+	 *  the lintel to h1). */
+	HeadingLevel?: "h1" | "h2" | "p";
+	Lamps?: { Tone: "active" | "pending" | "idle" | "error" | "selected"; Label: string }[];
+}
+
+const {
+	Screen,
+	ScreenIndex,
+	ScreenTotal,
+	DoorOpen = false,
+	HeadingLevel = "h1",
+	Lamps = [
+		{ Tone: "active", Label: "ACTIVE" },
+		{ Tone: "active", Label: "VERIFIED" },
+	],
+} = Astro.props;
+
+const Pad = (Value: number) => String(Value).padStart(2, "0");
+const InteriorId = `interior-${Screen.Code.toLowerCase()}`;
+const CabinetId = `cabinet-${Screen.Code.toLowerCase()}`;
+
+// The filter chips are data-driven: the unique tags on the screen's plates,
+// in bay order, plus ALL.
+const Filters = [
+	{ Value: "all", Label: "ALL" },
+	...[...new Set(Screen.Bays.flatMap((Bay) => Bay.Modules.map((Module) => Module.Tags)))].map(
+		(Tag) => ({ Value: Tag, Label: Tag.toUpperCase() }),
+	),
+];
+---
+
+<section
+	class="cabinet"
+	id={CabinetId}
+	data-cabinet
+	data-code={Screen.Code}
+	data-door={DoorOpen ? "open" : "closed"}
+	aria-label={`${Screen.ScreenTitle} cabinet`}
+>
+	<CabinetShell>
+		<header class="cabinet-lintel">
+			<div class="cabinet-lintel__identity">
+				{HeadingLevel === "h1" ? (
+					<h1 class="cabinet-lintel__title">{Screen.Title}</h1>
+				) : HeadingLevel === "h2" ? (
+					<h2 class="cabinet-lintel__title">{Screen.Title}</h2>
+				) : (
+					<p class="cabinet-lintel__title">{Screen.Title}</p>
+				)}
+				<span class="cabinet-lintel__serial">
+					{Screen.Code} / {Screen.ScreenTitle} / REGISTRY {Pad(ScreenIndex)} OF {Pad(ScreenTotal)}
+				</span>
+			</div>
+			<div class="cabinet-lintel__lamps">
+				{Lamps.map((Lamp) => <StatusLamp Tone={Lamp.Tone} Label={Lamp.Label} />)}
+			</div>
+		</header>
+
+		<div class="cabinet-aperture">
+			<InteriorCavity InteriorId={InteriorId} Label={`${Screen.ScreenTitle} interior`}>
+				<MeterShelf slot="shelf" ModuleCount={Screen.ModuleCount} />
+				<ModuleField slot="field" Bays={Screen.Bays} />
+				<div class="cabinet-status" slot="status">
+					<span class="cabinet-status__count" data-field-count aria-live="polite">
+						{Screen.ModuleCount} {Screen.ModuleCount === 1 ? "MODULE" : "MODULES"}
+					</span>
+					<div class="cabinet-filter" role="group" aria-label="Filter the module field">
+						{Filters.map((Filter) => (
+							<button
+								class="cabinet-filter__chip"
+								type="button"
+								data-cabinet-filter={Filter.Value}
+								aria-pressed={Filter.Value === "all" ? "true" : "false"}
+							>
+								{Filter.Label}
+							</button>
+						))}
+					</div>
+					<span class="cabinet-status__position">
+						SCREEN {Pad(ScreenIndex)} / {Pad(ScreenTotal)}
+					</span>
+				</div>
+			</InteriorCavity>
+		</div>
+
+		<div class="cabinet-rail" aria-hidden="true"></div>
+
+		<footer class="cabinet-base">
+			<span class="cabinet-base__spec">
+				DSH FAMILY @ PLAYFORM / {Screen.Code} / REV {Versions.Release}
+			</span>
+			<span class="cabinet-base__position">
+				SCREEN {Pad(ScreenIndex)} / {Pad(ScreenTotal)}
+			</span>
+			<span class="cabinet-base__copy">{Copyright.Line}</span>
+		</footer>
+
+		<div class="cabinet-stile" aria-hidden="true">
+			<span class="cabinet-stile__latch"></span>
+		</div>
+
+		<CabinetDoor
+			Code={Screen.Code}
+			ScreenTitle={Screen.ScreenTitle}
+			Claim={Screen.Claim}
+			ModuleCount={Screen.ModuleCount}
+			ScreenIndex={ScreenIndex}
+			ScreenTotal={ScreenTotal}
+			InteriorId={InteriorId}
+			Lamps={Lamps}
+		/>
+
+		<div class="cabinet-door__hinge" aria-hidden="true"></div>
+
+		<ClosePlate ScreenTitle={Screen.ScreenTitle} />
+	</CabinetShell>
+</section>
+
+<script>
+	import "@Script/Door.mjs";
+</script>

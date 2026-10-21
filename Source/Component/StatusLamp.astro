@@ -1,0 +1,18 @@
+---
+// StatusLamp: the 6px indicator plus its text label (Design 01 section 9).
+// The lamp is never the only signal: the label always travels with the dot,
+// and the label stays in the readable ink (the dot carries the colour).
+interface Props {
+	Tone?: "active" | "pending" | "idle" | "error" | "selected";
+	Label: string;
+	/** The LIVE lamp's slow pulse; it dies under prefers-reduced-motion. */
+	Live?: boolean;
+}
+
+const { Tone = "idle", Label, Live = false } = Astro.props;
+---
+
+<span class="status-lamp" data-tone={Tone} data-live={Live ? "true" : undefined}>
+	<span class="status-lamp__dot" aria-hidden="true"></span>
+	<span class="status-lamp__label">{Label}</span>
+</span>

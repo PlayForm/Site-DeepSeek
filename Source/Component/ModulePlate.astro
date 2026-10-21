@@ -1,0 +1,81 @@
+---
+// ModulePlate: one white faceplate mounted on the black plate (Design 02).
+//
+// The identity strip (the code, the name, the status lamp), the sentence
+// (two lines), the footer (the check count and the Inspect disclosure).
+// The Inspect tray is the module's own reveal: it opens to the full row and
+// carries the evidence, the install command (or the build-from-source line
+// for the three publish-pending packages) and the detail-page link.
+//
+// The plate stays visible above the tray. The disclosure is a real button
+// with aria-expanded / aria-controls; the tray follows it in the DOM.
+import { Linkify } from "@Library/Links";
+import type { Module } from "@Library/Screens";
+import StatusLamp from "@Component/StatusLamp.astro";
+
+interface Props {
+	Module: Module;
+	Href: string;
+}
+
+const { Module, Href } = Astro.props;
+const TrayId = `tray-${Module.Name}`;
+const Checks = Module.Checks > 0 ? `${Module.Checks} CHECKS` : "NO SUITE";
+---
+
+<article
+	class="module-plate"
+	id={`module-${Module.Name}`}
+	data-module
+	data-tags={Module.Tags}
+	data-pending={Module.Pending ? "true" : undefined}
+>
+	<div class="module-plate__identity">
+		<span class="module-plate__code">{Module.Code}</span>
+		<a class="module-plate__name" href={Href} title={Module.Name}>{Module.Name}</a>
+		<span class="module-plate__lamp">
+			<StatusLamp
+				Tone={Module.Pending ? "pending" : "active"}
+				Label={Module.Pending ? "PENDING" : "ACTIVE"}
+			/>
+		</span>
+	</div>
+
+	<p class="module-plate__sentence">{Module.Sentence}</p>
+
+	<div class="module-plate__footer">
+		<span class="module-plate__checks">{Checks}</span>
+		<button
+			class="module-plate__inspect"
+			type="button"
+			data-tray-toggle
+			aria-expanded="false"
+			aria-controls={TrayId}
+		>
+			<span data-tray-label>INSPECT +</span>
+		</button>
+	</div>
+
+	<div class="module-plate__tray" id={TrayId} hidden>
+		<p class="module-plate__desc" set:html={Linkify(Module.Desc)} />
+		{Module.Pending ? (
+			<p class="module-plate__pending">
+				Not on the registry yet. Build it from source; the <a href="/setup/">setup flow</a>
+				wires it into a profile.
+			</p>
+		) : (
+			<div class="module-plate__install">
+				<code><span class="prompt">$</span> {Module.Install}</code>
+				<button
+					class="copy-trigger"
+					type="button"
+					data-copy={Module.Install}
+					aria-label={`Copy ${Module.Install}`}
+				>
+					<span data-copy-label>COPY</span>
+				</button>
+			</div>
+		)}
+		<a class="module-plate__link" href={Href}>Open the {Module.Code} module page</a>
+	</div>
+</article>

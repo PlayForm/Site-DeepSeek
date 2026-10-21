@@ -1,0 +1,55 @@
+---
+// DoorCover: the printed cover on the door's face (Design 02).
+//
+// The category code, the screen title, the claim, the module count and the
+// status lamps at the left; the lock at the right middle. The title is a
+// <p>, never a second heading: the lintel keeps the page's h1. The lower
+// half carries at most a faint calibration grid, and the routing texture
+// sits at 6 percent.
+import DoorLock from "@Component/DoorLock.astro";
+import RoutingTexture from "@Component/RoutingTexture.astro";
+import StatusLamp from "@Component/StatusLamp.astro";
+
+interface Props {
+	Code: string;
+	ScreenTitle: string;
+	Claim: string;
+	ModuleCount: number;
+	ScreenIndex: number;
+	ScreenTotal: number;
+	Lamps: { Tone: "active" | "pending" | "idle" | "error" | "selected"; Label: string }[];
+}
+
+const { Code, ScreenTitle, Claim, ModuleCount, ScreenIndex, ScreenTotal, Lamps } = Astro.props;
+const Pad = (Value: number) => String(Value).padStart(2, "0");
+const GridId = `calibration-grid-${Code.toLowerCase()}`;
+---
+
+<div class="door-cover">
+	<RoutingTexture Variant="cover" />
+
+	<svg class="door-cover__grid" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+		<defs>
+			<pattern id={GridId} width="24" height="24" patternUnits="userSpaceOnUse">
+				<path d="M24 0 H0 V24" fill="none" stroke="currentColor" stroke-width="1"></path>
+			</pattern>
+		</defs>
+		<rect width="1200" height="300" fill={`url(#${GridId})`}></rect>
+	</svg>
+
+	<div class="door-cover__block">
+		<p class="door-cover__eyebrow">{Code} / REGISTRY {Pad(ScreenIndex)} / {Pad(ScreenTotal)}</p>
+		<p class="door-cover__title">{ScreenTitle}</p>
+		<p class="door-cover__claim">{Claim}</p>
+		<div class="door-cover__meta">
+			<span class="door-cover__count">
+				{ModuleCount} {ModuleCount === 1 ? "MODULE" : "MODULES"}
+			</span>
+			<span class="door-cover__lamps">
+				{Lamps.map((Lamp) => <StatusLamp Tone={Lamp.Tone} Label={Lamp.Label} />)}
+			</span>
+		</div>
+	</div>
+
+	<DoorLock />
+</div>

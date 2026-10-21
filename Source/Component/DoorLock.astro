@@ -1,0 +1,15 @@
+---
+// DoorLock: the quarter-turn cylinder on the door's face (Design 01 section 4,
+// decision 2.8). The whole door is the activation target, so the lock itself
+// is decoration: one click on the door turns the cylinder and opens the door
+// (single activation). The close control is the fixed ClosePlate on the stile.
+---
+
+<div class="door-lock" aria-hidden="true">
+	<span class="door-lock__ring"></span>
+	<span class="door-lock__cylinder">
+		<span class="door-lock__keyhole"></span>
+		<span class="door-lock__mark"></span>
+	</span>
+	<span class="door-lock__legend">LOCKED</span>
+</div>

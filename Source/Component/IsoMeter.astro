@@ -1,0 +1,113 @@
+---
+// IsoMeter: one isometric meter body on the shelf (Design 01 section 6).
+//
+// The body's three faces are generated at build time by Library/Iso.ts and
+// emitted as one inline SVG: the front (the lit face), the top (the ambient
+// plane) and the right (the shadow wall), painted right -> front -> top with
+// one line colour. The digits are HTML on the front face, so they are never
+// skewed; the model code is etched on the top plane, the eight ticks sit on
+// the right face, and the body stands on a 6px plinth.
+//
+// The meter is role="img" with a sentence label, and the same value is in
+// text on the front face (the readout) and on the calibration plate.
+import { Faces, Points, type Block, type FaceName } from "@Library/Iso";
+import ApertureTrim from "@Component/ApertureTrim.astro";
+import DigitWheel from "@Component/DigitWheel.astro";
+
+interface MeterWindow {
+	/** The window's label (CLASSIC, EFFECT-TS); only drawn when there are two. */
+	Label: string;
+	/** The digits, one wheel each. */
+	Digits: string;
+	/** The first red wheel index (the release's last two wheels). */
+	RedFrom?: number;
+}
+
+interface Props {
+	/** The plate code etched on the top face (M-01). */
+	Code: string;
+	/** The front face's label (MODULES). */
+	Label: string;
+	/** The role="img" sentence ("M-01 MODULES, 14 modules"). */
+	Sentence: string;
+	Width: number;
+	Height: number;
+	Depth: number;
+	Windows: MeterWindow[];
+}
+
+const { Code, Label, Sentence, Width, Height, Depth, Windows } = Astro.props;
+
+const Body: Block = { X: 0, Y: 0, Z: 0, W: Width, D: Depth, H: Height };
+const Face = (Name: FaceName) =>
+	Points(Faces(Body).find((Candidate) => Candidate.Name === Name)?.Points ?? []);
+
+const Front = Face("front");
+const Top = Face("top");
+const Right = Face("right");
+const BoxWidth = Width + Depth;
+const BoxHeight = Height + Depth + 6;
+
+// The plinth's visible faces: the 6px front band and the right band.
+const PlinthRight = `${Width},${Height} ${Width + Depth},${Height - Depth} ${Width + Depth},${Height - Depth + 6} ${Width},${Height + 6}`;
+
+// The eight ticks on the right face: 45 degree strokes across the wall.
+const Ticks = Array.from({ length: 8 }, (_, Index) => 8 + (Index * (Height - 16)) / 7);
+---
+
+<div class="iso-meter" role="img" aria-label={Sentence} style={`width:${BoxWidth}px`}>
+	<svg
+		class="iso-meter__svg"
+		viewBox={`0 0 ${BoxWidth} ${BoxHeight}`}
+		width={BoxWidth}
+		height={BoxHeight}
+		aria-hidden="true"
+		focusable="false"
+	>
+		<g transform={`translate(0 ${Depth})`}>
+			<polygon class="iso-meter__face iso-meter__face--right" points={Right}></polygon>
+			<polygon class="iso-meter__face iso-meter__face--front" points={Front}></polygon>
+			<polygon class="iso-meter__face iso-meter__face--top" points={Top}></polygon>
+			<polygon class="iso-meter__plinth" points={PlinthRight}></polygon>
+			<rect class="iso-meter__plinth-front" x="0" y={Height} width={Width} height="6"></rect>
+			<g transform={`translate(${Depth + 6} -6) skewX(-45)`}>
+				<text class="iso-meter__code" x="0" y="0">{Code}</text>
+			</g>
+			{Ticks.map((Tick) => (
+				<line
+					class="iso-meter__tick"
+					x1={Width}
+					y1={Depth + Tick}
+					x2={Width + Depth}
+					y2={Tick}
+				></line>
+			))}
+			<rect class="iso-meter__seal" x="4" y={Height + 1} width="4" height="4"></rect>
+		</g>
+	</svg>
+	<div
+		class="iso-meter__face"
+		style={`top:${Depth}px;width:${Width}px;height:${Height}px`}
+		aria-hidden="true"
+	>
+		<span class="iso-meter__label">{Label}</span>
+		<div class="iso-meter__windows">
+			{Windows.map((Window) => (
+				<div class="iso-meter__window">
+					{Windows.length > 1 && <span class="iso-meter__window-label">{Window.Label}</span>}
+					<div class="meter-window-frame">
+						<div class="meter-window">
+							{Window.Digits.split("").map((Char, Index) => (
+								<DigitWheel
+									Char={Char}
+									Red={Window.RedFrom !== undefined && Index >= Window.RedFrom}
+								/>
+							))}
+						</div>
+						<ApertureTrim />
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+</div>

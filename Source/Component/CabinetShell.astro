@@ -1,0 +1,22 @@
+---
+// CabinetShell: the extruded box (Design 06 sections 1-2, T02).
+//
+// The front is a rectangular div (its text is never transformed), the top
+// plane and the right wall are clip-path parallelograms whose diagonals are
+// exactly the depth by the depth, so the angle is 45 degrees at every
+// width. One solid fill per face, one 1px line where the geometry needs it.
+// Paint order: right, front, top; the top-left 72 x 72 triangle stays page
+// field, which is what makes the object read as placed in front of the page.
+//
+// The front's bottom bleeds one depth below the page; the cabinet clips it.
+---
+
+<div class="cabinet-shell">
+	<div class="cabinet-shell__top" aria-hidden="true"></div>
+	<div class="cabinet-shell__right" aria-hidden="true"></div>
+	<div class="cabinet-shell__front">
+		<div class="cabinet-front__face">
+			<slot />
+		</div>
+	</div>
+</div>

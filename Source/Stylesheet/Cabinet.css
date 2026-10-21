@@ -1,0 +1,1650 @@
+/* ============================================================
+	THE INSTRUMENT CABINET - the component surfaces
+	------------------------------------------------------------
+	Design 01 (the design language) and 06 (the geometry canon).
+	The tokens live in Global.css (T00); this file draws the objects.
+
+	Rules that hold everywhere below:
+	- one solid fill per face, one line colour per drawing;
+	- no gradients used as a face fill, no blur, no cast shadow;
+	- the projection is the 45 degree frontal oblique: the front is
+	  rectangular, the depth runs up-right, and only the depth token
+	  changes with the viewport;
+	- the interior is the darkest surface, the module plates are the
+	  lightest, and the field is flat.
+	============================================================ */
+
+/* ---- The cabinet root ---- */
+.cabinet {
+	position: relative;
+	width: 100%;
+	height: calc(100vh - var(--header-height));
+	overflow: hidden;
+	background: var(--cabinet-page);
+	color: var(--cabinet-ink);
+	font-family: var(--font-sans);
+	isolation: isolate;
+}
+
+/* ---- The shell: the top plane, the right wall, the front ---- */
+.cabinet-shell {
+	position: absolute;
+	inset: 0;
+}
+
+.cabinet-shell__top {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: var(--cabinet-depth);
+	background: var(--cabinet-top);
+	clip-path: polygon(
+		0 100%,
+		calc(100% - var(--cabinet-depth)) 100%,
+		100% 0,
+		var(--cabinet-depth) 0
+	);
+}
+
+.cabinet-shell__right {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: var(--cabinet-depth);
+	height: 100%;
+	background: var(--cabinet-right);
+	clip-path: polygon(0 var(--cabinet-depth), 100% 0, 100% 100%, 0 100%);
+}
+
+/* The one rotated 45 degree line at each top-plane edge. */
+.cabinet-shell__top::before,
+.cabinet-shell__top::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	width: calc(var(--cabinet-depth) * 1.4142);
+	height: 1px;
+	background: var(--cabinet-line);
+	transform-origin: left center;
+	transform: rotate(-45deg);
+}
+
+.cabinet-shell__top::before {
+	left: 0;
+}
+
+.cabinet-shell__top::after {
+	left: calc(100% - var(--cabinet-depth));
+}
+
+.cabinet-shell__front {
+	position: absolute;
+	top: var(--cabinet-depth);
+	left: 0;
+	width: calc(100% - var(--cabinet-depth));
+	height: 100%;
+	background: var(--cabinet-front);
+}
+
+/* The front's inset top and right edges. The bottom bleeds off the page. */
+.cabinet-shell__front::before,
+.cabinet-shell__front::after {
+	content: "";
+	position: absolute;
+	z-index: 7;
+	pointer-events: none;
+	background: var(--cabinet-line);
+}
+
+.cabinet-shell__front::before {
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 1px;
+}
+
+.cabinet-shell__front::after {
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 1px;
+}
+
+.cabinet-front__face {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: calc(100% - var(--cabinet-depth));
+	min-height: 0;
+	perspective: 8000px;
+	perspective-origin: 0 50%;
+}
+
+/* ---- The lintel ---- */
+.cabinet-lintel {
+	position: relative;
+	z-index: 3;
+	flex: 0 0 var(--lintel-h);
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 0 24px;
+	background: var(--cabinet-lintel);
+	border-bottom: 1px solid var(--cabinet-line);
+}
+
+.cabinet-lintel__identity {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.cabinet-lintel__title {
+	margin: 0;
+	font-size: 24px;
+	line-height: 28px;
+	font-weight: 640;
+	letter-spacing: -0.02em;
+	color: var(--cabinet-ink);
+	white-space: nowrap;
+}
+
+.cabinet-lintel__serial {
+	font-family: var(--font-mono);
+	font-size: var(--text-plate);
+	line-height: var(--leading-plate);
+	letter-spacing: var(--tracking-plate);
+	text-transform: uppercase;
+	color: var(--cabinet-muted);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.cabinet-lintel__lamps {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin-left: auto;
+}
+
+/* ---- The status lamp ---- */
+.status-lamp {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-family: var(--font-mono);
+	font-size: var(--text-plate);
+	line-height: var(--leading-plate);
+	letter-spacing: var(--tracking-plate);
+	text-transform: uppercase;
+	color: var(--cabinet-muted);
+	white-space: nowrap;
+}
+
+.status-lamp__dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--lamp-grey);
+	flex: 0 0 auto;
+}
+
+.status-lamp[data-tone="active"] .status-lamp__dot {
+	background: var(--lamp-green);
+}
+
+.status-lamp[data-tone="pending"] .status-lamp__dot {
+	background: var(--lamp-amber);
+}
+
+.status-lamp[data-tone="error"] .status-lamp__dot {
+	background: var(--color-pin-red);
+}
+
+.status-lamp[data-tone="selected"] .status-lamp__dot {
+	background: var(--color-primary);
+}
+
+.status-lamp[data-live] .status-lamp__dot {
+	animation: cabinet-pulse 2.4s linear infinite;
+}
+
+@keyframes cabinet-pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.35;
+	}
+}
+
+/* ---- The aperture and the interior ---- */
+.cabinet-aperture {
+	position: relative;
+	z-index: 1;
+	flex: 1 1 auto;
+	min-height: 0;
+	margin: var(--door-reveal) var(--stile-w) 0 var(--door-reveal);
+	background: var(--interior-void);
+	border: 1px solid var(--interior-line);
+}
+
+.cabinet-interior {
+	position: absolute;
+	inset: 0;
+	background: var(--interior-void);
+}
+
+.cabinet-interior__wall {
+	position: absolute;
+	background: var(--interior-wall);
+}
+
+.cabinet-interior__wall--left {
+	top: var(--interior-inset);
+	bottom: 0;
+	left: 0;
+	width: var(--interior-inset);
+}
+
+.cabinet-interior__wall--bottom {
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: var(--interior-inset);
+}
+
+.cabinet-interior__plate {
+	position: absolute;
+	inset: var(--interior-inset);
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) 32px;
+	background: var(--interior-plate);
+	border: 1px solid var(--interior-line);
+	overflow: hidden;
+}
+
+.cabinet-interior__plate > * {
+	min-width: 0;
+}
+
+.cabinet-field-frame {
+	position: relative;
+	display: flex;
+	min-height: 0;
+}
+
+.cabinet-field-plate {
+	position: relative;
+	display: flex;
+	flex: 1 1 auto;
+	min-width: 0;
+	min-height: 0;
+	background: var(--interior-plate);
+}
+
+/* ---- The routing texture ---- */
+.routing-texture {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	color: var(--interior-ink);
+	opacity: 0.1;
+	pointer-events: none;
+}
+
+.routing-texture--cover {
+	color: var(--cabinet-line);
+	opacity: 0.06;
+}
+
+.routing-texture__segments {
+	opacity: 0.55;
+}
+
+.routing-texture__junctions {
+	opacity: 0.8;
+}
+
+.routing-texture__glyphs {
+	opacity: 0.5;
+}
+
+/* The density limits (Design 07 section 3): desktop 4 major routes, 6
+	secondary segments, 2 glyphs; tablet 3 / 4 / 1; mobile 2 faded / 0 / 0.
+	The cabinet stays the primary silhouette. */
+@media (max-width: 1023.98px) {
+	.routing-texture [data-tablet-hide],
+	.routing-texture [data-glyph-square],
+	.routing-texture [data-route="4"] {
+		display: none;
+	}
+}
+
+@media (max-width: 767.98px) {
+	.routing-texture [data-glyph],
+	.routing-texture [data-segment],
+	.routing-texture [data-route="3"] {
+		display: none;
+	}
+}
+
+/* ---- The meter shelf ---- */
+.meter-shelf {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 24px;
+	min-height: 96px;
+	padding: 4px 24px 0;
+	background: var(--interior-plate);
+	border-bottom: 1px solid var(--interior-line);
+}
+
+.calibration-plate {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	margin-left: auto;
+	padding: 8px 12px;
+	background: var(--interior-wall);
+	border: 1px solid var(--interior-line);
+	font-family: var(--font-mono);
+	font-size: var(--text-plate);
+	line-height: 15px;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--interior-muted);
+}
+
+.calibration-plate__title {
+	color: var(--interior-ink);
+}
+
+/* ---- The meter body ---- */
+.iso-meter {
+	position: relative;
+	z-index: 1;
+	flex: 0 0 auto;
+}
+
+.iso-meter__svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.iso-meter__face--front {
+	fill: var(--meter-body);
+	stroke: var(--cabinet-line);
+	stroke-width: 1;
+}
+
+.iso-meter__face--top {
+	fill: var(--meter-top);
+	stroke: var(--cabinet-line);
+	stroke-width: 1;
+}
+
+.iso-meter__face--right {
+	fill: var(--meter-right);
+	stroke: var(--cabinet-line);
+	stroke-width: 1;
+}
+
+.iso-meter__plinth,
+.iso-meter__plinth-front {
+	fill: var(--interior-wall);
+	stroke: var(--interior-line);
+	stroke-width: 1;
+}
+
+.iso-meter__code {
+	fill: var(--meter-label);
+	font-family: var(--font-mono);
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.1em;
+}
+
+.iso-meter__tick {
+	stroke: var(--meter-label);
+	stroke-width: 1;
+	opacity: 0.5;
+}
+
+.iso-meter__seal {
+	fill: var(--meter-label);
+	opacity: 0.6;
+}
+
+.iso-meter__face {
+	position: absolute;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	overflow: hidden;
+}
+
+.iso-meter__label {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	line-height: 12px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--meter-label);
+}
+
+.iso-meter__windows {
+	display: flex;
+	align-items: flex-end;
+	gap: 12px;
+}
+
+.iso-meter__window {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+}
+
+.iso-meter__window-label {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	line-height: 12px;
+	letter-spacing: 0.08em;
+	color: var(--meter-label);
+}
+
+/* The window: the dark aperture, the digit wheels, the four stepped trims. */
+.meter-window-frame {
+	position: relative;
+}
+
+.meter-window {
+	position: relative;
+	display: flex;
+	background: var(--meter-window);
+	box-shadow: inset 0 0 0 1px var(--interior-line);
+}
+
+.digit-wheel {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 34px;
+	font-family: var(--font-mono);
+	font-size: 28px;
+	line-height: 1;
+	font-weight: 500;
+	font-variant-numeric: tabular-nums;
+	color: var(--meter-ink);
+	border-right: 1px solid var(--interior-line);
+}
+
+.digit-wheel:last-child {
+	border-right: 0;
+}
+
+.digit-wheel[data-red="true"] {
+	color: var(--meter-red);
+}
+
+.aperture-trim {
+	position: absolute;
+	inset: -3px -2px;
+	pointer-events: none;
+}
+
+.aperture-trim__cap {
+	position: absolute;
+	right: 1px;
+	left: 1px;
+	height: 2px;
+	background: var(--meter-window);
+}
+
+.aperture-trim__cap--top {
+	top: 0;
+	clip-path: polygon(
+		0 0,
+		100% 0,
+		100% 100%,
+		calc(100% - 4px) 100%,
+		calc(100% - 4px) 50%,
+		4px 50%,
+		4px 100%,
+		0 100%
+	);
+}
+
+.aperture-trim__cap--bottom {
+	bottom: 0;
+	clip-path: polygon(
+		0 0,
+		4px 0,
+		4px 50%,
+		calc(100% - 4px) 50%,
+		calc(100% - 4px) 0,
+		100% 0,
+		100% 100%,
+		0 100%
+	);
+}
+
+.aperture-trim__side {
+	position: absolute;
+	top: 4px;
+	bottom: 4px;
+	left: 0;
+	width: 2px;
+	background: var(--meter-window);
+}
+
+.aperture-trim__tab {
+	position: absolute;
+	bottom: -3px;
+	left: 50%;
+	width: 10px;
+	height: 2px;
+	background: var(--meter-window);
+	transform: translateX(-50%);
+}
+
+/* ---- The module field ---- */
+.module-field {
+	position: relative;
+	z-index: 1;
+	flex: 1 1 auto;
+	min-width: 0;
+	padding: 10px 20px 20px;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-width: none;
+	scrollbar-gutter: stable;
+}
+
+.module-field::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+
+.module-field:focus-visible {
+	outline: 2px solid var(--cabinet-focus);
+	outline-offset: -2px;
+}
+
+.module-field__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: var(--field-gap);
+	max-width: 1248px;
+	margin-inline: auto;
+	align-items: start;
+}
+
+.module-bay {
+	display: contents;
+}
+
+.module-bay.is-empty .bay-header {
+	display: none;
+}
+
+.module-field__fade {
+	position: sticky;
+	z-index: 2;
+	height: 24px;
+	pointer-events: none;
+}
+
+.module-field__fade--top {
+	top: 0;
+	margin-bottom: -24px;
+	background: linear-gradient(to bottom, var(--interior-plate), transparent);
+}
+
+.module-field__fade--bottom {
+	bottom: 0;
+	margin-top: -24px;
+	background: linear-gradient(to top, var(--interior-plate), transparent);
+}
+
+.bay-header {
+	grid-column: 1 / -1;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 2px 0 0;
+	padding-bottom: 6px;
+	border-bottom: 1px solid var(--interior-line);
+}
+
+.bay-header__marker {
+	width: 3px;
+	height: 14px;
+	flex: 0 0 auto;
+	background: var(--color-primary);
+}
+
+.bay-header[data-tone="orange"] .bay-header__marker {
+	background: var(--color-accent-orange);
+}
+
+.bay-header[data-tone="grey"] .bay-header__marker {
+	background: var(--interior-muted);
+}
+
+.bay-header__title {
+	margin: 0;
+	font-family: var(--font-sans);
+	font-size: 18px;
+	line-height: 24px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	color: var(--interior-ink);
+}
+
+.bay-header__meta {
+	margin-left: auto;
+	font-family: var(--font-mono);
+	font-size: var(--text-plate);
+	line-height: var(--leading-plate);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--interior-muted);
+}
+
+.bay-header__toggle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	margin-left: 8px;
+	padding: 0;
+	background: transparent;
+	border: 1px solid var(--interior-line);
+	border-radius: var(--radius-plate);
+	color: var(--interior-ink);
+	font-family: var(--font-mono);
+	font-size: 14px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.bay-header__toggle:hover {
+	border-color: var(--interior-muted);
+}
+
+.module-bay.is-collapsed .module-plate {
+	display: none;
+}
+
+/* ---- The module plate ---- */
+.module-plate {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	height: var(--module-h);
+	padding: 8px 10px;
+	background: var(--module-plate);
+	border: 1px solid var(--module-line);
+	border-radius: var(--radius-plate);
+	color: var(--module-ink);
+}
+
+.module-plate.is-filtered {
+	display: none;
+}
+
+/* On the lit plate the lamp's label keeps the module ink; on the metal it
+	keeps the cabinet's. The dot carries the colour in both places. */
+.module-plate .status-lamp {
+	color: var(--module-muted);
+}
+
+.module-plate.is-open {
+	grid-column: 1 / -1;
+	height: auto;
+}
+
+.module-plate__identity {
+	display: flex;
+	flex: 0 0 30px;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+
+.module-plate__code {
+	flex: 0 0 auto;
+	font-family: var(--font-mono);
+	font-size: var(--text-plate);
+	line-height: var(--leading-plate);
+	letter-spacing: 0.06em;
+	color: var(--module-muted);
+}
+
+.module-plate__name {
+	min-width: 0;
+	overflow: hidden;
+	font-size: 15px;
+	line-height: 18px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	color: var(--module-ink);
+	text-decoration: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.module-plate__name:hover {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.module-plate__lamp {
+	flex: 0 0 auto;
+	margin-left: auto;
+}
+
+.module-plate__sentence {
+	display: -webkit-box;
+	flex: 1 1 auto;
+	margin: 0;
+	overflow: hidden;
+	font-size: 13px;
+	line-height: 20px;
+	color: var(--module-muted);
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+}
+
+.module-plate__footer {
+	display: flex;
+	flex: 0 0 26px;
+	align-items: center;
+	gap: 8px;
+}
+
+.module-plate__checks {
+	font-family: var(--font-mono);
+	font-size: 12px;
+	line-height: 16px;
+	letter-spacing: 0.02em;
+	color: var(--module-muted);
+}
+
+.module-plate__inspect {
+	margin-left: auto;
+	padding: 3px 7px;
+	background: transparent;
+	border: 1px solid var(--module-line);
+	border-radius: var(--radius-plate);
+	color: var(--module-ink);
+	font-family: var(--font-mono);
+	font-size: 13px;
+	line-height: 18px;
+	letter-spacing: 0.04em;
+	cursor: pointer;
+}
+
+.module-plate__inspect:hover {
+	border-color: var(--module-ink);
+}
+
+/* The tray: the module's own reveal, dark against the white plate. */
+.module-plate__tray {
+	display: block;
+	margin-top: 8px;
+	padding: 12px;
+	background: var(--interior-void);
+	border: 1px solid var(--interior-line);
+	border-radius: var(--radius-plate);
+	color: var(--interior-ink);
+}
+
+.module-plate__tray[hidden] {
+	display: none;
+}
+
+.module-plate__desc {
+	margin: 0;
+	font-size: 13px;
+	line-height: 20px;
+	color: var(--interior-ink);
+}
+
+.module-plate__tray a {
+	color: var(--cabinet-focus);
+}
+
+.module-plate__pending {
+	margin: 8px 0 0;
+	font-size: 13px;
+	line-height: 20px;
+	color: var(--lamp-amber-lit);
+}
+
+.module-plate__install {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 10px;
+	padding: 6px 8px;
+	background: var(--interior-plate);
+	border: 1px solid var(--interior-line);
+	border-radius: var(--radius-plate);
+}
+
+.module-plate__install code {
+	min-width: 0;
+	overflow: hidden;
+	font-family: var(--font-mono);
+	font-size: 12px;
+	line-height: 18px;
+	color: var(--interior-ink);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.module-plate__install .copy-trigger {
+	flex: 0 0 auto;
+	color: var(--interior-ink);
+	border-color: var(--interior-line);
+	font-size: 13px;
+	line-height: 18px;
+}
+
+.module-plate__link {
+	display: inline-block;
+	margin-top: 10px;
+	font-size: 13px;
+	line-height: 20px;
+}
+
+/* ---- The field gauge ---- */
+.field-gauge {
+	position: absolute;
+	z-index: 3;
+	top: 10px;
+	right: 4px;
+	bottom: 10px;
+	width: 3px;
+	background: var(--interior-line);
+	pointer-events: none;
+}
+
+.field-gauge__thumb {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	min-height: 12px;
+	background: var(--interior-muted);
+}
+
+/* ---- The status strip ---- */
+.cabinet-status {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	height: 32px;
+	padding: 0 12px;
+	background: var(--interior-plate);
+	border-top: 1px solid var(--interior-line);
+	font-family: var(--font-mono);
+	font-size: 13px;
+	line-height: 18px;
+	letter-spacing: 0.02em;
+	color: var(--interior-muted);
+}
+
+.cabinet-status__count {
+	color: var(--interior-ink);
+	white-space: nowrap;
+}
+
+.cabinet-status__position {
+	margin-left: auto;
+	font-size: var(--text-plate);
+	letter-spacing: 0.06em;
+	white-space: nowrap;
+}
+
+.cabinet-filter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	min-width: 0;
+}
+
+.cabinet-filter__chip {
+	padding: 2px 7px;
+	background: transparent;
+	border: 1px solid var(--interior-line);
+	border-radius: var(--radius-chip);
+	color: var(--interior-muted);
+	font-family: var(--font-mono);
+	font-size: 13px;
+	line-height: 18px;
+	letter-spacing: 0.02em;
+	cursor: pointer;
+}
+
+.cabinet-filter__chip:hover {
+	color: var(--interior-ink);
+	border-color: var(--interior-muted);
+}
+
+.cabinet-filter__chip[aria-pressed="true"] {
+	border-color: var(--color-primary);
+	color: var(--interior-ink);
+	background: color-mix(in srgb, var(--color-primary) 22%, transparent);
+}
+
+/* ---- The rail, the base plate, the stile ---- */
+.cabinet-rail {
+	flex: 0 0 var(--door-reveal);
+	background: var(--cabinet-front);
+}
+
+.cabinet-base {
+	display: flex;
+	flex: 0 0 var(--base-h);
+	align-items: center;
+	gap: 16px;
+	padding: 0 24px;
+	background: var(--cabinet-lintel);
+	border-top: 1px solid var(--cabinet-line);
+	font-family: var(--font-mono);
+	font-size: var(--text-plate);
+	line-height: var(--leading-plate);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--cabinet-muted);
+}
+
+.cabinet-base__spec {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.cabinet-base__position {
+	margin-left: auto;
+	white-space: nowrap;
+}
+
+.cabinet-base__copy {
+	white-space: nowrap;
+}
+
+.cabinet-stile {
+	position: absolute;
+	z-index: 2;
+	top: var(--lintel-h);
+	right: 0;
+	bottom: var(--base-h);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--stile-w);
+	background: var(--cabinet-stile);
+	border-left: 1px solid var(--cabinet-line);
+}
+
+.cabinet-stile__latch {
+	width: 6px;
+	height: 28px;
+	border: 1px solid var(--cabinet-line);
+	border-radius: 3px;
+}
+
+/* ---- The close plate: on the fixed stile, open state only ---- */
+.cabinet-close {
+	position: absolute;
+	z-index: 6;
+	top: 50%;
+	right: 0;
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: var(--stile-w);
+	height: 72px;
+	padding: 0;
+	background: var(--cabinet-front);
+	border: 1px solid var(--cabinet-line);
+	color: var(--cabinet-ink);
+	font-family: var(--font-mono);
+	font-size: 13px;
+	letter-spacing: 0.08em;
+	cursor: pointer;
+	transform: translateY(-50%);
+}
+
+.cabinet[data-door="open"] .cabinet-close {
+	display: flex;
+}
+
+.cabinet-close:hover {
+	background: var(--cabinet-lintel);
+}
+
+/* ---- The door assembly ---- */
+.cabinet-door {
+	position: absolute;
+	z-index: 5;
+	top: calc(var(--lintel-h) + var(--door-reveal) + var(--door-gap));
+	left: 0;
+	width: calc(100% - var(--door-reveal) - var(--stile-w) + var(--door-thickness));
+	height: calc(
+		100% - var(--lintel-h) - var(--door-reveal) - var(--door-reveal) -
+			var(--base-h) + var(--door-thickness)
+	);
+	transform: rotateY(0deg);
+	transform-origin: var(--door-gap) 50%;
+	transition:
+		transform var(--duration-swing) var(--ease-snap),
+		visibility 0s;
+	will-change: transform;
+}
+
+.cabinet-door.is-open {
+	visibility: hidden;
+	transform: rotateY(-88deg);
+	transition:
+		transform var(--duration-swing) var(--ease-snap),
+		visibility 0s var(--duration-swing);
+}
+
+.cabinet-door__top {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: var(--door-thickness);
+	background: var(--cabinet-top);
+	clip-path: polygon(
+		0 100%,
+		calc(100% - var(--door-thickness)) 100%,
+		100% 0,
+		var(--door-thickness) 0
+	);
+}
+
+.cabinet-door__right {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: var(--door-thickness);
+	height: 100%;
+	background: var(--cabinet-right);
+	clip-path: polygon(
+		0 var(--door-thickness),
+		100% 0,
+		100% calc(100% - var(--door-thickness)),
+		0 100%
+	);
+}
+
+.cabinet-door__face {
+	position: absolute;
+	top: var(--door-thickness);
+	left: 0;
+	width: calc(100% - var(--door-thickness));
+	height: calc(100% - var(--door-thickness));
+	overflow: hidden;
+	background: var(--cabinet-front);
+}
+
+/* The focus ring is drawn on the door's outline, not the hit button. */
+.cabinet-door__hit {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+}
+
+.cabinet-door__hit:focus-visible {
+	outline: none;
+}
+
+.cabinet-door:has(.cabinet-door__hit:focus-visible) .cabinet-door__face {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 3px;
+	border-radius: 6px;
+}
+
+/* The static hinge edge at rest-open: two knuckles and the pin line. */
+.cabinet-door__hinge {
+	position: absolute;
+	z-index: 4;
+	top: calc(var(--lintel-h) + var(--door-reveal) + var(--door-gap));
+	left: 0;
+	display: none;
+	width: var(--door-thickness);
+	height: calc(100% - var(--lintel-h) - var(--door-reveal) - var(--door-reveal) - var(--base-h));
+	background: var(--cabinet-right);
+	border-right: 1px solid var(--cabinet-line);
+}
+
+.cabinet[data-door="open"] .cabinet-door__hinge {
+	display: block;
+}
+
+.cabinet-door__hinge::before,
+.cabinet-door__hinge::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	width: 10px;
+	height: 10px;
+	background: var(--cabinet-top);
+	border: 1px solid var(--cabinet-line);
+	border-radius: 50%;
+	transform: translateX(-50%);
+}
+
+.cabinet-door__hinge::before {
+	top: 18%;
+}
+
+.cabinet-door__hinge::after {
+	bottom: 18%;
+}
+
+/* The flat fallback for an environment without 3D transforms. */
+@supports not (transform: rotateY(-88deg)) {
+	.cabinet-door.is-open {
+		transform: scaleX(0.02);
+		transform-origin: left center;
+	}
+}
+
+/* ---- The printed cover ---- */
+.door-cover {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	padding: 56px 64px;
+	overflow: hidden;
+	background: var(--cabinet-front);
+	color: var(--cabinet-ink);
+}
+
+.door-cover__grid {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 50%;
+	z-index: 0;
+	color: var(--cabinet-line);
+	opacity: 0.06;
+	pointer-events: none;
+}
+
+.door-cover__block {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	max-width: 760px;
+}
+
+.door-cover__eyebrow {
+	margin: 0;
+	font-family: var(--font-mono);
+	font-size: var(--text-plate);
+	line-height: var(--leading-plate);
+	letter-spacing: var(--tracking-plate);
+	text-transform: uppercase;
+	color: var(--cabinet-muted);
+}
+
+.door-cover__title {
+	margin: 0;
+	font-size: clamp(2rem, 3.4vw, 3.25rem);
+	line-height: 1.02;
+	font-weight: 640;
+	letter-spacing: -0.035em;
+	color: var(--cabinet-ink);
+}
+
+.door-cover__claim {
+	max-width: 640px;
+	margin: 0;
+	font-size: 16px;
+	line-height: 26px;
+	color: var(--cabinet-muted);
+}
+
+.door-cover__meta {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	flex-wrap: wrap;
+}
+
+.door-cover__count {
+	font-family: var(--font-mono);
+	font-size: 13px;
+	line-height: 18px;
+	letter-spacing: 0.08em;
+	color: var(--cabinet-ink);
+}
+
+.door-cover__lamps {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+/* ---- The lock ---- */
+.door-lock {
+	position: absolute;
+	z-index: 2;
+	top: 50%;
+	right: 64px;
+	display: grid;
+	place-items: center;
+	width: 72px;
+	height: 72px;
+	background: var(--cabinet-lintel);
+	border: 1px solid var(--cabinet-line);
+	border-radius: 50%;
+	transform: translateY(-50%);
+}
+
+.door-lock__ring {
+	position: absolute;
+	inset: 9px;
+	border: 1px solid var(--cabinet-line);
+	border-radius: 50%;
+	opacity: 0.45;
+}
+
+.door-lock__cylinder {
+	position: relative;
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	background: var(--cabinet-front);
+	border: 1px solid var(--cabinet-line);
+	border-radius: 50%;
+	transition: transform var(--duration-lock) var(--ease-crisp);
+}
+
+.cabinet[data-door="open"] .door-lock__cylinder {
+	transform: rotate(90deg);
+}
+
+.door-lock__keyhole {
+	position: relative;
+	width: 4px;
+	height: 13px;
+	background: var(--cabinet-line);
+	border-radius: 2px 2px 0 0;
+}
+
+.door-lock__keyhole::after {
+	content: "";
+	position: absolute;
+	bottom: -1px;
+	left: 50%;
+	width: 7px;
+	height: 7px;
+	background: var(--cabinet-line);
+	border-radius: 50%;
+	transform: translateX(-50%);
+}
+
+.door-lock__mark {
+	position: absolute;
+	top: 2px;
+	left: 50%;
+	width: 2px;
+	height: 7px;
+	background: var(--color-primary);
+	transform: translateX(-50%);
+}
+
+.door-lock__legend {
+	position: absolute;
+	bottom: 3px;
+	padding: 0 2px;
+	background: var(--cabinet-lintel);
+	font-family: var(--font-mono);
+	font-size: 11px;
+	line-height: 12px;
+	letter-spacing: 0.14em;
+	color: var(--cabinet-muted);
+}
+
+/* ---- The skip link (Ely's .skip pattern) ---- */
+.skip {
+	position: absolute;
+	z-index: 100;
+	top: 8px;
+	left: 8px;
+	padding: 8px 12px;
+	background: var(--color-primary-container);
+	border-radius: var(--radius-inset);
+	color: #ffffff;
+	font-family: var(--font-mono);
+	font-size: 13px;
+	line-height: 18px;
+	transform: translateY(-200%);
+}
+
+.skip:focus {
+	transform: none;
+}
+
+/* The canary's placement: full-bleed under the fixed header. */
+.registry-canary {
+	margin-top: calc(-1 * var(--space-xl));
+	margin-bottom: var(--space-2xl);
+}
+
+/* Without JavaScript the door cannot open, so the interior is revealed
+	instead: the cover is hidden and the black plate shows in place. */
+.no-js .cabinet-door {
+	display: none;
+}
+
+.no-js .cabinet-close {
+	display: none;
+}
+
+/* ---- The responsive field columns (06 section 8) ----
+	The column count follows the plate's real width (auto-fill with a 260px
+	minimum): 4 columns at the reference, 3 at 1024, 2 at 768, 1 on the
+	phone. The mobile rule is a distinct selector so the build's selector
+	combiner cannot collapse it into the base rule. */
+@media (max-width: 1399.98px) {
+	/* The calibration plate is supplementary: it steps aside before the
+		three meters are allowed to wrap. */
+	.calibration-plate {
+		display: none;
+	}
+}
+
+@media (max-width: 1279.98px) {
+	.meter-shelf {
+		gap: 12px;
+		padding-inline: 16px;
+	}
+}
+
+@media (max-width: 767.98px) {
+	.module-field .module-field__grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* ---- The phone: the flat cabinet, the cover band, the field in flow ---- */
+@media (max-width: 767.98px) {
+	.cabinet {
+		height: auto;
+		overflow: visible;
+	}
+
+	.cabinet-shell {
+		position: relative;
+		inset: auto;
+	}
+
+	.cabinet-shell__top,
+	.cabinet-shell__right {
+		display: none;
+	}
+
+	.cabinet-shell__front {
+		position: relative;
+		top: auto;
+		left: auto;
+		width: 100%;
+		height: auto;
+	}
+
+	.cabinet-shell__front::before,
+	.cabinet-shell__front::after {
+		display: none;
+	}
+
+	.cabinet-front__face {
+		height: auto;
+		perspective: none;
+	}
+
+	.cabinet-lintel {
+		flex-basis: auto;
+		height: var(--lintel-h);
+		padding: 0 12px;
+	}
+
+	.cabinet-lintel__title {
+		font-size: 20px;
+		line-height: 24px;
+	}
+
+	.cabinet-lintel__serial {
+		font-size: 10px;
+	}
+
+	.cabinet-lintel__lamps {
+		display: none;
+	}
+
+	.cabinet-aperture {
+		flex: none;
+		margin: 0 var(--stile-w) 0 0;
+		border-left: 0;
+	}
+
+	.cabinet-rail {
+		display: none;
+	}
+
+	.cabinet-base {
+		flex-basis: auto;
+		height: var(--base-h);
+		padding: 0 12px;
+	}
+
+	.cabinet-base__copy {
+		display: none;
+	}
+
+	.cabinet-stile {
+		top: var(--lintel-h);
+		bottom: var(--base-h);
+	}
+
+	.cabinet-stile__latch {
+		display: none;
+	}
+
+	.cabinet-interior {
+		position: relative;
+		inset: auto;
+	}
+
+	.cabinet-interior__wall {
+		display: none;
+	}
+
+	.cabinet-interior__plate {
+		position: relative;
+		inset: auto;
+		margin: var(--interior-inset);
+		grid-template-rows: auto auto auto;
+		overflow: visible;
+	}
+
+	.cabinet-field-frame,
+	.cabinet-field-plate {
+		display: block;
+	}
+
+	.module-field {
+		overflow: visible;
+		padding: 8px 10px 12px;
+	}
+
+	.module-field__fade,
+	.field-gauge {
+		display: none;
+	}
+
+	.module-plate {
+		height: auto;
+		min-height: var(--module-h);
+	}
+
+	.module-plate__sentence {
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+	}
+
+	.cabinet-status {
+		height: auto;
+		min-height: 32px;
+		flex-wrap: wrap;
+		padding: 6px 10px;
+	}
+
+	.cabinet-status__position {
+		display: none;
+	}
+
+	/* The higher-specificity selector keeps this rule ahead of the
+		1279px shelf rule after the build reorders the media blocks. */
+	.cabinet .meter-shelf {
+		min-height: 0;
+		padding: 10px 2px 8px;
+		overflow-x: auto;
+		scrollbar-width: thin;
+	}
+
+	.cabinet-close {
+		top: calc(var(--lintel-h) + 8px);
+		height: 64px;
+		transform: none;
+	}
+
+	.cabinet-close__label {
+		writing-mode: vertical-rl;
+	}
+
+	/* The door is no longer the page's cover: a 240px band over the top of
+		the field, opening with a height reveal (06 section 8). */
+	.cabinet-door {
+		position: absolute;
+		top: var(--mobile-field-top, var(--lintel-h));
+		left: 0;
+		width: 100%;
+		height: 240px;
+		overflow: hidden;
+		transform: none !important;
+		transform-origin: 0 0;
+		visibility: visible !important;
+		transition: height var(--duration-swing) var(--ease-snap);
+		will-change: height;
+	}
+
+	.cabinet-door.is-open {
+		height: 0;
+		visibility: visible !important;
+	}
+
+	.cabinet-door__top,
+	.cabinet-door__right,
+	.cabinet-door__hinge {
+		display: none;
+	}
+
+	.cabinet-door__face {
+		position: relative;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.cabinet-door.is-open .cabinet-door__hit {
+		visibility: hidden;
+	}
+
+	.door-cover {
+		padding: 20px;
+	}
+
+	.door-cover__block {
+		max-width: calc(100% - 84px);
+		gap: 10px;
+	}
+
+	.door-cover__title {
+		font-size: 2rem;
+	}
+
+	.door-cover__claim {
+		font-size: 14px;
+		line-height: 21px;
+	}
+
+	.door-lock {
+		right: 20px;
+		width: 56px;
+		height: 56px;
+	}
+
+	.door-lock__cylinder {
+		width: 34px;
+		height: 34px;
+	}
+
+	.door-lock__legend {
+		font-size: 8px;
+	}
+}
+
+/* ---- Reduced motion: no swing, no turn, no tray animation ---- */
+@media (prefers-reduced-motion: reduce) {
+	.cabinet-door,
+	.cabinet-door.is-open {
+		transition: none !important;
+	}
+
+	.door-lock__cylinder {
+		transition: none !important;
+	}
+}

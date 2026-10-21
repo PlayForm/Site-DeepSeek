@@ -1,0 +1,50 @@
+---
+// RoutingTexture: the etched network on the plate and the cover (Design 01
+// section 5, 02). It is decoration only: aria-hidden, 8-12 percent ink on
+// the plate and 6 percent on the cover, and never a carrier of meaning.
+//
+// The density follows the review's limits: 4 major routes, 6 secondary
+// segments and 3 glyphs on the desktop; the extra routes drop at 1024 and
+// the glyphs at 768, so the cabinet stays the primary silhouette.
+interface Props {
+	Variant?: "plate" | "cover";
+}
+
+const { Variant = "plate" } = Astro.props;
+---
+
+<svg
+	class={`routing-texture routing-texture--${Variant}`}
+	viewBox="0 0 1200 800"
+	preserveAspectRatio="xMidYMid slice"
+	fill="none"
+	aria-hidden="true"
+	focusable="false"
+>
+	<g class="routing-texture__routes" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke">
+		<path data-route="1" d="M0 600 L200 400 L200 260 L340 120 L760 120"></path>
+		<path data-route="2" d="M80 800 L80 700 L180 600 L520 600 L700 420 L1080 420"></path>
+		<path data-route="3" d="M340 800 L340 700 L520 520 L900 520 L1040 380"></path>
+		<path data-route="4" d="M960 800 L960 640 L1120 480"></path>
+	</g>
+	<g class="routing-texture__junctions" fill="currentColor">
+		<circle cx="200" cy="400" r="2"></circle>
+		<circle cx="340" cy="120" r="2"></circle>
+		<circle cx="520" cy="600" r="2"></circle>
+		<circle cx="900" cy="520" r="2"></circle>
+	</g>
+	<g class="routing-texture__segments" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke">
+		<path data-segment d="M420 240 L500 160"></path>
+		<path data-segment d="M620 320 L700 240"></path>
+		<path data-segment data-tablet-hide d="M760 620 L820 560"></path>
+		<path data-segment d="M1040 220 L1100 160"></path>
+		<path data-segment data-tablet-hide d="M260 520 L320 460"></path>
+		<path data-segment d="M880 300 L940 240"></path>
+	</g>
+	<g class="routing-texture__glyphs" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke">
+		<circle data-glyph cx="1080" cy="180" r="26"></circle>
+		<circle data-glyph cx="1080" cy="180" r="10"></circle>
+		<path data-glyph data-glyph-square d="M120 200 h48 v48 h-48 z"></path>
+		<path data-glyph data-glyph-square d="M120 200 l48 48"></path>
+	</g>
+</svg>

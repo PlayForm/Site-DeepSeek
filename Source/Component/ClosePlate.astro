@@ -1,0 +1,20 @@
+---
+// ClosePlate: the fixed close control on the stile (Design 01 section 4,
+// decision 2.8). It never moves with the door, so the control that closes
+// the cabinet is exactly where it was when the door opened. Visible only
+// in the open state.
+interface Props {
+	ScreenTitle: string;
+}
+
+const { ScreenTitle } = Astro.props;
+---
+
+<button
+	class="cabinet-close"
+	type="button"
+	data-door-close
+	aria-label={`Close the cabinet: ${ScreenTitle}`}
+>
+	<span class="cabinet-close__label">CLOSE</span>
+</button>

@@ -184,6 +184,12 @@ const JSONLd = {
 		<ClientRouter />
 	</Head>
 	<body>
+		<!-- The registry's skip link: the FIRST focusable element on the page,
+			before the fixed header. It exists only where the cabinet's
+			interior does, so every other page is unchanged. -->
+		{/^\/plugins\/?$/.test(Path) && (
+			<a class="skip" href="#interior-cab-01">Skip to the interior</a>
+		)}
 		<!-- Fixed header -->
 		<header class="site-header">
 			<div class="site-header__inner">

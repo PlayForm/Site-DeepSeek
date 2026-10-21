@@ -1,0 +1,37 @@
+---
+// BayHeader: the bay's header rail on the interior plate (Design 02).
+// A 1px rule with a 3px marker, the title, the mono meta and the right lamp.
+// The rail is also the bay's collapse control: the four bay groups are
+// collapsible sections, expanded by default (Design 08 section 2). The
+// toggle is a real button with aria-expanded / aria-controls; its glyph is
+// decorative and its accessible name says Collapse / Expand.
+import StatusLamp from "@Component/StatusLamp.astro";
+
+interface Props {
+	Title: string;
+	Meta?: string;
+	Tone?: "primary" | "orange" | "grey";
+	Lamp?: { Tone: "active" | "pending" | "idle" | "error" | "selected"; Label: string } | null;
+	/** The id of the bay group the toggle collapses (the plates' wrapper). */
+	BayId: string;
+}
+
+const { Title, Meta, Tone = "primary", Lamp = null, BayId } = Astro.props;
+---
+
+<div class="bay-header" data-tone={Tone}>
+	<span class="bay-header__marker" aria-hidden="true"></span>
+	<h2 class="bay-header__title">{Title}</h2>
+	{Meta && <span class="bay-header__meta">{Meta}</span>}
+	{Lamp && <span class="bay-header__lamp"><StatusLamp Tone={Lamp.Tone} Label={Lamp.Label} /></span>}
+	<button
+		class="bay-header__toggle"
+		type="button"
+		data-bay-toggle
+		aria-expanded="true"
+		aria-controls={BayId}
+		aria-label={`Collapse ${Title}`}
+	>
+		<span class="bay-header__glyph" aria-hidden="true">-</span>
+	</button>
+</div>

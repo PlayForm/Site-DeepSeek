@@ -1,0 +1,18 @@
+---
+// FieldPlate: the flat, frontal mounting plate under the module field
+// (Design 03, 06 section 5). The plate is NOT projected: the instruments
+// around it are isometric, the reading surface is square to the reader.
+// The routing texture sits on it at 8-12 percent ink and carries no meaning.
+import RoutingTexture from "@Component/RoutingTexture.astro";
+
+interface Props {
+	Label?: string;
+}
+
+const { Label = "The module field" } = Astro.props;
+---
+
+<div class="cabinet-field-plate" data-plate-label={Label}>
+	<RoutingTexture Variant="plate" />
+	<slot />
+</div>

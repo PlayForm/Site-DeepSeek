@@ -1,0 +1,14 @@
+---
+// DigitWheel: one mechanical digit in the meter's window (Design 01 section 6).
+// A 26 x 34 cell, a 1px divider, tabular numerals. The wheel strip is
+// aria-hidden: the meter's role="img" label carries the value in a sentence.
+interface Props {
+	Char: string;
+	/** The red wheel: the release meter's last two wheels only. */
+	Red?: boolean;
+}
+
+const { Char, Red = false } = Astro.props;
+---
+
+<span class="digit-wheel" data-red={Red ? "true" : undefined} aria-hidden="true">{Char}</span>

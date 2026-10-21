@@ -19,6 +19,7 @@
 		"Run": "astro dev --host",
 		"Diagrams": "node Source/Content/Mermaid/Render.mjs",
 		"Drift": "node Scripts/Drift-Guard.mjs",
+		"Test": "node Source/Library/Iso.test.mjs",
 		"prepublishOnly": "astro build"
 	},
 	"dependencies": {

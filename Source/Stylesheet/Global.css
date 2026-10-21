@@ -11,6 +11,11 @@
 	  hairline borders only - no shadows, no gradients, no blur.
 	============================================================ */
 
+/* The instrument cabinet's own surfaces and geometry. The file holds no
+	selector that touches an existing page class: the materials land first,
+	the components follow (T00-T07). */
+@import "./Cabinet.css";
+
 :root {
 	/* ---- Color: surfaces (white / near-white family) ----
 		Level 0 canvas is pure white; trays, table headers and terminal
@@ -3783,5 +3788,182 @@ svg.flowchart.diagram-nav--active .edgePaths path:not([data-related]) {
 		animation-iteration-count: 1 !important;
 		transition-duration: 1ms !important;
 		scroll-behavior: auto !important;
+	}
+}
+
+/* ============================================================
+	T00 - THE CABINET MATERIALS AND THE DEPTH PRIMITIVES
+	------------------------------------------------------------
+	The one frontal-oblique instrument cabinet (Design 01 section 3,
+	06 section 1). The tokens are additive: no existing selector reads
+	them, so the current pages render exactly as before.
+
+	The projection is project(x, y, z) = (x + z, y - z): one pixel of
+	depth moves one pixel right and one pixel up, so the 45 degree
+	angle holds at every width and only --cabinet-depth changes.
+	The depth scale is 72 / 48 / 24 / 0 across the responsive steps
+	(06 section 8); --door-reveal is the projected door displacement
+	(gap + thickness), which also keeps the door's left edge flush
+	with the page at every step.
+
+	Materials: three shell tones and one line, the black interior,
+	the white module plates, the meter bodies, the lamps. The dark
+	theme is a material inversion, not a hue swap: the metal darkens,
+	the lit plates dim to paper grey, and the interior stays the
+	darkest surface in the scene.
+	============================================================ */
+
+:root {
+	/* ---- The shell (the lit instrument face and its two planes) ---- */
+	--cabinet-front: #ffffff;
+	--cabinet-top: #eef2f8;
+	--cabinet-right: #c8d2e2;
+	--cabinet-line: #1b2433;
+	--cabinet-page: #e9edf3;
+	--cabinet-lintel: #f7f9fd;
+	--cabinet-stile: #ffffff;
+	--cabinet-gap: #06090f;
+	/* The ink on the metal: dark in the light theme, light in the dark
+		theme. The module ink stays dark because the plates stay lit. */
+	--cabinet-ink: #10151f;
+	--cabinet-muted: #4a5568;
+
+	/* ---- The interior (the cavity, the plate, the walls) ---- */
+	--interior-void: #06090f;
+	--interior-plate: #0b1018;
+	--interior-wall: #101724;
+	--interior-line: #26303f;
+	--interior-ink: #e6ecf5;
+	--interior-muted: #9aa8bc;
+
+	/* ---- The module faceplates ---- */
+	--module-plate: #ffffff;
+	--module-ink: #10151f;
+	--module-muted: #4a5568;
+	--module-line: #c9d2e0;
+
+	/* ---- The meters ---- */
+	--meter-body: #f4f7fb;
+	--meter-top: #fbfdff;
+	--meter-right: #d7deea;
+	--meter-window: #0a0f16;
+	--meter-ink: #dfe8f2;
+	--meter-red: #b3261e;
+	--meter-label: #475569;
+
+	/* ---- The status lamps (the dot; the label stays --module-muted) ---- */
+	--lamp-green: #15803d;
+	--lamp-amber: #b45309;
+	--lamp-grey: #8a97a8;
+	/* The amber on a dark surface (the module tray is dark in both themes). */
+	--lamp-amber-lit: #f5c26b;
+
+	/* ---- The geometry: the reference viewport is 1440 x 900 ----
+		front (0,72)-(1368,916); back (72,0)-(1440,844). Only the depth
+		changes across the responsive steps. */
+	--cabinet-depth: 72px;
+	--door-thickness: 16px;
+	--door-gap: 8px;
+	--door-reveal: calc(var(--door-gap) + var(--door-thickness));
+	--lintel-h: 88px;
+	--stile-w: 56px;
+	--base-h: 40px;
+	--field-gap: 12px;
+	--module-h: 116px;
+	--iso-k: 1;
+	--interior-inset: 20px;
+
+	/* ---- The instrument radii: 0 shell, 2 plate, 4 inset, 999 chip ---- */
+	--radius-shell: 0px;
+	--radius-plate: 2px;
+	--radius-inset: 4px;
+	--radius-chip: 999px;
+
+	/* ---- The motion (01 section 11) ---- */
+	--duration-lock: 160ms;
+	--duration-swing: 320ms;
+	--duration-tray: 220ms;
+	--duration-screen: 420ms;
+
+	/* ---- The type: 11px ONLY for the short mono plate labels ---- */
+	--text-plate: 11px;
+	--leading-plate: 14px;
+	--tracking-plate: 0.08em;
+	--text-readout: 12px;
+	--text-digit: 30px;
+
+	/* ---- The focus ring on the dark interior ---- */
+	--cabinet-focus: #8ab0ff;
+}
+
+/* The dark theme: the material inversion (01 section 3, decision 2.7). */
+:root[data-theme="dark"] {
+	--cabinet-front: #151b26;
+	--cabinet-top: #1d2534;
+	--cabinet-right: #242e40;
+	--cabinet-line: #8a97a8;
+	--cabinet-page: #0b0f19;
+	--cabinet-lintel: #1a2230;
+	--cabinet-stile: #151b26;
+	--cabinet-gap: #05070c;
+	--cabinet-ink: #e6ecf5;
+	--cabinet-muted: #9aa8bc;
+
+	--interior-void: #05070c;
+	--interior-plate: #0b1018;
+	--interior-wall: #101724;
+	--interior-line: #2a3547;
+	--interior-ink: #e6ecf5;
+	--interior-muted: #9aa8bc;
+
+	--module-plate: #d7dfec;
+	--module-ink: #10151f;
+	--module-muted: #3f4a5c;
+	--module-line: #a9b5c7;
+
+	--meter-body: #232c3d;
+	--meter-top: #2b3548;
+	--meter-right: #1a2230;
+	--meter-window: #05070c;
+	--meter-ink: #eef3fb;
+	--meter-red: #ff6b6b;
+	--meter-label: #a9b6c9;
+
+	--lamp-green: #4ade80;
+	--lamp-amber: #fbbf24;
+	--lamp-grey: #5b6779;
+
+	--cabinet-focus: #8ab0ff;
+}
+
+/* The responsive depth table (06 section 8): the angle never changes. */
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+	:root {
+		--cabinet-depth: 48px;
+		--lintel-h: 80px;
+		--door-thickness: 14px;
+		--door-gap: 7px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 1023.98px) {
+	:root {
+		--cabinet-depth: 24px;
+		--lintel-h: 72px;
+		--door-thickness: 12px;
+		--door-gap: 6px;
+		--duration-swing: 240ms;
+	}
+}
+
+@media (max-width: 767.98px) {
+	:root {
+		--cabinet-depth: 0px;
+		--lintel-h: 64px;
+		--door-thickness: 0px;
+		--door-gap: 0px;
+		--stile-w: 24px;
+		--base-h: 32px;
+		--interior-inset: 8px;
 	}
 }

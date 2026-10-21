@@ -1,0 +1,67 @@
+---
+// MeterShelf: the fixed instrument shelf (Design 01 section 6, 02).
+//
+// Three isometric meters and the calibration plate on one rail: M-01 the
+// screen's module count, M-02 the Classic and Effect-TS check totals in two
+// windows of one body, M-03 the release with its last two wheels red.
+// Every figure comes from the content library; the calibration plate
+// repeats the readings in text, so no meter carries a value that exists
+// nowhere else.
+import IsoMeter from "@Component/IsoMeter.astro";
+import RoutingTexture from "@Component/RoutingTexture.astro";
+import { Counts, Totals, Versions } from "@Library/Content";
+
+interface Props {
+	/** The screen's module count (the M-01 reading). */
+	ModuleCount: number;
+}
+
+const { ModuleCount } = Astro.props;
+
+// The release as a fixed-width semver reading: 0.1.0 -> 0 01 00.
+const [Major = "0", Minor = "0", Patch = "0"] = Versions.Release.split(".");
+const ReleaseDigits = `${Major}${Minor.padStart(2, "0")}${Patch.padStart(2, "0")}`.slice(-5);
+---
+
+<div class="meter-shelf" role="group" aria-label="The instrument shelf">
+	<RoutingTexture Variant="plate" />
+
+	<IsoMeter
+		Code="M-01"
+		Label="MODULES"
+		Sentence={`M-01 MODULES, ${ModuleCount} modules on this screen`}
+		Width={200}
+		Height={64}
+		Depth={22}
+		Windows={[{ Label: "MODULES", Digits: String(ModuleCount).padStart(4, "0") }]}
+	/>
+
+	<IsoMeter
+		Code="M-02"
+		Label="CHECKS"
+		Sentence={`M-02 CHECKS, ${Totals.Classic} Classic, ${Totals.EffectTS} Effect-TS`}
+		Width={320}
+		Height={64}
+		Depth={22}
+		Windows={[
+			{ Label: "CLASSIC", Digits: String(Totals.Classic) },
+			{ Label: "EFFECT-TS", Digits: String(Totals.EffectTS) },
+		]}
+	/>
+
+	<IsoMeter
+		Code="M-03"
+		Label="RELEASE"
+		Sentence={`M-03 RELEASE, version ${Versions.Release}`}
+		Width={200}
+		Height={64}
+		Depth={22}
+		Windows={[{ Label: "RELEASE", Digits: ReleaseDigits, RedFrom: 3 }]}
+	/>
+
+	<div class="calibration-plate">
+		<span class="calibration-plate__title">CALIBRATION</span>
+		<span>{Counts.Suites} SUITES / {Totals.Classic} + {Totals.EffectTS} CHECKS</span>
+		<span>REV {Versions.Release}</span>
+	</div>
+</div>

@@ -1,0 +1,35 @@
+---
+// InteriorCavity: the black box and its frame (Design 06 section 5, T03).
+//
+// The aperture's cavity, the 20px reveal (the left and bottom walls are the
+// faces the projection makes visible), the frontal plate, and the three
+// fixed rows: the shelf (96), the field (the only scroll surface) and the
+// status strip (32). The plate is NOT projected: text is never skewed.
+//
+// The cavity is inert while the door is closed; the door script owns that
+// state and the focus move.
+import FieldGauge from "@Component/FieldGauge.astro";
+import FieldPlate from "@Component/FieldPlate.astro";
+
+interface Props {
+	InteriorId: string;
+	Label: string;
+}
+
+const { InteriorId, Label } = Astro.props;
+---
+
+<div class="cabinet-interior" id={InteriorId} role="region" aria-label={Label} tabindex="-1">
+	<div class="cabinet-interior__wall cabinet-interior__wall--left" aria-hidden="true"></div>
+	<div class="cabinet-interior__wall cabinet-interior__wall--bottom" aria-hidden="true"></div>
+	<div class="cabinet-interior__plate">
+		<slot name="shelf" />
+		<div class="cabinet-field-frame">
+			<FieldPlate>
+				<slot name="field" />
+			</FieldPlate>
+			<FieldGauge />
+		</div>
+		<slot name="status" />
+	</div>
+</div>
