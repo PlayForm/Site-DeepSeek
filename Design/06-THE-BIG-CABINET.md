@@ -1,5 +1,8 @@
 # 06 - The Big Cabinet
 
+> The review amendments in 07 are binding: the single-activation lock, the
+> door's edge-on rest after the swing, and the routing density limits.
+
 The exact geometry of the one full-width cabinet. Every number here is a
 starting value, not a measurement: the implementer may tune a value, but
 must keep the ratios and the invariants at the end of this document.

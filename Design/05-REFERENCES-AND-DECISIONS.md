@@ -27,7 +27,7 @@ hinge, and the acceptance criteria.
   segmented control, the six bays, the columned footer.
 - The other eight attempts - the variants to draw from, not to copy.
 
-### 1.3 The flat-skeuomorphic library
+### 1.3 The hard-edged instrument library (Ely)
 
 `~/Developer/Documentation/Module/Ely-GPUI-Components`. The files this
 design borrows from, and what each supplies:

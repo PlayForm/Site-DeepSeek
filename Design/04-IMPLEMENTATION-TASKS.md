@@ -275,9 +275,10 @@ T14, T15 last
 
 ## The first slice
 
-T00, T01, T02, T03, T04, T05, T06, T07 on a demo section, then screen 01
-of the registry (the canary), then screen 02 and the landing. This is the
-smallest path to the signature: one full-width cabinet, one door that
-opens onto one real category, and the meters that prove the interior is
-an instrument. The detail pages, the workspaces, and the dossier pages
-follow once the shell and the door are proven.
+T00 through T07, then **one plugin detail page** as the canary (per 07):
+it exercises the cabinet, the door, the lock, the faceplate, the
+aperture, the counter, the mounting plate, the module, and the tray. The
+hooks screen of `/plugins/` follows the canary; then screen 02 and the
+landing. This is the smallest path to the signature: one full-width
+cabinet, one door that opens onto one real plugin, and the meters that
+prove the interior is an instrument.

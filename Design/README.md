@@ -15,6 +15,8 @@ plugin modules and the meters.
 | [04-IMPLEMENTATION-TASKS.md](04-IMPLEMENTATION-TASKS.md) | the ordered tasks T00-T15, the first slice, the acceptance |
 | [05-REFERENCES-AND-DECISIONS.md](05-REFERENCES-AND-DECISIONS.md) | the reference set, the borrowed files, the open decisions |
 | [06-THE-BIG-CABINET.md](06-THE-BIG-CABINET.md) | the exact geometry: coordinates, angles, thicknesses, tokens, the responsive reductions |
+| [07-REVIEW-AMENDMENTS.md](07-REVIEW-AMENDMENTS.md) | the review's four decisions (the single-activation lock, the door rest, the density rule, the reference board), the build order, and the wording |
+| [08-FINAL-DECISIONS.md](08-FINAL-DECISIONS.md) | the four final product decisions (the fixed camera, the field scroll, the display screen, the small-label floor) and the Mode A canary |
 
 ## What changed from the previous edition
 
@@ -35,12 +37,13 @@ around them. That is retired. The binding requirements now are:
 
 The source material is `Site/Reference/`: `Conversation.md`, the eleven
 HTML attempts with screenshots, and `technical_precision_documentation/`.
-The flat-skeuomorphic surface and the isometric construction are borrowed
+The hard-edged surface and the isometric construction are borrowed
 from `~/Developer/Documentation/Module/Ely-GPUI-Components`; the exact
 files are cited in 05.
 
 **The first slice**: T00 (the tokens) -> T01 (the isometric engine) ->
 T02 (the full-width shell) -> T03 (the interior) -> T04 (the door) ->
-T05 (the lock) -> T06 (the meters) -> T07 (the module plates), then the
-hooks screen of `/plugins/` as the canary. The second screen, the landing,
-and the rest of the pages follow.
+T05 (the lock) -> T06 (the meters) -> T07 (the module plates), then **one
+full Mode A canary cabinet** (per 07 and 08: the shell, the door, the
+lock, one meter shelf, one module with the inspection tray). The hooks
+screen, the second screen, the landing, and the rest of the pages follow.

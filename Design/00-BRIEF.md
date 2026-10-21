@@ -17,7 +17,7 @@ screen.
 The source material is `Site/Reference/`: the design conversation
 (`Conversation.md`), eleven HTML attempts with screenshots, and the
 `technical_precision_documentation/DESIGN.md` token file. The
-flat-skeuomorphic surface, the isometric construction, and the component
+hard-edged surface, the isometric construction, and the component
 anatomy are borrowed from `~/Developer/Documentation/Module/Ely-GPUI-Components`
 (hereafter "Ely"); the exact files are cited in 05 and 02.
 
@@ -47,7 +47,7 @@ sequence of full-viewport screens: screen 01 THE HOOKS, screen 02 THE
 DISPLAY, and a third screen only if a category warrants one. Each screen
 is a complete cabinet with its own door, lintel, interior, and base plate.
 
-**The flat skeuomorphism is a drawing, not a photograph.** Three solid
+**The hard-edged construction is a drawing, not a photograph.** Three solid
 surface tones and one 1px line colour; no gradients, no blurs, no cast
 shadow; the depth is the drawn top and right planes and the drawn door
 gap. Ely's isometric engine supplies the block model, the face builder,

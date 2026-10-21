@@ -1,5 +1,8 @@
 # 01 - The Design Language
 
+> The review amendments in 07 are binding: the single-activation lock, the
+> door's edge-on rest, the routing density limits, and the reference board.
+
 ## 1. The scene
 
 Five layers, back to front. The first is the page itself; there is no
