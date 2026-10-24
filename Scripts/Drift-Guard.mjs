@@ -8,8 +8,8 @@
 //     Maintain/Run-Smokes.mjs) vs Counts and Totals. The smoke READMEs'
 //     manifest lines are checked for integrity and their lag against the
 //     folders is reported as a NOTE (the folder sums are the figure);
-//   - the census: the package directories (101 = 53 + 48), the smoke folders
-//     (511 = 269 + 242), the 47 ETS twins and the four libraries;
+//   - the census: the package directories (102 = 54 + 48), the smoke folders
+//     (513 = 271 + 242), the 47 ETS twins and the four libraries;
 //   - the release versions: the mode of every package.json version in both
 //     trees vs Versions.Release, the panel family's outlier (0.2.0) vs
 //     Versions.PanelFamily, and the effect pin of the packages that carry one
@@ -27,6 +27,10 @@
 //     plus its installed/enabled split, and the direct dependents (the
 //     package.json dependency names: the core's Classic/EffectTS fan-in and
 //     the factory's Classic dependents);
+//   - the package catalog: every Classic package without a hand-authored
+//     detail page - the name, title, kind, version, twin, ledger and the
+//     README/SCHEME-derived role, activation line, summary paragraph and
+//     top-level headings;
 //   - the name forms: the post-splice naming under the role-prefix contract
 //     (the Classic tree the plugin-* / hook-* / lib-* / client-* forms, the
 //     EffectTS tree the same names under the ets- prefix) - every npm name
@@ -192,6 +196,13 @@ const Dependents = {
 const DependentsNonConsumers = JSON.parse(
 	`[${ExtractString(/Dependents: \{ CoreClassic: \d+, CoreEffectTS: \d+, Factory: \d+, FactoryNonConsumers: \[([^\]]+)\]/)}]`,
 );
+// The catalog's fallback tuples: [name, kind, version, twin] - the minimal
+// fields the fallback carries.
+const FallbackPackages = [
+	...ContentSource.matchAll(
+		/^\t\t\["([a-z0-9-]+)", "(lib|plugin|hook|client)", "([0-9.]+)", (null|"([a-z0-9-]+)")\],$/gm,
+	),
+].map((Match) => ({ name: Match[1], kind: Match[2], version: Match[3], twin: Match[5] ?? null }));
 
 // --- 0. The trees, read from the filesystem (data-driven) ---
 // Directory-only listing, mirroring Live.ts (stray files like .DS_Store
@@ -226,9 +237,10 @@ async function ReadTree(Tree) {
 					Package.peerDependencies?.["effect"] ??
 					null,
 				Dependencies: Object.keys(Package.dependencies ?? {}),
+				Description: typeof Package.description === "string" ? Package.description : null,
 			});
 		} catch (Error) {
-			Result.push({ Dir, Name: null, Version: null, Effect: null, Error: String(Error) });
+			Result.push({ Dir, Name: null, Version: null, Effect: null, Dependencies: [], Description: null, Error: String(Error) });
 		}
 	}
 	return Result;
@@ -325,7 +337,7 @@ Check(
 	TotalsEffectTS,
 );
 
-// 1c. The folder census: 269 + 242 = 511.
+// 1c. The folder census: 271 + 242 = 513.
 Check("Counts.SuitesClassic = the CLASSIC folder count", SuiteTrees.Classic.Folders, Census.SuitesClassic);
 Check(
 	"Counts.SuitesEffectTS = the EFFECT-TS folder count",
@@ -370,11 +382,12 @@ Check(
 	Census.PackagesEffectTS,
 );
 Check("Counts.Packages = both trees' packages", PackageTotal, Census.Packages);
-// The six Classic packages with no ETS twin (the documented roster).
+// The seven Classic packages with no ETS twin (the documented roster).
 const NoTwin = [
 	"client-dsh-panel-family",
 	"client-dsh-panel-family-host",
 	"hook-dsh-batch-decision",
+	"hook-dsh-comment-filter",
 	"plugin-dsh-ingester",
 	"plugin-dsh-pass-on",
 	"plugin-dsh-pattern",
@@ -391,7 +404,7 @@ Check(
 	Trees.EffectTS.map((Package) => Package.Dir),
 );
 Check(
-	"the Classic packages without an ETS twin = the documented six",
+	"the Classic packages without an ETS twin = the documented seven",
 	NoTwin,
 	Trees.Classic.filter(
 		(Package) => !Trees.EffectTS.some((Twin) => Twin.Dir === `ets-${Package.Dir}`),
@@ -793,6 +806,139 @@ Check(
 	DependentsDerived.Factory + DependentsDerived.FactoryNonConsumers.length + 1,
 );
 
+// 5l. The package catalog: every Classic package without a hand-authored
+// detail page, re-derived from its package.json, README and SCHEME.
+const LegacyPackages = [
+	"lib-dsh-core",
+	"plugin-dsh-factory",
+	"hook-dsh-package-governor",
+	"hook-dsh-package-pinner",
+	"hook-dsh-cargo-governor",
+	"hook-dsh-normalize-dash",
+	"hook-dsh-normalize-quotes",
+	"hook-dsh-normalize-ellipsis",
+	"hook-dsh-normalize-spaces",
+	"hook-dsh-normalize-invisible",
+	"hook-dsh-normalize-fullwidth",
+	"plugin-dsh-normalize-file",
+	"hook-dsh-ccr",
+	"hook-dsh-tool-coach",
+	"hook-dsh-live-containers",
+];
+const KindOf = (Dir) =>
+	Dir.startsWith("lib-")
+		? "lib"
+		: Dir.startsWith("plugin-")
+			? "plugin"
+			: Dir.startsWith("hook-")
+				? "hook"
+				: Dir.startsWith("client-")
+					? "client"
+					: null;
+const FirstSentence = (Text) => {
+	if (!Text) return null;
+	const First = Text.trim().split(/(?<=[.!?])\s+(?=[A-Z(\[*_"])/)[0]?.trim() ?? "";
+	return First || null;
+};
+const FirstSentences = (Text, Count) =>
+	Text.split(/(?<=[.!?])\s+(?=[A-Z(\[*_"])/).slice(0, Count).join(" ").trim();
+function FirstParagraph(Readme) {
+	if (!Readme) return null;
+	const Lines = Readme.split("\n");
+	const Skip = (Line) =>
+		/^\s*$/.test(Line) ||
+		/^#/.test(Line) ||
+		/^!\[/.test(Line) ||
+		/^\[!\[/.test(Line) ||
+		/^<[a-z]/i.test(Line) ||
+		/^---\s*$/.test(Line) ||
+		/^\|/.test(Line) ||
+		/^```/.test(Line);
+	let Index = 0;
+	while (Index < Lines.length && Skip(Lines[Index])) Index++;
+	if (Index < Lines.length && /^_.+_$/.test(Lines[Index].trim())) {
+		Index++;
+		while (Index < Lines.length && Skip(Lines[Index])) Index++;
+	}
+	const Block = [];
+	if (Index < Lines.length && /^>/.test(Lines[Index])) {
+		while (Index < Lines.length && /^>/.test(Lines[Index])) {
+			const Content = Lines[Index].replace(/^>\s?/, "").trim();
+			if (/^\[!/.test(Content)) {
+				Index++;
+				continue;
+			}
+			if (!Content) {
+				if (Block.length > 0) break;
+				Index++;
+				continue;
+			}
+			Block.push(Content);
+			Index++;
+		}
+	} else {
+		while (Index < Lines.length && !/^\s*$/.test(Lines[Index])) {
+			Block.push(Lines[Index].trim());
+			Index++;
+		}
+	}
+	const Paragraph = Block.join(" ").replace(/\s+/g, " ").trim();
+	return Paragraph ? FirstSentences(Paragraph, 3) : null;
+}
+function ActivationLine(Text) {
+	if (!Text) return null;
+	for (const Line of Text.split("\n")) {
+		if (!Line.includes("activated (")) continue;
+		const Backticked = /`([^`]*activated \([^`]*)`/.exec(Line);
+		if (Backticked) return Backticked[1].trim();
+		if (/^\s*\|/.test(Line)) {
+			const Cell = Line.split("|")
+				.map((Part) => Part.trim())
+				.find((Part) => Part.includes("activated ("));
+			if (Cell) return Cell;
+		}
+		return Line.replace(/^\s*[-*]\s+/, "").replace(/\*\*/g, "").trim();
+	}
+	return null;
+}
+function Sections(Readme) {
+	if (!Readme) return [];
+	const Lines = Readme.split("\n");
+	const Top = Lines.filter((Line) => /^## /.test(Line)).map((Line) => Line.replace(/^## /, "").trim());
+	if (Top.length > 0) return Top;
+	return Lines.filter((Line) => /^### /.test(Line)).map((Line) => Line.replace(/^### /, "").trim());
+}
+const EffectTSNames = new Set(Trees.EffectTS.map((Package) => Package.Dir));
+const CatalogDerived = Trees.Classic.filter((Package) => !LegacyPackages.includes(Package.Dir)).map(
+	(Package) => {
+		const Readme = ReadText(join(Root, "Classic", "packages", Package.Dir, "README.md"));
+		const Scheme = ReadText(join(Root, "Classic", "packages", Package.Dir, "SCHEME.md"));
+		const Title = String(Package.Name).replace(/^@playform\//, "");
+		return {
+			name: Package.Dir,
+			title: Title,
+			kind: KindOf(Package.Dir),
+			version: Package.Version,
+			twin: EffectTSNames.has(`ets-${Package.Dir}`) ? `ets-${Package.Dir}` : null,
+			role: FirstSentence(Package.Description),
+			ledger: `~/.dsh/playform/${Title}.log`,
+			activation: ActivationLine(Readme) ?? ActivationLine(Scheme),
+			summary: FirstParagraph(Readme),
+			sections: Sections(Readme),
+		};
+	},
+);
+Check(
+	"the catalog's fallback tuples = the tree's minimal fields",
+	CatalogDerived.map((Entry) => ({
+		name: Entry.name,
+		kind: Entry.kind,
+		version: Entry.version,
+		twin: Entry.twin,
+	})),
+	FallbackPackages,
+);
+
 // --- 6. The port-era record: the History deltas ---
 Check(
 	"History.EffectDelta = the record's deltas sum",
@@ -974,6 +1120,7 @@ if (Live) {
 	}
 	Check("Live.Delivery = the delivery census", DeliveryDerived, Live.Delivery);
 	Check("Live.Dependents = the direct dependents", DependentsDerived, Live.Dependents);
+	Check("Live.Package = the new packages' catalog", CatalogDerived, Live.Package);
 } else {
 	console.log(`SKIP  Live.ts layer (the runtime cannot import Live.ts: ${LiveSkip?.message?.split("\n")[0] ?? "unknown"})`);
 }
@@ -1090,6 +1237,135 @@ Check(
 	0,
 	ComponentInstall.length,
 );
+
+// --- 9c. The catalog detail pages: the dynamic route over the catalog ---
+// The 15 hand-authored pages keep their own file routes; every other catalog
+// package renders through Source/pages/plugins/[slug].astro. The check walks
+// the catalog, confirms one built page per entry (the catalog excludes the 15
+// legacy packages itself), and verifies each new page's shape: exactly one
+// h1, the playform ledger form, no npm install command, no dead internal link,
+// a registry link and a sitemap entry.
+const Catalog = Live?.Package ?? FallbackPackages;
+const TargetPlugins = join(SiteRoot, "Target", "plugins");
+if (!existsSync(TargetPlugins)) {
+	Skip("the catalog detail pages", "no built Target on this machine");
+} else {
+	const CatalogPages = Catalog.map((Entry) => ({
+		Entry,
+		Path: join(TargetPlugins, Entry.name, "index.html"),
+	}));
+	const PageTexts = CatalogPages.map(({ Path }) => (existsSync(Path) ? ReadText(Path) : null));
+	Check(
+		"the catalog: no entry shadows a hand-authored route",
+		[],
+		Catalog.filter((Entry) => LegacyPackages.includes(Entry.name)).map((Entry) => Entry.name),
+	);
+	Check(
+		"the catalog: every entry has a built page",
+		[],
+		CatalogPages.filter(({ Path }) => !existsSync(Path)).map(({ Entry }) => Entry.name),
+	);
+	// The route source: one getStaticPaths, over the catalog.
+	const RouteSource = ReadText(join(SiteRoot, "Source", "pages", "plugins", "[slug].astro")) ?? "";
+	Check(
+		"the catalog route: one getStaticPaths",
+		1,
+		(RouteSource.match(/export function getStaticPaths\(\)/g) ?? []).length,
+	);
+	// One h1 per page (the hero).
+	const CountH1 = (Text) => (Text.match(/<h1[\s>]/g) ?? []).length;
+	Check(
+		"the catalog pages: exactly one h1 per page",
+		[],
+		CatalogPages.filter(({ Entry, Path }, Index) => existsSync(Path) && CountH1(PageTexts[Index]) !== 1).map(({ Entry }) => Entry.name),
+	);
+	// The playform ledger form renders on every page.
+	Check(
+		"the catalog pages: the playform ledger path renders",
+		[],
+		CatalogPages.filter(
+			({ Entry, Path }, Index) =>
+				existsSync(Path) && !(PageTexts[Index] ?? "").includes(Entry.ledger),
+		).map(({ Entry }) => Entry.name),
+	);
+	// The unpublished law: zero npm install commands on the new pages.
+	Check(
+		"the catalog pages: zero npm install commands (the family is unpublished)",
+		0,
+		PageTexts.filter((Text) => Text && /npm (?:install|i) @playform\//.test(Text)).length,
+	);
+	// The internal links: every page-shaped href ("/.../") resolves to a built
+	// page. The sitemap and the 404 are the only non-page HTML files.
+	const BuiltPages = new Set(
+		Walk(join(SiteRoot, "Target"))
+			.filter((Path) => Path.endsWith(".html"))
+			.map((Path) => {
+				const Rel = relative(join(SiteRoot, "Target"), Path).replace(/\\/g, "/");
+				return `/${Rel.replace(/index\.html$/, "").replace(/\.html$/, "")}`;
+			}),
+	);
+	const DeadLinks = [];
+	CatalogPages.forEach(({ Entry }, Index) => {
+		const Text = PageTexts[Index];
+		if (!Text) return;
+		// The built HTML is compressed: the attribute values may be unquoted.
+		for (const Match of Text.matchAll(/href=(?:"([^"]*)"|([^"'\s>]+))/g)) {
+			const Href = Match[1] ?? Match[2] ?? "";
+			if (!Href.startsWith("/") || !Href.endsWith("/") || BuiltPages.has(Href)) continue;
+			DeadLinks.push(`${Entry.name}: ${Href}`);
+		}
+	});
+	Check("the catalog pages: every internal link resolves", 0, DeadLinks.length);
+	// The registry page links every catalog page (the built HTML may drop the
+	// attribute quotes).
+	const RegistryHtml = ReadText(join(TargetPlugins, "index.html")) ?? "";
+	Check(
+		"the registry: every catalog page is linked",
+		[],
+		Catalog.filter(
+			(Entry) =>
+				!new RegExp(`href=["']?/plugins/${Entry.name}/["']?`).test(RegistryHtml),
+		).map((Entry) => Entry.name),
+	);
+	// The registry's Classic-only markers are the catalog's twin-less entries.
+	const RegistrySource = ReadText(join(SiteRoot, "Source", "pages", "plugins.astro")) ?? "";
+	const ClassicOnlyBlock = RegistrySource.match(/const ClassicOnly = new Set\(\[([\s\S]*?)\]\);/);
+	const RegistryClassicOnly = [
+		...(ClassicOnlyBlock?.[1] ?? "").matchAll(/"([a-z0-9-]+)"/g),
+	]
+		.map((Match) => Match[1])
+		.sort();
+	Check(
+		"the registry: the Classic-only markers = the catalog's twin-less entries",
+		Catalog.filter((Entry) => Entry.twin === null)
+			.map((Entry) => Entry.name)
+			.sort(),
+		RegistryClassicOnly,
+	);
+	// The sitemap lists every catalog page.
+	const SitemapText = Walk(join(SiteRoot, "Target"))
+		.filter((Path) => /sitemap[^/]*\.xml$/.test(Path))
+		.map((Path) => ReadText(Path) ?? "")
+		.join("\n");
+	Check(
+		"the sitemap: every catalog page is listed",
+		[],
+		Catalog.filter((Entry) => !SitemapText.includes(`/plugins/${Entry.name}/`)).map(
+			(Entry) => Entry.name,
+		),
+	);
+	// The page count: the static routes + the catalog + the 404.
+	const PageSources = Walk(join(SiteRoot, "Source", "pages")).filter((Path) =>
+		Path.endsWith(".astro"),
+	);
+	const StaticPages = PageSources.filter((Path) => !Path.includes("[")).length;
+	const BuiltHtml = Walk(join(SiteRoot, "Target")).filter((Path) => Path.endsWith(".html"));
+	Check(
+		"the built site: one HTML page per route (the static pages + the catalog + the 404)",
+		StaticPages + Catalog.length + (existsSync(join(SiteRoot, "Public", "404.html")) ? 1 : 0),
+		BuiltHtml.length,
+	);
+}
 
 // --- 10. The built Target's freshness vs the Source (zero stale drift) ---
 // Every Source module must have a compiled Target counterpart and no

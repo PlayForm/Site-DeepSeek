@@ -16,8 +16,8 @@
 //     Source/Test/<folder>/README.md declares its expected PASS count
 //     ("## Expected count" -> "<N> PASS."), exactly the count
 //     Maintain/Run-Smokes.mjs guards. A tree's checks are the sum of its
-//     folder counts (Classic 3,454 + EffectTS 3,158 = 6,612) and its suite
-//     count is its folder count (269 + 242 = 511).
+//     folder counts (Classic 3,485 + EffectTS 3,158 = 6,643) and its suite
+//     count is its folder count (271 + 242 = 513).
 //     The smoke READMEs' manifest lines are the SECONDARY source for the
 //     fourteen mechanics suites' per-suite pairs: the manifest is the printed
 //     summary and may lag the folder arbiter by a check (the factory suite),
@@ -55,6 +55,10 @@
 //         names - the core's Classic and EffectTS fan-in and the factory's
 //         Classic dependents (the seven non-consumers are the packages that
 //         declare neither the factory nor are the factory itself);
+//       * the package catalog: every Classic package without a hand-authored
+//         detail page, read from its package.json (name/version/description),
+//         its README (the summary paragraph, the top-level headings and the
+//         activation line) and the EffectTS tree (the ets-* twin);
 //       * the harness profile: the desktop profile's cordis.patch.yml and
 //         its package.json - the ONE source outside the monorepo (49 patch
 //         rows; 51 installed @playform dependencies, 48 bundle rows, 3
@@ -111,6 +115,8 @@ export interface TreePackage {
 	Effect: string | null;
 	/** The runtime dependency names from the package.json (the direct dependents' source). */
 	Dependencies: string[];
+	/** The package.json description (the catalog role's source), or null. */
+	Description: string | null;
 }
 
 /** One package's smoke folders: the folder count and the expected-count sum. */
@@ -233,6 +239,30 @@ export interface DependentsFigures {
 	FactoryNonConsumers: string[];
 }
 
+/** One catalog entry: a new Classic package's facts, read from its package.json and README/SCHEME. */
+export interface PackageEntry {
+	/** The package directory under Classic/packages. */
+	name: string;
+	/** The npm package name without the @playform/ scope. */
+	title: string;
+	/** The role prefix: lib, plugin, hook or client. */
+	kind: "lib" | "plugin" | "hook" | "client";
+	/** The package.json version. */
+	version: string;
+	/** The ets-* twin's directory name when the EffectTS tree carries one, else null. */
+	twin: string | null;
+	/** One concise sentence: the package.json description's first sentence, or null. */
+	role: string | null;
+	/** The standard ledger path: ~/.dsh/playform/<title>.log. */
+	ledger: string;
+	/** The first activation line the README or SCHEME documents (byte-exact), or null. */
+	activation: string | null;
+	/** The README's first prose paragraph (line breaks joined, three sentences), or null. */
+	summary: string | null;
+	/** The README's top-level headings (##; the ### level when the README has no ##). */
+	sections: string[];
+}
+
 /** Read a text file, or null when it is missing or unreadable. */
 function ReadText(Path: string): string | null {
 	try {
@@ -289,6 +319,7 @@ function ReadTree(Tree: string): TreePackage[] {
 				Version: Package.version,
 				Effect: typeof Pin === "string" ? Pin : null,
 				Dependencies: Object.keys(Package.dependencies ?? {}),
+				Description: typeof Package.description === "string" ? Package.description : null,
 			},
 		];
 	});
@@ -716,6 +747,182 @@ function ReadStorage(): { Domains: number } | null {
 	return Domains === null ? null : { Domains };
 }
 
+/**
+ * The fifteen legacy modules with hand-authored detail pages
+ * (Site/Source/pages/plugins/<name>.astro). The catalog covers every OTHER
+ * Classic package; the list is pinned because the detail lane ADDS pages for
+ * the new packages - deriving the set from the pages directory would empty
+ * the catalog.
+ */
+const LegacyPackages = [
+	"lib-dsh-core",
+	"plugin-dsh-factory",
+	"hook-dsh-package-governor",
+	"hook-dsh-package-pinner",
+	"hook-dsh-cargo-governor",
+	"hook-dsh-normalize-dash",
+	"hook-dsh-normalize-quotes",
+	"hook-dsh-normalize-ellipsis",
+	"hook-dsh-normalize-spaces",
+	"hook-dsh-normalize-invisible",
+	"hook-dsh-normalize-fullwidth",
+	"plugin-dsh-normalize-file",
+	"hook-dsh-ccr",
+	"hook-dsh-tool-coach",
+	"hook-dsh-live-containers",
+];
+
+/** The role kind from the package directory's prefix, or null outside the four roles. */
+function KindOf(Dir: string): PackageEntry["kind"] | null {
+	switch (true) {
+		case Dir.startsWith("lib-"):
+			return "lib";
+		case Dir.startsWith("plugin-"):
+			return "plugin";
+		case Dir.startsWith("hook-"):
+			return "hook";
+		case Dir.startsWith("client-"):
+			return "client";
+		default:
+			return null;
+	}
+}
+
+/** The first sentence of a text: a sentence end followed by a capital or an opener. */
+function FirstSentence(Text: string | null): string | null {
+	if (!Text) return null;
+	const Parts = Text.trim().split(/(?<=[.!?])\s+(?=[A-Z(\[*_"])/);
+	const First = Parts[0]?.trim() ?? "";
+	return First || null;
+}
+
+/** The first N sentences of a paragraph (the same sentence boundary). */
+function FirstSentences(Text: string, Count: number): string {
+	const Parts = Text.split(/(?<=[.!?])\s+(?=[A-Z(\[*_"])/);
+	return Parts.slice(0, Count).join(" ").trim();
+}
+
+/**
+ * The README's first prose paragraph, verbatim: the H1, the badges, the
+ * italic tagline block, the images and the tables are skipped; a blockquote
+ * note contributes its first paragraph (the [!NOTE] marker dropped); the
+ * paragraph's line breaks are joined with spaces and the result is bounded
+ * to three sentences. Null when the README has no prose paragraph.
+ */
+function FirstParagraph(Readme: string | null): string | null {
+	if (!Readme) return null;
+	const Lines = Readme.split("\n");
+	const Skip = (Line: string): boolean =>
+		/^\s*$/.test(Line) ||
+		/^#/.test(Line) ||
+		/^!\[/.test(Line) ||
+		/^\[!\[/.test(Line) ||
+		/^<[a-z]/i.test(Line) ||
+		/^---\s*$/.test(Line) ||
+		/^\|/.test(Line) ||
+		/^```/.test(Line);
+	let Index = 0;
+	while (Index < Lines.length && Skip(Lines[Index])) Index++;
+	// The boilerplate tagline (an italic-only line) is not the summary.
+	if (Index < Lines.length && /^_.+_$/.test(Lines[Index].trim())) {
+		Index++;
+		while (Index < Lines.length && Skip(Lines[Index])) Index++;
+	}
+	const Block: string[] = [];
+	if (Index < Lines.length && /^>/.test(Lines[Index])) {
+		while (Index < Lines.length && /^>/.test(Lines[Index])) {
+			const Content = Lines[Index].replace(/^>\s?/, "").trim();
+			if (/^\[!/.test(Content)) {
+				Index++;
+				continue;
+			}
+			if (!Content) {
+				if (Block.length > 0) break;
+				Index++;
+				continue;
+			}
+			Block.push(Content);
+			Index++;
+		}
+	} else {
+		while (Index < Lines.length && !/^\s*$/.test(Lines[Index])) {
+			Block.push(Lines[Index].trim());
+			Index++;
+		}
+	}
+	const Paragraph = Block.join(" ").replace(/\s+/g, " ").trim();
+	return Paragraph ? FirstSentences(Paragraph, 3) : null;
+}
+
+/**
+ * The first activation line a README/SCHEME documents: the backticked
+ * segment when the line quotes one (the prose and table forms), the table
+ * cell that carries it, or the plain line with the list marker stripped.
+ * The line is kept byte-exact to the document. Null when neither document
+ * carries an "activated (" line.
+ */
+function ActivationLine(Text: string | null): string | null {
+	if (!Text) return null;
+	for (const Line of Text.split("\n")) {
+		if (!Line.includes("activated (")) continue;
+		const Backticked = /`([^`]*activated \([^`]*)`/.exec(Line);
+		if (Backticked) return Backticked[1].trim();
+		if (/^\s*\|/.test(Line)) {
+			const Cell = Line.split("|")
+				.map((Part) => Part.trim())
+				.find((Part) => Part.includes("activated ("));
+			if (Cell) return Cell;
+		}
+		return Line.replace(/^\s*[-*]\s+/, "").replace(/\*\*/g, "").trim();
+	}
+	return null;
+}
+
+/** The README's top-level headings (##; the ### level when the README has no ##). */
+function Sections(Readme: string | null): string[] {
+	if (!Readme) return [];
+	const Lines = Readme.split("\n");
+	const Top = Lines.filter((Line) => /^## /.test(Line)).map((Line) => Line.replace(/^## /, "").trim());
+	if (Top.length > 0) return Top;
+	return Lines.filter((Line) => /^### /.test(Line)).map((Line) => Line.replace(/^### /, "").trim());
+}
+
+/**
+ * The catalog: one entry per new Classic package (every Classic package
+ * without a hand-authored detail page), each field read from the tree - the
+ * package.json (name/version/description), the README (summary, sections,
+ * the activation line) and the EffectTS tree (the twin). A directory outside
+ * the four role prefixes leaves the catalog to the documented fallback, so
+ * the Drift surfaces it.
+ */
+function ReadPackageCatalog(): PackageEntry[] | null {
+	if (ClassicPackages.length === 0) return null;
+	const EffectTSNames = new Set(EffectTSPackages.map((Package) => Package.Dir));
+	const NewPackages = ClassicPackages.filter((Package) => !LegacyPackages.includes(Package.Dir));
+	if (NewPackages.length === 0) return null;
+	const Catalog: PackageEntry[] = [];
+	for (const Package of NewPackages) {
+		const Kind = KindOf(Package.Dir);
+		if (Kind === null) return null;
+		const Readme = ReadText(join(Root, "Classic", "packages", Package.Dir, "README.md"));
+		const Scheme = ReadText(join(Root, "Classic", "packages", Package.Dir, "SCHEME.md"));
+		const Title = Package.Name.replace(/^@playform\//, "");
+		Catalog.push({
+			name: Package.Dir,
+			title: Title,
+			kind: Kind,
+			version: Package.Version,
+			twin: EffectTSNames.has(`ets-${Package.Dir}`) ? `ets-${Package.Dir}` : null,
+			role: FirstSentence(Package.Description),
+			ledger: `~/.dsh/playform/${Title}.log`,
+			activation: ActivationLine(Readme) ?? ActivationLine(Scheme),
+			summary: FirstParagraph(Readme),
+			sections: Sections(Readme),
+		});
+	}
+	return Catalog;
+}
+
 /** One package's smoke folders, or null when the package has none. */
 function LibrarySuite(Dir: string): SuiteFolder | null {
 	return ClassicSuiteTree?.PerPackage[Dir] ?? null;
@@ -734,9 +941,9 @@ export const Live = {
 	},
 	/** The npm names of the Classic release packages. */
 	PackageNames: ClassicPackages.map((Package) => Package.Name),
-	/** The package census: 53 Classic + 48 EffectTS. */
+	/** The package census: 54 Classic + 48 EffectTS. */
 	PackageCounts,
-	/** The smoke-folder census: 269 Classic + 242 EffectTS. */
+	/** The smoke-folder census: 271 Classic + 242 EffectTS. */
 	SuiteCensus,
 	/** The mode release version of the 100 packages at 0.1.0. */
 	Release: Release.Mode,
@@ -795,6 +1002,8 @@ export const Live = {
 	Delivery: ReadDelivery(),
 	/** The direct dependents of the two shared packages (the dependency graph's fan-in). */
 	Dependents: ReadDependents(),
+	/** The new Classic packages' catalog (every package without a hand-authored detail page). */
+	Package: ReadPackageCatalog(),
 	/** One package's smoke folders by directory (the library checks). */
 	LibrarySuite,
 };

@@ -10,7 +10,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
-import { Counts, Versions, Families, Methods, Trace, Policy, Pack } from "@Library/Content";
+import { Counts, Dependents, Versions, Families, Methods, Trace, Policy, Pack } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
 
 // The furnace diagram, from the package README.
@@ -228,7 +228,7 @@ const Related = [
 				>
 					<p>
 						The family's parent service ({Families.Factory}).
-						Forty-five of the {Counts.PackagesClassic} Classic packages depend on it.
+						{Dependents.Factory} of the {Counts.PackagesClassic} Classic packages depend on it.
 						The three governance hooks inject the service.
 						The six normalize flavors consume State/Append and the Schema helper.
 						Its own parent is the filesystem service (inject: ["fs"]).
@@ -285,13 +285,12 @@ const Related = [
 				</table>
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The other 32 consumers are the orchestration, workspace and suggester families: each
+				The remaining consumers are the orchestration, workspace and suggester families: each
 				injects the service for <code>State</code> and <code>Append</code>, and the workspace
-				packages also consume the <code>ctx.trace</code> bus it provides. The seven Classic
-				packages that do not depend on the factory are the three <code>client-*</code>
-				packages and the four libraries (<code>lib-dsh-core</code>,{" "}
-				<code>lib-dsh-pack</code>, <code>lib-dsh-trace</code>,{" "}
-				<code>lib-dsh-workspace-live</code>).
+				packages also consume the <code>ctx.trace</code> bus it provides. Of the{" "}
+				{Counts.PackagesClassic} Classic packages, {Dependents.Factory} depend on the factory
+				and {Dependents.FactoryNonConsumers.length} do not:{" "}
+				<code>{Dependents.FactoryNonConsumers.join(", ")}</code>.
 			</p>
 		</section>
 

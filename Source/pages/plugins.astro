@@ -165,6 +165,7 @@ const ClassicOnly = new Set([
 	"client-dsh-panel-family",
 	"client-dsh-panel-family-host",
 	"hook-dsh-batch-decision",
+	"hook-dsh-comment-filter",
 	"plugin-dsh-ingester",
 	"plugin-dsh-pass-on",
 	"plugin-dsh-pattern",
@@ -268,6 +269,13 @@ const NewGroups: NewGroup[] = [
 		Packages: [
 			{ Name: "lib-dsh-trace", Role: "ROLE: TRACE LIBRARY", Desc: "The trace bus's library half: the envelope, the event names, the guards, the detached loop. No plugin.", Tags: "library trace" },
 			{ Name: "lib-dsh-pack", Role: "ROLE: PACK LIBRARY", Desc: "The pack layer's library: the pack schema, the YAML-subset parser, the layered resolution, the workspace gate. No plugin.", Tags: "library pack" },
+		],
+	},
+	{
+		Title: "Overpass",
+		Tags: "overpass",
+		Packages: [
+			{ Name: "hook-dsh-comment-filter", Role: "ROLE: OVERPASS", Desc: "The comment filter: strips code comments from read and ccr_retrieve results at tools/post-execute, gated per task intent.", Tags: "overpass hook" },
 		],
 	},
 ];
@@ -538,8 +546,10 @@ const Registry = [
 			</div>
 		</section>
 
-		<!-- The delivery + the completion: 38 packages in five groups, each with
-			its twin marker. Every card carries the build-from-source route. -->
+		<!-- The delivery, the completion and the comment-filter addition: every
+			package without a hand-authored page, in groups, each with its twin
+			marker and its link to the catalog page. Every card carries the
+			build-from-source route. -->
 		{NewGroups.map((Group) => (
 			<section class="section">
 				<SectionHeader
@@ -551,6 +561,7 @@ const Registry = [
 						<Card
 							Variant="white"
 							Name={Plugin.Name}
+							Href={`/plugins/${Plugin.Name}/`}
 							Desc={Plugin.Desc}
 							Install={SourceInstall(Plugin.Name)}
 							Tags={Plugin.Tags}
@@ -569,8 +580,9 @@ const Registry = [
 		))}
 
 		<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-			The five groups carry the {NewCount} packages the 2026-10-22 delivery and the completion
-			program added - {NewTwinCount} with an ets- twin, {NewCount - NewTwinCount} Classic-only.
+			The groups carry the {NewCount} packages the 2026-10-22 delivery, the completion program
+			and the comment-filter addition brought - {NewTwinCount} with an ets- twin,{" "}
+			{NewCount - NewTwinCount} Classic-only.
 			The family-wide twin census is {Counts.Twins} of {Counts.Packages} packages.
 		</p>
 

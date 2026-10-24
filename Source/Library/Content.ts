@@ -12,12 +12,12 @@
 //   - the per-folder smoke READMEs - the runner's arbiter (Maintain/
 //     Run-Smokes.mjs): every Source/Test/<folder>/README.md declares its
 //     "## Expected count" -> "<N> PASS.", and a tree's checks are the sum of
-//     those counts (Classic 3,454 + EffectTS 3,158 = 6,612 across 511
+//     those counts (Classic 3,485 + EffectTS 3,158 = 6,643 across 513
 //     folders). The folder sums are the figure; the smoke READMEs' manifest
 //     lines are the secondary source and may lag them by a check (the
 //     factory suite: the manifest says 53/42, the folders say 54/43).
-//   - the package directories and their package.json files (101 packages:
-//     53 Classic + 48 EffectTS; the release versions; the effect pin; the
+//   - the package directories and their package.json files (102 packages:
+//     54 Classic + 48 EffectTS; the release versions; the effect pin; the
 //     47 ETS twins).
 //   - the factory's SCHEME §2 method sections (19 methods: the 18 method
 //     sections + the shared §2.7; §2.19 is the module-level policy block,
@@ -32,8 +32,12 @@
 //     Classic plugins, 30 ETS twins, the two completion libraries) and the
 //     Completion-Spec's re-spec table (the eleven approved re-specs).
 //   - the direct dependents: each package.json's runtime dependency names -
-//     the core's 46 Classic + 12 EffectTS dependents and the factory's 45
+//     the core's 47 Classic + 12 EffectTS dependents and the factory's 46
 //     Classic dependents, with the seven non-consumers.
+//   - the package catalog: every Classic package without a hand-authored
+//     detail page, read from its package.json (name/version/description),
+//     its README (the summary paragraph, the top-level headings and the
+//     activation line) and the EffectTS tree (the ets-* twin).
 //   - the harness home's desktop profile - the ONE source outside the
 //     monorepo: 49 @playform patch rows = 48 enabled + the factory (no
 //     `enabled` field), and the profile package.json's installed/enabled
@@ -77,7 +81,7 @@
 // This module is imported from the .astro frontmatter ONLY (it reaches the
 // filesystem through Live.ts at build time) - NEVER from a <script> block.
 
-import { Live } from "./Live.ts";
+import { Live, type PackageEntry } from "./Live.ts";
 
 /** A smoke-count pair: the CLASSIC checks against the EFFECT-TS checks. */
 export interface Pair {
@@ -106,8 +110,8 @@ const Fallback = {
 		Coach: { Classic: 129, EffectTS: 129 },
 	},
 	Totals: {
-		/** The CLASSIC total: 3454 checks across the 269 CLASSIC folders. */
-		Classic: 3454,
+		/** The CLASSIC total: 3485 checks across the 271 CLASSIC folders. */
+		Classic: 3485,
 		/** The EFFECT-TS total: 3158 checks across the 242 EFFECT-TS folders. */
 		EffectTS: 3158,
 	},
@@ -121,11 +125,11 @@ const Fallback = {
 		/** The packages that carry the effect pin (the rest ride ets-base-dsh). */
 		EffectPinned: 12,
 	},
-	Packages: 101,
-	PackagesClassic: 53,
+	Packages: 102,
+	PackagesClassic: 54,
 	PackagesEffectTS: 48,
-	Suites: 511,
-	SuitesClassic: 269,
+	Suites: 513,
+	SuitesClassic: 271,
 	SuitesEffectTS: 242,
 	Twins: 47,
 	Libraries: 4,
@@ -147,8 +151,56 @@ const Fallback = {
 	ProfileInstalled: { Dependencies: 51, Bundles: 48, Inactive: 3, Names: ["hook-dsh-ccr", "lib-dsh-core", "lib-dsh-workspace-live"] },
 	/** The 2026-10-22 delivery census: 36 new Classic plugins, 30 ETS twins, the 2 completion libraries, the 11 re-specs. */
 	Delivery: { NewClassic: 36, ETSTwins: 30, Libraries: 2, Respecs: 11 },
-	/** The direct dependents: 46 Classic + 12 EffectTS declare the core; 45 Classic declare the factory (7 do not). */
-	Dependents: { CoreClassic: 46, CoreEffectTS: 12, Factory: 45, FactoryNonConsumers: ["client-dsh-panel-family", "client-dsh-panel-family-host", "client-dsh-workspace-live", "lib-dsh-core", "lib-dsh-pack", "lib-dsh-trace", "lib-dsh-workspace-live"] },
+	/** The direct dependents: 47 Classic + 12 EffectTS declare the core; 46 Classic declare the factory (7 do not). */
+	Dependents: { CoreClassic: 47, CoreEffectTS: 12, Factory: 46, FactoryNonConsumers: ["client-dsh-panel-family", "client-dsh-panel-family-host", "client-dsh-workspace-live", "lib-dsh-core", "lib-dsh-pack", "lib-dsh-trace", "lib-dsh-workspace-live"] },
+	/**
+	 * The catalog's documented fallback: every new Classic package's minimal
+	 * fields - [name, kind, version, twin] - the title and the ledger derive
+	 * from the name. The rich fields (role, activation, summary, sections)
+	 * are empty when the tree is unreadable; the Drift checks these tuples
+	 * against the tree.
+	 */
+	Package: [
+		["client-dsh-panel-family", "client", "0.2.0", null],
+		["client-dsh-panel-family-host", "client", "0.1.0", null],
+		["client-dsh-workspace-live", "client", "0.1.0", "ets-client-dsh-workspace-live"],
+		["hook-dsh-batch-decision", "hook", "0.1.0", null],
+		["hook-dsh-comment-filter", "hook", "0.1.0", null],
+		["hook-dsh-convention-suggester", "hook", "0.1.0", "ets-hook-dsh-convention-suggester"],
+		["hook-dsh-doc-suggester", "hook", "0.1.0", "ets-hook-dsh-doc-suggester"],
+		["hook-dsh-edit-suggester", "hook", "0.1.0", "ets-hook-dsh-edit-suggester"],
+		["hook-dsh-graph-suggester", "hook", "0.1.0", "ets-hook-dsh-graph-suggester"],
+		["hook-dsh-replay-suggester", "hook", "0.1.0", "ets-hook-dsh-replay-suggester"],
+		["hook-dsh-search-suggester", "hook", "0.1.0", "ets-hook-dsh-search-suggester"],
+		["hook-dsh-test-suggester", "hook", "0.1.0", "ets-hook-dsh-test-suggester"],
+		["hook-dsh-workspace-approve", "hook", "0.1.0", "ets-hook-dsh-workspace-approve"],
+		["hook-dsh-workspace-audit", "hook", "0.1.0", "ets-hook-dsh-workspace-audit"],
+		["hook-dsh-workspace-govern", "hook", "0.1.0", "ets-hook-dsh-workspace-govern"],
+		["hook-dsh-workspace-journal", "hook", "0.1.0", "ets-hook-dsh-workspace-journal"],
+		["hook-dsh-workspace-merge", "hook", "0.1.0", "ets-hook-dsh-workspace-merge"],
+		["hook-dsh-workspace-monitor", "hook", "0.1.0", "ets-hook-dsh-workspace-monitor"],
+		["hook-dsh-workspace-observe", "hook", "0.1.0", "ets-hook-dsh-workspace-observe"],
+		["hook-dsh-workspace-operate", "hook", "0.1.0", "ets-hook-dsh-workspace-operate"],
+		["lib-dsh-pack", "lib", "0.1.0", "ets-lib-dsh-pack"],
+		["lib-dsh-trace", "lib", "0.1.0", "ets-lib-dsh-trace"],
+		["lib-dsh-workspace-live", "lib", "0.1.0", "ets-lib-dsh-workspace-live"],
+		["plugin-dsh-batch-edit", "plugin", "0.1.0", "ets-plugin-dsh-batch-edit"],
+		["plugin-dsh-batchstate", "plugin", "0.1.0", "ets-plugin-dsh-batchstate"],
+		["plugin-dsh-feedback", "plugin", "0.1.0", "ets-plugin-dsh-feedback"],
+		["plugin-dsh-gitguard", "plugin", "0.1.0", "ets-plugin-dsh-gitguard"],
+		["plugin-dsh-ingester", "plugin", "0.1.0", null],
+		["plugin-dsh-pass-on", "plugin", "0.1.0", null],
+		["plugin-dsh-pattern", "plugin", "0.1.0", null],
+		["plugin-dsh-queue", "plugin", "0.1.0", "ets-plugin-dsh-queue"],
+		["plugin-dsh-route", "plugin", "0.1.0", "ets-plugin-dsh-route"],
+		["plugin-dsh-workspace", "plugin", "0.1.0", "ets-plugin-dsh-workspace"],
+		["plugin-dsh-workspace-authority", "plugin", "0.1.0", "ets-plugin-dsh-workspace-authority"],
+		["plugin-dsh-workspace-context", "plugin", "0.1.0", "ets-plugin-dsh-workspace-context"],
+		["plugin-dsh-workspace-evidence", "plugin", "0.1.0", "ets-plugin-dsh-workspace-evidence"],
+		["plugin-dsh-workspace-graph", "plugin", "0.1.0", "ets-plugin-dsh-workspace-graph"],
+		["plugin-dsh-workspace-reflect", "plugin", "0.1.0", "ets-plugin-dsh-workspace-reflect"],
+		["plugin-dsh-workspace-semantics", "plugin", "0.1.0", "ets-plugin-dsh-workspace-semantics"],
+	],
 	Groups: { Core: 2, Governance: 3, Guardians: 2, Live: 1 },
 	/** The v1-record migration facts (Package-13.md: the loud, per-record fix). */
 	Migration: { Records: 76, CompatibleVersions: [1] as const },
@@ -180,10 +232,10 @@ function Pick<T>(LiveValue: T | null | undefined, FallbackValue: T): T {
 	return LiveValue ?? FallbackValue;
 }
 
-/** The live package census: 53 Classic + 48 EffectTS = 101. */
+/** The live package census: 54 Classic + 48 EffectTS = 102. */
 const PackageCensus = Live.PackageCounts;
 
-/** The live smoke-folder census: 269 Classic + 242 EffectTS = 511. */
+/** The live smoke-folder census: 271 Classic + 242 EffectTS = 513. */
 const SuiteCensus = Live.SuiteCensus;
 
 /** The per-suite smoke counts, one pair per package (the arbiter's numbers). */
@@ -210,15 +262,15 @@ export const Counts: {
 	StreamFlavors: number;
 	/** The two governance roles: GOVERNOR and PINNER. */
 	Roles: number;
-	/** The 101 release packages: 53 Classic + 48 EffectTS. */
+	/** The 102 release packages: 54 Classic + 48 EffectTS. */
 	Packages: number;
-	/** The 53 Classic release packages. */
+	/** The 54 Classic release packages. */
 	PackagesClassic: number;
 	/** The 48 EffectTS release packages (47 twins + ets-base-dsh). */
 	PackagesEffectTS: number;
-	/** The 511 smoke suites: 269 CLASSIC + 242 EFFECT-TS per-test folders. */
+	/** The 513 smoke suites: 271 CLASSIC + 242 EFFECT-TS per-test folders. */
 	Suites: number;
-	/** The 269 CLASSIC smoke folders. */
+	/** The 271 CLASSIC smoke folders. */
 	SuitesClassic: number;
 	/** The 242 EFFECT-TS smoke folders. */
 	SuitesEffectTS: number;
@@ -300,18 +352,18 @@ export const Totals = {
 	Classic: TotalClassic,
 	/** The EFFECT-TS total: the sum of every EFFECT-TS folder's expected count. */
 	EffectTS: TotalEffectTS,
-	/** Both trees' checks together: 3454 + 3158 = 6612. */
+	/** Both trees' checks together: 3485 + 3158 = 6643. */
 	Both: TotalClassic + TotalEffectTS,
 	/** The fourteen mechanics suites' subtotal (the sum of the pairs). */
 	Mechanics: {
 		Classic: SuiteOrder.reduce((Sum, PairCount) => Sum + PairCount.Classic, 0),
 		EffectTS: SuiteOrder.reduce((Sum, PairCount) => Sum + PairCount.EffectTS, 0),
 	},
-	/** "3454 checks Classic · 3158 EffectTS" - the sentence-case totals pair. */
+	/** "3485 checks Classic · 3158 EffectTS" - the sentence-case totals pair. */
 	Pair: (): string => `${Totals.Classic} checks Classic · ${Totals.EffectTS} EffectTS`,
-	/** "3454 checks Classic · 3158 Effect-TS" - the pair with the hyphenated tree name. */
+	/** "3485 checks Classic · 3158 Effect-TS" - the pair with the hyphenated tree name. */
 	PairHyphen: (): string => `${Totals.Classic} checks Classic · ${Totals.EffectTS} Effect-TS`,
-	/** "511 SUITES · 3454 CHECKS CLASSIC · 3158 EFFECT-TS" - the meta strip. */
+	/** "513 SUITES · 3485 CHECKS CLASSIC · 3158 EFFECT-TS" - the meta strip. */
 	Metadata: (): string =>
 		`${Counts.Suites} SUITES · ${Totals.Classic} CHECKS CLASSIC · ${Totals.EffectTS} EFFECT-TS`,
 };
@@ -497,15 +549,39 @@ export const Delivery = {
 
 /** The direct dependents of the two shared packages (the dependency graph's fan-in). */
 export const Dependents = {
-	/** The Classic packages declaring @playform/lib-dsh-core directly (46). */
+	/** The Classic packages declaring @playform/lib-dsh-core directly (47). */
 	CoreClassic: Pick(Live.Dependents?.CoreClassic, Fallback.Dependents.CoreClassic),
 	/** The EffectTS packages declaring @playform/ets-lib-dsh-core directly (12). */
 	CoreEffectTS: Pick(Live.Dependents?.CoreEffectTS, Fallback.Dependents.CoreEffectTS),
-	/** The Classic packages declaring @playform/plugin-dsh-factory directly (45 of the 53). */
+	/** The Classic packages declaring @playform/plugin-dsh-factory directly (46 of the 54). */
 	Factory: Pick(Live.Dependents?.Factory, Fallback.Dependents.Factory),
 	/** The seven Classic packages that declare neither the factory nor are the factory itself. */
 	FactoryNonConsumers: Pick(Live.Dependents?.FactoryNonConsumers, Fallback.Dependents.FactoryNonConsumers),
 };
+
+/** Map the minimal fallback tuples into the full catalog shape (the rich fields empty). */
+function FallbackCatalog(): PackageEntry[] {
+	return Fallback.Package.map(([name, kind, version, twin]) => ({
+		name,
+		title: name,
+		kind,
+		version,
+		twin,
+		role: null,
+		ledger: `~/.dsh/playform/${name}.log`,
+		activation: null,
+		summary: null,
+		sections: [],
+	}));
+}
+
+/**
+ * The new Classic packages' catalog: one entry per package without a
+ * hand-authored detail page (the detail lane renders one page per entry).
+ * The live reader fills every field from the tree; the documented fallback
+ * carries the minimal fields only (name, title, kind, version, twin, ledger).
+ */
+export const Package: PackageEntry[] = Live.Package ?? FallbackCatalog();
 
 /** The v1-record migration facts (Package-13.md: the loud, per-record fix). */
 export const Migration = {

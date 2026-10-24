@@ -1,0 +1,230 @@
+---
+// The catalog detail page: one page per package the content lane's catalog
+// carries (the 36-package delivery, the two completion libraries and the
+// comment-filter hook). The 15 hand-authored pages keep their own file routes
+// and the catalog excludes them, so every path resolves to exactly one page.
+// Every fact below comes from Content.ts's Package entries, which Live.ts
+// reads from the package's own package.json, README and SCHEME at build time -
+// the page invents nothing and renders the documented fallback when a live
+// source is absent.
+import Base from "@Layout/Base.astro";
+import Badge from "@Component/Badge.astro";
+import BrandIcon from "@Component/BrandIcon.astro";
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Terminal from "@Component/Terminal.astro";
+import { Counts, Package } from "@Library/Content";
+import { Link, Links } from "@Library/Links";
+import { Mention } from "@Library/FileIcon";
+
+export function getStaticPaths() {
+	return Package.map((Entry) => ({ params: { slug: Entry.name }, props: { Entry } }));
+}
+
+const { Entry } = Astro.props;
+
+/** The kind's plate label: the catalog's four role prefixes. */
+const KindLabel = {
+	lib: "LIBRARY",
+	plugin: "PLUGIN",
+	hook: "HOOK",
+	client: "CLIENT",
+}[Entry.kind];
+
+/** The catalog's own twin fact: the ets-* directory, or the Classic-only state. */
+const TwinLine = Entry.twin
+	? `The Effect-TS twin is @playform/${Entry.twin} - the same contracts under the ets- prefix.`
+	: "Classic only - the Effect-TS tree carries no twin for this package.";
+
+/** The related packages: the same kind's siblings, bounded to three. */
+const Siblings = Package.filter(
+	(Other) => Other.kind === Entry.kind && Other.name !== Entry.name,
+).slice(0, 3);
+
+/** The page's description: the catalog's role, else a composed identity line. */
+const Description =
+	Entry.role ?? `@playform/${Entry.title} - a ${Entry.kind} of the DeepSeek Harness plugin family.`;
+
+/** The documented headings, bounded so the page stays one screen of prose. */
+const Headings = Entry.sections.slice(0, 12);
+
+/** The README prose as the page renders it: the markdown emphasis, inline-code
+ * and link syntax reduced to their visible text (Mention then restores the
+ * code-token and file-mention styling). The catalog's facts stay untouched. */
+function Prose(Text: string): string {
+	return Text.replace(/\*\*([^*]+)\*\*/g, "$1")
+		.replace(/`([^`]+)`/g, "$1")
+		.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1");
+}
+
+/** The summary's fallback when the catalog carries none. */
+const SummaryFallback =
+	"The package's README opening paragraph is not in this build's catalog - the fallback carries the identity fields only.";
+---
+
+<Base Title={`${Entry.name} - DSH Family @ PlayForm`} Description={Description}>
+	<main class="container container--main">
+		<div class="eyebrow-row">
+			<Badge Variant="primary" Dot>
+				PLUGIN DETAIL
+			</Badge>
+			<Badge>{KindLabel}</Badge>
+			<Badge Variant="outline">v{Entry.version}</Badge>
+			<Badge Variant={Entry.twin ? "active" : "muted"}>
+				{Entry.twin ? "ETS TWIN" : "CLASSIC ONLY"}
+			</Badge>
+		</div>
+
+		<PageHero
+			Title={Entry.name}
+			Sub={[Prose(Entry.role ?? Description), TwinLine].join("\n")}
+		/>
+
+		<section class="section">
+			<div class="snippet-list">
+				<Terminal Pkg={Entry.title} />
+			</div>
+		</section>
+
+		<p class="page-hero__sub" style="margin-top: var(--space-md)">
+			The profile wiring for this package - the bundles list, the patch entry and the restart -
+			is on the <a href="/setup/">setup page</a>.
+		</p>
+
+		<section class="section">
+			<SectionHeader Title="The identity" Metadata="FROM THE PACKAGE CATALOG" />
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Field</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><strong>Package</strong></td>
+							<td><code>@playform/{Entry.title}</code></td>
+						</tr>
+						<tr>
+							<td><strong>Kind</strong></td>
+							<td>{KindLabel} (<code>{Entry.kind}</code>)</td>
+						</tr>
+						<tr>
+							<td><strong>Version</strong></td>
+							<td><code>{Entry.version}</code></td>
+						</tr>
+						<tr>
+							<td><strong>Effect-TS twin</strong></td>
+							<td>
+								{Entry.twin ? (
+									<code>@playform/{Entry.twin}</code>
+								) : (
+									"Classic only"
+								)}
+							</td>
+						</tr>
+						<tr>
+							<td><strong>Ledger</strong></td>
+							<td set:html={Mention(Entry.ledger)} />
+						</tr>
+						<tr>
+							<td><strong>Activation line</strong></td>
+							<td>{Entry.activation ? "Documented" : "None documented"}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="What it does" Metadata="THE CATALOG'S ROLE AND SUMMARY" />
+			<div class="concept-list">
+				<p
+					class="page-hero__sub"
+					set:html={Mention(Prose(Entry.summary ?? SummaryFallback))}
+				/>
+			</div>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The ledger" Metadata="ONE LOG PER MODULE" />
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The standard ledger path is <code>{Entry.ledger}</code> - one log per module, under
+				the family's <code>playform</code> directory.
+			</p>
+			{Entry.activation ? (
+				<Fragment>
+					<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+						The package documents this activation line (the logger prefix and the{" "}
+						<code>[&lt;ISO&gt;] &lt;message&gt;</code> file form are the factory's
+						<code>Append</code> layer):
+					</p>
+					<div class="code-block">{Entry.activation}</div>
+				</Fragment>
+			) : (
+				<p class="page-hero__sub">
+					No activation line is documented: the catalog finds no{" "}
+					<code>activated (...)</code> proof in this package's README or SCHEME, so the
+					page states none.
+				</p>
+			)}
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="What this package documents" Metadata="THE README'S HEADINGS" />
+			{Headings.length > 0 ? (
+				<ul class="concept-values">
+					{Headings.map((Heading) => (
+						<li>{Heading}</li>
+					))}
+				</ul>
+			) : (
+				<p class="page-hero__sub">
+					The catalog carries no README headings for this package in this build.
+				</p>
+			)}
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="Related packages" Metadata={`${Counts.Packages} TOTAL`} />
+			<div class="grid grid--3">
+				{Siblings.map((Other) => (
+					<Card
+						Variant="white"
+						Name={Other.name}
+						Href={`/plugins/${Other.name}/`}
+						Desc={Other.role ?? `The same kind: ${Other.kind}.`}
+						Muted
+					>
+						<Badge slot="badge">{KindLabel}</Badge>
+					</Card>
+				))}
+			</div>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The source" Metadata="THE MONOREPO" />
+			<p class="page-hero__sub">
+				The package's source is{" "}
+				<a href={Link(Links.OurRepo, `Classic/packages/${Entry.name}/Source`)}>
+					<code>Classic/packages/{Entry.name}/Source/</code>
+				</a>{" "}
+				and its documentation is the package's{" "}
+				<a href={Link(Links.OurRepo, `Classic/packages/${Entry.name}/README.md`)}>
+					<span class="file-mention">
+						<BrandIcon Name="file-markdown" Size="0.9em" />README.md
+					</span>
+				</a>
+				, beside the <span class="file-mention">
+					<BrandIcon Name="file-markdown" Size="0.9em" />SCHEME.md
+				</span>{" "}
+				where the package ships one.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				License: CC0-1.0.
+			</p>
+		</section>
+	</main>
+</Base>

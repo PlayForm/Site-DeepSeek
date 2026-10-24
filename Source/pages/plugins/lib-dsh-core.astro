@@ -9,7 +9,7 @@ import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Terminal from "@Component/Terminal.astro";
-import { Counts, Totals, Versions, Families, Scheme } from "@Library/Content";
+import { Counts, Dependents, Totals, Versions, Families, Scheme } from "@Library/Content";
 import { DotSep } from "@Library/FileIcon";
 import { Link, Links } from "@Library/Links";
 
@@ -92,7 +92,7 @@ const Related = [
 
 <Base
 	Title="lib-dsh-core - DSH Family @ PlayForm"
-	Description={`${Families.Core} - the pure machinery layer of the DeepSeek Harness plugin family: the governance helpers, the stream-normalization tables and dispatch, and the post-hoc overpass machinery (dependency-free in CLASSIC; effect-backed in EFFECT-TS). Consumed as a direct dependency by 46 of the ${Counts.PackagesClassic} Classic packages and 12 of the ${Counts.PackagesEffectTS} Effect-TS packages.`}
+	Description={`${Families.Core} - the pure machinery layer of the DeepSeek Harness plugin family: the governance helpers, the stream-normalization tables and dispatch, and the post-hoc overpass machinery (dependency-free in CLASSIC; effect-backed in EFFECT-TS). Consumed as a direct dependency by ${Dependents.CoreClassic} of the ${Counts.PackagesClassic} Classic packages and ${Dependents.CoreEffectTS} of the ${Counts.PackagesEffectTS} Effect-TS packages.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -159,9 +159,9 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						The base library of the whole family ({Families.Core}) -
-						parent of NONE, child of NONE - a direct dependency of 46 of the{" "}
-						{Counts.PackagesClassic} Classic packages and 12 of the{" "}
-						{Counts.PackagesEffectTS} Effect-TS packages.
+						parent of NONE, child of NONE - a direct dependency of{" "}
+						{Dependents.CoreClassic} of the {Counts.PackagesClassic} Classic packages and{" "}
+						{Dependents.CoreEffectTS} of the {Counts.PackagesEffectTS} Effect-TS packages.
 					</p>
 
 					<p class="page-hero__sub">
