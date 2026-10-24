@@ -9,7 +9,7 @@ import Concept from "@Component/Concept.astro";
 import InstallDemo from "@Component/InstallDemo.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
-import { Steps, Totals, Versions } from "@Library/Content";
+import { Client, Counts, Policy, Profile, Scheme, Steps, Storage, Totals } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
 import { DotSep, Mention } from "@Library/FileIcon";
 
@@ -65,10 +65,10 @@ const DemoSteps = [
 	{
 		N: 4,
 		Title: "Verify the ledgers",
-		Metadata: "~/.dsh/<name>.log",
+		Metadata: "~/.dsh/playform/<name>.log",
 		Lines: [
-			"hook-dsh-package-governor: activated (anywhere mode, logFile=..., updateMode=..., ncuBin=..., exclude=[...], policyFile=(discovery))",
-			"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
+			"hook-dsh-governor-package: activated (anywhere mode, logFile=..., updateMode=..., ncuBin=..., exclude=[...], policyFile=(discovery))",
+			"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/playform/hook-dsh-normalize-dash.log)",
 		],
 		Outcome: "The ledger answers 'did it activate' - EACH plugin writes its activation line at boot.",
 	},
@@ -111,7 +111,7 @@ const PatchExample = [
 	'        name: "@playform/hook-dsh-package-governor"',
 	"        config:",
 	"            log: true",
-	"            logFile: ~/.dsh/hook-dsh-package-governor.log",
+	"            logFile: ~/.dsh/playform/hook-dsh-package-governor.log",
 	"            updateCooldownMs: 3000",
 	"            strict: false",
 	"            mutationTools: [write, edit, str_replace_editor, raw-write]",
@@ -125,7 +125,7 @@ const PatchExample = [
 	'        name: "@playform/hook-dsh-normalize-dash"',
 	"        config:",
 	"            log: true",
-	"            logFile: ~/.dsh/hook-dsh-normalize-dash.log",
+	"            logFile: ~/.dsh/playform/hook-dsh-normalize-dash.log",
 	'            replacement: "-"',
 	"            normalizeReasoning: true",
 	"            normalizeToolArguments: true",
@@ -134,7 +134,7 @@ const PatchExample = [
 	'        name: "@playform/hook-dsh-ccr"',
 	"        config:",
 	"            log: true",
-	"            logFile: ~/.dsh/ccr.log",
+	"            logFile: ~/.dsh/playform/hook-dsh-ccr.log",
 	"            targets: [bash, glob, grep, read, web_fetch, web_search, list, search]",
 	"            exempt: [write, edit, raw-write, subagent, ask_user_question, ccr_retrieve]",
 	"            thresholdBytes: 2048",
@@ -146,7 +146,7 @@ const PatchExample = [
 	'        name: "@playform/hook-dsh-tool-coach"',
 	"        config:",
 	"            log: true",
-	"            logFile: ~/.dsh/hook-dsh-tool-coach.log",
+	"            logFile: ~/.dsh/playform/hook-dsh-tool-coach.log",
 	"            enabled: true",
 	"            judgeTools: [bash, pwsh]",
 	"            threshold: 3",
@@ -156,11 +156,34 @@ const PatchExample = [
 	"            fetchLive: true",
 ];
 
-// The verify step: the activation lines each ledger gains at boot.
+// The pack files, as the shape the pack layer reads (Completion-Spec 00-OVERVIEW
+// section 3.2): the user layer, the repo layer and the extends chain. The example
+// is the SHAPE, not a shipped pack - a repository without a pack gets silence.
+const PackExample = [
+	"# ~/.dsh/playform/workspaces/<repo-slug>.yml - the user layer",
+	"signature:",
+	"    - package.json",
+	"    - .dsh/pack.yml",
+	"families:",
+	"    edit: [tests, docs, ledger]",
+	"indexer:",
+	"    scope: [Source]",
+	"    excludes: [node_modules, Target]",
+	"policy:",
+	"    write: approve",
+	"    read: auto",
+	"extends: base-workspace",
+];
+
+// The verify step: the logger lines each module's ledger gains at boot, in the
+// factory's `<module>: <message>` form. The module prefixes are the real ones
+// (the governor's, the pinner's and the cargo governor's invert the package
+// name; the ccr hook's is `ccr`). The values are the example patch's - so this
+// block is labelled as composed from that patch, never as a README quote.
 const VerifyLines = [
-	"hook-dsh-package-governor: activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
-	"hook-dsh-package-pinner: activated (pinner, logFile=~/.dsh/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
-	"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
+	"hook-dsh-governor-package: activated (anywhere mode, logFile=~/.dsh/playform/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+	"hook-dsh-pinner-package: activated (pinner, logFile=~/.dsh/playform/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
+	"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/playform/hook-dsh-normalize-dash.log)",
 	"ccr: activated (bundle 0.1.0, targets 8, budget 268435456)",
 	"# the tool-coach writes no activation line - its tier-0 ledger opens with the first offense line",
 ];
@@ -346,14 +369,35 @@ const Knobs = [
 				</Concept>
 				<Concept
 					ID="setup-remote-installs"
-					Title="Remote installs work the same way"
-					Diagram="The tarball route into the same bundles list - dsh plugin --profile add of a built bundle; the npm install route against the registry is the other path in for the published packages."
+					Title="Every route is a build-from-source route"
+					Diagram="The tarball route into the same bundles list - dsh plugin --profile add of a built bundle; the link: dependency in the profile is the second route in. No registry install exists: all 101 packages are unpublished."
 				>
 					<p>
 						<BrandIcon Name="playform" />{" "}
-						<code>dsh plugin --profile &lt;name&gt; add &lt;tarball&gt;</code> for a built bundle today, or{" "}
-						<code>npm install @playform/&lt;pkg&gt;@{Versions.Release}</code> in the profile directory for a published package.
-						hook-dsh-ccr, hook-dsh-tool-coach, and hook-dsh-live-containers are publish-pending - build those three from source until they land.
+						<code>dsh plugin --profile &lt;name&gt; add &lt;tarball|dir&gt;</code> for a built bundle,
+						or the <code>link:</code> dependency in the profile's{" "}
+						<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" />package.json</span>.
+						Neither route needs a registry.
+					</p>
+					<p>
+						ALL 101 packages are unpublished - there is no registry install route today.
+						The bundles list is what activates a linked bundle.
+					</p>
+				</Concept>
+				<Concept
+					ID="setup-client-bundles"
+					Title="The client bundles ride the same list"
+					Diagram={`The ${Client.Packages} client packages in the profile's bundles list beside the hook and tool bundles - the panel contract, its host half and the workspace live view, each linked and activated the same way.`}
+				>
+					<p>
+						The client family is {Client.Packages} packages:{" "}
+						<code>client-dsh-panel-family</code>, <code>client-dsh-panel-family-host</code> and{" "}
+						<code>client-dsh-workspace-live</code>.
+						They are linked and listed exactly like the hook and tool bundles.
+					</p>
+					<p>
+						The panel carries {Client.Adapters} per-bundle adapter manifests; the live view
+						ingests from the trace bus.
 					</p>
 				</Concept>
 			</div>
@@ -397,6 +441,38 @@ const Knobs = [
 			<CodeBlock Language="yaml" Source={PatchExample.join("\n")} />
 		</section>
 
+		<!-- Step 2b -->
+		<section class="section">
+			<SectionHeader Title="Step 2b - Teach the workspace" Metadata="THE PACK FILES" />
+			<div class="concept-list">
+				<Concept
+					ID="setup-pack-files"
+					Title="One file describes one repository"
+					Diagram="The three pack layers - the user pack at ~/.dsh/playform/workspaces/<repo-slug>.yml, the in-repo .dsh/pack.yml, and the cycle-guarded extends: chain - resolving per section to the families, the companion paths, the thresholds and the repo signature."
+				>
+					<p>
+						A pack declares the families, the companion paths, the thresholds and the repo
+						signature.
+						The resolution reads the user layer first, then the repo layer, then the
+						cycle-guarded <code>extends:</code> chain.
+					</p>
+					<p>
+						The user layer is{" "}
+						<code>~/.dsh/playform/workspaces/&lt;repo-slug&gt;.yml</code>.
+						The repo layer is <code>&lt;repo&gt;/.dsh/pack.yml</code>.
+						A pack may <code>extends:</code> another.
+						A repository without a pack gets silence.
+					</p>
+				</Concept>
+			</div>
+			<CodeBlock Language="yaml" Source={PackExample.join("\n")} />
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The example is the pack file's shape, not a shipped pack.
+				The learner proposes a repository's pack from its own index; learning never writes a
+				pack silently.
+			</p>
+		</section>
+
 		<!-- Step 3 -->
 		<section class="section">
 			<SectionHeader Title="Step 3 - Restart" Metadata="BUNDLE LAYERS COMPOSE AT HOST BOOT" />
@@ -436,7 +512,7 @@ const Knobs = [
 				<Concept
 					ID="setup-ledger-verify"
 					Title="The ledger answers 'did it activate'"
-					Diagram="Each plugin writing its activation line to its own ~/.dsh/<name>.log at boot - the ledger and the runtime's inspect providers as the activation assessors."
+					Diagram="Each plugin writing its activation line to its own ~/.dsh/playform/<name>.log at boot - the ledger and the runtime's inspect providers as the activation assessors."
 				>
 					<p>
 						"Did it activate" is answerable from the ledger alone.
@@ -462,6 +538,13 @@ const Knobs = [
 				</Concept>
 			</div>
 			<div class="code-block">{VerifyLines.join("\n")}</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The lines above are <strong>composed from the example patch</strong> in Step 2, in the
+				factory's <code>&lt;module&gt;: &lt;message&gt;</code> logger form.
+				The module prefixes are the real ones; the values are the patch's (the READMEs print their
+				own defaults, so this block is not quoted as a README byte-for-byte).
+				The file form stamps the same message with <code>[&lt;ISO&gt;]</code> and drops the prefix.
+			</p>
 		</section>
 
 		<!-- The configurable surface -->
@@ -495,6 +578,25 @@ const Knobs = [
 						<a href="/plugins/hook-dsh-ccr/">ccr compressor</a>, the{" "}
 						<a href="/plugins/hook-dsh-tool-coach/">tool-coach</a> and the
 						<a href="/plugins/plugin-dsh-factory/">factory service</a>.
+					</p>
+				</Concept>
+				<Concept
+					ID="setup-policy"
+					Title="The policy block: every action is auto or approve"
+					Diagram={`The module-level policy block (SCHEME ${Scheme.Policy}) - ${Policy.Actions} action keys, ${Policy.Auto} auto and ${Policy.Approve} approve by default - consulted by the tools and listeners before they act.`}
+				>
+					<p>
+						Each plugin's Config carries a <code>policy</code> block: one entry per action,{" "}
+						<code>auto</code> or <code>approve</code>.
+						The block declares {Policy.Actions} actions - read, index, record, suggest, write,
+						commit, spawn and message - with {Policy.Auto} auto and {Policy.Approve} approve by
+						default.
+					</p>
+					<p>
+						{Policy.Packages} packages carry a policy (or automation) block and its
+						Policy-Defaults smoke folder.
+						The tools and listeners consult the block before they act, so the per-plugin
+						allowlist is the switch that decides what runs unattended.
 					</p>
 				</Concept>
 			</div>
@@ -704,7 +806,7 @@ const Knobs = [
 
 		<!-- The ledgers -->
 		<section class="section">
-			<SectionHeader Title="One ledger per plugin" Metadata="~/.dsh/<name>.log" />
+			<SectionHeader Title="One ledger per plugin" Metadata="~/.dsh/playform/<name>.log" />
 			<div class="concept-list">
 				<Concept
 					ID="setup-separate-ledgers"
@@ -724,8 +826,26 @@ const Knobs = [
 				>
 					<p>
 						<code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file
-						and <code>&lt;plugin&gt;: &lt;message&gt;</code> on the logger, both
+						and <code>&lt;module&gt;: &lt;message&gt;</code> on the logger, both
 						composed by the factory's Append around the plugin's own string.
+						The module prefix is not always the package name - the governor's, the pinner's
+						and the cargo governor's invert it, and the ccr hook's is <code>ccr</code>.
+					</p>
+				</Concept>
+				<Concept
+					ID="setup-storage-domains"
+					Title="The named storage domains"
+					Diagram={`The ${Storage.Domains} named KV domains - one owner per domain - beside the per-plugin ledgers: pattern, batch_state, replay_history, package_governance, live_containers_monitors and the rest.`}
+				>
+					<p>
+						The durable state beyond the ledgers lives in {Storage.Domains} named KV domains.
+						One owner per domain: the pattern graph, the batch state, the replay history, the
+						factory's package_governance records and the live-containers monitors each open
+						their own.
+					</p>
+					<p>
+						A storage record buffers or drops when no storage facility is present - the human
+						ledger stays the complete record.
 					</p>
 				</Concept>
 			</div>
@@ -743,41 +863,59 @@ const Knobs = [
 					<tbody>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-governor/Source")}>hook-dsh-package-governor</a></td>
-							<td>~/.dsh/hook-dsh-package-governor.log</td>
+							<td>~/.dsh/playform/hook-dsh-package-governor.log</td>
 							<td>activated (anywhere mode, ...)</td>
 						</tr>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-package-pinner/Source")}>hook-dsh-package-pinner</a></td>
-							<td>~/.dsh/hook-dsh-package-pinner.log</td>
+							<td>~/.dsh/playform/hook-dsh-package-pinner.log</td>
 							<td>activated (pinner, ...)</td>
 						</tr>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-cargo-governor/Source")}>hook-dsh-cargo-governor</a></td>
-							<td>~/.dsh/hook-dsh-cargo-governor.log</td>
+							<td>~/.dsh/playform/hook-dsh-cargo-governor.log</td>
 							<td>activated (cargo flavor, ...)</td>
 						</tr>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-normalize-dash/Source")}>hook-dsh-normalize-dash</a></td>
-							<td>~/.dsh/hook-dsh-normalize-dash.log</td>
+							<td>~/.dsh/playform/hook-dsh-normalize-dash.log</td>
 							<td>activated (replacement=-, reasoning=on, ...)</td>
 						</tr>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-normalize-file/Source")}>plugin-dsh-normalize-file</a></td>
-							<td>~/.dsh/plugin-dsh-normalize-file.log</td>
+							<td>~/.dsh/playform/plugin-dsh-normalize-file.log</td>
 							<td>activated (replacement=-, ...)</td>
 						</tr>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-ccr/Source")}>hook-dsh-ccr</a></td>
-							<td>~/.dsh/ccr.log</td>
+							<td>~/.dsh/playform/hook-dsh-ccr.log</td>
 							<td>activated (bundle 0.1.0, targets 8, budget 268435456)</td>
 						</tr>
 						<tr>
 							<td><a href={Link(Links.OurRepo, "Classic/packages/hook-dsh-tool-coach/Source")}>hook-dsh-tool-coach</a></td>
-							<td>~/.dsh/hook-dsh-tool-coach.log</td>
+							<td>~/.dsh/playform/hook-dsh-tool-coach.log</td>
 							<td>NO boot line - the tier-0 ledger starts at the first offense</td>
 						</tr>
 					</tbody>
 				</table>
+			</div>
+			<div class="concept-list">
+				<Concept
+					ID="setup-profile-scale"
+					Title="The profile scale is a live observation"
+					Diagram={`The desktop profile patch's @playform rows - ${Profile.Rows} rows, ${Profile.Enabled} with enabled: true, plus the factory row (which carries no enabled field) - beside the ${Counts.Packages} packages the family ships.`}
+				>
+					<p>
+						The desktop profile patch wires {Profile.Rows} @playform rows: {Profile.Enabled} carry{" "}
+						<code>enabled: true</code>, and the factory row carries no enabled field.
+					</p>
+					<p>
+						Those figures are a <strong>live-profile observation</strong>: they come from the
+						build machine's own harness profile, the one source outside the monorepo.
+						A machine without the desktop profile serves the documented fallback.
+						Read your own profile's <code>cordis.patch.yml</code> before trusting the count.
+					</p>
+				</Concept>
 			</div>
 		</section>
 

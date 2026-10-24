@@ -9,7 +9,7 @@ import Concept from "@Component/Concept.astro";
 import FlavorBadge from "@Component/FlavorBadge.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
-import { Counts, Sprite } from "@Library/Content";
+import { Client, Counts, Sprite, Suggesters } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
 
 // The chain showcase: one raw line carrying every family's anomaly (each
@@ -66,7 +66,7 @@ const Flavors = [
 
 <Base
 	Title="Flavors & Roles - DSH Family @ PlayForm"
-	Description="The seven normalize flavors (dash, quotes, ellipsis, spaces, invisible, fullwidth, file). The two governance roles (governor, pinner) and the two guardians (the ccr compressor, the tool-coach) of the DeepSeek Harness Plugin Family."
+	Description={`The normalize flavors and the governance roles of the ${Counts.Packages}-package DeepSeek Harness Plugin Family: the seven normalize flavors (dash, quotes, ellipsis, spaces, invisible, fullwidth, file), the two governance roles (governor, pinner), the two guardians (the ccr compressor, the tool-coach), and the completion's role kinds.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -80,7 +80,7 @@ const Flavors = [
 
 		<PageHero
 			Title="Flavors & Roles"
-			Sub={"Eleven capabilities, three kinds.\nThe seven normalize flavors turn model output streams and project files into clean ASCII. The two governance roles keep the project's manifests pinned and governed under the author's control. The two guardians watch the model itself. The ccr compressor shrinks oversized tool output. The tool-coach coaches the terminal calls."}
+			Sub={`The normalize flavors and the governance roles of the ${Counts.Packages}-package family.\nThe seven normalize flavors turn model output streams and project files into clean ASCII. The two governance roles keep the project's manifests pinned and governed under the author's control. The two guardians watch the model itself: the ccr compressor shrinks oversized tool output, and the tool-coach coaches the terminal calls.`}
 		/>
 
 		<!-- The seven flavors -->
@@ -188,6 +188,24 @@ const Flavors = [
 				It catches the terminal edits neither governance role can see.
 				<code>fs/observed</code> fires ONLY on tool-layer writes.
 			</p>
+
+			<!-- The completion's role kinds: the same taxonomy, four more kinds. -->
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The completion program added four more kinds to the family's role taxonomy.
+				A <strong>librarian</strong> is a library with no plugin of its own - {Counts.NewLibraries}{" "}
+				of them carry the trace bus and the pack layer.
+				A <strong>suggester</strong> projects its domain out of the resolved pack -{" "}
+				{Suggesters.Count} packages.
+				An <strong>orchestrator</strong> runs the batch, queue, routing and guard surface.
+				A <strong>panel</strong> renders the family's client half - {Client.Packages} packages with{" "}
+				{Client.Adapters} adapter manifests.
+			</p>
+			<div class="flavor-strip">
+				<Badge>LIBRARIAN × {Counts.NewLibraries}</Badge>
+				<Badge>SUGGESTER × {Suggesters.Count}</Badge>
+				<Badge>ORCHESTRATOR</Badge>
+				<Badge>PANEL × {Client.Packages}</Badge>
+			</div>
 		</section>
 
 		<!-- The badge sprite -->

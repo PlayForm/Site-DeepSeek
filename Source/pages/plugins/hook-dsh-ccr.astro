@@ -95,7 +95,7 @@ const Config = [
 	{
 		Field: "logFile",
 		Type: "string",
-		Default: "~/.dsh/ccr.log",
+		Default: "~/.dsh/playform/hook-dsh-ccr.log",
 		Meaning: "the CCR hook's ledger, SEPARATE from the family's logs (ONE log per module); volatile",
 	},
 	{
@@ -176,6 +176,24 @@ const Config = [
 		Default: "false",
 		Meaning: "phase-4 middle-turn archiving - implemented and OFF by default (SCHEME.md section 9)",
 	},
+	{
+		Field: "contextEngineThresholdPct",
+		Type: "number",
+		Default: "30",
+		Meaning: "the context-fill percentage at which the phase-4 engine archives (inert while contextEngine is off)",
+	},
+	{
+		Field: "protectFirstTurns",
+		Type: "number",
+		Default: "2",
+		Meaning: "the protected head: this many opening turns are never archived",
+	},
+	{
+		Field: "protectLastTurns",
+		Type: "number",
+		Default: "4",
+		Meaning: "the protected tail window: the last this-many turns are never archived",
+	},
 ];
 
 // The In Action ledger excerpt, from the repo's verified sources (the
@@ -249,6 +267,10 @@ const Related = [
 		Desc: "The guardian on the same waterfall: observes and counts the terminal tool calls ccr compresses, and coaches the model away from using bash for file content.",
 	},
 	{
+		Name: "hook-dsh-live-containers",
+		Desc: "The streaming sibling: its detach transform and completion report own the live path this hook deliberately leaves alone - the post-execute point sees finalized results only.",
+	},
+	{
 		Name: "hook-dsh-package-governor",
 		Desc: "The governance opposite: the governor is deliberately INVISIBLE at the result layer. The compression is deliberately VISIBLE - it IS the feature.",
 	},
@@ -301,16 +323,18 @@ const Related = [
 			<p class="page-hero__sub">A factory flavor: the family's furnace composes the schema.
 				This package is the model logic.
 			</p>
+			<p class="page-hero__sub">
+				The Effect-TS twin is{" "}
+				<a href={Link(Links.OurRepo, "EffectTS/packages/ets-hook-dsh-ccr/Source")}><code>@playform/ets-hook-dsh-ccr</code></a>{" "}
+				- the same contracts under the <code>ets-</code> prefix, built on the shared{" "}
+				<code>@playform/ets-base-dsh</code> base.
+			</p>
 		</section>
 
 		<section class="section">
 			<div class="snippet-list">
 				<Terminal Pkg="hook-dsh-ccr"/>
 			</div>
-			<p class="page-hero__sub">
-				Publish-pending - build from source until the npm release lands.
-				The command above is the npm form the release will publish.
-			</p>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
 					<span class="live-dot"></span>INSPECTED
@@ -350,7 +374,7 @@ const Related = [
 						<strong>lib-dsh-core</strong> helpers. It has NO hook children of its own.
 					</p>
 					<p>
-						THE FIRST family member hooked on the{" "}
+						A family member hooked on the{" "}
 						<a href={Link(Links.DeepSeekHarness, "docs/subsystems/tools.md")}><code class="code-token">tools/post-execute</code></a>{" "}
 						waterfall rather than <code>fs/observed</code>.
 						The file-hook precedent
@@ -698,7 +722,7 @@ const Related = [
 					'        name: "@playform/hook-dsh-ccr"',
 					"        config:",
 					"            log: true",
-					"            logFile: ~/.dsh/ccr.log # the CCR hook's ledger (one log per module)",
+					"            logFile: ~/.dsh/playform/hook-dsh-ccr.log # the CCR hook's ledger (one log per module)",
 					"            targets: [bash, glob, grep, read, web_fetch, web_search, list, search]",
 					"            exempt: [write, edit, raw-write, subagent, ask_user_question, ccr_retrieve]",
 					"            thresholdBytes: 2048 # volatile",
@@ -842,6 +866,21 @@ const Related = [
 						<code>ccr: evicted &lt;hash&gt; (ttl)</code>.
 					</p>
 				</Concept>
+				<Concept
+					ID="ccr-journal"
+					Title="The activation record lands in the shared journal too"
+					Diagram="The mount's activated event written as a machine-readable record into the shared package_governance v2 domain through the factory's Journal, beside the human ledger line - best-effort, with the human ledger staying the complete record."
+				>
+					<p>
+						The mount also writes one <code>activated</code> record into the shared{" "}
+						<code>package_governance</code> v2 domain through the factory's{" "}
+						<code>Journal</code>, beside the human ledger line.
+					</p>
+					<p>
+						The record is best-effort: with no storage facility it buffers or drops, and
+						the human ledger stays the complete record.
+					</p>
+				</Concept>
 			</div>
 			<div class="code-block">{LedgerExcerpt.join("\n")}</div>
 			<p class="section-kicker" style="margin-top: var(--space-md)">
@@ -850,7 +889,7 @@ const Related = [
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 		</section>
 
-		<!-- The known limits: the documented gaps, stated as they are. -->
+		{/* The known limits: the documented gaps, stated as they are. */}
 		<section class="section">
 			<SectionHeader Title="Known limits" Metadata="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
@@ -874,8 +913,10 @@ const Related = [
 				<strong>The deliberate scoping.</strong>
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				NO proxy mode, NO live containers (the
-				post-execute point sees finalized results ONLY), NO poll worker, NO chain split.
+				NO proxy mode, NO poll worker, NO chain split - the
+				post-execute point sees finalized results ONLY. The live-containers bundle is the
+				sibling that reaches the streaming path this hook deliberately does not: its detach
+				transform and completion report own that side.
 				The <code>system-prompt/assemble</code> CCR-handling directive section remains
 				unimplemented.
 			</p>

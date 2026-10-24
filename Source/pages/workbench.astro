@@ -82,10 +82,12 @@ const Runtimes = [
 	{ ID: "effect", Label: "Effect-TS v4 Fiber" },
 ];
 
-// Ingest engines, per the workbench mock.
+// Ingest engines: the three catalog routes plus the raw ingest. The ids drive
+// the simulation's seed pools; the labels are the catalog's model names.
 const Engines = [
-	{ ID: "deepseek", Label: "DeepSeek Engine v4" },
-	{ ID: "glm", Label: "GLM Engine 5.3" },
+	{ ID: "deepseek", Label: "DeepSeek V4.1 Flash 1017" },
+	{ ID: "deepseek-0731", Label: "DeepSeek V4 Flash 0731" },
+	{ ID: "glm", Label: "GLM 5.3 Flash" },
 	{ ID: "raw", Label: "Raw Ingest Stream" },
 ];
 
@@ -160,6 +162,9 @@ const Spans = [
 					>
 						<span class="dot"></span>
 						{Engine.ID === "glm" && <BrandIcon Name="zhipu" Size="0.8em" />}
+						{Engine.ID !== "glm" && Engine.ID !== "raw" && (
+							<BrandIcon Name="deepseek" Size="0.8em" />
+						)}
 						{Engine.Label}
 					</button>
 				))}
@@ -428,10 +433,16 @@ const Spans = [
 	];
 	const EngineSeeds: Record<string, string[]> = {
 		deepseek: Seeds,
+		"deepseek-0731": Seeds,
 		glm: GLMSeeds,
 		raw: RawSeeds,
 	};
-	const EngineTicks: Record<string, number> = { deepseek: 900, glm: 450, raw: 1400 };
+	const EngineTicks: Record<string, number> = {
+		deepseek: 900,
+		"deepseek-0731": 900,
+		glm: 450,
+		raw: 1400,
+	};
 	let Engine = "deepseek";
 	let TickMs = EngineTicks[Engine]!;
 

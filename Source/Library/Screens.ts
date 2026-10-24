@@ -1,20 +1,22 @@
 // Screens.ts - the registry screens' data (Design 03 section 2, 02 section 3).
 //
-// The modules are the fifteen release packages' fourteen hooks: the
+// The modules are the 15 LEGACY release packages' fourteen hooks: the
 // machinery (core, factory), the three governors, the six stream
 // normalizers plus the file tool, and the two services (ccr, tool-coach).
+// The screen is scoped to the legacy modules - the other 86 packages are
+// listed on the plugins page's groups, not on this cabinet.
 // The codes are the instrument's plate marks; the sentences, the counts and
-// the install commands come from the content library, so a release bump or
+// the install routes come from the content library, so a release bump or
 // a smoke change re-renders every plate.
 //
-// The three publish-pending packages (ccr, tool-coach, live-containers) are
-// NOT on the registry: their plates carry the amber PENDING lamp and no
-// install promise. The check counts stay, because the smokes still run.
+// ALL 101 packages are UNPUBLISHED: every plate carries the build-from-source
+// route (`dsh plugin --profile <name> add <dir>`) and the PUBLISHED: NO state.
+// No plate promises an npm install.
 //
 // BUILD-TIME ONLY: imported from the .astro frontmatter, which reaches
 // Content.ts and therefore Live.ts (node:fs).
 
-import { Counts, Families, Versions } from "./Content.ts";
+import { Counts, Families } from "./Content.ts";
 
 /** One mounted module plate. */
 export interface Module {
@@ -32,9 +34,11 @@ export interface Module {
 	Tags: string;
 	/** The CLASSIC smoke count (the footer's reading). */
 	Checks: number;
-	/** The npm install command, or "" when the package is publish-pending. */
+	/** The build-from-source install command. */
 	Install: string;
-	/** True for the three packages that are not on the registry yet. */
+	/** The registry state: false for every package - none is published. */
+	Published: boolean;
+	/** The legacy amber-lamp flag (the publish-pending era); false for every package now. */
 	Pending: boolean;
 }
 
@@ -68,17 +72,10 @@ export interface Screen {
 	Planned: { Title: string; Claim: string } | null;
 }
 
-/** The install command for a published package at the live release. */
+/** The build-from-source install command for an unpublished package. */
 function Install(Name: string): string {
-	return `npm install @playform/${Name}@${Versions.Release}`;
+	return `dsh plugin --profile <name> add ./bundles/${Name}`;
 }
-
-/** The publish-pending set: the registry returns 404 for these three. */
-const PendingNames = new Set([
-	"hook-dsh-ccr",
-	"hook-dsh-tool-coach",
-	"hook-dsh-live-containers",
-]);
 
 /** Build one module from its plate marks and its content-library figures. */
 function Mount(
@@ -98,8 +95,9 @@ function Mount(
 		Desc,
 		Tags,
 		Checks,
-		Install: PendingNames.has(Name) ? "" : Install(Name),
-		Pending: PendingNames.has(Name),
+		Install: Install(Name),
+		Published: false,
+		Pending: false,
 	};
 }
 
@@ -265,13 +263,13 @@ const Services: Bay = {
 	],
 };
 
-/** Screen 01 - THE HOOKS: the fourteen hooks in dependency order. */
+/** Screen 01 - THE HOOKS: the fourteen hooks of the 15 legacy modules, in dependency order. */
 export const HooksScreen: Screen = {
 	Code: "CAB-01",
 	Title: "Plugins",
 	ScreenTitle: "THE HOOKS",
 	Claim:
-		"Fourteen modules: the machinery, the three governors, the seven normalizers, and the two services.",
+		"14 modules of the 15 legacy packages: the machinery, the three governors, the seven normalizers, and the two services. The registry carries all 101 packages; every one is unpublished, so every plate shows the build-from-source route.",
 	Bays: [Machinery, Governors, Flow, Services],
 	ModuleCount: 14,
 	Planned: null,

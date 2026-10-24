@@ -110,7 +110,7 @@ const Config = [
 	{
 		Field: "logFile",
 		Type: "string",
-		Default: "~/.dsh/hook-dsh-tool-coach.log",
+		Default: "~/.dsh/playform/hook-dsh-tool-coach.log",
 		Meaning: "the coach's ledger, SEPARATE from the family's logs (one log per module)",
 	},
 	{
@@ -336,16 +336,18 @@ const Related = [
 				composes the schema and the volatile refresh; this package owns its schema and
 				its strings.
 			</p>
+			<p class="page-hero__sub">
+				The Effect-TS twin is{" "}
+				<a href={Link(Links.OurRepo, "EffectTS/packages/ets-hook-dsh-tool-coach/Source")}><code>@playform/ets-hook-dsh-tool-coach</code></a>{" "}
+				- the same contracts under the <code>ets-</code> prefix, built on the shared{" "}
+				<code>@playform/ets-base-dsh</code> base.
+			</p>
 		</section>
 
 		<section class="section">
 			<div class="snippet-list">
 				<Terminal Pkg="hook-dsh-tool-coach" Rail />
 			</div>
-			<p class="page-hero__sub">
-				Publish-pending - build from source until the npm release lands.
-				The command above is the npm form the release will publish.
-			</p>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
 					<span class="live-dot"></span>INSPECTED
@@ -362,7 +364,9 @@ const Related = [
 					<span class="workbench-controls__label">Events:</span>
 					<Badge>tools/post-execute</Badge>
 					<Badge>tools/pre-execute</Badge>
+					<Badge>agent/pre-step</Badge>
 					<Badge>system-prompt/assemble</Badge>
+					<Badge>tools/change</Badge>
 					<span class="workbench-controls__label">Injects:</span>
 					<Badge Variant="active">pluginFactory, tools</Badge>
 				</div>
@@ -496,7 +500,7 @@ const Related = [
 					},
 					{
 						Seam: "The ledger / session",
-						What: "One log per module - logFile (default ~/.dsh/hook-dsh-tool-coach.log) - recording the ten byte-exact strings in [ISO] form; apply returns NOTHING, so 'did it activate' is answerable from the ledger and the state attachment alone.",
+						What: "One log per module - logFile (default ~/.dsh/playform/hook-dsh-tool-coach.log) - recording the ten byte-exact strings in [ISO] form; apply returns NOTHING, so 'did it activate' is answerable from the ledger and the state attachment alone.",
 						Outcome:
 							"The coaching state is discoverable from the ledger alone.",
 					},
@@ -639,7 +643,7 @@ const Related = [
 					'        name: "@playform/hook-dsh-tool-coach"',
 					"        config:",
 					"            log: true",
-					"            logFile: ~/.dsh/hook-dsh-tool-coach.log",
+					"            logFile: ~/.dsh/playform/hook-dsh-tool-coach.log",
 					"            enabled: true # the MASTER switch",
 					"            judgeTools: [bash, pwsh] # the dedicated tools are never judged",
 					"            threshold: 3 # tier-1 strikes per class",
@@ -652,6 +656,12 @@ const Related = [
 					"            fetchLive: true # the live ctx.tools.schemas() fetch",
 					"            maxSectionTools: 8 # the tier-2 tool-table row cap",
 					"            sectionTtl: 20 # judged calls the section text is cached for",
+					"            exemptPatterns: [] # regex sources that are never judged",
+					"            patternTable: [] # extra {pattern, tool, class} rows beside the 24 built-ins",
+					"            notes: # the three model-facing templates (volatile)",
+					"                first: \"...\" # the tier-1 notice",
+					"                persistent: \"...\" # the tier-2 section (the profile overrides this one)",
+					"                denied: \"...\" # the tier-3 deny reason",
 				].join("\n")}
 			/>
 			<div class="table-wrap">
@@ -677,6 +687,56 @@ const Related = [
 						))}
 					</tbody>
 				</table>
+			</div>
+			<div class="concept-list">
+				<Concept
+					ID="coach-notes"
+					Title="The three note templates are config cells"
+					Diagram="notes.first, notes.persistent and notes.denied as volatile cells: a profile patch that lists the coach entry's bare id and replaces any template retexts one tier without touching the package - one template edit commits one update the State's refresh listener re-reads, and an empty template fails loud at apply."
+				>
+					<p>
+						The coach's four delivery channels (tier-0 ledger, tier-1 notice, tier-2
+						section, tier-3 deny) carry three model-facing templates:{" "}
+						<code>notes.first</code> (the notice), <code>notes.persistent</code> (the
+						section) and <code>notes.denied</code> (the deny reason). All three are
+						volatile cells.
+					</p>
+					<p>
+						The templates keep the placeholder grammar (<code>$&#123;command&#125;</code>,{" "}
+						<code>$&#123;class&#125;</code>, <code>$&#123;count&#125;</code>,{" "}
+						<code>$&#123;traceability&#125;</code>, <code>$&#123;tool.name&#125;</code>,{" "}
+						<code>$&#123;tool.description&#125;</code>,{" "}
+						<code>$&#123;tool.param&#125;</code>, <code>$&#123;table&#125;</code>);
+						inserted user data is escaped before substitution, so a composed note never
+						gains an unfilled placeholder.
+					</p>
+				</Concept>
+				<Concept
+					ID="coach-grammar-override"
+					Title="The grammar override: the profile retexts the tier-2 section"
+					Diagram="The one intended override in the family: the profile patch replaces notes.persistent with the shipped template plus the appended Live-container grammar block, so the tier-2 section also teaches the per-call markers, the planted-block conventions and the 14 template names - the tier stays the section, the trigger conditions unchanged."
+				>
+					<p>
+						The profile patch replaces <code>notes.persistent</code> with the shipped
+						template plus an appended "Live-container grammar" block, so the tier-2
+						section also teaches the live-containers machinery: the per-call markers{" "}
+						<code>&#123;"__normalize":false&#125;</code> and{" "}
+						<code>&#123;"__await":true&#125;</code>, the planted-block conventions
+						(<code>[live-report]</code>, <code>[stale]</code>,{" "}
+						<code>live_container_set accept=&lt;sid&gt;</code> /{" "}
+						<code>dismiss=&lt;sid&gt;</code>, <code>prune=&lt;plantId&gt;/&lt;agentId&gt;</code>)
+						and the template names.
+					</p>
+					<p>
+						The tier is the SECTION, not the notice: standing reference material sized to
+						the model's own terminal misuse, TTL-cached and stable across assemblies. The
+						trigger conditions stay the shipped tier-2 machinery: on at{" "}
+						<code>escalateThreshold</code>, off after <code>cleanWindow</code> clean
+						calls, rebuilt every <code>sectionTtl</code> judged calls or on{" "}
+						<code>tools/change</code>. <code>notes.first</code> and{" "}
+						<code>notes.denied</code> stay at their defaults.
+					</p>
+				</Concept>
 			</div>
 		</section>
 
@@ -723,7 +783,7 @@ const Related = [
 				<Concept
 					ID="coach-ledger-log"
 					Title="The ten strings are the contract"
-					Diagram="One log per module - logFile (default ~/.dsh/hook-dsh-tool-coach.log) - the ten strings byte-exact with the hook-dsh-tool-coach: logger prefix (the factory's Append layer; each line [ISO] <message> in the file): offense, strike, cooldown suppressed, escalated persistent section, persistent section cleared, section rebuilt, denied, exempt, schema fetch failed, disabled."
+					Diagram="One log per module - logFile (default ~/.dsh/playform/hook-dsh-tool-coach.log) - the ten strings byte-exact with the hook-dsh-tool-coach: logger prefix (the factory's Append layer; each line [ISO] <message> in the file): offense, strike, cooldown suppressed, escalated persistent section, persistent section cleared, section rebuilt, denied, exempt, schema fetch failed, disabled."
 				>
 					<p>
 						The durable ledger file carries the same strings in <code>[ISO] &lt;message&gt;</code> form.
@@ -736,7 +796,7 @@ const Related = [
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 		</section>
 
-		<!-- The known limits: the documented gaps, stated as they are. -->
+		{/* The known limits: the documented gaps, stated as they are. */}
 		<section class="section">
 			<SectionHeader Title="Known limits" Metadata="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">

@@ -5,6 +5,7 @@ import Badge from "@Component/Badge.astro";
 import FlavorBadge from "@Component/FlavorBadge.astro";
 import BrandIcon from "@Component/BrandIcon.astro";
 import Card from "@Component/Card.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
 import Compare from "@Component/Compare.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -176,7 +177,7 @@ const Config = [
 	{
 		Field: "logFile",
 		Type: "string",
-		Default: "~/.dsh/plugin-dsh-normalize-file.log",
+		Default: "~/.dsh/playform/plugin-dsh-normalize-file.log",
 		Volatile: "yes",
 		Meaning: "the normalize-file ledger (separate from the family's logs)",
 	},
@@ -186,6 +187,21 @@ const Config = [
 		Default: "-",
 		Volatile: "yes",
 		Meaning: "the dash step's replacement (the transform's ONLY knob)",
+	},
+	{
+		Field: "scopes",
+		Type: "object",
+		Default: "{conversation: on, reasoning: on, toolInput: off, toolResults: off, files: on, batch: off}",
+		Volatile: "yes",
+		Meaning:
+			"the per-arm gates - the file arm included: off means the tool returns the unchanged changed:false result, with no read, no write and no ledger line",
+	},
+	{
+		Field: "toolResultsExempt",
+		Type: "string[]",
+		Default: "[read, edit, raw-write, normalize-file, ccr_retrieve, subagent, ask_user_question]",
+		Volatile: "yes",
+		Meaning: "tool results that pass the tool-results arm by identity",
 	},
 ];
 
@@ -202,7 +218,7 @@ const BeforeAfter = [
 
 // The ledger strings, from the README.
 const LedgerStrings = [
-	"plugin-dsh-normalize-file: activated (replacement=-, logFile=~/.dsh/plugin-dsh-normalize-file.log)",
+	"plugin-dsh-normalize-file: activated (replacement=-, logFile=~/.dsh/playform/plugin-dsh-normalize-file.log)",
 	"plugin-dsh-normalize-file: normalized 5 char(s) in <project>/notes/report.md",
 ];
 
@@ -227,7 +243,7 @@ const Usage = [
 			<span class="flavor-cell flavor-cell--compact">
 				<FlavorBadge Flavor="FILE" />
 			</span>
-			<Badge>LISTENER-LESS TOOL</Badge>
+			<Badge>TOOL + TWO OVERPASS ARMS</Badge>
 		</div>
 
 		<section class="page-hero">
@@ -246,12 +262,12 @@ const Usage = [
 				when N &gt; 0 is the rewritten content written back through the factory's ONE shared
 				write executor.</p>
 			<p class="page-hero__sub">N = 0 writes NOTHING - the no-op no-write rule.</p>
-			<p class="page-hero__sub">The family's first
-				LISTENER-LESS flavor: no
+			<p class="page-hero__sub">The family's tool flavor: no{" "}
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>llm/stream</code></a>
 				, no{" "}
 				<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code>fs/observed</code></a>{" "}
-				- nothing runs WITHOUT an explicit agent action.</p>
+				- the six-fold pass runs on an explicit agent call, or on the two opt-in overpass
+				arms whose scopes default off.</p>
 			<p class="page-hero__sub">This bundle's own tool calls are
 				name-exempt in the stream gate beside <code>edit</code> and <code>raw-write</code> -
 				its arguments carry a FILE PATH, and a normalized dash inside a filename would
@@ -382,6 +398,12 @@ const Usage = [
 						cautionary tale that keeps it that way.
 					</p>
 				</Concept>
+				<p class="page-hero__sub">
+					The Effect-TS twin is{" "}
+					<a href={Link(Links.OurRepo, "EffectTS/packages/ets-plugin-dsh-normalize-file/Source")}><code>@playform/ets-plugin-dsh-normalize-file</code></a>{" "}
+					- the same contracts under the <code>ets-</code> prefix, built on the shared{" "}
+					<code>@playform/ets-base-dsh</code> base.
+				</p>
 				<Concept
 					ID="file-non-manifest"
 					Title="A non-manifest factory consumer - the only one that writes"
@@ -410,8 +432,8 @@ const Usage = [
 				Seams={[
 					{
 						Seam: "The tool layer - the agent's toolset",
-						What: "The plugin registers the normalize-file tool into the agent's toolset: the agent calls it like any built-in tool, one agent-chosen file per call. Nothing runs WITHOUT that explicit action - no [llm/stream](Harness:packages/llm/llm/src/index.ts), no [fs/observed](Harness:packages/fs/fs/src/index.ts) listener of any kind.",
-						Outcome: "Zero background activity: discoverable, visible, opt-in.",
+						What: "The plugin registers the normalize-file tool into the agent's toolset: the agent calls it like any built-in tool, one agent-chosen file per call. No [llm/stream](Harness:packages/llm/llm/src/index.ts) listener and no [fs/observed](Harness:packages/fs/fs/src/index.ts) listener exist; the two overpass arms are the plugin's only listeners, and both are gated at runtime on scopes that default off.",
+						Outcome: "No background work by default: the tool is discoverable, visible and opt-in.",
 					},
 					{
 						Seam: "ctx.fs - the write executor behind the tools (dsh-fs)",
@@ -479,7 +501,8 @@ const Usage = [
 						repair hook for a repair hook, exists to repair the damage after-the-fact
 						rewriting caused.</p>
 					<p>The tool is
-						the answer: explicit, visible, discoverable, zero background activity.
+						the answer: explicit, visible, discoverable, and idle until the agent calls
+						it.
 					</p>
 				</Concept>
 			</div>
@@ -501,16 +524,16 @@ const Usage = [
 				<Concept
 					ID="file-whole-chain"
 					Title="The whole-chain transform, applied at write time"
-					Diagram="The transformation being exactly the raw-write normalize: true chain - the core's tables and replacers, applied whole at write time - no stream dispatch to gate: the tool registering NO event listener, the six transforms applied to the entire file content in one pass, the count being the ledger's N and the no-op condition in one."
+					Diagram="The transformation being exactly the raw-write normalize: true chain - the core's tables and replacers, applied whole at write time - no stream dispatch to gate: the two overpass listeners gated off by default, the six transforms applied to the entire file content in one pass, the count being the ledger's N and the no-op condition in one."
 				>
 					<p>
 						The transformation is exactly the raw-write <code>normalize: true</code>{" "}
 						chain - the core's tables and replacers, applied whole at write time.
 					</p>
 					<p>
-						There is no stream dispatch to gate: the tool registers NO event listener,
-						so the six transforms are applied to the entire file content in one pass,
-						and the count is the ledger's N and the no-op condition in one.
+						There is no stream dispatch to gate: the two overpass listeners stay off by
+						default, so the six transforms are applied to the entire file content in one
+						pass, and the count is the ledger's N and the no-op condition in one.
 					</p>
 				</Concept>
 				<Concept
@@ -597,8 +620,8 @@ const Usage = [
 			<div class="concept-list">
 				<Concept
 					ID="file-minimal-config"
-					Title="The minimal config surface"
-					Diagram="No stream flags (normalizeReasoning, normalizeToolArguments) and no fs/observed fields (updateCooldownMs, mutationTools, policyFile, exclude) - the minimal shared: false block plus the two knobs being the whole config surface, because the tool registers no listener of any kind; volatile cells committing without remounting the plugin."
+					Title="The config surface"
+					Diagram="No stream flags (normalizeReasoning, normalizeToolArguments) and no fs/observed fields (updateCooldownMs, mutationTools, policyFile, exclude) - the minimal shared: false block plus the two knobs and the two overpass controls; volatile cells committing without remounting the plugin."
 				>
 					<p>
 						There are no stream flags (<code>normalizeReasoning</code>,{" "}
@@ -606,8 +629,9 @@ const Usage = [
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}>fs/observed</a>{" "}
 						fields (<code>updateCooldownMs</code>, <code>mutationTools</code>,{" "}
 						<code>policyFile</code>, <code>exclude</code>): the minimal{" "}
-						<code>shared: false</code> block plus the two knobs is the whole config
-						surface, because the tool registers no listener of any kind.
+						<code>shared: false</code> block plus the two knobs is the whole write
+						surface. The two overpass listeners add the <code>scopes</code> and{" "}
+						<code>toolResultsExempt</code> controls.
 					</p>
 					<p>
 						Volatile cells commit WITHOUT remounting the plugin. The tool is called by
@@ -620,11 +644,11 @@ const Usage = [
 			</div>
 		</section>
 
-		<!-- The granular scopes + the overpass arms: the volatility widening.
+		{/* The granular scopes + the overpass arms: the volatility widening.
 		     Every place the scopes/tool-argument control is described carries
 		     the four binding facts: the per-call raw marker, the effective-gate
 		     formula, the three structural exemptions, and the overpass
-		     invisibility contract. The file hook owns the sweep. -->
+		     invisibility contract. The file hook owns the sweep. */}
 		<section class="section">
 			<SectionHeader
 				Title="The scopes surface & the overpass arms"
@@ -825,12 +849,31 @@ const Usage = [
 					</p>
 				</Concept>
 			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The schema shape is identical in every family hook, so one grouped override in the
+				profile patch turns the whole family off in one edit:
+			</p>
+			<CodeBlock
+				Language="yaml"
+				Style="margin-top: var(--space-sm)"
+				Source={[
+					"- id: plugin-dsh-normalize-file",
+					"  config:",
+					"      scopes:",
+					"          conversation: false",
+					"          reasoning: false",
+					"          toolInput: false",
+					"          toolResults: false",
+					"          files: false",
+					"          batch: false",
+				].join("\n")}
+			/>
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="The Ledger" Metadata="TWO LINES VIA FACTORY APPEND" />
+			<SectionHeader Title="The Ledger" Metadata="TWO LEDGER LINES · ONE JOURNAL RECORD · ONE MOUNT-PATH LINE" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				Two lines, both written through the factory's <code>Append</code> (the
+				Two ledger lines, both written through the factory's <code>Append</code> (the
 				plugin-dsh-normalize-file: prefix is the logger's
 				<code>&lt;State.Module&gt;:</code>; the durable file line is
 				<code>[&lt;ISO&gt;] &lt;message&gt;</code>):
@@ -839,7 +882,7 @@ const Usage = [
 			<div class="concept-list">
 				<Concept
 					ID="file-ledger-lines"
-					Title="Two lines, and the lines that never get written"
+					Title="Two ledger lines, the journal record, and the lines that never get written"
 					Diagram="The activation line written by apply() - the count line following only a successful N > 0 write, a no-op writing no line, a failed read or an aborted call writing none either."
 				>
 					<p>
@@ -868,6 +911,13 @@ const Usage = [
 					<p>
 						Best-effort: with no storage facility the record buffers or drops and the
 						human ledger stays the complete record.
+					</p>
+					<p>
+						One more line exists on the mount path: when the <code>commands</code> service
+						refuses the <code>normalize-overpass</code> registration,{" "}
+						<code>apply()</code> appends{" "}
+						<code>plugin-dsh-normalize-file: command "normalize-overpass" registration skipped (the mount continues): &lt;the registry's own message&gt;</code>{" "}
+						- and none when the registration succeeds.
 					</p>
 				</Concept>
 			</div>

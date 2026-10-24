@@ -24,14 +24,14 @@ const Siblings = [
 	{
 		Name: "hook-dsh-package-governor (this bundle)",
 		Gate: "package.json",
-		Ledger: "governor.log",
+		Ledger: "hook-dsh-package-governor.log",
 		Pass: "chain pass (→ ^resolved) + update stage (ncu)",
 		This: true,
 	},
 	{
 		Name: "hook-dsh-package-pinner",
 		Gate: "package.json",
-		Ledger: "pinner.log",
+		Ledger: "hook-dsh-package-pinner.log",
 		Pass: "pin pass (^0.3.4 → 0.3.4; keep-list wins)",
 		This: false,
 	},
@@ -50,7 +50,7 @@ const Config = [
 	{
 		Field: "logFile",
 		Type: "string",
-		Default: "~/.dsh/hook-dsh-package-governor.log",
+		Default: "~/.dsh/playform/hook-dsh-package-governor.log",
 		Meaning: "the governor's global ledger",
 	},
 	{
@@ -68,7 +68,7 @@ const Config = [
 	{
 		Field: "mutationTools",
 		Type: "string[]",
-		Default: "[write, edit, str_replace_editor]",
+		Default: "[write, edit, str_replace_editor, raw-write]",
 		Meaning: "the actor tools whose writes count as triggers",
 	},
 	{
@@ -105,7 +105,7 @@ const Config = [
 
 // The In Action ledger excerpt, from the README (byte-exact strings).
 const LedgerExcerpt = [
-	"[2026-10-03T09:15:22.411Z] activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+	"[2026-10-03T09:15:22.411Z] activated (anywhere mode, logFile=~/.dsh/playform/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
 	"[2026-10-03T09:16:01.880Z] governed <project>/acme/tool/package.json → 42",
 	"[2026-10-03T09:16:34.120Z] update stage dispatched for <project>/acme/tool (mode=programmatic, ncu via /usr/local/bin/ncu, built-in default policy)",
 	"[2026-10-03T09:16:41.502Z] update: DONE — pins bumped per policy",
@@ -128,8 +128,25 @@ const LedgerStrings = [
 	"activated (anywhere mode, logFile=..., updateMode=..., ncuBin=..., exclude=[...], policyFile=(discovery))",
 	"skipped (excluded) <path>",
 	"no registry.json found for <path>",
-	"governed <path> → <version>",
+	"unreadable registry.json at <found> \u2014 chain pass skipped for <path>",
+	"observed non-JSON package.json <path> \u2014 skipped",
+	"governed <path> \u2192 <version>",
+	'REFUSED rewrite of <path>: non-dependency section "<name>" would change',
 	"update stage dispatched for <dir> (mode=..., ncu via ..., policy ...)",
+	"update stage skipped for <dir> (in-flight)",
+	"update stage skipped for <dir> (cooldown)",
+	"update stage paused for <dir> (N consecutive failures \u2265 limit)",
+	"update stage FAILED (<code>) for <dir>; consecutive=N",
+	"update: mode=programmatic (npm-check-updates library)",
+	"update: mode=bin (ncu binary <bin>)",
+	"update: ncu (<label>) \u2192 <results>",
+	"update: ncu failed (<label>): <cause>",
+	"update: npm-check-updates library unavailable: <cause>",
+	"update: npm-check-updates run() not found in library exports",
+	"update: running verifyCommand: <command>",
+	"update: verifyCommand ok",
+	"update: verifyCommand failed (status N)",
+	"update: verifyCommand runner unavailable (exit 127) \u2014 skipped, non-fatal",
 	"update: DONE / update: FAILED",
 ];
 
@@ -201,8 +218,12 @@ const Related = [
 				never learns.</p>
 			<p class="page-hero__sub">A factory flavor: the family's furnace does the plumbing; this package
 				is the model logic.
-
-
+			</p>
+			<p class="page-hero__sub">
+				The Effect-TS twin is{" "}
+				<a href={Link(Links.OurRepo, "EffectTS/packages/ets-hook-dsh-package-governor/Source")}><code>@playform/ets-hook-dsh-package-governor</code></a>{" "}
+				- the same contracts under the <code>ets-</code> prefix, built on the shared{" "}
+				<code>@playform/ets-base-dsh</code> base.
 			</p>
 		</section>
 
@@ -388,7 +409,7 @@ const Related = [
 					},
 					{
 						Seam: "ctx.subprocess (dsh-subprocess, bin mode)",
-						What: "In updateMode bin, the ncu binary is driven through the [subprocess seam](Harness:packages/subprocess/subprocess) with a fully-specified argv (ncuBin is absolute - host PATH != shell PATH).",
+						What: "In updateMode bin, the ncu binary is driven through the [subprocess seam](Harness:packages/subprocess/subprocess) with a fully-specified argv; ncuBin defaults to the bare ncu and a host whose PATH differs takes an absolute path.",
 						Outcome: "The external-tool path without shell PATH drift.",
 					},
 					{
@@ -549,10 +570,10 @@ const Related = [
 					'        name: "@playform/hook-dsh-package-governor"',
 					"        config:",
 					"            log: true",
-					"            logFile: ~/.dsh/hook-dsh-package-governor.log # global ledger",
+					"            logFile: ~/.dsh/playform/hook-dsh-package-governor.log # global ledger",
 					"            updateCooldownMs: 3000",
 					"            strict: false # explicit only; never default-delete unknown deps",
-					"            mutationTools: [write, edit, str_replace_editor]",
+					"            mutationTools: [write, edit, str_replace_editor, raw-write]",
 					"            maxUpdateFailures: 3 # circuit breaker: pause a dir's update stage",
 					"            ncuBin: ncu # PATH-resolved; set an absolute path when the host PATH differs",
 					'            updateMode: programmatic # "programmatic" (default) | "bin"',
@@ -655,11 +676,11 @@ const Related = [
 				<Concept
 					ID="govpkg-ledger-log"
 					Title="One global log"
-					Diagram='One global log (logFile, default ~/.dsh/hook-dsh-package-governor.log) recording activation, exclusions, chain-pass results, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
+					Diagram='One global log (logFile, default ~/.dsh/playform/hook-dsh-package-governor.log) recording activation, exclusions, chain-pass results, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
 				>
 					<p>
 						<code>logFile</code> (default{" "}
-						~/.dsh/hook-dsh-package-governor.log) records activation,
+						~/.dsh/playform/hook-dsh-package-governor.log) records activation,
 						exclusions, chain-pass results, and every update-stage dispatch.
 					</p>
 					<p>
@@ -683,11 +704,41 @@ const Related = [
 						the example block.
 					</p>
 				</Concept>
+				<Concept
+					ID="govpkg-journal"
+					Title="Every event also lands in the shared journal"
+					Diagram="The same events written as machine-readable records into the shared package_governance v2 domain through the factory's Journal: activated on the mount, excluded on the exclusion decision, governed on the chain-pass rewrite, and one update event per dispatch - best-effort, with the human ledger staying the complete record."
+				>
+					<p>
+						The same events also land in the shared <code>package_governance</code> v2
+						domain through the factory's <code>Journal</code>:{" "}
+						<code>activated</code> on the mount, <code>excluded</code> on the exclusion
+						decision, <code>governed</code> on the chain-pass rewrite, and one update
+						event per dispatch.
+					</p>
+					<p>
+						The record is best-effort: with no storage facility the records buffer or
+						drop, and the human ledger stays the complete record.
+					</p>
+				</Concept>
+				<Concept
+					ID="govpkg-refusal"
+					Title="The refusal guard: a difference outside the sections is never written"
+					Diagram="The core's Refusal guard comparing the current and the proposed manifest: a difference outside the declared dependency sections composes the REFUSED rewrite line and returns true, so the rewrite is never applied - the byte-identical line, then no write."
+				>
+					<p>
+						The core's <code>Refusal</code> guard compares the current manifest with the
+						proposed one. A difference outside the declared dependency sections composes
+						the <code>REFUSED rewrite of &lt;path&gt;: non-dependency section
+						"&lt;name&gt;" would change</code> line and returns true, so the rewrite is
+						never applied.
+					</p>
+				</Concept>
 			</div>
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 		</section>
 
-		<!-- The known limits: the documented gaps, stated as they are. -->
+		{/* The known limits: the documented gaps, stated as they are. */}
 		<section class="section">
 			<SectionHeader Title="Known limits" Metadata="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
@@ -697,8 +748,8 @@ const Related = [
 				The update stage's verifyCommand can fail
 				with a non-zero status: on a vendored-fork workspace the forks are not on the
 				public registry, so a <code>verifyCommand: pnpm install</code> fails and the
-				ledger records the failure - the documented cordis registry trap, the expected
-				outcome, not a bug.
+				ledger records the failure - the expected outcome on a vendored-fork workspace,
+				not a bug.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				Exit 127 (the runner unavailable) is non-fatal; any other

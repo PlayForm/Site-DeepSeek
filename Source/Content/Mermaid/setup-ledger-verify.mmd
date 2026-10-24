@@ -1,4 +1,4 @@
 flowchart LR
-	BOOT["At boot"] --> LINE["Each plugin writes its activation line<br/>to its own ~/.dsh/name.log"]
+	BOOT["At boot"] --> LINE["Each plugin writes its activation line<br/>to its own ~/.dsh/playform/<br/>&lt;name&gt;.log"]
 	ASSESS["The ledger and the runtime's inspect providers<br/>as the activation assessors"]
 	LINE --> ASSESS

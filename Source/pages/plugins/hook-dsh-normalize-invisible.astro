@@ -190,7 +190,7 @@ const Config = [
 	{
 		Field: "logFile",
 		Type: "string",
-		Default: "~/.dsh/hook-dsh-normalize-invisible.log",
+		Default: "~/.dsh/playform/hook-dsh-normalize-invisible.log",
 		Volatile: "yes",
 		Meaning: "the invisible ledger (separate from the family's logs)",
 	},
@@ -214,7 +214,7 @@ const Config = [
 		Default: "false",
 		Volatile: "no",
 		Meaning:
-			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit name exemption and the {"__normalize":false\} raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
+			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with three exemptions - the edit, raw-write and normalize-file calls pass through by identity - and the {"__normalize":false\} first-key raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
 	},
 ];
 
@@ -232,7 +232,7 @@ const StreamExample = [
 
 // The ledger strings, from the README.
 const LedgerStrings = [
-	"hook-dsh-normalize-invisible: activated (replacement=, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-invisible.log)",
+	"hook-dsh-normalize-invisible: activated (replacement=, reasoning=on, toolArgs=off, logFile=~/.dsh/playform/hook-dsh-normalize-invisible.log)",
 	"hook-dsh-normalize-invisible: normalized 7 invisible char(s) in one stream",
 ];
 ---
@@ -364,16 +364,23 @@ const LedgerStrings = [
 					</tbody>
 				</table>
 			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The Effect-TS twin is{" "}
+				<a href={Link(Links.OurRepo, "EffectTS/packages/ets-hook-dsh-normalize-invisible/Source")}><code>@playform/ets-hook-dsh-normalize-invisible</code></a>{" "}
+				- the same contracts under the <code>ets-</code> prefix, built on the shared{" "}
+				<code>@playform/ets-base-dsh</code> base.
+			</p>
 			<div class="concept-list">
 				<Concept
 					ID="invisible-non-manifest"
 					Title="A non-manifest factory consumer"
-					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State and Append, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."}
+					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using State, Append and the shared Journal, the config composed by the factory's standalone Schema helper with shared: false - the minimal block, no fs/observed dead fields - touching no files, always calling next(), composing with other llm/stream listeners regardless of registration order."}
 				>
 					<p>
 						It injects{" "}
-						<code>["pluginFactory"]</code> and uses ONLY <code>State</code> (cell unwrap
-						+ shared Ledger/Enabled mappings + its own fields) and <code>Append</code>.
+						<code>["pluginFactory"]</code> and uses <code>State</code> (cell unwrap +
+						shared Ledger/Enabled mappings + its own fields), <code>Append</code> and the
+						shared <code>Journal</code>.
 						The config is composed by the factory's standalone <code>Schema</code>{" "}
 						helper with
 						<code>shared: false</code> - the minimal block, NO{" "}
@@ -385,8 +392,8 @@ const LedgerStrings = [
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/write-intent</code></a>{" "}
 						and{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
-						NEVER see it.
-						It wraps the downstream result and ALWAYS calls{" "}
+						do not see it.
+						It wraps the downstream result and always calls{" "}
 						<code>next()</code>, so it composes with other{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						listeners regardless of registration order.
@@ -425,7 +432,7 @@ const LedgerStrings = [
 					},
 					{
 						Seam: "The ledger / session",
-						What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() (the empty default renders as replacement=) and the per-stream count line on a normal completion with N > 0.",
+						What: "Two ledger lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() (the empty default renders as replacement=) and the per-stream count line on a normal completion with N > 0; every N > 0 pass also journals a normalized record into the shared package_governance v2 domain.",
 						Outcome: "A thrown-away stream writes no ledger line.",
 					},
 				]}
@@ -590,17 +597,18 @@ const LedgerStrings = [
 					'        name: "@playform/hook-dsh-normalize-invisible"',
 					"        config:",
 					"            log: true",
-					"            logFile: ~/.dsh/hook-dsh-normalize-invisible.log",
+					"            logFile: ~/.dsh/playform/hook-dsh-normalize-invisible.log",
 					'            replacement: ""',
+					"            normalizeToolArguments: true",
 				].join("\n")}
 			/>
 		</section>
 
-		<!-- The granular scopes + the overpass arms: the volatility widening.
+		{/* The granular scopes + the overpass arms: the volatility widening.
 		     Every place the scopes/tool-argument control is described carries
 		     the four binding facts: the per-call raw marker, the effective-gate
 		     formula, the three structural exemptions, and the overpass
-		     invisibility contract. -->
+		     invisibility contract. */}
 		<section class="section">
 			<SectionHeader
 				Title="The scopes surface & the overpass arms"
@@ -748,6 +756,25 @@ const LedgerStrings = [
 					</tbody>
 				</table>
 			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The schema shape is identical in every family hook, so one grouped override in the
+				profile patch turns the whole family off in one edit:
+			</p>
+			<CodeBlock
+				Language="yaml"
+				Style="margin-top: var(--space-sm)"
+				Source={[
+					"- id: hook-dsh-normalize-invisible",
+					"  config:",
+					"      scopes:",
+					"          conversation: false",
+					"          reasoning: false",
+					"          toolInput: false",
+					"          toolResults: false",
+					"          files: false",
+					"          batch: false",
+				].join("\n")}
+			/>
 		</section>
 
 		<section class="section">
@@ -817,9 +844,9 @@ const LedgerStrings = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="The Ledger" Metadata="TWO LINES VIA FACTORY APPEND" />
+			<SectionHeader Title="The Ledger" Metadata="TWO LEDGER LINES · ONE JOURNAL RECORD" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				Two lines, both written through the factory's <code>Append</code> (the
+				Two ledger lines, both written through the factory's <code>Append</code> (the
 				hook-dsh-normalize-invisible: prefix is the logger's
 				<code>&lt;State.Module&gt;:</code>; the durable file line is
 				<code>[&lt;ISO&gt;] &lt;message&gt;</code>).</p>
@@ -830,8 +857,22 @@ const LedgerStrings = [
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The activation line is written by <code>apply()</code>.
-				The count line ONLY follows a normal stream completion and ONLY when N &gt; 0.
-				A thrown-away stream writes NO ledger line.
+				The count line only follows a normal stream completion and only when N &gt; 0.
+				A thrown-away stream writes no ledger line.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				Every N &gt; 0 pass also journals one <code>normalized</code> record into the shared{" "}
+				<code>package_governance</code> v2 domain - event <code>normalized</code>, path = the
+				empty stream-level path, detail byte-identical to the count line. The record is
+				best-effort: with no storage facility it buffers or drops, and the human ledger stays
+				the complete record.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				One more line exists on the mount path: when the <code>commands</code> service
+				refuses the <code>normalize-overpass</code> registration,{" "}
+				<code>apply()</code> appends{" "}
+				<code>hook-dsh-normalize-invisible: command "normalize-overpass" registration skipped (the mount continues): &lt;the registry's own message&gt;</code>{" "}
+				- one line per non-first flavor per boot, and none when the registration succeeds.
 			</p>
 		</section>
 

@@ -18,6 +18,14 @@ import {
 	History,
 	Decisions,
 	Families,
+	Trace,
+	Pack,
+	Learner,
+	Workspace,
+	Policy,
+	Client,
+	Storage,
+	Suggesters,
 } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
 import { DotSep, Mention } from "@Library/FileIcon";
@@ -31,6 +39,8 @@ const Index = [
 	{ Href: "#phase-4", Label: "PHASE IV - THE STREAMS" },
 	{ Href: "#phase-5", Label: "PHASE V - RAW-WRITE & CONTROL" },
 	{ Href: "#phase-6", Label: "PHASE VI - RELEASES" },
+	{ Href: "#phase-7-guardians", Label: "PHASE VII - THE GUARDIANS" },
+	{ Href: "#phase-8", Label: "PHASE VIII - THE COMPLETION" },
 	{ Href: "#decisions", Label: "THE DECISION INDEX" },
 	{ Href: "#lessons", Label: "THE LESSONS" },
 ];
@@ -89,6 +99,61 @@ const Criticals = [
 	},
 ];
 
+// The completion program's ten decisions (the 2026-10-23 interview), with the
+// surface each one landed on. Source: Completion-Spec 00-OVERVIEW section 2.
+const CompletionDecisions = [
+	{
+		Decision: "D1 SCOPE",
+		What: "Every workspace, adapted. This repository is the primary; other repositories get their own packs.",
+		Where: "the pack layer's user and repo layers",
+	},
+	{
+		Decision: "D2 PACKS",
+		What: "Layered like a worktree extension: the user pack ~/.dsh/playform/workspaces/<repo-slug>.yml is read first, an in-repo .dsh/pack.yml overrides it, and a pack may extends: another. A missing pack means silence.",
+		Where: `lib-dsh-pack - ${Pack.Layers} resolution layers`,
+	},
+	{
+		Decision: "D3 PACK CONTENTS",
+		What: "The families, the companion paths, the thresholds and the repo signature; the indexer scope/excludes and the automation policy live beside them in the same file.",
+		Where: `the built-in pack - ${Pack.Families} families over ${Pack.Domains} domains`,
+	},
+	{
+		Decision: "D4 LEARNING",
+		What: "An opt-in bootstrap that reads the repository's own index and PROPOSES a pack, then refines it from the accepted suggestions. Learning never writes a pack silently.",
+		Where: `the learner - ${Learner.Modules} modules, ${Learner.Families} derivable families, ${Learner.Markers} signature markers`,
+	},
+	{
+		Decision: "D5 INDEXER",
+		What: "No separate process and no separate plugin: the indexer is inferred from the event bus. A library defines the trace contract, every plugin carries its own adapter, and a detached loop coalesces the work.",
+		Where: `lib-dsh-trace - ${Trace.Events} events, ${Trace.EnvelopeFields} envelope fields, a ${Trace.Ring}-entry ring`,
+	},
+	{
+		Decision: "D6 POLICY",
+		What: "Per-plugin allowlists: every plugin declares its actions and, for each, whether it runs automatically or waits for approval. Writes, spawns and batch commits default to approval; read-only, indexing, recording and suggestions are automatic.",
+		Where: `the policy block - ${Policy.Actions} actions (${Policy.Auto} auto, ${Policy.Approve} approve) in ${Policy.Packages} packages`,
+	},
+	{
+		Decision: "D7 RELEVANCE",
+		What: "Dual-mode and optional: deterministic graph scoring is the default, and an AI-assisted inception sits behind the same interface as a configurable provider chain. Both orders are supported.",
+		Where: "the graph-distance scorer; the AI inception is off by default",
+	},
+	{
+		Decision: "D8 DECISION MODEL",
+		What: "A heuristic scorer first, with every heuristic and every decision pickable and logged, so the family learns from them. A local small model may replace the scorer later behind the same interface.",
+		Where: `the decision record + the accept rate (${Suggesters.Learning} suggesters carry the learning loop)`,
+	},
+	{
+		Decision: "D9 DELIVERY",
+		What: "One note per family, at most three notes per turn per agent, every knob configurable.",
+		Where: `the note delivery in the ${Suggesters.Count} suggesters`,
+	},
+	{
+		Decision: "D10 SPEC APPROACH",
+		What: "Complete the plans as written; the plugins that need a re-spec are listed and the user decides each. Every re-spec in the completion spec's section 6 was approved.",
+		Where: "Completion-Spec section 6; each plugin's own plan carries the pointer",
+	},
+];
+
 // The P5 journal excerpt, quoted byte-exact from the package READMEs'
 // ledger samples (the pinner's, the governor's and the cargo-governor's
 // cascades - Package-10.md:86-90, the original source, is no longer in the
@@ -96,9 +161,9 @@ const Criticals = [
 // governed version token and the dispatched update stage, with the arrow
 // kept via the \uXXXX escape route (Lessons.md's reliable routes).
 const JournalExcerpt = [
-	"[2026-10-03T09:15:22.411Z] activated (pinner, logFile=~/.dsh/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
-	"[2026-10-03T09:15:22.411Z] activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
-	"[2026-10-03T09:15:22.411Z] activated (cargo flavor, logFile=~/.dsh/hook-dsh-cargo-governor.log, updateMode=cargo, cargoBin=/usr/local/bin/cargo, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery), keepFile=(discovery))",
+	"[2026-10-03T09:15:22.411Z] activated (pinner, logFile=~/.dsh/playform/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
+	"[2026-10-03T09:15:22.411Z] activated (anywhere mode, logFile=~/.dsh/playform/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=/usr/local/bin/ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+	"[2026-10-03T09:15:22.411Z] activated (cargo flavor, logFile=~/.dsh/playform/hook-dsh-cargo-governor.log, updateMode=cargo, cargoBin=/usr/local/bin/cargo, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery), keepFile=(discovery))",
 	"[2026-10-03T09:16:01.880Z] governed ~/Projects/acme/tool/package.json \u2192 42",
 	"[2026-10-03T09:16:34.120Z] update stage dispatched for ~/Projects/acme/engine (cargo via /usr/local/bin/cargo, built-in default policy)",
 ];
@@ -148,7 +213,7 @@ const Executors = [
 ];
 
 // The twelve decisions + the abort-signal fix, as the decision index.
-const Decisions = [
+const DecisionRows = [
 	{
 		Decision: "Module-owned ledger strings; the smokes as the arbiter",
 		Rationale:
@@ -233,7 +298,7 @@ const Decisions = [
 	{
 		Decision: `Reversed hierarchical naming + version ${Versions.Release} + submodules (the .gitmodules draft prepared, NOT activated - register #16)`,
 		Rationale:
-			"Kind-first ordering mirrors the consumer topology - the hooks vs the factory service - and role-contiguous grouping keeps the shared-machinery families together (governor-cargo/governor-package, the normalize-* family); the @-sentence is the release identity (the README titles, register #15). The inversion was only safe because the ledger strings are module-owned - the mdash -> normalize-dash rename (register #5) is the proof: the renamed module changed ONLY its own prefix, its identity, by design - EVERY other ledger string stayed",
+			"Kind-first ordering mirrors the consumer topology - the hooks vs the factory service - and role-contiguous grouping keeps the shared-machinery families together (governor-cargo/governor-package, the normalize-* family); the @-sentence is the release identity (the README titles, register #15).\nThe inversion was only safe because the ledger strings are module-owned. The mdash -> normalize-dash rename (register #5) is the proof: the renamed module changed ONLY its own prefix. EVERY other ledger string stayed",
 		Technique:
 			"The package naming itself + the monorepo layout (ONE repository per package under submodule structure - the .gitmodules draft prepared, NOT activated, register #16)",
 		Evidence: "the branding brief; register #5/#15/#16",
@@ -275,7 +340,7 @@ const Lessons = [
 
 <Base
 	Title="Case Study - DSH Family @ PlayForm"
-	Description={`How the twelve-package family was built: five bundles and ${History.OriginChecks} smoke checks grown to twelve packages across ONE commit era - the factory, the audit, the live battery, the stream family, the raw-write saga and the decision index behind them.`}
+	Description={`How the family was built: five bundles and ${History.OriginChecks} smoke checks grown to twelve packages across ONE commit era - the factory, the audit, the live battery, the stream family, the raw-write saga and the decision index behind them. The family now stands at ${Counts.Packages} packages across ${Counts.Suites} smoke suites and ${Totals.Both} checks.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -288,7 +353,7 @@ const Lessons = [
 
 		<PageHero
 			Title="The case study: how this family got built."
-			Sub={"The development story of the twelve packages, told as it happened - the phases, the misdiagnoses named before the fixes, and the decisions that survive in the shipped seams.\nEVERY challenge below is stated with what actually happened."}
+			Sub={"The development story of the first twelve packages, told as it happened - the phases, the misdiagnoses named before the fixes, and the decisions that survive in the shipped seams.\nEVERY challenge below is stated with what actually happened."}
 		/>
 
 		<!-- The phase index -->
@@ -315,12 +380,12 @@ const Lessons = [
 				<Concept
 					ID="case-growth"
 					Title="From five bundles to twelve packages"
-					Diagram={`The growth across one commit era - the Oct 3-6, 2026 stretch ending at 5982aa8 - five bundles and ${History.OriginChecks} smoke checks growing into twelve packages, the base the fifteen-package family (with ${Totals.PairHyphen()} across ${Counts.Suites} suites today) stands on.`}
+					Diagram={`The growth across one commit era - the Oct 3-6, 2026 stretch ending at 5982aa8 - five bundles and ${History.OriginChecks} smoke checks growing into twelve packages, the base the 101-package family (with ${Totals.PairHyphen()} across ${Counts.Suites} suites today) stands on.`}
 				>
 					<p>
 						The family grew from <strong>five bundles and {History.OriginChecks} smoke checks</strong> to{" "}
 						<strong>twelve packages</strong> across ONE commit era - the Oct 3&ndash;6, 2026 stretch that ends at <code>5982aa8</code>.
-						It is the base that the guardians era (Phase VII) extended to <strong>fifteen packages</strong>.
+						It is the base that the guardians era (Phase VII) extended to <strong>fifteen packages</strong>, and that the delivery and completion eras (Phase VIII) took to <strong>{Counts.Packages} packages</strong>.
 					</p>
 					<p>
 						The suites print their own totals.
@@ -1101,7 +1166,7 @@ const Lessons = [
 			</div>
 			<div class="action-row">
 				<a class="action" href="/versions/">The two releases</a>
-				<a class="action action--secondary" href="/plugins/">The fifteen packages</a>
+				<a class="action action--secondary" href="/plugins/">The {Counts.Packages} packages</a>
 			</div>
 		</section>
 
@@ -1190,6 +1255,166 @@ const Lessons = [
 			</div>
 		</section>
 
+		<!-- Phase VIII: the completion program - the 2026-10-23/24 wave. The
+		     earlier phases keep their numbers; this closes the arc at the
+		     family the site now documents. -->
+		<section class="section" id="phase-8">
+			<div class="section-header">
+				<div class="section-header__left">
+					<span class="section-header__marker"></span>
+					<h2 class="section-header__title">Phase VIII - The completion program</h2>
+				</div>
+				<span class="section-header__meta">
+					D1-D10 <ArrowIcon Direction="right" Tone="accent" /> WAVES 0-2 LANDED
+				</span>
+			</div>
+			<div class="concept-list">
+				<Concept
+					ID="case-p8-interview"
+					Title="Ten decisions from one interview"
+					Diagram="The 2026-10-23 interview settling ten decisions (D1-D10) and the approved re-specs - then the program executing them in waves: the live defects and the log-path standardisation, the pipeline wiring, the pack layer and the learner, the storage migration, the client family, and the ETS parity behind each."
+				>
+					<p>
+						The 2026-10-23 interview settled ten decisions, D1 through D10.
+						They cover the scope, the pack layer, the learning loop, the indexer, the policy
+						block, the relevance and decision model, the note delivery, and the re-spec
+						approach.
+					</p>
+					<p>
+						The program then executed in waves: waves 0, 0b, 1 and 2 are landed; wave 3 is in
+						flight; waves 4 and 5 are open.
+						The <a href="/versions/">versions page</a> carries the wave table.
+					</p>
+				</Concept>
+				<Concept
+					ID="case-p8-trace"
+					Title="The trace bus: the indexer inferred from the event bus"
+					Diagram={`A source plugin's adapter emitting onto the trace bus and a consumer's adapter reading back - the ${Trace.Events} event names (observe/stamp, graph/indexed, graph/invalidated), the ${Trace.EnvelopeFields}-field envelope, the ${Trace.Service}-method service, the ${Trace.Ring}-entry ring, and the ${Trace.Adapters} plugins carrying an adapter.`}
+				>
+					<p>
+						<code>lib-dsh-trace</code> owns the vocabulary: {Trace.Events} event names, a{" "}
+						{Trace.EnvelopeFields}-field envelope, and a {Trace.Service}-method service.
+						The ring is bounded at {Trace.Ring} entries - a library constant, not a config knob.
+					</p>
+					<p>
+						Each plugin's own <code>Source/Trace/</code> folder carries its adapter, so the
+						indexer has no separate process and no separate plugin.
+						{Trace.Adapters} plugins carry an adapter today; the library's own suite runs{" "}
+						{Trace.Checks} checks.
+					</p>
+				</Concept>
+				<Concept
+					ID="case-p8-pack"
+					Title="The pack layer: one file describes one repo"
+					Diagram={`The ${Pack.Layers} resolution layers - the user pack, the in-repo pack, and the cycle-guarded extends chain - resolving to the built-in pack's ${Pack.Families} families over ${Pack.Domains} domains, with the learner's ${Learner.Modules} modules proposing a repo's pack from its own index.`}
+				>
+					<p>
+						A pack declares the families, the companion paths, the thresholds and the repo
+						signature.
+						The resolution reads the user layer, then the repo layer, then the cycle-guarded{" "}
+						<code>extends:</code> chain.
+					</p>
+					<p>
+						The built-in pack ships {Pack.Families} families over {Pack.Domains} domains.
+						The learner proposes a repository's pack from its own index: {Learner.Modules}{" "}
+						modules, {Learner.Families} derivable families, and {Learner.Markers} signature
+						markers, strongest first.
+						The pack library's {Pack.Folders} smoke folders run {Pack.Checks} checks.
+					</p>
+				</Concept>
+				<Concept
+					ID="case-p8-policy"
+					Title="The policy block: per-action allowlists"
+					Diagram={`The module-level policy block (SCHEME ${Scheme.Policy}) declaring ${Policy.Actions} action keys - read, index, record, suggest, write, commit, spawn, message - with ${Policy.Auto} auto and ${Policy.Approve} approve by default, carried by ${Policy.Packages} packages and their Policy-Defaults smoke folders.`}
+				>
+					<p>
+						Every plugin declares its actions and, for each, whether it runs automatically or
+						waits for approval.
+						The block declares {Policy.Actions} actions: {Policy.Auto} auto by default,{" "}
+						{Policy.Approve} approve.
+					</p>
+					<p>
+						{Policy.Packages} packages carry a policy (or automation) block and its
+						Policy-Defaults smoke folder.
+						The storage side grew with it: {Storage.Domains} named KV domains, one owner per
+						domain.
+					</p>
+				</Concept>
+				<Concept
+					ID="case-p8-workspace"
+					Title="The workspace tools: five navigation tools over the graph"
+					Diagram={`The workspace family's ${Workspace.Tools} tools - workspace_index, workspace_map, workspace_find, workspace_expand and workspace_context - reading the graph the ${Workspace.Packages} workspace packages maintain.`}
+				>
+					<p>
+						The workspace runtime is the family's largest surface: {Workspace.Packages} Classic
+						packages.
+						Its five tools - <code>workspace_index</code>, <code>workspace_map</code>,{" "}
+						<code>workspace_find</code>, <code>workspace_expand</code> and{" "}
+						<code>workspace_context</code> - read the graph.
+					</p>
+					<p>
+						The graph is event-driven: the observe hook stamps every fs/observed version, and
+						the indexer consumes the stamps through the trace bus.
+					</p>
+				</Concept>
+				<Concept
+					ID="case-p8-client"
+					Title="The client family: the panel and its live view"
+					Diagram={`The ${Client.Packages} client packages - the panel contract, its host half and the workspace live view - with the panel's ${Client.Adapters} per-bundle adapter manifests, ingesting the live view from the trace bus.`}
+				>
+					<p>
+						The client family is {Client.Packages} packages: the panel contract, its host half
+						and the workspace live view.
+						The panel carries {Client.Adapters} per-bundle adapter manifests.
+					</p>
+					<p>
+						The live view ingests from the trace bus, so the panel renders the events the
+						family already emits.
+					</p>
+				</Concept>
+			</div>
+			<p class="section-kicker">The decision table, D1-D10</p>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Decision</th>
+							<th>What it settled</th>
+							<th>Where it landed</th>
+						</tr>
+					</thead>
+					<tbody>
+						{CompletionDecisions.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Decision}</strong>
+								</td>
+								<td set:html={Mention(Row.What)} />
+								<td set:html={Mention(Row.Where)} />
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<div class="concept-list">
+				<Concept
+					ID="case-p8-verification"
+					Title="The verification: 101 packages, 511 suites, 6612 checks"
+					Diagram={`The two trees' smoke folders summing to ${Counts.Suites} suites and ${Totals.Both} checks - ${Totals.Classic} Classic + ${Totals.EffectTS} Effect-TS - with every package's built Target loaded by its own suite.`}
+				>
+					<p>
+						The completion's own verification is the smoke census: {Counts.Packages} packages
+						across the two trees, {Counts.Suites} smoke folders, and {Totals.Both} checks -{" "}
+						{Totals.Classic} Classic plus {Totals.EffectTS} Effect-TS.
+					</p>
+					<p>
+						The <a href="/versions/">versions page</a> carries the per-suite counts; the{" "}
+						<a href="/plugins/">plugins page</a> carries the registry.
+					</p>
+				</Concept>
+			</div>
+		</section>
+
 		<!-- Phase 7: Decision index -->
 		<section class="section" id="decisions">
 			<SectionHeader
@@ -1212,7 +1437,7 @@ const Lessons = [
 						</tr>
 					</thead>
 					<tbody>
-						{Decisions.map((Row) => (
+						{DecisionRows.map((Row) => (
 							<tr>
 								<td>
 									<strong>{Row.Decision}</strong>
@@ -1245,7 +1470,7 @@ const Lessons = [
 				))}
 			</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The state the era ended in: twelve packages, twelve green suites, a clean tree, the
+				The state that era ended in: twelve packages, twelve green suites, a clean tree, the
 				full live matrix passed - and the register's open items named, not vague.</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">Four of
 				them carry into the next era: <strong>#14's Classic parallel smoke coverage</strong>
@@ -1258,10 +1483,10 @@ const Lessons = [
 				activated, the repositories unversioned by design.</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The family's front door is the <a href="/setup/">setup flow</a>; the command
-				below is the npm form - the install shape of the v0.1.0 release.
+				below is the build-from-source route - all {Counts.Packages} packages are unpublished.
 			</p>
 			<div class="snippet-list" style="margin-top: var(--space-md)">
-				<Terminal Pkg="lib-dsh-core" Label="START HERE · ON NPM" />
+				<Terminal Pkg="lib-dsh-core" Label="START HERE · BUILD FROM SOURCE" />
 			</div>
 		</section>
 	</main>

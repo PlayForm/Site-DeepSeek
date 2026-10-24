@@ -1,8 +1,10 @@
 ---
 // Terminal install box: hairline panel, white command line, copy button
 // with a transient mono "COPIED" status in primary.
-// The npm form (`npm install @playform/<pkg>@0.1.0`) is the published-route command.
-// The family is on npm (v0.1.0, ALL 31 packages, provenance-verified), so the label states the release version.
+// The family is UNPUBLISHED: no package is on the npm registry, so the box
+// renders the build-from-source route (`dsh plugin --profile <name> add <dir>`)
+// and the label states the unpublished state. The version shown is the release
+// the source tree builds - not a registry tag.
 import { DotSep } from "@Library/FileIcon";
 import { Versions } from "@Library/Content";
 
@@ -10,7 +12,7 @@ interface Props {
 	/** An optional literal full command; overrides Pkg when given. */
 	Command?: string;
 	/** The package name (e.g. "hook-dsh-normalize-dash") - composed with the
-	 * library's Versions.Release into the published install command. */
+	 * build-from-source route into the install command. */
 	Pkg?: string;
 	Label?: string;
 	// Optional 2px accent-orange top rail: the site's input surfaces
@@ -21,15 +23,16 @@ interface Props {
 const {
 	Command,
 	Pkg,
-	Label = `CLI INSTALL · NPM · ${Versions.Release}`,
+	Label = `BUILD FROM SOURCE · UNPUBLISHED · ${Versions.Release}`,
 	Rail = false,
 } = Astro.props;
 
-/** The composed command: the literal Command wins; Pkg is composed against
- * the library's release version.
- * The default is the core hook at that same dynamic version - a single library bump re-versions EVERY install box. */
+/** The composed command: the literal Command wins; Pkg is composed into the
+ * build-from-source route (the profile's bundles directory, the same `link:`
+ * target the setup page's wiring example uses).
+ * The default names the core library - a single package change re-points EVERY install box. */
 const Composed =
-	Command ?? (Pkg ? `npm install @playform/${Pkg}@${Versions.Release}` : `npm install @playform/lib-dsh-core@${Versions.Release}`);
+	Command ?? `dsh plugin --profile <name> add ./bundles/${Pkg ?? "lib-dsh-core"}`;
 ---
 
 <div class={`terminal${Rail ? " rail-orange" : ""}`} data-command={Composed}>
@@ -53,7 +56,7 @@ const Composed =
 			<span class="prompt">$</span> {Composed}
 		</code>
 		<button
-			aria-label="Copy install command"
+			aria-label="Copy the install command"
 			class="terminal__copy"
 			type="button"
 			data-copy={Composed}

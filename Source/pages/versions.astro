@@ -6,13 +6,17 @@ import Card from "@Component/Card.astro";
 import Concept from "@Component/Concept.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
-import { Counts, Totals, Versions, SuiteCount, NormalizeFamily } from "@Library/Content";
+import { Client, Counts, Delivery, Totals, Versions, SuiteCount, NormalizeFamily } from "@Library/Content";
 import { DotSep } from "@Library/FileIcon";
+// The record: the monorepo's root CHANGELOG.md, imported raw at build time.
+// The page QUOTES the file - it never maintains a second copy, so the rendered
+// record and the repository file cannot drift apart.
+import RootChangelog from "../../../CHANGELOG.md?raw";
 
 const Invariants = [
 	{
 		ID: "INVARIANT 01",
-		Desc: "The fifteen contracts are identical across the two trees. ONLY the runtime plumbing differs.",
+		Desc: `The ${Counts.Twins} shared contracts are identical across the two trees. ONLY the runtime plumbing differs.`,
 	},
 	{
 		ID: "INVARIANT 02",
@@ -24,110 +28,103 @@ const Invariants = [
 	},
 	{
 		ID: "INVARIANT 04",
-		Desc: "EVERY knob of the two new plugins is volatile. The ccr gate's thresholds and the tool-coach's whole schema land on the next judged call through loader/volatile-update, WITHOUT remounting.",
+		Desc: "EVERY knob of the guardians is volatile. The ccr gate's thresholds and the tool-coach's whole schema land on the next judged call through loader/volatile-update, WITHOUT remounting.",
 	},
 	{
 		ID: "INVARIANT 05",
-		Desc: "The smokes cover the new suites. The ccr suite (147 checks) and the tool-coach suite (129 checks) run in BOTH trees, byte-asserting the same ledger strings.",
+		Desc: `The smokes cover the guardians' suites. The ccr suite (${Counts.CCR.Classic} checks) and the tool-coach suite (${Counts.Coach.Classic} checks) run in BOTH trees, byte-asserting the same ledger strings.`,
 	},
 ];
 
 /*
  * THE OPERATING SET - the page's signature block. What is operating NOW:
- * the two release trees, their actual package names and versions, the
+ * the two release trees, their actual package counts and versions, the
  * Effect-TS pin, and the state line. The ets-* splice (SPLICE-ETS.md) has
  * EXECUTED - the two trees carry unique names: the Classic tree the plain
- * @playform/dsh-* forms, the EffectTS tree the @playform/ets-* forms plus
+ * @playform/* forms, the EffectTS tree the @playform/ets-* forms plus
  * the base @playform/ets-base-dsh.
  */
 const OperatingSet = [
 	{
 		State: "OPERATING",
 		Tree: "CLASSIC",
-		Detail: "@playform/hook-dsh-* x 14 + @playform/plugin-dsh-factory",
+		Detail: `@playform/* x ${Counts.PackagesClassic} - 4 lib-*, 18 plugin-*, 28 hook-*, 3 client-*`,
 		Version: Versions.Release,
-		Note: "plain TypeScript - classes, Maps, plain functions; the ccr compressor and the tool-coach guardian included",
+		Note: "plain TypeScript - classes, Maps, plain functions; the guardians, the workspace family, the suggesters, the orchestration set and the client family included",
 	},
 	{
 		State: "OPERATING",
 		Tree: "EFFECT-TS",
-		Detail: "@playform/ets-hook-dsh-* x 14 + @playform/ets-plugin-dsh-factory + @playform/ets-base-dsh",
+		Detail: `@playform/ets-* x ${Counts.PackagesEffectTS} - ${Counts.Twins} twins + @playform/ets-base-dsh`,
 		Version: Versions.Release,
-		Note: `Effect-TS services & layers - effect pinned at ${Versions.Effect}; the base @playform/ets-base-dsh carries the shared plumbing; the ets ccr and tool-coach twins included`,
+		Note: `Effect-TS services & layers - effect pinned at ${Versions.Effect}; the base @playform/ets-base-dsh carries the shared plumbing; six Classic packages have no twin`,
 	},
 ];
 
 /*
- * THE RECORD - the changelog. The monorepo root CHANGELOG.md, verbatim
- * (byte-exact for the shipped entries - it is the record), with this page
- * maintaining the newer entries on top (the four guardians-era features;
- * the root file's next update is a family-lane item). Site/CHANGELOG.md
- * carries only the one-line "Initial version"; the root file is the
- * narrative source.
+ * THE RECORD - the changelog. The monorepo's root CHANGELOG.md, imported raw
+ * at build time and rendered verbatim - including the `Unreleased` section.
+ * ONE documented substitution: the 0.1.0-era entry names the historical
+ * `~/.dsh/plugin-dsh-normalize-file.log`; wave 0b moved the ledger namespace
+ * to `~/.dsh/playform/`, so the page shows that path in the current namespace.
+ * Every other byte is the file's.
  */
-const ChangelogSource = "the monorepo CHANGELOG.md - verbatim (plus this page's newer entries)";
-const Changelog = `## 0.1.0
+const ChangelogSource = "the monorepo root CHANGELOG.md - quoted at build time";
+const Changelog = RootChangelog.replace(
+	"~/.dsh/plugin-dsh-normalize-file.log",
+	"~/.dsh/playform/plugin-dsh-normalize-file.log",
+);
 
-### Changed
-
-- The family version: all 31 packages (15 Classic, 16 Effect-TS) ship at
-  0.1.0, and every internal sibling pin moves with them.
-- The ledger defaults: the cargo governor, the package governor, the pinner
-  and the ccr hook write the documented \`~/.dsh/<identity>.log\` paths; the
-  ccr default replaces the absolute \`/Users/nikola/...\` form.
-- The default-path assertions: the ccr suite (24 to 25 PASS) and the
-  governor suite (3 to 4 PASS) pin the documented ledger defaults, so the
-  schema default, the patch row and the README cannot drift apart.
-- The overpass move: the shared overpass scaffolding (the text-block
-  rewrite, the two arm factories and the \`normalize-overpass\` handler)
-  lives in the Classic core and the EffectTS base; each flavor keeps its
-  transform, its ledger strings and its listener signature.
-- The Effect-TS cleanup: the four unused direct \`effect\` dependencies
-  (ccr, tool-coach, live-containers, core) are removed; the \`ets-*\`
-  packages ride on \`@playform/ets-base-dsh\`, and the core's stream-gate
-  claim is corrected.
-- The site corrections: the site reads the release version from the
-  manifests, the fallbacks agree at 0.1.0, and the install and ledger
-  samples carry the new version.
-
-## 0.0.1
-
-### Added
-
-- The CCR hook (hook-dsh-ccr) with the tools/post-execute compression gate:
-  the type-aware one-line previews and the <<<CCR:hash|type|size>>> retrieval
-  markers, the registered ccr_retrieve tool, auto-expand, the sha256-24 LRU
-  store, and the phase-4 context engine (implemented, off by default).
-- The tool-coach guardian (hook-dsh-tool-coach) with the four-tier coaching
-  ladder over the terminal tool calls: tier-0 ledger, tier-1 live-fetched
-  notes (ctx.tools.schemas()), tier-2 the persistent system-prompt section,
-  tier-3 the optional enforce deny tier.
-- The granular volatile scopes for the normalize family
-  (conversation/reasoning/toolInput/toolResults/files/batch +
-  toolResultsExempt) with the live loader/volatile-update toggles.
-- The overpass mechanism: the tools/post-execute and agent/pre-step arms and
-  the normalize-overpass command (files sweep owned by normalize-file).
-- The initial release of the DeepSeek Harness Plugin Family for PlayForm:
-  the packages in the two release implementations (the Classic release and
-  the Effect-TS release), the Site, and the archived fixtures.
-- The governance trio (governor, pinner, cargo) with the direct-govern
-  fold and the fine-grained raw-write flags.
-- The stream-normalization family (dash, quotes, ellipsis, spaces,
-  invisible, fullwidth) with the three-way tool-args gate and the
-  raw-marker opt-out.
-- The file-content normalizer (normalize-file) and the raw-write tool
-  with the normalize/govern selections.
-- The shared factory machinery (the write executor, the govern fold,
-  the P5 storage journal, the activation composer).
-- The site (the static landing with the products, versions, flavors,
-  models, setup, case study, and workbench pages).
-- The skills (instructional-writing, plugin-system, smoke-writing) and
-  the documentation tree.`;
+/*
+ * THE WAVES - the completion program's own record (Completion-Spec
+ * 00-OVERVIEW section 4). The page names the states the program declares;
+ * a wave that is not landed is not presented as shipped.
+ */
+const Waves = [
+	{
+		Wave: "0",
+		Scope: "live defects: the workspace-scoped suggesters (base-aware) and the tilde ledgers",
+		State: "LANDED",
+	},
+	{
+		Wave: "0b",
+		Scope: "the log-path standardisation (~/.dsh/playform/<package>.log)",
+		State: "LANDED",
+	},
+	{
+		Wave: "1",
+		Scope:
+			"pipeline wiring: the graph trigger, the inbox splice, spawn, batch wiring, the launch seam and the trace bus",
+		State: "LANDED",
+	},
+	{
+		Wave: "2",
+		Scope:
+			"the pack layer + learner, the replay producer, test reconciliation, the search index/seed/benchmark and the edit/doc learning layer",
+		State: "LANDED",
+	},
+	{
+		Wave: "3",
+		Scope:
+			"the storage migration (pattern, batchstate) landed; the semantics adapters and the reflect AST",
+		State: "IN FLIGHT",
+	},
+	{
+		Wave: "4",
+		Scope: `the client family: the ${Client.Adapters} adapters, the Typert endpoint and the live-view ingest`,
+		State: "OPEN",
+	},
+	{
+		Wave: "5",
+		Scope: "ETS parity for every wave's change",
+		State: "OPEN",
+	},
+];
 ---
 
 <Base
 	Title="Versions - DSH Family @ PlayForm"
-	Description={`The release and operating-state overview of the DeepSeek Harness Plugin Family. What is operating now (the dual trees at ${Versions.Release}, effect pinned ${Versions.Effect}). What changed at this release. The shared invariants - not a listing.`}
+	Description={`The release and operating-state overview of the DeepSeek Harness Plugin Family. What is operating now (${Counts.Packages} packages across the dual trees at ${Versions.Release}, effect pinned ${Versions.Effect}). What changed at this release. The shared invariants - not a listing.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -143,10 +140,10 @@ const Changelog = `## 0.1.0
 			Sub={`This page is the release and operating-state overview - not a listing.\nIt answers three questions. What is operating right now (the dual trees and the Effect-TS pin). What changed at this release (the record below). What BOTH trees hold (the invariants).\nThe plugin pages list the products. This page states the state of the family.\nBOTH releases are at version ${Versions.Release}.`}
 		>
 			<Fragment slot="sub-1">
-				The dual engine distribution: the same fifteen contracts, built twice -{" "}
-				<BrandIcon Name="typescript" />{" "}CLASSIC in plain TypeScript,{" "}
-				<BrandIcon Name="effect" />{" "}EFFECT-TS on Effect-TS services and layers.
-				Same behavior, same smokes, different runtime plumbing.
+				The dual engine distribution: the same {Counts.Twins} shared contracts, built twice -{" "}
+				<BrandIcon Name="typescript" />{" "}CLASSIC in plain TypeScript ({Counts.PackagesClassic} packages),{" "}
+				<BrandIcon Name="effect" />{" "}EFFECT-TS on Effect-TS services and layers ({Counts.PackagesEffectTS} packages).
+				The same contracts, the same smoke discipline, different runtime plumbing.
 			</Fragment>
 		</PageHero>
 
@@ -165,9 +162,74 @@ const Changelog = `## 0.1.0
 					</div>
 				))}
 				<div class="opset__foot">
-					STATE: DUAL TREE · IDENTICAL {Counts.Packages} CONTRACTS · {Totals.Metadata()}
+					STATE: DUAL TREE · {Counts.Twins} SHARED CONTRACTS · {Counts.PackagesClassic} CLASSIC ·{" "}
+					{Counts.PackagesEffectTS} EFFECT-TS · {Totals.Metadata()}
 				</div>
 			</div>
+		</section>
+
+		<!-- THE DELIVERY - the record after the release -->
+		<section class="section" id="delivery">
+			<SectionHeader Title="The delivery record" Metadata="2026-10-22 · THE POC DELIVERY + THE COMPLETION PROGRAM" />
+			<div class="concept-list">
+				<Concept
+					ID="versions-delivery"
+					Title={`The delivery added ${Delivery.NewClassic} Classic packages and ${Delivery.ETSTwins} ETS twins - ${Counts.Packages} packages today`}
+					Diagram="The two release trees after the 2026-10-22 delivery and the completion program: the workspace family, the client family, the suggesters and the orchestration set in the Classic tree, their ets- twins in the Effect-TS tree, and the two completion libraries carrying the trace bus and the pack layer."
+				>
+					<p>
+						The 2026-10-22 delivery added {Delivery.NewClassic} Classic packages and{" "}
+						{Delivery.ETSTwins} ETS twins: the workspace family, the client family, the seven
+						suggesters and the orchestration set.
+						The completion program that followed added the {Delivery.Libraries} libraries, the
+						trace bus, the pack layer and its learner, the policy block, and the storage
+						migration.
+					</p>
+					<p>
+						The delivery is <strong>UNPUBLISHED</strong>: every package ships at{" "}
+						<code>{Versions.Release}</code> except <code>client-dsh-panel-family</code> at{" "}
+						<code>{Versions.PanelFamily}</code>.
+						There is no registry install route for any of them.
+					</p>
+				</Concept>
+			</div>
+			<div class="flavor-strip">
+				<Badge Variant="active">{Counts.Packages} PACKAGES</Badge>
+				<Badge Variant="active">{Counts.PackagesClassic} CLASSIC</Badge>
+				<Badge Variant="active">{Counts.PackagesEffectTS} EFFECT-TS</Badge>
+				<Badge>{Counts.Twins} TWINS</Badge>
+				<Badge>{Counts.Suites} SMOKE SUITES</Badge>
+				<Badge>{Totals.Both} CHECKS</Badge>
+			</div>
+			<div class="table-wrap" style="margin-top: var(--space-md)">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Wave</th>
+							<th>Scope</th>
+							<th>State</th>
+						</tr>
+					</thead>
+					<tbody>
+						{Waves.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Wave}</strong>
+								</td>
+								<td>{Row.Scope}</td>
+								<td>
+									<span class="hook-tally">{Row.State}</span>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The wave states are the completion program's own record
+				(<span class="file-mention"><BrandIcon Name="file-markdown" Size="0.9em" />Completion-Spec</span>
+				section 4). A wave that is not landed is not presented as shipped.
+			</p>
 		</section>
 
 		<!-- THE RECORD - the changelog as the page's narrative spine -->
@@ -180,9 +242,10 @@ const Changelog = `## 0.1.0
 				</div>
 				<pre class="record__text">{Changelog}</pre>
 				<p class="record__wording">
-					The shipped entries above are byte-exact from the repository file.
-					The four entries on top are the guardians-era additions this page maintains first.
-					This page maintains the changelog, so the release history lives where the operating state lives.
+					The record above is the repository's root <code>CHANGELOG.md</code>, quoted at build
+					time - including the <code>Unreleased</code> section.
+					One ledger path in the 0.1.0-era entry is shown in the current{" "}
+					<code>~/.dsh/playform/</code> namespace; every other byte is the file's.
 				</p>
 			</div>
 		</section>
@@ -207,7 +270,7 @@ const Changelog = `## 0.1.0
 				<Concept
 					ID="versions-arbiter"
 					Title="The smokes are the arbiter"
-					Diagram="The fourteen smoke suites loading the REAL built Target of their own bundle and asserting the ledger strings byte-identically - and the Effect-TS tree proving parity with these numbers before any swap-in."
+					Diagram={`The ${Counts.Suites} smoke folders loading the REAL built Target of their own bundle and asserting the ledger strings byte-identically - and the Effect-TS tree proving parity with these numbers before any swap-in.`}
 				>
 					<p>
 						EVERY suite loads the REAL built Target of its bundle.
@@ -219,10 +282,12 @@ const Changelog = `## 0.1.0
 				</Concept>
 			</div>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The totals count the fourteen mechanics suites.
+				The 14 mechanics suites' subtotal is {Totals.Mechanics.Classic} CLASSIC +{" "}
+				{Totals.Mechanics.EffectTS} EFFECT-TS checks.
+				The family total is {Totals.Both} checks across {Counts.Suites} smoke folders.
 				The seven wiring suites (scratch-profile, profile-assembly, patch-layer,
 				live-ledger, governed-write, refusal-path, introspection) run against a live
-				profile and are not part of the fourteen mechanics suites.
+				profile and sit outside the mechanics subtotal.
 			</p>
 			<div class="grid grid--3">
 				<Card

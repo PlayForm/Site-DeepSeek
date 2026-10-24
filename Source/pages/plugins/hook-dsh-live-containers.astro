@@ -83,7 +83,7 @@ const Config = [
 	{
 		Field: "logFile",
 		Type: "string",
-		Default: "~/.dsh/live-containers.log",
+		Default: "~/.dsh/playform/hook-dsh-live-containers.log",
 		Meaning: "the module's own ledger, SEPARATE from the family's logs (ONE log per module)",
 	},
 	{
@@ -147,9 +147,10 @@ const LedgerExcerpt = [
 	"failsafe section-collapse 2",
 ];
 
-// The nine ledger strings, byte-exact (SCHEME.md section 7; the module
-// composes these, the durable file carries them in [ISO] form with the
-// live-containers: logger prefix).
+// The ledger strings, byte-exact (SCHEME.md section 7 and the README's ledger
+// section; the module composes these, the durable file carries them in [ISO]
+// form with the live-containers: logger prefix). The phase-1 nine, then the
+// wave-2 live-feature lines and the wave-3 monitor lines.
 const LedgerStrings = [
 	"disabled (enabled=false)",
 	"activated (bundle 0.1.0, blocks=<n>, refresh=<policy>)",
@@ -160,6 +161,44 @@ const LedgerStrings = [
 	"render failed <id> -> skipped",
 	"render unknown <id> <token>",
 	"failsafe section-collapse <n>",
+	"transform failed <tool> -> inline",
+	"capacity full <owner> -> inline",
+	"start failed <tool> -> inline",
+	"escalation -> inline <tool>",
+	"await marker -> inline <tool>",
+	"await marker ignored (tool not detachable) <tool>",
+	"dedup <tool> -> <job-id>",
+	"marker failed <job-id> -> inline",
+	"detached <tool> -> <job-id>",
+	"owner gone <job-id>",
+	"completion rendered <len> bytes",
+	"completion skipped <job-id> (<reason>)",
+	"completion truncated <job-id> (<kept> bytes)",
+	"withdrawn <job-id> (completed)",
+	"set <key>",
+	"set unknown <verb> <input>",
+	"plant opened <id> (expect <n>)",
+	"member enrolled <id> <agentId>",
+	"report <id> <agentId> (<n> bytes)",
+	"member stalled <id> <agentId>",
+	"member dropped <id> <agentId> (<reason>)",
+	"board closed <id> (<n>/<expect> in <n>s)",
+	"overflow <id> <agentId>",
+	"lease expired <id> <agentId> (after <n> turns)",
+	"failsafe hang <job-id> (<n>s no output)",
+	"failsafe admission inline <tool>",
+	"failsafe retry-loop <cmd>",
+	"failsafe meta-budget (<turn>)",
+	"failsafe stall <id> <agentId>",
+	"failsafe drift (<reason>)",
+	"suggested <sid> <templateId> (fit <fit>)",
+	"suggestion skipped (<reason>)",
+	"suggestion parse failed",
+	"suggestion dismissed <sid>",
+	"suggestion accepted <sid> (<templateId>)",
+	"suggestion clamped <sid> <field>",
+	"suggestion expired <sid>",
+	"accept failed <sid> (expired)",
 ];
 
 const Related = [
@@ -184,7 +223,7 @@ const Related = [
 
 <Base
 	Title="hook-dsh-live-containers - DSH Family @ PlayForm"
-	Description={`${Families.LiveContainers} - the live-containers hook of the DeepSeek Harness. It keeps dynamic, modifiable conversation blocks in the system prompt. Each enabled block is a labeled stanza recomputed at EVERY request. Each block sits inside a fixed frame so the model cannot mistake it for harness state. Shipped DISABLED (the IDLE-forever posture).`}
+	Description={`${Families.LiveContainers} - the live-containers hook of the DeepSeek Harness. It keeps dynamic, modifiable conversation blocks in the system prompt. Each enabled block is a labeled stanza recomputed at EVERY request. Each block sits inside a fixed frame so the model cannot mistake it for harness state. The bundle ships disabled by default (the IDLE-forever posture); the live desktop profile enables it.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -195,7 +234,7 @@ const Related = [
 			<Badge>
 				<BrandIcon Name="deepseek" Size="0.8em" /> GATE: system-prompt/assemble (append-only)
 			</Badge>
-			<Badge Variant="outline">STATUS: SHIPS DISABLED</Badge>
+			<Badge Variant="outline">STATUS: DISABLED BY DEFAULT</Badge>
 		</div>
 
 		<section class="page-hero">
@@ -209,26 +248,30 @@ const Related = [
 			</p>
 			<p class="page-hero__sub">
 				Each enabled block is a labeled stanza recomputed at EVERY request.
-				The canonical example is a time block that ALWAYS holds the current time at ask-time while the rest of the conversation stays static.
+				The shipped table enables three of its 14 catalog kinds - <code>todo-list</code>,{" "}
+				<code>command-runner</code> and <code>session-stats</code> - so the counters recompute
+				at ask-time while the rest of the conversation stays static.
 			</p>
 			<p class="page-hero__sub">
 				The blocks ride the <code>system-prompt/assemble</code> waterfall as ONE appended section named <code>live-containers</code> (<code>interpolate: false</code>, so ONLY the plugin's own substitution engine touches its <code>{"{{token}}"}</code> groups).
 				Each block sits inside a fixed frame so the model cannot mistake it for harness state.
 			</p>
-			<p class="page-hero__sub"><strong>Planned - not yet in the profile.</strong></p>
 			<p class="page-hero__sub">
-				The plugin ships DISABLED (the IDLE-forever posture).
-				The bundle entry declares <code>enabled: false</code> ONLY.
-				The plugin NEVER appears in the profile's bundles.
-				It enables ONLY by an explicit ACTIVATE.
-			</p>
-			<p class="page-hero__sub">
-				A cold mount logs <code>disabled (enabled=false)</code> and EVERY listener no-ops to a passthrough.
+				The bundle ships DISABLED (the IDLE-forever posture): the entry declares{" "}
+				<code>enabled: false</code> only, so a cold mount logs{" "}
+				<code>disabled (enabled=false)</code> and every listener no-ops to a passthrough.
+				The live desktop profile turns it on - its patch row sets <code>enabled: true</code>.
 			</p>
 			<p class="page-hero__sub">
 				A NON-MANIFEST factory flavor.
 				The family's furnace composes the schema and the volatile refresh.
 				This package owns its schema and its strings.
+			</p>
+			<p class="page-hero__sub">
+				The Effect-TS twin is{" "}
+				<a href={Link(Links.OurRepo, "EffectTS/packages/ets-hook-dsh-live-containers/Source")}><code>@playform/ets-hook-dsh-live-containers</code></a>{" "}
+				- the same contracts under the <code>ets-</code> prefix, built on the shared{" "}
+				<code>@playform/ets-base-dsh</code> base.
 			</p>
 		</section>
 
@@ -236,10 +279,6 @@ const Related = [
 			<div class="snippet-list">
 				<Terminal Pkg="hook-dsh-live-containers" Rail />
 			</div>
-			<p class="page-hero__sub">
-				Publish-pending - build from source until the npm release lands.
-				The command above is the npm form the release will publish.
-			</p>
 			<div class="inspect-card">
 				<span class="inspect-card__meta">
 					<span class="live-dot"></span>INSPECTED
@@ -258,8 +297,9 @@ const Related = [
 					<Badge>tools/post-execute</Badge>
 					<Badge>agent/pre-step</Badge>
 					<Badge>tools/change</Badge>
+					<Badge>fs/observed</Badge>
 					<span class="workbench-controls__label">Injects:</span>
-					<Badge Variant="active">pluginFactory, tools</Badge>
+					<Badge Variant="active">pluginFactory · tools · systemPrompt · shell · shellEnv · workingDirectory · jobs</Badge>
 				</div>
 			</div>
 		</section>
@@ -270,16 +310,16 @@ const Related = [
 				<Concept
 					ID="live-family-position"
 					Title="The family position"
-					Diagram={`${Families.LiveContainers} as a hook child of the plugin-dsh-factory service - no hook children of its own - a NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema): the plugin owns its schema and its strings. apply returns NOTHING; the state is exposed via ctx.__hookDshLiveContainersState.`}
+					Diagram={`${Families.LiveContainers} as a hook child of the plugin-dsh-factory service - no hook children of its own - a NON-MANIFEST module (no Attach, no factory Schema) with one wave-3 Wire on fs/observed: the plugin owns its schema and its strings. apply returns NOTHING; the state is exposed via ctx.__hookDshLiveContainersState.`}
 				>
 					<p>
 						A hook child of the <strong><a href={Link(Links.OurRepo, "Classic/packages/plugin-dsh-factory/Source")}>plugin-dsh-factory</a></strong> service ({Families.LiveContainers}).
-						A NON-MANIFEST module (no fs/observed Wire, no Attach, no factory Schema) - the plugin owns its schema and its strings.
+						A NON-MANIFEST module (no Attach, no factory Schema) - the plugin owns its schema and its strings. The wave-3 monitors add one Wire: the plugin hears <code>fs/observed</code> on the root context to schedule its file checks.
 					</p>
 					<p>
 						<code>apply</code> returns NOTHING.
 						The state is exposed via <code>ctx.__hookDshLiveContainersState</code>.{" "}
-						<code>inject: ["pluginFactory", "tools"]</code>.
+						<code>inject: ["pluginFactory", "tools", "systemPrompt", "shell", "shellEnv", "workingDirectory", "jobs"]</code>.
 					</p>
 				</Concept>
 			</div>
@@ -344,7 +384,7 @@ const Related = [
 					},
 					{
 						Seam: "The ledger / session",
-						What: "ONE log per module - logFile (default ~/.dsh/live-containers.log). It records the nine byte-exact strings in [ISO] form with the live-containers: logger prefix. apply returns NOTHING, so 'did it activate' is answerable from the ledger and the state attachment alone.",
+						What: "ONE log per module - logFile (default ~/.dsh/playform/hook-dsh-live-containers.log). It records the nine byte-exact strings in [ISO] form with the live-containers: logger prefix. apply returns NOTHING, so 'did it activate' is answerable from the ledger and the state attachment alone.",
 						Outcome:
 							"The live-section state is discoverable from the ledger alone.",
 					},
@@ -470,11 +510,13 @@ const Related = [
 			<div class="concept-list">
 				<Concept
 					ID="live-in-action-stream"
-					Title="The time block, recomputed at every ask"
-					Diagram="With the plugin ACTIVATEd (enabled: true) and the default table: the time block re-renders per request so {{time}} always holds the current wall clock; the wave-2 entries skip as 'unknown kind'; with refresh: ttl the section text holds for ttlCalls (8) assemblies and the prefix stays reusable; an oversized body collapses its oldest frames - never silently dropped."
+					Title="The counters recompute at every ask"
+					Diagram="With the plugin enabled and the default table: the session-stats block re-renders per request so its counters always describe the current session, while todo-list and command-runner read their own state; a catalog kind outside the enabled three skips as 'unknown kind'; with refresh: ttl the section text holds for ttlCalls (8) assemblies and the prefix stays reusable; an oversized body collapses its oldest frames - never silently dropped."
 				>
 					<p>
-						The canonical example: a <code>time</code> block whose <code>{"{{time}}"}</code> ALWAYS holds the current time at ask-time, while the rest of the conversation stays static.
+						The canonical example: a <code>session-stats</code> block whose counters always
+						describe the current session at ask-time, while the rest of the conversation
+						stays static. It is one of the three kinds the shipped table enables.
 					</p>
 				</Concept>
 			</div>
@@ -485,12 +527,104 @@ const Related = [
 		</section>
 
 		<section class="section">
+			<SectionHeader Title="The live surface" Metadata="THE DETACH TRANSFORM · BOARDS · FAILSAFES · MONITORS" />
+			<div class="concept-list">
+				<Concept
+					ID="live-detach"
+					Title="The detach transform and the completion report"
+					Diagram="A command-runner call matching the detach policy turning into a ctx.jobs background job with an immediate successful result carrying the inline [live] marker; the running job framed in the standing section; the settle merged into ONE completion snapshot on the registered dynamic context - one wrapper line, N frames, one next hint, failures first."
+				>
+					<p>
+						With <code>detach.mode</code> set to <code>long-running</code>,{" "}
+						<code>all</code> or <code>selected</code>, a command-runner call matching the
+						policy detaches into a <code>ctx.jobs</code> background job and the model
+						immediately receives a successful result whose text is the inline marker{" "}
+						<code>[live] &lt;job-id&gt; running: &lt;cmd-head&gt; - output pending;
+						proceed reasoning.</code> The mutation family (write, edit, raw-write,
+						normalize-file) is permanently non-detachable.
+					</p>
+					<p>
+						The per-call escape hatch is the await marker:{" "}
+						<code>&#123;"__await":true</code> as the FIRST key runs that one call inline.
+						The completion rides a registered dynamic context: everything that settles
+						between two admissions merges into one snapshot (one wrapper line, N frames,
+						one <code>[live] next:</code> hint, failures first, capped at{" "}
+						<code>completionCapBytes</code>).
+					</p>
+				</Concept>
+				<Concept
+					ID="live-boards"
+					Title="Planted boards and the lease"
+					Diagram="live_plant opening a board in the calling agent's section; children reporting with the [live-report] line; a member silent for plant.leaseTurns parent turns self-declaring the [stale] row, which IS the delegation-stall failsafe trigger; the board closing when all members settle."
+				>
+					<p>
+						<code>live_plant</code> opens a board in the calling agent's section. Children
+						report with{" "}
+						<code>[live-report] &lt;plantId&gt; &lt;agentId&gt; &lt;status&gt;
+						&lt;payload&gt;</code>, and a member silent for <code>plant.leaseTurns</code>{" "}
+						(default 3) parent turns self-declares the{" "}
+						<code>[stale] &lt;agentId&gt; - unreported for &lt;n&gt; parent turns</code>{" "}
+						row.
+					</p>
+					<p>
+						That declaration is the delegation-stall failsafe trigger;{" "}
+						<code>live_container_set prune=&lt;plantId&gt;/&lt;agentId&gt;</code> is the
+						manual twin. The board closes when all members settle and renders its
+						one-request closing line, then withdraws.
+					</p>
+				</Concept>
+				<Concept
+					ID="live-failsafes"
+					Title="The failsafes and the suggester"
+					Diagram="The task-based failsafe engine - silent by default, ledger-only: the hang guard, the live-timeout kill, the admission guard, the retry-loop marker, the drift warning, the orphan-board header, the per-turn meta-budget and the section collapse - beside the opt-in suggester that spawns ONE detached one-shot subagent and renders its strict-JSON answer as a planted-block preview with accept and dismiss verbs."
+				>
+					<p>
+						The failsafe engine is silent by default (ledger-only): the hang guard, the
+						live-timeout kill, the admission guard, the retry-loop marker, the drift
+						warning, the orphan-board header, the per-turn meta-budget and the section
+						collapse. <code>failsafes: "off"</code> disables the engine; the detach
+						transform is a feature, not a failsafe, and keeps working.
+					</p>
+					<p>
+						With <code>suggester: "section" | "plant"</code>, a qualifying user message
+						spawns one detached one-shot subagent on <code>suggesterRoute</code>; its
+						strict-JSON answer becomes a configured suggestion rendered as a
+						planted-block preview with{" "}
+						<code>accept: live_container_set accept=&lt;sid&gt;</code> and{" "}
+						<code>dismiss: live_container_set dismiss=&lt;sid&gt;</code>.
+					</p>
+				</Concept>
+				<Concept
+					ID="live-monitors"
+					Title="The wave-3 monitors and the four tools"
+					Diagram="The file monitors: the plugin hearing fs/observed on the root context, running each watchlisted file's check set between turns through the governed background path, and rendering one band per file with the stale state derived from the raw version tokens; the check results persisting in the live_containers_monitors storage domain - beside the four tools (live_plant, live_container_set, live_monitor, live_monitor_check)."
+				>
+					<p>
+						The wave-3 monitors put files into operational mode: the plugin hears{" "}
+						<code>fs/observed</code> on the root context and runs each watchlisted file's
+						check set between turns through the same governed background path, then
+						renders one band per file. A version bump before the next request flips the
+						band to stale without a re-run - staleness is derived from the raw version
+						tokens, never stored.
+					</p>
+					<p>
+						Check results persist in the dedicated{" "}
+						<code>live_containers_monitors</code> storage domain; without it the bands
+						degrade to "not run yet", never a fabricated clean. The plugin registers four
+						tools: <code>live_plant</code>, <code>live_container_set</code>,{" "}
+						<code>live_monitor</code> and <code>live_monitor_check</code>.
+					</p>
+				</Concept>
+			</div>
+		</section>
+
+		<section class="section">
 			<SectionHeader Title="The Ledger" Metadata="ONE LOG PER MODULE" />
 			<div class="concept-list">
 				<Concept
 					ID="live-ledger-log"
-					Title="The nine strings are the contract"
-					Diagram="One log per module - logFile (default ~/.dsh/live-containers.log) - the nine strings byte-exact with the live-containers: logger prefix (the factory's Append layer; each line [ISO] <message> in the file): disabled, activated, block rendered, block skipped, section rebuilt (ttl), section rebuilt (tools/change), render failed, render unknown, failsafe section-collapse."
+					Title="The strings are the contract"
+					Diagram="One log per module - logFile (default ~/.dsh/playform/hook-dsh-live-containers.log) - the strings byte-exact with the live-containers: logger prefix (the factory's Append layer; each line [ISO] <message> in the file): the phase-1 nine (disabled, activated, block rendered, block skipped, the two section-rebuilt forms, render failed, render unknown, failsafe section-collapse), the wave-2 live-feature lines (detach, completion, board, failsafe, suggestion) and the wave-3 monitor lines."
 				>
 					<p>
 						The durable ledger file carries the same strings in{" "}
@@ -506,7 +640,7 @@ const Related = [
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 		</section>
 
-		<!-- The known limits: the documented gaps, stated as they are. -->
+		{/* The known limits: the documented gaps, stated as they are. */}
 		<section class="section">
 			<SectionHeader Title="Known limits" Metadata="THE KV-CACHE HONESTY + THE FUTURE STAGE" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">

@@ -8,14 +8,16 @@
 //
 // THE FIDELITY: EVERY generated fragment is the real wiring.
 // The patch insert blocks are the packages' actual cordis.patch.yml `insert:` bodies
-// (BOTH trees - the Classic @playform/dsh-* names and the EffectTS
+// (BOTH trees - the Classic @playform/* names and the EffectTS
 // @playform/ets-* names per SPLICE-ETS.md).
-// The verification lines are the ledger forms the packages write (the
-// governor's and the pinner's are the page's byte-exact strings; the
-// remaining flavors follow the same format).
-// The command block is the npm route (`npm install @playform/<pkg>@0.1.0` inside ~/.dsh).
-// hook-dsh-ccr and hook-dsh-tool-coach are publish-pending - build them from source;
-// the published packages install from the registry (provenance via OIDC trusted publishing).
+// The verification lines are the logger forms the factory composes around each
+// module's activation message (`<module>: <message>`); the file form stamps the
+// same message with [ISO] and drops the prefix. The four inverted module
+// prefixes are the real ones (hook-dsh-governor-package, hook-dsh-governor-cargo,
+// hook-dsh-pinner-package, ccr).
+// The command block is the BUILD-FROM-SOURCE route (`dsh plugin --profile <name>
+// add ./bundles/<pkg>` inside ~/.dsh/profiles/<name>): ALL 101 packages are
+// unpublished, so no npm install appears anywhere in the generated output.
 //
 // THE STATE: the selection persists in the URL query (?engine=&p=&profile= -
 // shareable) and in localStorage.
@@ -96,7 +98,7 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-package-governor"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/hook-dsh-package-governor.log",
+			"            logFile: ~/.dsh/playform/hook-dsh-package-governor.log",
 			"            updateCooldownMs: 3000",
 			"            strict: false",
 			"            mutationTools: [write, edit, str_replace_editor, raw-write]",
@@ -106,7 +108,7 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'            policyFile: ""',
 			`            exclude: ${Exclusions}`,
 		].join("\n"),
-		Line: "hook-dsh-package-governor: activated (anywhere mode, logFile=~/.dsh/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
+		Line: "hook-dsh-governor-package: activated (anywhere mode, logFile=~/.dsh/playform/hook-dsh-package-governor.log, updateMode=programmatic, ncuBin=ncu, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery))",
 		Note: null,
 	},
 	pinner: {
@@ -117,13 +119,13 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-package-pinner"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/hook-dsh-package-pinner.log",
+			"            logFile: ~/.dsh/playform/hook-dsh-package-pinner.log",
 			"            mutationTools: [write, edit, str_replace_editor, raw-write]",
 			'            policyFile: ""',
 			"            sections: [dependencies, devDependencies, peerDependencies, optionalDependencies]",
 			`            exclude: ${Exclusions}`,
 		].join("\n"),
-		Line: "hook-dsh-package-pinner: activated (pinner, logFile=~/.dsh/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
+		Line: "hook-dsh-pinner-package: activated (pinner, logFile=~/.dsh/playform/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
 		Note: null,
 	},
 	cargo: {
@@ -134,7 +136,7 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-cargo-governor"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/hook-dsh-cargo-governor.log",
+			"            logFile: ~/.dsh/playform/hook-dsh-cargo-governor.log",
 			"            updateCooldownMs: 3000",
 			"            strict: false",
 			"            mutationTools: [write, edit, str_replace_editor, raw-write]",
@@ -145,7 +147,7 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'            keepFile: ""',
 			`            exclude: ${Exclusions}`,
 		].join("\n"),
-		Line: `hook-dsh-cargo-governor: activated (cargo flavor, logFile=~/.dsh/hook-dsh-cargo-governor.log, updateMode=cargo, cargoBin=cargo, exclude=${Exclusions}, policyFile=(discovery))`,
+		Line: `hook-dsh-governor-cargo: activated (cargo flavor, logFile=~/.dsh/playform/hook-dsh-cargo-governor.log, updateMode=cargo, cargoBin=cargo, exclude=${Exclusions}, policyFile=(discovery))`,
 		Note: null,
 	},
 	dash: {
@@ -156,12 +158,12 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-normalize-dash"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/hook-dsh-normalize-dash.log",
+			"            logFile: ~/.dsh/playform/hook-dsh-normalize-dash.log",
 			'            replacement: "-"',
 			"            normalizeReasoning: true",
 			"            normalizeToolArguments: true",
 		].join("\n"),
-		Line: "hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
+		Line: "hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=on, logFile=~/.dsh/playform/hook-dsh-normalize-dash.log)",
 		Note: null,
 	},
 	quotes: {
@@ -172,11 +174,11 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-normalize-quotes"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/hook-dsh-normalize-quotes.log",
+			"            logFile: ~/.dsh/playform/hook-dsh-normalize-quotes.log",
 			"            normalizeReasoning: true",
 			"            normalizeToolArguments: true",
 		].join("\n"),
-		Line: "hook-dsh-normalize-quotes: activated (reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-quotes.log)",
+		Line: "hook-dsh-normalize-quotes: activated (reasoning=on, toolArgs=on, logFile=~/.dsh/playform/hook-dsh-normalize-quotes.log)",
 		Note: null,
 	},
 	ellipsis: {
@@ -187,12 +189,12 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-normalize-ellipsis"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/hook-dsh-normalize-ellipsis.log",
+			"            logFile: ~/.dsh/playform/hook-dsh-normalize-ellipsis.log",
 			'            replacement: "..."',
 			"            normalizeReasoning: true",
 			"            normalizeToolArguments: true",
 		].join("\n"),
-		Line: "hook-dsh-normalize-ellipsis: activated (replacement=..., reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-ellipsis.log)",
+		Line: "hook-dsh-normalize-ellipsis: activated (replacement=..., reasoning=on, toolArgs=on, logFile=~/.dsh/playform/hook-dsh-normalize-ellipsis.log)",
 		Note: null,
 	},
 	spaces: {
@@ -203,12 +205,12 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-normalize-spaces"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/hook-dsh-normalize-spaces.log",
+			"            logFile: ~/.dsh/playform/hook-dsh-normalize-spaces.log",
 			'            replacement: " "',
 			"            normalizeReasoning: true",
 			"            normalizeToolArguments: true",
 		].join("\n"),
-		Line: 'hook-dsh-normalize-spaces: activated (replacement=" ", reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-spaces.log)',
+		Line: 'hook-dsh-normalize-spaces: activated (replacement=" ", reasoning=on, toolArgs=on, logFile=~/.dsh/playform/hook-dsh-normalize-spaces.log)',
 		Note: null,
 	},
 	invisible: {
@@ -219,12 +221,12 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-normalize-invisible"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/hook-dsh-normalize-invisible.log",
+			"            logFile: ~/.dsh/playform/hook-dsh-normalize-invisible.log",
 			'            replacement: ""',
 			"            normalizeReasoning: true",
 			"            normalizeToolArguments: true",
 		].join("\n"),
-		Line: 'hook-dsh-normalize-invisible: activated (replacement="", reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-invisible.log)',
+		Line: 'hook-dsh-normalize-invisible: activated (replacement="", reasoning=on, toolArgs=on, logFile=~/.dsh/playform/hook-dsh-normalize-invisible.log)',
 		Note: null,
 	},
 	fullwidth: {
@@ -235,11 +237,11 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-normalize-fullwidth"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/hook-dsh-normalize-fullwidth.log",
+			"            logFile: ~/.dsh/playform/hook-dsh-normalize-fullwidth.log",
 			"            normalizeReasoning: true",
 			"            normalizeToolArguments: true",
 		].join("\n"),
-		Line: "hook-dsh-normalize-fullwidth: activated (reasoning=on, toolArgs=on, logFile=~/.dsh/hook-dsh-normalize-fullwidth.log)",
+		Line: "hook-dsh-normalize-fullwidth: activated (reasoning=on, toolArgs=on, logFile=~/.dsh/playform/hook-dsh-normalize-fullwidth.log)",
 		Note: null,
 	},
 	file: {
@@ -250,10 +252,10 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/plugin-dsh-normalize-file"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/plugin-dsh-normalize-file.log",
+			"            logFile: ~/.dsh/playform/plugin-dsh-normalize-file.log",
 			'            replacement: "-"',
 		].join("\n"),
-		Line: "plugin-dsh-normalize-file: activated (replacement=-, logFile=~/.dsh/plugin-dsh-normalize-file.log)",
+		Line: "plugin-dsh-normalize-file: activated (replacement=-, logFile=~/.dsh/playform/plugin-dsh-normalize-file.log)",
 		Note: null,
 	},
 	ccr: {
@@ -264,7 +266,7 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-ccr"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/ccr.log",
+			"            logFile: ~/.dsh/playform/hook-dsh-ccr.log",
 			"            targets:",
 			"                - bash",
 			"                - glob",
@@ -315,7 +317,7 @@ const ClassicSlots: Record<SlotKey, Slot> = {
 			'        name: "@playform/hook-dsh-tool-coach"',
 			"        config:",
 			"            log: true",
-			"            logFile: ~/.dsh/hook-dsh-tool-coach.log",
+			"            logFile: ~/.dsh/playform/hook-dsh-tool-coach.log",
 			"            enabled: true",
 			"            judgeTools:",
 			"                - bash",
@@ -395,7 +397,7 @@ EffectTSSlots["tool-coach"] = {
 		'        name: "@playform/ets-hook-dsh-tool-coach"',
 		"        config:",
 		"            log: true",
-		"            logFile: ~/.dsh/hook-dsh-tool-coach.log",
+		"            logFile: ~/.dsh/playform/hook-dsh-tool-coach.log",
 		"            enabled: true",
 		"            judgeTools:",
 		"                - bash",
@@ -444,7 +446,7 @@ function CleanProfile(Profile: string): string {
 	return Name || DefaultProfile;
 }
 
-/** The INSTALL-ALL block: one `npm install` per selected package, inside ~/.dsh. */
+/** The INSTALL-ALL block: one build-from-source add per selected package, inside ~/.dsh/profiles/<name>. */
 function InstallOutput(
 	Engine: string,
 	Pkgs: SlotKey[],
@@ -455,7 +457,9 @@ function InstallOutput(
 	const Lines = [
 		`# inside ~/.dsh/profiles/${Name}`,
 		`cd ~/.dsh/profiles/${Name}`,
-		...Pkgs.map((Key) => `npm install ${Slots[Key].Pkg}@${Versions.Release}`),
+		...Pkgs.map(
+			(Key) => `dsh plugin --profile ${Name} add ./bundles/${Slots[Key].Pkg.replace("@playform/", "")}`,
+		),
 	];
 	const Base = Engines[Engine].Base;
 	if (Base && Pkgs.length > 0) {
@@ -608,7 +612,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 		<div class="cfg__panel">
 			<div class="cfg__bar">
 				<span class="cfg__title">
-					<Fragment set:html={DotSep(`1 · INSTALL-ALL · NPM · ${Versions.Release}`)} />
+					<Fragment set:html={DotSep(`1 · INSTALL-ALL · BUILD FROM SOURCE · ${Versions.Release}`)} />
 				</span>
 				<span class="cfg__status">COPIED</span>
 				<button type="button" class="cfg__copy" aria-label="Copy the install commands">
@@ -653,10 +657,12 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 	</div>
 
 	<p class="cfg__note">
-		The commands are the npm form.
-		hook-dsh-ccr and hook-dsh-tool-coach are publish-pending - build those two from source until they land.
-		hook-dsh-live-containers is publish-pending too and is not in this selection (it ships disabled).
-		Run the published commands inside <code>~/.dsh</code> against the registry.
+		The commands are the build-from-source route: <code>dsh plugin --profile &lt;name&gt; add</code> of
+		a built bundle directory, run inside the profile.
+		ALL 101 packages are unpublished - none is on the npm registry, so no install box on this site
+		promises an npm release.
+		The <code>link:</code> dependency in the profile wiring is the second route in: the bundles list
+		is what activates.
 		The selection persists in the URL and in localStorage - share the URL to hand over the exact setup.
 	</p>
 </div>
@@ -705,7 +711,10 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 			const Lines = [
 				`# inside ~/.dsh/profiles/${Profile}`,
 				`cd ~/.dsh/profiles/${Profile}`,
-				...Pkgs.map((Key) => `npm install ${Slots[Key].Pkg}@${Data.Version}`),
+				...Pkgs.map(
+					(Key) =>
+						`dsh plugin --profile ${Profile} add ./bundles/${Slots[Key].Pkg.replace("@playform/", "")}`,
+				),
 			];
 			const Base = Engines[Engine].Base;
 			if (Base && Pkgs.length > 0) {
@@ -828,7 +837,7 @@ const Payload = Buffer.from(JSON.stringify(Data), "utf8").toString("base64");
 					if (Kind === "wiring" && Line === "# cordis.patch.yml") Mode = "yaml";
 					if (Line.startsWith("#")) return Wrap("com", Line);
 					if (Mode === "cmd") {
-						const Match = Line.match(/^(cd|pnpm)(\s.*)$/);
+						const Match = Line.match(/^(cd|dsh|pnpm)(\s.*)$/);
 						return Match ? Wrap("cmd", Match[1]) + Escape(Match[2]) : Escape(Line);
 					}
 					if (Mode === "json") return HighlightJSONLine(Line);

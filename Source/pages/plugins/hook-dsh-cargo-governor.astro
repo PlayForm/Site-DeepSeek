@@ -42,7 +42,7 @@ const CargoAfter = [
 
 // The In Action ledger excerpt, from the README.
 const LedgerExcerpt = [
-	"[2026-10-03T09:15:22.411Z] activated (cargo flavor, logFile=~/.dsh/hook-dsh-cargo-governor.log, updateMode=cargo, cargoBin=/usr/local/bin/cargo, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery), keepFile=(discovery))",
+	"[2026-10-03T09:15:22.411Z] activated (cargo flavor, logFile=~/.dsh/playform/hook-dsh-cargo-governor.log, updateMode=cargo, cargoBin=/usr/local/bin/cargo, exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app], policyFile=(discovery), keepFile=(discovery))",
 	"[2026-10-03T09:16:01.880Z] governed <project>/acme/engine/Cargo.toml → 42",
 	"[2026-10-03T09:16:34.120Z] update stage dispatched for <project>/acme/engine (cargo via /usr/local/bin/cargo, built-in default policy)",
 	'[2026-10-03T09:16:41.502Z] update: cargo upgrade --manifest-path <project>/acme/engine/Cargo.toml --exclude serde tokio → {"exitCode":0}',
@@ -54,11 +54,25 @@ const LedgerStrings = [
 	"activated (cargo flavor, logFile=..., updateMode=cargo, cargoBin=..., exclude=[...], policyFile=(discovery), keepFile=(discovery))",
 	"skipped (excluded) <path>",
 	"no registry.json found for <path>",
-	"governed <path> → <version>",
+	"governed <path> \u2192 <version>",
 	"update stage dispatched for <dir> (cargo via ..., policy ...)",
-	'update: cargo upgrade <argv> → {"exitCode":0}',
+	"update: cargo upgrade <argv> \u2192 {\"exitCode\":0}",
 	"update: DONE / update: FAILED",
-	"update: cargo-edit unavailable: ...",
+	"unreadable registry.json at <found> \u2014 chain pass skipped for <path>",
+	"observed non-JSON/TOML Cargo.toml <path> \u2014 skipped",
+	'REFUSED rewrite of <path>: non-dependency section "<name>" would change',
+	"REFUSED rewrite of <path>: dependency \"<key>\" in section \"<section>\" has an unsupported value shape \u2014 rewrite aborted",
+	"REFUSED rewrite of <path>: dependency \"<name>\" in section \"<section>\" not found in text \u2014 rewrite aborted",
+	"update stage paused for <dir> (N consecutive failures \u2265 limit)",
+	"update stage skipped for <dir> (in-flight)",
+	"update stage skipped for <dir> (cooldown)",
+	"update stage FAILED (<code>) for <dir>; consecutive=N",
+	"update: cargo upgrade failed (<label>) status N",
+	"update: running verifyCommand: <command>",
+	"update: verifyCommand ok",
+	"update: verifyCommand failed (status N)",
+	"update: verifyCommand runner unavailable (exit 127) \u2014 skipped, non-fatal",
+	"unreadable pin-policy.json at <keepFile> \u2014 using built-in default",
 ];
 
 // The byte-exact update-stage ledger lines (the verifyCommand class): the
@@ -121,10 +135,11 @@ const Related = [
 			</p>
 			<p class="page-hero__sub">Chain canonicalization + full-version normalization + surgical TOML
 				rewriting + <code>cargo upgrade --exclude</code> - comments survive.</p>
-			<p class="page-hero__sub">Every claim
-				below is live-verified (2026-10-03, live).
-
-
+			<p class="page-hero__sub">
+				The Effect-TS twin is{" "}
+				<a href={Link(Links.OurRepo, "EffectTS/packages/ets-hook-dsh-cargo-governor/Source")}><code>@playform/ets-hook-dsh-cargo-governor</code></a>{" "}
+				- the same contracts under the <code>ets-</code> prefix, built on the shared{" "}
+				<code>@playform/ets-base-dsh</code> base.
 			</p>
 		</section>
 
@@ -175,10 +190,10 @@ const Related = [
 						One of three governance hooks, each gating on its own basename and writing
 						its own ledger: governor-package (<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span>{" "}
 						<ArrowIcon Direction="right" Tone="accent" />{" "}
-						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>governor.log</code></span>),
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>hook-dsh-package-governor.log</code></span>),
 						pinner-package (<span class="file-mention"><BrandIcon Name="file-json" Size="0.9em" /><code>package.json</code></span>{" "}
 						<ArrowIcon Direction="right" Tone="accent" />{" "}
-						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>pinner.log</code></span>), and
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>hook-dsh-package-pinner.log</code></span>), and
 						this bundle (<span class="file-mention"><BrandIcon Name="file-toml" Size="0.9em" /><code>Cargo.toml</code></span>{" "}
 						<ArrowIcon Direction="right" Tone="accent" />{" "}
 						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />hook-dsh-cargo-governor.log</span>, chain pass bare caret /<code>=exact</code>{" "}
@@ -478,12 +493,12 @@ const Related = [
 					'        name: "@playform/hook-dsh-cargo-governor"',
 					"        config:",
 					"            log: true",
-					"            logFile: ~/.dsh/hook-dsh-cargo-governor.log # SEPARATE ledger - never the npm ledgers",
+					"            logFile: ~/.dsh/playform/hook-dsh-cargo-governor.log # SEPARATE ledger - never the npm ledgers",
 					"            updateCooldownMs: 3000",
 					"            strict: false # strip unknown deps - explicit only, never a default",
-					"            mutationTools: [write, edit, str_replace_editor]",
+					"            mutationTools: [write, edit, str_replace_editor, raw-write]",
 					"            maxUpdateFailures: 3 # circuit breaker: pause a dir's update stage",
-					"            cargoBin: /usr/local/bin/cargo # absolute - host PATH != shell PATH",
+					"            cargoBin: cargo # bare by default; set an absolute path when the host PATH differs",
 					"            updateMode: cargo # the ONLY mode (the Rust-side CLI)",
 					'            policyFile: "" # optional global update-policy.json',
 					'            keepFile: "" # optional global pin-policy.json (the keep-list)',
@@ -593,11 +608,11 @@ const Related = [
 				<Concept
 					ID="govcargo-ledger-log"
 					Title="One global log, SEPARATE from the npm ledgers"
-					Diagram='One global log (logFile, default ~/.dsh/hook-dsh-cargo-governor.log - SEPARATE from the npm ledgers) recording activation, exclusions, chain-pass results, refusals, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
+					Diagram='One global log (logFile, default ~/.dsh/playform/hook-dsh-cargo-governor.log - SEPARATE from the npm ledgers) recording activation, exclusions, chain-pass results, refusals, and every update-stage dispatch - the activation line written by apply() so "did it activate" is answerable from the ledger alone.'
 				>
 					<p>
 						<code>logFile</code> (default{" "}
-						~/.dsh/hook-dsh-cargo-governor.log - SEPARATE from the npm
+						~/.dsh/playform/hook-dsh-cargo-governor.log - SEPARATE from the npm
 						ledgers) records activation, exclusions, chain-pass results, refusals, and
 						every update-stage dispatch.
 					</p>
@@ -621,11 +636,46 @@ const Related = [
 						the example block.
 					</p>
 				</Concept>
+				<Concept
+					ID="govcargo-journal"
+					Title="Every event also lands in the shared journal"
+					Diagram="The same events written as machine-readable records into the shared package_governance v2 domain through the factory's Journal: activated on the mount, excluded on the exclusion decision, governed on the chain-pass rewrite, and one update event per dispatch - best-effort, with the human ledger staying the complete record."
+				>
+					<p>
+						The same events also land in the shared <code>package_governance</code> v2
+						domain through the factory's <code>Journal</code>:{" "}
+						<code>activated</code> on the mount, <code>excluded</code> on the exclusion
+						decision, <code>governed</code> on the chain-pass rewrite, and one update
+						event per dispatch.
+					</p>
+					<p>
+						The record is best-effort: with no storage facility the records buffer or
+						drop, and the human ledger stays the complete record.
+					</p>
+				</Concept>
+				<Concept
+					ID="govcargo-update-envelope"
+					Title="The update envelope lives in the core"
+					Diagram="The G4 Dispatch/Settle pair's real home: the core's Function/Update builds the envelope from injected pieces - the gates (circuit breaker, in-flight, cooldown), the namespaced-key registration, the jobs envelope, the P5 records and the refresh flow - while every string and child stage stays module-side, so this module keeps its own ledger vocabulary."
+				>
+					<p>
+						The update stage's <code>Dispatch</code>/<code>Settle</code> envelope lives in
+						the core's{" "}
+						<a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-core/Source/Function/Update.ts")}><code>Function/Update</code></a>:
+						the gates (circuit breaker, in-flight, cooldown), the namespaced-key
+						registration, the jobs envelope, the P5 records and the refresh flow return as
+						one pair.
+					</p>
+					<p>
+						Every string, collection and child stage is injected, so this module keeps its
+						own ledger vocabulary and the smokes stay the arbiter.
+					</p>
+				</Concept>
 			</div>
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 		</section>
 
-		<!-- The known limits: the documented gaps, stated as they are. -->
+		{/* The known limits: the documented gaps, stated as they are. */}
 		<section class="section">
 			<SectionHeader Title="Known limits" Metadata="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
@@ -635,20 +685,11 @@ const Related = [
 				The update stage's
 				verifyCommand can fail with a non-zero status: on a fixture workspace without a
 				buildable target, <code>cargo check</code> fails and the ledger records the
-				failure - the same cordis registry trap class as the npm sibling's, the expected
-				outcome, not a bug.
+				failure - the expected outcome on such a workspace, not a bug.
 			</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				Exit 127 (the runner unavailable) is non-fatal; any other
 				failure fails the stage and counts toward the circuit breaker.
-			</p>
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				<strong>The fixture paths.</strong>
-			</p>
-			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				The fixture ledgers carry the neutralized
-				display forms (<code>&lt;repo-root&gt;/</code>, <code>$DSH_HOME/</code>); the
-				personal absolute paths exist only in the internal Boilerplate copies.
 			</p>
 			<div class="code-block">{TrapLines.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">

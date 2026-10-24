@@ -8,22 +8,20 @@ import FlavorBadge from "@Component/FlavorBadge.astro";
 import PageCabinet from "@Component/PageCabinet.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
-import { Counts, Totals, Migration, Families, Versions } from "@Library/Content";
+import { Client, Counts, Totals, Migration, Families, Storage, Trace } from "@Library/Content";
 import { HooksScreen } from "@Library/Screens";
 import { DotSep } from "@Library/FileIcon";
 import { Link, Links } from "@Library/Links";
 
-// The three packages the registry does not carry yet: their legacy cards
-// must not promise an install that 404s (the cabinet's plates carry the
-// amber PENDING lamp and the build-from-source line instead).
-const PublishPending = new Set([
-	"hook-dsh-ccr",
-	"hook-dsh-tool-coach",
-	"hook-dsh-live-containers",
-]);
+// ALL 101 packages are UNPUBLISHED: no card promises a registry install. Every
+// install row is the build-from-source route (`dsh plugin --profile <name> add
+// <dir>`), the same route the setup page's wiring example documents.
+function SourceInstall(Name: string): string {
+	return `dsh plugin --profile <name> add ./bundles/${Name}`;
+}
 
-// The fifteen plugins, each with its @-sentence identity, install snippet
-// and the registry tags that drive the filter/search logic.
+// The 15 legacy packages, each with its @-sentence identity, build-from-source
+// route and the registry tags that drive the filter/search logic.
 const Core = [
 	{
 		Name: "lib-dsh-core",
@@ -32,7 +30,7 @@ const Core = [
 		Tags: "core factory service hook",
 		Sentence: Families.Core,
 		Desc: "The pure commonalities of the family (dependency-free in CLASSIC; effect-backed in EFFECT-TS): the section lists, the exclusion segments, the suppression composer, the policy loader, the refusal guard and the normalize/Stream machinery.",
-		Install: `npm install @playform/lib-dsh-core@${Versions.Release}`,
+		Install: SourceInstall("lib-dsh-core"),
 	},
 	{
 		Name: "plugin-dsh-factory",
@@ -41,7 +39,7 @@ const Core = [
 		Tags: "core factory service plugin",
 		Sentence: Families.Factory,
 		Desc: "The family's first service: the ledger, the exclusion match, the discovery, the keep-list union, the gate set, the version-guarded fenced write, the refresh, the detached contained continuation, the State builder, the wiring, the effects, the schema factory and the probe-once seam.",
-		Install: `npm install @playform/plugin-dsh-factory@${Versions.Release}`,
+		Install: SourceInstall("plugin-dsh-factory"),
 	},
 ];
 
@@ -52,7 +50,7 @@ const Governance = [
 		Tags: "governor manifest package hook",
 		Sentence: Families.GovernorPackage,
 		Desc: "The silent package.json governor. Hooks [fs/observed](Harness:packages/fs/fs/src/index.ts). Rewrites chain-governed pins to the effective registry's resolved versions. Runs the update stage as a detached, contained continuation.",
-		Install: `npm install @playform/hook-dsh-package-governor@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-package-governor"),
 	},
 	{
 		Name: "hook-dsh-package-pinner",
@@ -60,7 +58,7 @@ const Governance = [
 		Tags: "pinner manifest package hook",
 		Sentence: Families.PinnerPackage,
 		Desc: "The silent package.json version pinner. Hooks [fs/observed](Harness:packages/fs/fs/src/index.ts) and deterministically rewrites EVERY ranged dependency version to its static version. Protected by a [pin-policy keep-list](Ours:Classic/packages/hook-dsh-package-pinner/Source/Function/Transform.ts).",
-		Install: `npm install @playform/hook-dsh-package-pinner@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-package-pinner"),
 	},
 	{
 		Name: "hook-dsh-cargo-governor",
@@ -68,7 +66,7 @@ const Governance = [
 		Tags: "governor cargo manifest hook",
 		Sentence: Families.GovernorCargo,
 		Desc: "The Cargo.toml governor: the Rust-sided flavor of the package governor - surgical chain-pin rewrites on the raw TOML lines and cargo upgrade driven through the [subprocess seam](Harness:packages/subprocess/subprocess).",
-		Install: `npm install @playform/hook-dsh-cargo-governor@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-cargo-governor"),
 	},
 ];
 
@@ -79,7 +77,7 @@ const Guardians = [
 		Tags: "ccr compression retrieve hook",
 		Sentence: Families.CCR,
 		Desc: "The tool-output compressor. Hooks the [tools/post-execute](Harness:docs/subsystems/tools.md) waterfall. Replaces oversized results of the allow-listed target tools with a one-line type-aware preview plus a `<<<CCR:hash|type|size>>>` retrieval marker. Gated on thresholdBytes x the per-type multipliers, with auto-expand returning small results FULL. The original stays retrievable through the registered ccr_retrieve tool over the sha256-24 LRU store.",
-		Install: `npm install @playform/hook-dsh-ccr@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-ccr"),
 	},
 	{
 		Name: "hook-dsh-tool-coach",
@@ -87,7 +85,7 @@ const Guardians = [
 		Tags: "coach guardian terminal hook",
 		Sentence: Families.Coach,
 		Desc: "The terminal coach. Judges EVERY bash/pwsh call through a four-tier ladder - tier-0 ledger lines for every offense, tier-1 live-fetched coaching notes at the strike threshold, tier-2 a persistent system-prompt discipline section, tier-3 (opt-in) tools/pre-execute denies. Teaches the model to stop using the terminal for file content.",
-		Install: `npm install @playform/hook-dsh-tool-coach@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-tool-coach"),
 	},
 ];
 
@@ -98,7 +96,7 @@ const Live = [
 		Tags: "live prompt containers hook",
 		Sentence: Families.LiveContainers,
 		Desc: "The live-containers hook. Keeps dynamic, modifiable conversation blocks in the system prompt. Each enabled block a labeled stanza recomputed at EVERY request (the canonical example: a time block always holding the current time at ask-time). Appended as ONE [system-prompt/assemble](Harness:docs/event-producer-consumer.md) section with interpolate: false. Each block inside a fixed LIVE CONTAINER frame so the model cannot mistake it for harness state. Ships DISABLED - the IDLE-forever posture.",
-		Install: `npm install @playform/hook-dsh-live-containers@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-live-containers"),
 	},
 ];
 
@@ -109,7 +107,7 @@ const Normalize = [
 		Tags: "normalize flavor dash stream hook",
 		Sentence: Families.Dash,
 		Desc: "The dash flavor: normalizes the unicode dash family to ASCII hyphen-minus in model output streams, mirroring the core's dash class at the injection point a file hook lacks.",
-		Install: `npm install @playform/hook-dsh-normalize-dash@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-normalize-dash"),
 	},
 	{
 		Name: "hook-dsh-normalize-quotes",
@@ -117,7 +115,7 @@ const Normalize = [
 		Tags: "normalize flavor quotes stream hook",
 		Sentence: Families.Quotes,
 		Desc: "The quotes flavor: maps the eight curly quote code points to their ASCII straight counterparts in model output streams.",
-		Install: `npm install @playform/hook-dsh-normalize-quotes@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-normalize-quotes"),
 	},
 	{
 		Name: "hook-dsh-normalize-ellipsis",
@@ -125,7 +123,7 @@ const Normalize = [
 		Tags: "normalize flavor ellipsis stream hook",
 		Sentence: Families.Ellipsis,
 		Desc: "The ellipsis flavor: replaces the horizontal ellipsis (U+2026) with the plain ASCII three-dot sequence in model output streams.",
-		Install: `npm install @playform/hook-dsh-normalize-ellipsis@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-normalize-ellipsis"),
 	},
 	{
 		Name: "hook-dsh-normalize-spaces",
@@ -133,7 +131,7 @@ const Normalize = [
 		Tags: "normalize flavor spaces stream hook",
 		Sentence: Families.Spaces,
 		Desc: "The spaces flavor: normalizes the unicode space family (Zs minus the ASCII space) to the plain space in model output streams.",
-		Install: `npm install @playform/hook-dsh-normalize-spaces@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-normalize-spaces"),
 	},
 	{
 		Name: "hook-dsh-normalize-invisible",
@@ -141,7 +139,7 @@ const Normalize = [
 		Tags: "normalize flavor invisible stream hook",
 		Sentence: Families.Invisible,
 		Desc: "The invisible flavor: removes the zero-width/invisible character family (soft hyphen, zero-width spaces and joiners, bidi controls, BOM) from model output streams.",
-		Install: `npm install @playform/hook-dsh-normalize-invisible@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-normalize-invisible"),
 	},
 	{
 		Name: "hook-dsh-normalize-fullwidth",
@@ -149,7 +147,7 @@ const Normalize = [
 		Tags: "normalize flavor fullwidth stream hook",
 		Sentence: Families.Fullwidth,
 		Desc: "The fullwidth flavor: maps the entire FULLWIDTH FORMS range (U+FF01-U+FF5E) to its ASCII half-width counterparts in model output streams.",
-		Install: `npm install @playform/hook-dsh-normalize-fullwidth@${Versions.Release}`,
+		Install: SourceInstall("hook-dsh-normalize-fullwidth"),
 	},
 	{
 		Name: "plugin-dsh-normalize-file",
@@ -157,11 +155,132 @@ const Normalize = [
 		Tags: "normalize flavor file stream hook tool",
 		Sentence: Families.File,
 		Desc: "The file-content normalizer: the normalize-file tool - the read, count, write pipeline applying all six transforms to a file already on disk, writing ONLY when something changed.",
-		Install: `npm install @playform/plugin-dsh-normalize-file@${Versions.Release}`,
+		Install: SourceInstall("plugin-dsh-normalize-file"),
 	},
 ];
 
-// The ontological registry: the fifteen plugins in pipeline sequence.
+// The six Classic-only packages: the delivery's manifest declares no ets- twin
+// for them (the two client panels and four orchestration candidates).
+const ClassicOnly = new Set([
+	"client-dsh-panel-family",
+	"client-dsh-panel-family-host",
+	"hook-dsh-batch-decision",
+	"plugin-dsh-ingester",
+	"plugin-dsh-pass-on",
+	"plugin-dsh-pattern",
+]);
+
+/** The twin marker: every other package has an ets- twin in the EffectTS tree. */
+function Twin(Name: string): string {
+	return ClassicOnly.has(Name) ? "CLASSIC ONLY" : "ETS TWIN";
+}
+
+/** One new package's registry row. */
+interface NewPackage {
+	/** The package directory name (the @playform/ scope is implicit). */
+	Name: string;
+	/** The plate's role line (ROLE: WORKSPACE). */
+	Role: string;
+	/** The one-line description, from PLUGIN-SUITE-SUMMARY.md. */
+	Desc: string;
+	/** The filter tags. */
+	Tags: string;
+}
+
+/** One new-package group: the five the delivery and the completion added. */
+interface NewGroup {
+	/** The group's section title. */
+	Title: string;
+	/** The registry tags the filter chips match. */
+	Tags: string;
+	/** The packages, in reading order. */
+	Packages: NewPackage[];
+}
+
+// The 2026-10-22 delivery's 36 new Classic plugins and their 30 ETS twins, plus
+// the completion program's 2 libraries (the Delivery figures in Content.ts), in
+// five groups. Names and descriptions: Documentation/Plugins/PLUGIN-SUITE-SUMMARY.md;
+// the twin markers: the EffectTS tree's directories.
+const NewGroups: NewGroup[] = [
+	{
+		Title: "Workspace",
+		Tags: "workspace",
+		Packages: [
+			{ Name: "plugin-dsh-workspace", Role: "ROLE: WORKSPACE AGENT", Desc: "The workspace agent: the operational view plus the four navigation tools (map/find/expand/context).", Tags: "workspace plugin" },
+			{ Name: "hook-dsh-workspace-observe", Role: "ROLE: OBSERVE", Desc: "The first flow step: stamps every fs/observed version into the observation store.", Tags: "workspace hook" },
+			{ Name: "plugin-dsh-workspace-semantics", Role: "ROLE: SEMANTICS", Desc: "The semantic model: resolves symbols and references, plans renames (the lexical TS adapter; the harness LSP service when present).", Tags: "workspace plugin" },
+			{ Name: "hook-dsh-workspace-operate", Role: "ROLE: OPERATE", Desc: "The operation engine: typed proposals (rename/connect/replace) plus the refusal-to-guess.", Tags: "workspace hook" },
+			{ Name: "hook-dsh-workspace-govern", Role: "ROLE: GOVERN", Desc: "The gate: four means-checks on every tool call plus the recovery table.", Tags: "workspace hook" },
+			{ Name: "plugin-dsh-workspace-authority", Role: "ROLE: AUTHORITY", Desc: "The authority service: capability/lease/residency plus the eviction dispositions.", Tags: "workspace plugin" },
+			{ Name: "hook-dsh-workspace-approve", Role: "ROLE: APPROVE", Desc: "The approval binder: exact-candidate bindings plus version invalidation.", Tags: "workspace hook" },
+			{ Name: "hook-dsh-workspace-merge", Role: "ROLE: MERGE", Desc: "The batch merge: atomic gates, per-file Factory.Write commits, the CommitReply union.", Tags: "workspace hook" },
+			{ Name: "hook-dsh-workspace-journal", Role: "ROLE: JOURNAL", Desc: "The journal: per-batch pre-images, revert, crash recovery.", Tags: "workspace hook" },
+			{ Name: "hook-dsh-workspace-audit", Role: "ROLE: AUDIT", Desc: "The audit lines: the accountability records.", Tags: "workspace hook" },
+			{ Name: "plugin-dsh-workspace-context", Role: "ROLE: CONTEXT", Desc: "The orientation packet: WORKSPACE/SCOPE/MAP/FOCUS/NEIGHBORS plus the token budget.", Tags: "workspace plugin" },
+			{ Name: "hook-dsh-workspace-monitor", Role: "ROLE: MONITOR", Desc: "The monitor: watch/sweep check sets, clock-based.", Tags: "workspace hook" },
+			{ Name: "plugin-dsh-workspace-evidence", Role: "ROLE: EVIDENCE", Desc: "The evidence records: the four truth kinds plus invalidation.", Tags: "workspace plugin" },
+			{ Name: "plugin-dsh-workspace-graph", Role: "ROLE: GRAPH", Desc: "The graph: the file/symbol/block index, the KV store and the query (the v0 scanner).", Tags: "workspace plugin" },
+			{ Name: "plugin-dsh-workspace-reflect", Role: "ROLE: REFLECT", Desc: "The reflective ops: one-call rename/connect/replace through GuardedWrite (the harness AST/LSP service when present).", Tags: "workspace plugin" },
+			{ Name: "lib-dsh-workspace-live", Role: "ROLE: LIBRARY", Desc: "The shared client library: the section types and the render helpers. No plugin.", Tags: "workspace library" },
+		],
+	},
+	{
+		Title: "Suggesters",
+		Tags: "suggester",
+		Packages: [
+			{ Name: "hook-dsh-search-suggester", Role: "ROLE: SUGGESTER", Desc: "Suggests companion searches from the post-execute signals (the graph projection).", Tags: "suggester hook" },
+			{ Name: "hook-dsh-edit-suggester", Role: "ROLE: SUGGESTER", Desc: "Suggests the convention companions after an edit.", Tags: "suggester hook" },
+			{ Name: "hook-dsh-doc-suggester", Role: "ROLE: SUGGESTER", Desc: "Suggests the doc-graph companions after a read or an edit.", Tags: "suggester hook" },
+			{ Name: "hook-dsh-convention-suggester", Role: "ROLE: SUGGESTER + LEARNER", Desc: "Suggests the naming/layout/ledger conventions - and carries the pack learner (D4).", Tags: "suggester hook" },
+			{ Name: "hook-dsh-graph-suggester", Role: "ROLE: SUGGESTER", Desc: "Suggests the graph-neighborhood companions.", Tags: "suggester hook" },
+			{ Name: "hook-dsh-replay-suggester", Role: "ROLE: SUGGESTER", Desc: "Suggests replays from the recalled history record, fed by the trace bus.", Tags: "suggester hook" },
+			{ Name: "hook-dsh-test-suggester", Role: "ROLE: SUGGESTER", Desc: "Suggests the test suites and coverage companions, reconciled against the graph's Test nodes.", Tags: "suggester hook" },
+		],
+	},
+	{
+		Title: "Orchestration",
+		Tags: "orchestration",
+		Packages: [
+			{ Name: "plugin-dsh-batch-edit", Role: "ROLE: BATCH EDIT", Desc: "The batch edit engine: files as processes, one commit, governed writes, the atomic gate.", Tags: "orchestration plugin" },
+			{ Name: "plugin-dsh-batchstate", Role: "ROLE: BATCH STATE", Desc: "The live batch state board: members/tasks/queue plus the compiled context.", Tags: "orchestration plugin" },
+			{ Name: "plugin-dsh-gitguard", Role: "ROLE: GIT GUARD", Desc: "The git guard: classifies and denies dangerous git commands.", Tags: "orchestration plugin" },
+			{ Name: "plugin-dsh-route", Role: "ROLE: ROUTING", Desc: "The routing enforcer: resolves and corrects the subagent model routes.", Tags: "orchestration plugin" },
+			{ Name: "plugin-dsh-queue", Role: "ROLE: QUEUE", Desc: "The subagent queue: seat/release, capacity, dispatch through the harness agent-team service.", Tags: "orchestration plugin" },
+			{ Name: "plugin-dsh-feedback", Role: "ROLE: FEEDBACK", Desc: "The honest feedback: intake/classify/summary plus the journal.", Tags: "orchestration plugin" },
+			{ Name: "plugin-dsh-pass-on", Role: "ROLE: PASS-ON", Desc: "The pass-on: prepares and resolves proposals for the batch flow.", Tags: "orchestration plugin" },
+			{ Name: "plugin-dsh-ingester", Role: "ROLE: INGESTER", Desc: "The ingester: validates and applies the approved proposals.", Tags: "orchestration plugin" },
+			{ Name: "plugin-dsh-pattern", Role: "ROLE: PATTERN GRAPH", Desc: "The pattern graph service: matches, records and decays the learned patterns.", Tags: "orchestration plugin" },
+			{ Name: "hook-dsh-batch-decision", Role: "ROLE: BATCH DECISION", Desc: "The batch decision: the conservative auto-approve policy plus the decision tool.", Tags: "orchestration hook" },
+		],
+	},
+	{
+		Title: "Client",
+		Tags: "client",
+		Packages: [
+			{ Name: "client-dsh-panel-family", Role: "ROLE: PANEL", Desc: "The panel contract: the playformFamilyPanel registry and the family tab.", Tags: "client" },
+			{ Name: "client-dsh-panel-family-host", Role: "ROLE: PANEL HOST", Desc: "The panel host half: the tail and stats endpoints.", Tags: "client" },
+			{ Name: "client-dsh-workspace-live", Role: "ROLE: LIVE VIEW", Desc: "The workspace live tab: stable-until-event presentation, ingesting the trace bus.", Tags: "client" },
+		],
+	},
+	{
+		Title: "Libraries",
+		Tags: "library",
+		Packages: [
+			{ Name: "lib-dsh-trace", Role: "ROLE: TRACE LIBRARY", Desc: "The trace bus's library half: the envelope, the event names, the guards, the detached loop. No plugin.", Tags: "library trace" },
+			{ Name: "lib-dsh-pack", Role: "ROLE: PACK LIBRARY", Desc: "The pack layer's library: the pack schema, the YAML-subset parser, the layered resolution, the workspace gate. No plugin.", Tags: "library pack" },
+		],
+	},
+];
+
+/** The new-package total, derived from the groups. */
+const NewCount = NewGroups.reduce((Sum, Group) => Sum + Group.Packages.length, 0);
+/** The new-package twin total, derived from the groups. */
+const NewTwinCount = NewGroups.reduce(
+	(Sum, Group) => Sum + Group.Packages.filter((Package) => !ClassicOnly.has(Package.Name)).length,
+	0,
+);
+
+// The ontological registry: the fifteen legacy plugins in pipeline sequence.
 const Registry = [
 	...Core.map((Plugin, Index) => ({
 		Seq: `0${Index + 1}`,
@@ -200,7 +319,7 @@ const Registry = [
 
 <Base
 	Title="Plugins - DSH Family @ PlayForm"
-	Description="The fifteen plugins of the DeepSeek Harness Plugin Family for PlayForm. Each with its @-sentence identity and its install snippet (the npm install form, pinned at the release version)."
+	Description={`The ${Counts.Packages} packages of the DeepSeek Harness Plugin Family for PlayForm - ${Counts.PackagesClassic} Classic plus ${Counts.PackagesEffectTS} Effect-TS, ${Counts.Twins} of them twins. Every card carries its @-sentence identity and the build-from-source route: ALL 101 packages are unpublished.`}
 >
 	<!-- THE CANARY: one full-width Mode A cabinet, built alongside the
 		current registry page. The cabinet is the shell, the door, the lock,
@@ -222,7 +341,7 @@ const Registry = [
 		<PageHero
 			Level="h2"
 			Title="Plugins"
-			Sub={`The fifteen TypeScript plugins of the DeepSeek Harness Plugin Family, each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity. The scope stays @playform, and the family/type marker leads, so a plugin name reads as a sentence about what it is.\nThe install rows use the npm form (npm install @playform/<pkg>@${Versions.Release}). hook-dsh-ccr, hook-dsh-tool-coach, and hook-dsh-live-containers are publish-pending - build those three from source until they land; the /setup/ flow wires them into a profile.`}
+			Sub={`The ${Counts.Packages} TypeScript packages of the DeepSeek Harness Plugin Family - ${Counts.PackagesClassic} Classic plus ${Counts.PackagesEffectTS} Effect-TS, ${Counts.Twins} of them twins - each one a verified, smoke-arbitrated bundle.\nThe release identity follows the reversed hierarchical naming - the "@-sentence" identity. The scope stays @playform, and the family/type marker leads, so a package name reads as a sentence about what it is.\nALL ${Counts.Packages} packages are UNPUBLISHED: no card promises a registry install. Every install row is the build-from-source route (dsh plugin --profile <name> add ./bundles/<pkg>); the /setup/ flow wires the bundle into a profile.`}
 		/>
 
 		<!-- Registry filter bar: search + filter chips + live count -->
@@ -232,12 +351,12 @@ const Registry = [
 				<input
 					class="filter-bar__input"
 					type="search"
-					placeholder="Search the fifteen plugins by name, role or flavor..."
+					placeholder={`Search the ${Counts.Packages} packages by name, role or flavor...`}
 					aria-label="Filter plugins"
 					data-filter
 				/>
 				<Badge Variant="outline" Dot>
-					<span data-count>{Counts.Packages} RESULTS</span>
+					<span data-count>{Counts.PackagesClassic} RESULTS</span>
 				</Badge>
 			</div>
 			<div class="filter-chips" data-chips role="group" aria-label="Plugin family filters">
@@ -265,6 +384,21 @@ const Registry = [
 				<button type="button" class="filter-chip" data-filter-chip="normalize" aria-pressed="false">
 					NORMALIZE
 				</button>
+				<button type="button" class="filter-chip" data-filter-chip="workspace" aria-pressed="false">
+					WORKSPACE
+				</button>
+				<button type="button" class="filter-chip" data-filter-chip="suggester" aria-pressed="false">
+					SUGGESTERS
+				</button>
+				<button type="button" class="filter-chip" data-filter-chip="orchestration" aria-pressed="false">
+					ORCHESTRATION
+				</button>
+				<button type="button" class="filter-chip" data-filter-chip="client" aria-pressed="false">
+					CLIENT
+				</button>
+				<button type="button" class="filter-chip" data-filter-chip="library" aria-pressed="false">
+					LIBRARIES
+				</button>
 				<button type="button" class="action--ghost" data-reset>
 					Reset filters
 				</button>
@@ -272,7 +406,7 @@ const Registry = [
 			<div class="registry-telemetry">
 				<span class="registry-telemetry__count">
 					<span class="live-dot"></span>
-					<span data-count-text>{Counts.Packages} PACKAGES</span>
+					<span data-count-text>{Counts.PackagesClassic} PACKAGES · {Counts.Twins} TWINS</span>
 				</span>
 				<span>DSH-REGISTRY</span>
 			</div>
@@ -342,9 +476,9 @@ const Registry = [
 						NameTone="primary"
 						Sentence={Plugin.Sentence}
 						Desc={Plugin.Desc}
-						Install={PublishPending.has(Plugin.Name) ? undefined : Plugin.Install}
+						Install={Plugin.Install}
 						Tags={Plugin.Tags}
-						Copy={PublishPending.has(Plugin.Name) ? undefined : Plugin.Install}
+						Copy={Plugin.Install}
 					>
 						<Badge slot="badge" Variant="outline">
 							{Plugin.Role}
@@ -366,9 +500,9 @@ const Registry = [
 						NameTone="primary"
 						Sentence={Plugin.Sentence}
 						Desc={Plugin.Desc}
-						Install={PublishPending.has(Plugin.Name) ? undefined : Plugin.Install}
+						Install={Plugin.Install}
 						Tags={Plugin.Tags}
-						Copy={PublishPending.has(Plugin.Name) ? undefined : Plugin.Install}
+						Copy={Plugin.Install}
 					>
 						<Badge slot="badge" Variant="outline">
 							{Plugin.Role}
@@ -404,15 +538,51 @@ const Registry = [
 			</div>
 		</section>
 
+		<!-- The delivery + the completion: 38 packages in five groups, each with
+			its twin marker. Every card carries the build-from-source route. -->
+		{NewGroups.map((Group) => (
+			<section class="section">
+				<SectionHeader
+					Title={Group.Title}
+					Metadata={`${Group.Packages.length} PACKAGES · ${Group.Packages.filter((Package) => !ClassicOnly.has(Package.Name)).length} ${Group.Packages.filter((Package) => !ClassicOnly.has(Package.Name)).length === 1 ? "TWIN" : "TWINS"} · ${Group.Packages.filter((Package) => ClassicOnly.has(Package.Name)).length} CLASSIC ONLY`}
+				/>
+				<div class="grid grid--3">
+					{Group.Packages.map((Plugin) => (
+						<Card
+							Variant="white"
+							Name={Plugin.Name}
+							Desc={Plugin.Desc}
+							Install={SourceInstall(Plugin.Name)}
+							Tags={Plugin.Tags}
+							Copy={SourceInstall(Plugin.Name)}
+						>
+							<Badge slot="badge" Variant="outline">
+								{Plugin.Role}
+							</Badge>
+							<Badge slot="badge" Variant="muted">
+								{Twin(Plugin.Name)}
+							</Badge>
+						</Card>
+					))}
+				</div>
+			</section>
+		))}
+
+		<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+			The five groups carry the {NewCount} packages the 2026-10-22 delivery and the completion
+			program added - {NewTwinCount} with an ets- twin, {NewCount - NewTwinCount} Classic-only.
+			The family-wide twin census is {Counts.Twins} of {Counts.Packages} packages.
+		</p>
+
 		<!-- Registered pipeline manifest (the ontological registry) -->
 		<section class="section">
 			<SectionHeader
 				Title="Registered pipeline manifest plugins"
-				Metadata="ONTOLOGICAL REGISTRY"
+				Metadata="THE 15 LEGACY MODULES"
 			/>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				Deterministic transform pipeline sequence executing over the active PlayForm
-				runtime.
+				The 15 legacy modules, in the order they operate over the active PlayForm runtime.
+				The registry above carries all {Counts.Packages} packages.
 			</p>
 			<div class="table-wrap">
 				<table class="table" data-selectable>
@@ -452,8 +622,8 @@ const Registry = [
 			<div class="concept-list">
 				<Concept
 					ID="plugins-seams"
-					Title="The ten seams the fifteen live on"
-					Diagram="The fifteen plugins attaching to the DeepSeek Harness through the fixed seam set - the [model stream waterfall](Harness:packages/llm/llm/src/index.ts), the [filesystem events](Harness:packages/fs/fs/src/index.ts), the tool layer, the [tools/post-execute waterfall](Harness:docs/subsystems/tools.md), the agent/pre-step step boundary, the commands service, the [subprocess seam](Harness:packages/subprocess/subprocess), the [jobs envelope](Harness:packages/jobs), the [storage domain](Harness:packages/storage/storage-domain) and the session ledger - with the DeepSeek internals each seam works through."
+					Title="The thirteen seams the family lives on"
+					Diagram={`The ${Counts.Packages} packages attaching to the DeepSeek Harness through the fixed seam set - the [model stream waterfall](Harness:packages/llm/llm/src/index.ts), the [filesystem events](Harness:packages/fs/fs/src/index.ts), the tool layer, the [tools/post-execute waterfall](Harness:docs/subsystems/tools.md), the agent/pre-step step boundary, the commands service, the [subprocess seam](Harness:packages/subprocess/subprocess), the [jobs envelope](Harness:packages/jobs), the [storage domain](Harness:packages/storage/storage-domain), the trace bus, the named storage domains, the client slot registry and the session ledger - with the DeepSeek internals each seam works through.`}
 				>
 					<p>
 						EVERY plugin operates inside the <BrandIcon Name="deepseek" /> DeepSeek
@@ -466,11 +636,13 @@ const Registry = [
 						, the{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/jobs")}>jobs envelope</a>,
 						the{" "}
-						<a href={Link(Links.DeepSeekHarness, "packages/storage/storage-domain")}>storage domain</a>{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/storage/storage-domain")}>storage domain</a>,
+						the trace bus, the named storage domains, the client slot registry
 						and the session ledger.
 					</p>
 					<p>
-						This is where the fifteen live, and the DeepSeek internals they work through:
+						This is where the {Counts.Packages} packages live, and the DeepSeek internals they work
+						through:
 					</p>
 				</Concept>
 			</div>
@@ -623,10 +795,50 @@ const Registry = [
 						</tr>
 						<tr>
 							<td>
+								<strong>The trace bus</strong>
+							</td>
+							<td>
+								<code>lib-dsh-trace</code> - {Trace.Events} event names, the{" "}
+								{Trace.EnvelopeFields}-field envelope, the {Trace.Ring}-entry ring; the{" "}
+								<code>ctx.trace</code> service
+							</td>
+							<td>
+								The {Trace.Adapters} plugins carrying a <code>Source/Trace/</code> adapter
+								(observe, graph, context)
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>The named storage domains</strong>
+							</td>
+							<td>
+								{Storage.Domains} named KV domains, one owner per domain -{" "}
+								<code>pattern</code>, <code>batch_state</code>, <code>replay_history</code>,{" "}
+								<code>package_governance</code>, <code>live_containers_monitors</code>
+							</td>
+							<td>
+								The pattern graph, the batch state, the replay suggester, the factory journal
+								and the live-containers monitors
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>The client slot registry</strong>
+							</td>
+							<td>
+								The panel's child slots - the {Client.Packages} client packages and the
+								panel's {Client.Adapters} per-bundle adapter manifests
+							</td>
+							<td>
+								The panel contract, the panel host and the workspace live view
+							</td>
+						</tr>
+						<tr>
+							<td>
 								<strong>Sessions / the ledgers</strong>
 							</td>
 							<td>The durable ledger files ([&lt;ISO&gt;] &lt;message&gt;)</td>
-							<td>All fifteen, through the factory's Append</td>
+							<td>The hook and tool packages, through the factory's Append</td>
 						</tr>
 					</tbody>
 				</table>
@@ -832,13 +1044,14 @@ const Registry = [
 				<Concept
 					ID="plugins-smoke-counts"
 					Title="The checks are the CLASSIC counts"
-					Diagram={`The CLASSIC totals per suite against the EFFECT-TS totals on the same contracts - core ${Counts.Core.EffectTS}, factory ${Counts.Factory.EffectTS}, governor ${Counts.Governor.EffectTS} - summing to ${Totals.EffectTS} vs Classic's ${Totals.Classic}. The ccr and tool-coach suites sit at ${Counts.CCR.EffectTS} and ${Counts.Coach.EffectTS} checks in BOTH trees (the new suites shipped with parity from day one).`}
+					Diagram={`The CLASSIC totals per suite against the EFFECT-TS totals on the same contracts - core ${Counts.Core.EffectTS}, factory ${Counts.Factory.EffectTS}, governor ${Counts.Governor.EffectTS} - summing to ${Totals.Mechanics.EffectTS} against Classic's ${Totals.Mechanics.Classic} across the 14 mechanics suites, with the family total at ${Totals.Both} checks over ${Counts.Suites} smoke folders. The ccr and tool-coach suites sit at ${Counts.CCR.EffectTS} and ${Counts.Coach.EffectTS} checks in BOTH trees (the new suites shipped with parity from day one).`}
 				>
 					<p>
 						<BrandIcon Name="effect" /> The EFFECT-TS suites add coverage on the same
 						contracts (core {Counts.Core.EffectTS}, factory {Counts.Factory.EffectTS},
-						governor {Counts.Governor.EffectTS} - {Totals.EffectTS} total vs Classic's{" "}
-						{Totals.Classic}).
+						governor {Counts.Governor.EffectTS} - {Totals.Mechanics.EffectTS} across the 14
+						mechanics suites against Classic's {Totals.Mechanics.Classic}).
+						The family total is {Totals.Both} checks across {Counts.Suites} smoke folders.
 					</p>
 					<p>
 						The two new suites shipped with parity: the ccr suite runs{" "}
@@ -858,7 +1071,7 @@ const Registry = [
 					<p>
 						The smokes prove the mechanics.
 						The live battery proves the wiring.
-						EVERY defect below was found live, not by the smokes, which is exactly why
+						The defects below were found live, not by the smokes - which is exactly why
 						both exist.
 					</p>
 				</Concept>
@@ -955,8 +1168,8 @@ const Registry = [
 						listeners by design.
 					</p>
 					<p>
-						Kept safe by construction: the Stash idempotence gate turns self re-entries
-						into no-ops.
+						Three bounds keep the re-pass safe.
+						The Stash idempotence gate turns self re-entries into no-ops.
 						The P3/U2 refresh re-emits with the same actor.
 						The live battery proves the re-pass is bounded and self-canonicalizing
 						(governed + pinned converge).

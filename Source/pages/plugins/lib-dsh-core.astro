@@ -48,6 +48,32 @@ const Imports = [
 	'import { Replace, ReplaceMap, Dashes, Chunk } from "@playform/lib-dsh-core";',
 ];
 
+// The consumer map: each half of the library and the packages that import it.
+const ConsumerMap = [
+	{
+		Half: "Governance",
+		Exports: "Section, Default, Suppress, Policy, Refusal, Update, Activate",
+		Consumers:
+			"the three governance hooks (governor-package, pinner-package, governor-cargo) and every module that composes an activation line - nine Apply sites",
+	},
+	{
+		Half: "Normalize / stream",
+		Exports: "Dashes, Quotes, Ellipsis, Spaces, Invisible, Fullwidth, Replace, ReplaceMap, Chunk, Block, Strip",
+		Consumers: "the six stream normalizers",
+	},
+	{
+		Half: "Overpass",
+		Exports: "Blocks, ToolResults, StepBatch, Command",
+		Consumers: "the six stream normalizers and plugin-dsh-normalize-file",
+	},
+	{
+		Half: "Path expansion",
+		Exports: "Expand",
+		Consumers:
+			"every writer of a config-supplied path: the factory's ledger, the module journals, the ccr store",
+	},
+];
+
 const Related = [
 	{
 		Name: "plugin-dsh-factory",
@@ -66,7 +92,7 @@ const Related = [
 
 <Base
 	Title="lib-dsh-core - DSH Family @ PlayForm"
-	Description={`${Families.Core} - the pure machinery layer of the DeepSeek Harness plugin family: the governance helpers and the stream-normalization tables and dispatch (dependency-free in CLASSIC; effect-backed in EFFECT-TS). Consumed by thirteen packages as a direct dependency.`}
+	Description={`${Families.Core} - the pure machinery layer of the DeepSeek Harness plugin family: the governance helpers, the stream-normalization tables and dispatch, and the post-hoc overpass machinery (dependency-free in CLASSIC; effect-backed in EFFECT-TS). Consumed as a direct dependency by 46 of the ${Counts.PackagesClassic} Classic packages and 12 of the ${Counts.PackagesEffectTS} Effect-TS packages.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -86,8 +112,15 @@ const Related = [
 			<p class="page-hero__sub">
 				The pure machinery layer of the DSH plugin family: the harness-free
 				commonalities BOTH halves of the family are built from.
-				ONE library, two halves,
-				explained as diagram-first concept blocks below.
+				ONE library, three halves - governance,
+				stream normalization and the post-hoc overpass - explained as diagram-first concept
+				blocks below.
+			</p>
+			<p class="page-hero__sub">
+				The Effect-TS twin is{" "}
+				<a href={Link(Links.OurRepo, "EffectTS/packages/ets-lib-dsh-core/Source")}><code>@playform/ets-lib-dsh-core</code></a>{" "}
+				- the same contracts under the <code>ets-</code> prefix, built on the shared{" "}
+				<code>@playform/ets-base-dsh</code> base.
 			</p>
 		</section>
 
@@ -109,7 +142,7 @@ const Related = [
 					<span class="workbench-controls__label">Archetype:</span>
 					<Badge Variant="outline">Library</Badge>
 					<span class="workbench-controls__label">Halves:</span>
-					<Badge>Governance + Normalize</Badge>
+					<Badge>Governance + Normalize + Overpass</Badge>
 					<span class="workbench-controls__label">Runtime deps:</span>
 					<Badge Variant="active">ZERO</Badge>
 				</div>
@@ -126,7 +159,9 @@ const Related = [
 				>
 					<p class="page-hero__sub">
 						The base library of the whole family ({Families.Core}) -
-						parent of NONE, child of NONE - a direct dependency of thirteen packages.
+						parent of NONE, child of NONE - a direct dependency of 46 of the{" "}
+						{Counts.PackagesClassic} Classic packages and 12 of the{" "}
+						{Counts.PackagesEffectTS} Effect-TS packages.
 					</p>
 
 					<p class="page-hero__sub">
@@ -136,6 +171,9 @@ const Related = [
 						The normalize half{" "}
 						<ArrowIcon Direction="right" Tone="accent" /> the six stream normalizers
 						(normalize-dash, quotes, ellipsis, spaces, invisible, fullwidth).
+						The overpass half{" "}
+						<ArrowIcon Direction="right" Tone="accent" /> the same six flavors plus the
+						normalize-file hook, on their two post-hoc arms.
 					</p>
 				</Concept>
 
@@ -163,14 +201,14 @@ const Related = [
 				<Concept
 					ID="core-runtime-variants"
 					Title="CLASSIC versus EFFECT-TS runtime dependencies"
-					Diagram={`The dual engine distribution: CLASSIC shipping dependency-free, EFFECT-TS shipping the same contracts on effect ${Versions.Effect} as its single runtime dependency - same behavior, same smokes, different runtime plumbing.`}
+					Diagram={`The dual engine distribution: CLASSIC shipping dependency-free, EFFECT-TS shipping the same contracts on effect ${Versions.Effect} as its single runtime dependency - the same contracts, different runtime plumbing.`}
 				>
 					<p class="page-hero__sub">
 						<BrandIcon Name="typescript" /> CLASSIC ships dependency-free: zero runtime
 						dependencies.</p>
 					<p class="page-hero__sub">The <BrandIcon Name="effect" /> EFFECT-TS variant ships the
 						same contracts with <code>effect</code> {Versions.Effect}{" "}
-						as the single runtime dependency - same behavior, same smokes, different
+						as the single runtime dependency - the same contracts, different
 						runtime plumbing.</p>
 					<p class="page-hero__sub">The inspect card's ZERO is the CLASSIC variant's fact.
 						The{" "}
@@ -249,7 +287,7 @@ const Related = [
 					</p>
 
 					<p class="page-hero__sub">
-						Outcome: identical line shapes across ALL fifteen plugins, in EACH plugin's
+						Outcome: identical line shapes across every consumer, in EACH plugin's
 						own ledger.
 					</p>
 				</Concept>
@@ -299,17 +337,17 @@ const Related = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="Core Architecture" Metadata="TWO HALVES, ONE ENTRY" />
+			<SectionHeader Title="Core Architecture" Metadata="THREE HALVES, ONE ENTRY" />
 
 			<div class="concept-list">
 				<Concept
 					ID="core-two-halves"
-					Title="Two halves, one library"
-					Diagram="Show @playform/lib-dsh-core branching into governance helpers and normalization machinery. Connect each half to its consuming hooks. Do not depict the core as a registered plugin."
+					Title="Three halves, one library"
+					Diagram="The core branching into the governance helpers, the normalization machinery and the post-hoc overpass factories, each half connected to its consuming hooks - the core itself is no registered plugin."
 				>
 					<p class="page-hero__sub">
-						<a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-core/Source")}><code>@playform/lib-dsh-core</code></a> exposes named exports for two
-						responsibilities: governance and normalization.
+						<a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-core/Source")}><code>@playform/lib-dsh-core</code></a> exposes named exports for three
+						responsibilities: governance, stream normalization and the post-hoc overpass.
 					</p>
 
 					<p class="page-hero__sub">
@@ -323,7 +361,7 @@ const Related = [
 				<Concept
 					ID="core-structure-substitution"
 					Title="Structure versus substitution"
-					Diagram="Show the shared dispatch choosing eligible chunk or block fields, then invoking a flavor-provided transform. Label dispatch as structure and the flavor as substitution."
+					Diagram="The shared dispatch choosing eligible chunk or block fields, then invoking a flavor-provided transform: the dispatch is structure, the flavor is substitution."
 				>
 					<p class="page-hero__sub">
 						The dispatch owns the structure: which fields of which chunk and block types
@@ -358,7 +396,7 @@ const Related = [
 				<Concept
 					ID="core-section-list"
 					Title="Dependency sections"
-					Diagram="Show Section supplying four dependency-section names to a consumer. Keep dependency sections separate from exclusion segments."
+					Diagram="Section supplying four dependency-section names to a consumer; dependency sections stay separate from exclusion segments."
 				>
 					<p class="page-hero__sub">
 						<code>Section</code> supplies the canonical NPM dependency-section list.
@@ -383,7 +421,7 @@ const Related = [
 				<Concept
 					ID="core-exclusion-defaults"
 					Title="Default exclusion segments"
-					Diagram="Show Default supplying built-in exclusion segments to the consuming module. Do not depict the core itself listening for filesystem events."
+					Diagram="Default supplying the built-in exclusion segments to the consuming module - the core itself never listens for filesystem events."
 				>
 					<p class="page-hero__sub">
 						<code>Default</code> supplies the built-in exclusion segments.
@@ -414,7 +452,7 @@ const Related = [
 				<Concept
 					ID="core-suppression"
 					Title="Suppression-line composition"
-					Diagram="Show module, kind, and cause entering Suppress; show the resulting string sent to the consumer's logger, not its ledger."
+					Diagram="Module, kind and cause entering Suppress; the resulting string goes to the consumer's logger, not its ledger."
 				>
 					<p class="page-hero__sub">
 						<code>Suppress(module, kind, cause)</code> composes the shared
@@ -436,7 +474,7 @@ const Related = [
 				<Concept
 					ID="core-policy"
 					Title="Policy loading and fallback"
-					Diagram="Show a supplied readable policy file producing loaded policy; show read or parse failure falling back to module-provided defaults. Mark quiet mode as controlling diagnostics, not policy selection."
+					Diagram="A supplied readable policy file producing the loaded policy; a read or parse failure falls back to the module-provided defaults - quiet mode controls the diagnostics, not the policy selection."
 				>
 					<p class="page-hero__sub">
 						<code>Policy(append, file, defaults, quiet?)</code>
@@ -455,7 +493,7 @@ const Related = [
 				<Concept
 					ID="core-refusal"
 					Title="Non-dependency refusal guard"
-					Diagram="Show current and proposed documents being compared. Differences confined to declared dependency sections pass this guard; a difference elsewhere produces a refusal line and prevents the rewrite."
+					Diagram="Current and proposed documents compared: differences confined to the declared dependency sections pass the guard, and a difference elsewhere produces the refusal line and prevents the rewrite."
 				>
 					<p class="page-hero__sub">
 						<code>Refusal(...)</code> checks that ONLY declared dependency sections
@@ -473,7 +511,7 @@ const Related = [
 				<Concept
 					ID="core-update-envelope"
 					Title="Shared update-stage envelope"
-					Diagram="Show Update returning Dispatch and Settle. Group gates, P2 registration, the jobs envelope, P5 records, and U2 refresh as shared responsibilities. Keep the child runner and module-specific strings outside that shared boundary."
+					Diagram="Update returning Dispatch and Settle: the gates, the P2 registration, the jobs envelope, the P5 records and the U2 refresh are shared responsibilities, while the child runner and the module-specific strings stay outside that shared boundary."
 				>
 					<p class="page-hero__sub">
 						<code>Update(dependencies)</code> supplies the shared
@@ -498,7 +536,7 @@ const Related = [
 				<Concept
 					ID="core-activation"
 					Title="Activation-line composition"
-					Diagram="Show module-provided fields entering Activate and producing activated (...). Label prefix, suffix, comma-separated k=v formatting, and absent-field omission as shared mechanics."
+					Diagram="Module-provided fields entering Activate and producing activated (...): the prefix, the suffix, the comma-separated k=v formatting and the absent-field omission are shared mechanics."
 				>
 					<p class="page-hero__sub">
 						<code>Activate(fields)</code> composes the
@@ -525,7 +563,7 @@ const Related = [
 				<Concept
 					ID="core-normalization-tables"
 					Title="Six normalization tables"
-					Diagram="Show Dashes, Quotes, Ellipsis, Spaces, Invisible, and Fullwidth as independent flavor inputs. Distinguish character classes from character maps; do not imply that every flavor applies every table."
+					Diagram="Dashes, Quotes, Ellipsis, Spaces, Invisible and Fullwidth as independent flavor inputs; character classes stay distinct from character maps, and no flavor applies every table."
 				>
 					<p class="page-hero__sub">
 						The normalization half supplies six character classes or maps, EACH used by
@@ -559,7 +597,7 @@ const Related = [
 				<Concept
 					ID="core-replace"
 					Title="Character-class replacement"
-					Diagram="Show text, a character class, and a replacement string entering Replace and returning text plus count. Annotate the fresh per-call gu regex and function replacer."
+					Diagram="Text, a character class and a replacement string entering Replace and returning text plus count, with the fresh per-call gu regex and the function replacer."
 				>
 					<p class="page-hero__sub">
 						<code>Replace</code> applies a character-class replacement using a fresh
@@ -579,7 +617,7 @@ const Related = [
 				<Concept
 					ID="core-replace-map"
 					Title="Character-map replacement"
-					Diagram="Show source characters looking up replacement characters in a map. Annotate code-point-escaped regex keys, a fresh per-call regex, and a function replacer."
+					Diagram="Source characters looking up replacement characters in a map, with code-point-escaped regex keys, a fresh per-call regex and a function replacer."
 				>
 					<p class="page-hero__sub">
 						<code>ReplaceMap</code> applies a character-to-character map, with regex
@@ -595,7 +633,7 @@ const Related = [
 				<Concept
 					ID="core-result-contract"
 					Title="Text and replacement count"
-					Diagram="Show both replacers returning { text, count }. Show count === 0 leading the dispatch caller to return its original chunk or block object by identity."
+					Diagram="Both replacers returning { text, count }, and count === 0 leading the dispatch caller to return its original chunk or block object by identity."
 				>
 					<p class="page-hero__sub">
 						BOTH replacers return
@@ -618,7 +656,7 @@ const Related = [
 				<Concept
 					ID="core-chunk-dispatch"
 					Title="Per-chunk dispatch"
-					Diagram="Show text-delta, optional reasoning-delta, optional tool-call-delta, and block-end routing through Chunk. Show other chunk types returning unchanged by identity."
+					Diagram="text-delta, optional reasoning-delta, optional tool-call-delta and block-end routing through Chunk; every other chunk type returns unchanged by identity."
 				>
 					<p class="page-hero__sub">
 						<code>Chunk</code> dispatches eligible chunk fields through an injected
@@ -636,7 +674,7 @@ const Related = [
 				<Concept
 					ID="core-block-dispatch"
 					Title="Block-end normalization"
-					Diagram="Show TextBlock text, ReasoningBlock text and its runtime thinking string, and optional ToolCallBlock arguments. Show other blocks passing through by identity."
+					Diagram="TextBlock text, ReasoningBlock text and its runtime thinking string, and the optional ToolCallBlock arguments; every other block passes through by identity."
 				>
 					<p class="page-hero__sub">
 						<code>Block</code> normalizes text in
@@ -676,7 +714,7 @@ const Related = [
 				<Concept
 					ID="core-raw-marker"
 					Title="Per-call raw marker"
-					Diagram="Show the first-key __normalize:false marker being tracked per call id and passed as Raw. Show Stream/Strip removing the marker while leaving the argument content unnormalized."
+					Diagram="The first-key __normalize:false marker tracked per call id and passed as Raw; Stream/Strip removes the marker while the argument content stays unnormalized."
 				>
 					<p class="page-hero__sub">
 						The first-key marker
@@ -695,7 +733,7 @@ const Related = [
 				<Concept
 					ID="core-dispatch-properties"
 					Title="Dispatch guarantees"
-					Diagram="Show eligible content flowing through the injected transform without reordering or buffering. Show unsupported shapes and unchanged results taking identity-preserving passthrough paths."
+					Diagram="Eligible content flowing through the injected transform without reordering or buffering; unsupported shapes and unchanged results take identity-preserving passthrough paths."
 				>
 					<p class="page-hero__sub">
 						The dispatchers use structural chunk and block shapes.</p>
@@ -704,6 +742,71 @@ const Related = [
 
 					</p>
 				</Concept>
+			</div>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The Overpass half" Metadata="THE POST-HOC ARMS AND THE PATH EXPANSION" />
+			<div class="concept-list">
+				<Concept
+					ID="core-overpass-half"
+					Title="Four factories the post-hoc arms are built from"
+					Diagram="The overpass half: Blocks rewriting only the text blocks of a content array and returning the original array by identity when nothing changed; ToolResults and StepBatch as factories over the shared machinery, one tools/post-execute and one agent/pre-step listener per flavor; Command as the dependency-free normalize-overpass handler."
+				>
+					<p class="page-hero__sub">
+						<code>Source/Overpass/</code> carries the machinery the family's two
+						post-hoc arms are built from: <code>Blocks</code> walks a content array and
+						rewrites only the text blocks, returning the original array by identity when
+						nothing changed; <code>ToolResults</code> and <code>StepBatch</code> are
+						factories over the shared machinery, one{" "}
+						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code>tools/post-execute</code></a>{" "}
+						and one <code>agent/pre-step</code> listener per flavor; <code>Command</code>{" "}
+						is the dependency-free <code>normalize-overpass</code> handler the module's
+						own <code>Function/Command</code> delegates to.
+					</p>
+					<p class="page-hero__sub">
+						The core never hardcodes a module name: every composed line is prefixed with
+						the flavor's <code>State.Module</code>.
+					</p>
+				</Concept>
+				<Concept
+					ID="core-expand"
+					Title="Expand: the tilde in a config-supplied path"
+					Diagram="A config-supplied path entering Expand: a leading ~ maps to the user's home directory, ~/x maps to home plus x, and every other path passes through unchanged - every writer of a config-supplied path calling it once at its write site."
+				>
+					<p class="page-hero__sub">
+						<code>Expand</code> maps a leading <code>~</code> to the user's home
+						directory (<code>~</code> becomes the home itself, <code>~/x</code> becomes
+						home plus <code>x</code>) and passes every other path through unchanged.
+					</p>
+					<p class="page-hero__sub">
+						Every writer of a config-supplied path calls it once at its write site - the
+						factory's ledger, the module journals, the ccr store - because an unexpanded{" "}
+						<code>~</code> makes the write fail ENOENT inside the writer's catch.
+					</p>
+				</Concept>
+			</div>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Half</th>
+							<th>Exports</th>
+							<th>Consumers</th>
+						</tr>
+					</thead>
+					<tbody>
+						{ConsumerMap.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Half}</strong>
+								</td>
+								<td>{Row.Exports}</td>
+								<td>{Row.Consumers}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
 		</section>
 
@@ -893,8 +996,10 @@ const Related = [
 				License: CC0-1.0.
 			</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
-				The unit smoke (<span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" />core-smoke.mjs</span> in the family's smokes/ directory)
-				exercises EVERY helper with NO fake context at ALL - {Counts.Core.Classic} checks in
+				The unit batteries are the nine test folders under{" "}
+				<span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" /><code>Source/Test/</code></span>{" "}
+				(Block, Chunk, Data-Lists, Expand, Policy, Refusal, Replace, Suppress, Tables) -{" "}
+				{Counts.Core.Classic} checks in
 				<BrandIcon Name="typescript" />{" "}
 				CLASSIC, {Counts.Core.EffectTS} in <BrandIcon Name="effect" />{" "}
 				EFFECT-TS.

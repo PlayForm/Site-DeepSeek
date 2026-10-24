@@ -81,7 +81,7 @@ const Pipeline = ["lib-dsh-core", "normalize-dash", "normalize-quotes", "normali
 
 <Base
 	Title="Matrix - DSH Family @ PlayForm"
-	Description="The Interactive Matrix Stream Inspector. Raw model emission versus canonical normalized output across the DeepSeek V4.1 Flash, GLM 5.3 Flash and raw LLM engine routes."
+	Description="The Interactive Matrix Stream Inspector. Raw model emission versus canonical normalized output across the three catalog routes - DeepSeek V4.1 Flash 1017, DeepSeek V4 Flash 0731 and GLM 5.3 Flash - plus the raw LLM ingest."
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
@@ -89,7 +89,7 @@ const Pipeline = ["lib-dsh-core", "normalize-dash", "normalize-quotes", "normali
 				INSPECTION VECTOR
 			</Badge>
 			<Badge>STREAM GATE PIPELINE</Badge>
-			<Badge>SMOKES: {Counts.Suites} SUITES</Badge>
+			<Badge>SMOKES: {Counts.Suites} SUITES FAMILY-WIDE</Badge>
 		</div>
 
 		<PageHero
@@ -108,7 +108,10 @@ const Pipeline = ["lib-dsh-core", "normalize-dash", "normalize-quotes", "normali
 					data-active
 					aria-pressed="true"
 				>
-					<span class="dot"></span> DeepSeek V4.1 Flash
+					<span class="dot"></span> DeepSeek V4.1 Flash 1017
+				</button>
+				<button type="button" class="engine-pill" data-engine="deepseek-0731" aria-pressed="false">
+					<span class="dot"></span> DeepSeek V4 Flash 0731
 				</button>
 				<button type="button" class="engine-pill" data-engine="glm" aria-pressed="false">
 					<span class="dot"></span> <BrandIcon Name="zhipu" Size="0.8em" /> GLM 5.3 Flash
@@ -284,7 +287,7 @@ const Pipeline = ["lib-dsh-core", "normalize-dash", "normalize-quotes", "normali
 						The suite loads the built package and asserts the ledger strings byte-identically.
 					</p>
 					<p>
-						That makes fourteen suites family-wide.
+						The seven flavors' suites are seven of the family's {Counts.Suites} smoke folders.
 						The ccr suite ({Counts.CCR.Classic}{" "}
 						checks) exists outside this demo.
 						The tool-coach suite ({Counts.Coach.Classic} checks) exists outside this demo.

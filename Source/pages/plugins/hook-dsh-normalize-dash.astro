@@ -148,7 +148,7 @@ const RawWriteExample = [
 
 // The ledger strings, from the README.
 const LedgerStrings = [
-	"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/hook-dsh-normalize-dash.log)",
+	"hook-dsh-normalize-dash: activated (replacement=-, reasoning=on, toolArgs=off, logFile=~/.dsh/playform/hook-dsh-normalize-dash.log)",
 	"hook-dsh-normalize-dash: normalized 4 dash char(s) in one stream",
 ];
 
@@ -261,7 +261,7 @@ const Config = [
 	{
 		Field: "logFile",
 		Type: "string",
-		Default: "~/.dsh/hook-dsh-normalize-dash.log",
+		Default: "~/.dsh/playform/hook-dsh-normalize-dash.log",
 		Volatile: "yes",
 		Meaning: "the normalize-dash ledger (separate from the family's logs)",
 	},
@@ -286,7 +286,7 @@ const Config = [
 		Default: "false",
 		Volatile: "no",
 		Meaning:
-			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with the edit/raw-write name exemptions and the {"__normalize":false\} raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
+			'IMPLEMENTED (default OFF): rewrite the tool-call argumentsDelta and the assembled ToolCallBlock.arguments when on (with three exemptions - the edit, raw-write and normalize-file calls pass through by identity - and the {"__normalize":false\} first-key raw-marker pass-through) - execution-critical raw JSON, the user\'s accepted risk; the example patch turns it on',
 	},
 ];
 ---
@@ -318,7 +318,7 @@ const Config = [
 				<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">LlmRuntime</code></a>.
 				The hook normalizes the unicode dash family to ASCII hyphen-minus, LIVE in the
 				transcript.
-				The family: em dashes, en dashes and seventeen exotic relatives{" "}
+				The family: em dashes, en dashes and twenty-two exotic relatives{" "}
 				<ArrowIcon Direction="right" Tone="accent" /> <code>-</code>.</p>
 			<p class="page-hero__sub">The normalize-dashes hook, at the injection point the harness itself does not have.</p>
 			<p class="page-hero__sub">A CLASS
@@ -352,10 +352,10 @@ const Config = [
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Archetype:</span>
 					<Badge Variant="outline">Hook + Tool</Badge>
-					<span class="workbench-controls__label">Event:</span>
-					<Badge>llm/stream</Badge>
+					<span class="workbench-controls__label">Events:</span>
+					<Badge>llm/stream · tools/post-execute · agent/pre-step</Badge>
 					<span class="workbench-controls__label">Injects:</span>
-					<Badge Variant="active">pluginFactory</Badge>
+					<Badge Variant="active">pluginFactory · fs · tools</Badge>
 				</div>
 			</div>
 		</section>
@@ -421,24 +421,36 @@ const Config = [
 					</tbody>
 				</table>
 			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The Effect-TS twin is{" "}
+				<a href={Link(Links.OurRepo, "EffectTS/packages/ets-hook-dsh-normalize-dash/Source")}><code>@playform/ets-hook-dsh-normalize-dash</code></a>{" "}
+				- the same contracts under the <code>ets-</code> prefix, built on the shared{" "}
+				<code>@playform/ets-base-dsh</code> base.
+			</p>
 			<div class="concept-list">
 				<Concept
 					ID="dash-non-manifest"
 					Title="The first NON-MANIFEST module"
-					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\"], using only State (cell unwrap + shared Ledger/Enabled mappings + its own fields) and Append - touching no files, so fs/write-intent and fs/observed never see it."}
+					Diagram={"The flavor's factory surface: injecting [\"pluginFactory\", \"fs\", \"tools\"], using State, Append and the shared Journal - the stream listener touching no files, the raw-write tool writing through the built-in write's fs path - composing with other llm/stream listeners regardless of registration order."}
 				>
 					<p>
-						It injects <code>["pluginFactory"]</code> and uses ONLY <code>State</code>{" "}
-						(cell unwrap + shared Ledger/Enabled mappings + its own fields) and{" "}
-						<code>Append</code> - the factory's first <strong>NON-MANIFEST module</strong>.
+						It injects <code>["pluginFactory", "fs", "tools"]</code> and uses{" "}
+						<code>State</code> (cell unwrap + shared Ledger/Enabled mappings + its own
+						fields), <code>Append</code> and the shared <code>Journal</code> - the
+						factory's first <strong>NON-MANIFEST module</strong>.
 					</p>
 					<p>
-						It touches no files, so{" "}
+						The stream listener touches no files, so{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/write-intent</code></a>{" "}
 						and{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/fs/fs/src/index.ts")}><code class="code-token">fs/observed</code></a>{" "}
-						NEVER see it.
-						It wraps the downstream result and ALWAYS calls{" "}
+						do not see it.
+						The <code>raw-write</code> tool does write files, and it writes through the
+						built-in write's exact fs path - resolve,{" "}
+						<code class="code-token">fs/write-intent</code>, writeText,{" "}
+						<code class="code-token">fs/observed</code> - so the governance hooks treat
+						its writes like any built-in write call.
+						It wraps the downstream result and always calls{" "}
 						<code>next()</code>, so it composes with other{" "}
 						<a href={Link(Links.DeepSeekHarness, "packages/llm/llm/src/index.ts")}><code class="code-token">llm/stream</code></a>{" "}
 						listeners regardless of registration order.
@@ -486,7 +498,7 @@ const Config = [
 					},
 					{
 						Seam: "The ledger / session",
-						What: "Two lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the per-stream count line on a normal completion with N > 0.",
+						What: "Two ledger lines through [the factory's Append](Ours:Classic/packages/plugin-dsh-factory/Source): the activation proof from apply() and the per-stream count line on a normal completion with N > 0; every N > 0 pass also journals a normalized record into the shared package_governance v2 domain.",
 						Outcome:
 							"A thrown-away stream writes NO ledger line. The count is per stream, visible in your own log.",
 					},
@@ -611,7 +623,7 @@ const Config = [
 				</Concept>
 				<Concept
 					ID="dash-boundary-safe"
-					Title="Chunk-boundary-safe by construction"
+					Title="Chunk-boundary-safe: one character at a time"
 					Diagram="Single-character replacement, no lookahead, no multi-character sequences - per-chunk application can never disagree with whole-text application; the replacement applied with a function replacer so a custom replacement containing $ patterns is inserted literally; replaced characters counted per stream for the ledger line."
 				>
 					<p>
@@ -839,18 +851,19 @@ const Config = [
 					'        name: "@playform/hook-dsh-normalize-dash"',
 					"        config:",
 					"            log: true",
-					"            logFile: ~/.dsh/hook-dsh-normalize-dash.log",
+					"            logFile: ~/.dsh/playform/hook-dsh-normalize-dash.log",
 					'            replacement: "-"',
 					"            normalizeReasoning: true",
+					"            normalizeToolArguments: true",
 				].join("\n")}
 			/>
 		</section>
 
-		<!-- The granular scopes + the overpass arms: the volatility widening.
+		{/* The granular scopes + the overpass arms: the volatility widening.
 		     Every place the scopes/tool-argument control is described carries
 		     the four binding facts: the per-call raw marker, the effective-gate
 		     formula, the three structural exemptions, and the overpass
-		     invisibility contract. -->
+		     invisibility contract. */}
 		<section class="section">
 			<SectionHeader
 				Title="The scopes surface & the overpass arms"
@@ -1002,6 +1015,25 @@ const Config = [
 					</tbody>
 				</table>
 			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The schema shape is identical in every family hook, so one grouped override in the
+				profile patch turns the whole family off in one edit:
+			</p>
+			<CodeBlock
+				Language="yaml"
+				Style="margin-top: var(--space-sm)"
+				Source={[
+					"- id: hook-dsh-normalize-dash",
+					"  config:",
+					"      scopes:",
+					"          conversation: false",
+					"          reasoning: false",
+					"          toolInput: false",
+					"          toolResults: false",
+					"          files: false",
+					"          batch: false",
+				].join("\n")}
+			/>
 		</section>
 
 		<section class="section">
@@ -1031,7 +1063,6 @@ const Config = [
 						<code class="code-token">U+2015</code>)
 						each become <code>-</code>.
 						The ASCII hyphens that were already there are untouched (the count ONLY
-						untouched (the count ONLY
 						counts replacements).
 					</p>
 					<p>
@@ -1102,9 +1133,9 @@ const Config = [
 		</section>
 
 		<section class="section">
-			<SectionHeader Title="The Ledger" Metadata="TWO LINES VIA FACTORY APPEND" />
+			<SectionHeader Title="The Ledger" Metadata="TWO LEDGER LINES · ONE JOURNAL RECORD" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
-				Two lines, both written through the factory's <code>Append</code> (the
+				Two ledger lines, both written through the factory's <code>Append</code> (the
 				hook-dsh-normalize-dash: prefix is the logger's
 				<code>&lt;State.Module&gt;:</code>; the durable file line is
 				<code>[&lt;ISO&gt;] &lt;message&gt;</code>):
@@ -1112,13 +1143,27 @@ const Config = [
 			<div class="code-block">{LedgerStrings.join("\n")}</div>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">
 				The activation line is written by <code>apply()</code>.
-				The count line ONLY follows
-				a normal stream completion and ONLY when N &gt; 0 (a thrown-away stream writes NO
+				The count line only follows
+				a normal stream completion and only when N &gt; 0 (a thrown-away stream writes no
 				ledger line).
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				Every N &gt; 0 pass also journals one <code>normalized</code> record into the shared{" "}
+				<code>package_governance</code> v2 domain - event <code>normalized</code>, path = the
+				empty stream-level path, detail byte-identical to the count line. The record is
+				best-effort: with no storage facility it buffers or drops, and the human ledger stays
+				the complete record.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				One more line exists on the mount path: when the <code>commands</code> service
+				refuses the <code>normalize-overpass</code> registration,{" "}
+				<code>apply()</code> appends{" "}
+				<code>hook-dsh-normalize-dash: command "normalize-overpass" registration skipped (the mount continues): &lt;the registry's own message&gt;</code>{" "}
+				- one line per non-first flavor per boot, and none when the registration succeeds.
 			</p>
 		</section>
 
-		<!-- The known limits: the documented gaps, stated as they are. -->
+		{/* The known limits: the documented gaps, stated as they are. */}
 		<section class="section">
 			<SectionHeader Title="Known limits" Metadata="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">

@@ -4,7 +4,7 @@ import "@Stylesheet/Base.css";
 import { Head } from "astro-capo";
 import { ClientRouter } from "astro:transitions";
 import BrandIcon from "@Component/BrandIcon.astro";
-import { Copyright, Versions } from "@Library/Content";
+import { Copyright, Counts, Versions } from "@Library/Content";
 import { Live } from "@Library/Live";
 import { Links } from "@Library/Links";
 
@@ -39,18 +39,17 @@ function Current(Href: string) {
 	return Href === "/" ? Path === "/" : Path.startsWith(Href.replace(/\/$/, ""));
 }
 
-// The site identity: canonical, Open Graph and Twitter URLs composed from
-// Links.Site (the registry) + the page path.
-// The og:image is the rendered brand asset.
-// The JSON-LD describes the family as a SoftwareApplication
-// with the fifteen packages as parts (the values from the content library).
+// The JSON-LD describes the family as a SoftwareApplication.
+// The hasPart list is scoped to the CLASSIC release tree (Library/Live.ts reads
+// its package.json files at build time); the Effect-TS twins are named in the
+// description, not listed as separate parts.
 const SiteURL = Links.Site.replace(/\/$/, "");
 const Canonical = `${SiteURL}${Path === "/" ? "/" : Path}`;
 const OgImage = `${SiteURL}/Brand/OG.png`;
 
-// The fifteen release packages (the register #15 names, npm form) - the SoftwareApplication's parts.
-// The names are LIVE: Library/Live.ts reads the Classic tree's package.json files at build time.
-// Kept in this canonical order, with ANY package missing from the list appended alphabetically.
+// The Classic release packages (the 15 legacy names first, in canonical order) -
+// the SoftwareApplication's parts. ANY package missing from the list is appended
+// alphabetically.
 const CanonicalPackages = [
 	"@playform/hook-dsh-ccr",
 	"@playform/lib-dsh-core",
@@ -77,8 +76,7 @@ const JSONLd = {
 	"@context": "https://schema.org",
 	"@type": "SoftwareApplication",
 	name: "DSH Family @ PlayForm",
-	description:
-		"The DeepSeek Harness plugin family: deterministic AI engine harnesses for production workloads. Fifteen packages, fourteen smoke suites.",
+	description: `The DeepSeek Harness plugin family: deterministic AI engine harnesses for production workloads. ${Counts.Packages} packages (${Counts.PackagesClassic} Classic, ${Counts.PackagesEffectTS} Effect-TS), ${Counts.Suites} smoke suites. The panel family ships at ${Versions.PanelFamily}; the rest of the release is at ${Versions.Release}. The hasPart list carries the ${Counts.PackagesClassic} Classic packages.`,
 	url: SiteURL,
 	applicationCategory: "DeveloperApplication",
 	operatingSystem: "Any",
@@ -89,7 +87,7 @@ const JSONLd = {
 	hasPart: Packages.map((Name) => ({
 		"@type": "SoftwareApplication",
 		name: Name,
-		softwareVersion: Versions.Release,
+		softwareVersion: Name === "@playform/client-dsh-panel-family" ? Versions.PanelFamily : Versions.Release,
 	})),
 };
 ---

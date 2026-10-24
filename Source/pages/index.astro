@@ -11,12 +11,12 @@ import StatsBand from "@Component/StatsBand.astro";
 import SupportsButton from "@Component/SupportsButton.astro";
 import Terminal from "@Component/Terminal.astro";
 import TerminalTray from "@Component/TerminalTray.astro";
-import { Counts, Families, Totals } from "@Library/Content";
+import { Client, Counts, Families, Pack, Policy, Suggesters, Totals, Trace, Versions, Workspace } from "@Library/Content";
 import { DotSep } from "@Library/FileIcon";
 
-// The fifteen packages: grouped Core & Factory / Governance / Guardians /
+// The legacy packages: grouped Core & Factory / Governance / Guardians /
 // Live prompt / Normalize, each with its package name, @-sentence identity and
-// one-sentence description.
+// one-sentence description. The registry page carries the full 101.
 const Core = [
 	{
 		Name: "lib-dsh-core",
@@ -118,6 +118,39 @@ const Guardians = [
 		Role: "ROLE: COACH",
 		Sentence: Families.Coach,
 		Desc: "The terminal coach. Judges EVERY bash/pwsh call through the four-tier ladder - silent ledger lines, live-fetched coaching notes, a persistent system-prompt discipline section, an optional hard deny. Teaches the model to stop using the terminal for file content.",
+	},
+];
+
+// The completion's two libraries: the trace bus's and the pack layer's halves.
+const NewLibraries = [
+	{
+		Name: "lib-dsh-trace",
+		Role: "ROLE: LIBRARY",
+		Desc: "The trace bus's library half: the envelope, the event names, the guards and the detached loop. No plugin - every plugin carries its own adapter.",
+	},
+	{
+		Name: "lib-dsh-pack",
+		Role: "ROLE: LIBRARY",
+		Desc: "The pack layer's library: the pack schema, the YAML-subset parser, the layered resolution and the workspace gate. No plugin.",
+	},
+];
+
+// The client family: the panel contract, its host half and the live view.
+const ClientFamily = [
+	{
+		Name: "client-dsh-panel-family",
+		Role: "ROLE: PANEL",
+		Desc: `The panel contract: the playformFamilyPanel registry and the family tab. The release's one ${Versions.PanelFamily} outlier.`,
+	},
+	{
+		Name: "client-dsh-panel-family-host",
+		Role: "ROLE: PANEL HOST",
+		Desc: "The panel host half: the tail and stats endpoints.",
+	},
+	{
+		Name: "client-dsh-workspace-live",
+		Role: "ROLE: LIVE VIEW",
+		Desc: "The workspace live tab: stable-until-event presentation, ingesting the trace bus.",
 	},
 ];
 
@@ -223,7 +256,7 @@ const CargoFact =
 
 <Base
 	Title="DSH Family @ PlayForm - Tame the model's output and govern the project's files."
-	Description="The DeepSeek Harness Plugin Family for PlayForm: fifteen TypeScript packages - the core, the factory service, the governance trio, the seven-member normalize family, the CCR compressor and tool-coach guardians, and the live-containers hook (shipped disabled). CLASSIC and EFFECT-TS releases."
+	Description={`The DeepSeek Harness Plugin Family for PlayForm: ${Counts.Packages} TypeScript packages across the CLASSIC and EFFECT-TS releases - the core, the factory service, the governance trio, the seven-member normalize family, the guardians, the workspace runtime, the suggesters, the orchestration set and the client family. ${Counts.Suites} smoke suites, ${Totals.Both} checks.`}
 >
 	<main class="container container--main">
 		<!-- Eyebrow badges -->
@@ -252,7 +285,7 @@ const CargoFact =
 			<div class="hero__split">
 				<div class="hero__lead">
 					<p class="hero__sub">
-						The <BrandIcon Name="deepseek" /> DeepSeek Harness Plugin Family for PlayForm: model output normalized to clean ASCII as it streams, manifests pinned and governed under the author's control - fifteen TypeScript packages, smoke-arbitrated.</p>
+						The <BrandIcon Name="deepseek" /> DeepSeek Harness Plugin Family for PlayForm: model output normalized to clean ASCII as it streams, manifests pinned and governed under the author's control - {Counts.Packages} TypeScript packages across two releases, {Counts.Suites} smoke suites.</p>
 					<p class="hero__sub">
 						Model output, clean and governed.
 					</p>
@@ -313,8 +346,8 @@ const CargoFact =
 		</section>
 
 		<!-- The stats band: the three verified family facts from the content
-			library - 15 packages, the derived check totals, the 0.1.0
-			release - the proof strip between the hero and the plugins. -->
+			library - the package census, the derived check totals, the release
+			version - the proof strip between the hero and the plugins. -->
 		<StatsBand />
 
 		<!-- Plugins -->
@@ -391,6 +424,32 @@ const CargoFact =
 					</Card>
 				))}
 			</div>
+
+			<!-- Group 5: The completion's libraries -->
+			<p class="section-kicker">The libraries</p>
+			<div class="grid grid--2" style="margin-bottom: var(--space-md)">
+				{NewLibraries.map((Package) => (
+					<Card Name={Package.Name} Desc={Package.Desc} Muted>
+						<Badge slot="badge" Variant="outline">{Package.Role}</Badge>
+					</Card>
+				))}
+			</div>
+
+			<!-- Group 6: The client family -->
+			<p class="section-kicker">The client family</p>
+			<div class="grid grid--3">
+				{ClientFamily.map((Package) => (
+					<Card Name={Package.Name} Desc={Package.Desc} Muted>
+						<Badge slot="badge" Variant="outline">{Package.Role}</Badge>
+					</Card>
+				))}
+			</div>
+
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The workspace family ({Workspace.Packages} packages), the {Suggesters.Count} suggesters and
+				the orchestration set complete the {Counts.Packages}-package registry - all of them on the{" "}
+				<a href="/plugins/">plugins page</a>.
+			</p>
 		</section>
 
 		<!-- Versions -->
@@ -403,7 +462,7 @@ const CargoFact =
 						<BrandIcon Name="typescript" Size="1.333em" ClassName="version-card__icon" />
 					</div>
 					<p class="version-card__body">
-						The fifteen contracts in plain TypeScript.
+						The {Counts.PackagesClassic} Classic packages, in plain TypeScript.
 						Classes, Maps and plain functions.
 						Zero runtime framework dependencies.</p>
 					<p class="version-card__body">
@@ -422,9 +481,9 @@ const CargoFact =
 						<BrandIcon Name="effect" Size="1.333em" ClassName="version-card__icon" />
 					</div>
 					<p class="version-card__body">
-						The same fifteen contracts re-expressed on Effect-TS services and layers.
-						Same behavior.
-						Same smokes.
+						The {Counts.Twins} shared contracts re-expressed on Effect-TS services and layers - {Counts.PackagesEffectTS} packages.
+						The same contracts.
+						The same smokes.
 						Different runtime plumbing.
 					</p>
 					<div class="version-card__facts">
@@ -519,6 +578,62 @@ const CargoFact =
 			</p>
 			<p class="section-kicker" style="margin-top: var(--space-md)">
 				<Fragment set:html={DotSep(`${Totals.Metadata()} · the ledger strings, byte-identical`)} />
+			</p>
+		</section>
+
+		<!-- The workspace runtime: the completion program's surface. One card per
+			part, every figure from the content library. -->
+		<section class="section" id="workspace-runtime">
+			<SectionHeader
+				Title="The workspace runtime"
+				Metadata={`${Workspace.Packages} PACKAGES · ${Workspace.Tools} TOOLS · ${Trace.Events} TRACE EVENTS · ${Pack.Families} PACK FAMILIES`}
+			/>
+			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
+				The completion program added the runtime the family runs on: the workspace graph and its
+				tools, the trace bus every plugin adapts to, the pack layer that adapts the family to a
+				repository, and the policy block that decides what runs unattended.
+			</p>
+			<div class="grid grid--2">
+				<Card Variant="white" Name="The workspace tools" Muted>
+					<Badge slot="badge" Variant="active">{Workspace.Tools} TOOLS</Badge>
+					<p class="card__desc card__desc--muted">
+						{Workspace.Tools} navigation tools over the graph - <code>workspace_index</code>,{" "}
+						<code>workspace_map</code>, <code>workspace_find</code>,{" "}
+						<code>workspace_expand</code> and <code>workspace_context</code> - carried by{" "}
+						{Workspace.Packages} workspace packages.
+					</p>
+				</Card>
+				<Card Variant="white" Name="The trace bus" Muted>
+					<Badge slot="badge" Variant="active">{Trace.Events} EVENTS</Badge>
+					<p class="card__desc card__desc--muted">
+						<code>lib-dsh-trace</code> defines the vocabulary: {Trace.Events} event names
+						(observe/stamp, graph/indexed, graph/invalidated), a {Trace.EnvelopeFields}-field
+						envelope, a {Trace.Service}-method service and a {Trace.Ring}-entry ring.{" "}
+						{Trace.Adapters} plugins carry an adapter.
+					</p>
+				</Card>
+				<Card Variant="white" Name="The pack layer" Muted>
+					<Badge slot="badge" Variant="active">{Pack.Families} FAMILIES</Badge>
+					<p class="card__desc card__desc--muted">
+						<code>lib-dsh-pack</code> resolves {Pack.Families} families over {Pack.Domains}{" "}
+						domains through {Pack.Layers} layers - the user pack, the repo pack and the
+						cycle-guarded <code>extends:</code> chain. A repository without a pack gets
+						silence.
+					</p>
+				</Card>
+				<Card Variant="white" Name="The policy block" Muted>
+					<Badge slot="badge" Variant="active">{Policy.Actions} ACTIONS</Badge>
+					<p class="card__desc card__desc--muted">
+						Every plugin declares its actions and, for each, whether it runs automatically or
+						waits for approval: {Policy.Actions} actions, {Policy.Auto} auto and{" "}
+						{Policy.Approve} approve by default, carried by {Policy.Packages} packages.
+					</p>
+				</Card>
+			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The registry carries the {Counts.Packages} packages in full on the{" "}
+				<a href="/plugins/">plugins page</a>; the two libraries and the client family are
+				listed there too.
 			</p>
 		</section>
 
@@ -709,12 +824,13 @@ const CargoFact =
 					</svg>
 					Model Independence
 				</div>
-				<p class="independence__title">Built to serve any LLM.</p>
+				<p class="independence__title">Normalizers sit on the stream, not the model.</p>
 				<p class="independence__body">
-					Extensively battle-tested on <BrandIcon Name="deepseek" />{" "}
-					<strong>DeepSeek V4.1 Flash</strong> &amp;
-					<BrandIcon Name="zhipu" />{" "}
-					<strong>GLM 5.3 Flash</strong> token output streams.</p>
+					The three catalog routes: <BrandIcon Name="deepseek" />{" "}
+					<strong>DeepSeek V4.1 Flash 1017</strong>, <BrandIcon Name="deepseek" />{" "}
+					<strong>DeepSeek V4 Flash 0731</strong> and <BrandIcon Name="zhipu" />{" "}
+					<strong>GLM 5.3 Flash</strong>.
+					The pipeline does not read which one wrote the stream.</p>
 				<p class="independence__body">
 					See the
 					<a href="/models/">models page</a>.
@@ -730,7 +846,7 @@ const CargoFact =
 				<p>
 					the hook-dsh-* hooks: in-stream normalizers with no second pass over the transcript.
 				</p>
-				<p>the fifteen packages: pinned and governed by the manifest hooks.</p>
+				<p>the {Counts.Packages} packages: pinned and governed by the manifest hooks.</p>
 			</div>
 		</section>
 	</main>

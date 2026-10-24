@@ -10,7 +10,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Seams from "@Component/Seams.astro";
 import Terminal from "@Component/Terminal.astro";
-import { Counts, Versions, Families, Methods } from "@Library/Content";
+import { Counts, Versions, Families, Methods, Trace, Policy, Pack } from "@Library/Content";
 import { Link, Links } from "@Library/Links";
 
 // The furnace diagram, from the package README.
@@ -74,6 +74,21 @@ const Consumers = [
 		Inject: '["pluginFactory"]',
 		Uses: "State, Append - plus the named Schema export (shared: false) for their config",
 	},
+	{
+		Name: "plugin-dsh-normalize-file",
+		Inject: '["pluginFactory", "fs", "tools"]',
+		Uses: "State, Append, Journal, Write - the one consumer that writes",
+	},
+	{
+		Name: "hook-dsh-ccr + hook-dsh-tool-coach (the guardians)",
+		Inject: '["pluginFactory", "tools"]',
+		Uses: "State, Append, Seam - and the volatile-refresh path for every hot knob",
+	},
+	{
+		Name: "hook-dsh-live-containers",
+		Inject: '["pluginFactory", "tools", "systemPrompt", "shell", "shellEnv", "workingDirectory"]',
+		Uses: "State, Append",
+	},
 ];
 
 // The In Action write, end to end, from the README.
@@ -95,13 +110,25 @@ const InAction = [
 	"};",
 	"",
 	"transcript:  the write tool result shows exactly what the author wrote",
-	"pinner.log:  [2026-10-03T09:16:01.880Z] pinned <project>/acme/tool/package.json (7 versions)",
+	"pinner ledger:  [2026-10-03T09:16:01.880Z] pinned <project>/acme/tool/package.json (7 versions)",
 ];
 
 // The factory's two Append wrappers, from the README's Ledger section.
 const LedgerLines = [
 	"logger:  <State.Module>: <message>      (State.Module = the consumer's historical prefix)",
 	"ledger:  [<ISO timestamp>] <message>    (appendFileSync, best-effort, when log is enabled)",
+];
+
+// The policy block's eight action classes and their D6 defaults (SCHEME 2.19).
+const PolicyRows = [
+	{ Action: "read", Default: "auto", Meaning: "read-only inspection of the workspace" },
+	{ Action: "index", Default: "auto", Meaning: "building or refreshing the index" },
+	{ Action: "record", Default: "auto", Meaning: "recording a decision, an outcome or a journal entry" },
+	{ Action: "suggest", Default: "auto", Meaning: "emitting a suggestion or a note" },
+	{ Action: "write", Default: "approve", Meaning: "writing a file" },
+	{ Action: "commit", Default: "approve", Meaning: "committing a batch of writes" },
+	{ Action: "spawn", Default: "approve", Meaning: "spawning an agent or starting a job" },
+	{ Action: "message", Default: "auto", Meaning: "sending a message to another agent (inside the session)" },
 ];
 
 const Related = [
@@ -201,7 +228,7 @@ const Related = [
 				>
 					<p>
 						The family's parent service ({Families.Factory}).
-						EVERY other package consumes it.
+						Forty-five of the {Counts.PackagesClassic} Classic packages depend on it.
 						The three governance hooks inject the service.
 						The six normalize flavors consume State/Append and the Schema helper.
 						Its own parent is the filesystem service (inject: ["fs"]).
@@ -229,6 +256,12 @@ const Related = [
 					</p>
 				</Concept>
 			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The Effect-TS twin is{" "}
+				<a href={Link(Links.OurRepo, "EffectTS/packages/ets-plugin-dsh-factory/Source")}><code>@playform/ets-plugin-dsh-factory</code></a>{" "}
+				- the same contracts under the <code>ets-</code> prefix, built on the shared{" "}
+				<code>@playform/ets-base-dsh</code> base.
+			</p>
 			<div class="table-wrap">
 				<table class="table">
 					<thead>
@@ -251,6 +284,15 @@ const Related = [
 					</tbody>
 				</table>
 			</div>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The other 32 consumers are the orchestration, workspace and suggester families: each
+				injects the service for <code>State</code> and <code>Append</code>, and the workspace
+				packages also consume the <code>ctx.trace</code> bus it provides. The seven Classic
+				packages that do not depend on the factory are the three <code>client-*</code>
+				packages and the four libraries (<code>lib-dsh-core</code>,{" "}
+				<code>lib-dsh-pack</code>, <code>lib-dsh-trace</code>,{" "}
+				<code>lib-dsh-workspace-live</code>).
+			</p>
 		</section>
 
 		<section class="section">
@@ -262,7 +304,7 @@ const Related = [
 			<Seams
 				Seams={[
 					{
-						Seam: "The tool layer (write / edit / str_replace_editor)",
+						Seam: "The tool layer (write / edit / str_replace_editor / raw-write)",
 						What: "The fs/observed events the governance hooks react to are fired by the tool layer ONLY, for EVERY harness write or edit. [GuardedWrite](Ours:Classic/packages/plugin-dsh-factory/Source/Function/Write.ts) and Refresh keep the author's next guarded write from ever failing a stale-version check.",
 						Outcome: "One trigger law for the whole machine, any agent, any thread.",
 					},
@@ -390,12 +432,12 @@ const Related = [
 				<Concept
 					ID="factory-verification"
 					Title="Verification"
-					Diagram={`The three gates: tsc --noEmit - zero errors; pnpm run prepublishOnly - minified Target/ (+ .d.ts twins); node factory-smoke.mjs (in the family's smokes/ directory) - ${Counts.Factory.Classic} checks, ALL PASS.`}
+					Diagram={`The three gates: tsc --noEmit - zero errors; pnpm run prepublishOnly - minified Target/ (+ .d.ts twins); node Target/Test/<Folder>/Test.js - the eight test folders, ${Counts.Factory.Classic} checks, ALL PASS.`}
 				>
 					<p>
 						tsc --noEmit - zero errors.
 						pnpm run prepublishOnly - minified Target/ (+ <span class="file-mention"><BrandIcon Name="file-ts" Size="0.9em" />.d.ts</span> twins).
-						node <span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" />factory-smoke.mjs</span> (in the family's smokes/ directory) - {Counts.Factory.Classic} checks, ALL PASS.
+						node <span class="file-mention"><BrandIcon Name="file-js" Size="0.9em" />Target/Test/&lt;Folder&gt;/Test.js</span> - the eight test folders, {Counts.Factory.Classic} checks, ALL PASS.
 					</p>
 					<p>
 						The coverage: EVERY primitive.
@@ -439,10 +481,13 @@ const Related = [
 				<Concept
 					ID="factory-config-blocks"
 					Title="shared: false vs the shared defaults"
-					Diagram="shared: false emitting the minimal block (no logFile/updateCooldownMs/mutationTools/policyFile/exclude) for non-manifest modules like the normalize flavors - the shared defaults carrying the family's block - volatile cells (log, logFile and any consumer's own hot fields) committing without remounting the plugin, the factory's State builder unwrapping them defensively."
+					Diagram="shared: false emitting the minimal block (log and logFile, with logFile defaulting to the empty string - no updateCooldownMs/mutationTools/policyFile/exclude) for non-manifest modules like the normalize flavors - the shared defaults carrying the family's block - volatile cells (log, logFile and any consumer's own hot fields) committing without remounting the plugin, the factory's State builder unwrapping them defensively."
 				>
 					<p>
-						<code>shared: false</code> emits the minimal block (no logFile/updateCooldownMs/mutationTools/policyFile/exclude) for non-manifest modules like the normalize flavors.
+						<code>shared: false</code> emits the minimal block - <code>log</code> and{" "}
+						<code>logFile</code>, with <code>logFile</code> defaulting to the empty
+						string (no updateCooldownMs/mutationTools/policyFile/exclude) - for
+						non-manifest modules like the normalize flavors.
 						The shared defaults carry the family's block.
 					</p>
 					<p>
@@ -470,6 +515,108 @@ const Related = [
 						<strong>a flip lands on the next judged call</strong>.
 					</p>
 				</Concept>
+			</div>
+		</section>
+
+		<section class="section">
+			<SectionHeader Title="The completion surfaces" Metadata="THE TRACE BUS · THE POLICY BLOCK · THE PACK LAYER" />
+			<div class="concept-list">
+				<Concept
+					ID="factory-trace-bus"
+					Title="The trace bus: one service, three events"
+					Diagram={`The factory's constructor building one bus and providing it as ctx.trace: an emitter completing the envelope, a bounded ring of ${Trace.Ring} envelopes, and per-kind dispatch to the listeners - ${Trace.Events} events (observe/stamp, graph/indexed, graph/invalidated), ${Trace.EnvelopeFields} envelope fields (trace, kind, at, actor, payload), and ${Trace.Adapters} plugin-owned Source/Trace adapters.`}
+				>
+					<p>
+						The factory is the home of the workspace family's trace bus. Its constructor
+						builds one bus and provides it as <code>ctx.trace</code>; the vocabulary and
+						the detached loop live in{" "}
+						<a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-trace/Source")}><code>@playform/lib-dsh-trace</code></a>,
+						and every adapting plugin carries its own <code>Source/Trace/</code> adapter -
+						no plugin imports another.
+					</p>
+					<p>
+						The bus completes the envelope{" "}
+						<code>&#123; trace, kind, at, actor, payload &#125;</code> (the bus assigns{" "}
+						<code>trace-&lt;n&gt;</code> and <code>at</code> when the emitter supplied
+						none), pushes it into a bounded ring - the fixed <code>Bound</code> of{" "}
+						{Trace.Ring}, with no config knob - and dispatches it to the listeners of its
+						kind. {Trace.Events} events: <code>observe/stamp</code>,{" "}
+						<code>graph/indexed</code> and <code>graph/invalidated</code>.
+					</p>
+					<p>
+						Every listener runs inside its own try/catch and the whole emit is contained:
+						the bus never throws into a caller, and a late emit or a late subscription
+						after the unload effect is a contained no-op. The service adds no method to
+						the {Methods.Count}-method surface and no config field.
+					</p>
+				</Concept>
+				<Concept
+					ID="factory-policy-block"
+					Title={`The policy block: ${Policy.Actions} actions, ${Policy.Approve} of them approved by hand`}
+					Diagram={`Policy() composing the shared ${Policy.Actions}-action block into a consumer's schema and Decide(policy, action) answering one verdict: ${Policy.Auto} actions default to auto (read, index, record, suggest, message) and ${Policy.Approve} to approve (write, commit, spawn) - a missing key falls back to its default, and a malformed value can only be more conservative.`}
+				>
+					<p>
+						<code>Policy()</code> and <code>Decide(policy, action)</code> are named
+						exports of the entry, not service methods: the class surface stays at the
+						documented {Methods.Count}. The loader needs the composed config at
+						module-evaluation time, before any service instance exists - the same reason
+						the standalone <code>Schema</code> export exists.
+					</p>
+					<p>
+						The block carries one key per action class, each a{" "}
+						<code>Schema.union(["auto", "approve"])</code> with the D6 default, and the
+						whole block is volatile - one hot-editable object whose flip re-reads
+						wholesale into the consumer's mapped <code>State.Allow</code> field.
+					</p>
+					<p>
+						A missing key falls back to that action's default, and a malformed value is
+						treated as missing - a bad config can only be more conservative for write,
+						commit and spawn, and never silently widens an automatic action. The helper
+						never throws.
+					</p>
+				</Concept>
+				<Concept
+					ID="factory-pack-layer"
+					Title="The pack layer: the workspace-pack schema under the policy"
+					Diagram={`@playform/lib-dsh-pack: ${Pack.Families} built-in families across ${Pack.Domains} domains, the ${Pack.Layers}-layer resolution (the user layer, the repo layer, the cycle-guarded extends chain) and the strict YAML-subset parser - a resolved pack's policy section overriding the block's defaults per action, its value winning and an absent action keeping the D6 default.`}
+				>
+					<p>
+						The pack is the data layer under the policy:{" "}
+						<a href={Link(Links.OurRepo, "Classic/packages/lib-dsh-pack/Source")}><code>@playform/lib-dsh-pack</code></a>{" "}
+						carries {Pack.Families} built-in families across {Pack.Domains} domains, the{" "}
+						{Pack.Layers}-layer resolution - the user layer{" "}
+						<code>~/.dsh/playform/workspaces/&lt;repo-slug&gt;.yml</code> read first, the
+						repo layer <code>&lt;repo&gt;/.dsh/pack.yml</code> overriding it, and a
+						cycle-guarded <code>extends:</code> chain - and the strict YAML-subset parser.
+					</p>
+					<p>
+						A pack's <code>policy</code> section carries the same action-to-verdict
+						mapping and overrides the block's defaults per action when a pack is
+						resolved: the pack's value wins, and an absent action keeps the D6 default.
+					</p>
+				</Concept>
+			</div>
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Action</th>
+							<th>Default</th>
+							<th>Meaning</th>
+						</tr>
+					</thead>
+					<tbody>
+						{PolicyRows.map((Row) => (
+							<tr>
+								<td>
+									<strong>{Row.Action}</strong>
+								</td>
+								<td>{Row.Default}</td>
+								<td>{Row.Meaning}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
 		</section>
 
@@ -526,7 +673,7 @@ const Related = [
 					Diagram={"Every string a hook logs - \"skipped (excluded) ...\", \"governed <path> → <version>\", \"pinned <path> (N versions)\", the activated (...) proof - composed and logged by the hook, through the factory's Append - the factory's own composed strings parameterized machinery (the unreadable-policy line taking the policy file name; the suppressed-error lines taking state.Module as the prefix), staying byte-identical when a consumer keeps its historical name."}
 				>
 					<p>
-						EVERY string a hook logs is composed and logged by the hook, through the factory's Append.
+						Every ledger string a hook logs is composed and logged by the hook, through the factory's Append.
 						"skipped (excluded) ...", "governed &lt;path&gt; → &lt;version&gt;", "pinned &lt;path&gt; (N versions)", the activated (...) proof.
 					</p>
 					<p>

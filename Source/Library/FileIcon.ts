@@ -195,10 +195,10 @@ function IsLog(Token: string): boolean {
 /**
  * Whether a matched file token is PATH-EMBEDDED - part of a full path
  * (~/.dsh/profiles/<name>/package.json, node_modules/.../package.json,
- * /x/package.json, ~/.dsh/<name>.log) rather than a bare file mention
- * (package.json, pin-policy.json, Cargo.toml, governor.log). The user's
- * rule: the icons and the log chip attach ONLY to the bare mentions - a
- * token that carries a path prefix (a separator inside the token, a
+ * /x/package.json, ~/.dsh/playform/<name>.log) rather than a bare file
+ * mention (package.json, pin-policy.json, Cargo.toml, governor.log). The
+ * user's rule: the icons and the log chip attach ONLY to the bare mentions -
+ * a token that carries a path prefix (a separator inside the token, a
  * leading ~, or a / immediately before the match) is a location, not a
  * document, and renders as plain text with no icon and no chip.
  */

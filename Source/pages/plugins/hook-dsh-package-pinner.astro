@@ -59,9 +59,11 @@ const Pipeline = [
 	"  │     policyFile → the file's own directory → registry-adjacent → built-in",
 	"  │     default) → Decode (JSON.parse, null on failure) → the RANGE LAW",
 	"  │     (the range law - ONE leading ^/~/= stripped per dep) → the REFUSAL",
-	"  │     GUARD (core's Refusal) → GuardedWrite (replaceIfVersion + the P4",
-	"  │     fence) → ledger `pinned <path> (<N> versions)` → Refresh (P3",
-	"  │     re-emit, same actor)",
+	"  │     GUARD (core's Refusal) → the fresh-stat probe (ctx.fs.stat - the",
+	"  │     intent's version is the CURRENT one, not the event's observed",
+	"  │     version, so a multi-step fold converges in any order) → GuardedWrite",
+	"  │     (replaceIfVersion + the P4 fence) → ledger `pinned <path> (<N>",
+	"  │     versions)` → Refresh (P3 re-emit, same actor)",
 	"  ▼",
 	"  SILENCE: the tool result shows exactly what the author wrote.",
 	"  The pinned state is discoverable only by a subsequent read - or in",
@@ -94,7 +96,7 @@ const RangeLaw = [
 
 // The In Action ledger excerpt, from the README.
 const LedgerExcerpt = [
-	"[2026-10-03T09:15:22.411Z] activated (pinner, logFile=~/.dsh/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
+	"[2026-10-03T09:15:22.411Z] activated (pinner, logFile=~/.dsh/playform/hook-dsh-package-pinner.log, sections=[dependencies, devDependencies, peerDependencies, optionalDependencies], exclude=[node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app])",
 	"[2026-10-03T09:16:01.880Z] pinned <project>/acme/tool/package.json (2 versions)",
 ];
 
@@ -180,8 +182,12 @@ const Related = [
 				factory flavor: pure P-only - no ncu, no jobs, no subprocess, no cooldown.</p>
 			<p class="page-hero__sub">Just the
 				pin.
-
-
+			</p>
+			<p class="page-hero__sub">
+				The Effect-TS twin is{" "}
+				<a href={Link(Links.OurRepo, "EffectTS/packages/ets-hook-dsh-package-pinner/Source")}><code>@playform/ets-hook-dsh-package-pinner</code></a>{" "}
+				- the same contracts under the <code>ets-</code> prefix, built on the shared{" "}
+				<code>@playform/ets-base-dsh</code> base.
 			</p>
 		</section>
 
@@ -310,7 +316,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Independent ledgers</p>
 						<figure class="diagram-figure" set:html={LedgersSVG} />
 						<p>
-							The pinner writes its own <span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />pinner.log</span>; the governor writes <span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />governor.log</span>.</p>
+							The pinner writes its own <span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />hook-dsh-package-pinner.log</span>; the governor writes <span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" />hook-dsh-package-governor.log</span>.</p>
 						<p>Activating one never activates the other.</p>
 					</div>
 
@@ -321,8 +327,8 @@ const Related = [
 
 					<p class="page-hero__sub">
 						The pinner and governor use separate ledgers:
-						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>pinner.log</code></span> and{" "}
-						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>governor.log</code></span>.
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>hook-dsh-package-pinner.log</code></span> and{" "}
+						<span class="log-chip"><BrandIcon Name="file-log" Size="0.9em" /><code>hook-dsh-package-governor.log</code></span>.
 					</p>
 					<p class="page-hero__sub">
 						Activating either
@@ -479,7 +485,7 @@ const Related = [
 					},
 					{
 						Seam: "The ledger / session",
-						What: "A separate ledger (pinner.log) records activation, exclusions, non-JSON skips, refusals and every pin result; the activation line is written by apply().",
+						What: "A separate ledger (hook-dsh-package-pinner.log) records activation, exclusions, non-JSON skips, refusals and every pin result; the activation line is written by apply().",
 						Outcome:
 							'"Did it activate" is answerable from the ledger alone - and never implies the governor\'s ledger.',
 					},
@@ -650,7 +656,7 @@ const Related = [
 						<p class="section-kicker">Diagram - Version coherence</p>
 						<figure class="diagram-figure" set:html={VersionCoherSVG} />
 						<p>
-							The guarded write carries replaceIfVersion at the observed version: a racing author write fails safely, and the re-emit re-enters this listener as a Stash-gated no-op.
+							The guarded write carries replaceIfVersion against a FRESH stat, not the version the triggering event observed: a racing author write fails safely, a multi-step fold converges in any order, and the re-emit re-enters this listener as a Stash-gated no-op.
 						</p>
 					</div>
 
@@ -660,9 +666,11 @@ const Related = [
 					</h3>
 
 					<p class="page-hero__sub">
-						The rewrite carries <code>replaceIfVersion</code> at the observed version; a
-						racing author write makes it fail safely (no clobber), and the re-emit
-						re-enters this listener where the Stash token gate makes it a no-op.
+						The rewrite carries <code>replaceIfVersion</code> at the version a{" "}
+						<strong>fresh stat</strong> reports (<code>ctx.fs.stat</code>), not the
+						version the triggering event observed: a racing author write makes it fail
+						safely (no clobber), a multi-step fold converges in any step order, and the
+						re-emit re-enters this listener where the Stash token gate makes it a no-op.
 					</p>
 				</section>
 			</div>
@@ -686,8 +694,8 @@ const Related = [
 					'        name: "@playform/hook-dsh-package-pinner"',
 					"        config:",
 					"            log: true",
-					"            logFile: ~/.dsh/hook-dsh-package-pinner.log # SEPARATE ledger (own plugin)",
-					"            mutationTools: [write, edit, str_replace_editor]",
+					"            logFile: ~/.dsh/playform/hook-dsh-package-pinner.log # SEPARATE ledger (own plugin)",
+					"            mutationTools: [write, edit, str_replace_editor, raw-write]",
 					'            policyFile: "" # optional global pin-policy.json (else discovery, else built-in)',
 					"            sections: [dependencies, devDependencies, peerDependencies, optionalDependencies]",
 					"            exclude: [node_modules, .git, .dsh, .pnpm, .store, DeepSeek Harness.app]",
@@ -738,11 +746,11 @@ const Related = [
 			<SectionHeader Title="The Ledger" Metadata="ONE GLOBAL LOG" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">
 				One global log (<code>logFile</code>, default{" "}
-				~/.dsh/hook-dsh-package-pinner.log - SEPARATE from the governor's
+				~/.dsh/playform/hook-dsh-package-pinner.log - SEPARATE from the governor's
 				ledger) records activation, exclusions, non-JSON skips, refusals, and every pin
 				result.</p>
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">The strings this module composes (the
-				hook-dsh-package-pinner: logger prefix is the factory's Append; each
+				hook-dsh-pinner-package: logger prefix is the factory's Append; each
 				line is <code>[&lt;ISO&gt;] &lt;message&gt;</code> in the file):
 
 			</p>
@@ -753,11 +761,21 @@ const Related = [
 				above.</p>
 			<p class="page-hero__sub" style="margin-top: var(--space-md)">The activation line is written by <code>apply()</code> - "did it activate"
 				must be answerable from the ledger alone.
-
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The configured path passes through the core's <code>Expand</code> once at the write
+				site, so a <code>~/.dsh/playform/...</code> default lands in the home directory
+				rather than failing ENOENT.
+			</p>
+			<p class="page-hero__sub" style="margin-top: var(--space-md)">
+				The same events also land in the shared <code>package_governance</code> v2 domain
+				through the factory's <code>Journal</code>: <code>activated</code> on the mount and
+				one record per pin pass. The record is best-effort; the human ledger stays the
+				complete record.
 			</p>
 		</section>
 
-		<!-- The known limits: the documented gaps, stated as they are. -->
+		{/* The known limits: the documented gaps, stated as they are. */}
 		<section class="section">
 			<SectionHeader Title="Known limits" Metadata="THE DOCUMENTED GAPS" />
 			<p class="page-hero__sub" style="margin-bottom: var(--space-md)">

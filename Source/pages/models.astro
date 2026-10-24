@@ -8,17 +8,24 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import { Counts } from "@Library/Content";
 
-// The reference models: the routes the family is tested on.
+// The catalog routes: the three models the harness routes to, with the exact
+// ids from the task-routing catalog. The page lists them; it does not rank
+// vendors and it does not claim a stream test the tree does not record.
 const Models = [
 	{
-		Name: "DeepSeek V4.1 Flash",
+		Name: "DeepSeek V4.1 Flash 1017",
 		Icon: "deepseek",
-		Note: "The current harness route - the family is developed and smoke-run against it, with the six stream flavors verified on its token output.",
+		Note: "The reasoning lane's primary route - @cf/deepseek-ai/deepseek-v4.1-flash-1017. The harness's current default model.",
+	},
+	{
+		Name: "DeepSeek V4 Flash 0731",
+		Icon: "deepseek",
+		Note: "The reasoning lane's fallback route - @cf/deepseek-ai/deepseek-v4-flash-0731. Used when the primary is unavailable.",
 	},
 	{
 		Name: "GLM 5.3 Flash",
 		Icon: "zhipu",
-		Note: "The second tested route - the same normalization and governance pipeline on a different vendor's stream.",
+		Note: "The volume lane - @cf/zai-org/glm-5.3-flash. A second vendor's stream through the same pipeline.",
 	},
 ];
 
@@ -28,29 +35,32 @@ const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDT
 
 <Base
 	Title="Models - DSH Family @ PlayForm"
-	Description="The DeepSeek Harness Plugin Family is model-agnostic. It normalizes any LLM's output stream to clean ASCII. Tested on DeepSeek V4.1 Flash and GLM 5.3 Flash."
+	Description={`The DeepSeek Harness Plugin Family hooks the harness's token stream, not the model. It normalizes the output to clean ASCII before it reaches your files. The catalog routes it runs with: DeepSeek V4.1 Flash 1017, DeepSeek V4 Flash 0731 and GLM 5.3 Flash.`}
 >
 	<main class="container container--main">
 		<div class="eyebrow-row">
 			<Badge Variant="primary" Dot>
 				MODEL INDEPENDENCE
 			</Badge>
-			<Badge>ANY LLM</Badge>
+			<Badge>STREAM-SIDE</Badge>
 		</div>
 
 		<PageHero
-			Title="Built to serve any LLM."
-			Sub={"The family hooks the harness's token stream, not the model.\nAny model that writes through the harness gets the same seven normalizers and three governance hooks. Unicode drift and unpinned manifests are problems of the output, not of the engine."}
+			Title="Normalize the stream, not the model."
+			Sub={`The family hooks the harness's token stream, not the model.\nAny model that writes through the harness gets the same ${Counts.Normalizers} normalizers and the same three governance hooks. Unicode drift and unpinned manifests are problems of the output, not of the engine.`}
 		/>
 
-		<!-- The reference models -->
+		<!-- The catalog routes -->
 		<section class="section">
-			<SectionHeader Title="The reference models" Metadata="BATTLE-TESTED ROUTES" />
+			<SectionHeader Title="The catalog routes" Metadata="THE THREE MODEL IDS" />
 			<div class="workbench-controls">
 				<div class="workbench-controls__group">
 					<span class="workbench-controls__label">Engine selection:</span>
 					<span class="engine-pill engine-pill--active">
-						<span class="dot"></span><BrandIcon Name="deepseek" Size="0.8em" />DeepSeek V4.1 Flash
+						<span class="dot"></span><BrandIcon Name="deepseek" Size="0.8em" />DeepSeek V4.1 Flash 1017
+					</span>
+					<span class="engine-pill">
+						<span class="dot"></span><BrandIcon Name="deepseek" Size="0.8em" />DeepSeek V4 Flash 0731
 					</span>
 					<span class="engine-pill">
 						<span class="dot"></span><BrandIcon Name="zhipu" Size="0.8em" />GLM 5.3 Flash
@@ -64,11 +74,11 @@ const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDT
 					<a class="action action--secondary" href="/workbench/">Open the Workbench</a>
 				</div>
 			</div>
-			<div class="grid grid--2">
+			<div class="grid grid--3">
 				{Models.map((Model) => (
 					<Card Variant="white" Name={Model.Name} Icon={Model.Icon} Desc={Model.Note} Muted>
 						<Badge slot="badge" Variant="active">
-							VERIFIED STREAM
+							CATALOG ROUTE
 						</Badge>
 					</Card>
 				))}
@@ -102,15 +112,19 @@ const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDT
 				<div class="concept-list">
 					<Concept
 						ID="models-routes"
-						Title="The two battle-tested routes"
-						Diagram="DeepSeek V4.1 Flash and GLM 5.3 Flash token output streams entering the same normalization pipeline - two vendors, one harness."
+						Title="Three catalog routes, one pipeline"
+						Diagram="DeepSeek V4.1 Flash 1017, DeepSeek V4 Flash 0731 and GLM 5.3 Flash token output streams entering the same normalization pipeline - two vendors, three routes, one harness."
 					>
 						<BrandIcon slot="diagram-brand" Name="zhipu" />
 						<p>
-							Extensively battle-tested on <BrandIcon Name="deepseek" />{" "}
-							<strong>DeepSeek V4.1 Flash</strong> &amp;{" "}
+							The task-routing catalog names three model ids:{" "}
+							<BrandIcon Name="deepseek" />{" "}
+							<strong>DeepSeek V4.1 Flash 1017</strong>,{" "}
+							<BrandIcon Name="deepseek" />{" "}
+							<strong>DeepSeek V4 Flash 0731</strong> and{" "}
 							<BrandIcon Name="zhipu" />{" "}
-							<strong>GLM 5.3 Flash</strong> token output streams.
+							<strong>GLM 5.3 Flash</strong>.
+							The pipeline does not read which one wrote the stream.
 						</p>
 					</Concept>
 					<Concept
@@ -144,9 +158,9 @@ const Coverage = ["DASH", "QUOTES", "ELLIPSIS", "SPACES", "INVISIBLE", "FULLWIDT
 		<!-- Notation -->
 		<section class="section">
 			<div class="notation">
-				<p>DSH Family @ PlayForm: the complete deterministic stream governor matrix.</p>
+				<p>DSH Family @ PlayForm: the deterministic stream governor matrix.</p>
 				<p>the hook-dsh-* hooks: in-stream normalizers with no second pass over the transcript.</p>
-				<p>the fifteen packages: pinned and governed by the manifest hooks.</p>
+				<p>the {Counts.Packages} packages: pinned and governed by the manifest hooks.</p>
 			</div>
 		</section>
 	</main>
