@@ -2,8 +2,8 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: var(--space-2);
-	padding: var(--space-8);
+	gap: var(--rhythm-tight);
+	padding: var(--space-12);
 	border: 1px dashed var(--cabinet-line);
 	border-radius: var(--radius-sm);
 	background: var(--cabinet-inset);

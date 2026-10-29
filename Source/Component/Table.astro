@@ -1,13 +1,20 @@
 ---
 import "@Stylesheet/Component/Table.scss";
 
+// A cell is text, or a link when the row names something the reader can open.
+type Cell = string | { Text: string; Href: string };
+
 interface Props {
 	Head: string[];
-	Row: string[][];
+	Row: Cell[][];
 	Caption?: string;
 }
 
 const { Head, Row, Caption } = Astro.props;
+
+function IsLink(Cell: Cell): Cell is { Text: string; Href: string } {
+	return typeof Cell !== "string";
+}
 ---
 
 <div class="table">
@@ -23,7 +30,15 @@ const { Head, Row, Caption } = Astro.props;
 				Row.map((Cells) => (
 					<tr>
 						{Cells.map((Cell, Index) => (
-							<td>{Index === 0 ? <strong>{Cell}</strong> : Cell}</td>
+							<td>
+								{IsLink(Cell) ? (
+									<a href={Cell.Href}>{Cell.Text}</a>
+								) : Index === 0 ? (
+									<strong>{Cell}</strong>
+								) : (
+									Cell
+								)}
+							</td>
 						))}
 					</tr>
 				))

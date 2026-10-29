@@ -3,39 +3,87 @@ import Base from "@Layout/Base.astro";
 
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
 
 import { Count, SelectKind } from "@Library/Package.server";
-import { ListenFor } from "@Library/Surface.server";
+import { SurfaceFor } from "@Library/Surface.server";
 
-const Hook = SelectKind("hook");
-const Row = Hook.map((Entry) => [
-	Entry.Slug,
-	ListenFor(Entry.Slug),
-	Entry.Family,
-	Entry.Version,
-	String(Entry.Tests),
-]);
+// A conversation reaches the seams in this order. Anything the family listens
+// on outside this list is appended, so a new seam still appears.
+const Order = [
+	"agent/pre-step",
+	"llm/stream",
+	"tools/pre-execute",
+	"tools/post-execute",
+	"agent/status",
+	"fs/observed",
+];
+
+interface Listener {
+	Slug: string;
+	Href: string;
+	What: string;
+}
+
+const Group = new Map<string, Listener[]>();
+
+for (const Entry of SelectKind("hook")) {
+	for (const Surface of SurfaceFor(Entry.Slug)) {
+		if (!/listen/i.test(Surface.Kind) || Surface.Name === "") {
+			continue;
+		}
+
+		const List = Group.get(Surface.Name) ?? [];
+
+		List.push({ Slug: Entry.Slug, Href: Entry.Href, What: Surface.What });
+		Group.set(Surface.Name, List);
+	}
+}
+
+const Seam = [...Group.keys()].sort((Left, Right) => {
+	const LeftIndex = Order.indexOf(Left);
+	const RightIndex = Order.indexOf(Right);
+
+	return (LeftIndex < 0 ? Order.length : LeftIndex) - (RightIndex < 0 ? Order.length : RightIndex) ||
+		Left.localeCompare(Right);
+});
 ---
 
 <Base
 	Title="Hook"
-	Description={`All ${Count.Hook} hooks. Each one listens on a harness event and changes what happens next.`}
+	Description={`All ${Count.Hook} hooks, grouped by the seam each one listens on, in the order a conversation reaches them.`}
 >
 	<PageHero
 		Eyebrow="Behavior"
 		Title="Hook"
-		Lede={`${Count.Hook} total. Each one listens on a harness event and changes what happens next.`}
+		Lede={`${Count.Hook} hooks on ${Seam.length} seams, in the order a conversation reaches them.`}
 	/>
 
-	<section class="section">
-		<SectionHeader Title="Package" />
-		<div class="section__body">
-			<Table
-				Caption="Every hook, the seam it listens on, its release, its version, and its test count"
-				Head={["Package", "Listen", "Release", "Version", "Test"]}
-				Row={Row}
-			/>
-		</div>
-	</section>
+	<StatBand
+		Stat={[
+			{ Label: "Hook", Value: Count.Hook, Note: "Two releases" },
+			{ Label: "Seam", Value: Seam.length, Note: "Distinct events" },
+			{ Label: "Classic", Value: Count.Classic / 2 },
+			{ Label: "Effect-TS", Value: Count.EffectTS / 2 },
+		]}
+	/>
+
+	{
+		Seam.map((Name) => (
+			<section class="section">
+				<SectionHeader Title={Name} Lede={`${Group.get(Name)?.length ?? 0} hooks`} />
+				<div class="section__body">
+					<Table
+						Caption={`The hooks that listen on ${Name}`}
+						Head={["Package", "What it does there"]}
+						Row={(Group.get(Name) ?? []).map((Item) => [
+							{ Text: Item.Slug, Href: Item.Href },
+							Item.What,
+						])}
+					/>
+				</div>
+			</section>
+		))
+	}
 </Base>

@@ -13,7 +13,7 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: var(--space-3);
-		padding: var(--space-2) var(--space-3);
+		padding: var(--space-3) var(--space-4);
 		border-bottom: 1px solid var(--cabinet-line);
 		background: var(--cabinet-inset);
 	}
@@ -30,7 +30,7 @@
 
 	&__body {
 		margin: 0;
-		padding: var(--space-3);
+		padding: var(--space-4);
 		overflow-x: auto;
 		font-size: var(--text-xs);
 		line-height: 1.7;

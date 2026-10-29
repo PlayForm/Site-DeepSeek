@@ -12,6 +12,7 @@ import Table from "@Component/Table.astro";
 import VersionPill from "@Component/VersionPill.astro";
 
 import { Route } from "@Library/Links";
+import Catalogue from "@Library/Graph/Catalogue.server";
 import { Package, type PackageRecord } from "@Library/Package.server";
 import { SurfaceFor } from "@Library/Surface.server";
 
@@ -30,6 +31,12 @@ const { Entry } = Astro.props;
 const Index = Package.findIndex((Candidate) => Candidate.Slug === Entry.Slug);
 const Previous = Index > 0 ? Package[Index - 1] : undefined;
 const Next = Index >= 0 && Index < Package.length - 1 ? Package[Index + 1] : undefined;
+
+// The graph's edges point from a dependency to the consumer, so the packages
+// that require this one are the edges that leave it.
+const RequiredBy = Catalogue.Edge.filter((Link) => Link.Source === Entry.Slug)
+	.map((Link) => Package.find((Item) => Item.Slug === Link.Target))
+	.filter((Item) => Item !== undefined);
 ---
 
 <Base Title={Entry.Slug} Description={Entry.Summary}>
@@ -104,6 +111,25 @@ const Next = Index >= 0 && Index < Package.length - 1 ? Package[Index + 1] : und
 							Dependency.startsWith("@playform/") ? "family" : "external",
 						])}
 					/>
+				</div>
+			</section>
+		)
+	}
+
+	{
+		RequiredBy.length > 0 && (
+			<section class="section">
+				<SectionHeader Title="Required by" />
+				<div class="section__body">
+					<ul class="cluster">
+						{RequiredBy.map((Item) => (
+							<li>
+								<a class="mono" href={Item!.Href}>
+									{Item!.Slug}
+								</a>
+							</li>
+						))}
+					</ul>
 				</div>
 			</section>
 		)

@@ -17,7 +17,7 @@
 		flex-wrap: wrap;
 		align-items: center;
 		gap: var(--space-4);
-		padding: var(--space-2) var(--space-3);
+		padding: var(--space-3) var(--space-4);
 		border-bottom: 1px solid var(--cabinet-line);
 		background: var(--cabinet-inset);
 	}
@@ -128,12 +128,12 @@
 		width: 8px;
 		height: 8px;
 		border: 1px solid var(--cabinet-line);
-		border-radius: 50%;
+		border-radius: 0;
 	}
 
 	&__inspector {
 		overflow-y: auto;
-		padding: var(--space-3);
+		padding: var(--space-4);
 		border-left: 1px solid var(--cabinet-line);
 		background: var(--cabinet-inset);
 	}
