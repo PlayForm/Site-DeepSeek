@@ -1,0 +1,50 @@
+---
+import "@Stylesheet/Component/Trajectory.scss";
+
+import Badge from "@Component/Badge.astro";
+
+export interface TrajectoryListener {
+	Slug: string;
+	Href: string;
+	What: string;
+}
+
+export interface TrajectoryStep {
+	Name: string;
+	Lens: string;
+	Listener: TrajectoryListener[];
+}
+
+interface Props {
+	Step: TrajectoryStep[];
+}
+
+const { Step } = Astro.props;
+---
+
+<ol class="trajectory">
+	{
+		Step.map((Entry, Index) => (
+			<li class="trajectory__step">
+				<span class="trajectory__index">{String(Index + 1).padStart(2, "0")}</span>
+				<div class="trajectory__body">
+					<header class="trajectory__head">
+						<h3 class="trajectory__name">{Entry.Name}</h3>
+						<Badge Label={Entry.Lens} Tone="accent" />
+						<span class="trajectory__count">{Entry.Listener.length} hooks</span>
+					</header>
+					<ul class="trajectory__list">
+						{Entry.Listener.map((Item) => (
+							<li class="trajectory__listener">
+								<a class="trajectory__slug" href={Item.Href}>
+									{Item.Slug}
+								</a>
+								<span class="trajectory__what">{Item.What}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			</li>
+		))
+	}
+</ol>

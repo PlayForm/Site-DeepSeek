@@ -174,4 +174,25 @@ export function ListenFor(Slug: string): string {
 	return Entry?.Name ?? "";
 }
 
+// A listener name is prose: `tools/post-execute (prepend)`, `agent/pre-step +
+// tools/post-execute`, `agent/pre-step (with contextEngine)`. The seam is the
+// `area/event` token inside it, and a compound name carries more than one.
+const Seam = /[a-z][a-z-]*\/[a-z][a-z-]*/g;
+
+export function SeamFor(Slug: string): string[] {
+	const Found = new Set<string>();
+
+	for (const Item of SurfaceFor(Slug)) {
+		if (!/listen/i.test(Item.Kind)) {
+			continue;
+		}
+
+		for (const Match of Item.Name.match(Seam) ?? []) {
+			Found.add(Match);
+		}
+	}
+
+	return [...Found];
+}
+
 export default Surface;

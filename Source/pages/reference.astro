@@ -8,7 +8,7 @@ import Table from "@Component/Table.astro";
 import { Count, Package } from "@Library/Package.server";
 
 const Row = Package.map((Entry) => [
-	Entry.Slug,
+	{ Text: Entry.Slug, Href: Entry.Href },
 	Entry.Kind,
 	Entry.Family,
 	Entry.Version,

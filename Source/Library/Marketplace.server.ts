@@ -9,6 +9,7 @@ import { Root } from "./Package.server";
 
 export interface Bundle {
 	Name: string;
+	Slug: string;
 	Title: string;
 	Summary: string;
 }
@@ -60,6 +61,7 @@ function Load(): Marketplace {
 			.filter((Entry) => Entry.metadata?.category === Id)
 			.map((Entry) => ({
 				Name: Entry.name ?? "",
+				Slug: (Entry.name ?? "").split("/").pop() ?? "",
 				Title: Entry.title?.en ?? Entry.name ?? "",
 				Summary: Summarize(Entry.description?.en ?? ""),
 			}))

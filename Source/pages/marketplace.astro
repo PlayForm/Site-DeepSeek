@@ -39,7 +39,11 @@ const Bundle = Marketplace.Group.reduce((Total, Entry) => Total + Entry.Bundle.l
 					<Table
 						Caption={`The ${Group.Label} bundles`}
 						Head={["Bundle", "Package", "What"]}
-						Row={Group.Bundle.map((Entry) => [Entry.Title, Entry.Name, Entry.Summary])}
+						Row={Group.Bundle.map((Entry) => [
+							Entry.Title,
+							{ Text: Entry.Name, Href: PackageHref(Entry.Slug) },
+							Entry.Summary,
+						])}
 					/>
 				</div>
 			</section>

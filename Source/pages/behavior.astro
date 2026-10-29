@@ -4,40 +4,57 @@ import Base from "@Layout/Base.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
-import Table from "@Component/Table.astro";
+import Trajectory, { type TrajectoryStep } from "@Component/Trajectory.astro";
 
 import { Count, SelectKind } from "@Library/Package.server";
-import { SurfaceFor } from "@Library/Surface.server";
+import { SeamFor, SurfaceFor } from "@Library/Surface.server";
 
 // A conversation reaches the seams in this order. Anything the family listens
 // on outside this list is appended, so a new seam still appears.
 const Order = [
 	"agent/pre-step",
+	"system-prompt/assemble",
 	"llm/stream",
 	"tools/pre-execute",
+	"tools/change",
 	"tools/post-execute",
-	"agent/status",
+	"batch/proposed",
 	"fs/observed",
+	"agent/status",
 ];
 
-interface Listener {
-	Slug: string;
-	Href: string;
-	What: string;
+// The lens says what the seam sees: the text the model produced, the prompt
+// the model reads, the tool call and its result, the file on disk, the batch,
+// or the run's own state.
+function LensOf(Seam: string): string {
+	switch (true) {
+		case Seam.startsWith("llm/"):
+			return "Text";
+		case Seam.startsWith("agent/pre-step") || Seam.startsWith("system-prompt/"):
+			return "Prompt";
+		case Seam.startsWith("tools/"):
+			return "Tool";
+		case Seam.startsWith("fs/"):
+			return "File";
+		case Seam.startsWith("batch/"):
+			return "Batch";
+		default:
+			return "State";
+	}
 }
 
-const Group = new Map<string, Listener[]>();
+const Group = new Map<string, TrajectoryStep["Listener"]>();
 
 for (const Entry of SelectKind("hook")) {
-	for (const Surface of SurfaceFor(Entry.Slug)) {
-		if (!/listen/i.test(Surface.Kind) || Surface.Name === "") {
-			continue;
-		}
+	const Surface = SurfaceFor(Entry.Slug);
 
-		const List = Group.get(Surface.Name) ?? [];
+	for (const Seam of SeamFor(Entry.Slug)) {
+		const What =
+			Surface.find((Item) => /listen/i.test(Item.Kind) && Item.Name.includes(Seam))?.What ?? "";
+		const List = Group.get(Seam) ?? [];
 
-		List.push({ Slug: Entry.Slug, Href: Entry.Href, What: Surface.What });
-		Group.set(Surface.Name, List);
+		List.push({ Slug: Entry.Slug, Href: Entry.Href, What });
+		Group.set(Seam, List);
 	}
 }
 
@@ -45,45 +62,45 @@ const Seam = [...Group.keys()].sort((Left, Right) => {
 	const LeftIndex = Order.indexOf(Left);
 	const RightIndex = Order.indexOf(Right);
 
-	return (LeftIndex < 0 ? Order.length : LeftIndex) - (RightIndex < 0 ? Order.length : RightIndex) ||
-		Left.localeCompare(Right);
+	return (
+		(LeftIndex < 0 ? Order.length : LeftIndex) - (RightIndex < 0 ? Order.length : RightIndex) ||
+		Left.localeCompare(Right)
+	);
 });
+
+const Step: TrajectoryStep[] = Seam.map((Name) => ({
+	Name,
+	Lens: LensOf(Name),
+	Listener: Group.get(Name) ?? [],
+}));
 ---
 
 <Base
 	Title="Hook"
-	Description={`All ${Count.Hook} hooks, grouped by the seam each one listens on, in the order a conversation reaches them.`}
+	Description={`All ${Count.Hook} hooks on ${Step.length} seams, in the order a conversation reaches them.`}
 >
 	<PageHero
 		Eyebrow="Behavior"
 		Title="Hook"
-		Lede={`${Count.Hook} hooks on ${Seam.length} seams, in the order a conversation reaches them.`}
+		Lede={`${Count.Hook} hooks on ${Step.length} seams, in the order a conversation reaches them.`}
 	/>
 
 	<StatBand
 		Stat={[
 			{ Label: "Hook", Value: Count.Hook, Note: "Two releases" },
-			{ Label: "Seam", Value: Seam.length, Note: "Distinct events" },
+			{ Label: "Seam", Value: Step.length, Note: "Distinct events" },
 			{ Label: "Classic", Value: Count.Classic / 2 },
 			{ Label: "Effect-TS", Value: Count.EffectTS / 2 },
 		]}
 	/>
 
-	{
-		Seam.map((Name) => (
-			<section class="section">
-				<SectionHeader Title={Name} Lede={`${Group.get(Name)?.length ?? 0} hooks`} />
-				<div class="section__body">
-					<Table
-						Caption={`The hooks that listen on ${Name}`}
-						Head={["Package", "What it does there"]}
-						Row={(Group.get(Name) ?? []).map((Item) => [
-							{ Text: Item.Slug, Href: Item.Href },
-							Item.What,
-						])}
-					/>
-				</div>
-			</section>
-		))
-	}
+	<section class="section">
+		<SectionHeader
+			Title="Trajectory"
+			Lede="One turn, seam by seam. The lens names what the hooks at that seam see and change."
+		/>
+		<div class="section__body">
+			<Trajectory Step={Step} />
+		</div>
+	</section>
 </Base>

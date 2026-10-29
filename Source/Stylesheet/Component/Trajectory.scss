@@ -1,0 +1,92 @@
+@use "../Material.scss" as Material;
+
+// The rail a conversation travels: one numbered step per seam, in the order
+// the harness reaches them, with the hooks that act at each step.
+.trajectory {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	&__step {
+		display: grid;
+		grid-template-columns: 48px minmax(0, 1fr);
+		gap: var(--rhythm-group);
+		padding-block: var(--rhythm-inset);
+		border-top: 1px solid var(--color-line);
+
+		&:first-child {
+			border-top: 0;
+			padding-top: 0;
+		}
+	}
+
+	&__index {
+		@include Material.label;
+
+		padding-top: 2px;
+		color: var(--color-accent);
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--rhythm-tight);
+		min-width: 0;
+	}
+
+	&__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-3);
+	}
+
+	&__name {
+		font-family: var(--font-mono);
+		font-size: var(--text-base);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+	}
+
+	&__count {
+		@include Material.label;
+
+		margin-left: auto;
+	}
+
+	&__list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		gap: var(--space-2) var(--rhythm-group);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__listener {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding-left: var(--space-3);
+		border-left: 1px solid var(--color-line);
+	}
+
+	&__slug {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+		text-decoration: none;
+
+		&:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	&__what {
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+}

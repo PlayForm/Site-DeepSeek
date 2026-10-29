@@ -32,6 +32,17 @@ const Index = Package.findIndex((Candidate) => Candidate.Slug === Entry.Slug);
 const Previous = Index > 0 ? Package[Index - 1] : undefined;
 const Next = Index >= 0 && Index < Package.length - 1 ? Package[Index + 1] : undefined;
 
+// A dependency that is itself a package in the family links to its page; an
+// external one stays plain text.
+const Depend = Entry.Dependencies.map((Dependency) => {
+	const Found = Package.find((Item) => Item.Name === Dependency);
+
+	return [
+		Found ? { Text: Dependency, Href: Found.Href } : Dependency,
+		Dependency.startsWith("@playform/") ? "family" : "external",
+	];
+});
+
 // The graph's edges point from a dependency to the consumer, so the packages
 // that require this one are the edges that leave it.
 const RequiredBy = Catalogue.Edge.filter((Link) => Link.Source === Entry.Slug)
@@ -106,10 +117,7 @@ const RequiredBy = Catalogue.Edge.filter((Link) => Link.Source === Entry.Slug)
 					<Table
 						Caption={`Dependencies of ${Entry.Slug}`}
 						Head={["Package", "Role"]}
-						Row={Entry.Dependencies.map((Dependency) => [
-							Dependency,
-							Dependency.startsWith("@playform/") ? "family" : "external",
-						])}
+						Row={Depend}
 					/>
 				</div>
 			</section>
