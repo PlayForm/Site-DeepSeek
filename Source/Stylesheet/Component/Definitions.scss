@@ -1,0 +1,34 @@
+.definitions {
+	margin: 0;
+	border-top: var(--hairline);
+
+	&__row {
+		display: grid;
+		grid-template-columns: minmax(140px, 220px) 1fr;
+		gap: var(--space-4);
+		padding: var(--space-3) 0;
+		border-bottom: var(--hairline);
+	}
+
+	&__term {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-ink-faint);
+	}
+
+	&__detail {
+		margin: 0;
+		font-size: var(--text-sm);
+		overflow-wrap: anywhere;
+	}
+
+	@media (max-width: 640px) {
+		&__row {
+			grid-template-columns: 1fr;
+			gap: var(--space-1);
+		}
+	}
+}

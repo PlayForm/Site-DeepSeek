@@ -1,0 +1,20 @@
+---
+import "@Stylesheet/Component/Card.scss";
+
+interface Props {
+	Title: string;
+	Href?: string;
+	Meta?: string;
+}
+
+const { Title, Href, Meta } = Astro.props;
+const Tag = Href ? "a" : "div";
+---
+
+<Tag class="card" href={Href}>
+	<span class="card__head">
+		<span class="card__title">{Title}</span>
+		{Meta && <span class="card__meta">{Meta}</span>}
+	</span>
+	<span class="card__body"><slot /></span>
+</Tag>

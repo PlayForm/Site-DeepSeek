@@ -1,0 +1,90 @@
+---
+import Base from "@Layout/Base.astro";
+
+import Card from "@Component/Card.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import StatsBand from "@Component/StatsBand.astro";
+import Table from "@Component/Table.astro";
+
+import { Content } from "@Library/Content";
+import { Routes } from "@Library/Links";
+import { Counts, Packages } from "@Library/Packages.server";
+
+const Factory = Packages.find((Package) => Package.Slug === "plugin-dsh-factory");
+const Core = Packages.find((Package) => Package.Slug === "lib-dsh-core");
+const Patch = Packages.filter((Package) => Package.Patch).length;
+---
+
+<Base
+	Title="Install"
+	Description="Install a package from the family, then load its bundle patch."
+>
+	<PageHero
+		Eyebrow="Setup"
+		Title="Install"
+		Lede="Install a package, then point the host at the bundle patch it ships."
+	/>
+
+	<StatsBand
+		Stats={[
+			{ Label: "Packages", Value: Counts.All },
+			{ Label: "Bundle patches", Value: Patch },
+			{ Label: "Licence", Value: Content.Licence },
+		]}
+	/>
+
+	<section class="section">
+		<SectionHeader
+			Title="The factory"
+			Lede="Every hook and plugin depends on the factory, so it goes first."
+		/>
+		<div class="section__body">
+			<CodeBlock
+				Label="Install the factory"
+				Language="sh"
+				Code={`pnpm add ${Factory?.Name ?? "@playform/plugin-dsh-factory"}`}
+			/>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="The bundle patch"
+			Lede="The dsh field names the patch the host applies. Nothing else in the manifest is a load instruction."
+		/>
+		<div class="section__body">
+			<Table
+				Caption="The manifest fields the host reads"
+				Head={["Field", "Value"]}
+				Rows={[
+					["name", Factory?.Name ?? "unavailable"],
+					["version", Factory?.Version ?? "unavailable"],
+					["main", "./Target/Library.js"],
+					["dsh.bundle.patch", "./cordis.patch.yml"],
+				]}
+			/>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="Start with the factory and the core" />
+		<div class="section__body grid">
+			<Card
+				Title={Factory?.Slug ?? "plugin-dsh-factory"}
+				Href={Factory?.Href ?? Routes.Packages}
+				Meta={Factory?.Version}
+			>
+				Builds the plugin: configuration, tools, and the seams it registers on.
+			</Card>
+			<Card
+				Title={Core?.Slug ?? "lib-dsh-core"}
+				Href={Core?.Href ?? Routes.Packages}
+				Meta={Core?.Version}
+			>
+				The shared classes the hooks reuse.
+			</Card>
+		</div>
+	</section>
+</Base>

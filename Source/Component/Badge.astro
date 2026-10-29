@@ -1,0 +1,12 @@
+---
+import "@Stylesheet/Component/Badge.scss";
+
+interface Props {
+	Label: string;
+	Tone?: "neutral" | "accent" | "quiet";
+}
+
+const { Label, Tone = "neutral" } = Astro.props;
+---
+
+<span class:list={["badge", `badge--${Tone}`]}>{Label}</span>

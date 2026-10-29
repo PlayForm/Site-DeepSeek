@@ -1,0 +1,16 @@
+---
+import "@Stylesheet/Component/SectionHeader.scss";
+
+interface Props {
+	Title: string;
+	Lede?: string;
+	Id?: string;
+}
+
+const { Title, Lede, Id } = Astro.props;
+---
+
+<header class="section-header" id={Id}>
+	<h2>{Title}</h2>
+	{Lede && <p class="section-header__lede">{Lede}</p>}
+</header>

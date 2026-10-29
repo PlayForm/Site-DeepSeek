@@ -1,0 +1,63 @@
+---
+import Base from "@Layout/Base.astro";
+
+import Breadcrumb from "@Component/Breadcrumb.astro";
+import Pager from "@Component/Pager.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Table from "@Component/Table.astro";
+import Preview from "@Library/Preview.astro";
+
+import { Components } from "@Library/Components";
+import { ComponentHref, Routes } from "@Library/Links";
+
+export function getStaticPaths() {
+	return Components.map((Component) => ({
+		params: { slug: Component.Slug },
+		props: { Component },
+	}));
+}
+
+interface Props {
+	Component: (typeof Components)[number];
+}
+
+const { Component } = Astro.props;
+const Index = Components.findIndex((Entry) => Entry.Slug === Component.Slug);
+const Previous = Index > 0 ? Components[Index - 1] : undefined;
+const Next = Index >= 0 && Index < Components.length - 1 ? Components[Index + 1] : undefined;
+---
+
+<Base Title={Component.Name} Description={Component.Summary}>
+	<Breadcrumb
+		Trail={[
+			{ Href: Routes.Library, Label: "Components" },
+			{ Href: ComponentHref(Component.Slug), Label: Component.Name },
+		]}
+	/>
+
+	<PageHero Eyebrow="Component" Title={Component.Name} Lede={Component.Summary} />
+
+	<section class="section">
+		<SectionHeader Title="Demo" />
+		<div class="section__body">
+			<Preview Slug={Component.Slug} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="Properties" />
+		<div class="section__body">
+			<Table
+				Caption={`Properties of ${Component.Name}`}
+				Head={["Property", "Type", "Meaning"]}
+				Rows={Component.Props}
+			/>
+		</div>
+	</section>
+
+	<Pager
+		Previous={Previous ? { Href: ComponentHref(Previous.Slug), Label: Previous.Name } : undefined}
+		Next={Next ? { Href: ComponentHref(Next.Slug), Label: Next.Name } : undefined}
+	/>
+</Base>

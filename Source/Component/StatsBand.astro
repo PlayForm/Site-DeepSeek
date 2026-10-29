@@ -1,0 +1,27 @@
+---
+import "@Stylesheet/Component/StatsBand.scss";
+
+interface Stat {
+	Label: string;
+	Value: string | number;
+	Note?: string;
+}
+
+interface Props {
+	Stats: Stat[];
+}
+
+const { Stats } = Astro.props;
+---
+
+<dl class="stats-band">
+	{
+		Stats.map((Entry) => (
+			<div class="stats-band__item">
+				<dt class="stats-band__label">{Entry.Label}</dt>
+				<dd class="stats-band__value">{Entry.Value}</dd>
+				{Entry.Note && <dd class="stats-band__note">{Entry.Note}</dd>}
+			</div>
+		))
+	}
+</dl>

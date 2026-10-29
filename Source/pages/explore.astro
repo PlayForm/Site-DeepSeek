@@ -1,0 +1,35 @@
+---
+import Base from "@Layout/Base.astro";
+
+import Callout from "@Component/Callout.astro";
+import EmptyState from "@Component/EmptyState.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+
+import { Routes } from "@Library/Links";
+---
+
+<Base
+	Title="Graph"
+	Description="The packages and their seams, drawn in the browser. Not mounted yet."
+>
+	<PageHero
+		Eyebrow="Observatory"
+		Title="Graph"
+		Lede="The packages and their seams, drawn in the browser. Not mounted yet."
+	/>
+
+	<section class="section">
+		<SectionHeader Title="No graph yet" />
+		<div class="section__body stack">
+			<EmptyState
+				Title="Nothing drawn"
+				Note="The explorer arrives with the design pass, as a Solid island."
+			/>
+			<Callout Title="What it will show">
+				Packages, the seams they listen on, and the tools they add. Until then,
+				<a href={Routes.Reference}>Reference</a> lists every package.
+			</Callout>
+		</div>
+	</section>
+</Base>

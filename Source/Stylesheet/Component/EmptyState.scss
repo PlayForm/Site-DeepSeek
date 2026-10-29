@@ -1,0 +1,29 @@
+.empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--space-2);
+	padding: var(--space-8);
+	border: 1px dashed var(--color-line-strong);
+	border-radius: var(--radius-md);
+	background: var(--color-surface-sunken);
+
+	&__title {
+		font-size: var(--text-base);
+		font-weight: 600;
+	}
+
+	&__note {
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	&__body:empty {
+		display: none;
+	}
+
+	&__body {
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+}

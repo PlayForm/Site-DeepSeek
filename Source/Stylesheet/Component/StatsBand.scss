@@ -1,0 +1,38 @@
+.stats-band {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	margin: 0;
+	border-top: var(--hairline);
+	border-left: var(--hairline);
+
+	&__item {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		padding: var(--space-4);
+		border-right: var(--hairline);
+		border-bottom: var(--hairline);
+	}
+
+	&__label {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-ink-faint);
+	}
+
+	&__value {
+		margin: 0;
+		font-size: var(--text-2xl);
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: -0.02em;
+	}
+
+	&__note {
+		margin: 0;
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+	}
+}

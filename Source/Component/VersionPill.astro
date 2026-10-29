@@ -1,0 +1,15 @@
+---
+import "@Stylesheet/Component/VersionPill.scss";
+
+interface Props {
+	Version: string;
+	Private?: boolean;
+}
+
+const { Version, Private = false } = Astro.props;
+---
+
+<span class="version-pill">
+	<span class="version-pill__number">{Version}</span>
+	{Private && <span class="version-pill__state">private</span>}
+</span>

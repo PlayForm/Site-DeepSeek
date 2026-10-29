@@ -1,0 +1,26 @@
+---
+import Base from "@Layout/Base.astro";
+
+import EmptyState from "@Component/EmptyState.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+
+import { Routes } from "@Library/Links";
+---
+
+<Base Title="Timeline" Description="The releases in order. Not drawn yet.">
+	<PageHero
+		Eyebrow="Timeline"
+		Title="Releases"
+		Lede="Every package along one time axis. Not drawn yet."
+	/>
+
+	<section class="section">
+		<SectionHeader Title="No timeline yet" />
+		<div class="section__body">
+			<EmptyState Title="Nothing drawn" Note="The axis needs the changelog dates.">
+				Current versions are on <a href={Routes.Reference}>Reference</a>.
+			</EmptyState>
+		</div>
+	</section>
+</Base>

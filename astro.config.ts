@@ -61,6 +61,7 @@ export default defineConfig({
 			? (await import("astrojs-service-worker")).default()
 			: null,
 		(await import("@astrojs/sitemap")).default(),
+		(await import("@astrojs/solid-js")).default(),
 		(await import("@playform/inline")).default({ Logger: 1 }),
 		(await import("@playform/compress")).default({ Logger: 1 }),
 	],

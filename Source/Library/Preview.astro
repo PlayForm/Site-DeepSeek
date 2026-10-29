@@ -1,0 +1,165 @@
+---
+import "@Stylesheet/Component/Preview.scss";
+
+import Badge from "@Component/Badge.astro";
+import Breadcrumb from "@Component/Breadcrumb.astro";
+import Callout from "@Component/Callout.astro";
+import Card from "@Component/Card.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
+import Definitions from "@Component/Definitions.astro";
+import EmptyState from "@Component/EmptyState.astro";
+import PackageCard from "@Component/PackageCard.astro";
+import PageHero from "@Component/PageHero.astro";
+import Pager from "@Component/Pager.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import StatsBand from "@Component/StatsBand.astro";
+import Table from "@Component/Table.astro";
+import Terminal from "@Component/Terminal.astro";
+import VersionPill from "@Component/VersionPill.astro";
+
+import { Packages } from "@Library/Packages.server";
+
+interface Props {
+	Slug: string;
+}
+
+// The library route mounts the live component beside its contract, so a
+// component and its documented properties cannot drift apart.
+const { Slug } = Astro.props;
+const Package = Packages[0];
+---
+
+<div class="preview">
+	{Slug === "badge" && (
+		<div class="cluster">
+			<Badge Label="Hook" Tone="accent" />
+			<Badge Label="Classic" />
+			<Badge Label="Draft" Tone="quiet" />
+		</div>
+	)}
+
+	{Slug === "version-pill" && (
+		<div class="cluster">
+			<VersionPill Version="0.2.1" />
+			<VersionPill Version="0.0.0" Private />
+		</div>
+	)}
+
+	{Slug === "breadcrumb" && (
+		<Breadcrumb
+			Trail={[
+				{ Href: "/plugins/", Label: "Packages" },
+				{ Href: "/plugins/hook-dsh-normalize-dash/", Label: "hook-dsh-normalize-dash" },
+			]}
+		/>
+	)}
+
+	{Slug === "definitions" && (
+		<Definitions
+			Definitions={[
+				{ Term: "Version", Detail: "0.2.1, read from the package manifest" },
+				{ Term: "Kind", Detail: "hook" },
+				{ Term: "Licence", Detail: "CC0-1.0" },
+			]}
+		/>
+	)}
+
+	{Slug === "table" && (
+		<Table
+			Caption="Three packages and their versions"
+			Head={["Package", "Kind", "Version"]}
+			Rows={[
+				["hook-dsh-normalize-dash", "hook", "0.2.1"],
+				["plugin-dsh-factory", "plugin", "0.2.1"],
+				["lib-dsh-core", "lib", "0.2.1"],
+			]}
+		/>
+	)}
+
+	{Slug === "card" && (
+		<div class="grid">
+			<Card Title="Classic release" Href="/plugins/" Meta="59 packages">
+				The TypeScript release of the family, built on the factory and the core library.
+			</Card>
+			<Card Title="Effect-TS release" Href="/plugins/" Meta="60 packages">
+				The same contracts expressed through Effect, package for package.
+			</Card>
+		</div>
+	)}
+
+	{Slug === "package-card" && Package && (
+		<div class="grid">
+			<PackageCard Package={Package} />
+		</div>
+	)}
+
+	{Slug === "page-hero" && (
+		<PageHero
+			Level={2}
+			Eyebrow="Reference"
+			Title="Every package, its version, and its source"
+			Lede="The reference table reads the two package trees at build time, so a new package appears here on the next build."
+		/>
+	)}
+
+	{Slug === "section-header" && (
+		<SectionHeader
+			Title="The catalogue reads the tree"
+			Lede="Each row is one package directory with a manifest, not a copy of a list."
+		/>
+	)}
+
+	{Slug === "stats-band" && (
+		<StatsBand
+			Stats={[
+				{ Label: "Packages", Value: 119 },
+				{ Label: "Hooks", Value: 60 },
+				{ Label: "Smoke suites", Value: 595 },
+				{ Label: "Releases", Value: 2 },
+			]}
+		/>
+	)}
+
+	{Slug === "callout" && (
+		<div class="stack">
+			<Callout Title="Read from the tree">
+				A version on this site is the version in the manifest at build time.
+			</Callout>
+			<Callout Title="Prototype" Tone="warn">
+				This route carries structure and real package facts; its prose is still being written.
+			</Callout>
+		</div>
+	)}
+
+	{Slug === "code-block" && (
+		<CodeBlock
+			Label="Install the dash normalizer"
+			Language="sh"
+			Code={"pnpm add @playform/hook-dsh-normalize-dash"}
+		/>
+	)}
+
+	{Slug === "terminal" && (
+		<Terminal
+			Label="Build"
+			Lines={[
+				{ Command: "pnpm --dir Site prepublishOnly" },
+				{ Output: "119 package pages built\n4 routes generated" },
+			]}
+		/>
+	)}
+
+	{Slug === "empty-state" && (
+		<EmptyState
+			Title="No stories are recorded yet"
+			Note="The showcase reads its records from the site's own content, not from the packages."
+		/>
+	)}
+
+	{Slug === "pager" && (
+		<Pager
+			Previous={{ Href: "/plugins/", Label: "Packages" }}
+			Next={{ Href: "/setup/", Label: "Setup" }}
+		/>
+	)}
+</div>

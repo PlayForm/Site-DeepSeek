@@ -1,0 +1,38 @@
+---
+import "@Stylesheet/Component/Pager.scss";
+
+interface Step {
+	Href: string;
+	Label: string;
+}
+
+interface Props {
+	Previous?: Step;
+	Next?: Step;
+}
+
+const { Previous, Next } = Astro.props;
+---
+
+{
+	(Previous || Next) && (
+		<nav class="pager" aria-label="Sequence">
+			{Previous ? (
+				<a class="pager__step pager__step--previous" href={Previous.Href}>
+					<span class="pager__kicker">Previous</span>
+					<span class="pager__label">{Previous.Label}</span>
+				</a>
+			) : (
+				<span />
+			)}
+			{Next ? (
+				<a class="pager__step pager__step--next" href={Next.Href}>
+					<span class="pager__kicker">Next</span>
+					<span class="pager__label">{Next.Label}</span>
+				</a>
+			) : (
+				<span />
+			)}
+		</nav>
+	)
+}

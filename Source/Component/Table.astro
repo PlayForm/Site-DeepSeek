@@ -1,0 +1,33 @@
+---
+import "@Stylesheet/Component/Table.scss";
+
+interface Props {
+	Head: string[];
+	Rows: string[][];
+	Caption?: string;
+}
+
+const { Head, Rows, Caption } = Astro.props;
+---
+
+<div class="table">
+	<table>
+		{Caption && <caption class="visually-hidden">{Caption}</caption>}
+		<thead>
+			<tr>
+				{Head.map((Heading) => <th scope="col">{Heading}</th>)}
+			</tr>
+		</thead>
+		<tbody>
+			{
+				Rows.map((Row) => (
+					<tr>
+						{Row.map((Cell, Index) => (
+							<td>{Index === 0 ? <strong>{Cell}</strong> : Cell}</td>
+						))}
+					</tr>
+				))
+			}
+		</tbody>
+	</table>
+</div>

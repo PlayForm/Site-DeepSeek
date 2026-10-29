@@ -1,0 +1,154 @@
+// The application shell: the sticky header, the brand, the primary
+// navigation, and the footer sitemap. Every value is a token, so a change to
+// the surface or the ink reaches the shell with no edit here.
+.shell-header {
+	position: sticky;
+	top: 0;
+	z-index: 5;
+	border-bottom: var(--hairline);
+	background: var(--color-surface);
+
+	&__inner {
+		display: flex;
+		align-items: center;
+		gap: var(--space-6);
+		min-height: var(--header-height);
+	}
+}
+
+.shell-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	text-decoration: none;
+
+	&__mark {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 26px;
+		height: 26px;
+		border-radius: var(--radius-sm);
+		background: var(--color-accent);
+		color: var(--color-surface);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+	}
+
+	&__name {
+		font-size: var(--text-sm);
+		font-weight: 600;
+	}
+}
+
+.shell-nav {
+	margin-left: auto;
+
+	ul {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-4);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	a {
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+		text-decoration: none;
+
+		&:hover {
+			color: var(--color-ink);
+		}
+
+		&[aria-current="page"] {
+			color: var(--color-accent);
+		}
+	}
+}
+
+.shell-repository {
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	color: var(--color-ink-faint);
+	text-decoration: none;
+
+	&:hover {
+		color: var(--color-accent);
+	}
+}
+
+.shell-footer {
+	margin-top: var(--space-24);
+	border-top: var(--hairline);
+	background: var(--color-surface-sunken);
+
+	&__inner {
+		display: grid;
+		grid-template-columns: minmax(240px, 1fr) auto;
+		gap: var(--space-8);
+		padding-block: var(--space-8);
+	}
+
+	&__name {
+		font-size: var(--text-sm);
+		font-weight: 600;
+	}
+
+	&__note {
+		max-width: 46ch;
+		margin-top: var(--space-2);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+	}
+
+	&__licence {
+		grid-column: 1 / -1;
+		display: flex;
+		gap: var(--space-4);
+		padding-top: var(--space-4);
+		border-top: var(--hairline);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-faint);
+	}
+}
+
+.shell-sitemap {
+	ul {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(120px, auto));
+		gap: var(--space-1) var(--space-6);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	a {
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+		text-decoration: none;
+
+		&:hover {
+			color: var(--color-accent);
+		}
+	}
+}
+
+@media (max-width: 860px) {
+	.shell-nav {
+		display: none;
+	}
+
+	.shell-repository {
+		margin-left: auto;
+	}
+
+	.shell-footer__inner {
+		grid-template-columns: 1fr;
+	}
+}

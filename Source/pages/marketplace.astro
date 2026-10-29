@@ -1,0 +1,27 @@
+---
+import Base from "@Layout/Base.astro";
+
+import EmptyState from "@Component/EmptyState.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+
+import { Counts } from "@Library/Packages.server";
+---
+
+<Base Title="Marketplace" Description="The family as an installable index. Not wired yet.">
+	<PageHero
+		Eyebrow="Marketplace"
+		Title="Marketplace"
+		Lede="The family as an installable index. Not wired yet."
+	/>
+
+	<section class="section">
+		<SectionHeader Title="No bundles yet" />
+		<div class="section__body">
+			<EmptyState
+				Title="Nothing listed"
+				Note={`The index covers ${Counts.All} packages; this page reads it once its shape is fixed.`}
+			/>
+		</div>
+	</section>
+</Base>

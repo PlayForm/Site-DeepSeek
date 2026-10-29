@@ -1,0 +1,25 @@
+---
+import "@Stylesheet/Component/CodeBlock.scss";
+import "@Stylesheet/Component/CopyButton.scss";
+
+import CopyButton from "@Component/CopyButton.tsx";
+
+interface Props {
+	Code: string;
+	Language?: string;
+	Label?: string;
+}
+
+const { Code, Language, Label } = Astro.props;
+---
+
+<figure class="code-block">
+	<figcaption class="code-block__bar">
+		<span class="code-block__label">{Label ?? Language ?? "code"}</span>
+		<span class="code-block__controls">
+			{Language && Label && <span class="code-block__language">{Language}</span>}
+			<CopyButton Text={Code} client:visible />
+		</span>
+	</figcaption>
+	<pre class="code-block__body"><code>{Code}</code></pre>
+</figure>

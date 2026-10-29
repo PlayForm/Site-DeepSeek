@@ -1,0 +1,38 @@
+---
+import Base from "@Layout/Base.astro";
+
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+
+import { Components } from "@Library/Components";
+import { ComponentHref } from "@Library/Links";
+---
+
+<Base
+	Title="Components"
+	Description="The building blocks of every page, each with a live demo and its properties."
+>
+	<PageHero
+		Eyebrow="Library"
+		Title="Components"
+		Lede={`${Components.length} components. Each one has a page with a live demo and its properties.`}
+	/>
+
+	<section class="section">
+		<SectionHeader Title="The roster" />
+		<div class="section__body grid">
+			{
+				Components.map((Component) => (
+					<Card
+						Title={Component.Name}
+						Href={ComponentHref(Component.Slug)}
+						Meta={`${Component.Props.length} props`}
+					>
+						{Component.Summary}
+					</Card>
+				))
+			}
+		</div>
+	</section>
+</Base>

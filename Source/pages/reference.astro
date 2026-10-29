@@ -1,0 +1,39 @@
+---
+import Base from "@Layout/Base.astro";
+
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Table from "@Component/Table.astro";
+
+import { Counts, Packages } from "@Library/Packages.server";
+
+const Rows = Packages.map((Package) => [
+	Package.Slug,
+	Package.Kind,
+	Package.Family,
+	Package.Version,
+	String(Package.Tests),
+]);
+---
+
+<Base
+	Title="Reference"
+	Description={`All ${Counts.All} packages with their kind, release, version, and test count.`}
+>
+	<PageHero
+		Eyebrow="Reference"
+		Title="All packages"
+		Lede={`${Counts.All} packages with their version and test count.`}
+	/>
+
+	<section class="section">
+		<SectionHeader Title="The table" />
+		<div class="section__body">
+			<Table
+				Caption="Every package, its kind, its release, its version, and its test count"
+				Head={["Package", "Kind", "Release", "Version", "Tests"]}
+				Rows={Rows}
+			/>
+		</div>
+	</section>
+</Base>

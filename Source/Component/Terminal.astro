@@ -1,0 +1,39 @@
+---
+import "@Stylesheet/Component/Terminal.scss";
+
+interface Line {
+	Command?: string;
+	Output?: string;
+}
+
+interface Props {
+	Lines: Line[];
+	Label?: string;
+}
+
+const { Lines, Label = "Terminal" } = Astro.props;
+---
+
+<figure class="terminal">
+	<figcaption class="terminal__bar">
+		<span class="terminal__label">{Label}</span>
+		<span class="terminal__state">read-only</span>
+	</figcaption>
+	<div class="terminal__body">
+		{
+			Lines.map((Line) => (
+				<>
+					{Line.Command && (
+						<p class="terminal__command">
+							<span class="terminal__prompt" aria-hidden="true">
+								$
+							</span>
+							<span>{Line.Command}</span>
+						</p>
+					)}
+					{Line.Output && <pre class="terminal__output">{Line.Output}</pre>}
+				</>
+			))
+		}
+	</div>
+</figure>

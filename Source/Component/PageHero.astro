@@ -1,0 +1,22 @@
+---
+import "@Stylesheet/Component/PageHero.scss";
+
+interface Props {
+	Title: string;
+	Lede?: string;
+	Eyebrow?: string;
+	/** The heading level; a library demo mounts the hero at level 2 so that the
+	 *  library page keeps its own single h1. */
+	Level?: 1 | 2;
+}
+
+const { Title, Lede, Eyebrow, Level = 1 } = Astro.props;
+const Heading = Level === 1 ? "h1" : "h2";
+---
+
+<header class="page-hero">
+	{Eyebrow && <p class="eyebrow">{Eyebrow}</p>}
+	<Heading>{Title}</Heading>
+	{Lede && <p class="lede">{Lede}</p>}
+	<div class="page-hero__actions"><slot name="Actions" /></div>
+</header>

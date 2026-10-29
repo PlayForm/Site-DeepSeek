@@ -1,65 +1,132 @@
 ---
 import "@Stylesheet/Base.css";
+import "@Stylesheet/Layout/Shell.scss";
 
 import { Head } from "astro-capo";
 import { ClientRouter } from "astro:transitions";
 
-// TODO Place your title and description here
-const { Title = "", Description = "" } = Astro.props;
+import { Content } from "@Library/Content";
+import { IsCurrent, Primary, Repository, Routes, Site, Sitemap } from "@Library/Links";
+import { Counts } from "@Library/Packages.server";
 
 interface Props {
 	Title?: string;
 	Description?: string;
 }
+
+const { Title = Content.Title, Description = Content.Description } = Astro.props;
+const Path = Astro.url.pathname;
+const Canonical = new URL(Path, Site).href;
+const Full = Title === Content.Title ? Title : `${Title} - ${Content.Short}`;
+const Year = new Date().getFullYear();
 ---
 
 <!doctype html>
-<html lang="en" class="no-js" dir="ltr">
+<html lang="en" dir="ltr">
 	<Head>
-		<script>
-			document.documentElement.classList.remove("no-js");
-			document.documentElement.classList.add("js");
-		</script>
-
-		<!-- Meta -->
-		<title>{Title}</title>
 		<meta charset="utf-8" />
-
-		<meta name="description" content={Description} />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<!-- TODO Define your color theme in hex here -->
-		<meta name="theme-color" content="" />
+		<title>{Full}</title>
+		<meta name="description" content={Description} />
+		<link rel="canonical" href={Canonical} />
+		<meta name="theme-color" content="#ffffff" />
 		<meta name="format-detection" content="telephone=no" />
 		<meta name="twitter:dnt" content="on" />
 
-		<!-- Links -->
-		<link
-			rel="preconnect"
-			href="https://fonts.googleapis.com"
-			crossorigin
-		/>
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={Content.Short} />
+		<meta property="og:title" content={Full} />
+		<meta property="og:description" content={Description} />
+		<meta property="og:url" content={Canonical} />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			rel="manifest"
-			href="/Manifest.json"
-			crossorigin="use-credentials"
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
 		/>
+		<link rel="manifest" href="/Manifest.json" crossorigin="use-credentials" />
 
 		<style is:global>
 			@import "@Stylesheet/Global.css";
 		</style>
 
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				name: Content.Title,
+				url: Site,
+				description: Content.Description,
+			})}
+		/>
+
 		<slot name="Head" />
 
-		<!-- Favicon -->
 		<ClientRouter />
 	</Head>
 	<body>
-		<div class="grow">
+		<a class="skip" href="#main">Skip to content</a>
+
+		<header class="shell-header">
+			<div class="page shell-header__inner">
+				<a class="shell-brand" href={Routes.Home}>
+					<span class="shell-brand__mark" aria-hidden="true">DSH</span>
+					<span class="shell-brand__name">{Content.Short}</span>
+				</a>
+
+				<nav class="shell-nav" aria-label="Primary">
+					<ul>
+						{
+							Primary.map((Entry) => (
+								<li>
+									<a
+										href={Entry.Href}
+										aria-current={IsCurrent(Path, Entry.Href) ? "page" : undefined}
+									>
+										{Entry.Label}
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</nav>
+
+				<a class="shell-repository" href={Repository}>GitHub</a>
+			</div>
+		</header>
+
+		<main id="main" class="page">
 			<slot />
-		</div>
-		<script>
-			import "@Script/Firebase";
-		</script>
+		</main>
+
+		<footer class="shell-footer">
+			<div class="page shell-footer__inner">
+				<div class="shell-footer__brand">
+					<p class="shell-footer__name">{Content.Title}</p>
+					<p class="shell-footer__note">
+						{Counts.All} packages in two releases. Source on GitHub.
+					</p>
+				</div>
+
+				<nav class="shell-sitemap" aria-label="Sitemap">
+					<ul>
+						{
+							Sitemap.map((Entry) => (
+								<li>
+									<a href={Entry.Href}>{Entry.Label}</a>
+								</li>
+							))
+						}
+					</ul>
+				</nav>
+
+				<p class="shell-footer__licence">
+					<span>{Content.Licence}</span>
+					<span>{Year} PlayForm</span>
+				</p>
+			</div>
+		</footer>
 	</body>
 </html>

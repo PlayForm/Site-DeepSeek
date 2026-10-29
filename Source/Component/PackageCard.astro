@@ -1,0 +1,26 @@
+---
+import "@Stylesheet/Component/PackageCard.scss";
+
+import type { PackageRecord } from "@Library/Packages.server";
+import Badge from "@Component/Badge.astro";
+import VersionPill from "@Component/VersionPill.astro";
+
+interface Props {
+	Package: PackageRecord;
+}
+
+const { Package } = Astro.props;
+---
+
+<a class="package-card" href={Package.Href}>
+	<span class="package-card__top">
+		<span class="package-card__name">{Package.Slug}</span>
+		<VersionPill Version={Package.Version} Private={Package.Private} />
+	</span>
+	<span class="package-card__summary">{Package.Summary}</span>
+	<span class="package-card__foot">
+		<Badge Label={Package.Kind} Tone="accent" />
+		<Badge Label={Package.Family} />
+		<span class="package-card__count">{Package.Tests} tests</span>
+	</span>
+</a>
