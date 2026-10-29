@@ -1,28 +1,75 @@
 ---
-import Callout from "@Component/Callout.astro";
-import CodeBlock from "@Component/CodeBlock.astro";
-import EmptyState from "@Component/EmptyState.astro";
-import PageHero from "@Component/PageHero.astro";
 import Base from "@Layout/Base.astro";
+
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import StatBand from "@Component/StatBand.astro";
+import Table from "@Component/Table.astro";
+import Terminal from "@Component/Terminal.astro";
+
+import { Ledger } from "@Library/Ledger.server";
 import { Route } from "@Library/Link";
+import { Count, SelectKind } from "@Library/Package.server";
+
+const Row = Ledger.map((Entry) => [
+	{ Text: Entry.Slug, Href: Entry.Href },
+	Entry.Path,
+]);
+
+const Watch = [
+	{
+		Command: "tail -f ~/.dsh/playform/*.log",
+		Output: "every plugin that writes a ledger, live, in one stream",
+	},
+];
 ---
 
-<Base Title="Connect" Description="Bring a trace and read what it proves.">
-	<PageHero Eyebrow="Connect" Title="Connect" Lede="Bring a trace and read what it proves." />
+<Base
+	Title="Read your run"
+	Description={`Every plugin that keeps a ledger, and the file it writes: ${Ledger.length} paths.`}
+>
+	<PageHero
+		Eyebrow="Connect"
+		Title="Read your run"
+		Lede={`${Ledger.length} plugins keep a ledger. Each one writes its own file, and the file says what it did.`}
+	/>
+
+	<StatBand
+		Stat={[
+			{ Label: "Ledger", Value: Ledger.length, Note: "Documented file paths" },
+			{ Label: "Hook", Value: Count.Hook, Note: "Two releases" },
+			{ Label: "Package", Value: Count.All, Note: "Every one, read at build" },
+		]}
+	/>
 
 	<section class="section">
-		<div class="section__body stack">
-			<EmptyState Title="Nothing imported yet" />
-			<CodeBlock
-				Label="Trace"
-				Language="text"
-				Code={"a trace file\nits manifest\nits ledger lines"}
+		<SectionHeader
+			Title="Watch"
+			Lede="The ledgers live under one directory, so one command follows them all."
+		/>
+		<div class="section__body">
+			<Terminal Label="Ledger" Line={Watch} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="File" Lede="The default path each plugin documents for its own ledger." />
+		<div class="section__body">
+			<Table
+				Caption="Every plugin that documents a ledger file"
+				Head={["Plugin", "File"]}
+				Row={Row}
 			/>
-			<Callout Title="Nothing is uploaded">
-				The parser runs in the browser, so a trace never leaves the machine.
-			</Callout>
-			<p class="muted">
-				<a href={Route.Package}>Package</a>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="Turn it off" />
+		<div class="section__body">
+			<p class="lede">
+				Every plugin documents a <code>log</code> switch beside <code>logFile</code>. Set it to
+				<code> false</code> to stop the file, and open <a href={Route.Setup}>Setup</a> for the rest
+				of the knobs.
 			</p>
 		</div>
 	</section>
