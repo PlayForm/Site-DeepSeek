@@ -1,0 +1,16 @@
+---
+import "@Stylesheet/Component/Seam.scss";
+
+interface Props {
+	Name: string;
+	Count: number;
+	Href: string;
+}
+
+const { Name, Count, Href } = Astro.props;
+---
+
+<a class="seam" href={Href}>
+	<span class="seam__name">{Name}</span>
+	<span class="seam__count">{Count}</span>
+</a>

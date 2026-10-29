@@ -1,15 +1,19 @@
 ---
 import Card from "@Component/Card.astro";
 import PageHero from "@Component/PageHero.astro";
+import Seam from "@Component/Seam.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
+import Transform from "@Component/Transform.astro";
+import { BehaviorFor } from "@Content/Behavior";
+import { Transform as Sample } from "@Content/Transform";
 import Base from "@Layout/Base.astro";
 import { Component } from "@Library/Component";
 import { Content } from "@Library/Content";
 import { Dev } from "@Library/Flag";
 import { Route } from "@Library/Link";
-import { Count, Package } from "@Library/Package.server";
+import { Count, Package, SelectKind } from "@Library/Package.server";
 
 const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugin-dsh-factory"]
 	.map((Slug) => Package.find((Entry) => Entry.Slug === Slug))
@@ -19,6 +23,35 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 		Entry!.Kind,
 		Entry!.Version,
 	]);
+
+// The seams, in the order a turn reaches them, with the hooks that act there.
+const Order = [
+	"system-prompt/assemble",
+	"llm/stream",
+	"tools/pre-execute",
+	"tools/post-execute",
+	"batch/proposed",
+	"fs/observed",
+	"agent/status",
+];
+
+const Group = new Map<string, number>();
+
+for (const Entry of SelectKind("hook")) {
+	const Behavior = BehaviorFor(Entry.Slug);
+
+	if (Behavior) {
+		Group.set(Behavior.Seam, (Group.get(Behavior.Seam) ?? 0) + 1);
+	}
+}
+
+const SeamList = Order.filter((Name) => Group.has(Name)).map((Name) => ({
+	Name,
+	Count: Group.get(Name) ?? 0,
+	Href: Route.Behavior,
+}));
+
+const Dash = Sample.filter((Item) => Item.Slug === "hook-dsh-normalize-dash");
 ---
 
 <Base Title={Content.Title} Description={Content.Description}>
@@ -44,6 +77,23 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 			{ Label: "Test", Value: Count.Test, Note: "Across both releases" },
 		]}
 	/>
+
+	<section class="section">
+		<SectionHeader
+			Title="What your model writes"
+			Lede="The stream leaves the model, passes a hook, and arrives in the transcript changed."
+		/>
+		<div class="section__body stack">
+			<Transform Sample={Dash} />
+			<div class="cluster">
+				{
+					SeamList.map((Item) => (
+						<Seam Name={Item.Name} Count={Item.Count} Href={Item.Href} />
+					))
+				}
+			</div>
+		</div>
+	</section>
 
 	<section class="section">
 		<SectionHeader
