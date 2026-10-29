@@ -1,17 +1,68 @@
 // @ts-nocheck
+
+// The alias table mirrors the `paths` that `@playform/build` defines in its
+// tsconfig, so that `postcss-import` resolves the same `@Stylesheet/`,
+// `@Script/`, ... specifiers that Vite resolves through tsconfig `paths`.
+const { resolve: Resolve } = require("path");
+
+const Aliases = {
+	"@Asset/": "Source/Asset/",
+	"@Class/": "Source/Class/",
+	"@Component/": "Source/Component/",
+	"@Context/": "Source/Context/",
+	"@Element/": "Source/Element/",
+	"@Function/": "Source/Function/",
+	"@Interface/": "Source/Interface/",
+	"@Layout/": "Source/Layout/",
+	"@Library/": "Source/Library/",
+	"@Notation/": "Source/Notation/",
+	"@Option/": "Source/Option/",
+	"@Page/": "Source/pages/",
+	"@Script/": "Source/Script/",
+	"@Stylesheet/": "Source/Stylesheet/",
+	"@Target/": "Source/Target/",
+	"@Test/": "Source/Test/",
+	"@Type/": "Source/Type/",
+	"@Variable/": "Source/Variable/",
+};
+
+// Resolve `@Alias/File` imports to absolute paths inside `Source/`; anything
+// else (relative paths, package imports) is returned as-is so that
+// `postcss-import`'s default resolver handles it.
+function ResolveAlias(Id) {
+	for (const [Alias, Directory] of Object.entries(Aliases)) {
+		if (Id.startsWith(Alias)) {
+			return Resolve(Directory, Id.slice(Alias.length));
+		}
+	}
+
+	return Id;
+}
+
 module.exports = {
 	plugins: [
-		require("postcss-import"),
+		require("postcss-import")({
+			resolve: ResolveAlias,
+		}),
 		require("postcss-url"),
 		require("tailwindcss/nesting"),
 		require("tailwindcss")("./tailwind.config.js"),
 		require("postcss-combine-media-query"),
-		require("postcss-combine-duplicated-selectors")({
+		// The v11 package exports the plugin as its default export, so the
+		// CommonJS require returns the module namespace and the plugin is
+		// reached through `.default`.
+		require("postcss-combine-duplicated-selectors").default({
 			removeDuplicatedProperties: true,
 			removeDuplicatedValues: false,
 		}),
 		require("autoprefixer"),
-		require("cssnano")({ preset: "advanced" }),
+		// The advanced preset's `discardUnused` drops `@font-face` rules that it
+		// cannot see referenced in the same stylesheet. The faces are referenced
+		// through the `--font-*` custom properties, which it does not resolve, so
+		// the self-hosted faces were being stripped from the built CSS.
+		require("cssnano")({
+			preset: ["advanced", { discardUnused: { fontFace: false } }],
+		}),
 		require("postcss-reporter"),
 	],
 };
