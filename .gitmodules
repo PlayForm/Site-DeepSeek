@@ -1,0 +1,3 @@
+[submodule "Module/DeepSeek"]
+	path = Module/DeepSeek
+	url = https://github.com/PlayForm/DeepSeek.git
