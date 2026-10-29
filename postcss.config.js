@@ -9,6 +9,7 @@ const Aliases = {
 	"@Asset/": "Source/Asset/",
 	"@Class/": "Source/Class/",
 	"@Component/": "Source/Component/",
+	"@Content/": "Source/Content/",
 	"@Context/": "Source/Context/",
 	"@Element/": "Source/Element/",
 	"@Function/": "Source/Function/",

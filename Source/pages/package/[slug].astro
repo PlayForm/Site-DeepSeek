@@ -9,7 +9,10 @@ import Pager from "@Component/Pager.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
+import Transform from "@Component/Transform.astro";
 import VersionPill from "@Component/VersionPill.astro";
+
+import { Transform as Sample } from "@Content/Transform";
 
 import { Route } from "@Library/Links";
 import Catalogue from "@Library/Graph/Catalogue.server";
@@ -49,6 +52,9 @@ const Depend = Entry.Dependencies.map((Dependency) => {
 const RequiredBy = Catalogue.Edge.filter((Link) => Link.Source === Entry.Slug)
 	.map((Link) => Package.find((Item) => Item.Slug === Link.Target))
 	.filter((Item) => Item !== undefined);
+
+// The worked example, when this package is one of the normalize hooks.
+const Example = Sample.filter((Item) => Item.Slug === Entry.Slug.replace(/^ets-/, ""));
 
 // The versions the package's own changelog records, newest first.
 const Release = VersionOf(Entry).sort((Left, Right) => {
@@ -152,6 +158,37 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 								<a class="mono" href={Item!.Href}>
 									{Item!.Slug}
 								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		)
+	}
+
+	{
+		Example.length > 0 && (
+			<section class="section">
+				<SectionHeader Title="Transform" />
+				<div class="section__body">
+					<Transform Sample={Example} />
+				</div>
+			</section>
+		)
+	}
+
+	{
+		Release.length > 0 && (
+			<section class="section">
+				<SectionHeader Title="Release" />
+				<div class="section__body">
+					<ul class="cluster">
+						{Release.map((Version) => (
+							<li>
+								<Badge
+									Label={Version}
+									Tone={Version === Entry.Version ? "accent" : "neutral"}
+								/>
 							</li>
 						))}
 					</ul>

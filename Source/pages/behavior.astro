@@ -5,6 +5,9 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Trajectory, { type TrajectoryStep } from "@Component/Trajectory.astro";
+import Transform from "@Component/Transform.astro";
+
+import { Transform as Sample } from "@Content/Transform";
 
 import { Count, SelectKind } from "@Library/Package.server";
 import { EffectOf } from "@Library/Effect";
@@ -120,6 +123,16 @@ const Step: TrajectoryStep[] = Seam.map((Name) => {
 		/>
 		<div class="section__body">
 			<Trajectory Step={Step} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Transform"
+			Lede="What the model emits on the left, what the transcript stores on the right."
+		/>
+		<div class="section__body">
+			<Transform Sample={Sample} />
 		</div>
 	</section>
 </Base>

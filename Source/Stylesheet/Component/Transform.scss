@@ -1,0 +1,113 @@
+@use "../Material.scss" as Material;
+
+// One worked example per normalize hook: the character the model emits on the
+// left, the character the transcript stores on the right.
+.transform {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border-top: 1px solid var(--color-line);
+
+	&__row {
+		display: grid;
+		grid-template-columns: minmax(180px, 220px) auto auto auto minmax(0, 1fr);
+		align-items: center;
+		gap: var(--rhythm-inset);
+		padding-block: var(--rhythm-tight);
+		border-bottom: 1px solid var(--color-line);
+	}
+
+	&__hook {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	&__slug {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+		text-decoration: none;
+
+		&:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	&__code {
+		@include Material.label;
+
+		font-size: 10px;
+	}
+
+	&__glyph {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 44px;
+		height: 36px;
+		padding-inline: var(--space-2);
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+		font-family: var(--font-mono);
+		font-size: var(--text-lg);
+		line-height: 1;
+		white-space: pre;
+
+		&--out {
+			border-color: var(--color-accent-deep);
+			background: var(--color-accent-soft);
+			color: var(--color-accent-ink);
+		}
+	}
+
+	&__arrow {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--color-ink-faint);
+	}
+
+	&__gone {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	&__note {
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	@media (max-width: 860px) {
+		&__row {
+			grid-template-columns: auto auto auto minmax(0, 1fr);
+			grid-template-areas:
+				"hook hook hook hook"
+				"in arrow out note";
+		}
+
+		&__hook {
+			grid-area: hook;
+		}
+
+		&__glyph {
+			grid-area: in;
+		}
+
+		&__glyph--out {
+			grid-area: out;
+		}
+
+		&__arrow {
+			grid-area: arrow;
+		}
+
+		&__note {
+			grid-area: note;
+		}
+	}
+}

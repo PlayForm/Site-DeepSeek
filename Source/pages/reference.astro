@@ -6,10 +6,12 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 
 import { Count, Package } from "@Library/Package.server";
+import { ListenFor } from "@Library/Surface.server";
 
 const Row = Package.map((Entry) => [
 	{ Text: Entry.Slug, Href: Entry.Href },
 	Entry.Kind,
+	ListenFor(Entry.Slug),
 	Entry.Family,
 	Entry.Version,
 	String(Entry.Tests),
@@ -18,20 +20,20 @@ const Row = Package.map((Entry) => [
 
 <Base
 	Title="Reference"
-	Description={`All ${Count.All} packages with their kind, release, version, and test count.`}
+	Description={`All ${Count.All} packages with their kind, seam, release, version, and test count.`}
 >
 	<PageHero
 		Eyebrow="Table"
 		Title="Reference"
-		Lede={`${Count.All} rows: kind, release, version, and test count for every package.`}
+		Lede={`${Count.All} rows: kind, seam, release, version, and test count for every package.`}
 	/>
 
 	<section class="section">
 		<SectionHeader Title="Package" />
 		<div class="section__body">
 			<Table
-				Caption="Every package, its kind, its release, its version, and its test count"
-				Head={["Package", "Kind", "Release", "Version", "Test"]}
+				Caption="Every package, its kind, the seam it listens on, its release, its version, and its test count"
+				Head={["Package", "Kind", "Listen", "Release", "Version", "Test"]}
 				Row={Row}
 			/>
 		</div>
