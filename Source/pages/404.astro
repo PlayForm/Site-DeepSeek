@@ -7,18 +7,11 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import { Sitemap } from "@Library/Links";
 ---
 
-<Base
-	Title="Page not found"
-	Description="The route does not exist. The sitemap lists every page the site builds."
->
-	<PageHero
-		Eyebrow="404"
-		Title="This route does not exist"
-		Lede="The site builds a fixed set of routes. The sitemap below names every one of them."
-	/>
+<Base Title="Page not found" Description="The route does not exist.">
+	<PageHero Eyebrow="404" Title="Page not found" Lede="The page you asked for is not here." />
 
 	<section class="section">
-		<SectionHeader Title="Every route the site builds" />
+		<SectionHeader Title="Pages" />
 		<div class="section__body">
 			<ul class="grid">
 				{

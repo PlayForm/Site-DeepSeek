@@ -1,3 +1,5 @@
+@use "../Material.scss" as Material;
+
 .version-pill {
 	display: inline-flex;
 	align-items: center;
@@ -7,16 +9,13 @@
 	line-height: 1.6;
 
 	&__number {
+		@include Material.slab(var(--cabinet-depth-sm));
+
 		padding: 1px var(--space-2);
-		border: var(--hairline);
-		border-radius: var(--radius-sm);
-		background: var(--color-surface-sunken);
 		color: var(--color-ink);
 	}
 
 	&__state {
-		color: var(--color-ink-faint);
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
+		@include Material.label;
 	}
 }

@@ -1,0 +1,175 @@
+@use "../Material.scss" as Material;
+
+// The graph surface. The canvas has an explicit bounded height so that the
+// island never claims the viewport when it is mounted inside an article.
+.explorer {
+	@include Material.slab;
+
+	--explorer-height: 560px;
+
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	height: calc(var(--explorer-height) + 49px);
+	overflow: hidden;
+
+	&__toolbar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-4);
+		padding: var(--space-2) var(--space-3);
+		border-bottom: 1px solid var(--cabinet-line);
+		background: var(--cabinet-inset);
+	}
+
+	&__field {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__options {
+		display: inline-flex;
+		border: 1px solid var(--cabinet-line);
+		border-radius: var(--radius-sm);
+		overflow: hidden;
+	}
+
+	&__option {
+		padding: 2px var(--space-2);
+		border: 0;
+		border-right: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+		color: var(--color-ink-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: 1.6;
+		cursor: pointer;
+
+		&:last-child {
+			border-right: 0;
+		}
+
+		&[aria-pressed="true"] {
+			background: var(--color-accent-soft);
+			color: var(--color-accent-ink);
+		}
+	}
+
+	&__select {
+		padding: 2px var(--space-2);
+		border: 1px solid var(--cabinet-line);
+		border-radius: var(--radius-sm);
+		background: var(--cabinet-front);
+		color: var(--color-ink);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+	}
+
+	&__toggle {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+
+		input {
+			accent-color: var(--color-accent);
+		}
+	}
+
+	&__count {
+		@include Material.label;
+
+		margin-left: auto;
+	}
+
+	&__body {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 260px;
+		grid-template-rows: minmax(0, 1fr);
+		min-height: 0;
+	}
+
+	&__canvas {
+		height: 100%;
+		min-height: 0;
+		background:
+			radial-gradient(circle at 1px 1px, var(--color-line) 1px, transparent 0) 0 0 / 16px 16px,
+			var(--cabinet-front);
+	}
+
+	&__inspector {
+		overflow-y: auto;
+		padding: var(--space-3);
+		border-left: 1px solid var(--cabinet-line);
+		background: var(--cabinet-inset);
+	}
+
+	&__empty {
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&__detail {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	&__kicker {
+		@include Material.label;
+	}
+
+	&__name {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--color-ink);
+		text-decoration: none;
+		overflow-wrap: anywhere;
+
+		&:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	&__facts {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-2);
+		margin: 0;
+
+		dt {
+			@include Material.label;
+
+			font-size: 10px;
+		}
+
+		dd {
+			margin: 0;
+			font-family: var(--font-mono);
+			font-size: var(--text-xs);
+		}
+	}
+
+	@media (max-width: 860px) {
+		height: calc(var(--explorer-height) + 96px);
+
+		&__body {
+			grid-template-columns: 1fr;
+			grid-template-rows: minmax(0, 1fr) auto;
+		}
+
+		&__inspector {
+			border-left: 0;
+			border-top: 1px solid var(--cabinet-line);
+		}
+	}
+}

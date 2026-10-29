@@ -3,29 +3,17 @@ import Base from "@Layout/Base.astro";
 
 import EmptyState from "@Component/EmptyState.astro";
 import PageHero from "@Component/PageHero.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
 
 import { Routes } from "@Library/Links";
 ---
 
-<Base
-	Title="Showcase"
-	Description="One package, one trace, one outcome. No stories are recorded yet."
->
-	<PageHero
-		Eyebrow="Showcase"
-		Title="Stories"
-		Lede="One package, one trace, one outcome. None recorded yet."
-	/>
+<Base Title="Showcase" Description="One package, one trace, one outcome.">
+	<PageHero Eyebrow="Showcase" Title="Showcase" Lede="One package, one trace, one outcome." />
 
 	<section class="section">
-		<SectionHeader Title="No stories yet" />
 		<div class="section__body">
-			<EmptyState
-				Title="Nothing recorded"
-				Note="A story needs a captured trace. The package pages carry the facts until one exists."
-			>
-				<a href={Routes.Packages}>Browse the packages</a>
+			<EmptyState Title="Nothing recorded yet">
+				<a href={Routes.Package}>Package</a>
 			</EmptyState>
 		</div>
 	</section>

@@ -48,8 +48,8 @@ const Package = Packages[0];
 	{Slug === "breadcrumb" && (
 		<Breadcrumb
 			Trail={[
-				{ Href: "/plugins/", Label: "Packages" },
-				{ Href: "/plugins/hook-dsh-normalize-dash/", Label: "hook-dsh-normalize-dash" },
+				{ Href: "/package/", Label: "Package" },
+				{ Href: "/package/hook-dsh-normalize-dash/", Label: "hook-dsh-normalize-dash" },
 			]}
 		/>
 	)}
@@ -78,10 +78,10 @@ const Package = Packages[0];
 
 	{Slug === "card" && (
 		<div class="grid">
-			<Card Title="Classic release" Href="/plugins/" Meta="59 packages">
+			<Card Title="Classic release" Href="/package/" Meta="59 in Classic">
 				The TypeScript release of the family, built on the factory and the core library.
 			</Card>
-			<Card Title="Effect-TS release" Href="/plugins/" Meta="60 packages">
+			<Card Title="Effect-TS release" Href="/package/" Meta="60 in Effect-TS">
 				The same contracts expressed through Effect, package for package.
 			</Card>
 		</div>
@@ -158,7 +158,7 @@ const Package = Packages[0];
 
 	{Slug === "pager" && (
 		<Pager
-			Previous={{ Href: "/plugins/", Label: "Packages" }}
+			Previous={{ Href: "/package/", Label: "Package" }}
 			Next={{ Href: "/setup/", Label: "Setup" }}
 		/>
 	)}

@@ -6,7 +6,7 @@ export const Repository = "https://github.com/PlayForm/DeepSeek";
 
 export const Routes = {
 	Home: "/",
-	Packages: "/plugins/",
+	Package: "/package/",
 	Showcase: "/showcase/",
 	Behavior: "/behavior/",
 	Observatory: "/explore/",
@@ -23,7 +23,7 @@ export const Routes = {
 // The header carries the entries a returning reader needs; the footer carries
 // the full sitemap. The two lists are not mirrors.
 export const Primary = [
-	{ Href: Routes.Packages, Label: "Packages" },
+	{ Href: Routes.Package, Label: "Package" },
 	{ Href: Routes.Showcase, Label: "Showcase" },
 	{ Href: Routes.Behavior, Label: "Behavior" },
 	{ Href: Routes.Observatory, Label: "Observatory" },
@@ -33,7 +33,7 @@ export const Primary = [
 
 export const Sitemap = [
 	{ Href: Routes.Home, Label: "Overview" },
-	{ Href: Routes.Packages, Label: "Packages" },
+	{ Href: Routes.Package, Label: "Package" },
 	{ Href: Routes.Showcase, Label: "Showcase" },
 	{ Href: Routes.Behavior, Label: "Behavior" },
 	{ Href: Routes.Observatory, Label: "Observatory" },
@@ -43,11 +43,11 @@ export const Sitemap = [
 	{ Href: Routes.CaseStudy, Label: "Case study" },
 	{ Href: Routes.Marketplace, Label: "Marketplace" },
 	{ Href: Routes.Connect, Label: "Connect" },
-	{ Href: Routes.Library, Label: "Component library" },
+	{ Href: Routes.Library, Label: "Component" },
 ];
 
 export function PackageHref(Slug) {
-	return `/plugins/${Slug}/`;
+	return `/package/${Slug}/`;
 }
 
 export function ComponentHref(Slug) {

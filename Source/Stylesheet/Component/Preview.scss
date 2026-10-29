@@ -1,10 +1,11 @@
+@use "../Material.scss" as Material;
+
 // The library's demo frame. It bounds a live component so that the component's
 // own layout cannot claim the page.
 .preview {
+	@include Material.tray;
+
 	padding: var(--space-6);
-	border: var(--hairline);
-	border-radius: var(--radius-md);
-	background: var(--color-surface);
 
 	.page-hero {
 		padding-block: 0;

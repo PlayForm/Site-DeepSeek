@@ -1,26 +1,24 @@
+@use "../Material.scss" as Material;
+
 .badge {
+	@include Material.slab(var(--cabinet-depth-sm));
+	@include Material.label;
+
 	display: inline-flex;
 	align-items: center;
 	padding: 1px var(--space-2);
-	border: var(--hairline);
-	border-radius: var(--radius-sm);
-	background: var(--color-surface);
-	color: var(--color-ink-muted);
-	font-family: var(--font-mono);
-	font-size: var(--text-xs);
 	line-height: 1.6;
-	letter-spacing: 0.04em;
-	text-transform: uppercase;
 	white-space: nowrap;
 
 	&--accent {
-		border-color: transparent;
+		border-color: var(--color-accent-deep);
+		border-top-color: var(--color-accent);
+		border-left-color: var(--color-accent);
 		background: var(--color-accent-soft);
 		color: var(--color-accent-ink);
 	}
 
 	&--quiet {
-		padding-inline: 0;
 		border-color: transparent;
 		background: transparent;
 		color: var(--color-ink-faint);

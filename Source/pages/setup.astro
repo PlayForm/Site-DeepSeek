@@ -29,8 +29,8 @@ const Patch = Packages.filter((Package) => Package.Patch).length;
 
 	<StatsBand
 		Stats={[
-			{ Label: "Packages", Value: Counts.All },
-			{ Label: "Bundle patches", Value: Patch },
+			{ Label: "Package", Value: Counts.All },
+			{ Label: "Bundle patch", Value: Patch },
 			{ Label: "Licence", Value: Content.Licence },
 		]}
 	/>
@@ -50,10 +50,7 @@ const Patch = Packages.filter((Package) => Package.Patch).length;
 	</section>
 
 	<section class="section">
-		<SectionHeader
-			Title="The bundle patch"
-			Lede="The dsh field names the patch the host applies. Nothing else in the manifest is a load instruction."
-		/>
+		<SectionHeader Title="Bundle patch" />
 		<div class="section__body">
 			<Table
 				Caption="The manifest fields the host reads"
@@ -73,14 +70,14 @@ const Patch = Packages.filter((Package) => Package.Patch).length;
 		<div class="section__body grid">
 			<Card
 				Title={Factory?.Slug ?? "plugin-dsh-factory"}
-				Href={Factory?.Href ?? Routes.Packages}
+				Href={Factory?.Href ?? Routes.Package}
 				Meta={Factory?.Version}
 			>
 				Builds the plugin: configuration, tools, and the seams it registers on.
 			</Card>
 			<Card
 				Title={Core?.Slug ?? "lib-dsh-core"}
-				Href={Core?.Href ?? Routes.Packages}
+				Href={Core?.Href ?? Routes.Package}
 				Meta={Core?.Version}
 			>
 				The shared classes the hooks reuse.

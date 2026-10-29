@@ -22,16 +22,16 @@ const Rows = Packages.map((Package) => [
 >
 	<PageHero
 		Eyebrow="Reference"
-		Title="All packages"
-		Lede={`${Counts.All} packages with their version and test count.`}
+		Title="Reference"
+		Lede={`${Counts.All} rows: kind, release, version, and test count for every package.`}
 	/>
 
 	<section class="section">
-		<SectionHeader Title="The table" />
+		<SectionHeader Title="Package" />
 		<div class="section__body">
 			<Table
 				Caption="Every package, its kind, its release, its version, and its test count"
-				Head={["Package", "Kind", "Release", "Version", "Tests"]}
+				Head={["Package", "Kind", "Release", "Version", "Test"]}
 				Rows={Rows}
 			/>
 		</div>

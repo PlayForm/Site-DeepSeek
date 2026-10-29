@@ -1,21 +1,21 @@
+@use "../Material.scss" as Material;
+
 .code-block {
+	@include Material.slab;
+
 	margin: 0;
-	border: var(--hairline);
-	border-radius: var(--radius-md);
-	background: var(--color-surface);
 	overflow: hidden;
 
 	&__bar {
+		@include Material.label;
+
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: var(--space-3);
 		padding: var(--space-2) var(--space-3);
-		border-bottom: var(--hairline);
-		background: var(--color-surface-sunken);
-		font-family: var(--font-mono);
-		font-size: var(--text-xs);
-		color: var(--color-ink-faint);
+		border-bottom: 1px solid var(--cabinet-line);
+		background: var(--cabinet-inset);
 	}
 
 	&__controls {
@@ -26,7 +26,6 @@
 
 	&__language {
 		letter-spacing: 0.04em;
-		text-transform: uppercase;
 	}
 
 	&__body {

@@ -1,11 +1,15 @@
+@use "../Material.scss" as Material;
+
 .section-header {
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-2);
 	max-width: var(--measure);
+	padding-left: var(--space-3);
+	border-left: 3px solid var(--color-accent);
 
 	h2 {
-		font-size: var(--text-xl);
+		font-size: var(--text-2xl);
 	}
 
 	&__lede {

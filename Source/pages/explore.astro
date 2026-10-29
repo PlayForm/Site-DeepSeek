@@ -1,35 +1,33 @@
 ---
+import "@Stylesheet/Component/Explorer.scss";
+
 import Base from "@Layout/Base.astro";
 
-import Callout from "@Component/Callout.astro";
-import EmptyState from "@Component/EmptyState.astro";
+import Explorer from "@Component/Graph/Explorer.tsx";
 import PageHero from "@Component/PageHero.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
 
-import { Routes } from "@Library/Links";
+import Catalogue from "@Library/Graph/Catalogue.server";
 ---
 
 <Base
-	Title="Graph"
-	Description="The packages and their seams, drawn in the browser. Not mounted yet."
+	Title="Observatory"
+	Description={`The package graph: ${Catalogue.Nodes.length} nodes and ${Catalogue.Edges.length} dependency edges, laid out in the browser.`}
 >
 	<PageHero
 		Eyebrow="Observatory"
-		Title="Graph"
-		Lede="The packages and their seams, drawn in the browser. Not mounted yet."
+		Title="Package graph"
+		Lede={`${Catalogue.Nodes.length} nodes, ${Catalogue.Edges.length} edges. The arrow runs from a dependency to the package that requires it.`}
 	/>
 
 	<section class="section">
-		<SectionHeader Title="No graph yet" />
-		<div class="section__body stack">
-			<EmptyState
-				Title="Nothing drawn"
-				Note="The explorer arrives with the design pass, as a Solid island."
+		<div class="section__body">
+			<Explorer
+				Nodes={Catalogue.Nodes}
+				Edges={Catalogue.Edges}
+				Families={Catalogue.Families}
+				Kinds={Catalogue.Kinds}
+				client:load
 			/>
-			<Callout Title="What it will show">
-				Packages, the seams they listen on, and the tools they add. Until then,
-				<a href={Routes.Reference}>Reference</a> lists every package.
-			</Callout>
 		</div>
 	</section>
 </Base>

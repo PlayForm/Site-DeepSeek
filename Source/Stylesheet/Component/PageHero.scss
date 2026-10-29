@@ -6,12 +6,13 @@
 
 	h1,
 	h2 {
-		max-width: 22ch;
+		max-width: 24ch;
 	}
 
 	&__actions {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: center;
 		gap: var(--space-3);
 
 		&:empty {

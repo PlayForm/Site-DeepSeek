@@ -1,3 +1,5 @@
+@use "../Material.scss" as Material;
+
 .pager {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -5,17 +7,21 @@
 	margin-top: var(--space-8);
 
 	&__step {
+		@include Material.slab;
+
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-1);
 		padding: var(--space-3) var(--space-4);
-		border: var(--hairline);
-		border-radius: var(--radius-md);
 		text-decoration: none;
+		transition: transform var(--motion-crisp) var(--ease-crisp);
 
 		&:hover {
-			border-color: var(--color-line-strong);
-			background: var(--color-surface-sunken);
+			background: var(--cabinet-inset);
+		}
+
+		&:active {
+			@include Material.slab-press;
 		}
 
 		&--next {
@@ -24,11 +30,7 @@
 	}
 
 	&__kicker {
-		font-family: var(--font-mono);
-		font-size: var(--text-xs);
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		color: var(--color-ink-faint);
+		@include Material.label;
 	}
 
 	&__label {

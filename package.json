@@ -42,6 +42,8 @@
 		"autoprefixer": "10.6.1",
 		"cssnano": "9.9.0",
 		"cssnano-preset-advanced": "10.0.0",
+		"cytoscape": "^3.34.4",
+		"cytoscape-fcose": "^2.2.0",
 		"dotenv": "18.0.9",
 		"firebase": "13.1.0",
 		"postcss": "8.5.31",

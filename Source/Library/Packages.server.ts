@@ -163,7 +163,7 @@ function ReadPackage(Family: Family, Directory: string, Slug: string): PackageRe
 		Description,
 		Summary: Summarize(Description),
 		Directory: Relative,
-		Href: `/plugins/${Slug}/`,
+		Href: `/package/${Slug}/`,
 		Source: `https://github.com/PlayForm/DeepSeek/tree/${Branch}/${Relative}`,
 		Readme: existsSync(join(Directory, "README.md")),
 		Scheme: existsSync(join(Directory, "SCHEME.md")),

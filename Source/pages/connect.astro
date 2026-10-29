@@ -5,41 +5,26 @@ import Callout from "@Component/Callout.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import EmptyState from "@Component/EmptyState.astro";
 import PageHero from "@Component/PageHero.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
 
 import { Routes } from "@Library/Links";
 ---
 
-<Base Title="Connect" Description="Bring a trace and read what it proves. Not built yet.">
-	<PageHero
-		Eyebrow="Connect"
-		Title="Connect a trace"
-		Lede="Bring a trace and read what it proves. Not built yet."
-	/>
+<Base Title="Connect" Description="Bring a trace and read what it proves.">
+	<PageHero Eyebrow="Connect" Title="Connect" Lede="Bring a trace and read what it proves." />
 
 	<section class="section">
-		<SectionHeader Title="No import yet" />
 		<div class="section__body stack">
-			<EmptyState
-				Title="Nothing imported"
-				Note="The flow arrives with the interactive pass, as a Solid island."
-			/>
+			<EmptyState Title="Nothing imported yet" />
 			<CodeBlock
-				Label="What the flow will take"
+				Label="Trace"
 				Language="text"
 				Code={"a trace file\nits manifest\nits ledger lines"}
 			/>
 			<Callout Title="Nothing is uploaded">
 				The parser runs in the browser, so a trace never leaves the machine.
 			</Callout>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader Title="Until then" />
-		<div class="section__body">
-			<p class="lede">
-				<a href={Routes.Packages}>Packages</a> carries every package.
+			<p class="muted">
+				<a href={Routes.Package}>Package</a>
 			</p>
 		</div>
 	</section>

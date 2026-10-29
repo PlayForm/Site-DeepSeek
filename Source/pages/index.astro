@@ -7,6 +7,7 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import StatsBand from "@Component/StatsBand.astro";
 import Table from "@Component/Table.astro";
 
+import { Components } from "@Library/Components";
 import { Content } from "@Library/Content";
 import { Routes } from "@Library/Links";
 import { Counts, Packages } from "@Library/Packages.server";
@@ -18,23 +19,19 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 ---
 
 <Base Title={Content.Title} Description={Content.Description}>
-	<PageHero
-		Eyebrow="DeepSeek Harness plugins"
-		Title="Plugins for DeepSeek Harness"
-		Lede={Content.Lede}
-	>
+	<PageHero Eyebrow="DeepSeek Harness plugins" Title="Plugins for DeepSeek Harness" Lede={Content.Lede}>
 		<Fragment slot="Actions">
-			<a class="button" href={Routes.Packages}>Browse the packages</a>
+			<a class="button" href={Routes.Package}>Browse the Package</a>
 			<a class="button button--quiet" href={Routes.Setup}>Install</a>
 		</Fragment>
 	</PageHero>
 
 	<StatsBand
 		Stats={[
-			{ Label: "Packages", Value: Counts.All, Note: "Two releases" },
-			{ Label: "Hooks", Value: Counts.Hooks, Note: "Listen on harness events" },
-			{ Label: "Plugins", Value: Counts.Plugins, Note: "Tools and bundles" },
-			{ Label: "Tests", Value: Counts.Tests, Note: "Across both releases" },
+			{ Label: "Package", Value: Counts.All, Note: "Two releases" },
+			{ Label: "Hook", Value: Counts.Hooks, Note: "Listen on harness events" },
+			{ Label: "Plugin", Value: Counts.Plugins, Note: "Tools and bundles" },
+			{ Label: "Test", Value: Counts.Tests, Note: "Across both releases" },
 		]}
 	/>
 
@@ -44,20 +41,20 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 			Lede="Classic is plain TypeScript. Effect-TS is the same packages rebuilt on Effect."
 		/>
 		<div class="section__body grid">
-			<Card Title="Classic" Href={Routes.Packages} Meta={`${Counts.Classic} packages`}>
+			<Card Title="Classic" Href={Routes.Package} Meta={`${Counts.Classic} in Classic`}>
 				The factory, the core library, the hooks, and the clients.
 			</Card>
-			<Card Title="Effect-TS" Href={Routes.Packages} Meta={`${Counts.EffectTS} packages`}>
+			<Card Title="Effect-TS" Href={Routes.Package} Meta={`${Counts.EffectTS} in Effect-TS`}>
 				The same packages with Effect services, layers, and schemas.
 			</Card>
-			<Card Title="Components" Href={Routes.Library} Meta="Every component">
+			<Card Title="Component" Href={Routes.Library} Meta={`${Components.length} total`}>
 				The building blocks of every page, shown live.
 			</Card>
 		</div>
 	</section>
 
 	<section class="section">
-		<SectionHeader Title="Packages to start with" Lede="Three of the 119." />
+		<SectionHeader Title="Package to start with" Lede="Three of the 119." />
 		<div class="section__body">
 			<Table
 				Caption="Three packages to start with"
@@ -73,10 +70,10 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 			<Card Title="Setup" Href={Routes.Setup} Meta="Install">
 				Install a package and load its bundle patch.
 			</Card>
-			<Card Title="Reference" Href={Routes.Reference} Meta="All packages">
+			<Card Title="Reference" Href={Routes.Reference} Meta="Package">
 				Every package with its version.
 			</Card>
-			<Card Title="Behavior" Href={Routes.Behavior} Meta="Hooks">
+			<Card Title="Behavior" Href={Routes.Behavior} Meta="Hook">
 				The hooks and the events they listen on.
 			</Card>
 		</div>

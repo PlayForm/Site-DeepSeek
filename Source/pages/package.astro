@@ -1,0 +1,54 @@
+---
+import Base from "@Layout/Base.astro";
+
+import PackageCard from "@Component/PackageCard.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Table from "@Component/Table.astro";
+
+import { Families, Counts, SelectFamily } from "@Library/Packages.server";
+
+const Groups = Families.map((Family) => ({
+	Family,
+	Packages: SelectFamily(Family),
+}));
+
+const Kinds = [
+	["hook", "Listens on a harness event and changes what happens next."],
+	["plugin", "Adds tools and a bundle the host loads."],
+	["lib", "A shared library the other packages import."],
+	["client", "A UI surface in the harness panel."],
+	["base", "The shared base the Effect-TS packages build on."],
+];
+---
+
+<Base
+	Title="Package"
+	Description={`All ${Counts.All} packages: ${Counts.Classic} in Classic and ${Counts.EffectTS} in Effect-TS.`}
+>
+	<PageHero
+		Eyebrow="Package"
+		Title="Package"
+		Lede={`${Counts.All} total: ${Counts.Classic} in Classic, ${Counts.EffectTS} in Effect-TS.`}
+	/>
+
+	{
+		Groups.map((Group) => (
+			<section class="section">
+				<SectionHeader Title={Group.Family} Lede={`${Group.Packages.length}.`} />
+				<div class="section__body grid">
+					{Group.Packages.map((Package) => (
+						<PackageCard Package={Package} />
+					))}
+				</div>
+			</section>
+		))
+	}
+
+	<section class="section">
+		<SectionHeader Title="Kind" />
+		<div class="section__body">
+			<Table Caption="The five package kinds" Head={["Kind", "What it is"]} Rows={Kinds} />
+		</div>
+	</section>
+</Base>

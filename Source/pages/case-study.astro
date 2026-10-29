@@ -1,29 +1,24 @@
 ---
 import Base from "@Layout/Base.astro";
 
-import Callout from "@Component/Callout.astro";
 import EmptyState from "@Component/EmptyState.astro";
 import PageHero from "@Component/PageHero.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
 
 import { Routes } from "@Library/Links";
 ---
 
-<Base Title="Case study" Description="One change, followed from request to ledger. Not written yet.">
+<Base Title="Case study" Description="One change, followed from request to ledger.">
 	<PageHero
 		Eyebrow="Case study"
-		Title="One change, end to end"
-		Lede="The request, the hooks that fired, and what the ledger recorded. Not written yet."
+		Title="Case study"
+		Lede="One change, followed from request to ledger."
 	/>
 
 	<section class="section">
-		<SectionHeader Title="Not written yet" />
-		<div class="section__body stack">
-			<EmptyState Title="Nothing recorded" Note="It needs a real run with its ledger." />
-			<Callout Title="What it will need">
-				The request, the seams that fired, and the files the ledger names. Until then,
-				<a href={Routes.Behavior}>Behavior</a> lists the hooks.
-			</Callout>
+		<div class="section__body">
+			<EmptyState Title="Nothing recorded yet">
+				<a href={Routes.Behavior}>Behavior</a>
+			</EmptyState>
 		</div>
 	</section>
 </Base>

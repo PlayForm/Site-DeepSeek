@@ -1,25 +1,26 @@
+@use "../Material.scss" as Material;
+
 .stats-band {
+	@include Material.slab;
+
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 	margin: 0;
-	border-top: var(--hairline);
-	border-left: var(--hairline);
 
 	&__item {
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-1);
 		padding: var(--space-4);
-		border-right: var(--hairline);
-		border-bottom: var(--hairline);
+		border-right: 1px solid var(--color-line);
+
+		&:last-child {
+			border-right: 0;
+		}
 	}
 
 	&__label {
-		font-family: var(--font-mono);
-		font-size: var(--text-xs);
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		color: var(--color-ink-faint);
+		@include Material.label;
 	}
 
 	&__value {
