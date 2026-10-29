@@ -2,7 +2,7 @@
 // its route under `/library/`, the summary the library index prints, and the
 // properties the component accepts. The library route renders the live
 // component beside this table, so the table and the component cannot drift.
-export const Components = [
+export const Component = [
 	{
 		Name: "Badge",
 		Slug: "badge",
@@ -57,7 +57,7 @@ export const Components = [
 		Name: "PackageCard",
 		Slug: "package-card",
 		Summary: "One package as a card: its name, its version, its kind, and its summary.",
-		Props: [["Package", "PackageRecord", "A record from Packages.server.mjs."]],
+		Props: [["Package", "PackageRecord", "A record from Package.server."]],
 	},
 	{
 		Name: "PageHero",
@@ -133,4 +133,4 @@ export const Components = [
 	},
 ];
 
-export default Components;
+export default Component;

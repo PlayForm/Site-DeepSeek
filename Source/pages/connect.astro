@@ -6,7 +6,7 @@ import CodeBlock from "@Component/CodeBlock.astro";
 import EmptyState from "@Component/EmptyState.astro";
 import PageHero from "@Component/PageHero.astro";
 
-import { Routes } from "@Library/Links";
+import { Route } from "@Library/Links";
 ---
 
 <Base Title="Connect" Description="Bring a trace and read what it proves.">
@@ -24,7 +24,7 @@ import { Routes } from "@Library/Links";
 				The parser runs in the browser, so a trace never leaves the machine.
 			</Callout>
 			<p class="muted">
-				<a href={Routes.Package}>Package</a>
+				<a href={Route.Package}>Package</a>
 			</p>
 		</div>
 	</section>

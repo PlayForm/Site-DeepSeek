@@ -17,7 +17,7 @@ import Table from "@Component/Table.astro";
 import Terminal from "@Component/Terminal.astro";
 import VersionPill from "@Component/VersionPill.astro";
 
-import { Packages } from "@Library/Packages.server";
+import { Package } from "@Library/Package.server";
 
 interface Props {
 	Slug: string;
@@ -26,7 +26,7 @@ interface Props {
 // The library route mounts the live component beside its contract, so a
 // component and its documented properties cannot drift apart.
 const { Slug } = Astro.props;
-const Package = Packages[0];
+const Entry = Package[0];
 ---
 
 <div class="preview">
@@ -89,7 +89,7 @@ const Package = Packages[0];
 
 	{Slug === "package-card" && Package && (
 		<div class="grid">
-			<PackageCard Package={Package} />
+			<PackageCard Package={Entry} />
 		</div>
 	)}
 
@@ -112,7 +112,7 @@ const Package = Packages[0];
 	{Slug === "stats-band" && (
 		<StatsBand
 			Stats={[
-				{ Label: "Packages", Value: 119 },
+				{ Label: "Package", Value: 119 },
 				{ Label: "Hooks", Value: 60 },
 				{ Label: "Smoke suites", Value: 595 },
 				{ Label: "Releases", Value: 2 },

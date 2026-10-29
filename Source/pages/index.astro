@@ -7,31 +7,31 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import StatsBand from "@Component/StatsBand.astro";
 import Table from "@Component/Table.astro";
 
-import { Components } from "@Library/Components";
+import { Component } from "@Library/Component";
 import { Content } from "@Library/Content";
-import { Routes } from "@Library/Links";
-import { Counts, Packages } from "@Library/Packages.server";
+import { Route } from "@Library/Links";
+import { Count, Package } from "@Library/Package.server";
 
 const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugin-dsh-factory"]
-	.map((Slug) => Packages.find((Package) => Package.Slug === Slug))
+	.map((Slug) => Package.find((Entry) => Entry.Slug === Slug))
 	.filter(Boolean)
-	.map((Package) => [Package!.Slug, Package!.Kind, Package!.Version]);
+	.map((Entry) => [Entry!.Slug, Entry!.Kind, Entry!.Version]);
 ---
 
 <Base Title={Content.Title} Description={Content.Description}>
 	<PageHero Eyebrow="DeepSeek Harness plugins" Title="Plugins for DeepSeek Harness" Lede={Content.Lede}>
 		<Fragment slot="Actions">
-			<a class="button" href={Routes.Package}>Browse the Package</a>
-			<a class="button button--quiet" href={Routes.Setup}>Install</a>
+			<a class="button" href={Route.Package}>Browse the Package</a>
+			<a class="button button--quiet" href={Route.Setup}>Install</a>
 		</Fragment>
 	</PageHero>
 
 	<StatsBand
 		Stats={[
-			{ Label: "Package", Value: Counts.All, Note: "Two releases" },
-			{ Label: "Hook", Value: Counts.Hooks, Note: "Listen on harness events" },
-			{ Label: "Plugin", Value: Counts.Plugins, Note: "Tools and bundles" },
-			{ Label: "Test", Value: Counts.Tests, Note: "Across both releases" },
+			{ Label: "Package", Value: Count.All, Note: "Two releases" },
+			{ Label: "Hook", Value: Count.Hook, Note: "Listen on harness events" },
+			{ Label: "Plugin", Value: Count.Plugin, Note: "Tools and bundles" },
+			{ Label: "Test", Value: Count.Test, Note: "Across both releases" },
 		]}
 	/>
 
@@ -41,13 +41,13 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 			Lede="Classic is plain TypeScript. Effect-TS is the same packages rebuilt on Effect."
 		/>
 		<div class="section__body grid">
-			<Card Title="Classic" Href={Routes.Package} Meta={`${Counts.Classic} in Classic`}>
+			<Card Title="Classic" Href={Route.Package} Meta={`${Count.Classic} in Classic`}>
 				The factory, the core library, the hooks, and the clients.
 			</Card>
-			<Card Title="Effect-TS" Href={Routes.Package} Meta={`${Counts.EffectTS} in Effect-TS`}>
+			<Card Title="Effect-TS" Href={Route.Package} Meta={`${Count.EffectTS} in Effect-TS`}>
 				The same packages with Effect services, layers, and schemas.
 			</Card>
-			<Card Title="Component" Href={Routes.Library} Meta={`${Components.length} total`}>
+			<Card Title="Component" Href={Route.Library} Meta={`${Component.length} total`}>
 				The building blocks of every page, shown live.
 			</Card>
 		</div>
@@ -67,13 +67,13 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 	<section class="section">
 		<SectionHeader Title="Read next" />
 		<div class="section__body grid">
-			<Card Title="Setup" Href={Routes.Setup} Meta="Install">
+			<Card Title="Setup" Href={Route.Setup} Meta="Install">
 				Install a package and load its bundle patch.
 			</Card>
-			<Card Title="Reference" Href={Routes.Reference} Meta="Package">
+			<Card Title="Reference" Href={Route.Reference} Meta="Package">
 				Every package with its version.
 			</Card>
-			<Card Title="Behavior" Href={Routes.Behavior} Meta="Hook">
+			<Card Title="Behavior" Href={Route.Behavior} Meta="Hook">
 				The hooks and the events they listen on.
 			</Card>
 		</div>

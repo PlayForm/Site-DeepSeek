@@ -4,14 +4,14 @@ import Base from "@Layout/Base.astro";
 import EmptyState from "@Component/EmptyState.astro";
 import PageHero from "@Component/PageHero.astro";
 
-import { Counts } from "@Library/Packages.server";
+import { Count } from "@Library/Package.server";
 ---
 
 <Base Title="Marketplace" Description="The family as an installable index.">
 	<PageHero
 		Eyebrow="Marketplace"
 		Title="Marketplace"
-		Lede={`The family as an installable index. ${Counts.All} packages.`}
+		Lede={`The family as an installable index. ${Count.All} packages.`}
 	/>
 
 	<section class="section">

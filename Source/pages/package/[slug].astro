@@ -11,43 +11,39 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 import VersionPill from "@Component/VersionPill.astro";
 
-import { Routes } from "@Library/Links";
-import { Packages, type PackageRecord } from "@Library/Packages.server";
+import { Route } from "@Library/Links";
+import { Package, type PackageRecord } from "@Library/Package.server";
 
 export function getStaticPaths() {
-	return Packages.map((Package) => ({
-		params: { slug: Package.Slug },
-		props: { Package },
+	return Package.map((Entry) => ({
+		params: { slug: Entry.Slug },
+		props: { Entry },
 	}));
 }
 
 interface Props {
-	Package: PackageRecord;
+	Entry: PackageRecord;
 }
 
-const { Package } = Astro.props;
-const Index = Packages.findIndex((Entry) => Entry.Slug === Package.Slug);
-const Previous = Index > 0 ? Packages[Index - 1] : undefined;
-const Next = Index >= 0 && Index < Packages.length - 1 ? Packages[Index + 1] : undefined;
+const { Entry } = Astro.props;
+const Index = Package.findIndex((Candidate) => Candidate.Slug === Entry.Slug);
+const Previous = Index > 0 ? Package[Index - 1] : undefined;
+const Next = Index >= 0 && Index < Package.length - 1 ? Package[Index + 1] : undefined;
 ---
 
-<Base Title={Package.Slug} Description={Package.Summary}>
+<Base Title={Entry.Slug} Description={Entry.Summary}>
 	<Breadcrumb
 		Trail={[
-			{ Href: Routes.Package, Label: "Package" },
-			{ Href: Package.Href, Label: Package.Slug },
+			{ Href: Route.Package, Label: "Package" },
+			{ Href: Entry.Href, Label: Entry.Slug },
 		]}
 	/>
 
-	<PageHero
-		Eyebrow={`${Package.Kind} / ${Package.Family}`}
-		Title={Package.Slug}
-		Lede={Package.Summary}
-	>
+	<PageHero Eyebrow={`${Entry.Kind} / ${Entry.Family}`} Title={Entry.Slug} Lede={Entry.Summary}>
 		<Fragment slot="Actions">
-			<VersionPill Version={Package.Version} Private={Package.Private} />
-			<Badge Label={Package.Kind} Tone="accent" />
-			<Badge Label={Package.Family} />
+			<VersionPill Version={Entry.Version} Private={Entry.Private} />
+			<Badge Label={Entry.Kind} Tone="accent" />
+			<Badge Label={Entry.Family} />
 		</Fragment>
 	</PageHero>
 
@@ -56,14 +52,14 @@ const Next = Index >= 0 && Index < Packages.length - 1 ? Packages[Index + 1] : u
 		<div class="section__body">
 			<Definitions
 				Definitions={[
-					{ Term: "Package", Detail: Package.Name },
-					{ Term: "Version", Detail: Package.Version },
-					{ Term: "Kind", Detail: Package.Kind },
-					{ Term: "Release", Detail: Package.Family },
-					{ Term: "Licence", Detail: Package.Licence },
-					{ Term: "Directory", Detail: Package.Directory },
-					{ Term: "Test", Detail: String(Package.Tests) },
-					{ Term: "Module", Detail: String(Package.Modules) },
+					{ Term: "Package", Detail: Entry.Name },
+					{ Term: "Version", Detail: Entry.Version },
+					{ Term: "Kind", Detail: Entry.Kind },
+					{ Term: "Release", Detail: Entry.Family },
+					{ Term: "Licence", Detail: Entry.Licence },
+					{ Term: "Directory", Detail: Entry.Directory },
+					{ Term: "Test", Detail: String(Entry.Tests) },
+					{ Term: "Module", Detail: String(Entry.Modules) },
 				]}
 			/>
 		</div>
@@ -72,22 +68,22 @@ const Next = Index >= 0 && Index < Packages.length - 1 ? Packages[Index + 1] : u
 	<section class="section">
 		<SectionHeader Title="What it does" />
 		<div class="section__body stack">
-			<p class="lede">{Package.Summary}.</p>
+			<p class="lede">{Entry.Summary}.</p>
 			<p class="muted">
-				<a href={`${Package.Source}/README.md`}>Read the full description in the README</a>.
+				<a href={`${Entry.Source}/README.md`}>Read the full description in the README</a>.
 			</p>
 		</div>
 	</section>
 
 	{
-		Package.Dependencies.length > 0 && (
+		Entry.Dependencies.length > 0 && (
 			<section class="section">
 				<SectionHeader Title="Dependencies" />
 				<div class="section__body">
 					<Table
-						Caption={`Dependencies of ${Package.Slug}`}
+						Caption={`Dependencies of ${Entry.Slug}`}
 						Head={["Package", "Role"]}
-						Rows={Package.Dependencies.map((Dependency) => [
+						Rows={Entry.Dependencies.map((Dependency) => [
 							Dependency,
 							Dependency.startsWith("@playform/") ? "family" : "external",
 						])}
@@ -101,9 +97,9 @@ const Next = Index >= 0 && Index < Packages.length - 1 ? Packages[Index + 1] : u
 		<SectionHeader Title="Source" />
 		<div class="section__body stack">
 			<p class="lede">
-				<a href={Package.Source}>Open the package in the monorepo</a>
+				<a href={Entry.Source}>Open the package in the monorepo</a>
 			</p>
-			<CodeBlock Label="Install" Language="sh" Code={`pnpm add ${Package.Name}`} />
+			<CodeBlock Label="Install" Language="sh" Code={`pnpm add ${Entry.Name}`} />
 		</div>
 	</section>
 

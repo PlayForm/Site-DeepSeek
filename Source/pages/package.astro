@@ -6,11 +6,11 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 
-import { Families, Counts, SelectFamily } from "@Library/Packages.server";
+import { Count, Family, SelectFamily } from "@Library/Package.server";
 
-const Groups = Families.map((Family) => ({
-	Family,
-	Packages: SelectFamily(Family),
+const Groups = Family.map((Release) => ({
+	Release,
+	Entry: SelectFamily(Release),
 }));
 
 const Kinds = [
@@ -24,21 +24,21 @@ const Kinds = [
 
 <Base
 	Title="Package"
-	Description={`All ${Counts.All} packages: ${Counts.Classic} in Classic and ${Counts.EffectTS} in Effect-TS.`}
+	Description={`All ${Count.All} packages: ${Count.Classic} in Classic and ${Count.EffectTS} in Effect-TS.`}
 >
 	<PageHero
-		Eyebrow="Package"
+		Eyebrow="Two releases"
 		Title="Package"
-		Lede={`${Counts.All} total: ${Counts.Classic} in Classic, ${Counts.EffectTS} in Effect-TS.`}
+		Lede={`${Count.All} total: ${Count.Classic} in Classic, ${Count.EffectTS} in Effect-TS.`}
 	/>
 
 	{
 		Groups.map((Group) => (
 			<section class="section">
-				<SectionHeader Title={Group.Family} Lede={`${Group.Packages.length}.`} />
+				<SectionHeader Title={Group.Release} />
 				<div class="section__body grid">
-					{Group.Packages.map((Package) => (
-						<PackageCard Package={Package} />
+					{Group.Entry.map((Entry) => (
+						<PackageCard Package={Entry} />
 					))}
 				</div>
 			</section>

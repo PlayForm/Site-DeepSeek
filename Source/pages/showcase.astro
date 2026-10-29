@@ -4,7 +4,7 @@ import Base from "@Layout/Base.astro";
 import EmptyState from "@Component/EmptyState.astro";
 import PageHero from "@Component/PageHero.astro";
 
-import { Routes } from "@Library/Links";
+import { Route } from "@Library/Links";
 ---
 
 <Base Title="Showcase" Description="One package, one trace, one outcome.">
@@ -13,7 +13,7 @@ import { Routes } from "@Library/Links";
 	<section class="section">
 		<div class="section__body">
 			<EmptyState Title="Nothing recorded yet">
-				<a href={Routes.Package}>Package</a>
+				<a href={Route.Package}>Package</a>
 			</EmptyState>
 		</div>
 	</section>

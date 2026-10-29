@@ -4,7 +4,7 @@ export const Site = "https://deepseek.playform.cloud";
 
 export const Repository = "https://github.com/PlayForm/DeepSeek";
 
-export const Routes = {
+export const Route = {
 	Home: "/",
 	Package: "/package/",
 	Showcase: "/showcase/",
@@ -23,27 +23,27 @@ export const Routes = {
 // The header carries the entries a returning reader needs; the footer carries
 // the full sitemap. The two lists are not mirrors.
 export const Primary = [
-	{ Href: Routes.Package, Label: "Package" },
-	{ Href: Routes.Showcase, Label: "Showcase" },
-	{ Href: Routes.Behavior, Label: "Behavior" },
-	{ Href: Routes.Observatory, Label: "Observatory" },
-	{ Href: Routes.Setup, Label: "Setup" },
-	{ Href: Routes.Reference, Label: "Reference" },
+	{ Href: Route.Package, Label: "Package" },
+	{ Href: Route.Showcase, Label: "Showcase" },
+	{ Href: Route.Behavior, Label: "Behavior" },
+	{ Href: Route.Observatory, Label: "Observatory" },
+	{ Href: Route.Setup, Label: "Setup" },
+	{ Href: Route.Reference, Label: "Reference" },
 ];
 
 export const Sitemap = [
-	{ Href: Routes.Home, Label: "Overview" },
-	{ Href: Routes.Package, Label: "Package" },
-	{ Href: Routes.Showcase, Label: "Showcase" },
-	{ Href: Routes.Behavior, Label: "Behavior" },
-	{ Href: Routes.Observatory, Label: "Observatory" },
-	{ Href: Routes.Timeline, Label: "Timeline" },
-	{ Href: Routes.Setup, Label: "Setup" },
-	{ Href: Routes.Reference, Label: "Reference" },
-	{ Href: Routes.CaseStudy, Label: "Case study" },
-	{ Href: Routes.Marketplace, Label: "Marketplace" },
-	{ Href: Routes.Connect, Label: "Connect" },
-	{ Href: Routes.Library, Label: "Component" },
+	{ Href: Route.Home, Label: "Overview" },
+	{ Href: Route.Package, Label: "Package" },
+	{ Href: Route.Showcase, Label: "Showcase" },
+	{ Href: Route.Behavior, Label: "Behavior" },
+	{ Href: Route.Observatory, Label: "Observatory" },
+	{ Href: Route.Timeline, Label: "Timeline" },
+	{ Href: Route.Setup, Label: "Setup" },
+	{ Href: Route.Reference, Label: "Reference" },
+	{ Href: Route.CaseStudy, Label: "Case study" },
+	{ Href: Route.Marketplace, Label: "Marketplace" },
+	{ Href: Route.Connect, Label: "Connect" },
+	{ Href: Route.Library, Label: "Component" },
 ];
 
 export function PackageHref(Slug) {

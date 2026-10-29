@@ -5,25 +5,25 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 
-import { Counts, Packages } from "@Library/Packages.server";
+import { Count, Package } from "@Library/Package.server";
 
-const Rows = Packages.map((Package) => [
-	Package.Slug,
-	Package.Kind,
-	Package.Family,
-	Package.Version,
-	String(Package.Tests),
+const Rows = Package.map((Entry) => [
+	Entry.Slug,
+	Entry.Kind,
+	Entry.Family,
+	Entry.Version,
+	String(Entry.Tests),
 ]);
 ---
 
 <Base
 	Title="Reference"
-	Description={`All ${Counts.All} packages with their kind, release, version, and test count.`}
+	Description={`All ${Count.All} packages with their kind, release, version, and test count.`}
 >
 	<PageHero
-		Eyebrow="Reference"
+		Eyebrow="Table"
 		Title="Reference"
-		Lede={`${Counts.All} rows: kind, release, version, and test count for every package.`}
+		Lede={`${Count.All} rows: kind, release, version, and test count for every package.`}
 	/>
 
 	<section class="section">

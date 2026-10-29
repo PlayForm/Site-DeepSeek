@@ -5,7 +5,7 @@ import Card from "@Component/Card.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 
-import { Components } from "@Library/Components";
+import { Component } from "@Library/Component";
 import { ComponentHref } from "@Library/Links";
 ---
 
@@ -13,23 +13,19 @@ import { ComponentHref } from "@Library/Links";
 	Title="Component"
 	Description="The building blocks of every page, each with a live demo and its properties."
 >
-	<PageHero
-		Eyebrow="Library"
-		Title="Component"
-		Lede={`${Components.length} total.`}
-	/>
+	<PageHero Eyebrow="Library" Title="Component" Lede={`${Component.length} total.`} />
 
 	<section class="section">
 		<SectionHeader Title="Component" />
 		<div class="section__body grid">
 			{
-				Components.map((Component) => (
+				Component.map((Entry) => (
 					<Card
-						Title={Component.Name}
-						Href={ComponentHref(Component.Slug)}
-						Meta={`${Component.Props.length} props`}
+						Title={Entry.Name}
+						Href={ComponentHref(Entry.Slug)}
+						Meta={`${Entry.Props.length} props`}
 					>
-						{Component.Summary}
+						{Entry.Summary}
 					</Card>
 				))
 			}

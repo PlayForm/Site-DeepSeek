@@ -6,8 +6,8 @@ import { Head } from "astro-capo";
 import { ClientRouter } from "astro:transitions";
 
 import { Content } from "@Library/Content";
-import { IsCurrent, Primary, Repository, Routes, Site, Sitemap } from "@Library/Links";
-import { Counts } from "@Library/Packages.server";
+import { IsCurrent, Primary, Repository, Route, Site, Sitemap } from "@Library/Links";
+import { Count } from "@Library/Package.server";
 
 interface Props {
 	Title?: string;
@@ -71,7 +71,7 @@ const Year = new Date().getFullYear();
 
 		<header class="shell-header">
 			<div class="page shell-header__inner">
-				<a class="shell-brand" href={Routes.Home}>
+				<a class="shell-brand" href={Route.Home}>
 					<span class="shell-brand__mark" aria-hidden="true">DSH</span>
 					<span class="shell-brand__name">{Content.Short}</span>
 				</a>
@@ -105,7 +105,7 @@ const Year = new Date().getFullYear();
 			<div class="page shell-footer__inner">
 				<div class="shell-footer__brand">
 					<p class="shell-footer__name">{Content.Title}</p>
-					<p class="shell-footer__note">{Counts.All} total in two releases. Source on GitHub.</p>
+					<p class="shell-footer__note">{Count.All} total in two releases. Source on GitHub.</p>
 				</div>
 
 				<nav class="shell-sitemap" aria-label="Sitemap">

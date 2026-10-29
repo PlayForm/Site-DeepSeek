@@ -5,7 +5,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 
-import { Counts, SelectKind } from "@Library/Packages.server";
+import { Count, SelectKind } from "@Library/Package.server";
 
 const Hooks = SelectKind("hook");
 const Rows = Hooks.map((Hook) => [Hook.Slug, Hook.Family, Hook.Version, String(Hook.Tests)]);
@@ -13,12 +13,12 @@ const Rows = Hooks.map((Hook) => [Hook.Slug, Hook.Family, Hook.Version, String(H
 
 <Base
 	Title="Hook"
-	Description={`All ${Counts.Hooks} hooks. Each one listens on a harness event and changes what happens next.`}
+	Description={`All ${Count.Hook} hooks. Each one listens on a harness event and changes what happens next.`}
 >
 	<PageHero
 		Eyebrow="Behavior"
 		Title="Hook"
-		Lede={`${Counts.Hooks} total. Each one listens on a harness event and changes what happens next.`}
+		Lede={`${Count.Hook} total. Each one listens on a harness event and changes what happens next.`}
 	/>
 
 	<section class="section">

@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+
+import { SummaryFor } from "../Content/Summary";
 
 // The monorepo is the source of every package fact this site prints. The site
 // reads the two package trees at build time rather than carrying a copy of
@@ -35,12 +36,12 @@ export interface PackageCounts {
 	All: number;
 	Classic: number;
 	EffectTS: number;
-	Hooks: number;
-	Plugins: number;
-	Libraries: number;
-	Clients: number;
-	Bases: number;
-	Tests: number;
+	Hook: number;
+	Plugin: number;
+	Library: number;
+	Client: number;
+	Base: number;
+	Test: number;
 }
 
 interface Manifest {
@@ -57,19 +58,40 @@ interface Tree {
 	Directory: string;
 }
 
-// `import.meta.url` cannot locate the monorepo: Astro bundles this module into
-// a prerender chunk under `Target/.prerender/`, so the module's own path is
-// the build output rather than the source. The walk from the working
-// directory finds the directory that holds both package trees, and it holds
-// for a page's frontmatter and for a route's `getStaticPaths` alike.
+// `import.meta.url` cannot locate the package trees: Astro bundles this module
+// into a prerender chunk under `Target/.prerender/`, so the module's own path
+// is the build output rather than the source. Three anchors cover every place
+// the site builds: an explicit `DSH_SOURCE_ROOT`, the monorepo above the site
+// (local development), and the submodule at `Module/DeepSeek` (CI, where the
+// site is checked out alone).
+const Submodule = "Module/DeepSeek";
+
+function HoldsTrees(Directory: string): boolean {
+	return (
+		existsSync(join(Directory, "Classic", "packages")) &&
+		existsSync(join(Directory, "EffectTS", "packages"))
+	);
+}
+
 function FindRoot(): string {
+	const Override = process.env["DSH_SOURCE_ROOT"];
+
+	if (Override !== undefined && Override !== "") {
+		const Resolved = resolve(Override);
+
+		if (!HoldsTrees(Resolved)) {
+			throw new Error(
+				`DSH_SOURCE_ROOT points at ${Resolved}, which holds neither Classic/packages nor EffectTS/packages.`,
+			);
+		}
+
+		return Resolved;
+	}
+
 	let Directory = process.cwd();
 
 	for (let Depth = 0; Depth < 8; Depth += 1) {
-		const Classic = existsSync(join(Directory, "Classic", "packages"));
-		const EffectTS = existsSync(join(Directory, "EffectTS", "packages"));
-
-		if (Classic && EffectTS) {
+		if (HoldsTrees(Directory)) {
 			return Directory;
 		}
 
@@ -82,8 +104,14 @@ function FindRoot(): string {
 		Directory = Parent;
 	}
 
+	const Module = join(process.cwd(), Submodule);
+
+	if (HoldsTrees(Module)) {
+		return Module;
+	}
+
 	throw new Error(
-		"The monorepo root was not found: no ancestor of the working directory holds Classic/packages and EffectTS/packages. Build the site from inside the monorepo.",
+		"The package trees are not reachable. Run `git submodule update --init --depth 1 Module/DeepSeek` in Site/, set DSH_SOURCE_ROOT to a monorepo checkout, or build from inside the monorepo.",
 	);
 }
 
@@ -161,7 +189,7 @@ function ReadPackage(Family: Family, Directory: string, Slug: string): PackageRe
 		Private: Manifest.private === true,
 		Licence: Manifest.license ?? "unlicensed",
 		Description,
-		Summary: Summarize(Description),
+		Summary: SummaryFor(Slug) ?? Summarize(Description),
 		Directory: Relative,
 		Href: `/package/${Slug}/`,
 		Source: `https://github.com/PlayForm/DeepSeek/tree/${Branch}/${Relative}`,
@@ -194,40 +222,40 @@ function LoadPackages(): PackageRecord[] {
 	return Roster;
 }
 
-function CountBy(Packages: PackageRecord[], Match: (Package: PackageRecord) => boolean): number {
-	return Packages.filter(Match).length;
+function CountBy(Roster: PackageRecord[], Match: (Entry: PackageRecord) => boolean): number {
+	return Roster.filter(Match).length;
 }
 
 // One read per build process: every page imports this module, and the tree is
 // read once.
-export const Packages: PackageRecord[] = LoadPackages();
+export const Package: PackageRecord[] = LoadPackages();
 
-export const Counts: PackageCounts = {
-	All: Packages.length,
-	Classic: CountBy(Packages, (Package) => Package.Family === "Classic"),
-	EffectTS: CountBy(Packages, (Package) => Package.Family === "EffectTS"),
-	Hooks: CountBy(Packages, (Package) => Package.Kind === "hook"),
-	Plugins: CountBy(Packages, (Package) => Package.Kind === "plugin"),
-	Libraries: CountBy(Packages, (Package) => Package.Kind === "lib"),
-	Clients: CountBy(Packages, (Package) => Package.Kind === "client"),
-	Bases: CountBy(Packages, (Package) => Package.Kind === "base"),
-	Tests: Packages.reduce((Total, Package) => Total + Package.Tests, 0),
+export const Count: PackageCounts = {
+	All: Package.length,
+	Classic: CountBy(Package, (Entry) => Entry.Family === "Classic"),
+	EffectTS: CountBy(Package, (Entry) => Entry.Family === "EffectTS"),
+	Hook: CountBy(Package, (Entry) => Entry.Kind === "hook"),
+	Plugin: CountBy(Package, (Entry) => Entry.Kind === "plugin"),
+	Library: CountBy(Package, (Entry) => Entry.Kind === "lib"),
+	Client: CountBy(Package, (Entry) => Entry.Kind === "client"),
+	Base: CountBy(Package, (Entry) => Entry.Kind === "base"),
+	Test: Package.reduce((Total, Entry) => Total + Entry.Tests, 0),
 };
 
-export const Families: Family[] = ["Classic", "EffectTS"];
+export const Family: Family[] = ["Classic", "EffectTS"];
 
-export const Kinds: Kind[] = KindOrder;
+export const Kind: Kind[] = KindOrder;
 
 export function FindPackage(Slug: string): PackageRecord | undefined {
-	return Packages.find((Package) => Package.Slug === Slug);
+	return Package.find((Entry) => Entry.Slug === Slug);
 }
 
 export function SelectFamily(Family: Family): PackageRecord[] {
-	return Packages.filter((Package) => Package.Family === Family);
+	return Package.filter((Entry) => Entry.Family === Family);
 }
 
 export function SelectKind(Kind: Kind): PackageRecord[] {
-	return Packages.filter((Package) => Package.Kind === Kind);
+	return Package.filter((Entry) => Entry.Kind === Kind);
 }
 
-export default Packages;
+export default Package;

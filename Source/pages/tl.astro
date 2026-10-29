@@ -4,7 +4,7 @@ import Base from "@Layout/Base.astro";
 import EmptyState from "@Component/EmptyState.astro";
 import PageHero from "@Component/PageHero.astro";
 
-import { Routes } from "@Library/Links";
+import { Route } from "@Library/Links";
 ---
 
 <Base Title="Timeline" Description="Every package along one time axis.">
@@ -13,7 +13,7 @@ import { Routes } from "@Library/Links";
 	<section class="section">
 		<div class="section__body">
 			<EmptyState Title="Nothing drawn yet">
-				<a href={Routes.Reference}>Reference</a>
+				<a href={Route.Reference}>Reference</a>
 			</EmptyState>
 		</div>
 	</section>

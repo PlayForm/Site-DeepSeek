@@ -9,18 +9,15 @@ import StatsBand from "@Component/StatsBand.astro";
 import Table from "@Component/Table.astro";
 
 import { Content } from "@Library/Content";
-import { Routes } from "@Library/Links";
-import { Counts, Packages } from "@Library/Packages.server";
+import { Route } from "@Library/Links";
+import { Count, Package } from "@Library/Package.server";
 
-const Factory = Packages.find((Package) => Package.Slug === "plugin-dsh-factory");
-const Core = Packages.find((Package) => Package.Slug === "lib-dsh-core");
-const Patch = Packages.filter((Package) => Package.Patch).length;
+const Factory = Package.find((Entry) => Entry.Slug === "plugin-dsh-factory");
+const Core = Package.find((Entry) => Entry.Slug === "lib-dsh-core");
+const Patch = Package.filter((Entry) => Entry.Patch).length;
 ---
 
-<Base
-	Title="Install"
-	Description="Install a package from the family, then load its bundle patch."
->
+<Base Title="Install" Description="Install a package from the family, then load its bundle patch.">
 	<PageHero
 		Eyebrow="Setup"
 		Title="Install"
@@ -29,7 +26,7 @@ const Patch = Packages.filter((Package) => Package.Patch).length;
 
 	<StatsBand
 		Stats={[
-			{ Label: "Package", Value: Counts.All },
+			{ Label: "Package", Value: Count.All },
 			{ Label: "Bundle patch", Value: Patch },
 			{ Label: "Licence", Value: Content.Licence },
 		]}
@@ -70,16 +67,12 @@ const Patch = Packages.filter((Package) => Package.Patch).length;
 		<div class="section__body grid">
 			<Card
 				Title={Factory?.Slug ?? "plugin-dsh-factory"}
-				Href={Factory?.Href ?? Routes.Package}
+				Href={Factory?.Href ?? Route.Package}
 				Meta={Factory?.Version}
 			>
 				Builds the plugin: configuration, tools, and the seams it registers on.
 			</Card>
-			<Card
-				Title={Core?.Slug ?? "lib-dsh-core"}
-				Href={Core?.Href ?? Routes.Package}
-				Meta={Core?.Version}
-			>
+			<Card Title={Core?.Slug ?? "lib-dsh-core"} Href={Core?.Href ?? Route.Package} Meta={Core?.Version}>
 				The shared classes the hooks reuse.
 			</Card>
 		</div>
