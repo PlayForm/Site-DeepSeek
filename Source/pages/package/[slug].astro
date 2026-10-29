@@ -13,6 +13,7 @@ import VersionPill from "@Component/VersionPill.astro";
 
 import { Route } from "@Library/Links";
 import { Package, type PackageRecord } from "@Library/Package.server";
+import { SurfaceFor } from "@Library/Surface.server";
 
 export function getStaticPaths() {
 	return Package.map((Entry) => ({
@@ -74,6 +75,21 @@ const Next = Index >= 0 && Index < Package.length - 1 ? Package[Index + 1] : und
 			</p>
 		</div>
 	</section>
+
+	{
+		SurfaceFor(Entry.Slug).length > 0 && (
+			<section class="section">
+				<SectionHeader Title="Surface" />
+				<div class="section__body">
+					<Table
+						Caption={`The surfaces ${Entry.Slug} registers`}
+						Head={["Kind", "Name", "What"]}
+						Row={SurfaceFor(Entry.Slug).map((Item) => [Item.Kind, Item.Name, Item.What])}
+					/>
+				</div>
+			</section>
+		)
+	}
 
 	{
 		Entry.Dependencies.length > 0 && (

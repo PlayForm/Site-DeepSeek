@@ -12,7 +12,15 @@ interface Props {
 const { Package } = Astro.props;
 ---
 
-<a class="package-card" href={Package.Href}>
+<a
+	class="package-card"
+	href={Package.Href}
+	data-package
+	data-slug={Package.Slug}
+	data-kind={Package.Kind}
+	data-family={Package.Family}
+	data-summary={`${Package.Slug} ${Package.Summary}`}
+>
 	<span class="package-card__top">
 		<span class="package-card__name">{Package.Slug}</span>
 		<VersionPill Version={Package.Version} Private={Package.Private} />

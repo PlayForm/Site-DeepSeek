@@ -1,22 +1,57 @@
 ---
 import Base from "@Layout/Base.astro";
 
-import EmptyState from "@Component/EmptyState.astro";
 import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import StatBand from "@Component/StatBand.astro";
+import Table from "@Component/Table.astro";
 
+import { Marketplace } from "@Library/Marketplace.server";
 import { Count } from "@Library/Package.server";
+import { PackageHref } from "@Library/Links";
+
+const Bundle = Marketplace.Group.reduce((Total, Entry) => Total + Entry.Bundle.length, 0);
 ---
 
-<Base Title="Marketplace" Description="The family as an installable index.">
+<Base
+	Title="Marketplace"
+	Description={`The family as an installable index: ${Bundle} bundles in ${Marketplace.Group.length} categories.`}
+>
 	<PageHero
 		Eyebrow="Marketplace"
 		Title="Marketplace"
-		Lede={`The family as an installable index. ${Count.All} packages.`}
+		Lede={`${Bundle} bundles in ${Marketplace.Group.length} categories.`}
 	/>
 
+	<StatBand
+		Stat={[
+			{ Label: "Bundle", Value: Bundle, Note: "Listed in the index" },
+			{ Label: "Category", Value: Marketplace.Group.length },
+			{ Label: "Package", Value: Count.All, Note: "Two releases" },
+		]}
+	/>
+
+	{
+		Marketplace.Group.map((Group) => (
+			<section class="section">
+				<SectionHeader Title={Group.Label} />
+				<div class="section__body">
+					<Table
+						Caption={`The ${Group.Label} bundles`}
+						Head={["Bundle", "Package", "What"]}
+						Row={Group.Bundle.map((Entry) => [Entry.Title, Entry.Name, Entry.Summary])}
+					/>
+				</div>
+			</section>
+		))
+	}
+
 	<section class="section">
+		<SectionHeader Title="Package" />
 		<div class="section__body">
-			<EmptyState Title="Nothing listed yet" />
+			<p class="lede">
+				<a href={PackageHref("plugin-dsh-factory")}>Open a package</a> to read its facts.
+			</p>
 		</div>
 	</section>
 </Base>

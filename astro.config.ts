@@ -5,6 +5,28 @@ import { defineConfig } from "astro/config";
 
 export const On = process.env["NODE_ENV"] === "development";
 
+// The component library is a development surface: it is mounted here rather
+// than auto-routed from `pages/`, so a production build publishes no library
+// route at all. `SITE_DEV=1` forces it on for a release-candidate check.
+export const Dev = process.env["SITE_DEV"] === "1" || On;
+
+const DevRoute = {
+	name: "DevRoute",
+	hooks: {
+		"astro:config:setup": ({ injectRoute }: { injectRoute: (Route: unknown) => void }) => {
+			if (!Dev) {
+				return;
+			}
+
+			injectRoute({ pattern: "/library", entrypoint: "./Source/pages/_Library.astro" });
+			injectRoute({
+				pattern: "/library/[slug]",
+				entrypoint: "./Source/pages/_Component.astro",
+			});
+		},
+	},
+};
+
 export const Here = dirname(fileURLToPath(import.meta.url));
 
 // The alias table mirrors the `paths` that `@playform/build` defines in its
@@ -56,6 +78,7 @@ export default defineConfig({
 		concurrency: 9999,
 	},
 	integrations: [
+		DevRoute,
 		// @ts-ignore
 		import.meta.env.MODE === "production"
 			? (await import("astrojs-service-worker")).default()

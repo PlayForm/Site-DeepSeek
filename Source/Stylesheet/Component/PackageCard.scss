@@ -11,6 +11,12 @@
 	text-decoration: none;
 	transition: transform var(--motion-crisp) var(--ease-crisp);
 
+	// The catalogue filter hides a card by setting `hidden`, and the flex
+	// display above would otherwise outrank the user agent's own rule.
+	&[hidden] {
+		display: none;
+	}
+
 	&:hover {
 		background: var(--cabinet-inset);
 

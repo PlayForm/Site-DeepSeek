@@ -49,6 +49,7 @@
 		"firebase": "13.1.0",
 		"mdast-util-from-markdown": "2.1.0",
 		"mdast-util-gfm": "3.1.0",
+		"micromark-extension-gfm": "3.0.0",
 		"postcss": "8.5.31",
 		"postcss-combine-duplicated-selectors": "11.0.0",
 		"postcss-combine-media-query": "2.1.0",

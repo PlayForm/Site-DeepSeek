@@ -1,19 +1,28 @@
 ---
+import "@Stylesheet/Component/Filter.scss";
+
 import Base from "@Layout/Base.astro";
 
+import Filter from "@Component/Filter.tsx";
 import PackageCard from "@Component/PackageCard.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 
-import { Count, Family, SelectFamily } from "@Library/Package.server";
+import { Count, Family, Kind, Package, SelectFamily } from "@Library/Package.server";
 
-const Groups = Family.map((Release) => ({
+const Group = Family.map((Release) => ({
 	Release,
 	Entry: SelectFamily(Release),
 }));
 
-const Kind = [
+const Catalogue = Package.map((Entry) => ({
+	Slug: Entry.Slug,
+	Kind: Entry.Kind,
+	Family: Entry.Family,
+}));
+
+const Kinds = [
 	["hook", "Listens on a harness event and changes what happens next."],
 	["plugin", "Adds tools and a bundle the host loads."],
 	["lib", "A shared library the other packages import."],
@@ -32,23 +41,28 @@ const Kind = [
 		Lede={`${Count.All} total: ${Count.Classic} in Classic, ${Count.EffectTS} in Effect-TS.`}
 	/>
 
-	{
-		Groups.map((Group) => (
-			<section class="section">
-				<SectionHeader Title={Group.Release} />
-				<div class="section__body grid">
-					{Group.Entry.map((Entry) => (
-						<PackageCard Package={Entry} />
-					))}
-				</div>
-			</section>
-		))
-	}
+	<section class="section">
+		<div class="section__body">
+			<Filter Entry={Catalogue} Family={Family} Kind={Kind} client:load />
+			{
+				Group.map((Item) => (
+					<section class="section" data-group>
+						<SectionHeader Title={Item.Release} />
+						<div class="section__body grid">
+							{Item.Entry.map((Entry) => (
+								<PackageCard Package={Entry} />
+							))}
+						</div>
+					</section>
+				))
+			}
+		</div>
+	</section>
 
 	<section class="section">
 		<SectionHeader Title="Kind" />
 		<div class="section__body">
-			<Table Caption="The five package kinds" Head={["Kind", "What it is"]} Row={Kind} />
+			<Table Caption="The five package kinds" Head={["Kind", "What it is"]} Row={Kinds} />
 		</div>
 	</section>
 </Base>

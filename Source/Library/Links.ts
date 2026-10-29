@@ -1,5 +1,7 @@
 // The URL registry. Every internal link the site prints resolves through this
 // module, so a route rename is one edit here rather than a sweep of the pages.
+import { Dev } from "./Flag";
+
 export const Site = "https://deepseek.playform.cloud";
 
 export const Repository = "https://github.com/PlayForm/DeepSeek";
@@ -43,7 +45,7 @@ export const Sitemap = [
 	{ Href: Route.CaseStudy, Label: "Case study" },
 	{ Href: Route.Marketplace, Label: "Marketplace" },
 	{ Href: Route.Connect, Label: "Connect" },
-	{ Href: Route.Library, Label: "Component" },
+	...(Dev ? [{ Href: Route.Library, Label: "Component" }] : []),
 ];
 
 export function PackageHref(Slug) {

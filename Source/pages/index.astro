@@ -9,6 +9,7 @@ import Table from "@Component/Table.astro";
 
 import { Component } from "@Library/Component";
 import { Content } from "@Library/Content";
+import { Dev } from "@Library/Flag";
 import { Route } from "@Library/Links";
 import { Count, Package } from "@Library/Package.server";
 
@@ -47,9 +48,13 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 			<Card Title="Effect-TS" Href={Route.Package} Meta={`${Count.EffectTS} in Effect-TS`}>
 				The same packages with Effect services, layers, and schemas.
 			</Card>
-			<Card Title="Component" Href={Route.Library} Meta={`${Component.length} total`}>
-				The building blocks of every page, shown live.
-			</Card>
+			{
+				Dev && (
+					<Card Title="Component" Href={Route.Library} Meta={`${Component.length} total`}>
+						The building blocks of every page, shown live.
+					</Card>
+				)
+			}
 		</div>
 	</section>
 

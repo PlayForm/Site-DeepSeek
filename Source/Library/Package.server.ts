@@ -115,7 +115,7 @@ function FindRoot(): string {
 	);
 }
 
-const Root = FindRoot();
+export const Root = FindRoot();
 
 const Trees: Tree[] = [
 	{ Family: "Classic", Directory: join(Root, "Classic", "packages") },

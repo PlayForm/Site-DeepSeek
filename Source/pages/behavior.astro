@@ -6,9 +6,16 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 
 import { Count, SelectKind } from "@Library/Package.server";
+import { ListenFor } from "@Library/Surface.server";
 
-const Hooks = SelectKind("hook");
-const Row = Hooks.map((Hook) => [Hook.Slug, Hook.Family, Hook.Version, String(Hook.Tests)]);
+const Hook = SelectKind("hook");
+const Row = Hook.map((Entry) => [
+	Entry.Slug,
+	ListenFor(Entry.Slug),
+	Entry.Family,
+	Entry.Version,
+	String(Entry.Tests),
+]);
 ---
 
 <Base
@@ -25,8 +32,8 @@ const Row = Hooks.map((Hook) => [Hook.Slug, Hook.Family, Hook.Version, String(Ho
 		<SectionHeader Title="Package" />
 		<div class="section__body">
 			<Table
-				Caption="Every hook, its release, its version, and its test count"
-				Head={["Package", "Release", "Version", "Test"]}
+				Caption="Every hook, the seam it listens on, its release, its version, and its test count"
+				Head={["Package", "Listen", "Release", "Version", "Test"]}
 				Row={Row}
 			/>
 		</div>
