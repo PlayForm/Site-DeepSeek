@@ -1,24 +1,109 @@
 ---
 import Base from "@Layout/Base.astro";
 
-import EmptyState from "@Component/EmptyState.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
 import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Table from "@Component/Table.astro";
+import Terminal from "@Component/Terminal.astro";
+import Transform from "@Component/Transform.astro";
 
-import { Route } from "@Library/Links";
+import { Transform as Sample } from "@Content/Transform";
+import { ConfigFor } from "@Library/Config.server";
+import { Route } from "@Library/Link";
+import { Package } from "@Library/Package.server";
+import { SurfaceFor } from "@Library/Surface.server";
+
+// One character, followed from the model to the transcript. Every figure and
+// every line comes from the package's own README or manifest.
+const Slug = "hook-dsh-normalize-dash";
+const Entry = Package.find((Item) => Item.Slug === Slug);
+const Example = Sample.filter((Item) => Item.Slug === Slug);
+const Knob = ConfigFor(Slug).map((Item) => [Item.Field, Item.Default, Item.Meaning]);
+const Listen = SurfaceFor(Slug).filter((Item) => /listen/i.test(Item.Kind));
+
+const Confirm = [
+	{
+		Command: `cat ~/.dsh/playform/${Slug}.log`,
+		Output: `${Slug}: activated (replacement=-, reasoning=on, toolArgs=off)`,
+	},
+];
 ---
 
-<Base Title="Case study" Description="One change, followed from request to ledger.">
+<Base
+	Title="One character"
+	Description="An em dash leaves the model and arrives as a hyphen: the seam, the package, the configuration, and the ledger line."
+>
 	<PageHero
 		Eyebrow="Case study"
-		Title="Case study"
-		Lede="One change, followed from request to ledger."
+		Title="One character, end to end"
+		Lede="An em dash leaves the model and arrives in the transcript as a hyphen."
 	/>
 
 	<section class="section">
+		<SectionHeader
+			Title="The model"
+			Lede="The model writes a typographic dash. Nothing in the harness has touched it yet."
+		/>
 		<div class="section__body">
-			<EmptyState Title="Nothing recorded yet">
-				<a href={Route.Behavior}>Behavior</a>
-			</EmptyState>
+			<Transform Sample={Example} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="The seam"
+			Lede="The hook holds one listener on the stream, and the stream is where every token passes."
+		/>
+		<div class="section__body stack">
+			<Table
+				Caption="The seam this hook listens on"
+				Head={["Kind", "Name", "What"]}
+				Row={Listen.map((Item) => [Item.Kind, Item.Name, Item.What])}
+			/>
+			<p class="lede">
+				<a href={Entry?.Href ?? Route.Package}>{Entry?.Summary ?? Slug}</a>
+			</p>
+		</div>
+	</section>
+
+	{
+		Knob.length > 0 && (
+			<section class="section">
+				<SectionHeader
+					Title="The setting"
+					Lede="One knob decides the replacement; the rest decide what the hook touches."
+				/>
+				<div class="section__body">
+					<Table
+						Caption={`Configuration of ${Slug}`}
+						Head={["Field", "Default", "Meaning"]}
+						Row={Knob}
+					/>
+				</div>
+			</section>
+		)
+	}
+
+	<section class="section">
+		<SectionHeader
+			Title="The transcript"
+			Lede="The rewrite reaches the live view and the stored block, because the normalization is the feature."
+		/>
+		<div class="section__body">
+			<CodeBlock
+				Label="The text the reader keeps"
+				Language="text"
+				Code={`the model wrote:  a \u2014 b
+the transcript:    a - b`}
+			/>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="The ledger" Lede="The hook writes one line when it activates." />
+		<div class="section__body">
+			<Terminal Label="Ledger" Line={Confirm} />
 		</div>
 	</section>
 </Base>

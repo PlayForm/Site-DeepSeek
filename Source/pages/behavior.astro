@@ -11,6 +11,7 @@ import { Transform as Sample } from "@Content/Transform";
 
 import { Count, SelectKind } from "@Library/Package.server";
 import { EffectOf } from "@Library/Effect";
+import { Route } from "@Library/Link";
 import { SeamFor, SurfaceFor } from "@Library/Surface.server";
 
 // A conversation reaches the seams in this order. Anything the family listens
@@ -133,6 +134,10 @@ const Step: TrajectoryStep[] = Seam.map((Name) => {
 		/>
 		<div class="section__body">
 			<Transform Sample={Sample} />
+			<p class="muted">
+				<a href={Route.CaseStudy}>One character, end to end</a> follows the dash from the model to
+				the ledger.
+			</p>
 		</div>
 	</section>
 </Base>
