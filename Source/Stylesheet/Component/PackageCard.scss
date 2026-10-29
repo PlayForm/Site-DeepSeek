@@ -32,9 +32,19 @@
 
 	&__top {
 		display: flex;
-		align-items: baseline;
+		align-items: center;
 		justify-content: space-between;
 		gap: var(--space-3);
+	}
+
+	// The identity: the mark, then the name. The mark keeps its size and its
+	// place on the first line while the name wraps, so a long directory name
+	// never pushes the drawing out of the card's rhythm.
+	&__identity {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+		min-width: 0;
 	}
 
 	&__name {

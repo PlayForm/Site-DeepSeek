@@ -11,5 +11,7 @@ const { Title, Tone = "note" } = Astro.props;
 
 <aside class:list={["callout", `callout--${Tone}`]}>
 	<p class="callout__title">{Title}</p>
-	<div class="callout__body"><slot /></div>
+	<div class="callout__body">
+		<slot />
+	</div>
 </aside>

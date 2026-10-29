@@ -15,13 +15,11 @@ const { Stat } = Astro.props;
 ---
 
 <dl class="stat-band">
-	{
-		Stat.map((Entry) => (
-			<div class="stat-band__item">
-				<dt class="stat-band__label">{Entry.Label}</dt>
-				<dd class="stat-band__value">{Entry.Value}</dd>
-				{Entry.Note && <dd class="stat-band__note">{Entry.Note}</dd>}
-			</div>
-		))
-	}
+	{Stat.map((Entry) => (
+		<div class="stat-band__item">
+			<dt class="stat-band__label">{Entry.Label}</dt>
+			<dd class="stat-band__value">{Entry.Value}</dd>
+			{Entry.Note && <dd class="stat-band__note">{Entry.Note}</dd>}
+		</div>
+	))}
 </dl>

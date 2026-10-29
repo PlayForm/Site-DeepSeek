@@ -1,14 +1,12 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import CodeBlock from "@Component/CodeBlock.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 import Terminal from "@Component/Terminal.astro";
 import Transform from "@Component/Transform.astro";
-
 import { Transform as Sample } from "@Content/Transform";
+import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
 import { Route } from "@Library/Link";
 import { Package } from "@Library/Package.server";
@@ -32,8 +30,7 @@ const Confirm = [
 
 <Base
 	Title="One character"
-	Description="An em dash leaves the model and arrives as a hyphen: the seam, the package, the configuration, and the ledger line."
->
+	Description="An em dash leaves the model and arrives as a hyphen: the seam, the package, the configuration, and the ledger line.">
 	<PageHero
 		Eyebrow="Case study"
 		Title="One character, end to end"
@@ -67,23 +64,21 @@ const Confirm = [
 		</div>
 	</section>
 
-	{
-		Knob.length > 0 && (
-			<section class="section">
-				<SectionHeader
-					Title="The setting"
-					Lede="One knob decides the replacement; the rest decide what the hook touches."
+	{Knob.length > 0 && (
+		<section class="section">
+			<SectionHeader
+				Title="The setting"
+				Lede="One knob decides the replacement; the rest decide what the hook touches."
+			/>
+			<div class="section__body">
+				<Table
+					Caption={`Configuration of ${Slug}`}
+					Head={["Field", "Default", "Meaning"]}
+					Row={Knob}
 				/>
-				<div class="section__body">
-					<Table
-						Caption={`Configuration of ${Slug}`}
-						Head={["Field", "Default", "Meaning"]}
-						Row={Knob}
-					/>
-				</div>
-			</section>
-		)
-	}
+			</div>
+		</section>
+	)}
 
 	<section class="section">
 		<SectionHeader

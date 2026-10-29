@@ -1,0 +1,61 @@
+---
+import "@Stylesheet/Component/Icon.scss";
+
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
+// Icon: one package's generated mark, served as the colour render.
+//
+// The monorepo draws every icon from the package's own function
+// (`Documentation/Brand/ICON-GRAMMAR.md`), and `Scripts/Prepare.ts` copies the
+// colour set out of the monorepo - or out of the `Module/DeepSeek` submodule
+// that a Cloudflare build sees - into `Public/Icon/` before the build. The page
+// carries one `<img>` per placement: the asset's whole geometry stays in one
+// cacheable file, and two placements of the same icon on one page cannot
+// collide in their `<defs>` ids, which an inline copy would.
+//
+// The asset is a build input, never a committed given: a missing file fails the
+// build loudly instead of shipping a broken image. The mark is decorative on
+// every placement this site has, because the package name is always the text
+// beside it; `Label` announces it when a placement ever needs that.
+interface Props {
+	/** The package directory the icon was drawn for ("hook-dsh-normalize-dash"). */
+	Name: string;
+	/** The rendered square in px: 40 on a card, 24 in a table, 64 in a hero. */
+	Size?: number;
+	/** The accessible name, for a placement where the mark is the only carrier. */
+	Label?: string;
+	/** Load eagerly: the hero mark is above the fold, every other mark is not. */
+	Priority?: boolean;
+}
+
+const { Name, Size = 40, Label, Priority = false } = Astro.props;
+
+// The name is a package directory, so it is validated against that shape before
+// it reaches the filesystem: no slash, no dot, no traversal.
+if (/^[a-z0-9][a-z0-9-]*$/i.test(Name) === false) {
+	throw new Error(
+		`Icon: "${Name}" is not a package directory name (letters, digits and dashes only - no slashes, no dots)`,
+	);
+}
+
+// The prepare step runs before the build, so a miss here means the icon set was
+// never populated rather than that this package has no icon.
+if (existsSync(join(process.cwd(), "Public", "Icon", `${Name}.svg`)) === false) {
+	throw new Error(
+		`Icon: Public/Icon/${Name}.svg is missing - run \`pnpm Prepare\` (it copies the icon set out of the monorepo) before building.`,
+	);
+}
+---
+
+<img
+	class="icon"
+	src={`/Icon/${Name}.svg`}
+	width={Size}
+	height={Size}
+	alt={Label ?? ""}
+	loading={Priority ? "eager" : "lazy"}
+	decoding="async"
+	fetchpriority={Priority ? "high" : "auto"}
+	data-icon={Name}
+/>

@@ -1,12 +1,10 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import Card from "@Component/Card.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
-
+import Base from "@Layout/Base.astro";
 import { Component } from "@Library/Component";
 import { Content } from "@Library/Content";
 import { Dev } from "@Library/Flag";
@@ -20,10 +18,17 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 ---
 
 <Base Title={Content.Title} Description={Content.Description}>
-	<PageHero Eyebrow="DeepSeek Harness plugins" Title="Plugins for DeepSeek Harness" Lede={Content.Lede}>
+	<PageHero
+		Eyebrow="DeepSeek Harness plugins"
+		Title="Plugins for DeepSeek Harness"
+		Lede={Content.Lede}>
 		<Fragment slot="Actions">
-			<a class="button" href={Route.Package}>Browse the Package</a>
-			<a class="button button--quiet" href={Route.Setup}>Install</a>
+			<a class="button" href={Route.Package}>
+				Browse the Package
+			</a>
+			<a class="button button--quiet" href={Route.Setup}>
+				Install
+			</a>
 		</Fragment>
 	</PageHero>
 
@@ -48,13 +53,11 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 			<Card Title="Effect-TS" Href={Route.Package} Meta={`${Count.EffectTS} in Effect-TS`}>
 				The same packages with Effect services, layers, and schemas.
 			</Card>
-			{
-				Dev && (
-					<Card Title="Component" Href={Route.Library} Meta={`${Component.length} total`}>
-						The building blocks of every page, shown live.
-					</Card>
-				)
-			}
+			{Dev && (
+				<Card Title="Component" Href={Route.Library} Meta={`${Component.length} total`}>
+					The building blocks of every page, shown live.
+				</Card>
+			)}
 		</div>
 	</section>
 

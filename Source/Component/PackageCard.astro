@@ -1,9 +1,10 @@
 ---
 import "@Stylesheet/Component/PackageCard.scss";
 
-import type { PackageRecord } from "@Library/Package.server";
 import Badge from "@Component/Badge.astro";
+import Icon from "@Component/Icon.astro";
 import VersionPill from "@Component/VersionPill.astro";
+import type { PackageRecord } from "@Library/Package.server";
 
 interface Props {
 	Package: PackageRecord;
@@ -19,10 +20,12 @@ const { Package } = Astro.props;
 	data-slug={Package.Slug}
 	data-kind={Package.Kind}
 	data-family={Package.Family}
-	data-summary={`${Package.Slug} ${Package.Summary}`}
->
+	data-summary={`${Package.Slug} ${Package.Summary}`}>
 	<span class="package-card__top">
-		<span class="package-card__name">{Package.Slug}</span>
+		<span class="package-card__identity">
+			<Icon Name={Package.Slug} Size={40} />
+			<span class="package-card__name">{Package.Slug}</span>
+		</span>
 		<VersionPill Version={Package.Version} Private={Package.Private} />
 	</span>
 	<span class="package-card__summary">{Package.Summary}</span>

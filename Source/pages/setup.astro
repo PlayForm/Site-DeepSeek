@@ -1,13 +1,11 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import CodeBlock from "@Component/CodeBlock.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
 import Terminal from "@Component/Terminal.astro";
-
+import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
 import { Content } from "@Library/Content";
 import { Route } from "@Library/Link";
@@ -36,8 +34,7 @@ const Confirm = [
 
 <Base
 	Title="Set up a plugin"
-	Description="Install a plugin, load its bundle patch, set its configuration, and confirm it activated."
->
+	Description="Install a plugin, load its bundle patch, set its configuration, and confirm it activated.">
 	<PageHero
 		Eyebrow="Setup"
 		Title="Set up a plugin"
@@ -53,7 +50,10 @@ const Confirm = [
 	/>
 
 	<section class="section">
-		<SectionHeader Title="Install" Lede="Install the plugin you want; its dependencies come with it." />
+		<SectionHeader
+			Title="Install"
+			Lede="Install the plugin you want; its dependencies come with it."
+		/>
 		<div class="section__body">
 			<CodeBlock
 				Label="Install one plugin"
@@ -96,26 +96,24 @@ const Confirm = [
 		</div>
 	</section>
 
-	{
-		Knob.length > 0 && (
-			<section class="section">
-				<SectionHeader
-					Title="Configure"
-					Lede={`Every knob ${Example?.Slug ?? "the plugin"} documents, with its default.`}
+	{Knob.length > 0 && (
+		<section class="section">
+			<SectionHeader
+				Title="Configure"
+				Lede={`Every knob ${Example?.Slug ?? "the plugin"} documents, with its default.`}
+			/>
+			<div class="section__body">
+				<Table
+					Caption={`Configuration of ${Example?.Slug ?? "the plugin"}`}
+					Head={["Field", "Type", "Default", "Meaning"]}
+					Row={Knob}
 				/>
-				<div class="section__body">
-					<Table
-						Caption={`Configuration of ${Example?.Slug ?? "the plugin"}`}
-						Head={["Field", "Type", "Default", "Meaning"]}
-						Row={Knob}
-					/>
-					<p class="muted">
-						<a href={Example?.Href ?? Route.Package}>Open the plugin</a> to read the rest.
-					</p>
-				</div>
-			</section>
-		)
-	}
+				<p class="muted">
+					<a href={Example?.Href ?? Route.Package}>Open the plugin</a> to read the rest.
+				</p>
+			</div>
+		</section>
+	)}
 
 	<section class="section">
 		<SectionHeader

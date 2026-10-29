@@ -2,7 +2,7 @@
 import "@Stylesheet/Component/Trajectory.scss";
 
 import Badge from "@Component/Badge.astro";
-
+import Icon from "@Component/Icon.astro";
 import type { Effect } from "@Library/Effect";
 
 export interface TrajectoryListener {
@@ -49,37 +49,36 @@ function Tally(Listener: TrajectoryListener[]) {
 ---
 
 <ol class="trajectory">
-	{
-		Step.map((Entry, Index) => (
-			<li class="trajectory__step">
-				<span class="trajectory__index">{String(Index + 1).padStart(2, "0")}</span>
-				<div class="trajectory__body">
-					<header class="trajectory__head">
-						<h3 class="trajectory__name">{Entry.Name}</h3>
-						<Badge Label={Entry.Lens} Tone="accent" />
-						<span class="trajectory__count">{Entry.Listener.length} hooks</span>
-					</header>
+	{Step.map((Entry, Index) => (
+		<li class="trajectory__step">
+			<span class="trajectory__index">{String(Index + 1).padStart(2, "0")}</span>
+			<div class="trajectory__body">
+				<header class="trajectory__head">
+					<h3 class="trajectory__name">{Entry.Name}</h3>
+					<Badge Label={Entry.Lens} Tone="accent" />
+					<span class="trajectory__count">{Entry.Listener.length} hooks</span>
+				</header>
 
-					<div class="trajectory__lens">
-						<span class="trajectory__lens-label">Model</span>
-						<span class="trajectory__lens-value">{Tally(Entry.Listener)}</span>
-					</div>
-
-					{Entry.Note && <p class="trajectory__note">{Entry.Note}</p>}
-
-					<ul class="trajectory__list">
-						{Entry.Listener.map((Item) => (
-							<li class="trajectory__listener">
-								<a class="trajectory__slug" href={Item.Href}>
-									{Item.Slug}
-								</a>
-								<Badge Label={Item.Effect} Tone={Tone[Item.Effect]} />
-								<span class="trajectory__what">{Item.What}</span>
-							</li>
-						))}
-					</ul>
+				<div class="trajectory__lens">
+					<span class="trajectory__lens-label">Model</span>
+					<span class="trajectory__lens-value">{Tally(Entry.Listener)}</span>
 				</div>
-			</li>
-		))
-	}
+
+				{Entry.Note && <p class="trajectory__note">{Entry.Note}</p>}
+
+				<ul class="trajectory__list">
+					{Entry.Listener.map((Item) => (
+						<li class="trajectory__listener">
+							<a class="trajectory__slug" href={Item.Href}>
+								<Icon Name={Item.Slug} Size={20} />
+								{Item.Slug}
+							</a>
+							<Badge Label={Item.Effect} Tone={Tone[Item.Effect]} />
+							<span class="trajectory__what">{Item.What}</span>
+						</li>
+					))}
+				</ul>
+			</div>
+		</li>
+	))}
 </ol>

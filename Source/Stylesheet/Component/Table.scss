@@ -44,4 +44,12 @@
 		font-size: var(--text-xs);
 		font-weight: 500;
 	}
+
+	// A row that names a package carries that package's mark before the name,
+	// so the same identity the card shows is legible in the dense view.
+	&__link {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
 }

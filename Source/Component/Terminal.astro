@@ -20,20 +20,18 @@ const { Line, Label = "Terminal" } = Astro.props;
 		<span class="terminal__state">read-only</span>
 	</figcaption>
 	<div class="terminal__body">
-		{
-			Line.map((Entry) => (
-				<>
-					{Entry.Command && (
-						<p class="terminal__command">
-							<span class="terminal__prompt" aria-hidden="true">
-								$
-							</span>
-							<span>{Entry.Command}</span>
-						</p>
-					)}
-					{Entry.Output && <pre class="terminal__output">{Entry.Output}</pre>}
-				</>
-			))
-		}
+		{Line.map((Entry) => (
+			<>
+				{Entry.Command && (
+					<p class="terminal__command">
+						<span class="terminal__prompt" aria-hidden="true">
+							$
+						</span>
+						<span>{Entry.Command}</span>
+					</p>
+				)}
+				{Entry.Output && <pre class="terminal__output">{Entry.Output}</pre>}
+			</>
+		))}
 	</div>
 </figure>

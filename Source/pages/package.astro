@@ -1,14 +1,12 @@
 ---
 import "@Stylesheet/Component/Filter.scss";
 
-import Base from "@Layout/Base.astro";
-
 import Filter from "@Component/Filter.tsx";
 import PackageCard from "@Component/PackageCard.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
-
+import Base from "@Layout/Base.astro";
 import { Count, Family, Kind, Package, SelectFamily } from "@Library/Package.server";
 
 const Group = Family.map((Release) => ({
@@ -33,8 +31,7 @@ const Kinds = [
 
 <Base
 	Title="Package"
-	Description={`All ${Count.All} packages: ${Count.Classic} in Classic and ${Count.EffectTS} in Effect-TS.`}
->
+	Description={`All ${Count.All} packages: ${Count.Classic} in Classic and ${Count.EffectTS} in Effect-TS.`}>
 	<PageHero
 		Eyebrow="Two releases"
 		Title="Package"
@@ -44,18 +41,16 @@ const Kinds = [
 	<section class="section">
 		<div class="section__body">
 			<Filter Entry={Catalogue} Family={Family} Kind={Kind} client:load />
-			{
-				Group.map((Item) => (
-					<section class="section" data-group>
-						<SectionHeader Title={Item.Release} />
-						<div class="section__body grid">
-							{Item.Entry.map((Entry) => (
-								<PackageCard Package={Entry} />
-							))}
-						</div>
-					</section>
-				))
-			}
+			{Group.map((Item) => (
+				<section class="section" data-group>
+					<SectionHeader Title={Item.Release} />
+					<div class="section__body grid">
+						{Item.Entry.map((Entry) => (
+							<PackageCard Package={Entry} />
+						))}
+					</div>
+				</section>
+			))}
 		</div>
 	</section>
 

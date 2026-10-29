@@ -1,17 +1,15 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
-
+import { BehaviorFor } from "@Content/Behavior";
+import Base from "@Layout/Base.astro";
 import { Count, Package } from "@Library/Package.server";
-import { ListenFor } from "@Library/Surface.server";
 
 const Row = Package.map((Entry) => [
 	{ Text: Entry.Slug, Href: Entry.Href },
 	Entry.Kind,
-	ListenFor(Entry.Slug),
+	BehaviorFor(Entry.Slug)?.Seam ?? "",
 	Entry.Family,
 	Entry.Version,
 ]);
@@ -19,8 +17,7 @@ const Row = Package.map((Entry) => [
 
 <Base
 	Title="Reference"
-	Description={`All ${Count.All} packages with their kind, seam, release, and version.`}
->
+	Description={`All ${Count.All} packages with their kind, seam, release, and version.`}>
 	<PageHero
 		Eyebrow="Table"
 		Title="Reference"

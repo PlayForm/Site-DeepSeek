@@ -2,7 +2,8 @@
 // package's own README. The key is the directory name, so an Effect-TS
 // package reads its Classic summary by dropping the `ets-` prefix.
 export const Summary: Record<string, string> = {
-	"client-dsh-panel-family": "The panel the family's UI lives in, with slots for sections and overlays",
+	"client-dsh-panel-family":
+		"The panel the family's UI lives in, with slots for sections and overlays",
 	"client-dsh-panel-family-host": "Gives the panel live data and its one trusted write path",
 	"client-dsh-workspace-live": "The workspace view that updates on events, not on a timer",
 	"hook-dsh-batch-decision": "Decides when a batch of edits is ready to apply",

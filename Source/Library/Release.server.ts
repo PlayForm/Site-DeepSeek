@@ -57,7 +57,11 @@ function Load(): Line[] {
 		.map(([Version, Amount]) => ({
 			Version,
 			Package: Amount,
-			State: (Current.has(Version) ? "current" : Compare(Version, Newest) < 0 ? "written" : "recorded") as Line["State"],
+			State: (Current.has(Version)
+				? "current"
+				: Compare(Version, Newest) < 0
+					? "written"
+					: "recorded") as Line["State"],
 		}))
 		.sort((Left, Right) => Compare(Left.Version, Right.Version));
 }

@@ -16,7 +16,6 @@ import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
 import Terminal from "@Component/Terminal.astro";
 import VersionPill from "@Component/VersionPill.astro";
-
 import { Package } from "@Library/Package.server";
 
 interface Props {
@@ -126,7 +125,8 @@ const Entry = Package[0];
 				A version on this site is the version in the manifest at build time.
 			</Callout>
 			<Callout Title="Prototype" Tone="warn">
-				This route carries structure and real package facts; its prose is still being written.
+				This route carries structure and real package facts; its prose is still being
+				written.
 			</Callout>
 		</div>
 	)}

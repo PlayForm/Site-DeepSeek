@@ -1,22 +1,19 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
-
+import Base from "@Layout/Base.astro";
+import { PackageHref } from "@Library/Link";
 import { Marketplace } from "@Library/Marketplace.server";
 import { Count } from "@Library/Package.server";
-import { PackageHref } from "@Library/Links";
 
 const Bundle = Marketplace.Group.reduce((Total, Entry) => Total + Entry.Bundle.length, 0);
 ---
 
 <Base
 	Title="Marketplace"
-	Description={`The family as an installable index: ${Bundle} bundles in ${Marketplace.Group.length} categories.`}
->
+	Description={`The family as an installable index: ${Bundle} bundles in ${Marketplace.Group.length} categories.`}>
 	<PageHero
 		Eyebrow="Marketplace"
 		Title="Marketplace"
@@ -31,24 +28,22 @@ const Bundle = Marketplace.Group.reduce((Total, Entry) => Total + Entry.Bundle.l
 		]}
 	/>
 
-	{
-		Marketplace.Group.map((Group) => (
-			<section class="section">
-				<SectionHeader Title={Group.Label} />
-				<div class="section__body">
-					<Table
-						Caption={`The ${Group.Label} bundles`}
-						Head={["Bundle", "Package", "What"]}
-						Row={Group.Bundle.map((Entry) => [
-							Entry.Title,
-							{ Text: Entry.Name, Href: PackageHref(Entry.Slug) },
-							Entry.Summary,
-						])}
-					/>
-				</div>
-			</section>
-		))
-	}
+	{Marketplace.Group.map((Group) => (
+		<section class="section">
+			<SectionHeader Title={Group.Label} />
+			<div class="section__body">
+				<Table
+					Caption={`The ${Group.Label} bundles`}
+					Head={["Bundle", "Package", "What"]}
+					Row={Group.Bundle.map((Entry) => [
+						Entry.Title,
+						{ Text: Entry.Name, Href: PackageHref(Entry.Slug) },
+						Entry.Summary,
+					])}
+				/>
+			</div>
+		</section>
+	))}
 
 	<section class="section">
 		<SectionHeader Title="Package" />

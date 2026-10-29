@@ -12,5 +12,7 @@ const { Title, Note } = Astro.props;
 <div class="empty-state">
 	<p class="empty-state__title">{Title}</p>
 	{Note && <p class="empty-state__note">{Note}</p>}
-	<div class="empty-state__body"><slot /></div>
+	<div class="empty-state__body">
+		<slot />
+	</div>
 </div>

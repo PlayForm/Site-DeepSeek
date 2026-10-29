@@ -1,31 +1,33 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import Card from "@Component/Card.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
-
+import { BehaviorFor } from "@Content/Behavior";
 import { Transform } from "@Content/Transform";
+import Base from "@Layout/Base.astro";
 import Catalogue from "@Library/Graph/Catalogue.server";
 import { Route } from "@Library/Link";
 import { Count, SelectKind } from "@Library/Package.server";
 import { Line } from "@Library/Release.server";
-import { SeamFor } from "@Library/Surface.server";
 
-// What the site can show today, each figure read from the tree, computed the
-// same way the behavior page computes it so the two never disagree.
+// What the site can show today, computed from the authored behavior map so the
+// figures match the behavior page exactly.
 const Hook = SelectKind("hook");
 
 const Group = new Map<string, Set<string>>();
 
 for (const Entry of Hook) {
-	for (const Seam of SeamFor(Entry.Slug)) {
-		const List = Group.get(Seam) ?? new Set<string>();
+	const Behavior = BehaviorFor(Entry.Slug);
 
-		List.add(Entry.Slug);
-		Group.set(Seam, List);
+	if (!Behavior) {
+		continue;
 	}
+
+	const List = Group.get(Behavior.Seam) ?? new Set<string>();
+
+	List.add(Entry.Slug);
+	Group.set(Behavior.Seam, List);
 }
 
 const Seam = Group.size;
@@ -35,8 +37,7 @@ const Listener = [...Group.values()].reduce((Total, List) => Total + List.size, 
 
 <Base
 	Title="Showcase"
-	Description={`What the site can show from the tree: ${Seam} seams, ${Listener} listeners, ${Transform.length} worked transforms, and ${Catalogue.Edge.length} dependency edges.`}
->
+	Description={`What the site can show from the tree: ${Seam} seams, ${Listener} listeners, ${Transform.length} worked transforms, and ${Catalogue.Edge.length} dependency edges.`}>
 	<PageHero
 		Eyebrow="Showcase"
 		Title="Showcase"
@@ -56,7 +57,8 @@ const Listener = [...Group.values()].reduce((Total, List) => Total + List.size, 
 		<SectionHeader Title="Exhibit" />
 		<div class="section__body grid">
 			<Card Title="Trajectory" Href={Route.Behavior} Meta={`${Seam} seams`}>
-				One turn, seam by seam, with the hooks that act at each step and what the model sees.
+				One turn, seam by seam, with the hooks that act at each step and what the model
+				sees.
 			</Card>
 			<Card Title="Transform" Href={Route.Behavior} Meta={`${Transform.length} examples`}>
 				The character the model emits beside the character the transcript stores.

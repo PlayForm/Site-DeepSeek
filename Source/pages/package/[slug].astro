@@ -1,22 +1,20 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import Badge from "@Component/Badge.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import Definition from "@Component/Definition.astro";
-import Pager from "@Component/Pager.astro";
+import Icon from "@Component/Icon.astro";
 import PageHero from "@Component/PageHero.astro";
+import Pager from "@Component/Pager.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 import Transform from "@Component/Transform.astro";
 import VersionPill from "@Component/VersionPill.astro";
-
 import { Transform as Sample } from "@Content/Transform";
-
-import { Route } from "@Library/Link";
-import Catalogue from "@Library/Graph/Catalogue.server";
+import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
+import Catalogue from "@Library/Graph/Catalogue.server";
+import { Route } from "@Library/Link";
 import { Package, type PackageRecord } from "@Library/Package.server";
 import { VersionOf } from "@Library/Release.server";
 import { SurfaceFor } from "@Library/Surface.server";
@@ -131,100 +129,91 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 		</div>
 	</section>
 
-	{
-		SurfaceFor(Entry.Slug).length > 0 && (
-			<section class="section">
-				<SectionHeader Title="Surface" />
-				<div class="section__body">
-					<Table
-						Caption={`The surfaces ${Entry.Slug} registers`}
-						Head={["Kind", "Name", "What"]}
-						Row={SurfaceFor(Entry.Slug).map((Item) => [Item.Kind, Item.Name, Item.What])}
-					/>
-				</div>
-			</section>
-		)
-	}
+	{SurfaceFor(Entry.Slug).length > 0 && (
+		<section class="section">
+			<SectionHeader Title="Surface" />
+			<div class="section__body">
+				<Table
+					Caption={`The surfaces ${Entry.Slug} registers`}
+					Head={["Kind", "Name", "What"]}
+					Row={SurfaceFor(Entry.Slug).map((Item) => [Item.Kind, Item.Name, Item.What])}
+				/>
+			</div>
+		</section>
+	)}
 
-	{
-		Entry.Dependencies.length > 0 && (
-			<section class="section">
-				<SectionHeader Title="Dependencies" />
-				<div class="section__body">
-					<Table
-						Caption={`Dependencies of ${Entry.Slug}`}
-						Head={["Package", "Role"]}
-						Row={Depend}
-					/>
-				</div>
-			</section>
-		)
-	}
+	{Entry.Dependencies.length > 0 && (
+		<section class="section">
+			<SectionHeader Title="Dependencies" />
+			<div class="section__body">
+				<Table
+					Caption={`Dependencies of ${Entry.Slug}`}
+					Head={["Package", "Role"]}
+					Row={Depend}
+				/>
+			</div>
+		</section>
+	)}
 
-	{
-		RequiredBy.length > 0 && (
-			<section class="section">
-				<SectionHeader Title="Required by" />
-				<div class="section__body">
-					<ul class="cluster">
-						{RequiredBy.map((Item) => (
-							<li>
-								<a class="mono" href={Item!.Href}>
-									{Item!.Slug}
-								</a>
-							</li>
-						))}
-					</ul>
-				</div>
-			</section>
-		)
-	}
+	{RequiredBy.length > 0 && (
+		<section class="section">
+			<SectionHeader Title="Required by" />
+			<div class="section__body">
+				<ul class="cluster">
+					{RequiredBy.map((Item) => (
+						<li>
+							<a class="mono" href={Item!.Href}>
+								{Item!.Slug}
+							</a>
+						</li>
+					))}
+				</ul>
+			</div>
+		</section>
+	)}
 
-	{
-		Example.length > 0 && (
-			<section class="section">
-				<SectionHeader Title="Transform" />
-				<div class="section__body">
-					<Transform Sample={Example} />
-				</div>
-			</section>
-		)
-	}
+	{Example.length > 0 && (
+		<section class="section">
+			<SectionHeader Title="Transform" />
+			<div class="section__body">
+				<Transform Sample={Example} />
+			</div>
+		</section>
+	)}
 
-	{
-		Knob.length > 0 && (
-			<section class="section">
-				<SectionHeader Title="Configuration" Lede="Every knob this plugin documents, with its default." />
-				<div class="section__body">
-					<Table
-						Caption={`Configuration of ${Entry.Slug}`}
-						Head={["Field", "Type", "Default", "Meaning"]}
-						Row={Knob}
-					/>
-				</div>
-			</section>
-		)
-	}
+	{Knob.length > 0 && (
+		<section class="section">
+			<SectionHeader
+				Title="Configuration"
+				Lede="Every knob this plugin documents, with its default."
+			/>
+			<div class="section__body">
+				<Table
+					Caption={`Configuration of ${Entry.Slug}`}
+					Head={["Field", "Type", "Default", "Meaning"]}
+					Row={Knob}
+				/>
+			</div>
+		</section>
+	)}
 
-	{
-		Release.length > 0 && (
-			<section class="section">
-				<SectionHeader Title="Release" />
-				<div class="section__body">
-					<ul class="cluster">
-						{Release.map((Version) => (
-							<li>
-								<Badge
-									Label={Version}
-									Tone={Version === Entry.Version ? "accent" : "neutral"}
-								/>
-							</li>
-						))}
-					</ul>
-				</div>
-			</section>
-		)
-	}
+	{Release.length > 0 && (
+		<section class="section">
+			<SectionHeader Title="Release" />
+			<div class="section__body">
+				<ul class="cluster">
+					{Release.map((Version) => (
+						<li>
+							<Badge
+								Label={Version}
+								Tone={Version === Entry.Version ? "accent" : "neutral"}
+							/>
+						</li>
+					))}
+				</ul>
+			</div>
+		</section>
+	)}
 
 	<section class="section">
 		<SectionHeader Title="Source" />

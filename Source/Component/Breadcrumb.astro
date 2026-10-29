@@ -15,16 +15,14 @@ const { Trail } = Astro.props;
 
 <nav class="breadcrumb" aria-label="Breadcrumb">
 	<ol class="breadcrumb__list">
-		{
-			Trail.map((Entry, Index) => (
-				<li class="breadcrumb__item">
-					{Index < Trail.length - 1 ? (
-						<a href={Entry.Href}>{Entry.Label}</a>
-					) : (
-						<span aria-current="page">{Entry.Label}</span>
-					)}
-				</li>
-			))
-		}
+		{Trail.map((Entry, Index) => (
+			<li class="breadcrumb__item">
+				{Index < Trail.length - 1 ? (
+					<a href={Entry.Href}>{Entry.Label}</a>
+				) : (
+					<span aria-current="page">{Entry.Label}</span>
+				)}
+			</li>
+		))}
 	</ol>
 </nav>

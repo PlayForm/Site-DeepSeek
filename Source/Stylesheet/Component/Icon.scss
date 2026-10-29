@@ -1,0 +1,10 @@
+// The package mark. The asset carries its own motion block and its own
+// `prefers-reduced-motion` guard, so the page adds no animation here and a
+// reader who asked for still images gets the still drawing. The mark is a
+// square drawing on transparent ground, so it takes no frame, no radius, and no
+// surface of its own: the placement around it supplies the surface.
+.icon {
+	display: block;
+	flex: none;
+	vertical-align: middle;
+}

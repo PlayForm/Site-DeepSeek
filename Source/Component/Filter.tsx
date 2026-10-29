@@ -33,7 +33,8 @@ export default (Props: Props) => {
 				const Match =
 					(FamilyNow === "All" || Card.dataset["family"] === FamilyNow) &&
 					(KindNow === "All" || Card.dataset["kind"] === KindNow) &&
-					(Search === "" || (Card.dataset["summary"] ?? "").toLowerCase().includes(Search));
+					(Search === "" ||
+						(Card.dataset["summary"] ?? "").toLowerCase().includes(Search));
 
 				Card.hidden = !Match;
 
@@ -43,7 +44,8 @@ export default (Props: Props) => {
 			}
 
 			for (const Section of document.querySelectorAll<HTMLElement>("[data-group]")) {
-				Section.hidden = Section.querySelectorAll("[data-package]:not([hidden])").length === 0;
+				Section.hidden =
+					Section.querySelectorAll("[data-package]:not([hidden])").length === 0;
 			}
 
 			SetShown(Count);
@@ -72,8 +74,7 @@ export default (Props: Props) => {
 								type="button"
 								class="filter__option"
 								aria-pressed={Family() === Entry}
-								onClick={() => SetFamily(Entry)}
-							>
+								onClick={() => SetFamily(Entry)}>
 								{Entry}
 							</button>
 						)}
@@ -90,8 +91,7 @@ export default (Props: Props) => {
 								type="button"
 								class="filter__option"
 								aria-pressed={Kind() === Entry}
-								onClick={() => SetKind(Entry)}
-							>
+								onClick={() => SetKind(Entry)}>
 								{Entry}
 							</button>
 						)}

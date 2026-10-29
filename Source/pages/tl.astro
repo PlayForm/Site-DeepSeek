@@ -1,11 +1,9 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
-
+import Base from "@Layout/Base.astro";
 import { Count } from "@Library/Package.server";
 import { Line } from "@Library/Release.server";
 
@@ -16,8 +14,7 @@ const Row = Line.map((Entry) => [Entry.Version, String(Entry.Package), Entry.Sta
 
 <Base
 	Title="Release"
-	Description={`The release line the tree records: ${Line.length} versions, ${Count.All} packages.`}
->
+	Description={`The release line the tree records: ${Line.length} versions, ${Count.All} packages.`}>
 	<PageHero
 		Eyebrow="Timeline"
 		Title="Release"

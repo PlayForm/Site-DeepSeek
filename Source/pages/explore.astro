@@ -1,18 +1,15 @@
 ---
 import "@Stylesheet/Component/Explorer.scss";
 
-import Base from "@Layout/Base.astro";
-
 import Explorer from "@Component/Graph/Explorer.tsx";
 import PageHero from "@Component/PageHero.astro";
-
+import Base from "@Layout/Base.astro";
 import Catalogue from "@Library/Graph/Catalogue.server";
 ---
 
 <Base
 	Title="Observatory"
-	Description={`The package graph: ${Catalogue.Node.length} nodes and ${Catalogue.Edge.length} dependency edges, laid out in the browser.`}
->
+	Description={`The package graph: ${Catalogue.Node.length} nodes and ${Catalogue.Edge.length} dependency edges, laid out in the browser.`}>
 	<PageHero
 		Eyebrow="Observatory"
 		Title="Package graph"

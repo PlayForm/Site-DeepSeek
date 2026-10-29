@@ -50,8 +50,7 @@ function CodeOf(Node: Node): string[] {
 function SectionOf(Tree: Node): Node[] {
 	const Children = Tree.children ?? [];
 	const Start = Children.findIndex(
-		(Child) =>
-			Child.type === "heading" && Child.depth === 2 && /surface/i.test(TextOf(Child)),
+		(Child) => Child.type === "heading" && Child.depth === 2 && /surface/i.test(TextOf(Child)),
 	);
 
 	if (Start < 0) {
@@ -82,7 +81,9 @@ function FromTable(Table: Node): Surface[] {
 
 	return Rows.slice(1)
 		.map((Row) => {
-			const Cell = (Row.children ?? []).map((Entry) => TextOf(Entry).replace(/\s+/g, " ").trim());
+			const Cell = (Row.children ?? []).map((Entry) =>
+				TextOf(Entry).replace(/\s+/g, " ").trim(),
+			);
 
 			return { Kind: Cell[0] ?? "", Name: Cell[1] ?? "", What: Cell[2] ?? "" };
 		})
@@ -164,35 +165,6 @@ export const Surface = LoadSurface();
 
 export function SurfaceFor(Slug: string): Surface[] {
 	return Surface[Slug] ?? Surface[Slug.replace(/^ets-/, "")] ?? [];
-}
-
-// The first listener a package registers on, which is the seam a reader looks
-// for first.
-export function ListenFor(Slug: string): string {
-	const Entry = SurfaceFor(Slug).find((Item) => /listen/i.test(Item.Kind));
-
-	return Entry?.Name ?? "";
-}
-
-// A listener name is prose: `tools/post-execute (prepend)`, `agent/pre-step +
-// tools/post-execute`, `agent/pre-step (with contextEngine)`. The seam is the
-// `area/event` token inside it, and a compound name carries more than one.
-const Seam = /[a-z][a-z-]*\/[a-z][a-z-]*/g;
-
-export function SeamFor(Slug: string): string[] {
-	const Found = new Set<string>();
-
-	for (const Item of SurfaceFor(Slug)) {
-		if (!/listen/i.test(Item.Kind)) {
-			continue;
-		}
-
-		for (const Match of Item.Name.match(Seam) ?? []) {
-			Found.add(Match);
-		}
-	}
-
-	return [...Found];
 }
 
 export default Surface;

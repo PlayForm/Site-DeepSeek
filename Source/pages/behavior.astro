@@ -1,68 +1,67 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Trajectory, { type TrajectoryStep } from "@Component/Trajectory.astro";
 import Transform from "@Component/Transform.astro";
-
+import { BehaviorFor } from "@Content/Behavior";
 import { Transform as Sample } from "@Content/Transform";
-
-import { Count, SelectKind } from "@Library/Package.server";
-import { EffectOf } from "@Library/Effect";
+import Base from "@Layout/Base.astro";
 import { Route } from "@Library/Link";
-import { SeamFor, SurfaceFor } from "@Library/Surface.server";
+import { Count, SelectKind } from "@Library/Package.server";
 
-// A conversation reaches the seams in this order. Anything the family listens
-// on outside this list is appended, so a new seam still appears.
+// The order a conversation reaches the seams. A seam that is not in this list
+// is appended after the known ones.
 const Order = [
-	"agent/pre-step",
 	"system-prompt/assemble",
 	"llm/stream",
 	"tools/pre-execute",
-	"tools/change",
 	"tools/post-execute",
 	"batch/proposed",
 	"fs/observed",
 	"agent/status",
 ];
 
-// The lens says what the seam sees: the text the model produced, the prompt
-// the model reads, the tool call and its result, the file on disk, the batch,
-// or the run's own state.
+// The lens names what the hooks at a seam see: the prompt the model reads, the
+// text it writes, the tool call and its result, the batch, the file on disk, or
+// the run's own state.
 function LensOf(Seam: string): string {
 	switch (true) {
-		case Seam.startsWith("llm/"):
-			return "Text";
-		case Seam.startsWith("agent/pre-step") || Seam.startsWith("system-prompt/"):
+		case Seam === "system-prompt/assemble":
 			return "Prompt";
+		case Seam === "llm/stream":
+			return "Text";
 		case Seam.startsWith("tools/"):
 			return "Tool";
-		case Seam.startsWith("fs/"):
-			return "File";
-		case Seam.startsWith("batch/"):
+		case Seam === "batch/proposed":
 			return "Batch";
+		case Seam === "fs/observed":
+			return "File";
 		default:
 			return "State";
 	}
 }
 
+// Every hook, grouped by the seam its README names. The mapping is authored in
+// `Source/Content/Behavior.ts`; nothing here infers it.
 const Group = new Map<string, TrajectoryStep["Listener"]>();
 
-const Hook = SelectKind("hook");
+for (const Entry of SelectKind("hook")) {
+	const Behavior = BehaviorFor(Entry.Slug);
 
-for (const Entry of Hook) {
-	const Surface = SurfaceFor(Entry.Slug);
-
-	for (const Seam of SeamFor(Entry.Slug)) {
-		const What =
-			Surface.find((Item) => /listen/i.test(Item.Kind) && Item.Name.includes(Seam))?.What ?? "";
-		const List = Group.get(Seam) ?? [];
-
-		List.push({ Slug: Entry.Slug, Href: Entry.Href, What, Effect: EffectOf(What) });
-		Group.set(Seam, List);
+	if (!Behavior) {
+		continue;
 	}
+
+	const List = Group.get(Behavior.Seam) ?? [];
+
+	List.push({
+		Slug: Entry.Slug,
+		Href: Entry.Href,
+		What: Entry.Summary,
+		Effect: Behavior.Effect,
+	});
+	Group.set(Behavior.Seam, List);
 }
 
 const Seam = [...Group.keys()].sort((Left, Right) => {
@@ -90,12 +89,13 @@ const Step: TrajectoryStep[] = Seam.map((Name) => {
 		Listener,
 	};
 });
+
+const Classic = SelectKind("hook").filter((Entry) => Entry.Family === "Classic").length;
 ---
 
 <Base
 	Title="Hook"
-	Description={`All ${Count.Hook} hooks on ${Step.length} seams, in the order a conversation reaches them.`}
->
+	Description={`All ${Count.Hook} hooks on ${Step.length} seams, in the order a conversation reaches them.`}>
 	<PageHero
 		Eyebrow="Behavior"
 		Title="Hook"
@@ -106,14 +106,8 @@ const Step: TrajectoryStep[] = Seam.map((Name) => {
 		Stat={[
 			{ Label: "Hook", Value: Count.Hook, Note: "Two releases" },
 			{ Label: "Seam", Value: Step.length, Note: "Distinct events" },
-			{
-				Label: "Classic",
-				Value: Hook.filter((Entry) => Entry.Family === "Classic").length,
-			},
-			{
-				Label: "Effect-TS",
-				Value: Hook.filter((Entry) => Entry.Family === "EffectTS").length,
-			},
+			{ Label: "Classic", Value: Classic },
+			{ Label: "Effect-TS", Value: Count.Hook - Classic },
 		]}
 	/>
 
@@ -135,8 +129,8 @@ const Step: TrajectoryStep[] = Seam.map((Name) => {
 		<div class="section__body">
 			<Transform Sample={Sample} />
 			<p class="muted">
-				<a href={Route.CaseStudy}>One character, end to end</a> follows the dash from the model to
-				the ledger.
+				<a href={Route.CaseStudy}>One character, end to end</a> follows the dash from the
+				model to the ledger.
 			</p>
 		</div>
 	</section>

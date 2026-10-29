@@ -9,6 +9,22 @@
 		max-width: 24ch;
 	}
 
+	// The identity row: the mark, then the eyebrow and the heading. The gap is
+	// the hero's own rhythm, so a hero with no mark reads exactly as it did
+	// before the row existed.
+	&__head {
+		display: flex;
+		align-items: center;
+		gap: var(--rhythm-inset);
+	}
+
+	&__text {
+		display: flex;
+		flex-direction: column;
+		gap: var(--rhythm-inset);
+		min-width: 0;
+	}
+
 	&__actions {
 		display: flex;
 		flex-wrap: wrap;

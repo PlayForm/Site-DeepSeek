@@ -1,5 +1,5 @@
-import { createEffect, createMemo, createSignal, For, onCleanup, onMount, Show } from "solid-js";
 import type { Core, ElementDefinition, Stylesheet } from "cytoscape";
+import { createEffect, createMemo, createSignal, For, onCleanup, onMount, Show } from "solid-js";
 
 export interface ExplorerNode {
 	Id: string;
@@ -206,27 +206,25 @@ export default (Props: Props) => {
 			}
 		});
 
-		Instance
-			.layout({
-				name: ModeNow,
-				animate: false,
-				fit: true,
-				padding: 28,
-				...(ModeNow === "fcose"
-					? {
-							quality: "default",
-							randomize: true,
-							nodeRepulsion: 3500,
-							idealEdgeLength: 45,
-							nodeSeparation: 45,
-							packComponents: false,
-							numIter: 1500,
-						}
-					: ModeNow === "concentric"
-						? { concentric: (Element: Core) => Element.data("Size"), levelWidth: () => 3 }
-						: {}),
-			} as Parameters<Core["layout"]>[0])
-			.run();
+		Instance.layout({
+			name: ModeNow,
+			animate: false,
+			fit: true,
+			padding: 28,
+			...(ModeNow === "fcose"
+				? {
+						quality: "default",
+						randomize: true,
+						nodeRepulsion: 3500,
+						idealEdgeLength: 45,
+						nodeSeparation: 45,
+						packComponents: false,
+						numIter: 1500,
+					}
+				: ModeNow === "concentric"
+					? { concentric: (Element: Core) => Element.data("Size"), levelWidth: () => 3 }
+					: {}),
+		} as Parameters<Core["layout"]>[0]).run();
 	});
 
 	onCleanup(() => Instance?.destroy());
@@ -254,8 +252,7 @@ export default (Props: Props) => {
 									type="button"
 									class="explorer__option"
 									aria-pressed={Release() === Entry}
-									onClick={() => SetRelease(Entry)}
-								>
+									onClick={() => SetRelease(Entry)}>
 									{Entry}
 								</button>
 							)}
@@ -271,8 +268,7 @@ export default (Props: Props) => {
 						id="explorer-layout"
 						class="explorer__select"
 						value={Mode()}
-						onChange={(Event) => SetMode(Event.currentTarget.value)}
-					>
+						onChange={(Event) => SetMode(Event.currentTarget.value)}>
 						<For each={Layout}>
 							{(Entry) => <option value={Entry.Value}>{Entry.Label}</option>}
 						</For>
@@ -319,11 +315,10 @@ export default (Props: Props) => {
 						when={Selected()}
 						fallback={
 							<p class="explorer__empty">
-								Select a node to read the package. The arrow runs from a dependency to the
-								package that requires it.
+								Select a node to read the package. The arrow runs from a dependency
+								to the package that requires it.
 							</p>
-						}
-					>
+						}>
 						{(Entry) => (
 							<div class="explorer__detail">
 								<p class="explorer__kicker">

@@ -1,10 +1,8 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
-
-import { Sitemap } from "@Library/Links";
+import Base from "@Layout/Base.astro";
+import { Sitemap } from "@Library/Link";
 ---
 
 <Base Title="Page not found" Description="The route does not exist.">
@@ -14,13 +12,11 @@ import { Sitemap } from "@Library/Links";
 		<SectionHeader Title="Pages" />
 		<div class="section__body">
 			<ul class="grid">
-				{
-					Sitemap.map((Entry) => (
-						<li>
-							<a href={Entry.Href}>{Entry.Label}</a>
-						</li>
-					))
-				}
+				{Sitemap.map((Entry) => (
+					<li>
+						<a href={Entry.Href}>{Entry.Label}</a>
+					</li>
+				))}
 			</ul>
 		</div>
 	</section>

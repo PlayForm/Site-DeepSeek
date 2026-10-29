@@ -1,0 +1,32 @@
+# Prettier exclusions for the site repository.
+#
+# The site is its own repository, so its formatter has its own surface: the
+# build output it commits, the dependencies, the generated icon set, and the
+# monorepo checkout it builds from. A file in one of those trees is either
+# produced by a script or owned by another repository, and reformatting it
+# would break a byte check or dirty a checkout that is not this repository's.
+
+# Dependencies
+node_modules
+
+# The built site. `Target/` is committed because it is what users receive, so
+# it must stay exactly as the build wrote it.
+Target
+
+# The monorepo checkout the build reads. It is a second, full copy of the
+# source repository (13,781 files) and formatting it would dirty that
+# checkout, make `Module/DeepSeek` show as modified content, and block
+# `git submodule update`.
+Module/DeepSeek
+Module/DeepSeek/**
+
+# The generated icon set and the generated market index. `Scripts/Prepare.ts`
+# copies the icons out of the monorepo before the build and the monorepo's
+# generator writes the index; both are byte-checked, and prettier would break
+# that check.
+Public/Icon
+Public/marketplace.json
+
+# Lockfiles and the generated type cache.
+pnpm-lock.yaml
+.astro

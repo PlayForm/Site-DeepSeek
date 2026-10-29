@@ -16,5 +16,7 @@ const Tag = Href ? "a" : "div";
 		<span class="card__title">{Title}</span>
 		{Meta && <span class="card__meta">{Meta}</span>}
 	</span>
-	<span class="card__body"><slot /></span>
+	<span class="card__body">
+		<slot />
+	</span>
 </Tag>

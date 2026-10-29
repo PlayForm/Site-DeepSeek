@@ -2,12 +2,11 @@
 import "@Stylesheet/Base.css";
 import "@Stylesheet/Layout/Shell.scss";
 
+import { Content } from "@Library/Content";
+import { IsCurrent, Primary, Repository, Route, Site, Sitemap } from "@Library/Link";
+import { Count } from "@Library/Package.server";
 import { Head } from "astro-capo";
 import { ClientRouter } from "astro:transitions";
-
-import { Content } from "@Library/Content";
-import { IsCurrent, Primary, Repository, Route, Site, Sitemap } from "@Library/Links";
-import { Count } from "@Library/Package.server";
 
 interface Props {
 	Title?: string;
@@ -61,39 +60,41 @@ const Year = new Date().getFullYear();
 				description: Content.Description,
 			})}
 		/>
-
 		<slot name="Head" />
 
 		<ClientRouter />
 	</Head>
 	<body>
-		<a class="skip" href="#main">Skip to content</a>
+		<a class="skip" href="#main">
+			Skip to content
+		</a>
 
 		<header class="shell-header">
 			<div class="page shell-header__inner">
 				<a class="shell-brand" href={Route.Home}>
-					<span class="shell-brand__mark" aria-hidden="true">DSH</span>
+					<span class="shell-brand__mark" aria-hidden="true">
+						DSH
+					</span>
 					<span class="shell-brand__name">{Content.Short}</span>
 				</a>
 
 				<nav class="shell-nav" aria-label="Primary">
 					<ul>
-						{
-							Primary.map((Entry) => (
-								<li>
-									<a
-										href={Entry.Href}
-										aria-current={IsCurrent(Path, Entry.Href) ? "page" : undefined}
-									>
-										{Entry.Label}
-									</a>
-								</li>
-							))
-						}
+						{Primary.map((Entry) => (
+							<li>
+								<a
+									href={Entry.Href}
+									aria-current={IsCurrent(Path, Entry.Href) ? "page" : undefined}>
+									{Entry.Label}
+								</a>
+							</li>
+						))}
 					</ul>
 				</nav>
 
-				<a class="shell-repository" href={Repository}>GitHub</a>
+				<a class="shell-repository" href={Repository}>
+					GitHub
+				</a>
 			</div>
 		</header>
 
@@ -105,18 +106,18 @@ const Year = new Date().getFullYear();
 			<div class="page shell-footer__inner">
 				<div class="shell-footer__brand">
 					<p class="shell-footer__name">{Content.Title}</p>
-					<p class="shell-footer__note">{Count.All} total in two releases. Source on GitHub.</p>
+					<p class="shell-footer__note">
+						{Count.All} total in two releases. Source on GitHub.
+					</p>
 				</div>
 
 				<nav class="shell-sitemap" aria-label="Sitemap">
 					<ul>
-						{
-							Sitemap.map((Entry) => (
-								<li>
-									<a href={Entry.Href}>{Entry.Label}</a>
-								</li>
-							))
-						}
+						{Sitemap.map((Entry) => (
+							<li>
+								<a href={Entry.Href}>{Entry.Label}</a>
+							</li>
+						))}
 					</ul>
 				</nav>
 

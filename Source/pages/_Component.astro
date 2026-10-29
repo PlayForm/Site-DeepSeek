@@ -1,15 +1,13 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import Breadcrumb from "@Component/Breadcrumb.astro";
-import Pager from "@Component/Pager.astro";
 import PageHero from "@Component/PageHero.astro";
+import Pager from "@Component/Pager.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
-import Preview from "@Library/Preview.astro";
-
+import Base from "@Layout/Base.astro";
 import { Component } from "@Library/Component";
-import { ComponentHref, Route } from "@Library/Links";
+import { ComponentHref, Route } from "@Library/Link";
+import Preview from "@Library/Preview.astro";
 
 export function getStaticPaths() {
 	return Component.map((Entry) => ({
@@ -57,7 +55,9 @@ const Next = Index >= 0 && Index < Component.length - 1 ? Component[Index + 1] :
 	</section>
 
 	<Pager
-		Previous={Previous ? { Href: ComponentHref(Previous.Slug), Label: Previous.Name } : undefined}
+		Previous={
+			Previous ? { Href: ComponentHref(Previous.Slug), Label: Previous.Name } : undefined
+		}
 		Next={Next ? { Href: ComponentHref(Next.Slug), Label: Next.Name } : undefined}
 	/>
 </Base>
