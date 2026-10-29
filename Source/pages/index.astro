@@ -14,7 +14,11 @@ import { Count, Package } from "@Library/Package.server";
 const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugin-dsh-factory"]
 	.map((Slug) => Package.find((Entry) => Entry.Slug === Slug))
 	.filter(Boolean)
-	.map((Entry) => [{ Text: Entry!.Slug, Href: Entry!.Href }, Entry!.Kind, Entry!.Version]);
+	.map((Entry) => [
+		{ Text: Entry!.Slug, Href: Entry!.Href, Icon: Entry!.Slug },
+		Entry!.Kind,
+		Entry!.Version,
+	]);
 ---
 
 <Base Title={Content.Title} Description={Content.Description}>

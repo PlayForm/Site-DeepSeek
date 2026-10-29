@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
 // The site reads the package trees and the generated icon set at build time.
@@ -74,6 +74,15 @@ function Source(): string {
 	);
 }
 
+// The published copy is the generator's bytes, never the checkout's. This
+// repository runs with `core.autocrlf=true`, so a submodule checkout carries
+// CRLF; the browser would draw that the same way, but the site publishes what
+// the generator wrote, so a byte comparison across the two repositories stays
+// meaningful.
+function Write(Source: string, Target: string): void {
+	writeFileSync(Target, readFileSync(Source, "utf8").replace(/\r\n/g, "\n"));
+}
+
 // The icon set is a committed asset of the monorepo, so it travels the same
 // path as the package trees: the generator writes it there, and this site
 // publishes the colour render, which is the one render the pages show.
@@ -92,7 +101,7 @@ function Populate(Directory: string): void {
 	const Present = new Set(Name);
 
 	for (const Entry of Name) {
-		copyFileSync(join(Source, Entry), join(Icon, Entry));
+		Write(join(Source, Entry), join(Icon, Entry));
 	}
 
 	// A package that left the tree must not leave its icon published, so a file
@@ -123,7 +132,7 @@ function Publish(Directory: string): void {
 		return;
 	}
 
-	copyFileSync(Source, Market);
+	Write(Source, Market);
 	console.log("[Prepare] marketplace.json in Public/marketplace.json.");
 }
 

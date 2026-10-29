@@ -41,7 +41,7 @@ const Depend = Entry.Dependencies.map((Dependency) => {
 	const Found = Package.find((Item) => Item.Name === Dependency);
 
 	return [
-		Found ? { Text: Dependency, Href: Found.Href } : Dependency,
+		Found ? { Text: Dependency, Href: Found.Href, Icon: Found.Slug } : Dependency,
 		Dependency.startsWith("@playform/") ? "family" : "external",
 	];
 });
@@ -89,6 +89,7 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 	/>
 
 	<PageHero Eyebrow={`${Entry.Kind} / ${Entry.Family}`} Title={Entry.Slug} Lede={Entry.Summary}>
+		<Icon slot="Mark" Name={Entry.Slug} Size={64} Priority />
 		<Fragment slot="Actions">
 			<VersionPill Version={Entry.Version} Private={Entry.Private} />
 			<Badge Label={Entry.Kind} Tone="accent" />
@@ -162,7 +163,8 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 				<ul class="cluster">
 					{RequiredBy.map((Item) => (
 						<li>
-							<a class="mono" href={Item!.Href}>
+							<a class="mono cluster" href={Item!.Href}>
+								<Icon Name={Item!.Slug} Size={24} />
 								{Item!.Slug}
 							</a>
 						</li>

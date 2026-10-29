@@ -22,6 +22,17 @@ export const Component = [
 		],
 	},
 	{
+		Name: "Icon",
+		Slug: "icon",
+		Summary: "One package's generated mark, served as the colour render the monorepo draws.",
+		Prop: [
+			["Name", "string", "The package directory the icon was drawn for."],
+			["Size", "number", "The rendered square in px; 40 by default."],
+			["Label", "string", "The accessible name, when the mark is the only carrier."],
+			["Priority", "boolean", "Load eagerly, for a mark above the fold."],
+		],
+	},
+	{
 		Name: "Breadcrumb",
 		Slug: "breadcrumb",
 		Summary: "The trail from a section root to the page the reader is on.",
@@ -39,7 +50,11 @@ export const Component = [
 		Summary: "The dense grid a catalogue uses to compare many rows at once.",
 		Prop: [
 			["Head", "string[]", "The column headings."],
-			["Row", "string[][]", "One array per row, in heading order."],
+			[
+				"Row",
+				"(string | { Text, Href, Icon? })[][]",
+				"One array per row; a cell is text, or a link that may carry a package icon.",
+			],
 			["Caption", "string", "The table's accessible name."],
 		],
 	},

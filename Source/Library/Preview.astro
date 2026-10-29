@@ -8,6 +8,7 @@ import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import Definition from "@Component/Definition.astro";
 import EmptyState from "@Component/EmptyState.astro";
+import Icon from "@Component/Icon.astro";
 import PackageCard from "@Component/PackageCard.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
@@ -41,6 +42,14 @@ const Entry = Package[0];
 		<div class="cluster">
 			<VersionPill Version="0.2.1" />
 			<VersionPill Version="0.0.0" Private />
+		</div>
+	)}
+
+	{Slug === "icon" && (
+		<div class="cluster">
+			<Icon Name="hook-dsh-normalize-dash" Size={64} />
+			<Icon Name="plugin-dsh-factory" Size={40} />
+			<Icon Name="lib-dsh-core" Size={24} />
 		</div>
 	)}
 

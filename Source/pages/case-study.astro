@@ -1,5 +1,6 @@
 ---
 import CodeBlock from "@Component/CodeBlock.astro";
+import Icon from "@Component/Icon.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
@@ -34,8 +35,9 @@ const Confirm = [
 	<PageHero
 		Eyebrow="Case study"
 		Title="One character, end to end"
-		Lede="An em dash leaves the model and arrives in the transcript as a hyphen."
-	/>
+		Lede="An em dash leaves the model and arrives in the transcript as a hyphen.">
+		<Icon slot="Mark" Name={Slug} Size={64} Priority />
+	</PageHero>
 
 	<section class="section">
 		<SectionHeader
