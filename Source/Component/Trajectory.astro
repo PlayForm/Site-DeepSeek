@@ -3,15 +3,19 @@ import "@Stylesheet/Component/Trajectory.scss";
 
 import Badge from "@Component/Badge.astro";
 
+import type { Effect } from "@Library/Effect";
+
 export interface TrajectoryListener {
 	Slug: string;
 	Href: string;
 	What: string;
+	Effect: Effect;
 }
 
 export interface TrajectoryStep {
 	Name: string;
 	Lens: string;
+	Note: string;
 	Listener: TrajectoryListener[];
 }
 
@@ -20,6 +24,28 @@ interface Props {
 }
 
 const { Step } = Astro.props;
+
+const Tone: Record<Effect, "accent" | "neutral" | "quiet"> = {
+	rewrite: "accent",
+	record: "neutral",
+	advise: "quiet",
+	pass: "quiet",
+};
+
+function Tally(Listener: TrajectoryListener[]) {
+	const Count = { rewrite: 0, record: 0, advise: 0, pass: 0 };
+
+	for (const Entry of Listener) {
+		Count[Entry.Effect] += 1;
+	}
+
+	return (
+		(["rewrite", "record", "advise"] as const)
+			.filter((Key) => Count[Key] > 0)
+			.map((Key) => `${Count[Key]} ${Key}`)
+			.join(" / ") || "unchanged"
+	);
+}
 ---
 
 <ol class="trajectory">
@@ -33,12 +59,21 @@ const { Step } = Astro.props;
 						<Badge Label={Entry.Lens} Tone="accent" />
 						<span class="trajectory__count">{Entry.Listener.length} hooks</span>
 					</header>
+
+					<div class="trajectory__lens">
+						<span class="trajectory__lens-label">Model</span>
+						<span class="trajectory__lens-value">{Tally(Entry.Listener)}</span>
+					</div>
+
+					{Entry.Note && <p class="trajectory__note">{Entry.Note}</p>}
+
 					<ul class="trajectory__list">
 						{Entry.Listener.map((Item) => (
 							<li class="trajectory__listener">
 								<a class="trajectory__slug" href={Item.Href}>
 									{Item.Slug}
 								</a>
+								<Badge Label={Item.Effect} Tone={Tone[Item.Effect]} />
 								<span class="trajectory__what">{Item.What}</span>
 							</li>
 						))}

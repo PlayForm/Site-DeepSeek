@@ -64,8 +64,7 @@ export default defineConfig({
 	srcDir: "./Source",
 	publicDir: "./Public",
 	outDir: "./Target",
-	// TODO Place your site URL here
-	// site: "",
+	site: On ? "http://localhost:9999" : "https://deepseek.playform.cloud",
 	compressHTML: true,
 	prefetch: {
 		defaultStrategy: "hover",

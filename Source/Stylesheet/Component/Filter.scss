@@ -22,6 +22,7 @@
 
 	&__input {
 		width: 240px;
+		min-height: 30px;
 		padding: 2px var(--space-2);
 		border: 1px solid var(--cabinet-line);
 		border-radius: var(--radius-sm);
@@ -45,7 +46,8 @@
 	}
 
 	&__option {
-		padding: 2px var(--space-2);
+		min-height: 30px;
+		padding: 2px var(--space-3);
 		border: 0;
 		border-right: 1px solid var(--cabinet-line);
 		background: var(--cabinet-front);

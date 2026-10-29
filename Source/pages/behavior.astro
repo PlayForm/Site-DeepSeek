@@ -7,6 +7,7 @@ import StatBand from "@Component/StatBand.astro";
 import Trajectory, { type TrajectoryStep } from "@Component/Trajectory.astro";
 
 import { Count, SelectKind } from "@Library/Package.server";
+import { EffectOf } from "@Library/Effect";
 import { SeamFor, SurfaceFor } from "@Library/Surface.server";
 
 // A conversation reaches the seams in this order. Anything the family listens
@@ -45,7 +46,9 @@ function LensOf(Seam: string): string {
 
 const Group = new Map<string, TrajectoryStep["Listener"]>();
 
-for (const Entry of SelectKind("hook")) {
+const Hook = SelectKind("hook");
+
+for (const Entry of Hook) {
 	const Surface = SurfaceFor(Entry.Slug);
 
 	for (const Seam of SeamFor(Entry.Slug)) {
@@ -53,7 +56,7 @@ for (const Entry of SelectKind("hook")) {
 			Surface.find((Item) => /listen/i.test(Item.Kind) && Item.Name.includes(Seam))?.What ?? "";
 		const List = Group.get(Seam) ?? [];
 
-		List.push({ Slug: Entry.Slug, Href: Entry.Href, What });
+		List.push({ Slug: Entry.Slug, Href: Entry.Href, What, Effect: EffectOf(What) });
 		Group.set(Seam, List);
 	}
 }
@@ -68,11 +71,21 @@ const Seam = [...Group.keys()].sort((Left, Right) => {
 	);
 });
 
-const Step: TrajectoryStep[] = Seam.map((Name) => ({
-	Name,
-	Lens: LensOf(Name),
-	Listener: Group.get(Name) ?? [],
-}));
+const Step: TrajectoryStep[] = Seam.map((Name) => {
+	const Listener = Group.get(Name) ?? [];
+	const Class = [
+		...new Set(
+			Listener.map((Entry) => /normalize-(\w+)/.exec(Entry.Slug)?.[1]).filter(Boolean),
+		),
+	] as string[];
+
+	return {
+		Name,
+		Lens: LensOf(Name),
+		Note: Class.length > 0 ? `Normalizes the ${Class.join(", ")} classes` : "",
+		Listener,
+	};
+});
 ---
 
 <Base
@@ -89,8 +102,14 @@ const Step: TrajectoryStep[] = Seam.map((Name) => ({
 		Stat={[
 			{ Label: "Hook", Value: Count.Hook, Note: "Two releases" },
 			{ Label: "Seam", Value: Step.length, Note: "Distinct events" },
-			{ Label: "Classic", Value: Count.Classic / 2 },
-			{ Label: "Effect-TS", Value: Count.EffectTS / 2 },
+			{
+				Label: "Classic",
+				Value: Hook.filter((Entry) => Entry.Family === "Classic").length,
+			},
+			{
+				Label: "Effect-TS",
+				Value: Hook.filter((Entry) => Entry.Family === "EffectTS").length,
+			},
 		]}
 	/>
 

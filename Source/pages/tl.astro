@@ -1,20 +1,45 @@
 ---
 import Base from "@Layout/Base.astro";
 
-import EmptyState from "@Component/EmptyState.astro";
 import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import StatBand from "@Component/StatBand.astro";
+import Table from "@Component/Table.astro";
 
-import { Route } from "@Library/Links";
+import { Count } from "@Library/Package.server";
+import { Line } from "@Library/Release.server";
+
+const Current = Line.find((Entry) => Entry.State === "current")?.Version ?? "";
+
+const Row = Line.map((Entry) => [Entry.Version, String(Entry.Package), Entry.State]);
 ---
 
-<Base Title="Timeline" Description="Every package along one time axis.">
-	<PageHero Eyebrow="Timeline" Title="Timeline" Lede="Every package along one time axis." />
+<Base
+	Title="Release"
+	Description={`The release line the tree records: ${Line.length} versions, ${Count.All} packages.`}
+>
+	<PageHero
+		Eyebrow="Timeline"
+		Title="Release"
+		Lede={`${Line.length} versions across ${Count.All} packages. ${Current} is the current line.`}
+	/>
+
+	<StatBand
+		Stat={[
+			{ Label: "Version", Value: Line.length, Note: "In a changelog" },
+			{ Label: "Current", Value: Current, Note: "In the manifests" },
+			{ Label: "Package", Value: Count.All, Note: "Two releases" },
+		]}
+	/>
 
 	<section class="section">
+		<SectionHeader Title="Version" />
 		<div class="section__body">
-			<EmptyState Title="Nothing drawn yet">
-				<a href={Route.Reference}>Reference</a>
-			</EmptyState>
+			<Table
+				Caption="Every version the changelogs record, with the packages that carry it"
+				Head={["Version", "Package", "State"]}
+				Row={Row}
+			/>
 		</div>
 	</section>
 </Base>
