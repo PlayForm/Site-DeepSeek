@@ -66,9 +66,23 @@ const Confirm = [
 	<section class="section">
 		<SectionHeader
 			Title="Load"
-			Lede="The package declares the patch the host applies when the plugin is enabled in your profile."
+			Lede="List the package in your profile's bundles, then restart the app. A dependency alone is not activation."
 		/>
-		<div class="section__body">
+		<div class="section__body stack">
+			<CodeBlock
+				Label="~/.dsh/profiles/<profile>/package.json"
+				Language="json"
+				Code={`{
+	"dsh": {
+		"profile": {
+			"bundles": [
+				"@deepseek-ai/dsh-base",
+				"${Example?.Name ?? "@playform/hook-dsh-normalize-dash"}"
+			]
+		}
+	}
+}`}
+			/>
 			<Table
 				Caption="What the package declares for the host"
 				Head={["Field", "Value"]}

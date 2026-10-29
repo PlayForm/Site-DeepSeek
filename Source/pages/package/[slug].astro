@@ -124,6 +124,13 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 		</div>
 	</section>
 
+	<section class="section">
+		<SectionHeader Title="Install" />
+		<div class="section__body">
+			<CodeBlock Label="Install" Language="sh" Code={`pnpm add ${Entry.Name}`} />
+		</div>
+	</section>
+
 	{
 		SurfaceFor(Entry.Slug).length > 0 && (
 			<section class="section">
@@ -223,9 +230,8 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 		<SectionHeader Title="Source" />
 		<div class="section__body stack">
 			<p class="lede">
-				<a href={Entry.Source}>Open the package in the monorepo</a>
+				<a href={Entry.Source}>Open the package source</a>
 			</p>
-			<CodeBlock Label="Install" Language="sh" Code={`pnpm add ${Entry.Name}`} />
 		</div>
 	</section>
 
