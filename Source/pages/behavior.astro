@@ -1,4 +1,5 @@
 ---
+import Diagram from "@Component/Diagram.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
@@ -118,6 +119,13 @@ const Classic = SelectKind("hook").filter((Entry) => Entry.Family === "Classic")
 		/>
 		<div class="section__body">
 			<Trajectory Step={Step} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="Seam" Lede="The same order, as one path." />
+		<div class="section__body">
+			<Diagram Id="Trajectory" Caption="The seven seams a turn reaches, and the hooks at each." />
 		</div>
 	</section>
 

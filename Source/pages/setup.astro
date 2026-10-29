@@ -1,5 +1,6 @@
 ---
 import CodeBlock from "@Component/CodeBlock.astro";
+import Diagram from "@Component/Diagram.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
@@ -69,6 +70,7 @@ const Confirm = [
 			Lede="List the package in your profile's bundles, then restart the app. A dependency alone is not activation."
 		/>
 		<div class="section__body stack">
+			<Diagram Id="Install" Caption="The path a reader takes: install, load, configure, confirm." />
 			<CodeBlock
 				Label="~/.dsh/profiles/<profile>/package.json"
 				Language="json"

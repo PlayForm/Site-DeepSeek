@@ -1,0 +1,18 @@
+---
+import "@Stylesheet/Component/Term.scss";
+
+import { TermFor } from "@Content/Term";
+
+interface Props {
+	/** A key from `Source/Content/Term.ts`: hook, plugin, seam, surface, ... */
+	Name: string;
+}
+
+const { Name } = Astro.props;
+const Entry = TermFor(Name);
+const Label = Entry?.Name ?? Name;
+---
+
+<span class="term" data-term={Label} title={Entry?.Meaning}>
+	{Label}
+</span>

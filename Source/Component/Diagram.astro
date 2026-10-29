@@ -1,0 +1,31 @@
+---
+import "@Stylesheet/Component/Diagram.scss";
+
+interface Props {
+	/** The file stem under `Source/Content/Mermaid/`, rendered by `pnpm Diagrams`. */
+	Id: string;
+	Caption: string;
+}
+
+const { Id, Caption } = Astro.props;
+
+// The SVG is vendored beside its source and inlined here, so the page ships a
+// pre-rendered diagram and no Mermaid at runtime.
+const File = import.meta.glob("../Content/Mermaid/*.svg", {
+	query: "?raw",
+	import: "default",
+	eager: true,
+}) as Record<string, string>;
+
+const Key = Object.keys(File).find((Path) => Path.endsWith(`/${Id}.svg`));
+const Svg = Key ? File[Key] : "";
+---
+
+{
+	Svg !== "" && (
+		<figure class="diagram">
+			<div class="diagram__stage" set:html={Svg} />
+			<figcaption class="diagram__caption">{Caption}</figcaption>
+		</figure>
+	)
+}

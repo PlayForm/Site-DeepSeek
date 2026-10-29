@@ -1,0 +1,5 @@
+%% The path a reader takes, from the package to the line that proves it ran.
+flowchart LR
+	Install["pnpm add"] --> Load["profile bundles<br/>and a restart"]
+	Load --> Configure["configuration<br/>every knob"]
+	Configure --> Confirm["ledger<br/>one line"]

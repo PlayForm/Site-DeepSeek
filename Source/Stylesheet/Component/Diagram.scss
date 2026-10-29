@@ -1,0 +1,27 @@
+@use "../Material.scss" as Material;
+
+// A vendored Mermaid render, inlined. The SVG carries width="100%" and a
+// viewBox, so the stage only has to let it fill the column.
+.diagram {
+	@include Material.tray;
+
+	margin: 0;
+	padding: var(--rhythm-inset);
+	overflow-x: auto;
+
+	&__stage {
+		display: block;
+
+		:global(svg) {
+			display: block;
+			width: 100%;
+			height: auto;
+		}
+	}
+
+	&__caption {
+		@include Material.label;
+
+		margin-top: var(--rhythm-tight);
+	}
+}

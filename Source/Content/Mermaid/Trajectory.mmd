@@ -1,0 +1,9 @@
+%% The seams, in the order one turn reaches them, with the hooks that act there.
+%% Figures are authored in Source/Content/Behavior.ts; re-render after a change.
+flowchart LR
+	Prompt["system-prompt/assemble<br/>2 hooks"] --> Stream["llm/stream<br/>12 hooks"]
+	Stream --> Gate["tools/pre-execute<br/>4 hooks"]
+	Gate --> Result["tools/post-execute<br/>20 hooks"]
+	Result --> Batch["batch/proposed<br/>2 hooks"]
+	Batch --> Disk["fs/observed<br/>18 hooks"]
+	Disk --> State["agent/status<br/>2 hooks"]
