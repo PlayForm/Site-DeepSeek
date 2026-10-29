@@ -5,6 +5,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
+import Term from "@Component/Term.astro";
 import Terminal from "@Component/Terminal.astro";
 
 import { Ledger } from "@Library/Ledger.server";
@@ -31,8 +32,12 @@ const Watch = [
 	<PageHero
 		Eyebrow="Connect"
 		Title="Read your run"
-		Lede={`${Ledger.length} plugins keep a ledger. Each one writes its own file, and the file says what it did.`}
-	/>
+	>
+		<Fragment slot="Lede">
+			{Ledger.length} <Term Name="plugin" /> keep a <Term Name="ledger" />. Each one writes its
+			own file, and the file says what it did.
+		</Fragment>
+	</PageHero>
 
 	<StatBand
 		Stat={[

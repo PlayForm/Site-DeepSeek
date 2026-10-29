@@ -4,6 +4,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Trajectory, { type TrajectoryStep } from "@Component/Trajectory.astro";
+import Term from "@Component/Term.astro";
 import Transform from "@Component/Transform.astro";
 import { BehaviorFor } from "@Content/Behavior";
 import { Transform as Sample } from "@Content/Transform";
@@ -100,8 +101,12 @@ const Classic = SelectKind("hook").filter((Entry) => Entry.Family === "Classic")
 	<PageHero
 		Eyebrow="Behavior"
 		Title="Hook"
-		Lede={`${Count.Hook} hooks on ${Step.length} seams, in the order a conversation reaches them.`}
-	/>
+	>
+		<Fragment slot="Lede">
+			{Count.Hook} <Term Name="hook" /> on {Step.length} <Term Name="seam" />, in the order a
+			conversation reaches them.
+		</Fragment>
+	</PageHero>
 
 	<StatBand
 		Stat={[

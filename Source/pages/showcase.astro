@@ -3,6 +3,7 @@ import Card from "@Component/Card.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
+import Term from "@Component/Term.astro";
 import { BehaviorFor } from "@Content/Behavior";
 import { Transform } from "@Content/Transform";
 import Base from "@Layout/Base.astro";
@@ -41,8 +42,12 @@ const Listener = [...Group.values()].reduce((Total, List) => Total + List.size, 
 	<PageHero
 		Eyebrow="Showcase"
 		Title="Showcase"
-		Lede={`${Seam} seams, ${Listener} listeners, ${Transform.length} worked transforms, ${Catalogue.Edge.length} dependency edges.`}
-	/>
+	>
+		<Fragment slot="Lede">
+			{Seam} <Term Name="seam" />, {Listener} <Term Name="hook" />, {Transform.length} worked
+			transforms, {Catalogue.Edge.length} dependency edge.
+		</Fragment>
+	</PageHero>
 
 	<StatBand
 		Stat={[

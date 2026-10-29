@@ -281,7 +281,7 @@ export default (Props: Props) => {
 						checked={Labels()}
 						onChange={(Event) => SetLabels(Event.currentTarget.checked)}
 					/>
-					<span>Labels</span>
+					<span>Label</span>
 				</label>
 
 				<ul class="explorer__legend">
@@ -299,7 +299,7 @@ export default (Props: Props) => {
 					</For>
 				</ul>
 
-				<span class="explorer__count">{Visible().length} nodes</span>
+				<span class="explorer__count">{Visible().length} node</span>
 			</div>
 
 			<div class="explorer__body">
@@ -307,7 +307,7 @@ export default (Props: Props) => {
 					class="explorer__canvas"
 					ref={Host}
 					role="img"
-					aria-label={`The package graph: ${Visible().length} nodes, ${Props.Edge.length} dependency edges`}
+					aria-label={`The package graph: ${Visible().length} node, ${Props.Edge.length} dependency edge`}
 				/>
 
 				<aside class="explorer__inspector" aria-live="polite">

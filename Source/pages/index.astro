@@ -5,6 +5,7 @@ import Seam from "@Component/Seam.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
+import Term from "@Component/Term.astro";
 import Transform from "@Component/Transform.astro";
 import { BehaviorFor } from "@Content/Behavior";
 import { Transform as Sample } from "@Content/Transform";
@@ -81,8 +82,12 @@ const Dash = Sample.filter((Item) => Item.Slug === "hook-dsh-normalize-dash");
 	<section class="section">
 		<SectionHeader
 			Title="What your model writes"
-			Lede="The stream leaves the model, passes a hook, and arrives in the transcript changed."
-		/>
+		>
+			<Fragment slot="Lede">
+				The stream leaves the model, passes a <Term Name="hook" />, and arrives in the
+				transcript changed.
+			</Fragment>
+		</SectionHeader>
 		<div class="section__body stack">
 			<Transform Sample={Dash} />
 			<div class="cluster">

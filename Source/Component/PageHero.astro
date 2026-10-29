@@ -14,10 +14,6 @@ const { Title, Lede, Eyebrow, Level = 1 } = Astro.props;
 const Heading = Level === 1 ? "h1" : "h2";
 ---
 
-// The hero is the page's opening block: the eyebrow, the one heading, the lede, // and the actions.
-A page that opens on one package's identity fills the `Mark` // slot, and the mark then sits beside
-the eyebrow and the heading as the first // thing the eye lands on; a page without a mark renders
-the same block with the // same rhythm, because the head holds only the text.
 <header class="page-hero">
 	<div class="page-hero__head">
 		<slot name="Mark" />
@@ -26,7 +22,15 @@ the same block with the // same rhythm, because the head holds only the text.
 			<Heading>{Title}</Heading>
 		</div>
 	</div>
-	{Lede && <p class="lede">{Lede}</p>}
+	{
+		Astro.slots.has("Lede") ? (
+			<div class="lede">
+				<slot name="Lede" />
+			</div>
+		) : (
+			Lede && <p class="lede">{Lede}</p>
+		)
+	}
 	<div class="page-hero__actions">
 		<slot name="Actions" />
 	</div>
