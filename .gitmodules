@@ -1,4 +1,4 @@
 [submodule "Module/DeepSeek"]
-path = Module/DeepSeek
-url = ssh://git@github.com/PlayForm/DeepSeek.git
-shallow = true
+	path = Module/DeepSeek
+	url = https://github.com/PlayForm/DeepSeek.git
+	shallow = true

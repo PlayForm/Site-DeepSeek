@@ -8,6 +8,10 @@ import { join, resolve } from "node:path";
 // a clean clone builds without a manual step.
 const Module = resolve(process.cwd(), "Module", "DeepSeek");
 
+// The builder has no SSH key, so the submodule is fetched over HTTPS even when
+// a local checkout recorded an SSH remote.
+const Url = "https://github.com/PlayForm/DeepSeek.git";
+
 function HoldsTrees(Directory: string): boolean {
 	return (
 		existsSync(join(Directory, "Classic", "packages")) &&
@@ -31,6 +35,8 @@ function Prepare(): void {
 
 	console.warn("[Prepare] The package trees are missing; checking out Module/DeepSeek.");
 
+	execFileSync("git", ["config", `submodule.Module/DeepSeek.url`, Url], { stdio: "ignore" });
+	execFileSync("git", ["submodule", "sync", "Module/DeepSeek"], { stdio: "ignore" });
 	execFileSync("git", ["submodule", "update", "--init", "--depth", "1", "Module/DeepSeek"], {
 		stdio: "inherit",
 	});
