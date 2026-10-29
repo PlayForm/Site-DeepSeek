@@ -5,7 +5,7 @@ import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
-import StatsBand from "@Component/StatsBand.astro";
+import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
 
 import { Content } from "@Library/Content";
@@ -24,8 +24,8 @@ const Patch = Package.filter((Entry) => Entry.Patch).length;
 		Lede="Install a package, then point the host at the bundle patch it ships."
 	/>
 
-	<StatsBand
-		Stats={[
+	<StatBand
+		Stat={[
 			{ Label: "Package", Value: Count.All },
 			{ Label: "Bundle patch", Value: Patch },
 			{ Label: "Licence", Value: Content.Licence },
@@ -52,7 +52,7 @@ const Patch = Package.filter((Entry) => Entry.Patch).length;
 			<Table
 				Caption="The manifest fields the host reads"
 				Head={["Field", "Value"]}
-				Rows={[
+				Row={[
 					["name", Factory?.Name ?? "unavailable"],
 					["version", Factory?.Version ?? "unavailable"],
 					["main", "./Target/Library.js"],

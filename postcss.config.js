@@ -48,13 +48,10 @@ module.exports = {
 		require("tailwindcss/nesting"),
 		require("tailwindcss")("./tailwind.config.js"),
 		require("postcss-combine-media-query"),
-		// The v11 package exports the plugin as its default export, so the
-		// CommonJS require returns the module namespace and the plugin is
-		// reached through `.default`.
-		require("postcss-combine-duplicated-selectors").default({
-			removeDuplicatedProperties: true,
-			removeDuplicatedValues: false,
-		}),
+		// `postcss-combine-duplicated-selectors` is deliberately absent: on the
+		// button modifier rules it emitted a malformed fragment (`});color:...`),
+		// and the deployment's lightningcss pass rejected the result with
+		// "Invalid empty selector". cssnano already merges duplicated selectors.
 		require("autoprefixer"),
 		// The advanced preset's `discardUnused` drops `@font-face` rules that it
 		// cannot see referenced in the same stylesheet. The faces are referenced

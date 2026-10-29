@@ -1,0 +1,25 @@
+---
+import "@Stylesheet/Component/Definition.scss";
+
+interface Definition {
+	Term: string;
+	Detail: string;
+}
+
+interface Props {
+	Definition: Definition[];
+}
+
+const { Definition } = Astro.props;
+---
+
+<dl class="definition">
+	{
+		Definition.map((Entry) => (
+			<div class="definition__row">
+				<dt class="definition__term">{Entry.Term}</dt>
+				<dd class="definition__detail">{Entry.Detail}</dd>
+			</div>
+		))
+	}
+</dl>

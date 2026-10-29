@@ -11,21 +11,21 @@ import Catalogue from "@Library/Graph/Catalogue.server";
 
 <Base
 	Title="Observatory"
-	Description={`The package graph: ${Catalogue.Nodes.length} nodes and ${Catalogue.Edges.length} dependency edges, laid out in the browser.`}
+	Description={`The package graph: ${Catalogue.Node.length} nodes and ${Catalogue.Edge.length} dependency edges, laid out in the browser.`}
 >
 	<PageHero
 		Eyebrow="Observatory"
 		Title="Package graph"
-		Lede={`${Catalogue.Nodes.length} nodes, ${Catalogue.Edges.length} edges.`}
+		Lede={`${Catalogue.Node.length} nodes, ${Catalogue.Edge.length} edges.`}
 	/>
 
 	<section class="section">
 		<div class="section__body">
 			<Explorer
-				Nodes={Catalogue.Nodes}
-				Edges={Catalogue.Edges}
-				Families={Catalogue.Families}
-				Kinds={Catalogue.Kinds}
+				Node={Catalogue.Node}
+				Edge={Catalogue.Edge}
+				Family={Catalogue.Family}
+				Kind={Catalogue.Kind}
 				client:load
 			/>
 		</div>

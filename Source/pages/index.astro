@@ -4,7 +4,7 @@ import Base from "@Layout/Base.astro";
 import Card from "@Component/Card.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
-import StatsBand from "@Component/StatsBand.astro";
+import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
 
 import { Component } from "@Library/Component";
@@ -26,8 +26,8 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 		</Fragment>
 	</PageHero>
 
-	<StatsBand
-		Stats={[
+	<StatBand
+		Stat={[
 			{ Label: "Package", Value: Count.All, Note: "Two releases" },
 			{ Label: "Hook", Value: Count.Hook, Note: "Listen on harness events" },
 			{ Label: "Plugin", Value: Count.Plugin, Note: "Tools and bundles" },
@@ -59,7 +59,7 @@ const Starters = ["hook-dsh-normalize-dash", "hook-dsh-workspace-govern", "plugi
 			<Table
 				Caption="Three packages to start with"
 				Head={["Package", "Kind", "Version"]}
-				Rows={Starters}
+				Row={Starters}
 			/>
 		</div>
 	</section>

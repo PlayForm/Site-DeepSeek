@@ -3,11 +3,11 @@ import "@Stylesheet/Component/Table.scss";
 
 interface Props {
 	Head: string[];
-	Rows: string[][];
+	Row: string[][];
 	Caption?: string;
 }
 
-const { Head, Rows, Caption } = Astro.props;
+const { Head, Row, Caption } = Astro.props;
 ---
 
 <div class="table">
@@ -20,9 +20,9 @@ const { Head, Rows, Caption } = Astro.props;
 		</thead>
 		<tbody>
 			{
-				Rows.map((Row) => (
+				Row.map((Cells) => (
 					<tr>
-						{Row.map((Cell, Index) => (
+						{Cells.map((Cell, Index) => (
 							<td>{Index === 0 ? <strong>{Cell}</strong> : Cell}</td>
 						))}
 					</tr>

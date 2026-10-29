@@ -1,6 +1,6 @@
 @use "../Material.scss" as Material;
 
-.stats-band {
+.stat-band {
 	@include Material.slab;
 
 	display: grid;

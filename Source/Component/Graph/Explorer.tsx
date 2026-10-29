@@ -20,19 +20,19 @@ export interface ExplorerEdge {
 }
 
 interface Props {
-	Nodes: ExplorerNode[];
-	Edges: ExplorerEdge[];
-	Families: string[];
-	Kinds: string[];
+	Node: ExplorerNode[];
+	Edge: ExplorerEdge[];
+	Family: string[];
+	Kind: string[];
 }
 
-interface Modules {
+interface Module {
 	Cytoscape: typeof import("cytoscape").default;
 	Fcose: unknown;
 }
 
 // The node colour is the kind, in the one chromatic family plus the neutrals.
-const Colours: Record<string, string> = {
+const Colour: Record<string, string> = {
 	plugin: "#0052ff",
 	hook: "#0038b8",
 	lib: "#64748b",
@@ -40,15 +40,15 @@ const Colours: Record<string, string> = {
 	base: "#0b0f19",
 };
 
-const Layouts = [
+const Layout = [
 	{ Value: "fcose", Label: "Force" },
 	{ Value: "concentric", Label: "Concentric" },
 	{ Value: "grid", Label: "Grid" },
 ];
 
 export default (Props: Props) => {
-	const [Modules, SetModules] = createSignal<Modules>();
-	const [Family, SetFamily] = createSignal("All");
+	const [Module, SetModule] = createSignal<Module>();
+	const [Release, SetRelease] = createSignal("All");
 	const [Mode, SetMode] = createSignal("fcose");
 	const [Labels, SetLabels] = createSignal(false);
 	const [Selected, SetSelected] = createSignal<ExplorerNode | null>(null);
@@ -57,7 +57,7 @@ export default (Props: Props) => {
 	let Instance: Core | undefined;
 
 	const Visible = createMemo(() =>
-		Props.Nodes.filter((Node) => Family() === "All" || Node.Family === Family()),
+		Props.Node.filter((Entry) => Release() === "All" || Entry.Family === Release()),
 	);
 
 	const Styles: Stylesheet[] = [
@@ -110,17 +110,17 @@ export default (Props: Props) => {
 		},
 	];
 
-	const Highlight = (Node: Core | undefined) => {
+	const Highlight = (Target: Core | undefined) => {
 		if (!Instance) {
 			return;
 		}
 
-		if (!Node) {
+		if (!Target) {
 			Instance.elements().removeClass("muted");
 			return;
 		}
 
-		const Neighbourhood = Node.closedNeighborhood();
+		const Neighbourhood = Target.closedNeighborhood();
 
 		Instance.elements().addClass("muted");
 		Neighbourhood.removeClass("muted");
@@ -132,13 +132,13 @@ export default (Props: Props) => {
 			const Fcose = (await import("cytoscape-fcose")).default;
 
 			Cytoscape.use(Fcose as Parameters<typeof Cytoscape.use>[0]);
-			SetModules({ Cytoscape, Fcose });
+			SetModule({ Cytoscape, Fcose });
 		})();
 	});
 
 	createEffect(() => {
-		const Loaded = Modules();
-		const FamilyNow = Family();
+		const Loaded = Module();
+		const ReleaseNow = Release();
 		const ModeNow = Mode();
 		const LabelsNow = Labels();
 
@@ -146,22 +146,24 @@ export default (Props: Props) => {
 			return;
 		}
 
-		const Nodes = Props.Nodes.filter((Node) => FamilyNow === "All" || Node.Family === FamilyNow);
-		const Ids = new Set(Nodes.map((Node) => Node.Id));
-		const Edges = Props.Edges.filter((Edge) => Ids.has(Edge.Source) && Ids.has(Edge.Target));
+		const Node = Props.Node.filter(
+			(Entry) => ReleaseNow === "All" || Entry.Family === ReleaseNow,
+		);
+		const Ids = new Set(Node.map((Entry) => Entry.Id));
+		const Edge = Props.Edge.filter((Entry) => Ids.has(Entry.Source) && Ids.has(Entry.Target));
 
 		const Elements: ElementDefinition[] = [
-			...Nodes.map((Node) => ({
+			...Node.map((Entry) => ({
 				data: {
-					id: Node.Id,
-					Label: Node.Label,
-					Kind: Node.Kind,
-					Color: Colours[Node.Kind] ?? "#64748b",
-					Size: 8 + Math.min(26, Node.Dependents * 3),
+					id: Entry.Id,
+					Label: Entry.Label,
+					Kind: Entry.Kind,
+					Color: Colour[Entry.Kind] ?? "#64748b",
+					Size: 8 + Math.min(26, Entry.Dependents * 3),
 				},
 			})),
-			...Edges.map((Edge) => ({
-				data: { id: Edge.Id, source: Edge.Source, target: Edge.Target },
+			...Edge.map((Entry) => ({
+				data: { id: Entry.Id, source: Entry.Source, target: Entry.Target },
 			})),
 		];
 
@@ -183,7 +185,7 @@ export default (Props: Props) => {
 		Instance.on("tap", "node", (Event) => {
 			const Id = Event.target.id() as string;
 
-			SetSelected(Nodes.find((Node) => Node.Id === Id) ?? null);
+			SetSelected(Node.find((Entry) => Entry.Id === Id) ?? null);
 			Highlight(Event.target);
 		});
 
@@ -225,13 +227,13 @@ export default (Props: Props) => {
 				<div class="explorer__field">
 					<span class="explorer__label">Release</span>
 					<div class="explorer__options">
-						<For each={["All", ...Props.Families]}>
+						<For each={["All", ...Props.Family]}>
 							{(Entry) => (
 								<button
 									type="button"
 									class="explorer__option"
-									aria-pressed={Family() === Entry}
-									onClick={() => SetFamily(Entry)}
+									aria-pressed={Release() === Entry}
+									onClick={() => SetRelease(Entry)}
 								>
 									{Entry}
 								</button>
@@ -250,7 +252,7 @@ export default (Props: Props) => {
 						value={Mode()}
 						onChange={(Event) => SetMode(Event.currentTarget.value)}
 					>
-						<For each={Layouts}>
+						<For each={Layout}>
 							{(Entry) => <option value={Entry.Value}>{Entry.Label}</option>}
 						</For>
 					</select>
@@ -265,6 +267,21 @@ export default (Props: Props) => {
 					<span>Labels</span>
 				</label>
 
+				<ul class="explorer__legend">
+					<For each={Props.Kind}>
+						{(Entry) => (
+							<li>
+								<span
+									class="explorer__swatch"
+									style={{ "background-color": Colour[Entry] ?? "#64748b" }}
+									aria-hidden="true"
+								/>
+								{Entry}
+							</li>
+						)}
+					</For>
+				</ul>
+
 				<span class="explorer__count">{Visible().length} nodes</span>
 			</div>
 
@@ -273,7 +290,7 @@ export default (Props: Props) => {
 					class="explorer__canvas"
 					ref={Host}
 					role="img"
-					aria-label={`The package graph: ${Visible().length} nodes, ${Props.Edges.length} dependency edges`}
+					aria-label={`The package graph: ${Visible().length} nodes, ${Props.Edge.length} dependency edges`}
 				/>
 
 				<aside class="explorer__inspector" aria-live="polite">
@@ -286,30 +303,30 @@ export default (Props: Props) => {
 							</p>
 						}
 					>
-						{(Node) => (
+						{(Entry) => (
 							<div class="explorer__detail">
 								<p class="explorer__kicker">
-									{Node().Kind} / {Node().Family}
+									{Entry().Kind} / {Entry().Family}
 								</p>
-								<a class="explorer__name" href={Node().Href}>
-									{Node().Label}
+								<a class="explorer__name" href={Entry().Href}>
+									{Entry().Label}
 								</a>
 								<dl class="explorer__facts">
 									<div>
 										<dt>Version</dt>
-										<dd>{Node().Version}</dd>
+										<dd>{Entry().Version}</dd>
 									</div>
 									<div>
 										<dt>Tests</dt>
-										<dd>{Node().Tests}</dd>
+										<dd>{Entry().Tests}</dd>
 									</div>
 									<div>
 										<dt>Requires</dt>
-										<dd>{Node().Dependencies}</dd>
+										<dd>{Entry().Dependencies}</dd>
 									</div>
 									<div>
 										<dt>Required by</dt>
-										<dd>{Node().Dependents}</dd>
+										<dd>{Entry().Dependents}</dd>
 									</div>
 								</dl>
 							</div>

@@ -4,7 +4,7 @@ import Base from "@Layout/Base.astro";
 import Badge from "@Component/Badge.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
-import Definitions from "@Component/Definitions.astro";
+import Definition from "@Component/Definition.astro";
 import Pager from "@Component/Pager.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -50,8 +50,8 @@ const Next = Index >= 0 && Index < Package.length - 1 ? Package[Index + 1] : und
 	<section class="section">
 		<SectionHeader Title="Facts" />
 		<div class="section__body">
-			<Definitions
-				Definitions={[
+			<Definition
+				Definition={[
 					{ Term: "Package", Detail: Entry.Name },
 					{ Term: "Version", Detail: Entry.Version },
 					{ Term: "Kind", Detail: Entry.Kind },
@@ -83,7 +83,7 @@ const Next = Index >= 0 && Index < Package.length - 1 ? Package[Index + 1] : und
 					<Table
 						Caption={`Dependencies of ${Entry.Slug}`}
 						Head={["Package", "Role"]}
-						Rows={Entry.Dependencies.map((Dependency) => [
+						Row={Entry.Dependencies.map((Dependency) => [
 							Dependency,
 							Dependency.startsWith("@playform/") ? "family" : "external",
 						])}

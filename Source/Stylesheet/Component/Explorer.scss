@@ -104,6 +104,33 @@
 			var(--cabinet-front);
 	}
 
+	&__legend {
+		display: inline-flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-3);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+
+		li {
+			display: inline-flex;
+			align-items: center;
+			gap: var(--space-1);
+		}
+	}
+
+	&__swatch {
+		display: inline-block;
+		width: 8px;
+		height: 8px;
+		border: 1px solid var(--cabinet-line);
+		border-radius: 50%;
+	}
+
 	&__inspector {
 		overflow-y: auto;
 		padding: var(--space-3);

@@ -8,7 +8,7 @@ import Table from "@Component/Table.astro";
 import { Count, SelectKind } from "@Library/Package.server";
 
 const Hooks = SelectKind("hook");
-const Rows = Hooks.map((Hook) => [Hook.Slug, Hook.Family, Hook.Version, String(Hook.Tests)]);
+const Row = Hooks.map((Hook) => [Hook.Slug, Hook.Family, Hook.Version, String(Hook.Tests)]);
 ---
 
 <Base
@@ -27,7 +27,7 @@ const Rows = Hooks.map((Hook) => [Hook.Slug, Hook.Family, Hook.Version, String(H
 			<Table
 				Caption="Every hook, its release, its version, and its test count"
 				Head={["Package", "Release", "Version", "Test"]}
-				Rows={Rows}
+				Row={Row}
 			/>
 		</div>
 	</section>

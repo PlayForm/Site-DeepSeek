@@ -7,7 +7,7 @@ import Table from "@Component/Table.astro";
 
 import { Count, Package } from "@Library/Package.server";
 
-const Rows = Package.map((Entry) => [
+const Row = Package.map((Entry) => [
 	Entry.Slug,
 	Entry.Kind,
 	Entry.Family,
@@ -32,7 +32,7 @@ const Rows = Package.map((Entry) => [
 			<Table
 				Caption="Every package, its kind, its release, its version, and its test count"
 				Head={["Package", "Kind", "Release", "Version", "Test"]}
-				Rows={Rows}
+				Row={Row}
 			/>
 		</div>
 	</section>

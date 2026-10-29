@@ -7,11 +7,11 @@ interface Line {
 }
 
 interface Props {
-	Lines: Line[];
+	Line: Line[];
 	Label?: string;
 }
 
-const { Lines, Label = "Terminal" } = Astro.props;
+const { Line, Label = "Terminal" } = Astro.props;
 ---
 
 <figure class="terminal">
@@ -21,17 +21,17 @@ const { Lines, Label = "Terminal" } = Astro.props;
 	</figcaption>
 	<div class="terminal__body">
 		{
-			Lines.map((Line) => (
+			Line.map((Entry) => (
 				<>
-					{Line.Command && (
+					{Entry.Command && (
 						<p class="terminal__command">
 							<span class="terminal__prompt" aria-hidden="true">
 								$
 							</span>
-							<span>{Line.Command}</span>
+							<span>{Entry.Command}</span>
 						</p>
 					)}
-					{Line.Output && <pre class="terminal__output">{Line.Output}</pre>}
+					{Entry.Output && <pre class="terminal__output">{Entry.Output}</pre>}
 				</>
 			))
 		}
