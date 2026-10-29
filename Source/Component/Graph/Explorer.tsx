@@ -51,14 +51,21 @@ export default (Props: Props) => {
 	const [Release, SetRelease] = createSignal("All");
 	const [Mode, SetMode] = createSignal("fcose");
 	const [Labels, SetLabels] = createSignal(false);
+	const [Query, SetQuery] = createSignal("");
 	const [Selected, SetSelected] = createSignal<ExplorerNode | null>(null);
 
 	let Host: HTMLDivElement | undefined;
 	let Instance: Core | undefined;
 
-	const Visible = createMemo(() =>
-		Props.Node.filter((Entry) => Release() === "All" || Entry.Family === Release()),
-	);
+	const Visible = createMemo(() => {
+		const Search = Query().trim().toLowerCase();
+
+		return Props.Node.filter(
+			(Entry) =>
+				(Release() === "All" || Entry.Family === Release()) &&
+				(Search === "" || Entry.Label.toLowerCase().includes(Search)),
+		);
+	});
 
 	const Styles: Stylesheet[] = [
 		{
@@ -141,13 +148,16 @@ export default (Props: Props) => {
 		const ReleaseNow = Release();
 		const ModeNow = Mode();
 		const LabelsNow = Labels();
+		const SearchNow = Query().trim().toLowerCase();
 
 		if (!Loaded || !Host) {
 			return;
 		}
 
 		const Node = Props.Node.filter(
-			(Entry) => ReleaseNow === "All" || Entry.Family === ReleaseNow,
+			(Entry) =>
+				(ReleaseNow === "All" || Entry.Family === ReleaseNow) &&
+				(SearchNow === "" || Entry.Label.toLowerCase().includes(SearchNow)),
 		);
 		const Ids = new Set(Node.map((Entry) => Entry.Id));
 		const Edge = Props.Edge.filter((Entry) => Ids.has(Entry.Source) && Ids.has(Entry.Target));
@@ -224,6 +234,17 @@ export default (Props: Props) => {
 	return (
 		<div class="explorer">
 			<div class="explorer__toolbar">
+				<label class="explorer__field">
+					<span class="explorer__label">Search</span>
+					<input
+						class="explorer__input"
+						type="search"
+						placeholder="Package"
+						value={Query()}
+						onInput={(Event) => SetQuery(Event.currentTarget.value)}
+					/>
+				</label>
+
 				<div class="explorer__field">
 					<span class="explorer__label">Release</span>
 					<div class="explorer__options">

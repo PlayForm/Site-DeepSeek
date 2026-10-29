@@ -32,6 +32,23 @@
 		@include Material.label;
 	}
 
+	&__input {
+		width: 180px;
+		min-height: 26px;
+		padding: 2px var(--space-2);
+		border: 1px solid var(--cabinet-line);
+		border-radius: var(--radius-sm);
+		background: var(--cabinet-front);
+		color: var(--color-ink);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 1px;
+		}
+	}
+
 	&__options {
 		display: inline-flex;
 		border: 1px solid var(--cabinet-line);
