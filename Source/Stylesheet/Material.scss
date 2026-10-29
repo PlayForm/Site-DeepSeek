@@ -1,0 +1,51 @@
+// The cabinet material.
+//
+// One solid fill per face, one line colour per drawing, and zero elevation:
+// no gradient, no blur, no cast shadow. The depth is drawn instead as a
+// thicker, darker bottom and right edge, while the top and left stay thin and
+// light. A pressed slab loses its depth and the face steps into it.
+@mixin slab($depth: var(--cabinet-depth)) {
+	border: 1px solid var(--cabinet-line);
+	border-top-color: var(--cabinet-light);
+	border-left-color: var(--cabinet-light);
+	border-right: $depth solid var(--cabinet-right);
+	border-bottom: $depth solid var(--cabinet-right);
+	border-radius: var(--radius-sm);
+	background: var(--cabinet-front);
+}
+
+@mixin slab-press($depth: var(--cabinet-depth)) {
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	transform: translate(calc(#{$depth} - 1px), calc(#{$depth} - 1px));
+}
+
+// The accent slab: the same geometry with the blue face.
+@mixin slab-accent($depth: var(--cabinet-depth)) {
+	border: 1px solid var(--color-accent-deep);
+	border-top-color: var(--color-accent);
+	border-left-color: var(--color-accent);
+	border-right: $depth solid var(--color-accent-deep);
+	border-bottom: $depth solid var(--color-accent-deep);
+	border-radius: var(--radius-sm);
+	background: var(--color-accent);
+	color: var(--color-surface);
+}
+
+// The inset tray: the interior of a cabinet, darker than every face and
+// bounded by the drawing line on all four sides.
+@mixin tray {
+	border: 1px solid var(--cabinet-line);
+	border-radius: var(--radius-sm);
+	background: var(--cabinet-inset);
+}
+
+// The label type: the mono voice used for eyebrows, column heads, and keys.
+@mixin label($size: var(--text-xs)) {
+	font-family: var(--font-mono);
+	font-size: $size;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--color-ink-faint);
+}

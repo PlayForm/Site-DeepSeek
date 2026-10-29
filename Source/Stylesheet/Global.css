@@ -78,6 +78,24 @@
 	--hairline-strong: 1px solid var(--color-line-strong);
 
 	--header-height: 56px;
+
+	/* ---- The cabinet: the extruded slab ----
+		The front is the lightest face; the top and left edges stay thin and
+		light; the depth is drawn as a thicker, darker bottom and right edge.
+		Zero elevation holds: no shadow, no gradient, no blur. */
+	--cabinet-front: #ffffff;
+	--cabinet-light: #ffffff;
+	--cabinet-right: #dbe3f0;
+	--cabinet-line: #b9c6dc;
+	--cabinet-inset: #f4f7fc;
+	--cabinet-depth: 3px;
+	--cabinet-depth-sm: 1px;
+
+	/* ---- Motion: crisp for a press, snap for a reveal; no bounce ---- */
+	--motion-crisp: 100ms;
+	--motion-snap: 160ms;
+	--ease-crisp: cubic-bezier(0.4, 0, 0.2, 1);
+	--ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 *,
@@ -127,15 +145,17 @@ h4 {
 }
 
 h1 {
-	font-size: var(--text-3xl);
+	font-size: clamp(2rem, 1.775rem + 0.95vw, 2.5rem);
+	letter-spacing: -0.03em;
 }
 
 h2 {
 	font-size: var(--text-2xl);
+	letter-spacing: -0.015em;
 }
 
 h3 {
-	font-size: var(--text-xl);
+	font-size: var(--text-lg);
 }
 
 p {
@@ -274,30 +294,40 @@ main.page {
 	align-items: center;
 	gap: var(--space-2);
 	padding: var(--space-2) var(--space-4);
-	border: 1px solid var(--color-accent);
-	border-radius: var(--radius-md);
+	border: 1px solid var(--color-accent-deep);
+	border-top-color: var(--color-accent);
+	border-left-color: var(--color-accent);
+	border-right: var(--cabinet-depth) solid var(--color-accent-deep);
+	border-bottom: var(--cabinet-depth) solid var(--color-accent-deep);
+	border-radius: var(--radius-sm);
 	background: var(--color-accent);
 	color: var(--color-surface);
 	font-size: var(--text-sm);
 	font-weight: 500;
 	line-height: 1.6;
 	text-decoration: none;
+	transition: transform var(--motion-crisp) var(--ease-crisp);
 }
 
-.button:hover {
-	background: var(--color-accent-deep);
-	border-color: var(--color-accent-deep);
+.button:active {
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	transform: translate(calc(var(--cabinet-depth) - 1px), calc(var(--cabinet-depth) - 1px));
 }
 
 .button--quiet {
-	border-color: var(--color-line-strong);
-	background: var(--color-surface);
+	border-color: var(--cabinet-line);
+	border-top-color: var(--cabinet-light);
+	border-left-color: var(--cabinet-light);
+	border-right: var(--cabinet-depth) solid var(--cabinet-right);
+	border-bottom: var(--cabinet-depth) solid var(--cabinet-right);
+	background: var(--cabinet-front);
 	color: var(--color-ink);
 }
 
-.button--quiet:hover {
-	border-color: var(--color-line-strong);
-	background: var(--color-surface-sunken);
+.button--quiet:active {
+	border-right-width: 1px;
+	border-bottom-width: 1px;
 }
 
 .skip {
