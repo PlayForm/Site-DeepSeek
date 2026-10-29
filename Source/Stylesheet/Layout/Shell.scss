@@ -82,6 +82,39 @@
 	}
 }
 
+// The theme switch: two cells, and the active one carries the accent. The
+// `data-theme` attribute on the root decides which cell reads as active, so
+// the label needs no script.
+.shell-theme {
+	display: inline-flex;
+	border: 1px solid var(--cabinet-line);
+	background: var(--cabinet-front);
+	cursor: pointer;
+
+	&__cell {
+		padding: 1px var(--space-2);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-ink-faint);
+
+		& + & {
+			border-left: 1px solid var(--cabinet-line);
+		}
+	}
+
+	:root[data-theme="light"] & [data-theme-cell="light"],
+	:root[data-theme="dark"] & [data-theme-cell="dark"] {
+		background: var(--color-accent-soft);
+		color: var(--color-accent-ink);
+	}
+
+	&:hover {
+		border-color: var(--color-line-strong);
+	}
+}
+
 .shell-footer {
 	margin-top: var(--rhythm-block);
 	border-top: var(--hairline);

@@ -25,10 +25,21 @@ const Year = new Date().getFullYear();
 	<Head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script is:inline>
+			// Set the theme before the first paint: a stored choice wins, and with
+			// no stored choice the operating system decides.
+			const Stored = localStorage.getItem("theme");
+			const Dark =
+				Stored === "dark" ||
+				(Stored === null && window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+			document.documentElement.dataset.theme = Dark ? "dark" : "light";
+		</script>
 		<title>{Full}</title>
 		<meta name="description" content={Description} />
 		<link rel="canonical" href={Canonical} />
-		<meta name="theme-color" content="#ffffff" />
+		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#0b0f19" media="(prefers-color-scheme: dark)" />
 		<meta name="format-detection" content="telephone=no" />
 		<meta name="twitter:dnt" content="on" />
 
@@ -95,6 +106,16 @@ const Year = new Date().getFullYear();
 				<a class="shell-repository" href={Repository}>
 					GitHub
 				</a>
+
+				<button
+					class="shell-theme"
+					type="button"
+					data-theme-toggle
+					aria-label="Switch between the light and dark theme"
+				>
+					<span class="shell-theme__cell" data-theme-cell="light">Light</span>
+					<span class="shell-theme__cell" data-theme-cell="dark">Dark</span>
+				</button>
 			</div>
 		</header>
 
@@ -127,5 +148,23 @@ const Year = new Date().getFullYear();
 				</p>
 			</div>
 		</footer>
+
+		<script is:inline>
+			// One listener on the document survives the client router's page
+			// swaps, so the switch keeps working after a navigation.
+			document.addEventListener("click", (Event) => {
+				const Button = Event.target.closest("[data-theme-toggle]");
+
+				if (!Button) {
+					return;
+				}
+
+				const Next =
+					document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+
+				document.documentElement.dataset.theme = Next;
+				localStorage.setItem("theme", Next);
+			});
+		</script>
 	</body>
 </html>
