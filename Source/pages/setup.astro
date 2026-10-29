@@ -1,7 +1,6 @@
 ---
 import Base from "@Layout/Base.astro";
 
-import Card from "@Component/Card.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -9,89 +8,108 @@ import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
 import Terminal from "@Component/Terminal.astro";
 
+import { ConfigFor } from "@Library/Config.server";
 import { Content } from "@Library/Content";
 import { Route } from "@Library/Links";
 import { Count, Package } from "@Library/Package.server";
-import { Script } from "@Library/Script.server";
 
-const Factory = Package.find((Entry) => Entry.Slug === "plugin-dsh-factory");
-const Core = Package.find((Entry) => Entry.Slug === "lib-dsh-core");
+const Example = Package.find((Entry) => Entry.Slug === "hook-dsh-normalize-dash");
 const Patch = Package.filter((Entry) => Entry.Patch).length;
+const Configured = Package.filter((Entry) => ConfigFor(Entry.Slug).length > 0).length;
 
-const Check = Script.map((Entry) => ({
-	Command: `pnpm ${Entry.Name}`,
-	Output: Entry.Run,
-}));
+const Knob = ConfigFor(Example?.Slug ?? "").map((Item) => [
+	Item.Field,
+	Item.Type,
+	Item.Default,
+	Item.Meaning,
+]);
+
+// The activation line the package documents, so a reader knows what to look
+// for after the install.
+const Confirm = [
+	{
+		Command: `cat ~/.dsh/playform/${Example?.Slug ?? "hook-dsh-normalize-dash"}.log`,
+		Output: `${Example?.Slug ?? "hook-dsh-normalize-dash"}: activated (replacement=-, reasoning=on, toolArgs=off)`,
+	},
+];
 ---
 
-<Base Title="Install" Description="Install a package from the family, then load its bundle patch.">
+<Base
+	Title="Set up a plugin"
+	Description="Install a plugin, load its bundle patch, set its configuration, and confirm it activated."
+>
 	<PageHero
 		Eyebrow="Setup"
-		Title="Install"
-		Lede="Install a package, then point the host at the bundle patch it ships."
+		Title="Set up a plugin"
+		Lede="Install it, load its bundle patch, set its configuration, and confirm it activated."
 	/>
 
 	<StatBand
 		Stat={[
-			{ Label: "Package", Value: Count.All },
-			{ Label: "Bundle patch", Value: Patch },
-			{ Label: "Licence", Value: Content.Licence },
+			{ Label: "Plugin", Value: Count.All, Note: "Two releases" },
+			{ Label: "Bundle patch", Value: Patch, Note: "Ships with the package" },
+			{ Label: "Configured", Value: Configured, Note: "Documents its knobs" },
 		]}
 	/>
 
 	<section class="section">
-		<SectionHeader
-			Title="The factory"
-			Lede="Every hook and plugin depends on the factory, so it goes first."
-		/>
+		<SectionHeader Title="Install" Lede="Install the plugin you want; its dependencies come with it." />
 		<div class="section__body">
 			<CodeBlock
-				Label="Install the factory"
+				Label="Install one plugin"
 				Language="sh"
-				Code={`pnpm add ${Factory?.Name ?? "@playform/plugin-dsh-factory"}`}
+				Code={`pnpm add ${Example?.Name ?? "@playform/hook-dsh-normalize-dash"}`}
 			/>
 		</div>
 	</section>
 
 	<section class="section">
-		<SectionHeader Title="Bundle patch" />
+		<SectionHeader
+			Title="Load"
+			Lede="The package declares the patch the host applies when the plugin is enabled in your profile."
+		/>
 		<div class="section__body">
 			<Table
-				Caption="The manifest fields the host reads"
+				Caption="What the package declares for the host"
 				Head={["Field", "Value"]}
 				Row={[
-					["name", Factory?.Name ?? "unavailable"],
-					["version", Factory?.Version ?? "unavailable"],
+					["name", Example?.Name ?? "unavailable"],
+					["version", Example?.Version ?? "unavailable"],
 					["main", "./Target/Library.js"],
-					["dsh.bundle.patch", "./cordis.patch.yml"],
+					["dsh.bundle.patch", Example?.Patch ? "./cordis.patch.yml" : "not shipped"],
 				]}
 			/>
 		</div>
 	</section>
 
-	<section class="section">
-		<SectionHeader Title="Start with the factory and the core" />
-		<div class="section__body grid">
-			<Card
-				Title={Factory?.Slug ?? "plugin-dsh-factory"}
-				Href={Factory?.Href ?? Route.Package}
-				Meta={Factory?.Version}
-			>
-				Builds the plugin: configuration, tools, and the seams it registers on.
-			</Card>
-			<Card Title={Core?.Slug ?? "lib-dsh-core"} Href={Core?.Href ?? Route.Package} Meta={Core?.Version}>
-				The shared classes the hooks reuse.
-			</Card>
-		</div>
-	</section>
 	{
-		Check.length > 0 && (
+		Knob.length > 0 && (
 			<section class="section">
-				<SectionHeader Title="Check" Lede="The monorepo's own commands, and what each one runs." />
+				<SectionHeader
+					Title="Configure"
+					Lede={`Every knob ${Example?.Slug ?? "the plugin"} documents, with its default.`}
+				/>
 				<div class="section__body">
-					<Terminal Label="The monorepo" Line={Check} />
+					<Table
+						Caption={`Configuration of ${Example?.Slug ?? "the plugin"}`}
+						Head={["Field", "Type", "Default", "Meaning"]}
+						Row={Knob}
+					/>
+					<p class="muted">
+						<a href={Example?.Href ?? Route.Package}>Open the plugin</a> to read the rest.
+					</p>
 				</div>
 			</section>
 		)
 	}
+
+	<section class="section">
+		<SectionHeader
+			Title="Confirm"
+			Lede="The plugin writes one line to its ledger when it activates."
+		/>
+		<div class="section__body">
+			<Terminal Label="Ledger" Line={Confirm} />
+		</div>
+	</section>
 </Base>

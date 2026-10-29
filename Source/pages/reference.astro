@@ -14,26 +14,25 @@ const Row = Package.map((Entry) => [
 	ListenFor(Entry.Slug),
 	Entry.Family,
 	Entry.Version,
-	String(Entry.Tests),
 ]);
 ---
 
 <Base
 	Title="Reference"
-	Description={`All ${Count.All} packages with their kind, seam, release, version, and test count.`}
+	Description={`All ${Count.All} packages with their kind, seam, release, and version.`}
 >
 	<PageHero
 		Eyebrow="Table"
 		Title="Reference"
-		Lede={`${Count.All} rows: kind, seam, release, version, and test count for every package.`}
+		Lede={`${Count.All} rows: kind, seam, release, and version for every package.`}
 	/>
 
 	<section class="section">
 		<SectionHeader Title="Package" />
 		<div class="section__body">
 			<Table
-				Caption="Every package, its kind, the seam it listens on, its release, its version, and its test count"
-				Head={["Package", "Kind", "Listen", "Release", "Version", "Test"]}
+				Caption="Every package, its kind, the seam it listens on, its release, and its version"
+				Head={["Package", "Kind", "Listen", "Release", "Version"]}
 				Row={Row}
 			/>
 		</div>

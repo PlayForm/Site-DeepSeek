@@ -16,6 +16,7 @@ import { Transform as Sample } from "@Content/Transform";
 
 import { Route } from "@Library/Links";
 import Catalogue from "@Library/Graph/Catalogue.server";
+import { ConfigFor } from "@Library/Config.server";
 import { Package, type PackageRecord } from "@Library/Package.server";
 import { VersionOf } from "@Library/Release.server";
 import { SurfaceFor } from "@Library/Surface.server";
@@ -55,6 +56,14 @@ const RequiredBy = Catalogue.Edge.filter((Link) => Link.Source === Entry.Slug)
 
 // The worked example, when this package is one of the normalize hooks.
 const Example = Sample.filter((Item) => Item.Slug === Entry.Slug.replace(/^ets-/, ""));
+
+// The knobs the plugin documents, so a reader can set it up from this page.
+const Knob = ConfigFor(Entry.Slug).map((Item) => [
+	Item.Field,
+	Item.Type,
+	Item.Default,
+	Item.Meaning,
+]);
 
 // The versions the package's own changelog records, newest first.
 const Release = VersionOf(Entry).sort((Left, Right) => {
@@ -100,8 +109,6 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 					{ Term: "Release", Detail: Entry.Family },
 					{ Term: "Licence", Detail: Entry.Licence },
 					{ Term: "Directory", Detail: Entry.Directory },
-					{ Term: "Test", Detail: String(Entry.Tests) },
-					{ Term: "Module", Detail: String(Entry.Modules) },
 				]}
 			/>
 		</div>
@@ -172,6 +179,21 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 				<SectionHeader Title="Transform" />
 				<div class="section__body">
 					<Transform Sample={Example} />
+				</div>
+			</section>
+		)
+	}
+
+	{
+		Knob.length > 0 && (
+			<section class="section">
+				<SectionHeader Title="Configuration" Lede="Every knob this plugin documents, with its default." />
+				<div class="section__body">
+					<Table
+						Caption={`Configuration of ${Entry.Slug}`}
+						Head={["Field", "Type", "Default", "Meaning"]}
+						Row={Knob}
+					/>
 				</div>
 			</section>
 		)
