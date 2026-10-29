@@ -7,14 +7,21 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
+import Terminal from "@Component/Terminal.astro";
 
 import { Content } from "@Library/Content";
 import { Route } from "@Library/Links";
 import { Count, Package } from "@Library/Package.server";
+import { Script } from "@Library/Script.server";
 
 const Factory = Package.find((Entry) => Entry.Slug === "plugin-dsh-factory");
 const Core = Package.find((Entry) => Entry.Slug === "lib-dsh-core");
 const Patch = Package.filter((Entry) => Entry.Patch).length;
+
+const Check = Script.map((Entry) => ({
+	Command: `pnpm ${Entry.Name}`,
+	Output: Entry.Run,
+}));
 ---
 
 <Base Title="Install" Description="Install a package from the family, then load its bundle patch.">
@@ -77,4 +84,14 @@ const Patch = Package.filter((Entry) => Entry.Patch).length;
 			</Card>
 		</div>
 	</section>
+	{
+		Check.length > 0 && (
+			<section class="section">
+				<SectionHeader Title="Check" Lede="The monorepo's own commands, and what each one runs." />
+				<div class="section__body">
+					<Terminal Label="The monorepo" Line={Check} />
+				</div>
+			</section>
+		)
+	}
 </Base>

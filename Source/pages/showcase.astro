@@ -1,20 +1,75 @@
 ---
 import Base from "@Layout/Base.astro";
 
-import EmptyState from "@Component/EmptyState.astro";
+import Card from "@Component/Card.astro";
 import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import StatBand from "@Component/StatBand.astro";
 
+import { Transform } from "@Content/Transform";
+import Catalogue from "@Library/Graph/Catalogue.server";
 import { Route } from "@Library/Links";
+import { Count, SelectKind } from "@Library/Package.server";
+import { Line } from "@Library/Release.server";
+import { SeamFor } from "@Library/Surface.server";
+
+// What the site can show today, each figure read from the tree, computed the
+// same way the behavior page computes it so the two never disagree.
+const Hook = SelectKind("hook");
+
+const Group = new Map<string, Set<string>>();
+
+for (const Entry of Hook) {
+	for (const Seam of SeamFor(Entry.Slug)) {
+		const List = Group.get(Seam) ?? new Set<string>();
+
+		List.add(Entry.Slug);
+		Group.set(Seam, List);
+	}
+}
+
+const Seam = Group.size;
+
+const Listener = [...Group.values()].reduce((Total, List) => Total + List.size, 0);
 ---
 
-<Base Title="Showcase" Description="One package, one trace, one outcome.">
-	<PageHero Eyebrow="Showcase" Title="Showcase" Lede="One package, one trace, one outcome." />
+<Base
+	Title="Showcase"
+	Description={`What the site can show from the tree: ${Seam} seams, ${Listener} listeners, ${Transform.length} worked transforms, and ${Catalogue.Edge.length} dependency edges.`}
+>
+	<PageHero
+		Eyebrow="Showcase"
+		Title="Showcase"
+		Lede={`${Seam} seams, ${Listener} listeners, ${Transform.length} worked transforms, ${Catalogue.Edge.length} dependency edges.`}
+	/>
+
+	<StatBand
+		Stat={[
+			{ Label: "Seam", Value: Seam, Note: "Events the hooks listen on" },
+			{ Label: "Hook", Value: Listener, Note: "Registrations, both releases" },
+			{ Label: "Transform", Value: Transform.length, Note: "Worked examples" },
+			{ Label: "Edge", Value: Catalogue.Edge.length, Note: "Family dependencies" },
+		]}
+	/>
 
 	<section class="section">
-		<div class="section__body">
-			<EmptyState Title="Nothing recorded yet">
-				<a href={Route.Package}>Package</a>
-			</EmptyState>
+		<SectionHeader Title="Exhibit" />
+		<div class="section__body grid">
+			<Card Title="Trajectory" Href={Route.Behavior} Meta={`${Seam} seams`}>
+				One turn, seam by seam, with the hooks that act at each step and what the model sees.
+			</Card>
+			<Card Title="Transform" Href={Route.Behavior} Meta={`${Transform.length} examples`}>
+				The character the model emits beside the character the transcript stores.
+			</Card>
+			<Card Title="Graph" Href={Route.Observatory} Meta={`${Catalogue.Node.length} nodes`}>
+				The family as a graph, with the dependency arrows and a search field.
+			</Card>
+			<Card Title="Release" Href={Route.Timeline} Meta={`${Line.length} versions`}>
+				The release line the changelogs record, newest first.
+			</Card>
+			<Card Title="Package" Href={Route.Package} Meta={`${Count.All} packages`}>
+				Every package with its summary, its surface, and its release history.
+			</Card>
 		</div>
 	</section>
 </Base>
