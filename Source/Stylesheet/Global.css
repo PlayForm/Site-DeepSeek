@@ -111,6 +111,39 @@
 	--ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ---- The dark theme ----
+	The same system with the canvas and the ink swapped. Every component reads
+	the tokens above, so nothing but this block changes. The head script sets
+	`data-theme` before the first paint; a stored choice wins, and with no
+	stored choice the operating system decides. */
+:root[data-theme="dark"] {
+	color-scheme: dark;
+
+	--color-surface: #0b0f19;
+	--color-surface-sunken: #161e33;
+
+	--color-line: #2b3852;
+	--color-line-strong: #3a4a6b;
+
+	--color-ink: #eef0ff;
+	--color-ink-muted: #a3aecb;
+	--color-ink-faint: #8fa0c2;
+
+	--color-accent: #8ab0ff;
+	--color-accent-deep: #b7c4ff;
+	--color-accent-soft: #1b2742;
+	--color-accent-ink: #dde1ff;
+
+	--color-warn: #ff8a4c;
+	--color-warn-soft: #2a1a12;
+
+	--cabinet-front: #111a2c;
+	--cabinet-light: #1b2742;
+	--cabinet-right: #0a1120;
+	--cabinet-line: #2b3852;
+	--cabinet-inset: #0f1728;
+}
+
 *,
 *::before,
 *::after {
