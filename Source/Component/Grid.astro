@@ -1,0 +1,72 @@
+---
+import "@Stylesheet/Component/Grid.scss";
+
+interface Row {
+	/** The row's own name, in the first column. */
+	Label: string;
+	/** One cell per head, in the same order. An empty string is an empty slot. */
+	Cell: string[];
+}
+
+interface Props {
+	/** The column heads, in the order the grid reads. */
+	Head: string[];
+	/** The rows, in the order the grid reads. */
+	Row: Row[];
+	/** What the two axes together show. */
+	Caption?: string;
+}
+
+const { Head, Row, Caption } = Astro.props;
+---
+
+<div class="grid-plot">
+	<table>
+		{
+			Caption ? (
+				<caption class="grid-plot__caption">{Caption}</caption>
+			) : (
+				<caption class="visually-hidden">The rows and their outcomes</caption>
+			)
+		}
+		<thead>
+			<tr>
+				<th scope="col" class="grid-plot__lead">
+					<span class="visually-hidden">Row</span>
+				</th>
+				{Head.map((Heading) => (
+					<th scope="col">{Heading}</th>
+				))}
+			</tr>
+		</thead>
+		<tbody>
+			{Row.map((Entry) => (
+				<tr>
+					<th scope="row" class="grid-plot__lead">
+						{Entry.Label}
+					</th>
+					{Head.map((_Heading, Index) => {
+						const Cell = Entry.Cell[Index] ?? "";
+						return (
+							<td>
+								{Cell === "yes" ? (
+									<span class="grid-plot__mark grid-plot__mark--yes">
+										<span class="visually-hidden">yes</span>
+									</span>
+								) : Cell === "no" ? (
+									<span class="grid-plot__mark grid-plot__mark--no">
+										<span class="visually-hidden">no</span>
+									</span>
+								) : Cell === "" ? (
+									<span class="grid-plot__slot" aria-hidden="true" />
+								) : (
+									<span class="grid-plot__word">{Cell}</span>
+								)}
+							</td>
+						);
+					})}
+				</tr>
+			))}
+		</tbody>
+	</table>
+</div>

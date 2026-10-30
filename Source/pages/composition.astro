@@ -1,6 +1,6 @@
 ---
+import ArmChain from "@Component/ArmChain.astro";
 import Callout from "@Component/Callout.astro";
-import Chain from "@Component/Chain.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Term from "@Component/Term.astro";
@@ -31,7 +31,7 @@ const Arm = Layer.reduce((Total, Entry) => Total + Entry.Arm.length, 0);
 		/>
 		<div class="section__body stack">
 			{Layer.map((Entry) => (
-				<Chain
+				<ArmChain
 					Seam={Entry.Seam}
 					Arm={Entry.Arm}
 					Note={Entry.Note}

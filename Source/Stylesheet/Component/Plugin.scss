@@ -1,20 +1,34 @@
 @use "../Material.scss" as Material;
 
-// The plugin page: three columns that read left to right, the default
-// conversation, the seam that answers it, and the state a reader gets. The
-// columns are equal on purpose; the page argues by comparison.
+// The plugin page: the same conversation twice, side by side, so the one line
+// that changes is the whole argument. The columns are equal on purpose; the
+// page dissects by comparison rather than by description.
 .plugin {
 	&__mock {
 		display: flex;
 		flex-direction: column;
-		max-width: calc(var(--measure) + var(--gutter-trace) + var(--space-3));
 	}
 
-	&__triptych {
+	&__diff {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: var(--rhythm-inset);
 		align-items: start;
+	}
+
+	&__outcome {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+
+		// The one line that changed. The mark is a fill, not a border, so the
+		// line keeps its height and the two columns stay aligned row for row.
+		&[data-changed="true"] {
+			background: var(--color-warn-soft);
+			color: var(--color-ink);
+			box-shadow: inset 0 -2px 0 var(--color-warn);
+			padding-inline: var(--space-1);
+		}
 	}
 
 	&__column {
@@ -24,6 +38,10 @@
 		padding: var(--space-3);
 		border: 1px solid var(--cabinet-line);
 		background: var(--cabinet-front);
+
+		&--with {
+			border-left: 2px solid var(--color-accent);
+		}
 	}
 
 	&__head {
@@ -47,7 +65,7 @@
 	}
 
 	@media (max-width: 860px) {
-		&__triptych {
+		&__diff {
 			grid-template-columns: 1fr;
 		}
 	}

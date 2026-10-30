@@ -1,0 +1,47 @@
+---
+import "@Stylesheet/Component/Fork.scss";
+
+interface Exit {
+	/** The exit's own name: blocking, background. */
+	Label: string;
+	/** What the call becomes on this exit. */
+	Body: string;
+	/** True when this is the exit the call took. */
+	Taken?: boolean;
+}
+
+interface Props {
+	/** The call at the top of the fork. */
+	From: string;
+	/** The two exits, in the order they are drawn. */
+	Exit: Exit[];
+}
+
+const { From, Exit } = Astro.props;
+---
+
+<div class="fork">
+	<div class="fork__source">
+		<span class="fork__label">from</span>
+		<span class="fork__from">{From}</span>
+	</div>
+
+	<div class="fork__split" aria-hidden="true">
+		<span class="fork__trunk" />
+		{Exit.map((Entry) => (
+			<span class="fork__branch" data-taken={Entry.Taken ? "true" : "false"} />
+		))}
+	</div>
+
+	<ol class="fork__list">
+		{Exit.map((Entry) => (
+			<li class="fork__exit" data-taken={Entry.Taken ? "true" : "false"}>
+				<span class="fork__head">
+					<span class="fork__name">{Entry.Label}</span>
+					<span class="fork__state">{Entry.Taken ? "taken" : "not taken"}</span>
+				</span>
+				<span class="fork__body">{Entry.Body}</span>
+			</li>
+		))}
+	</ol>
+</div>

@@ -1,0 +1,158 @@
+@use "../Material.scss" as Material;
+
+// The fork: one call, one hairline that splits, two exits. The branch that ran
+// keeps a solid accent connector and an accent border; the branch that did not
+// is dashed and quiet. The reader sees which exit the call took before reading
+// either label.
+.fork {
+	display: flex;
+	flex-direction: column;
+
+	&__source {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-2);
+		padding: var(--space-3) var(--space-4);
+		border: 1px solid var(--cabinet-line);
+		border-left: 2px solid var(--color-line-strong);
+		background: var(--cabinet-front);
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__from {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+	}
+
+	// The split: a trunk down from the source's middle, a crossbar at the same
+	// height, and one drop into each exit. The drops sit at the exit column
+	// centres, so the branches meet the cards they belong to.
+	&__split {
+		position: relative;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-4);
+		height: 34px;
+	}
+
+	&__trunk {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		height: 14px;
+		border-left: 1px solid var(--color-line-strong);
+	}
+
+	&__branch {
+		position: relative;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 14px;
+			left: 50%;
+			right: calc(var(--space-4) * -0.5);
+			border-top: 1px solid var(--color-line-strong);
+		}
+
+		&:last-child::before {
+			left: calc(var(--space-4) * -0.5);
+			right: 50%;
+		}
+
+		&::after {
+			content: "";
+			position: absolute;
+			top: 14px;
+			bottom: 0;
+			left: 50%;
+			border-left: 1px solid var(--color-line-strong);
+		}
+
+		&[data-taken="true"]::after {
+			border-left: 2px solid var(--color-accent);
+		}
+
+		&[data-taken="false"]::after {
+			border-left: 1px dashed var(--color-line-strong);
+		}
+	}
+
+	&__list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-4);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__exit {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		padding: var(--space-3) var(--space-4);
+
+		&[data-taken="true"] {
+			border: 1px solid var(--color-accent);
+			background: var(--color-accent-soft);
+		}
+
+		&[data-taken="false"] {
+			border: 1px dashed var(--color-line-strong);
+			background: transparent;
+		}
+	}
+
+	&__head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-2);
+	}
+
+	&__name {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+	}
+
+	&__state {
+		@include Material.label;
+
+		color: var(--color-ink-faint);
+	}
+
+	&__exit[data-taken="true"] &__state {
+		color: var(--color-accent-ink);
+	}
+
+	&__body {
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	// Below the split's readable width the two exits stack and the drawing is
+	// dropped: a fork drawn vertically at this width costs more than the
+	// indent it saves.
+	@media (max-width: 640px) {
+		&__split {
+			display: none;
+		}
+
+		&__list {
+			grid-template-columns: minmax(0, 1fr);
+			gap: var(--space-2);
+			margin-top: var(--space-3);
+		}
+
+		&__exit[data-taken="false"] {
+			margin-left: var(--space-4);
+		}
+	}
+}

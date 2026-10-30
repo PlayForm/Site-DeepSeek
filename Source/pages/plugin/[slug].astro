@@ -5,13 +5,15 @@ import Badge from "@Component/Badge.astro";
 import Explorer from "@Component/Explorer.astro";
 import Line from "@Component/Line.astro";
 import PageHero from "@Component/PageHero.astro";
-import Pending from "@Component/Pending.astro";
 import Pipeline from "@Component/Pipeline.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import Show from "@Component/Show.astro";
 import Table from "@Component/Table.astro";
 import Term from "@Component/Term.astro";
 import { Seam } from "@Content/Harness";
+import { Conversation } from "@Content/Mock";
 import { Plugin } from "@Content/Plugin";
+import { Showcase } from "@Content/Showcase";
 import Base from "@Layout/Base.astro";
 import { SeamHref } from "@Library/Link";
 
@@ -50,13 +52,12 @@ const Group = Role.map((Name) => ({
 	})),
 }));
 
-// The default conversation, the same three lines on every plugin page, so a
-// reader comparing two plugins sees only the difference between them.
-const Mock = [
-	{ Seq: 20, Name: "bash ls -la", Result: "ok" },
-	{ Seq: 21, Name: "write src/index.ts", Result: "the call the plugin answers" },
-	{ Seq: 22, Name: "read src/index.ts", Result: "ok" },
-];
+// The default conversation comes from one file, so "the same three lines" is
+// enforced by the build rather than by a comment here.
+// The showcase record for this plugin. The binding is named `Face` because the
+// component that renders it is `Show`, and a const of the same name would
+// shadow the import.
+const Face = Showcase.find((Item) => Item.Slug === Entry.Slug);
 
 const Contract = [
 	["Seam", Entry.Seam.join(", ")],
@@ -80,38 +81,78 @@ const Contract = [
 
 	<section class="section">
 		<SectionHeader
-			Title="Default"
-			Lede="The harness on its own: the same three lines on every plugin page, so the difference below is the only difference."
+			Title="Difference"
+			Lede="The same three calls twice. Exactly one line changes, and the change is the plugin: no caption needed, and two plugins compare by diffing their diffs."
 		/>
-		<div class="section__body">
-			<div class="plugin__triptych">
+		<div class="section__body stack">
+			<Pipeline Stages={Stage} Current={Entry.Seam[0]} />
+
+			<div class="plugin__diff">
 				<div class="plugin__column">
-					<p class="plugin__head">Before the call</p>
+					<p class="plugin__head">Without {Entry.Slug}</p>
 					<div class="plugin__mock" role="list">
-						{Mock.map((Item) => (
-							<Line Seq={Item.Seq} Kind="tool" Name={Item.Name}>
-								<span class="muted">{Item.Result}</span>
+						{Conversation.map((Item) => (
+							<Line Seq={Item.Seq} Kind="tool" Name={Item.Call}>
+								<span class="plugin__outcome">{Item.Outcome}</span>
 							</Line>
 						))}
 					</div>
 				</div>
 
-				<div class="plugin__column">
-					<p class="plugin__head">At the seam</p>
-					<Pipeline Stages={Stage} Current={Entry.Seam[0]} />
-					<Pending Name={Entry.Slug} Meta={`answers at ${Entry.Seam[0]}`} />
-				</div>
-
-				<div class="plugin__column">
-					<p class="plugin__head">After it</p>
-					<div class="plugin__result">
-						<Badge Label={Entry.State} Tone="warn" />
-						<p class="plugin__reason">{Entry.Interjection}</p>
+				<div class="plugin__column plugin__column--with">
+					<p class="plugin__head">With {Entry.Slug}</p>
+					<div class="plugin__mock" role="list">
+						{Conversation.map((Item) => (
+							<Line
+								Seq={Item.Seq}
+								Kind="tool"
+								Name={Item.Call}
+								Current={Item.Seq === Entry.Seq}
+							>
+								<span class="plugin__outcome" data-changed={Item.Seq === Entry.Seq}>
+									{Item.Seq === Entry.Seq ? Entry.After : Item.Outcome}
+								</span>
+							</Line>
+						))}
+						{Entry.Seq === undefined && (
+							// A plugin that acts at the turn's edge changes no call, so the
+							// changed line is drawn beside the conversation: the turn's close,
+							// which the fixture records as 13.
+							<Line Seq={13} Kind="turn" Name="turn/end" Current>
+								<span class="plugin__outcome" data-changed>
+									{Entry.After}
+								</span>
+							</Line>
+						)}
 					</div>
 				</div>
 			</div>
+
+			<div class="plugin__result">
+				<Badge Label={Entry.State} Tone="warn" />
+				<p class="plugin__reason">{Entry.Interjection}</p>
+				<p class="plugin__reason">
+					Until the harness writes {Entry.Data.join(", ")}, this page cannot show that state
+					from a real run. It says so in the same slot where the state would appear, rather
+					than faking it.
+				</p>
+			</div>
 		</div>
 	</section>
+
+	{
+		Face !== undefined && (
+			<section class="section">
+				<SectionHeader
+					Title="Dimension"
+					Lede="The one picture this plugin earns: the dimension it adds that the changed line above cannot show."
+				/>
+				<div class="section__body">
+					<Show Plugin={Entry} Showcase={Face} />
+				</div>
+			</section>
+		)
+	}
 
 	<section class="section">
 		<SectionHeader

@@ -4,6 +4,7 @@ import Badge from "@Component/Badge.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import Definition from "@Component/Definition.astro";
+import Difference from "@Component/Difference.astro";
 import Disclosure from "@Component/Disclosure.astro";
 import Icon from "@Component/Icon.astro";
 import Origin from "@Component/Origin.astro";
@@ -14,6 +15,11 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 import Transform from "@Component/Transform.astro";
 import VersionPill from "@Component/VersionPill.astro";
+import { ArmFor } from "@Content/Arm";
+import { BehaviorFor } from "@Content/Behavior";
+import { DeltaFor } from "@Content/Delta";
+import { SeamFor } from "@Content/Harness";
+import { HookFor } from "@Content/Hook";
 import { Transform as Sample } from "@Content/Transform";
 import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
@@ -38,6 +44,23 @@ const { Entry } = Astro.props;
 const Index = Package.findIndex((Candidate) => Candidate.Slug === Entry.Slug);
 const Previous = Index > 0 ? Package[Index - 1] : undefined;
 const Next = Index >= 0 && Index < Package.length - 1 ? Package[Index + 1] : undefined;
+
+// The package's own seam, when the behavior map documents one, and the
+// harness's side of that seam: its dispatch mode and the listeners it already
+// has there. A package with no documented seam has no default to compare
+// against, and the page says that rather than inventing one.
+const Behavior = BehaviorFor(Entry.Slug);
+const Harness = Behavior === undefined ? undefined : SeamFor(Behavior.Seam);
+const Arm = ArmFor(Entry.Slug);
+
+// The harness's own plugins at that seam, when this site documents one there.
+// The link is the dissection: the package page says what the family adds, and
+// the plugin page shows the line it changes.
+const Own = Behavior === undefined ? [] : HookFor(Behavior.Seam);
+
+// The dissected change, when this package has one: the one line that differs
+// with the package installed, transcribed from the source by the dissection.
+const Delta = DeltaFor(Entry.Slug);
 
 // A dependency that is itself a package in the family links to its page; an
 // external one stays plain text.
@@ -158,6 +181,101 @@ const File = [
 			<CodeBlock Label="Install" Language="sh" Code={`pnpm add ${Entry.Name}`} />
 		</div>
 	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Default"
+			Lede="What the harness does at this package's seam with none of the family installed, so the surface below has something to be a difference from."
+		/>
+		<div class="section__body stack">
+			{
+				Behavior !== undefined && Harness !== undefined ? (
+					<>
+						<p class="lede">
+							{
+								Harness.Harness.length > 0
+									? `The harness dispatches ${Behavior.Seam} as a ${Harness.Mode} and already has listeners there: ${Harness.Harness.join(", ")}.`
+									: `The harness dispatches ${Behavior.Seam} as a ${Harness.Mode}, and its event matrix lists no listener of its own there.`
+							}
+						</p>
+						<p class="muted">
+							{Harness.Mode === "waterfall"
+								? "A waterfall listener receives the payload and may return a changed one, so the harness's own listeners can already change what the model reads. This package adds another listener to that list."
+								: "An emit listener observes a fact that already happened, so the harness's own listeners can record it and cannot change it. This package records beside them, or acts on the world rather than on the payload."}
+						</p>
+					</>
+				) : (
+					<Absence
+						Title="No documented seam"
+						Note={
+							Behavior === undefined
+								? "The behavior map does not document a seam for this package, so the page cannot show a default to compare against. It is a library, a base, or a package whose work is a tool rather than a listener."
+								: `The harness does not declare ${Behavior.Seam} in its own event matrix, so the event is the family's own and only the family listens.`
+						}
+					/>
+				)
+			}
+			{
+				Arm.length > 0 && (
+					<p class="muted">
+						Its source also registers at {Arm.join(", ")}, beyond the seam its README
+						documents.
+					</p>
+				)
+			}
+			{
+				Own.length > 0 && (
+					<p class="muted">
+						The harness ships its own plugin at this seam:{" "}
+						{Own.map((Item, Index) => (
+							<Fragment>
+								{Index > 0 && ", "}
+								<a href={`/plugin/${Item.Slug}/`}>{Item.Slug}</a>
+							</Fragment>
+						))}
+						, and its page shows the line it changes.
+					</p>
+				)
+			}
+		</div>
+	</section>
+
+	{
+		Delta !== undefined && (
+			<section class="section">
+				<SectionHeader
+					Title="Change"
+					Lede="The one line that differs with this package installed, transcribed from its source by the dissection."
+				/>
+				<div class="section__body stack">
+					<Difference Before={Delta.Before} After={Delta.After} />
+					<dl class="definition">
+						<div class="definition__row">
+							<dt class="definition__term">Property</dt>
+							<dd class="definition__detail">{Delta.Property}</dd>
+						</div>
+						<div class="definition__row">
+							<dt class="definition__term">Knob</dt>
+							<dd class="definition__detail">{Delta.Knob}</dd>
+						</div>
+						<div class="definition__row">
+							<dt class="definition__term">Seam</dt>
+							<dd class="definition__detail">{Delta.Seam}</dd>
+						</div>
+					</dl>
+					{
+						Delta.Off === true && (
+							<p class="muted">
+								This package ships disabled: the left side of the pair is what the
+								harness does with the package installed but inactive, and enabling it
+								is one line in the profile's bundle patch.
+							</p>
+						)
+					}
+				</div>
+			</section>
+		)
+	}
 
 	<section class="section">
 		<SectionHeader Title="Surface" />

@@ -1,0 +1,36 @@
+---
+import "@Stylesheet/Component/Ladder.scss";
+
+interface Rung {
+	/** The rung's own name. */
+	Label: string;
+	/** The dimension's value at this rung, as the harness writes it. */
+	Value: string;
+	/** What the call looks like at this value. */
+	Body: string;
+	/** A quiet fact beside the body. */
+	Note?: string;
+	/** True when this is the rung the plugin acts at. */
+	Mark?: boolean;
+}
+
+interface Props {
+	/** The rungs, in the order the dimension increases. */
+	Rung: Rung[];
+}
+
+const { Rung } = Astro.props;
+---
+
+<ol class="ladder">
+	{Rung.map((Entry) => (
+		<li class="ladder__rung" data-mark={Entry.Mark ? "true" : "false"}>
+			<span class="ladder__value">{Entry.Value}</span>
+			<span class="ladder__text">
+				<span class="ladder__label">{Entry.Label}</span>
+				<span class="ladder__body">{Entry.Body}</span>
+				{Entry.Note && <span class="ladder__note">{Entry.Note}</span>}
+			</span>
+		</li>
+	))}
+</ol>

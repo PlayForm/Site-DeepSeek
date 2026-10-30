@@ -130,3 +130,23 @@ export const Mock: MockRecord[] = [
 		Payload: '{"records":14,"file":"session-8f2c.jsonl"}',
 	},
 ];
+
+// The conversation, as three lines. Every page that shows a conversation reads
+// this one, so "the same three lines" is enforced by the build rather than by a
+// comment: a plugin page changes exactly one of them and nothing else.
+export interface Line {
+	/** The sequence number the log assigns the call. */
+	Seq: number;
+	/** What the model asked for. */
+	Call: string;
+	/** What the harness answered. */
+	Outcome: string;
+}
+
+export const Conversation: Line[] = [
+	{ Seq: 20, Call: "bash ls -la", Outcome: "ok" },
+	{ Seq: 21, Call: "write src/index.ts", Outcome: "ok" },
+	{ Seq: 22, Call: "read src/index.ts", Outcome: "ok" },
+];
+
+export default Mock;

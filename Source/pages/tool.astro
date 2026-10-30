@@ -7,6 +7,7 @@ import Sequence from "@Component/Sequence.astro";
 import StateLife from "@Component/State.astro";
 import Table from "@Component/Table.astro";
 import { Step } from "@Content/ToolCall";
+import { HookFor } from "@Content/Hook";
 import Base from "@Layout/Base.astro";
 import { PackageHref, Route } from "@Library/Link";
 
@@ -70,6 +71,19 @@ const Row = [
 		"None of the four: no listener here adds context.",
 	],
 ];
+
+// One row per stage: the stage, the seam it dispatches, the family packages
+// that act there, and the harness's own plugins where this site documents one.
+const Answer = Step.map((Item) => [
+	Item.Title,
+	Item.Seam === "" ? "no seam" : Item.Seam,
+	Item.Plugin.length > 0
+		? Item.Plugin.map((Slug) => ({ Text: Slug, Href: PackageHref(Slug) }))
+		: "none",
+	HookFor(Item.Seam).length > 0
+		? HookFor(Item.Seam).map((Entry) => ({ Text: Entry.Slug, Href: `/plugin/${Entry.Slug}/` }))
+		: "none",
+]);
 ---
 
 <Base
@@ -147,6 +161,20 @@ const Row = [
 				Caption="The decision vocabulary the tool pipeline names, what the harness does at each word, and the plugin that can return it"
 				Head={["Decision", "What the harness does", "Which plugin can return it"]}
 				Row={Row}
+			/>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Who answers"
+			Lede="One row per stage of the call, the seam it dispatches, and the plugins that answer there: the family's own, and the harness's where this site documents one."
+		/>
+		<div class="section__body">
+			<Table
+				Caption="Each stage of the tool pipeline, its seam, and the plugins that answer there"
+				Head={["Stage", "Seam", "Family", "Harness"]}
+				Row={Answer}
 			/>
 		</div>
 	</section>

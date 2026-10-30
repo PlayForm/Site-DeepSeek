@@ -1,0 +1,25 @@
+@use "../Material.scss" as Material;
+
+// The showcase: the frame, then the one operator that plugin's dimension calls
+// for. Nothing here restates a fact another operator already draws.
+.show {
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-inset);
+
+	&__dimension {
+		@include Material.label;
+
+		color: var(--color-ink-faint);
+	}
+
+	&__frame {
+		display: block;
+	}
+
+	&__ledger {
+		display: flex;
+		flex-direction: column;
+		gap: var(--rhythm-inset);
+	}
+}

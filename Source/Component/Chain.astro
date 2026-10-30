@@ -1,53 +1,33 @@
 ---
 import "@Stylesheet/Component/Chain.scss";
 
-import Badge from "@Component/Badge.astro";
-import type { Arm } from "@Content/Composition";
-import { PackageHref, SeamHref } from "@Library/Link";
-
-interface Props {
-	/** The seam the chain runs at. */
-	Seam: string;
-	/** The arms, in the order they run. */
-	Arm: Arm[];
-	/** What the chain produces. */
-	Note: string;
-	/** True when the seam has a page of its own. */
-	Linked: boolean;
+interface Link {
+	/** The generation's own name: v1, v2, v3. */
+	Label: string;
+	/** What this generation changes or carries. */
+	Body: string;
+	/** True when this is the link a resume reads. */
+	Current?: boolean;
 }
 
-const { Seam, Arm, Note, Linked } = Astro.props;
+interface Props {
+	/** The links, in the order they were written. */
+	Link: Link[];
+}
 
-const Tone = (Position: Arm["Position"]) =>
-	Position === "prepend" ? "accent" : Position === "independent" ? "quiet" : "neutral";
+const { Link } = Astro.props;
 ---
 
-<article class="chain">
-	<header class="chain__head">
-		<h3 class="chain__seam">
-			{Linked ? (
-				<a class="chain__link" href={SeamHref(Seam)}>
-					{Seam}
-				</a>
-			) : (
-				Seam
-			)}
-		</h3>
-		<span class="chain__count">{Arm.length}&nbsp;arm</span>
-	</header>
-
-	<ol class="chain__list">
-		{Arm.map((Entry, Index) => (
-			<li class="chain__arm" data-position={Entry.Position}>
-				<span class="chain__order">{String(Index + 1).padStart(2, "0")}</span>
-				<a class="chain__slug" href={PackageHref(Entry.Slug)}>
-					{Entry.Slug}
-				</a>
-				<Badge Label={Entry.Position} Tone={Tone(Entry.Position)} />
-				<span class="chain__does">{Entry.Does}</span>
-			</li>
-		))}
-	</ol>
-
-	<p class="chain__note">{Note}</p>
-</article>
+<ol class="chain">
+	{Link.map((Entry) => (
+		<li class="chain__link" data-current={Entry.Current ? "true" : "false"}>
+			<span class="chain__card">
+				<span class="chain__head">
+					<span class="chain__label">{Entry.Label}</span>
+					{Entry.Current && <span class="chain__now">now</span>}
+				</span>
+				<span class="chain__body">{Entry.Body}</span>
+			</span>
+		</li>
+	))}
+</ol>
