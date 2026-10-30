@@ -1,6 +1,7 @@
 ---
 import Absence from "@Component/Absence.astro";
 import Badge from "@Component/Badge.astro";
+import Fanout from "@Component/Fanout.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -249,6 +250,16 @@ const Lede = Claim();
 					Note="This event is not in the harness's own event matrix, so there is no default behavior at this seam to compare against."
 				/>
 			)}
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Fan"
+			Lede="One event, many hands. The same listener list the table below details, drawn as the dispatch it is."
+		/>
+		<div class="section__body">
+			<Fanout Source={Seam} Listener={Hook} />
 		</div>
 	</section>
 

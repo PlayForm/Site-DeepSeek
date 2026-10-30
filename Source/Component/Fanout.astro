@@ -1,0 +1,54 @@
+---
+import "@Stylesheet/Component/Fanout.scss";
+
+import type { Effect } from "@Content/Behavior";
+
+interface Listener {
+	/** The package directory. */
+	Slug: string;
+	/** The page it opens. */
+	Href: string;
+	/** What it does at the seam. */
+	Effect: Effect;
+	/** True when the README documents it, false when only the source does. */
+	Documented: boolean;
+}
+
+interface Props {
+	/** The event the listeners answer. */
+	Source: string;
+	/** The listeners, in the order the page lists them. */
+	Listener: Listener[];
+	/** How many to draw before the rest are counted. */
+	Limit?: number;
+}
+
+const { Source, Listener, Limit = 8 } = Astro.props;
+const Shown = Listener.slice(0, Limit);
+const Rest = Listener.length - Shown.length;
+---
+
+<div class="fanout">
+	<div class="fanout__source">
+		<span class="fanout__event">{Source}</span>
+		<span class="fanout__count">{Listener.length} listener</span>
+	</div>
+
+	<div class="fanout__spine" aria-hidden="true" />
+
+	<ul class="fanout__list">
+		{Shown.map((Item) => (
+			<li class="fanout__item" data-documented={Item.Documented}>
+				<span class="fanout__connector" aria-hidden="true" />
+				<a class="fanout__slug" href={Item.Href}>{Item.Slug}</a>
+				<span class="fanout__effect">{Item.Documented ? Item.Effect : `${Item.Effect} arm`}</span>
+			</li>
+		))}
+		{Rest > 0 && (
+			<li class="fanout__item fanout__item--rest">
+				<span class="fanout__connector" aria-hidden="true" />
+				<span class="fanout__slug">and {Rest} more</span>
+			</li>
+		)}
+	</ul>
+</div>

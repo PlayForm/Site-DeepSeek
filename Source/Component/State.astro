@@ -1,0 +1,41 @@
+---
+import "@Stylesheet/Component/State.scss";
+
+import { Edge, State } from "@Content/State";
+
+// The lifecycle is drawn as a main line with its three exits underneath, so the
+// happy path reads left to right and the failures read as what they are: ways
+// off the line, not extra steps on it.
+const Main = State.filter((Item) => Item.Tone !== "warn" && Item.Tone !== "quiet");
+const Off = State.filter((Item) => Item.Tone === "warn" || Item.Tone === "quiet");
+---
+
+<div class="state">
+	<ol class="state__line">
+		{Main.map((Item, Index) => (
+			<li class="state__cell" data-tone={Item.Tone}>
+				<span class="state__name">{Item.Name}</span>
+				<span class="state__note">{Item.Note}</span>
+				{Index < Main.length - 1 && (
+					<span class="state__edge" aria-hidden="true">
+						<span class="state__label">
+							{Edge.find((Move) => Move.From === Item.Name)?.Label ?? "then"}
+						</span>
+					</span>
+				)}
+			</li>
+		))}
+	</ol>
+
+	<ul class="state__off">
+		{Off.map((Item) => (
+			<li class="state__exit" data-tone={Item.Tone}>
+				<span class="state__name">{Item.Name}</span>
+				<span class="state__note">{Item.Note}</span>
+				<span class="state__from">
+					from {Edge.find((Move) => Move.To === Item.Name)?.From ?? "the line"}
+				</span>
+			</li>
+		))}
+	</ul>
+</div>
