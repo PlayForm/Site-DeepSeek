@@ -8,15 +8,22 @@ import { SeamHref } from "@Library/Link";
 interface Props {
 	/** Every stage of the turn, in the order the harness reaches them. */
 	Entry: Stage[];
-	/** The seams the family listens on, by name. A seam outside this list is
-	 *  quiet and carries no link, because the site has no page for it. */
+	/** The seams the family listens on, by name, documented or as an arm. A
+	 *  seam in this list is lit, because the family stands at it. */
 	Used: string[];
+	/** The seams the site has a page for. Only these carry a link; a lit seam
+	 *  without a page is lit and plain, never a link to nothing. */
+	Page: string[];
 }
 
-const { Entry, Used } = Astro.props;
+const { Entry, Used, Page } = Astro.props;
 
 function IsUsed(Name: string): boolean {
 	return Used.includes(Name);
+}
+
+function HasPage(Name: string): boolean {
+	return Page.includes(Name);
 }
 ---
 
@@ -44,12 +51,12 @@ function IsUsed(Name: string): boolean {
 					<ul class="stage__seams">
 						{Item.Seam.map((Name) => (
 							<li class="stage__seam">
-								{IsUsed(Name) ? (
+								{HasPage(Name) ? (
 									<a class="stage__link" href={SeamHref(Name)}>
-										<Badge Label={Name} Tone="accent" />
+										<Badge Label={Name} Tone={IsUsed(Name) ? "accent" : "quiet"} />
 									</a>
 								) : (
-									<Badge Label={Name} Tone="quiet" />
+									<Badge Label={Name} Tone={IsUsed(Name) ? "accent" : "quiet"} />
 								)}
 							</li>
 						))}

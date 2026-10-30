@@ -6,6 +6,7 @@ import Pager from "@Component/Pager.astro";
 import Provenance from "@Component/Provenance.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
+import { SeamsOf } from "@Content/Arm";
 import { BehaviorFor, type Effect } from "@Content/Behavior";
 import { SeamFor } from "@Content/Harness";
 import { SeamRow } from "@Content/Turn";
@@ -88,7 +89,7 @@ const SeamData = SeamRow.find((Entry) => Entry.Name === Seam);
 const Hook = SelectKind("hook").flatMap((Entry) => {
 	const Behavior = BehaviorFor(Entry.Slug);
 
-	if (Behavior === undefined || Behavior.Seam !== Seam) {
+	if (Behavior === undefined || !SeamsOf(Entry.Slug, Behavior.Seam).includes(Seam)) {
 		return [];
 	}
 
@@ -98,6 +99,9 @@ const Hook = SelectKind("hook").flatMap((Entry) => {
 			Href: Entry.Href,
 			Summary: Entry.Summary,
 			Effect: Behavior.Effect,
+			// True when the hook is documented here, false when the source
+			// registers an arm at this seam that the README does not name.
+			Documented: Behavior.Seam === Seam,
 		},
 	];
 });
@@ -129,7 +133,12 @@ function Configured(Slug: string): string {
 
 const Row = Hook.map((Item) => [
 	{ Text: Item.Slug, Href: Item.Href, Icon: Item.Slug },
-	{ Badge: { Label: Item.Effect, Tone: ToneOf(Item.Effect) } },
+	{
+		Badge: {
+			Label: Item.Documented ? Item.Effect : `${Item.Effect} arm`,
+			Tone: Item.Documented ? ToneOf(Item.Effect) : "quiet",
+		},
+	},
 	Item.Summary,
 	Configured(Item.Slug),
 ]);

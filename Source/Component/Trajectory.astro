@@ -18,6 +18,8 @@ export interface TrajectoryStep {
 	Lens: string;
 	Note: string;
 	Listener: TrajectoryListener[];
+	/** The packages whose source registers an arm here without documenting it. */
+	Arm: number;
 }
 
 interface Props {
@@ -60,6 +62,7 @@ function Tally(Listener: TrajectoryListener[]) {
 					</h3>
 					<Badge Label={Entry.Lens} Tone="accent" />
 					<span class="trajectory__count">{Entry.Listener.length} hook</span>
+					{Entry.Arm > 0 && <span class="trajectory__arm">+{Entry.Arm} arm</span>}
 				</header>
 
 				<div class="trajectory__lens">

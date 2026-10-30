@@ -6,6 +6,7 @@ import StatBand from "@Component/StatBand.astro";
 import Term from "@Component/Term.astro";
 import Trajectory, { type TrajectoryStep } from "@Component/Trajectory.astro";
 import Transform from "@Component/Transform.astro";
+import { ArmFor } from "@Content/Arm";
 import { BehaviorFor } from "@Content/Behavior";
 import { Transform as Sample } from "@Content/Transform";
 import Base from "@Layout/Base.astro";
@@ -90,6 +91,11 @@ const Step: TrajectoryStep[] = Seam.map((Name) => {
 		Lens: LensOf(Name),
 		Note: Class.length > 0 ? `Normalizes the ${Class.join(", ")} classes` : "",
 		Listener,
+		// The packages that register an arm at this seam without documenting it.
+		// The rail counts the documented hooks; the arms are the honest addendum.
+		Arm: SelectKind("hook").filter(
+			(Entry) => BehaviorFor(Entry.Slug)?.Seam !== Name && ArmFor(Entry.Slug).includes(Name),
+		).length,
 	};
 });
 

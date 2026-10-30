@@ -56,6 +56,16 @@
 		margin-left: auto;
 	}
 
+	// The arms a package registers without documenting them: quiet, because it
+	// is a fact about the source rather than the sentence a reader came for.
+	&__arm {
+		@include Material.label;
+
+		color: var(--color-ink-faint);
+		border-left: 1px solid var(--color-line);
+		padding-left: var(--space-2);
+	}
+
 	&__lens {
 		display: flex;
 		align-items: baseline;

@@ -6,6 +6,7 @@ import Provenance from "@Component/Provenance.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StageRail from "@Component/Stage.astro";
 import Table from "@Component/Table.astro";
+import { Arm } from "@Content/Arm";
 import { Seam } from "@Content/Harness";
 import { SeamRow, Stage } from "@Content/Turn";
 import Base from "@Layout/Base.astro";
@@ -13,8 +14,24 @@ import { Route, SeamHref } from "@Library/Link";
 
 // The seams the family already listens on, by name. The rail links a stage
 // seam only when it is in this list, because a link to a page the site does not
-// have is worse than no link at all.
-const Used = Seam.map((Entry) => Entry.Name);
+// have is worse than no link at all. The documented seams come first; the arms
+// a package registers without documenting them are added beside them, so the
+// lit stages show where the family actually listens, not only where it writes
+// about listening.
+const Used = [
+	...new Set([
+		...Seam.map((Entry) => Entry.Name),
+		...Object.values(Arm).flat(),
+	]),
+];
+
+// How many of the seams on the turn path the family listens at, documented or
+// not. The claim sentence reads both numbers from this, never from a typed one.
+const Path = new Set(SeamRow.map((Entry) => Entry.Name));
+const Listened = Used.filter((Name) => Path.has(Name)).length;
+
+// The seams with a page of their own. A lit seam without one is lit and plain.
+const Page = Seam.map((Entry) => Entry.Name);
 
 // The power a dispatch mode gives a listener decides the badge tone: a waterfall
 // may rewrite, an emit observes, and a serial listener may only stop the turn.
@@ -24,10 +41,11 @@ const Tone: Record<SeamRow["Power"], "accent" | "quiet" | "neutral"> = {
 	Stop: "neutral",
 };
 
-// One row per seam: the name, linked when the family uses it, the package that
-// produces it, the power it gives a listener, and what the listener receives.
+// One row per seam: the name, linked when the site has a page for it, the
+// package that produces it, the power it gives a listener, and what the
+// listener receives.
 const Row = SeamRow.map((Item) => [
-	Used.includes(Item.Name) ? { Text: Item.Name, Href: SeamHref(Item.Name) } : Item.Name,
+	Page.includes(Item.Name) ? { Text: Item.Name, Href: SeamHref(Item.Name) } : Item.Name,
 	Item.Producer,
 	{ Badge: { Label: Item.Power, Tone: Tone[Item.Power] } },
 	Item.Shape,
@@ -52,9 +70,9 @@ const Row = SeamRow.map((Item) => [
 				</p>
 				<p>
 					The family documents {Seam.length}&nbsp;of the {SeamRow.length}&nbsp;seams on
-					this path, and every other page on this site is a comparison against this one. A
-					hook that also registers at a seam the turn reaches earlier is not counted here:
-					the behavior page lists the seam each hook is documented at.
+					this path and registers arms at {Listened - Seam.length}&nbsp;more, so the
+					lit stages below are where it actually listens. Every other page on this site is
+					a comparison against this one.
 				</p>
 			</div>
 		</Callout>
@@ -66,7 +84,7 @@ const Row = SeamRow.map((Item) => [
 			Lede="One entry per stage, in the order the turn reaches it. A seam the family uses is linked; a seam it does not use stays quiet."
 		/>
 		<div class="section__body">
-			<StageRail Entry={Stage} Used={Used} />
+			<StageRail Entry={Stage} Used={Used} Page={Page} />
 		</div>
 	</section>
 
