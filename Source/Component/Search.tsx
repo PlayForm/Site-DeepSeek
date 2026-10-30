@@ -24,8 +24,8 @@ export default (Props: Props) => {
 			return Props.Entry.slice(0, 8);
 		}
 
-		return Props.Entry.filter(
-			(Item) => `${Item.Title} ${Item.Detail}`.toLowerCase().includes(Search),
+		return Props.Entry.filter((Item) =>
+			`${Item.Title} ${Item.Detail}`.toLowerCase().includes(Search),
 		).slice(0, 20);
 	});
 

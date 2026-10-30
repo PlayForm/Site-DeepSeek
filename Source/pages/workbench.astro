@@ -32,28 +32,23 @@ for (const Entry of SelectKind("hook")) {
 const Stage = [
 	{
 		Seam: "system-prompt/assemble",
-		Model:
-			"The model reads one assembled block, and the blocks it can edit are already inside it.",
+		Model: "The model reads one assembled block, and the blocks it can edit are already inside it.",
 	},
 	{
 		Seam: "llm/stream",
-		Model:
-			"The model writes text, and every dash, quote, ellipsis, space, fullwidth glyph, and invisible mark reaches the transcript as plain ASCII.",
+		Model: "The model writes text, and every dash, quote, ellipsis, space, fullwidth glyph, and invisible mark reaches the transcript as plain ASCII.",
 	},
 	{
 		Seam: "tools/pre-execute",
-		Model:
-			"The model asks for a tool call, and a workspace change is gated or restated before it runs.",
+		Model: "The model asks for a tool call, and a workspace change is gated or restated before it runs.",
 	},
 	{
 		Seam: "tools/post-execute",
-		Model:
-			"The model reads a result that has already been compressed, stripped, and annotated.",
+		Model: "The model reads a result that has already been compressed, stripped, and annotated.",
 	},
 	{
 		Seam: "fs/observed",
-		Model:
-			"The model is not watching: the write already happened, and the hooks act on the file on disk.",
+		Model: "The model is not watching: the write already happened, and the hooks act on the file on disk.",
 	},
 ].map((Entry) => ({
 	...Entry,

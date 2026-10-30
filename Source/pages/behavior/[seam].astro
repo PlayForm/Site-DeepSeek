@@ -1,0 +1,204 @@
+---
+import PageHero from "@Component/PageHero.astro";
+import Pager from "@Component/Pager.astro";
+import Provenance from "@Component/Provenance.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Table from "@Component/Table.astro";
+import { BehaviorFor, type Effect } from "@Content/Behavior";
+import Base from "@Layout/Base.astro";
+import { ConfigFor } from "@Library/Config.server";
+import { SeamHref } from "@Library/Link";
+import { SelectKind } from "@Library/Package.server";
+
+// One page per seam. The roster is read from the behavior map, so a hook that
+// declares a new seam adds a page on the next build with no edit here.
+export function getStaticPaths() {
+	const Found = new Set<string>();
+
+	for (const Entry of SelectKind("hook")) {
+		const Behavior = BehaviorFor(Entry.Slug);
+
+		if (Behavior) {
+			Found.add(Behavior.Seam);
+		}
+	}
+
+	return [...Found].map((Name) => ({
+		params: { seam: Name.replace(/\//g, "-") },
+		props: { Seam: Name },
+	}));
+}
+
+interface Props {
+	Seam: string;
+}
+
+// The order a conversation reaches the seams: the same order the behavior page
+// prints. A seam this list does not name sorts after the known ones by name.
+const Order = [
+	"system-prompt/assemble",
+	"llm/stream",
+	"tools/pre-execute",
+	"tools/post-execute",
+	"batch/proposed",
+	"fs/observed",
+	"agent/status",
+];
+
+const SeamList = [
+	...new Set(
+		SelectKind("hook")
+			.map((Entry) => BehaviorFor(Entry.Slug)?.Seam)
+			.filter((Name): Name is string => Name !== undefined),
+	),
+].sort((Left, Right) => {
+	const LeftIndex = Order.indexOf(Left);
+	const RightIndex = Order.indexOf(Right);
+
+	return (
+		(LeftIndex < 0 ? Order.length : LeftIndex) - (RightIndex < 0 ? Order.length : RightIndex) ||
+		Left.localeCompare(Right)
+	);
+});
+
+const { Seam: Declared } = Astro.props;
+const Param = Astro.params.seam ?? "";
+const Seam = SeamList.find((Name) => Name.replace(/\//g, "-") === Param);
+
+// A path with no seam behind it is a build error, not an empty page.
+if (Seam === undefined || Seam !== Declared) {
+	throw new Error(
+		`The path ${Param} and its props do not agree on a seam that Behavior.ts declares.`,
+	);
+}
+
+const Hook = SelectKind("hook").flatMap((Entry) => {
+	const Behavior = BehaviorFor(Entry.Slug);
+
+	if (Behavior === undefined || Behavior.Seam !== Seam) {
+		return [];
+	}
+
+	return [
+		{
+			Slug: Entry.Slug,
+			Href: Entry.Href,
+			Summary: Entry.Summary,
+			Effect: Behavior.Effect,
+		},
+	];
+});
+
+const Index = SeamList.indexOf(Seam);
+const Previous = Index > 0 ? SeamList[Index - 1] : undefined;
+const Next = Index >= 0 && Index < SeamList.length - 1 ? SeamList[Index + 1] : undefined;
+
+// The effect a hook has decides the badge tone, the same way the trajectory
+// rail reads it.
+function ToneOf(Value: Effect): "accent" | "neutral" | "quiet" {
+	switch (true) {
+		case Value === "rewrite":
+			return "accent";
+		case Value === "record":
+			return "neutral";
+		default:
+			return "quiet";
+	}
+}
+
+// The configuration column counts the knobs the README documents, and shows a
+// dash when it documents none. The count stays singular, like every count.
+function Configured(Slug: string): string {
+	const Length = ConfigFor(Slug).length;
+
+	return Length > 0 ? `${Length} knob` : "-";
+}
+
+const Row = Hook.map((Item) => [
+	{ Text: Item.Slug, Href: Item.Href, Icon: Item.Slug },
+	{ Badge: { Label: Item.Effect, Tone: ToneOf(Item.Effect) } },
+	Item.Summary,
+	Configured(Item.Slug),
+]);
+
+// The mix of effects present at this seam, in the canonical effect order, so
+// the hero says what the hooks do without inventing anything the map lacks.
+const Present = (["rewrite", "record", "advise", "pass"] as const).filter((Value) =>
+	Hook.some((Item) => Item.Effect === Value),
+);
+const Mix = Present.join("-");
+const Total = Hook.length;
+// The site counts in the singular: "12 hook", never "12 hooks".
+const Word = `${Total} hook`;
+const Each = Total === 1 ? "it" : "every one of them";
+
+// The hero's claim: how many hooks the seam has, and what their effects do.
+function Claim(): string {
+	switch (true) {
+		case Mix === "rewrite":
+			return `${Word}, and ${Each} rewrites what passes here.`;
+		case Mix === "record":
+			return `${Word}, and ${Each} records what passes here.`;
+		case Mix === "advise":
+			return `${Word}, and ${Each} advises on what passes here.`;
+		case Mix === "pass":
+			return `${Word}, and ${Each} leaves what passes here unchanged.`;
+		case Mix === "rewrite-record":
+			return `${Word}, and ${Each} rewrites what passes here or records it.`;
+		case Mix === "rewrite-advise":
+			return `${Word}, and ${Each} rewrites what passes here or advises on it.`;
+		case Mix === "record-advise":
+			return `${Word}, and ${Each} records what passes here or advises on it.`;
+		case Mix === "rewrite-record-advise":
+			return `${Word}, and ${Each} rewrites, records, or advises on what passes here.`;
+		default:
+			return `${Word} at this seam.`;
+	}
+}
+
+const Lede = Claim();
+---
+
+<Base
+	Title={Seam}
+	Description={`The ${Seam} seam: every hook declared on it, the effect each has, and the knobs it documents.`}>
+	<PageHero Eyebrow="Seam" Title={Seam} Lede={Lede} />
+
+	<section class="section">
+		<SectionHeader
+			Title="Hook"
+			Lede="One row per hook that declares this seam, with the effect it has and the knobs it documents."
+		/>
+		<div class="section__body">
+			<Table
+				Caption={`Every hook declared on the ${Seam} seam`}
+				Head={["Hook", "Effect", "What it does", "Configuration"]}
+				Row={Row}
+			/>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="Read" />
+		<div class="section__body stack">
+			<p class="muted">
+				Every fact here is read from the monorepo during the build: the hook roster from the
+				package tree, the seam from each hook's own README, and the configuration count from
+				the table that README documents.
+			</p>
+			<Provenance
+				Data="The monorepo, read during the build"
+				Connection="Build-time read; nothing is fetched at runtime"
+				Capture="cordis.patch.yml, README.md, package.json"
+				Note="A seam is the harness event a hook listens on, named area/event. This page lists the hooks the repository declares at this seam, one row per hook, with the effect it has and the configuration it documents."
+			/>
+		</div>
+	</section>
+
+	<Pager
+		Previous={
+			Previous !== undefined ? { Href: SeamHref(Previous), Label: Previous } : undefined
+		}
+		Next={Next !== undefined ? { Href: SeamHref(Next), Label: Next } : undefined}
+	/>
+</Base>

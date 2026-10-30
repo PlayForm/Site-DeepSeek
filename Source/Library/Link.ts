@@ -56,6 +56,12 @@ export function PackageHref(Slug) {
 	return `/package/${Slug}/`;
 }
 
+// A seam is named area/event, and its page keeps one path segment: the slash
+// becomes a dash, so `llm/stream` reads at `/behavior/llm-stream/`.
+export function SeamHref(Seam: string): string {
+	return `/behavior/${Seam.replace(/\//g, "-")}/`;
+}
+
 export function ComponentHref(Slug) {
 	return `/library/${Slug}/`;
 }

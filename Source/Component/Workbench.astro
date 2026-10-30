@@ -35,7 +35,10 @@ function ToneFor(Effect: string): "accent" | "neutral" | "quiet" {
 <div class="workbench">
 	<header class="workbench__head">
 		<h2 class="workbench__name">{Seam}</h2>
-		<span class="workbench__count">{Hook.length}&nbsp;<Term Name="hook" /></span>
+		<span class="workbench__count">
+			{Hook.length}&nbsp;
+			<Term Name="hook" />
+		</span>
 	</header>
 
 	<div class="workbench__lens">
@@ -61,7 +64,9 @@ function ToneFor(Effect: string): "accent" | "neutral" | "quiet" {
 				</ul>
 			) : (
 				<p class="workbench__empty">
-					No&nbsp;<Term Name="hook" /> listens at this&nbsp;<Term Name="seam" />.
+					No&nbsp;
+					<Term Name="hook" /> listens at this&nbsp;
+					<Term Name="seam" />.
 				</p>
 			)}
 		</div>

@@ -18,8 +18,9 @@ const Row = Line.map((Entry) => [Entry.Version, String(Entry.Package), Entry.Sta
 	Description={`The release line the tree records: ${Line.length} versions, ${Count.All} packages.`}>
 	<PageHero Eyebrow="Timeline" Title="Release">
 		<Fragment slot="Lede">
-			{Line.length}&nbsp;<Term Name="version" /> across {Count.All}&nbsp;<Term Name="package"
-			/>. {Current} is the current line.
+			{Line.length}&nbsp;
+			<Term Name="version" /> across {Count.All}&nbsp;
+			<Term Name="package" />. {Current} is the current line.
 		</Fragment>
 	</PageHero>
 

@@ -1,0 +1,109 @@
+@use "../Material.scss" as Material;
+
+// The compare stage: two texts stacked, the raw one clipped to the handle.
+// The clip is a single custom property, so a drag writes one value per frame.
+.compare {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+
+	&__stage {
+		position: relative;
+		min-height: 120px;
+		border: 1px solid var(--cabinet-line);
+		border-top-color: var(--cabinet-light);
+		border-left-color: var(--cabinet-light);
+		border-right: var(--cabinet-depth) solid var(--cabinet-right);
+		border-bottom: var(--cabinet-depth) solid var(--cabinet-right);
+		background: var(--cabinet-front);
+		overflow: hidden;
+		touch-action: none;
+	}
+
+	&__pane {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-4);
+
+		&--raw {
+			clip-path: inset(0 calc(100% - var(--compare, 50%)) 0 0);
+			background: var(--cabinet-inset);
+		}
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__text {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+		white-space: pre-wrap;
+		overflow-wrap: anywhere;
+	}
+
+	&__handle {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: var(--compare, 50%);
+		width: 2px;
+		background: var(--color-accent);
+		cursor: ew-resize;
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+		}
+	}
+
+	&__grip {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 28px;
+		height: 28px;
+		transform: translate(-50%, -50%);
+		border: 1px solid var(--color-accent);
+		border-radius: 50%;
+		background: var(--cabinet-front);
+
+		// The grip's two bars, drawn rather than typed, so the mark carries no
+		// text and needs no accessible name.
+		&::before,
+		&::after {
+			content: "";
+			position: absolute;
+			top: 50%;
+			width: 1px;
+			height: 10px;
+			transform: translateY(-50%);
+			background: var(--color-accent);
+		}
+
+		&::before {
+			left: 10px;
+		}
+
+		&::after {
+			right: 10px;
+		}
+	}
+
+	&__hint {
+		font-size: var(--text-xs);
+		color: var(--color-ink-faint);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__handle,
+		&__grip {
+			transition: none;
+		}
+	}
+}

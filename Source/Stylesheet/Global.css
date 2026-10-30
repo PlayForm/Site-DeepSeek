@@ -421,9 +421,12 @@ main.page {
 	*,
 	*::before,
 	*::after {
-		animation-duration: 0.01ms !important;
+		/* A zero duration, not a tiny one: the value minifier turns a
+		   fractional millisecond into the invalid `NaNs`, and an invalid
+		   declaration would drop the whole guard. */
+		animation-duration: 0s !important;
 		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
+		transition-duration: 0s !important;
 		scroll-behavior: auto !important;
 	}
 }

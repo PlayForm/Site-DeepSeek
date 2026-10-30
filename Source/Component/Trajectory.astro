@@ -14,6 +14,7 @@ export interface TrajectoryListener {
 
 export interface TrajectoryStep {
 	Name: string;
+	Href: string;
 	Lens: string;
 	Note: string;
 	Listener: TrajectoryListener[];
@@ -54,7 +55,9 @@ function Tally(Listener: TrajectoryListener[]) {
 			<span class="trajectory__index">{String(Index + 1).padStart(2, "0")}</span>
 			<div class="trajectory__body">
 				<header class="trajectory__head">
-					<h3 class="trajectory__name">{Entry.Name}</h3>
+					<h3 class="trajectory__name">
+						<a href={Entry.Href}>{Entry.Name}</a>
+					</h3>
 					<Badge Label={Entry.Lens} Tone="accent" />
 					<span class="trajectory__count">{Entry.Listener.length} hook</span>
 				</header>

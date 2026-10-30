@@ -9,7 +9,7 @@ import Transform from "@Component/Transform.astro";
 import { BehaviorFor } from "@Content/Behavior";
 import { Transform as Sample } from "@Content/Transform";
 import Base from "@Layout/Base.astro";
-import { Route } from "@Library/Link";
+import { Route, SeamHref } from "@Library/Link";
 import { Count, SelectKind } from "@Library/Package.server";
 
 // The order a conversation reaches the seams. A seam that is not in this list
@@ -86,6 +86,7 @@ const Step: TrajectoryStep[] = Seam.map((Name) => {
 
 	return {
 		Name,
+		Href: SeamHref(Name),
 		Lens: LensOf(Name),
 		Note: Class.length > 0 ? `Normalizes the ${Class.join(", ")} classes` : "",
 		Listener,
@@ -97,11 +98,12 @@ const Classic = SelectKind("hook").filter((Entry) => Entry.Family === "Classic")
 
 <Base
 	Title="Hook"
-	Description={`All ${Count.Hook} hooks on ${Step.length} seams, in the order a conversation reaches them.`}>
+	Description={`All ${Count.Hook} hook on ${Step.length} seam, in the order a conversation reaches them.`}>
 	<PageHero Eyebrow="Behavior" Title="Hook">
 		<Fragment slot="Lede">
-			{Count.Hook}&nbsp;<Term Name="hook" /> on {Step.length}&nbsp;<Term Name="seam" />, in the
-			order a conversation reaches them.
+			{Count.Hook}&nbsp;
+			<Term Name="hook" /> on {Step.length}&nbsp;
+			<Term Name="seam" />, in the order a conversation reaches them.
 		</Fragment>
 	</PageHero>
 

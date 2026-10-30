@@ -72,6 +72,10 @@ export const Term: Record<string, Term> = {
 		Meaning:
 			"One dependency drawn in the graph, from the dependency to the package that requires it.",
 	},
+	term: {
+		Name: "term",
+		Meaning: "One word this site defines, listed with its meaning on the reference page.",
+	},
 };
 
 export function TermFor(Name: string): Term | undefined {

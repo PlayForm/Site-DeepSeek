@@ -19,5 +19,7 @@ const { Summary, Count, Open = false } = Astro.props;
 		<span class="disclosure__text">{Summary}</span>
 		{Count !== undefined && <span class="disclosure__count">{Count}</span>}
 	</summary>
-	<div class="disclosure__body"><slot /></div>
+	<div class="disclosure__body">
+		<slot />
+	</div>
 </details>

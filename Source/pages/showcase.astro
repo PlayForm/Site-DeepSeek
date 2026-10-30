@@ -43,8 +43,8 @@ const Listener = [...Group.values()].reduce((Total, List) => Total + List.size, 
 		<Fragment slot="Lede">
 			{Seam}&nbsp;
 			<Term Name="seam" />, {Listener}&nbsp;
-			<Term Name="hook" />, {Transform.length} worked transforms, {Catalogue.Edge.length}&nbsp;
-			dependency edge.
+			<Term Name="hook" />, {Transform.length} worked transforms, {Catalogue.Edge.length}
+			&nbsp; dependency edge.
 		</Fragment>
 	</PageHero>
 
@@ -60,23 +60,23 @@ const Listener = [...Group.values()].reduce((Total, List) => Total + List.size, 
 	<section class="section">
 		<SectionHeader Title="Exhibit" />
 		<div class="section__body grid">
-			<Card Title="Trajectory" Href={Route.Behavior} Meta={`${Seam} seams`}>
+			<Card Title="Trajectory" Href={Route.Behavior} Meta={`${Seam} seam`}>
 				One turn, seam by seam, with the hooks that act at each step and what the model
 				sees.
 			</Card>
-			<Card Title="Transform" Href={Route.Behavior} Meta={`${Transform.length} examples`}>
+			<Card Title="Transform" Href={Route.Behavior} Meta={`${Transform.length} example`}>
 				The character the model emits beside the character the transcript stores.
 			</Card>
 			<Card Title="Case study" Href={Route.CaseStudy} Meta="One character">
 				An em dash followed from the model, through the seam, to the ledger.
 			</Card>
-			<Card Title="Graph" Href={Route.Observatory} Meta={`${Catalogue.Node.length} nodes`}>
+			<Card Title="Graph" Href={Route.Observatory} Meta={`${Catalogue.Node.length} node`}>
 				The family as a graph, with the dependency arrows and a search field.
 			</Card>
-			<Card Title="Release" Href={Route.Timeline} Meta={`${Line.length} versions`}>
+			<Card Title="Release" Href={Route.Timeline} Meta={`${Line.length} version`}>
 				The release line the changelogs record, newest first.
 			</Card>
-			<Card Title="Package" Href={Route.Package} Meta={`${Count.All} packages`}>
+			<Card Title="Package" Href={Route.Package} Meta={`${Count.All} package`}>
 				Every package with its summary, its surface, and its release history.
 			</Card>
 		</div>

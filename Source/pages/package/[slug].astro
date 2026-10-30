@@ -4,7 +4,9 @@ import Badge from "@Component/Badge.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import Definition from "@Component/Definition.astro";
+import Disclosure from "@Component/Disclosure.astro";
 import Icon from "@Component/Icon.astro";
+import Origin from "@Component/Origin.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
 import Provenance from "@Component/Provenance.astro";
@@ -80,6 +82,31 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 
 	return 0;
 });
+
+// The files this page was built from, one row per file, in the order the
+// readers above touch them. A file the page does not read gets no row.
+const File = [
+	{
+		Name: "package.json",
+		Role: "The name, the version, the private flag, and the dependencies.",
+		Present: true,
+	},
+	{
+		Name: "README.md",
+		Role: "The summary, the surface table, and the configuration table.",
+		Present: SurfaceFor(Entry.Slug).length > 0 || ConfigFor(Entry.Slug).length > 0,
+	},
+	{
+		Name: "CHANGELOG.md",
+		Role: "The release lines and their versions.",
+		Present: Release.length > 0,
+	},
+	{
+		Name: "cordis.patch.yml",
+		Role: "Activation: the bundle entry that mounts the plugin.",
+		Present: true,
+	},
+];
 ---
 
 <Base Title={Entry.Slug} Description={Entry.Summary}>
@@ -118,7 +145,10 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 	<section class="section">
 		<SectionHeader Title="What it does" />
 		<div class="section__body stack">
-			<p class="lede">{Entry.Summary}{/[.!?:;,]$/.test(Entry.Summary) ? "" : "."}</p>
+			<p class="lede">
+				{Entry.Summary}
+				{/[.!?:;,]$/.test(Entry.Summary) ? "" : "."}
+			</p>
 			<p class="muted">
 				<a href={`${Entry.Source}/README.md`}>Read the full description in the README</a>.
 			</p>
@@ -135,40 +165,36 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 	<section class="section">
 		<SectionHeader Title="Surface" />
 		<div class="section__body">
-			{
-				SurfaceFor(Entry.Slug).length > 0 ? (
-					<Table
-						Caption={`The surfaces ${Entry.Slug} registers`}
-						Head={["Kind", "Name", "What"]}
-						Row={SurfaceFor(Entry.Slug).map((Item) => [Item.Kind, Item.Name, Item.What])}
-					/>
-				) : (
-					<Absence
-						Title="No surface"
-						Note="The README documents no listener, tool, service, or configuration, so this package registers nothing a page can list."
-					/>
-				)
-			}
+			{SurfaceFor(Entry.Slug).length > 0 ? (
+				<Table
+					Caption={`The surfaces ${Entry.Slug} registers`}
+					Head={["Kind", "Name", "What"]}
+					Row={SurfaceFor(Entry.Slug).map((Item) => [Item.Kind, Item.Name, Item.What])}
+				/>
+			) : (
+				<Absence
+					Title="No surface"
+					Note="The README documents no listener, tool, service, or configuration, so this package registers nothing a page can list."
+				/>
+			)}
 		</div>
 	</section>
 
 	<section class="section">
 		<SectionHeader Title="Dependencies" />
 		<div class="section__body">
-			{
-				Entry.Dependencies.length > 0 ? (
-					<Table
-						Caption={`Dependencies of ${Entry.Slug}`}
-						Head={["Package", "Role"]}
-						Row={Depend}
-					/>
-				) : (
-					<Absence
-						Title="No dependency"
-						Note="The manifest declares no dependency, so this package stands alone in the graph."
-					/>
-				)
-			}
+			{Entry.Dependencies.length > 0 ? (
+				<Table
+					Caption={`Dependencies of ${Entry.Slug}`}
+					Head={["Package", "Role"]}
+					Row={Depend}
+				/>
+			) : (
+				<Absence
+					Title="No dependency"
+					Note="The manifest declares no dependency, so this package stands alone in the graph."
+				/>
+			)}
 		</div>
 	</section>
 
@@ -202,25 +228,23 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 	<section class="section">
 		<SectionHeader
 			Title="Configuration"
-			Lede={Knob.length > 0
-				? "Every knob this plugin documents, with its default."
-				: undefined}
+			Lede={
+				Knob.length > 0 ? "Every knob this plugin documents, with its default." : undefined
+			}
 		/>
 		<div class="section__body">
-			{
-				Knob.length > 0 ? (
-					<Table
-						Caption={`Configuration of ${Entry.Slug}`}
-						Head={["Field", "Type", "Default", "Meaning"]}
-						Row={Knob}
-					/>
-				) : (
-					<Absence
-						Title="No configuration"
-						Note="The README documents no knob, so the package reads no field and takes no option."
-					/>
-				)
-			}
+			{Knob.length > 0 ? (
+				<Table
+					Caption={`Configuration of ${Entry.Slug}`}
+					Head={["Field", "Type", "Default", "Meaning"]}
+					Row={Knob}
+				/>
+			) : (
+				<Absence
+					Title="No configuration"
+					Note="The README documents no knob, so the package reads no field and takes no option."
+				/>
+			)}
 		</div>
 	</section>
 
@@ -248,6 +272,15 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 			<p class="lede">
 				<a href={Entry.Source}>Open the package source</a>
 			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="Origin" />
+		<div class="section__body">
+			<Disclosure Summary="The files this page was read from" Count={File.length}>
+				<Origin Source={Entry.Source} File={File} />
+			</Disclosure>
 		</div>
 	</section>
 

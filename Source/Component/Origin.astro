@@ -1,0 +1,29 @@
+---
+import "@Stylesheet/Component/Origin.scss";
+
+import Table from "@Component/Table.astro";
+
+interface Props {
+	/** The package directory URL every file link hangs from. */
+	Source: string;
+	/** One row per file the page was built from, with what the page took from it. */
+	File: { Name: string; Role: string; Present: boolean }[];
+}
+
+const { Source, File } = Astro.props;
+---
+
+<Table
+	Caption={`The files behind ${Source}`}
+	Head={["File", "Contributed", "State"]}
+	Row={File.map((Item) => [
+		{ Text: Item.Name, Href: `${Source}/${Item.Name}` },
+		Item.Role,
+		{
+			Badge: {
+				Label: Item.Present ? "read" : "absent",
+				Tone: Item.Present ? "accent" : "quiet",
+			},
+		},
+	])}
+/>

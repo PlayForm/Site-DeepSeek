@@ -1,8 +1,9 @@
 ---
 import "@Stylesheet/Component/Search.scss";
 
-import Search from "@Component/Search.tsx";
 import PageHero from "@Component/PageHero.astro";
+import Search from "@Component/Search.tsx";
+import Term from "@Component/Term.astro";
 import Base from "@Layout/Base.astro";
 import { Search as Index } from "@Library/Search.server";
 
@@ -13,12 +14,14 @@ const TermCount = Index.filter((Entry) => Entry.Group === "Term").length;
 
 <Base
 	Title="Search"
-	Description={`Search the ${PackageCount} packages, the site pages, and the ${TermCount} terms of the vocabulary.`}>
-	<PageHero
-		Eyebrow="Search"
-		Title="Search"
-		Lede={`Packages, pages, and terms at once: ${PackageCount} packages, ${PageCount} pages, ${TermCount} terms.`}
-	/>
+	Description={`Search the ${PackageCount} package, the site page, and the ${TermCount} term of the vocabulary.`}>
+	<PageHero Eyebrow="Search" Title="Search">
+		<Fragment slot="Lede">
+			{PackageCount}&nbsp;
+			<Term Name="package" />, {PageCount}&nbsp;page, and {TermCount}&nbsp;
+			<Term Name="term" />, searched at once.
+		</Fragment>
+	</PageHero>
 
 	<section class="section">
 		<div class="section__body">

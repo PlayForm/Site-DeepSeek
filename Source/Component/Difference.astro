@@ -1,0 +1,47 @@
+---
+import "@Stylesheet/Component/Difference.scss";
+
+import { Code, Compare } from "@Library/Difference";
+
+interface Props {
+	/** The text before the seam. */
+	Before: string;
+	/** The text after it. */
+	After: string;
+}
+
+const { Before, After } = Astro.props;
+const Diff = Compare(Before, After);
+---
+
+<div class="difference">
+	<ol class="difference__list">
+		<li class="difference__row">
+			<span class="difference__label">Model</span>
+			<span class="difference__text">
+				{Diff.Prefix}
+				<mark class="difference__mark">{Diff.Before}</mark>
+				{Diff.Suffix}
+			</span>
+		</li>
+		<li class="difference__row">
+			<span class="difference__label">Transcript</span>
+			<span class="difference__text">
+				{Diff.Prefix}
+				<mark class="difference__mark difference__mark--after">{Diff.After}</mark>
+				{Diff.Suffix}
+			</span>
+		</li>
+	</ol>
+
+	<p class="difference__verdict">
+		{Diff.Changed ? (
+			<>
+				{Diff.Count} character changed: <code>{Code(Diff.Before)}</code> to&nbsp;
+				<code>{Code(Diff.After)}</code>
+			</>
+		) : (
+			"No change: the two texts are identical."
+		)}
+	</p>
+</div>

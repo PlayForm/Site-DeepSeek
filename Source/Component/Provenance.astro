@@ -33,13 +33,11 @@ const { Data, Connection, Capture, Note } = Astro.props;
 		</div>
 	</dl>
 
-	{
-		Note && (
-			<div class="provenance__detail">
-				<Disclosure Summary="Expand provenance" Count="source">
-					<p class="provenance__note">{Note}</p>
-				</Disclosure>
-			</div>
-		)
-	}
+	{Note && (
+		<div class="provenance__detail">
+			<Disclosure Summary="Expand provenance" Count="source">
+				<p class="provenance__note">{Note}</p>
+			</Disclosure>
+		</div>
+	)}
 </section>

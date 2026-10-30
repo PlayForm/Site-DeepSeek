@@ -1,0 +1,11 @@
+@use "../Material.scss" as Material;
+
+// The origin inspector: a table of the files this page was built from, one
+// row per file, each file name linked back into the repository it came from
+// and each state carried by the table's own badge cell.
+.origin {
+	.table__link {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+	}
+}
