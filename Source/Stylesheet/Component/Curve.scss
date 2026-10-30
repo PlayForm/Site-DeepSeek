@@ -1,0 +1,80 @@
+@use "../Material.scss" as Material;
+
+// The one chart on the site. Two series, a log axis on each side, and the
+// ceiling drawn as a vertical rule, because the whole point of the picture is
+// where the two lines part.
+.curve {
+	@include Material.tray;
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	margin: 0;
+	padding: var(--rhythm-inset);
+
+	&__plot {
+		width: 100%;
+		height: auto;
+	}
+
+	&__grid {
+		stroke: var(--color-line);
+		stroke-width: 1;
+	}
+
+	&__axis {
+		stroke: var(--color-line-strong);
+		stroke-width: 1;
+	}
+
+	&__tick {
+		fill: var(--color-ink-faint);
+		font-family: var(--font-mono);
+		font-size: 10px;
+	}
+
+	&__alone {
+		fill: none;
+		stroke: var(--color-ink-faint);
+		stroke-width: 2;
+		stroke-dasharray: 4 4;
+	}
+
+	&__family {
+		fill: none;
+		stroke: var(--color-accent);
+		stroke-width: 2;
+	}
+
+	&__ceiling {
+		stroke: var(--color-warn);
+		stroke-width: 1;
+		stroke-dasharray: 2 3;
+	}
+
+	&__note {
+		fill: var(--color-warn);
+		font-family: var(--font-mono);
+		font-size: 10px;
+	}
+
+	&__legend {
+		font-family: var(--font-mono);
+		font-size: 10px;
+
+		&--alone {
+			fill: var(--color-ink-faint);
+		}
+
+		&--family {
+			fill: var(--color-accent);
+		}
+	}
+
+	&__caption {
+		max-width: var(--measure);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+}

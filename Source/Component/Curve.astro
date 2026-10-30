@@ -1,0 +1,96 @@
+---
+import "@Stylesheet/Component/Curve.scss";
+
+import { Curve, Default, Read } from "@Content/Curve";
+
+// The chart is drawn here rather than by a library: two series, a log axis on
+// each side, and two thresholds are geometry a few lines of path data express
+// exactly, and the page ships no chart runtime for them.
+const Width = 720;
+const Height = 300;
+const Pad = 44;
+
+const MinX = Math.log10(Curve.Threshold);
+const MaxX = Math.log10(Curve.Limit);
+
+// The vertical axis starts at the preview length, not at the threshold: the
+// whole point of the picture is that the family's line comes down to the
+// preview while the harness's line keeps climbing.
+const MinY = Math.log10(Curve.Preview);
+const MaxY = Math.log10(Curve.Limit);
+
+const X = (Size: number) => Pad + ((Math.log10(Size) - MinX) / (MaxX - MinX)) * (Width - Pad * 2);
+const Y = (Bytes: number) =>
+	Height - Pad - ((Math.log10(Math.max(Bytes, Curve.Preview)) - MinY) / (MaxY - MinY)) * (Height - Pad * 2);
+
+// The family's line: identity to the ceiling, then flat at the preview length.
+const Family = [
+	[Curve.Threshold, Read(Curve.Threshold)],
+	[Curve.Ceiling, Read(Curve.Ceiling)],
+	[Curve.Limit, Read(Curve.Limit)],
+] as const;
+
+// The harness alone: identity across the whole range.
+const Alone = [
+	[Curve.Threshold, Default(Curve.Threshold)],
+	[Curve.Limit, Default(Curve.Limit)],
+] as const;
+
+const Path = (Points: readonly (readonly [number, number])[]) =>
+	Points.map(([Size, Bytes], Index) => `${Index === 0 ? "M" : "L"}${X(Size).toFixed(1)} ${Y(Bytes).toFixed(1)}`).join(" ");
+
+const Tick = [1024, 10240, 102400, 1048576, 10485760];
+
+const Label = (Size: number) =>
+	Size >= 1048576 ? `${Math.round(Size / 1048576)} MB` : `${Math.round(Size / 1024)} KB`;
+---
+
+<figure class="curve">
+	<svg
+		class="curve__plot"
+		viewBox={`0 0 ${Width} ${Height}`}
+		role="img"
+		aria-label="Bytes the model reads against the size of the tool result, for the harness alone and for the family"
+	>
+		{
+			Tick.map((Size) => (
+				<g>
+					<line class="curve__grid" x1={X(Size)} y1={Pad} x2={X(Size)} y2={Height - Pad} />
+					<text class="curve__tick" x={X(Size)} y={Height - Pad + 16} text-anchor="middle">
+						{Label(Size)}
+					</text>
+				</g>
+			))
+		}
+
+		<line class="curve__axis" x1={Pad} y1={Height - Pad} x2={Width - Pad} y2={Height - Pad} />
+
+		<path class="curve__alone" d={Path(Alone)} />
+		<path class="curve__family" d={Path(Family)} />
+
+		<line
+			class="curve__ceiling"
+			x1={X(Curve.Ceiling)}
+			y1={Pad}
+			x2={X(Curve.Ceiling)}
+			y2={Height - Pad}
+		/>
+		<text class="curve__note" x={X(Curve.Ceiling) + 6} y={Pad + 12}>
+			the ceiling
+		</text>
+
+		<text class="curve__legend curve__legend--alone" x={X(Curve.Limit) - 8} y={Y(Curve.Limit) + 16} text-anchor="end">
+			harness alone
+		</text>
+		<text class="curve__legend curve__legend--family" x={X(Curve.Limit) - 8} y={Y(Curve.Preview) - 8} text-anchor="end">
+			with CCR
+		</text>
+	</svg>
+
+	<figcaption class="curve__caption">
+		The two lines are the same until the ceiling: under {Label(Curve.Ceiling)} the model reads
+		every byte either way. Past it the harness keeps the bytes and CCR keeps a preview of{" "}
+		{Curve.Preview}&nbsp;characters, so the honest claim is not that context is bounded, but that
+		it stops growing.
+	</figcaption>
+</figure>

@@ -17,20 +17,25 @@ export interface Scenario {
 	Property: string;
 	/** The line a reader changes, when the property is opt-in. */
 	Knob: string;
+	/** What that knob ships as, in the package's own words. */
+	KnobNote: string;
 	/** True when the family ships the property off. */
 	OptIn: boolean;
 }
 
 export const Scenario: Scenario[] = [
 	{
-		Title: "A forty-kilobyte result",
+		Title: "A two-hundred-kilobyte result",
 		Situation:
-			"A grep over a large tree returns forty kilobytes of matches, and the result reaches the model as content.",
+			"A grep over a large tree returns two hundred kilobytes of matches, and the result reaches the model as content.",
 		Default:
-			"The harness hands the result to the model, bounded only by its own spill policy: the bytes the model did not ask for are still in its context.",
-		Family: "The CCR hook replaces the result with a one-line preview and a retrieval marker, and keeps the original behind a tool call. The model asks for the bytes only when it needs them.",
+			"The harness hands the result to the model, bounded only by its own spill policy, so the bytes the model did not ask for are still in its context.",
+		Family:
+			"The CCR hook replaces the result with a preview and a retrieval marker, and keeps the original behind a tool call. The model asks for the bytes only when it needs them.",
 		Property: "Bounded context",
-		Knob: "thresholdBytes",
+		Knob: "autoExpandLimitBytes",
+		KnobNote:
+			"ships at 102400 bytes: under that ceiling the model still reads the full result, so this scenario needs a result above it",
 		OptIn: false,
 	},
 	{
@@ -42,6 +47,7 @@ export const Scenario: Scenario[] = [
 		Family: "The workspace guard answers at the pre-execute seam: deny, ask, or allow, from a policy the profile names. The journal records the write so it can be reverted.",
 		Property: "A write guard",
 		Knob: "enabled",
+		KnobNote: "ships off; set it in the profile's bundle patch",
 		OptIn: true,
 	},
 	{
@@ -53,6 +59,7 @@ export const Scenario: Scenario[] = [
 		Family: "Six normalizers rewrite the stream at the seam: dashes, quotes, ellipses, spaces, invisible marks, and fullwidth glyphs. The same prompt produces the same bytes.",
 		Property: "Deterministic output",
 		Knob: "replacement",
+		KnobNote: "ships on; the replacement is the one the README documents",
 		OptIn: false,
 	},
 ];

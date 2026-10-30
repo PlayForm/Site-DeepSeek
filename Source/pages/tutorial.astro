@@ -1,4 +1,5 @@
 ---
+import Curve from "@Component/Curve.astro";
 import PageHero from "@Component/PageHero.astro";
 import Provenance from "@Component/Provenance.astro";
 import ScenarioCard from "@Component/Scenario.astro";
@@ -50,6 +51,16 @@ const OptIn = Scenario.filter((Entry) => Entry.OptIn).length;
 				<a href={Route.Setup}>Set up a plugin</a> shows the line, and{" "}
 				<a href={Route.Intervention}>Intervention</a> shows every seam the family stands at.
 			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Measure"
+			Lede="The one number the site can measure without a live run: how much of a tool result reaches the model, and where the two curves part."
+		/>
+		<div class="section__body">
+			<Curve />
 		</div>
 	</section>
 

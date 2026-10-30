@@ -34,8 +34,6 @@ const { Entry, Index } = Astro.props;
 
 	<p class="scenario__knob">
 		<span class="scenario__knob-name">{Entry.Knob}</span>
-		{Entry.OptIn
-			? "ships off; set it in the profile's bundle patch"
-			: "ships on; the default is documented"}
+		{Entry.KnobNote}
 	</p>
 </article>
