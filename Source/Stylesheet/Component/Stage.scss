@@ -1,0 +1,118 @@
+@use "../Material.scss" as Material;
+
+// The default turn as a rail: one numbered stage per entry, in the order the
+// harness reaches it, with what enters, what leaves, and the seams it
+// dispatches. A seam the family listens on is linked and accented; every other
+// seam stays quiet, because this page is the baseline and not the comparison.
+.stage {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	&__step {
+		display: grid;
+		grid-template-columns: 48px minmax(0, 1fr);
+		gap: var(--rhythm-group);
+		padding-block: var(--rhythm-inset);
+		border-top: 1px solid var(--color-line);
+
+		&:first-child {
+			border-top: 0;
+			padding-top: 0;
+		}
+	}
+
+	&__index {
+		@include Material.label;
+
+		padding-top: 2px;
+		color: var(--color-accent);
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--rhythm-tight);
+		min-width: 0;
+	}
+
+	&__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-3);
+	}
+
+	&__title {
+		font-size: var(--text-lg);
+	}
+
+	&__flow {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-3) var(--rhythm-group);
+		margin: 0;
+	}
+
+	&__pair {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		min-width: 0;
+		padding-left: var(--space-3);
+		border-left: 1px solid var(--color-line);
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__value {
+		margin: 0;
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+	}
+
+	&__seams {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__seam {
+		display: inline-flex;
+	}
+
+	&__link {
+		display: inline-flex;
+		text-decoration: none;
+
+		.badge {
+			transition: color var(--motion-crisp) var(--ease-crisp);
+		}
+
+		&:hover .badge {
+			color: var(--color-accent-deep);
+		}
+	}
+
+	&__empty {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-faint);
+	}
+
+	@media (max-width: 860px) {
+		&__flow {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+}

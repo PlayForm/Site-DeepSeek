@@ -1,0 +1,87 @@
+@use "../Material.scss" as Material;
+
+// One moment, twice: the default beside the family, with the property and the
+// knob that carries it. The two sides are equal columns on purpose: the page
+// argues by comparison, not by a claim in the middle.
+.scenario {
+	@include Material.slab;
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-tight);
+	padding: var(--rhythm-inset);
+
+	&__head {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+	}
+
+	&__index {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-faint);
+	}
+
+	&__title {
+		font-size: var(--text-lg);
+		font-weight: 600;
+		margin-right: auto;
+	}
+
+	&__situation {
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&__split {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1px;
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-line);
+	}
+
+	&__side {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-3);
+		background: var(--cabinet-front);
+
+		&--family {
+			background: var(--color-accent-soft);
+		}
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__text {
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+	}
+
+	&__knob {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-2);
+		font-size: var(--text-xs);
+		color: var(--color-ink-faint);
+	}
+
+	&__knob-name {
+		font-family: var(--font-mono);
+		color: var(--color-ink-muted);
+	}
+
+	@media (max-width: 720px) {
+		&__split {
+			grid-template-columns: 1fr;
+		}
+	}
+}

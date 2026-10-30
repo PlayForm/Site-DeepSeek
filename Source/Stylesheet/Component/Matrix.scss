@@ -1,0 +1,115 @@
+@use "../Material.scss" as Material;
+
+// The intervention matrix: plugins down, seams across, one mark per cell. The
+// mark is the whole visual, so it stays a solid square and the grid lines stay
+// hairline: the reader scans rows and columns, not labels.
+.matrix {
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-tight);
+	overflow-x: auto;
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+	}
+
+	th,
+	td {
+		padding: var(--space-2);
+		text-align: left;
+		vertical-align: middle;
+	}
+
+	thead th {
+		border-bottom: 1px solid var(--cabinet-line);
+		background: var(--cabinet-inset);
+	}
+
+	&__column {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.02em;
+		color: var(--color-ink-faint);
+		text-decoration: none;
+		white-space: nowrap;
+
+		&:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	&__lead {
+		border-right: 1px solid var(--cabinet-line);
+		min-width: 210px;
+	}
+
+	&__slug {
+		display: block;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+		text-decoration: none;
+
+		&:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	&__property {
+		display: block;
+		margin-top: 2px;
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	tbody tr + tr th,
+	tbody tr + tr td {
+		border-top: 1px solid var(--color-line);
+	}
+
+	&__mark {
+		display: block;
+		width: 14px;
+		height: 14px;
+		margin-inline: auto;
+		border: 1px solid var(--cabinet-line);
+
+		&--rewrite {
+			background: var(--color-accent);
+			border-color: var(--color-accent-deep);
+		}
+
+		&--record {
+			background: var(--cabinet-inset);
+			border-color: var(--color-line-strong);
+		}
+	}
+
+	&__none {
+		display: block;
+		width: 14px;
+		height: 14px;
+		margin-inline: auto;
+		border: 1px dotted var(--color-line);
+	}
+
+	&__legend {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--rhythm-tight);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__legend-item {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+	}
+}

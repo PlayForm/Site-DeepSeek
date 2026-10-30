@@ -1,10 +1,13 @@
 ---
+import Absence from "@Component/Absence.astro";
+import Badge from "@Component/Badge.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
 import Provenance from "@Component/Provenance.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 import { BehaviorFor, type Effect } from "@Content/Behavior";
+import { SeamFor } from "@Content/Harness";
 import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
 import { SeamHref } from "@Library/Link";
@@ -71,6 +74,11 @@ if (Seam === undefined || Seam !== Declared) {
 		`The path ${Param} and its props do not agree on a seam that Behavior.ts declares.`,
 	);
 }
+
+// The harness's own side of the seam: its dispatch mode, its declared
+// location, and the listeners it already has there. A seam the family uses
+// but the harness does not declare has no entry, and the page says so.
+const Harness = SeamFor(Seam);
 
 const Hook = SelectKind("hook").flatMap((Entry) => {
 	const Behavior = BehaviorFor(Entry.Slug);
@@ -163,6 +171,51 @@ const Lede = Claim();
 	Title={Seam}
 	Description={`The ${Seam} seam: every hook declared on it, the effect each has, and the knobs it documents.`}>
 	<PageHero Eyebrow="Seam" Title={Seam} Lede={Lede} />
+
+	<section class="section">
+		<SectionHeader
+			Title="Harness"
+			Lede={
+				Harness !== undefined
+					? `The harness dispatches this seam as a ${Harness.Mode}, and it already has listeners here. The family adds its hooks beside them.`
+					: "The harness does not declare this seam; the family's own plugin dispatches it."
+			}
+		/>
+		<div class="section__body stack">
+			{Harness !== undefined ? (
+				<>
+					<p class="lede">It carries {Harness.Carries}.</p>
+					<ul class="cluster">
+						{Harness.Harness.length > 0 ? (
+							Harness.Harness.map((Name) => (
+								<li>
+									<Badge Label={Name} />
+								</li>
+							))
+						) : (
+							<li>
+								<Absence
+									Title="No harness listener"
+									Note="The harness does not declare this event: the family's own plugin dispatches it, and only the family listens."
+								/>
+							</li>
+						)}
+					</ul>
+					<p class="muted">
+						{Harness.Mode === "waterfall"
+							? "A waterfall listener receives the payload and may return a changed one, so a hook here can rewrite what the model reads next."
+							: "An emit listener observes a fact that already happened. A hook here records it, or acts on the world beside it, but it cannot change the payload."}
+					</p>
+					<p class="muted">Declared in {Harness.Declared}.</p>
+				</>
+			) : (
+				<Absence
+					Title="No harness declaration"
+					Note="This event is not in the harness's own event matrix, so there is no default behavior at this seam to compare against."
+				/>
+			)}
+		</div>
+	</section>
 
 	<section class="section">
 		<SectionHeader

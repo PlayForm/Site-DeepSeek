@@ -1,0 +1,62 @@
+---
+import PageHero from "@Component/PageHero.astro";
+import Provenance from "@Component/Provenance.astro";
+import ScenarioCard from "@Component/Scenario.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Term from "@Component/Term.astro";
+import { Scenario } from "@Content/Tutorial";
+import Base from "@Layout/Base.astro";
+import { Route } from "@Library/Link";
+
+const OptIn = Scenario.filter((Entry) => Entry.OptIn).length;
+---
+
+<Base
+	Title="Tutorial"
+	Description={`Three moments in one turn, shown twice: what the harness does on its own and what the family does at the same seam.`}>
+	<PageHero Eyebrow="Tutorial" Title="One turn, three moments">
+		<Fragment slot="Lede">
+			The same turn twice: what the harness does on its own, and what the family does at the
+			same&nbsp;
+			<Term Name="seam" />. Each moment ends with the property it buys and the knob that
+			carries it.
+		</Fragment>
+	</PageHero>
+
+	<section class="section">
+		<SectionHeader
+			Title="Moment"
+			Lede="Read the left column first. The right column is the only difference between a harness with the family and one without."
+		/>
+		<div class="section__body stack">
+			{Scenario.map((Entry, Index) => (
+				<ScenarioCard Entry={Entry} Index={Index + 1} />
+			))}
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Knob"
+			Lede="A property that ships off is not a property the site may claim for you. The profile decides."
+		/>
+		<div class="section__body stack">
+			<p class="lede">
+				{OptIn}&nbsp;of the {Scenario.length}&nbsp;moments here need one line in the
+				profile's bundle patch before they act. The other&nbsp;{Scenario.length - OptIn} act
+				on install.
+			</p>
+			<p class="muted">
+				<a href={Route.Setup}>Set up a plugin</a> shows the line, and{" "}
+				<a href={Route.Intervention}>Intervention</a> shows every seam the family stands at.
+			</p>
+		</div>
+	</section>
+
+	<Provenance
+		Data="The family source and each bundle patch, read by hand"
+		Connection="Build-time constant; nothing is fetched at runtime"
+		Capture="Source/Function/Apply.ts, cordis.patch.yml, and the harness documentation"
+		Note="The default column describes the harness's own behavior, which the docs define; the family column describes what the package's listener does at the same seam. Where a package ships disabled, the page says so rather than implying the guard is on."
+	/>
+</Base>

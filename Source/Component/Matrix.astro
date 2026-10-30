@@ -1,0 +1,91 @@
+---
+import "@Stylesheet/Component/Matrix.scss";
+
+import { Seam } from "@Content/Harness";
+import { Column, type Intervention, type Mark } from "@Content/Intervention";
+import { PackageHref, SeamHref } from "@Library/Link";
+
+interface Props {
+	Row: Intervention[];
+}
+
+const { Row } = Astro.props;
+
+// A seam has a page only when the family documents a hook at it. The matrix
+// draws every column the turn reaches, so a column without a page stays plain
+// text rather than a link to nothing.
+const Page = new Set(Seam.map((Entry) => Entry.Name));
+
+const Tone: Record<Mark, string> = {
+	rewrite: "matrix__mark--rewrite",
+	record: "matrix__mark--record",
+};
+---
+
+<div class="matrix">
+	<table>
+		<caption class="visually-hidden">
+			The seams each plugin acts at, and whether it rewrites what the model reads or only
+			records
+		</caption>
+		<thead>
+			<tr>
+				<th scope="col" class="matrix__lead">
+					Plugin
+				</th>
+				{Column.map((Name) => (
+					<th scope="col">
+						{Page.has(Name) ? (
+							<a class="matrix__column" href={SeamHref(Name)}>
+								{Name}
+							</a>
+						) : (
+							<span class="matrix__column">{Name}</span>
+						)}
+					</th>
+				))}
+			</tr>
+		</thead>
+		<tbody>
+			{Row.map((Entry) => (
+				<tr>
+					<th scope="row" class="matrix__lead">
+						<a class="matrix__slug" href={PackageHref(Entry.Slug)}>
+							{Entry.Slug}
+						</a>
+						<span class="matrix__property">{Entry.Property}</span>
+					</th>
+					{Column.map((Name) => {
+						const Mark = Entry.Seam[Name];
+						return (
+							<td>
+								{Mark === undefined ? (
+									<span class="matrix__none" aria-hidden="true" />
+								) : (
+									<span
+										class:list={["matrix__mark", Tone[Mark]]}
+										title={`${Mark} at ${Name}`}>
+										<span class="visually-hidden">
+											{Mark} at {Name}
+										</span>
+									</span>
+								)}
+							</td>
+						);
+					})}
+				</tr>
+			))}
+		</tbody>
+	</table>
+
+	<ul class="matrix__legend">
+		<li class="matrix__legend-item">
+			<span class:list={["matrix__mark", "matrix__mark--rewrite"]} aria-hidden="true" />
+			rewrites what the model reads next
+		</li>
+		<li class="matrix__legend-item">
+			<span class:list={["matrix__mark", "matrix__mark--record"]} aria-hidden="true" />
+			records what happened
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,128 @@
+---
+import Callout from "@Component/Callout.astro";
+import PageHero from "@Component/PageHero.astro";
+import Provenance from "@Component/Provenance.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import StageRail from "@Component/Stage.astro";
+import Table from "@Component/Table.astro";
+import { Seam } from "@Content/Harness";
+import { SeamRow, Stage } from "@Content/Turn";
+import Base from "@Layout/Base.astro";
+import { Route, SeamHref } from "@Library/Link";
+
+// The seams the family already listens on, by name. The rail links a stage
+// seam only when it is in this list, because a link to a page the site does not
+// have is worse than no link at all.
+const Used = Seam.map((Entry) => Entry.Name);
+
+// The power a dispatch mode gives a listener decides the badge tone: a waterfall
+// may rewrite, an emit observes, and a serial listener may only stop the turn.
+const Tone: Record<SeamRow["Power"], "accent" | "quiet" | "neutral"> = {
+	Change: "accent",
+	Observe: "quiet",
+	Stop: "neutral",
+};
+
+// One row per seam: the name, linked when the family uses it, the package that
+// produces it, the power it gives a listener, and what the listener receives.
+const Row = SeamRow.map((Item) => [
+	Used.includes(Item.Name) ? { Text: Item.Name, Href: SeamHref(Item.Name) } : Item.Name,
+	Item.Producer,
+	{ Badge: { Label: Item.Power, Tone: Tone[Item.Power] } },
+	Item.Shape,
+]);
+---
+
+<Base
+	Title="Turn"
+	Description={`The default turn: ${Stage.length} stages and ${SeamRow.length} seams, before a plugin of this family exists.`}>
+	<PageHero Eyebrow="Harness" Title="The turn">
+		<Fragment slot="Lede">
+			The harness reaches {Stage.length}&nbsp;stages and {SeamRow.length}&nbsp;seams before a
+			plugin of this family exists.
+		</Fragment>
+	</PageHero>
+
+	<section class="section">
+		<Callout Title="The claim">
+			<div class="stack">
+				<p class="lede">
+					The default turn already has every slot. Only the slots are empty.
+				</p>
+				<p>
+					The family documents {Seam.length}&nbsp;of the {SeamRow.length}&nbsp;seams on
+					this path, and every other page on this site is a comparison against this one. A
+					hook that also registers at a seam the turn reaches earlier is not counted here:
+					the behavior page lists the seam each hook is documented at.
+				</p>
+			</div>
+		</Callout>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Stage"
+			Lede="One entry per stage, in the order the turn reaches it. A seam the family uses is linked; a seam it does not use stays quiet."
+		/>
+		<div class="section__body">
+			<StageRail Entry={Stage} Used={Used} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Seam"
+			Lede="One row per seam the turn dispatches, with its producer, the power it gives a listener, and what the listener receives."
+		/>
+		<div class="section__body">
+			<Table
+				Caption="Every seam the turn reaches, with its producer, its power, and what the listener receives"
+				Head={["Seam", "Producer", "Power", "What the listener receives"]}
+				Row={Row}
+			/>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Power"
+			Lede="A plugin acts at a seam, and the power the seam gives a listener decides what it can do there."
+		/>
+		<div class="section__body stack">
+			<ul class="stack">
+				<li>
+					<strong>Change</strong>: the listener receives the payload and returns it
+					changed, so the next reader sees the new value.
+				</li>
+				<li>
+					<strong>Observe</strong>: the listener sees a fact that already happened, and it
+					can record or act beside it, but never rewrite it.
+				</li>
+				<li>
+					<strong>Stop</strong>: the listener may end the turn at the terminal checkpoint,
+					but the turn it ends is already written.
+				</li>
+			</ul>
+			<div class="cluster">
+				<a class="button" href={Route.Behavior}>
+					The family at&nbsp;{Seam.length}&nbsp;of them
+				</a>
+				<a class="button button--quiet" href={Route.Workbench}>
+					One turn, both lenses
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="Read" />
+		<div class="section__body">
+			<Provenance
+				Data="The harness documentation, read by hand"
+				Connection="Build-time constant; nothing is fetched at runtime"
+				Capture="architecture, agent-lifecycle, event-producer-consumer, tool-execution-pipeline"
+				Note="This page transcribes the turn the harness documentation describes, stage by stage and seam by seam. The live harness can differ from the docs: a release may add, move, or retire a seam before the documentation records it."
+			/>
+		</div>
+	</section>
+</Base>

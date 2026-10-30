@@ -1,0 +1,53 @@
+---
+import "@Stylesheet/Component/Chain.scss";
+
+import Badge from "@Component/Badge.astro";
+import type { Arm } from "@Content/Composition";
+import { PackageHref, SeamHref } from "@Library/Link";
+
+interface Props {
+	/** The seam the chain runs at. */
+	Seam: string;
+	/** The arms, in the order they run. */
+	Arm: Arm[];
+	/** What the chain produces. */
+	Note: string;
+	/** True when the seam has a page of its own. */
+	Linked: boolean;
+}
+
+const { Seam, Arm, Note, Linked } = Astro.props;
+
+const Tone = (Position: Arm["Position"]) =>
+	Position === "prepend" ? "accent" : Position === "independent" ? "quiet" : "neutral";
+---
+
+<article class="chain">
+	<header class="chain__head">
+		<h3 class="chain__seam">
+			{Linked ? (
+				<a class="chain__link" href={SeamHref(Seam)}>
+					{Seam}
+				</a>
+			) : (
+				Seam
+			)}
+		</h3>
+		<span class="chain__count">{Arm.length}&nbsp;arm</span>
+	</header>
+
+	<ol class="chain__list">
+		{Arm.map((Entry, Index) => (
+			<li class="chain__arm" data-position={Entry.Position}>
+				<span class="chain__order">{String(Index + 1).padStart(2, "0")}</span>
+				<a class="chain__slug" href={PackageHref(Entry.Slug)}>
+					{Entry.Slug}
+				</a>
+				<Badge Label={Entry.Position} Tone={Tone(Entry.Position)} />
+				<span class="chain__does">{Entry.Does}</span>
+			</li>
+		))}
+	</ol>
+
+	<p class="chain__note">{Note}</p>
+</article>

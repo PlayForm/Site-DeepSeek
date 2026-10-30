@@ -1,0 +1,63 @@
+---
+import "@Stylesheet/Component/Stage.scss";
+
+import Badge from "@Component/Badge.astro";
+import type { Stage } from "@Content/Turn";
+import { SeamHref } from "@Library/Link";
+
+interface Props {
+	/** Every stage of the turn, in the order the harness reaches them. */
+	Entry: Stage[];
+	/** The seams the family listens on, by name. A seam outside this list is
+	 *  quiet and carries no link, because the site has no page for it. */
+	Used: string[];
+}
+
+const { Entry, Used } = Astro.props;
+
+function IsUsed(Name: string): boolean {
+	return Used.includes(Name);
+}
+---
+
+<ol class="stage">
+	{Entry.map((Item) => (
+		<li class="stage__step">
+			<span class="stage__index">{String(Item.Index).padStart(2, "0")}</span>
+			<div class="stage__body">
+				<header class="stage__head">
+					<h3 class="stage__title">{Item.Title}</h3>
+				</header>
+
+				<dl class="stage__flow">
+					<div class="stage__pair">
+						<dt class="stage__label">Enters</dt>
+						<dd class="stage__value">{Item.Enters}</dd>
+					</div>
+					<div class="stage__pair">
+						<dt class="stage__label">Leaves</dt>
+						<dd class="stage__value">{Item.Leaves}</dd>
+					</div>
+				</dl>
+
+				{Item.Seam.length > 0 ? (
+					<ul class="stage__seams">
+						{Item.Seam.map((Name) => (
+							<li class="stage__seam">
+								{IsUsed(Name) ? (
+									<a class="stage__link" href={SeamHref(Name)}>
+										<Badge Label={Name} Tone="accent" />
+									</a>
+								) : (
+									<Badge Label={Name} Tone="quiet" />
+								)}
+							</li>
+						))}
+					</ul>
+				) : (
+					<p class="stage__empty">no seam here</p>
+				)}
+			</div>
+		</li>
+	))}
+</ol>

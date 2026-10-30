@@ -1,0 +1,41 @@
+---
+import "@Stylesheet/Component/Scenario.scss";
+
+import Badge from "@Component/Badge.astro";
+import type { Scenario } from "@Content/Tutorial";
+
+interface Props {
+	Entry: Scenario;
+	Index: number;
+}
+
+const { Entry, Index } = Astro.props;
+---
+
+<article class="scenario">
+	<header class="scenario__head">
+		<span class="scenario__index">{String(Index).padStart(2, "0")}</span>
+		<h3 class="scenario__title">{Entry.Title}</h3>
+		<Badge Label={Entry.Property} Tone="accent" />
+	</header>
+
+	<p class="scenario__situation">{Entry.Situation}</p>
+
+	<div class="scenario__split">
+		<div class="scenario__side">
+			<p class="scenario__label">Default</p>
+			<p class="scenario__text">{Entry.Default}</p>
+		</div>
+		<div class="scenario__side scenario__side--family">
+			<p class="scenario__label">Family</p>
+			<p class="scenario__text">{Entry.Family}</p>
+		</div>
+	</div>
+
+	<p class="scenario__knob">
+		<span class="scenario__knob-name">{Entry.Knob}</span>
+		{Entry.OptIn
+			? "ships off; set it in the profile's bundle patch"
+			: "ships on; the default is documented"}
+	</p>
+</article>
