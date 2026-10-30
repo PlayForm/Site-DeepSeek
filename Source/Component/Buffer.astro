@@ -1,0 +1,92 @@
+---
+import "@Stylesheet/Component/Buffer.scss";
+
+// The buffer: the package holds data for others to read, so the picture is
+// the store and what it holds on the left, the readers named on the right,
+// and the retention rule underneath both.
+//
+// The store, the readers, and the rule are read from the package's README
+// ("The surfaces", "The ledger") and from the `Source/Function/` tree that
+// answers each read.
+interface Buffer {
+	/** The store, named as a reader would find it. */
+	Store: string;
+	/** What the store holds, one phrase per line. */
+	Hold: string[];
+	/** Who reads it, named. */
+	Reader: string[];
+	/** The retention rule, said once. */
+	Rule: string;
+}
+
+interface Props {
+	/** The package whose buffer this is. */
+	Slug: string;
+}
+
+const { Slug } = Astro.props;
+
+const Buffer: Record<string, Buffer> = {
+	"client-dsh-panel-family-host": {
+		Store: "the family logs under ~/.dsh, and the D5 ring it forwards",
+		Hold: [
+			"the last lines of a family log",
+			"the ccr store: its path, its bytes, its lines",
+			"the trace envelopes the bus already kept",
+		],
+		Reader: [
+			"the panel's status tail",
+			"the panel's stats line",
+			"the browser half, through playformFamilyPanel",
+		],
+		Rule: "A tail is capped per call, and the ring keeps its own bound. The host writes nothing to disk.",
+	},
+	"lib-dsh-trace": {
+		Store: "the detached queue, keyed by path",
+		Hold: ["the keys the envelopes scheduled", "one task per key, in flight"],
+		Reader: [
+			"every adapting plugin's Source/Trace/ adapter",
+			"the re-index a workspace event asks for",
+		],
+		Rule: "A key runs one task at a time. There is no timer on the hot path, a failure is swallowed, and a Flush promise lets a smoke wait for the queue.",
+	},
+	"lib-dsh-pack": {
+		Store: "the resolved pack: the user layer, the repo layer, the built-in",
+		Hold: [
+			"families keyed by domain and id",
+			"targets keyed by path",
+			"the signature that names the workspace",
+		],
+		Reader: ["the six suggesters", "the pack learner", "a test, or a tool"],
+		Rule: "The user layer answers first; the repo layer may override it. Each pack in the extends chain is merged once, and a workspace that does not match the signature gets nothing.",
+	},
+};
+
+const Entry = Buffer[Slug];
+---
+
+{
+	Entry !== undefined && (
+		<div class="buffer" role="img" aria-label={`What ${Slug} holds, and who reads it`}>
+			<div class="buffer__store">
+				<span class="buffer__label">The store</span>
+				<span class="buffer__name">{Entry.Store}</span>
+				<span class="buffer__label">Holds</span>
+				<ul class="buffer__hold">
+					{Entry.Hold.map((Item) => (
+						<li class="buffer__cell">{Item}</li>
+					))}
+				</ul>
+			</div>
+			<div class="buffer__readers">
+				<span class="buffer__label">Read by</span>
+				<ul class="buffer__read">
+					{Entry.Reader.map((Item) => (
+						<li class="buffer__reader">{Item}</li>
+					))}
+				</ul>
+			</div>
+			<p class="buffer__rule">{Entry.Rule}</p>
+		</div>
+	)
+}

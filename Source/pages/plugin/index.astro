@@ -20,7 +20,7 @@ const Group = Role.map((Name) => ({
 	})),
 }));
 
-	const Seam = [...new Set(Plugin.flatMap((Item) => Item.Seam))];
+const Seam = [...new Set(Plugin.flatMap((Item) => Item.Seam))];
 
 // The eight as rows: what each one is, where it answers, the state it unlocks,
 // and the one line it changes. The page a row opens carries the same four
@@ -53,12 +53,12 @@ const Row = Plugin.map((Item) => [
 		<div class="section__body">
 			<Callout Title="Invariant" Tone="note">
 				<p>
-					The two conversations are the same lines, the same sequence numbers, and the same
-					order. Exactly one line differs, and the difference is visible without reading a
-					caption. The state name comes from the catalogue rather than from invention. The
-					"needs logged" line names a specific fact, not a category. The seam is marked in
-					the pipeline, and the pipeline is the same component on every page. Nothing claims
-					a state the log cannot feed without saying so.
+					The two conversations are the same lines, the same sequence numbers, and the
+					same order. Exactly one line differs, and the difference is visible without
+					reading a caption. The state name comes from the catalogue rather than from
+					invention. The "needs logged" line names a specific fact, not a category. The
+					seam is marked in the pipeline, and the pipeline is the same component on every
+					page. Nothing claims a state the log cannot feed without saying so.
 				</p>
 			</Callout>
 		</div>

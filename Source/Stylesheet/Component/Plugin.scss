@@ -1,72 +1,93 @@
 @use "../Material.scss" as Material;
 
-// The plugin page: the same conversation twice, side by side, so the one line
-// that changes is the whole argument. The columns are equal on purpose; the
-// page dissects by comparison rather than by description.
+// The plugin page's own parts: the opening claim, the note behind a summary,
+// and the token curve the meter draws instead of the site's byte curve.
+//
+// Everything else on the page is a shared atom with its own stylesheet, so
+// this file stays small and the composition, not the CSS, is what differs
+// between one plugin and the next.
 .plugin {
-	&__mock {
+	&__brief {
 		display: flex;
 		flex-direction: column;
+		gap: var(--rhythm-group);
+		padding-block: var(--rhythm-block);
+		border-top: var(--hairline);
 	}
 
-	&__diff {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: var(--rhythm-inset);
-		align-items: start;
-	}
-
-	&__outcome {
-		font-family: var(--font-mono);
-		font-size: var(--text-xs);
-		color: var(--color-ink-muted);
-
-		// The one line that changed. The mark is a fill, not a border, so the
-		// line keeps its height and the two columns stay aligned row for row.
-		&[data-changed="true"] {
-			background: var(--color-warn-soft);
-			color: var(--color-ink);
-			box-shadow: inset 0 -2px 0 var(--color-warn);
-			padding-inline: var(--space-1);
-		}
-	}
-
-	&__column {
+	&__claim {
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-2);
-		padding: var(--space-3);
-		border: 1px solid var(--cabinet-line);
-		background: var(--cabinet-front);
-
-		&--with {
-			border-left: 2px solid var(--color-accent);
-		}
+		max-width: var(--measure);
 	}
 
-	&__head {
+	&__kind {
 		@include Material.label;
 	}
 
-	&__result {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-2);
-		padding: var(--space-3);
-		border: 1px solid var(--color-warn);
-		border-left-width: 2px;
-		background: var(--color-warn-soft);
-	}
-
-	&__reason {
-		font-size: var(--text-xs);
-		line-height: var(--leading-body);
+	&__sentence {
+		font-size: var(--text-xl);
+		line-height: var(--leading-snug);
+		letter-spacing: -0.01em;
 		color: var(--color-ink);
 	}
 
-	@media (max-width: 860px) {
-		&__diff {
-			grid-template-columns: 1fr;
-		}
+	&__key {
+		@include Material.label;
+		margin-right: var(--space-2);
+	}
+
+	&__note {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&__curve {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		margin: 0;
+	}
+
+	&__plot {
+		width: 100%;
+		height: auto;
+		border: var(--hairline);
+		background: var(--color-surface-sunken);
+	}
+
+	&__axis {
+		stroke: var(--color-line-strong);
+		stroke-width: 1;
+	}
+
+	&__line {
+		fill: none;
+		stroke: var(--color-accent);
+		stroke-width: 2;
+	}
+
+	&__point {
+		fill: var(--color-accent);
+	}
+
+	&__tick {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		fill: var(--color-ink-faint);
+	}
+
+	&__value {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		fill: var(--color-ink-muted);
+	}
+
+	&__caption {
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
 	}
 }

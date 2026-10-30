@@ -40,8 +40,12 @@ const Rest = Listener.length - Shown.length;
 		{Shown.map((Item) => (
 			<li class="fanout__item" data-documented={Item.Documented}>
 				<span class="fanout__connector" aria-hidden="true" />
-				<a class="fanout__slug" href={Item.Href}>{Item.Slug}</a>
-				<span class="fanout__effect">{Item.Documented ? Item.Effect : `${Item.Effect} arm`}</span>
+				<a class="fanout__slug" href={Item.Href}>
+					{Item.Slug}
+				</a>
+				<span class="fanout__effect">
+					{Item.Documented ? Item.Effect : `${Item.Effect} arm`}
+				</span>
 			</li>
 		))}
 		{Rest > 0 && (

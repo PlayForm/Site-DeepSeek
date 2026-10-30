@@ -1,0 +1,115 @@
+@use "../Material.scss" as Material;
+
+// The buffer: the store is an inset tray on the left, the readers a list on
+// the right, and the retention rule a footer that spans both, because the
+// rule governs the store and the readers at once.
+.buffer {
+	@include Material.slab;
+
+	display: grid;
+	grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+
+	&__store {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--rhythm-inset);
+		border-right: 1px solid var(--cabinet-line);
+	}
+
+	&__readers {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--rhythm-inset);
+		background: var(--cabinet-inset);
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__name {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	&__hold {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__cell {
+		position: relative;
+		padding-left: var(--space-4);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0.75em;
+			left: 0;
+			width: var(--space-2);
+			height: 1px;
+			background: var(--color-line-strong);
+		}
+	}
+
+	&__read {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	// A reader is a name with an accent hairline before it, the same mark the
+	// surface uses for a slot's contents: the reader reaches into the store.
+	&__reader {
+		position: relative;
+		padding-left: var(--space-4);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0.75em;
+			left: 0;
+			width: var(--space-2);
+			height: 1px;
+			background: var(--color-accent);
+		}
+	}
+
+	&__rule {
+		grid-column: 1 / -1;
+		padding: var(--space-3) var(--rhythm-inset);
+		border-top: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	@media (max-width: 720px) {
+		grid-template-columns: minmax(0, 1fr);
+
+		&__store {
+			border-right: 0;
+			border-bottom: 1px solid var(--cabinet-line);
+		}
+	}
+}

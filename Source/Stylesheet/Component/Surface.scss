@@ -1,0 +1,77 @@
+@use "../Material.scss" as Material;
+
+// The surface: each frame is a slab labelled with its host, and inside it a
+// dashed slot box labelled with the slot name, holding what the package puts
+// there. The dashed line is the one place the site draws a slot rather than a
+// boundary, so a declared slot reads differently from a filled one.
+.surface {
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-group);
+
+	&__frame {
+		@include Material.slab;
+
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		padding: var(--space-4);
+	}
+
+	&__host {
+		@include Material.label;
+
+		color: var(--color-ink);
+	}
+
+	&__slot {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-3);
+		border: 1px dashed var(--cabinet-line);
+		background: var(--cabinet-inset);
+	}
+
+	&__slot-label {
+		@include Material.label;
+
+		color: var(--color-accent-ink);
+	}
+
+	&__fill {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	// One short accent dash before each item: the slot's contents are a list,
+	// and the dash is the same mark the stream uses for an event.
+	&__item {
+		position: relative;
+		padding-left: var(--space-4);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0.75em;
+			left: 0;
+			width: var(--space-2);
+			height: 1px;
+			background: var(--color-accent);
+		}
+	}
+
+	&__rule {
+		max-width: var(--measure);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+}

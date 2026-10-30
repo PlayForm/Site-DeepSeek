@@ -1,0 +1,19 @@
+---
+import "@Stylesheet/Component/Fact.scss";
+
+interface Props {
+	/** The facts the page must state, each one a phrase. */
+	Item: string[];
+}
+
+const { Item } = Astro.props;
+---
+
+<dl class="fact">
+	{Item.map((Phrase, Index) => (
+		<div class="fact__row">
+			<dt class="fact__index">{String(Index + 1).padStart(2, "0")}</dt>
+			<dd class="fact__text">{Phrase}</dd>
+		</div>
+	))}
+</dl>

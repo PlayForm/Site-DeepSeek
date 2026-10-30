@@ -1,0 +1,25 @@
+@use "../Material.scss" as Material;
+
+// The reader's question, stated above the operator so the picture has an
+// errand. It is one line of the page's argument, not a heading: the page's
+// headings stay in `SectionHeader`, and this block never adds a second voice.
+.question {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--space-2);
+	padding: var(--space-4);
+	border-left: 2px solid var(--color-accent);
+	background: var(--color-accent-soft);
+
+	&__label {
+		@include Material.label;
+		color: var(--color-accent-ink);
+	}
+
+	&__text {
+		font-size: var(--text-lg);
+		line-height: var(--leading-snug);
+		color: var(--color-accent-ink);
+	}
+}

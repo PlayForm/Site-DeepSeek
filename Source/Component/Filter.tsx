@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, onMount } from "solid-js";
+import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 
 interface Entry {
 	Slug: string;
@@ -102,6 +102,14 @@ export default (Props: Props) => {
 			<span class="filter__count" aria-live="polite">
 				{Shown()} shown
 			</span>
+
+			{/* The collection's own empty state: a query that matches nothing is a
+			    result, and the page says so rather than showing a blank grid. */}
+			<Show when={Shown() === 0}>
+				<p class="filter__empty">
+					No package matches this filter. Clear the search or pick All.
+				</p>
+			</Show>
 		</div>
 	);
 };

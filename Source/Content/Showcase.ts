@@ -6,14 +6,7 @@
 // operator that distinguishes this plugin from its neighbour and carries only
 // the data that operator draws. The values are illustrative, but each one
 // agrees with what the plugin actually does.
-export type Operator =
-	| "matrix"
-	| "timeline"
-	| "ledger"
-	| "ladder"
-	| "fork"
-	| "chain"
-	| "diff";
+export type Operator = "matrix" | "timeline" | "ledger" | "ladder" | "fork" | "chain" | "diff";
 
 export interface Showcase {
 	/** The plugin record the showcase extends. */

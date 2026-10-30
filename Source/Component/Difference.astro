@@ -35,22 +35,20 @@ const Diff = Compare(Before, After);
 	</ol>
 
 	<p class="difference__verdict">
-		{
-			Diff.Changed ? (
-				Diff.Count <= 3 ? (
-					<>
-						{Diff.Count} character changed: <code>{Code(Diff.Before)}</code> to&nbsp;
-						<code>{Code(Diff.After)}</code>
-					</>
-				) : (
-					<>
-						{Diff.Count}&nbsp;character changed, from <code>{Diff.Before.length}</code> to{" "}
-						<code>{Diff.After.length}</code>.
-					</>
-				)
+		{Diff.Changed ? (
+			Diff.Count <= 3 ? (
+				<>
+					{Diff.Count} character changed: <code>{Code(Diff.Before)}</code> to&nbsp;
+					<code>{Code(Diff.After)}</code>
+				</>
 			) : (
-				"No change: the two texts are identical."
+				<>
+					{Diff.Count}&nbsp;character changed, from <code>{Diff.Before.length}</code> to{" "}
+					<code>{Diff.After.length}</code>.
+				</>
 			)
-		}
+		) : (
+			"No change: the two texts are identical."
+		)}
 	</p>
 </div>

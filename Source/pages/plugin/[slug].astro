@@ -1,17 +1,28 @@
 ---
 import "@Stylesheet/Component/Plugin.scss";
 
+import Absence from "@Component/Absence.astro";
 import Badge from "@Component/Badge.astro";
-import Explorer from "@Component/Explorer.astro";
-import Line from "@Component/Line.astro";
+import Callout from "@Component/Callout.astro";
+import Card from "@Component/Card.astro";
+import Chain from "@Component/Chain.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
+import Difference from "@Component/Difference.astro";
+import Disclosure from "@Component/Disclosure.astro";
+import Fact from "@Component/Fact.astro";
+import Fork from "@Component/Fork.astro";
+import Grid from "@Component/Grid.astro";
+import Ladder from "@Component/Ladder.astro";
+import Lane from "@Component/Lane.astro";
 import PageHero from "@Component/PageHero.astro";
+import Pending from "@Component/Pending.astro";
 import Pipeline from "@Component/Pipeline.astro";
+import Question from "@Component/Question.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
-import Show from "@Component/Show.astro";
+import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
-import Term from "@Component/Term.astro";
+import { Brief } from "@Content/Brief";
 import { Seam } from "@Content/Harness";
-import { Conversation } from "@Content/Mock";
 import { Plugin } from "@Content/Plugin";
 import { Showcase } from "@Content/Showcase";
 import Base from "@Layout/Base.astro";
@@ -29,6 +40,20 @@ if (Entry === undefined) {
 	throw new Error(`The path ${Slug} has no plugin record.`);
 }
 
+// The brief is the page's argument: without it the page would fall back to a
+// template, which is the defect this rewrite removes.
+const Sketch = Brief.find((Item) => Item.Slug === Slug);
+
+if (Sketch === undefined) {
+	throw new Error(`The plugin ${Slug} has no brief.`);
+}
+
+// The showcase record carries the operator's data: the matrix, the lanes, the
+// rungs, the exits, the links, or the attempts. The page draws the operator
+// itself rather than through a shared wrapper, so the atoms around it are the
+// ones the brief names.
+const Face = Showcase.find((Item) => Item.Slug === Slug);
+
 // A seam has a page only when the family documents a hook at it. The plugin's
 // seams are mostly the harness's own, so most of them stay plain text.
 const Page = new Set(Seam.map((Item) => Item.Name));
@@ -41,34 +66,244 @@ const Stage = [
 	{ Label: "result", Seam: "tools/result" },
 ];
 
-// The other plugins, grouped by the role each plays, so a reader can move
-// between them without going back to a catalogue.
-const Role = [...new Set(Plugin.map((Item) => Item.Role))];
-const Group = Role.map((Name) => ({
-	Label: Name,
-	Item: Plugin.filter((Item) => Item.Role === Name).map((Item) => ({
-		Label: Item.Slug,
-		Href: `/plugin/${Item.Slug}/`,
-	})),
-}));
-
-// The default conversation comes from one file, so "the same three lines" is
-// enforced by the build rather than by a comment here.
-// The showcase record for this plugin. The binding is named `Face` because the
-// component that renders it is `Show`, and a const of the same name would
-// shadow the import.
-const Face = Showcase.find((Item) => Item.Slug === Entry.Slug);
+// The gate answers at a filesystem intent seam inside execution rather than at
+// one of the four stage seams, so the pipeline marks the stage that dispatches
+// it and the line below names the seam itself.
+const Current =
+	Stage.find((Item) => Item.Seam === Entry.Seam[0])?.Label ??
+	(Entry.Seam[0].startsWith("fs/") ? "execute" : undefined);
 
 const Contract = [
 	["Seam", Entry.Seam.join(", ")],
 	["State", Entry.State],
 	["Needs logged", Entry.Data.join(", ")],
 ];
+
+// The operator each showcase names, as the component that draws it. The brief
+// owns the section order; this map only lets the operator section carry the
+// dimension the showcase already states, so the two records cannot drift.
+const Operator: Record<string, string> = {
+	matrix: "Grid",
+	timeline: "Lane",
+	ledger: "StatBand",
+	ladder: "Ladder",
+	fork: "Fork",
+	chain: "Chain",
+	diff: "Difference",
+};
+
+const Signature = Face === undefined ? undefined : Operator[Face.Operator];
+
+// The headings are per plugin and per section: the wait's Lane and the clock's
+// Lane are the same atom doing different work, and the page should say so.
+const Heading: Record<string, { Title: string; Lede?: string }> = {
+	"fs-observation-policy:Pipeline": {
+		Title: "Where it answers",
+		Lede: "One tool call through the pipeline, with the stage that dispatches the filesystem seam marked.",
+	},
+	"fs-observation-policy:Difference": {
+		Title: "What the denial replaces",
+		Lede: "The same conversation twice, and the write is the only line that changes.",
+	},
+	"fs-observation-policy:Grid": { Title: "The sandbox modes" },
+	"fs-observation-policy:Callout": {
+		Title: "Why it holds",
+	},
+
+	"user-approval:Lane": { Title: "The call and the person" },
+	"user-approval:Pending": {
+		Title: "The open prompt",
+		Lede: "The call is neither running nor finished: it is waiting on one person.",
+	},
+	"user-approval:StatBand": {
+		Title: "The wait in numbers",
+		Lede: "A quick answer and a slow answer are different stories about the same call.",
+	},
+	"user-approval:Difference": {
+		Title: "What the ask replaces",
+		Lede: "The write is asked rather than done, and the transcript says who it waits for.",
+	},
+
+	"token-meter:StatBand": { Title: "The totals" },
+	"token-meter:Table": {
+		Title: "Each attempt",
+		Lede: "A retry is another request, and its tokens are its own.",
+	},
+	"token-meter:Curve": {
+		Title: "The shape of the cost",
+		Lede: "Every attempt, its total, and the line between them.",
+	},
+
+	"spill-policy:Ladder": { Title: "The size ladder" },
+	"spill-policy:Card": {
+		Title: "The stored object",
+		Lede: "Past the threshold the bytes move to a file and the model holds a locator.",
+	},
+	"spill-policy:CodeBlock": {
+		Title: "The head of the file",
+		Lede: "The model reads the first lines; the rest waits in the store.",
+	},
+	"spill-policy:Absence": {
+		Title: "Without a store",
+		Lede: "The threshold has no exit, so the bytes stay in the prompt.",
+	},
+
+	"timeout-policy:Fork": { Title: "The two exits" },
+	"timeout-policy:Lane": {
+		Title: "The job's lifetime",
+		Lede: "The call keeps running after the turn stops waiting for it.",
+	},
+	"timeout-policy:Pending": {
+		Title: "Before it settles",
+		Lede: "The job is in flight, and the turn has already moved on.",
+	},
+	"timeout-policy:Difference": {
+		Title: "What the job replaces",
+		Lede: "The result is not ok; it is a job id the turn can check later.",
+	},
+
+	"session-checkpoint-policy:Chain": { Title: "The generations" },
+	"session-checkpoint-policy:Difference": {
+		Title: "What the turn close becomes",
+		Lede: "The same close, with a checkpoint written before it.",
+	},
+	"session-checkpoint-policy:Callout": {
+		Title: "The resume point",
+	},
+
+	"image-offload:Difference": { Title: "What the prompt holds" },
+	"image-offload:Card": {
+		Title: "The attachment",
+		Lede: "One object, two representations, and the same bytes behind both.",
+	},
+	"image-offload:Absence": {
+		Title: "When the store is absent",
+		Lede: "The reference points at nothing, so the image stays inline.",
+	},
+	"image-offload:Callout": {
+		Title: "The retrieval promise",
+	},
+
+	"repeat-tool-reminder:Ladder": { Title: "The repeat ladder" },
+	"repeat-tool-reminder:Disclosure": {
+		Title: "The injected text",
+		Lede: "The note is behind the summary, because the call is the fact and the note is the detail.",
+	},
+	"repeat-tool-reminder:Callout": {
+		Title: "The guard speaks without blocking",
+	},
+};
+
+function HeadingFor(Name: string) {
+	const Found = Heading[`${Entry.Slug}:${Name}`];
+
+	if (Found === undefined) {
+		throw new Error(`The plugin ${Entry.Slug} has no heading for ${Name}.`);
+	}
+
+	const Lede =
+		Found.Lede ??
+		(Name === Signature && Face !== undefined
+			? `${Face.Dimension.charAt(0).toUpperCase()}${Face.Dimension.slice(1)}.`
+			: "");
+
+	return { Title: Found.Title, Lede };
+}
+
+// The wait's numbers are authored beside the lane's labels, because a real wait
+// needs a live run's timings; the meter's come from the attempts the showcase
+// records. Both are printed as expressions so the page never states a number the
+// record does not carry.
+const Wait = 42;
+const Prompt = 1;
+
+const Attempt = Face?.Attempt ?? [];
+const Total = Attempt.reduce((Sum, Item) => Sum + Item.In + Item.Out, 0);
+const Largest = Math.max(1, ...Attempt.map((Item) => Item.In + Item.Out));
+
+// The meter's curve is drawn here rather than with the site's byte curve: the
+// two charts answer different questions, and one picture of the wrong fact is
+// worse than no picture.
+const Width = 640;
+const Height = 220;
+const Pad = 32;
+const Dot = 3;
+const X = (Index: number) => Pad + (Index * (Width - Pad * 2)) / Math.max(1, Attempt.length - 1);
+const Y = (Value: number) => Height - Pad - (Value / Largest) * (Height - Pad * 2);
+const Path = Attempt.map(
+	(Item, Index) =>
+		`${Index === 0 ? "M" : "L"}${X(Index).toFixed(1)} ${Y(Item.In + Item.Out).toFixed(1)}`,
+).join(" ");
+
+// The threshold's stored object, named by the rung the showcase marks.
+const Spilled = Face?.Rung?.find((Item) => Item.Mark === true);
+
+// The swap's reference, read from the line the plugin changes.
+const Reference = Entry.After.replace(/^.*ref /, "");
+
+// The head of the file the model does not receive in full.
+const Head = [
+	"total 48",
+	"drwxr-xr-x  12 reader staff   384 Oct 30 09:14 .",
+	"drwxr-xr-x   4 reader staff   128 Oct 30 09:02 ..",
+	"-rw-r--r--   1 reader staff  1204 Oct 30 09:14 index.ts",
+].join("\n");
+
+// The reminder's note, held behind the disclosure because the call is the fact.
+const Note = "The same call has run three times; read the file once and keep the result.";
+
+// The pending row differs by plugin: the wait names the prompt, the clock names
+// the call that is still running.
+const Waiting: Record<string, { Name: string; Meta: string }> = {
+	"user-approval": {
+		Name: "approval/request",
+		Meta: "the world waits while the prompt is open",
+	},
+	"timeout-policy": {
+		Name: "bash ls -la",
+		Meta: "the window is open and the call has not settled",
+	},
+};
+
+const PendingRow = Waiting[Entry.Slug];
+
+// The one judgement each page earns, and the absence each page has to name.
+const Rule: Record<string, { Title: string; Body: string }> = {
+	"fs-observation-policy": {
+		Title: "Read before write",
+		Body: "The gate adds no new rule; it makes the existing rule answerable at the seam, and the matrix is the proof that no mode escapes it.",
+	},
+	"session-checkpoint-policy": {
+		Title: "One file, one turn",
+		Body: "The chain is a lineage rather than a backup: each checkpoint is the state a resume would read, and the newest one wins.",
+	},
+	"image-offload": {
+		Title: "The bytes stay behind",
+		Body: "The model is not shown the image, but it is not lied to either: the reference is a promise the retrieval step has to keep.",
+	},
+	"repeat-tool-reminder": {
+		Title: "A note, not a stop",
+		Body: "The guard trusts the note more than a refusal: the call runs, and the model is told why it should not.",
+	},
+};
+
+const Invariant = Rule[Entry.Slug];
+
+const Gap: Record<string, { Title: string; Note: string }> = {
+	"spill-policy": {
+		Title: "No store",
+		Note: "Without a store the bytes cannot leave the prompt, and the call keeps its full body.",
+	},
+	"image-offload": {
+		Title: "No store",
+		Note: "Without a store the reference points at nothing, so the image stays inline.",
+	},
+};
+
+const Missing = Gap[Entry.Slug];
 ---
 
-<Base
-	Title={Entry.Slug}
-	Description={`${Entry.Interjection} The harness plugin ${Entry.Slug}, shown by default, at its seam, and in the state a reader sees.`}>
+<Base Title={Entry.Slug} Description={`${Entry.Interjection} ${Sketch.Claim}`}>
 	<PageHero Eyebrow="Harness plugin" Title={Entry.Slug}>
 		<Fragment slot="Lede">{Entry.Interjection}</Fragment>
 		<Fragment slot="Actions">
@@ -79,94 +314,225 @@ const Contract = [
 		</Fragment>
 	</PageHero>
 
-	<section class="section">
-		<SectionHeader
-			Title="Difference"
-			Lede="The same three calls twice. Exactly one line changes, and the change is the plugin: no caption needed, and two plugins compare by diffing their diffs."
-		/>
-		<div class="section__body stack">
-			<Pipeline Stages={Stage} Current={Entry.Seam[0]} />
-
-			<div class="plugin__diff">
-				<div class="plugin__column">
-					<p class="plugin__head">Without {Entry.Slug}</p>
-					<div class="plugin__mock" role="list">
-						{Conversation.map((Item) => (
-							<Line Seq={Item.Seq} Kind="tool" Name={Item.Call}>
-								<span class="plugin__outcome">{Item.Outcome}</span>
-							</Line>
-						))}
-					</div>
-				</div>
-
-				<div class="plugin__column plugin__column--with">
-					<p class="plugin__head">With {Entry.Slug}</p>
-					<div class="plugin__mock" role="list">
-						{Conversation.map((Item) => (
-							<Line
-								Seq={Item.Seq}
-								Kind="tool"
-								Name={Item.Call}
-								Current={Item.Seq === Entry.Seq}
-							>
-								<span class="plugin__outcome" data-changed={Item.Seq === Entry.Seq}>
-									{Item.Seq === Entry.Seq ? Entry.After : Item.Outcome}
-								</span>
-							</Line>
-						))}
-						{Entry.Seq === undefined && (
-							// A plugin that acts at the turn's edge changes no call, so the
-							// changed line is drawn beside the conversation: the turn's close,
-							// which the fixture records as 13.
-							<Line Seq={13} Kind="turn" Name="turn/end" Current>
-								<span class="plugin__outcome" data-changed>
-									{Entry.After}
-								</span>
-							</Line>
-						)}
-					</div>
-				</div>
-			</div>
-
-			<div class="plugin__result">
-				<Badge Label={Entry.State} Tone="warn" />
-				<p class="plugin__reason">{Entry.Interjection}</p>
-				<p class="plugin__reason">
-					Until the harness writes {Entry.Data.join(", ")}, this page cannot show that state
-					from a real run. It says so in the same slot where the state would appear, rather
-					than faking it.
-				</p>
-			</div>
+	<div class="plugin__brief">
+		<div class="plugin__claim">
+			<p class="plugin__kind">{Sketch.Kind}</p>
+			<p class="plugin__sentence">{Sketch.Claim}</p>
 		</div>
-	</section>
+		<Question Text={Sketch.Question} />
+		<Fact Item={Sketch.Fact} />
+	</div>
 
-	{
-		Face !== undefined && (
+	{Sketch.Section.map((Name) => {
+		const Head = HeadingFor(Name);
+
+		return (
 			<section class="section">
-				<SectionHeader
-					Title="Dimension"
-					Lede="The one picture this plugin earns: the dimension it adds that the changed line above cannot show."
-				/>
+				<SectionHeader Title={Head.Title} Lede={Head.Lede} />
 				<div class="section__body">
-					<Show Plugin={Entry} Showcase={Face} />
+					{Name === "Pipeline" && (
+						<div class="stack">
+							<Pipeline Stages={Stage} Current={Current} />
+							<p class="muted">
+								<span class="mono">{Entry.Seam[0]}</span>&nbsp;answers inside the
+								marked stage.
+							</p>
+						</div>
+					)}
+
+					{Name === "Difference" && (
+						<Difference Before={Entry.Before} After={Entry.After} />
+					)}
+
+					{Name === "Grid" && Face !== undefined && Face.Grid !== undefined && (
+						<Grid
+							Head={Face.Grid.Head}
+							Row={Face.Grid.Row}
+							Caption={Face.Grid.Caption}
+						/>
+					)}
+
+					{Name === "Lane" && Face !== undefined && Face.Lane !== undefined && (
+						<Lane Lane={Face.Lane} />
+					)}
+
+					{Name === "Pending" && PendingRow !== undefined && (
+						<Pending Name={PendingRow.Name} Meta={PendingRow.Meta} />
+					)}
+
+					{Name === "StatBand" && Entry.Slug === "user-approval" && (
+						<StatBand
+							Stat={[
+								{
+									Label: "Waited",
+									Value: `${Wait}s`,
+									Note: "The turn held open",
+								},
+								{
+									Label: "Answered by",
+									Value: "human",
+									Note: "One person",
+								},
+								{
+									Label: "Prompt",
+									Value: Prompt,
+									Note: "One shot",
+								},
+							]}
+						/>
+					)}
+
+					{Name === "StatBand" && Entry.Slug === "token-meter" && (
+						<StatBand
+							Stat={[
+								{
+									Label: "Total",
+									Value: Total,
+									Note: "Tokens across every attempt",
+								},
+								{
+									Label: "Attempt",
+									Value: Attempt.length,
+									Note: "One request each",
+								},
+								{
+									Label: "Peak",
+									Value: Largest,
+									Note: "The largest attempt, read and written",
+								},
+							]}
+						/>
+					)}
+
+					{Name === "Table" && Entry.Slug === "token-meter" && (
+						<Table
+							Caption="Each attempt, with the tokens it read and the tokens it wrote"
+							Head={["Attempt", "In", "Out"]}
+							Row={Attempt.map((Item) => [
+								Item.Label,
+								String(Item.In),
+								String(Item.Out),
+							])}
+						/>
+					)}
+
+					{Name === "Curve" && Attempt.length > 0 && (
+						<figure class="plugin__curve">
+							<svg
+								class="plugin__plot"
+								viewBox={`0 0 ${Width} ${Height}`}
+								role="img"
+								aria-label="Tokens per attempt, read and written together">
+								<line
+									class="plugin__axis"
+									x1={Pad}
+									y1={Height - Pad}
+									x2={Width - Pad}
+									y2={Height - Pad}
+								/>
+								<path class="plugin__line" d={Path} />
+								{Attempt.map((Item, Index) => (
+									<Fragment>
+										<circle
+											class="plugin__point"
+											cx={X(Index)}
+											cy={Y(Item.In + Item.Out)}
+											r={Dot}
+										/>
+										<text
+											class="plugin__value"
+											x={X(Index)}
+											y={Y(Item.In + Item.Out) - 8}
+											text-anchor="middle">
+											{Item.In + Item.Out}
+										</text>
+										<text
+											class="plugin__tick"
+											x={X(Index)}
+											y={Height - Pad + 16}
+											text-anchor="middle">
+											{Item.Label}
+										</text>
+									</Fragment>
+								))}
+							</svg>
+							<figcaption class="plugin__caption">
+								{Attempt.length}&nbsp;attempts, each point the tokens it read and wrote
+								together. The retry is not free: it repeats the input and adds its own
+								output.
+							</figcaption>
+						</figure>
+					)}
+
+					{Name === "Ladder" && Face !== undefined && Face.Rung !== undefined && (
+						<Ladder Rung={Face.Rung} />
+					)}
+
+					{Name === "Card" && Entry.Slug === "spill-policy" && Spilled !== undefined && (
+						<Card Title="The spilled file" Meta={Spilled.Value}>
+							<p>
+								The bytes wait in <span class="mono">{Spilled.Note}</span>; the
+								prompt holds the locator.
+							</p>
+						</Card>
+					)}
+
+					{Name === "Card" && Entry.Slug === "image-offload" && (
+						<Card Title="The attachment" Meta={Reference}>
+							<p>The log keeps the bytes; the prompt keeps the reference.</p>
+						</Card>
+					)}
+
+					{Name === "CodeBlock" && Entry.Slug === "spill-policy" && (
+						<CodeBlock
+							Code={Head}
+							Language="text"
+							Label="the head of the spilled file"
+						/>
+					)}
+
+					{Name === "Absence" && Missing !== undefined && (
+						<Absence Title={Missing.Title} Note={Missing.Note} />
+					)}
+
+					{Name === "Fork" && Face !== undefined && Face.Exit !== undefined && (
+						<Fork From={Entry.Before} Exit={Face.Exit} />
+					)}
+
+					{Name === "Chain" && Face !== undefined && Face.Link !== undefined && (
+						<Chain Link={Face.Link} />
+					)}
+
+					{Name === "Disclosure" && Entry.Slug === "repeat-tool-reminder" && (
+						<Disclosure Summary="The note the third call carries">
+							<p class="plugin__note">{Note}</p>
+						</Disclosure>
+					)}
+
+					{Name === "Callout" && Invariant !== undefined && (
+						<Callout Title={Invariant.Title}>
+							<p>{Invariant.Body}</p>
+						</Callout>
+					)}
 				</div>
 			</section>
-		)
-	}
+		);
+	})}
 
 	<section class="section">
 		<SectionHeader
-			Title="Result"
-			Lede="The state a reader sees because of the interjection, and the fact the log must carry to show it."
+			Title="State"
+			Lede="The state the interjection unlocks, and the fact the log must carry to show it."
 		/>
 		<div class="section__body stack">
 			<p class="lede">
 				<Badge Label={Entry.State} Tone="warn" />
 			</p>
 			<p class="muted">
-				Until the harness writes {Entry.Data.join(", ")}, this page cannot show the state
-				from a real run. It says so in the same slot where the state would appear, rather
-				than faking it.
+				<span class="plugin__key">Needs logged</span>
+				{Entry.Data.join(", ")}. Until the harness writes that, this page cannot show the
+				state from a real run. It says so in the same slot where the state would appear,
+				rather than faking it.
 			</p>
 		</div>
 	</section>
@@ -187,19 +553,8 @@ const Contract = [
 					<a href={SeamHref(Entry.Seam[0])}>The seam page</a>
 				) : (
 					"The seam page"
-				)}{" "}
-				lists every hook the family declares at that event, when the family stands there.
+				)}&nbsp;lists every hook the family declares at that event, when the family stands there.
 			</p>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Other"
-			Lede="The harness plugins this site documents, grouped by the role each plays."
-		/>
-		<div class="section__body">
-			<Explorer Groups={Group} />
 		</div>
 	</section>
 </Base>

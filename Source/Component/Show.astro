@@ -82,9 +82,7 @@ const Total = (Showcase.Attempt ?? []).reduce((Sum, Entry) => Sum + Entry.In + E
 		<Fork From={Plugin.Before} Exit={Showcase.Exit} />
 	)}
 
-	{Showcase.Operator === "chain" && Showcase.Link !== undefined && (
-		<Chain Link={Showcase.Link} />
-	)}
+	{Showcase.Operator === "chain" && Showcase.Link !== undefined && <Chain Link={Showcase.Link} />}
 
 	{Showcase.Operator === "diff" && (
 		<Callout Title="What the model sees" Tone="note">

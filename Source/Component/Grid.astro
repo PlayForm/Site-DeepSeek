@@ -22,13 +22,11 @@ const { Head, Row, Caption } = Astro.props;
 
 <div class="grid-plot">
 	<table>
-		{
-			Caption ? (
-				<caption class="grid-plot__caption">{Caption}</caption>
-			) : (
-				<caption class="visually-hidden">The rows and their outcomes</caption>
-			)
-		}
+		{Caption ? (
+			<caption class="grid-plot__caption">{Caption}</caption>
+		) : (
+			<caption class="visually-hidden">The rows and their outcomes</caption>
+		)}
 		<thead>
 			<tr>
 				<th scope="col" class="grid-plot__lead">

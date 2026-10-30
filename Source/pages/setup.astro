@@ -1,12 +1,14 @@
 ---
 import CodeBlock from "@Component/CodeBlock.astro";
 import Diagram from "@Component/Diagram.astro";
+import Grid from "@Component/Grid.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
 import Term from "@Component/Term.astro";
 import Terminal from "@Component/Terminal.astro";
+import { Axis } from "@Content/Axis";
 import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
 import { Content } from "@Library/Content";
@@ -99,6 +101,23 @@ const Confirm = [
 					["main", "./Target/Library.js"],
 					["dsh.bundle.patch", Example?.Patch ? "./cordis.patch.yml" : "not shipped"],
 				]}
+			/>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Axis"
+			Lede="The eight axes a reader actually turns, across the family. The exact field and default live on each package's page; this is the shape of the choice."
+		/>
+		<div class="section__body">
+			<Grid
+				Head={["Ships as", "Turn it"]}
+				Row={Axis.map((Item) => ({
+					Label: Item.Name,
+					Cell: [Item.Default, Item.Turn],
+				}))}
+				Caption="The eight configuration axes, what each ships as, and what turning it does"
 			/>
 		</div>
 	</section>

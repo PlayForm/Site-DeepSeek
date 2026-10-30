@@ -2,16 +2,20 @@
 import Absence from "@Component/Absence.astro";
 import Badge from "@Component/Badge.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
+import Buffer from "@Component/Buffer.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import Definition from "@Component/Definition.astro";
 import Difference from "@Component/Difference.astro";
 import Disclosure from "@Component/Disclosure.astro";
 import Icon from "@Component/Icon.astro";
+import Layer from "@Component/Layer.astro";
 import Origin from "@Component/Origin.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
 import Provenance from "@Component/Provenance.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import Stream from "@Component/Stream.astro";
+import Surface from "@Component/Surface.astro";
 import Table from "@Component/Table.astro";
 import Transform from "@Component/Transform.astro";
 import VersionPill from "@Component/VersionPill.astro";
@@ -20,6 +24,7 @@ import { BehaviorFor } from "@Content/Behavior";
 import { DeltaFor } from "@Content/Delta";
 import { SeamFor } from "@Content/Harness";
 import { HookFor } from "@Content/Hook";
+import { PortraitFor } from "@Content/Portrait";
 import { Transform as Sample } from "@Content/Transform";
 import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
@@ -61,6 +66,16 @@ const Own = Behavior === undefined ? [] : HookFor(Behavior.Seam);
 // The dissected change, when this package has one: the one line that differs
 // with the package installed, transcribed from the source by the dissection.
 const Delta = DeltaFor(Entry.Slug);
+
+// The authored presentation, when this package has one: what it is, what it
+// plugs into, and the one picture that fits its kind. A package with no
+// record keeps the page it has, because the page never invents a portrait.
+const Portrait = PortraitFor(Entry.Slug);
+
+// The summary as one sentence. The period is appended here rather than in the
+// markup, because two adjacent expressions split across lines render with a
+// space between them, and the page would print "on a timer ." forever.
+const Sentence = /[.!?:;,]$/.test(Entry.Summary) ? Entry.Summary : `${Entry.Summary}.`;
 
 // A dependency that is itself a package in the family links to its page; an
 // external one stays plain text.
@@ -168,12 +183,31 @@ const File = [
 	<section class="section">
 		<SectionHeader Title="What it does" />
 		<div class="section__body stack">
-			<p class="lede">{Entry.Summary}{/[.!?:;,]$/.test(Entry.Summary) ? "" : "."}</p>
+			<p class="lede">{Sentence}</p>
 			<p class="muted">
 				<a href={`${Entry.Source}/README.md`}>Read the full description in the README</a>.
 			</p>
 		</div>
 	</section>
+
+	{
+		Portrait !== undefined && (
+			<section class="section">
+				<SectionHeader Title={Portrait.Role} Lede={`Plugs into ${Portrait.Plugs}.`} />
+				<div class="section__body stack">
+					<ul class="stack">
+						{Portrait.Does.map((Item) => (
+							<li>{Item}</li>
+						))}
+					</ul>
+					{Portrait.Shape === "stream" && <Stream Slug={Entry.Slug} />}
+					{Portrait.Shape === "layer" && <Layer Slug={Entry.Slug} />}
+					{Portrait.Shape === "surface" && <Surface Slug={Entry.Slug} />}
+					{Portrait.Shape === "buffer" && <Buffer Slug={Entry.Slug} />}
+				</div>
+			</section>
+		)
+	}
 
 	<section class="section">
 		<SectionHeader Title="Install" />
@@ -188,94 +222,82 @@ const File = [
 			Lede="What the harness does at this package's seam with none of the family installed, so the surface below has something to be a difference from."
 		/>
 		<div class="section__body stack">
-			{
-				Behavior !== undefined && Harness !== undefined ? (
-					<>
-						<p class="lede">
-							{
-								Harness.Harness.length > 0
-									? `The harness dispatches ${Behavior.Seam} as a ${Harness.Mode} and already has listeners there: ${Harness.Harness.join(", ")}.`
-									: `The harness dispatches ${Behavior.Seam} as a ${Harness.Mode}, and its event matrix lists no listener of its own there.`
-							}
-						</p>
-						<p class="muted">
-							{Harness.Mode === "waterfall"
-								? "A waterfall listener receives the payload and may return a changed one, so the harness's own listeners can already change what the model reads. This package adds another listener to that list."
-								: "An emit listener observes a fact that already happened, so the harness's own listeners can record it and cannot change it. This package records beside them, or acts on the world rather than on the payload."}
-						</p>
-					</>
-				) : (
-					<Absence
-						Title="No documented seam"
-						Note={
-							Behavior === undefined
-								? "The behavior map does not document a seam for this package, so the page cannot show a default to compare against. It is a library, a base, or a package whose work is a tool rather than a listener."
-								: `The harness does not declare ${Behavior.Seam} in its own event matrix, so the event is the family's own and only the family listens.`
-						}
-					/>
-				)
-			}
-			{
-				Arm.length > 0 && (
-					<p class="muted">
-						Its source also registers at {Arm.join(", ")}, beyond the seam its README
-						documents.
+			{Behavior !== undefined && Harness !== undefined ? (
+				<>
+					<p class="lede">
+						{Harness.Harness.length > 0
+							? `The harness dispatches ${Behavior.Seam} as a ${Harness.Mode} and already has listeners there: ${Harness.Harness.join(", ")}.`
+							: `The harness dispatches ${Behavior.Seam} as a ${Harness.Mode}, and its event matrix lists no listener of its own there.`}
 					</p>
-				)
-			}
-			{
-				Own.length > 0 && (
 					<p class="muted">
-						The harness ships its own plugin at this seam:{" "}
-						{Own.map((Item, Index) => (
-							<Fragment>
-								{Index > 0 && ", "}
-								<a href={`/plugin/${Item.Slug}/`}>{Item.Slug}</a>
-							</Fragment>
-						))}
-						, and its page shows the line it changes.
+						{Harness.Mode === "waterfall"
+							? "A waterfall listener receives the payload and may return a changed one, so the harness's own listeners can already change what the model reads. This package adds another listener to that list."
+							: "An emit listener observes a fact that already happened, so the harness's own listeners can record it and cannot change it. This package records beside them, or acts on the world rather than on the payload."}
 					</p>
-				)
-			}
+				</>
+			) : (
+				<Absence
+					Title="No documented seam"
+					Note={
+						Behavior === undefined
+							? "The behavior map does not document a seam for this package, so the page cannot show a default to compare against. It is a library, a base, or a package whose work is a tool rather than a listener."
+							: `The harness does not declare ${Behavior.Seam} in its own event matrix, so the event is the family's own and only the family listens.`
+					}
+				/>
+			)}
+			{Arm.length > 0 && (
+				<p class="muted">
+					Its source also registers at {Arm.join(", ")}, beyond the seam its README
+					documents.
+				</p>
+			)}
+			{Own.length > 0 && (
+				<p class="muted">
+					The harness ships its own plugin at this seam:{" "}
+					{Own.map((Item, Index) => (
+						<Fragment>
+							{Index > 0 && ", "}
+							<a href={`/plugin/${Item.Slug}/`}>{Item.Slug}</a>
+						</Fragment>
+					))}
+					, and its page shows the line it changes.
+				</p>
+			)}
 		</div>
 	</section>
 
-	{
-		Delta !== undefined && (
-			<section class="section">
-				<SectionHeader
-					Title="Change"
-					Lede="The one line that differs with this package installed, transcribed from its source by the dissection."
-				/>
-				<div class="section__body stack">
-					<Difference Before={Delta.Before} After={Delta.After} />
-					<dl class="definition">
-						<div class="definition__row">
-							<dt class="definition__term">Property</dt>
-							<dd class="definition__detail">{Delta.Property}</dd>
-						</div>
-						<div class="definition__row">
-							<dt class="definition__term">Knob</dt>
-							<dd class="definition__detail">{Delta.Knob}</dd>
-						</div>
-						<div class="definition__row">
-							<dt class="definition__term">Seam</dt>
-							<dd class="definition__detail">{Delta.Seam}</dd>
-						</div>
-					</dl>
-					{
-						Delta.Off === true && (
-							<p class="muted">
-								This package ships disabled: the left side of the pair is what the
-								harness does with the package installed but inactive, and enabling it
-								is one line in the profile's bundle patch.
-							</p>
-						)
-					}
-				</div>
-			</section>
-		)
-	}
+	{Delta !== undefined && (
+		<section class="section">
+			<SectionHeader
+				Title="Change"
+				Lede="The one line that differs with this package installed, transcribed from its source by the dissection."
+			/>
+			<div class="section__body stack">
+				<Difference Before={Delta.Before} After={Delta.After} />
+				<dl class="definition">
+					<div class="definition__row">
+						<dt class="definition__term">Property</dt>
+						<dd class="definition__detail">{Delta.Property}</dd>
+					</div>
+					<div class="definition__row">
+						<dt class="definition__term">Knob</dt>
+						<dd class="definition__detail">{Delta.Knob}</dd>
+					</div>
+					<div class="definition__row">
+						<dt class="definition__term">Seam</dt>
+						<dd class="definition__detail">{Delta.Seam}</dd>
+					</div>
+				</dl>
+				{Delta.Off === true && (
+					<p class="muted">
+						This package ships disabled: the left side of the pair is what the harness
+						does with the package installed but inactive, and enabling it is one line in
+						the profile's bundle patch.
+					</p>
+				)}
+			</div>
+		</section>
+	)}
 
 	<section class="section">
 		<SectionHeader Title="Surface" />

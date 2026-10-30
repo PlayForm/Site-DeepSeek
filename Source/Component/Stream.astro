@@ -1,0 +1,77 @@
+---
+import "@Stylesheet/Component/Stream.scss";
+
+// The stream: the package's work is a flow of events into one view, so the
+// picture is a vertical rail of ticks with the update rule stated once above
+// them, and the frame that arrives at the end.
+//
+// The events and the rule are read from the package's own README and its
+// `Source/Function/Trace.ts`: the client follows the D5 bus, and the store
+// emits a new snapshot only when an event or a graph refresh arrives.
+interface Tick {
+	/** The bus event the client follows. */
+	Event: string;
+	/** What that event means for the view. */
+	Note: string;
+}
+
+interface Frame {
+	/** What the frame is, said in two or three words. */
+	Label: string;
+	/** What the frame carries, and the bound it keeps. */
+	Note: string;
+}
+
+interface Stream {
+	/** The rule the store keeps, said once. */
+	Rule: string;
+	/** The ticks the view follows, oldest first. */
+	Tick: Tick[];
+	/** The frame that arrives after them. */
+	Frame: Frame;
+}
+
+interface Props {
+	/** The package whose stream this is. */
+	Slug: string;
+}
+
+const { Slug } = Astro.props;
+
+const Stream: Record<string, Stream> = {
+	"client-dsh-workspace-live": {
+		Rule: "Nothing redraws on a clock. One event or one graph refresh replaces the snapshot, and nothing else does.",
+		Tick: [
+			{ Event: "observe/stamp", Note: "a file's version reaches the bus" },
+			{ Event: "graph/indexed", Note: "the graph reports what it indexed" },
+			{ Event: "graph/invalidated", Note: "the graph withdraws what moved" },
+			{ Event: "batch/state-change", Note: "a batch settles into a new state" },
+		],
+		Frame: {
+			Label: "One new snapshot",
+			Note: "The representations, the empty note, and the tail of recent envelopes, newest first and capped at maxEvents. A missing trace is one static frame, never an error.",
+		},
+	},
+};
+
+const Entry = Stream[Slug];
+---
+
+{Entry !== undefined && (
+	<div class="stream" role="img" aria-label={`How ${Slug} turns events into a view`}>
+		<p class="stream__rule">{Entry.Rule}</p>
+		<ol class="stream__ticks">
+			{Entry.Tick.map((Item) => (
+				<li class="stream__tick">
+					<span class="stream__mark" aria-hidden="true" />
+					<span class="stream__event">{Item.Event}</span>
+					<span class="stream__note">{Item.Note}</span>
+				</li>
+			))}
+		</ol>
+		<div class="stream__frame">
+			<span class="stream__label">{Entry.Frame.Label}</span>
+			<p class="stream__text">{Entry.Frame.Note}</p>
+		</div>
+	</div>
+)}

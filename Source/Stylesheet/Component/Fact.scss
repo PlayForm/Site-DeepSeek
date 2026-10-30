@@ -1,0 +1,29 @@
+@use "../Material.scss" as Material;
+
+// The facts the page must state, as numbered phrases. The index is the
+// document's own count rather than a bullet, so a reader can check that the
+// page keeps every promise the brief makes.
+.fact {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	border-top: var(--hairline);
+
+	&__row {
+		display: grid;
+		grid-template-columns: var(--gutter-trace) minmax(0, 1fr);
+		gap: var(--space-3);
+		padding-block: var(--space-2);
+		border-bottom: var(--hairline);
+	}
+
+	&__index {
+		@include Material.label;
+	}
+
+	&__text {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+}

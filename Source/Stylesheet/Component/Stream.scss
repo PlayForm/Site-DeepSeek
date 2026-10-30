@@ -1,0 +1,106 @@
+@use "../Material.scss" as Material;
+
+// The stream: a slab holding the update rule, a vertical rail of ticks, and
+// the frame the rail produces. The rail is a hairline, each tick is a small
+// square sitting on it, and the frame is an inset tray with one accent edge,
+// so the eye reads down the rail and stops at the tray.
+.stream {
+	@include Material.slab;
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-group);
+	padding: var(--rhythm-inset);
+
+	&__rule {
+		max-width: var(--measure);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	// The rail sits in the list's left padding, so a tick's event and its note
+	// keep the reading width the prose above has.
+	&__ticks {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: var(--rhythm-tight);
+		margin: 0;
+		padding: 0 0 0 var(--space-8);
+		list-style: none;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: var(--space-1);
+			bottom: var(--space-1);
+			left: var(--space-2);
+			width: 1px;
+			background: var(--cabinet-line);
+		}
+	}
+
+	&__tick {
+		position: relative;
+		display: grid;
+		grid-template-columns: minmax(0, 15em) minmax(0, 1fr);
+		gap: var(--space-3);
+		align-items: baseline;
+	}
+
+	// The tick itself: one filled square on the rail, centred on the hairline
+	// by the negative margin rather than by a second wrapper.
+	&__mark {
+		position: absolute;
+		top: 0.5em;
+		left: calc(var(--space-2) - var(--space-8));
+		width: 7px;
+		height: 7px;
+		margin-left: -3px;
+		background: var(--color-accent);
+		border: 1px solid var(--color-accent-deep);
+	}
+
+	&__event {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	&__note {
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	&__frame {
+		@include Material.tray;
+
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		padding: var(--space-3) var(--space-4);
+		border-left: 3px solid var(--color-accent);
+	}
+
+	&__label {
+		@include Material.label;
+
+		color: var(--color-accent-ink);
+	}
+
+	&__text {
+		max-width: var(--measure);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+	}
+
+	@media (max-width: 640px) {
+		&__tick {
+			grid-template-columns: minmax(0, 1fr);
+			gap: var(--space-1);
+		}
+	}
+}

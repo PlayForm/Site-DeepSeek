@@ -25,7 +25,13 @@ const Tone = (Position: Arm["Position"]) =>
 <article class="arm-chain">
 	<header class="arm-chain__head">
 		<h3 class="arm-chain__seam">
-			{Linked ? <a class="arm-chain__link" href={SeamHref(Seam)}>{Seam}</a> : Seam}
+			{Linked ? (
+				<a class="arm-chain__link" href={SeamHref(Seam)}>
+					{Seam}
+				</a>
+			) : (
+				Seam
+			)}
 		</h3>
 		<span class="arm-chain__count">{Arm.length}&nbsp;arm</span>
 	</header>

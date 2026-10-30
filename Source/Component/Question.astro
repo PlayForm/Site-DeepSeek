@@ -1,0 +1,15 @@
+---
+import "@Stylesheet/Component/Question.scss";
+
+interface Props {
+	/** The reader's question, in their own words. */
+	Text: string;
+}
+
+const { Text } = Astro.props;
+---
+
+<p class="question">
+	<span class="question__label">Question</span>
+	<span class="question__text">{Text}</span>
+</p>

@@ -1,0 +1,113 @@
+---
+import "@Stylesheet/Component/Layer.scss";
+
+// The layer: the package is a library the others build on, so the picture is
+// a stack with this package's layer marked, one line per layer naming what it
+// provides, and the direction of the dependency stated once at the bottom.
+//
+// The stack for each library is read from its README's "Where It Fits" (or
+// "The role") section and from its `Source/Library.ts` export list.
+interface Layer {
+	/** The layer's own name: a consumer, the package, the runtime. */
+	Label: string;
+	/** What that layer provides to the one above it. */
+	Provides: string;
+	/** True for this package's own layer. */
+	Mark?: boolean;
+}
+
+interface Stack {
+	/** The direction of the arrow, said once. */
+	Rule: string;
+	/** The layers, top to bottom. */
+	Layer: Layer[];
+}
+
+interface Props {
+	/** The package whose stack this is. */
+	Slug: string;
+}
+
+const { Slug } = Astro.props;
+
+const Layer: Record<string, Stack> = {
+	"lib-dsh-core": {
+		Rule: "The arrow points down. The core imports nothing, and every package above it imports the core.",
+		Layer: [
+			{
+				Label: "Listeners",
+				Provides: "the governance hooks and the six normalize flavors call the helpers",
+			},
+			{
+				Label: "Core",
+				Provides:
+					"Section, Default, Suppress, Policy, Refusal, Activate, Replace, ReplaceMap, Chunk, Block",
+				Mark: true,
+			},
+			{
+				Label: "Runtime",
+				Provides: "nothing: the CLASSIC build declares no runtime dependency",
+			},
+		],
+	},
+	"lib-dsh-conversation": {
+		Rule: "A plugin's adapter imports the library and never another plugin. The harness keeps the bus and pays for the fold.",
+		Layer: [
+			{
+				Label: "Adapters",
+				Provides: "a Source/Conversation/Adapter.ts per plugin, holding that plugin's policy alone",
+			},
+			{
+				Label: "Provider",
+				Provides: "plugin-dsh-factory's ctx.conversation, the typed face of the service",
+			},
+			{
+				Label: "Conversation",
+				Provides: "Names, Fold, Emits, and the Envelope and State types",
+				Mark: true,
+			},
+			{
+				Label: "Runtime",
+				Provides: "nothing: the library declares no runtime dependency and no subscription",
+			},
+		],
+	},
+	"lib-dsh-workspace-live": {
+		Rule: "The library owns the shape of the view and no words: each consumer keeps its ledger, its tools, and its settings.",
+		Layer: [
+			{
+				Label: "Consumers",
+				Provides: "plugin-dsh-workspace and client-dsh-workspace-live",
+			},
+			{
+				Label: "Workspace live",
+				Provides: "Section, Render, Collapse, Packet",
+				Mark: true,
+			},
+			{
+				Label: "Runtime",
+				Provides: "nothing: the library declares no runtime dependency and no Config",
+			},
+		],
+	},
+};
+
+const Entry = Layer[Slug];
+---
+
+{Entry !== undefined && (
+	<div class="layer" role="img" aria-label={`The layers ${Slug} sits in`}>
+		<ol class="layer__stack">
+			{Entry.Layer.map((Item) => (
+				<li class="layer__row" data-mark={Item.Mark === true ? "true" : "false"}>
+					<span class="layer__label">
+						{Item.Mark === true && <span class="layer__here" aria-hidden="true" />}
+						{Item.Label}
+					</span>
+					<span class="layer__provides">{Item.Provides}</span>
+				</li>
+			))}
+		</ol>
+		<p class="layer__rule">{Entry.Rule}</p>
+	</div>
+)}

@@ -1,0 +1,78 @@
+---
+import "@Stylesheet/Component/Surface.scss";
+
+// The surface: the package renders a tab or a panel, so the picture is the
+// host surface, the child slot the mount declares, and the two or three
+// things the package puts in that slot.
+//
+// The hosts, the slots, and the contents are read from the package's README
+// ("The child-slot model") and from its `Source/Variable/Slots.ts`.
+interface Frame {
+	/** The host surface the mount lives in. */
+	Host: string;
+	/** The child slot the mount declares. */
+	Slot: string;
+	/** What the package puts into that slot. */
+	Fill: string[];
+}
+
+interface Surface {
+	/** The model, said once. */
+	Rule: string;
+	/** The frames the package fills, in the order a reader meets them. */
+	Frame: Frame[];
+}
+
+interface Props {
+	/** The package whose surface this is. */
+	Slug: string;
+}
+
+const { Slug } = Astro.props;
+
+const Surface: Record<string, Surface> = {
+	"client-dsh-panel-family": {
+		Rule: "Two mounts, each declaring its own child slot. Nothing reaches the panel except through an adapter's registration.",
+		Frame: [
+			{
+				Host: "conversation.view",
+				Slot: "playform.panel.section",
+				Fill: [
+					"one section per adapter, ordered by order then id",
+					"the plugin's activation, with the tail that proves it",
+					"the plugin's knobs, drawn from its schema",
+				],
+			},
+			{
+				Host: "shell.overlay",
+				Slot: "playform.panel.overlay",
+				Fill: [
+					"the overlay view an adapter opens",
+					"the same section manifest, at the overlay width",
+				],
+			},
+		],
+	},
+};
+
+const Entry = Surface[Slug];
+---
+
+{Entry !== undefined && (
+	<div class="surface" role="img" aria-label={`Where ${Slug} renders`}>
+		{Entry.Frame.map((Item) => (
+			<div class="surface__frame">
+				<span class="surface__host">{Item.Host}</span>
+				<div class="surface__slot">
+					<span class="surface__slot-label">{Item.Slot}</span>
+					<ul class="surface__fill">
+						{Item.Fill.map((Line) => (
+							<li class="surface__item">{Line}</li>
+						))}
+					</ul>
+				</div>
+			</div>
+		))}
+		<p class="surface__rule">{Entry.Rule}</p>
+	</div>
+)}
