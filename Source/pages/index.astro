@@ -1,6 +1,9 @@
 ---
 import Cabinet from "@Component/Cabinet.astro";
 import Card from "@Component/Card.astro";
+import Curve from "@Component/Curve.astro";
+import Flow from "@Component/Graph/Flow.tsx";
+import Matrix from "@Component/Matrix.astro";
 import PageHero from "@Component/PageHero.astro";
 import Seam from "@Component/Seam.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -8,7 +11,10 @@ import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
 import Term from "@Component/Term.astro";
 import Transform from "@Component/Transform.astro";
+import { Arm } from "@Content/Arm";
 import { BehaviorFor } from "@Content/Behavior";
+import { Seam as SeamPage } from "@Content/Harness";
+import { Intervention } from "@Content/Intervention";
 import { Role } from "@Content/Message";
 import { Step } from "@Content/ToolCall";
 import { Transform as Sample } from "@Content/Transform";
@@ -57,6 +63,12 @@ const SeamList = Order.filter((Name) => Group.has(Name)).map((Name) => ({
 }));
 
 const Dash = Sample.filter((Item) => Item.Slug === "hook-dsh-normalize-dash");
+
+// The stages the family stands at: the documented seams plus the arms the
+// source registers, so the home graph lights the same stages the turn page does.
+const Used = [
+	...new Set([...SeamPage.map((Entry) => Entry.Name), ...Object.values(Arm).flat()]),
+];
 ---
 
 <Base Title={Content.Title} Description={Content.Description}>
@@ -82,6 +94,49 @@ const Dash = Sample.filter((Item) => Item.Slug === "hook-dsh-normalize-dash");
 			{ Label: "Test", Value: Count.Test, Note: "Across both releases" },
 		]}
 	/>
+
+	<section class="section">
+		<SectionHeader
+			Title="The turn"
+			Lede="Every request the model makes passes the same stages, and the harness opens a seam at each one. This is that path, with the stages the family stands at lit."
+		/>
+		<div class="section__body stack">
+			<Flow Stage={Stage} Family={Used} client:load />
+			<div class="cluster">
+				<a class="button" href={Route.Turn}>The turn, stage by stage</a>
+				<a class="button button--quiet" href={Route.Tool}>One tool call</a>
+				<a class="button button--quiet" href={Route.Message}>What the model reads</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="The family"
+			Lede="Ten packages, one per family, read from source: the seam each stands at, whether the model sees something different, and what reaches the disk."
+		/>
+		<div class="section__body stack">
+			<Matrix Row={Intervention} />
+			<div class="cluster">
+				<a class="button" href={Route.Intervention}>Every intervention</a>
+				<a class="button button--quiet" href={Route.Composition}>How they compose</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="The measure"
+			Lede="One curve the site can draw without a live run: what a tool result costs the context, with the family and without it."
+		/>
+		<div class="section__body stack">
+			<Curve />
+			<div class="cluster">
+				<a class="button" href={Route.Tutorial}>One turn, three moments</a>
+				<a class="button button--quiet" href={Route.Dashboard}>The board</a>
+			</div>
+		</div>
+	</section>
 
 	<section class="section">
 		<SectionHeader Title="What your model writes">

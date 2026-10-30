@@ -5,8 +5,8 @@ export const Content = {
 	Title: "The DeepSeek Harness plugin family",
 	Short: "DSH family",
 	Description:
-		"Clean output. Guarded workspace. Every run recorded. The DeepSeek Harness plugin family.",
-	Lede: "Clean output. Guarded workspace. Every run recorded.",
+		"See what every plugin does to the harness: the turn it runs in, the seam it stands at, and the bytes it changes. The DeepSeek Harness plugin family.",
+	Lede: "The harness already has the slots. The family fills them, and this site shows every one: the turn, the seam, the bytes that change, and the ledger that proves it ran.",
 	Repository: "https://github.com/PlayForm/DeepSeek",
 	Licence: "CC0-1.0",
 };
