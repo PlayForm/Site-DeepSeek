@@ -1,0 +1,79 @@
+---
+import Callout from "@Component/Callout.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Term from "@Component/Term.astro";
+import Trace from "@Component/Trace.astro";
+import { Record } from "@Content/Trace";
+import Base from "@Layout/Base.astro";
+import { Route } from "@Library/Link";
+
+const Durable = Record.filter((Entry) => Entry.Durable).length;
+const Live = Record.length - Durable;
+---
+
+<Base
+	Title="Trace"
+	Description={`What one turn leaves in the session log: ${Record.length} records, and the ones a reload keeps.`}>
+	<PageHero Eyebrow="Trace" Title="What a run leaves">
+		<Fragment slot="Lede">
+			One turn writes {Record.length}&nbsp;records. {Durable}&nbsp;survive a reload and {Live}
+			&nbsp;exist only while the process runs, which is the difference between a{" "}
+			<Term Name="trace" /> and a live view.
+		</Fragment>
+	</PageHero>
+
+	<section class="section">
+		<SectionHeader
+			Title="Record"
+			Lede="Read top to bottom. The solid rail is a record the log keeps; the dashed rail is one the process drops when it ends."
+		/>
+		<div class="section__body">
+			<Trace Record={Record} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Rule"
+			Lede="The harness keeps the facts and drops the frames, and the family adds to the kept side."
+		/>
+		<div class="section__body stack">
+			<Callout Title="Durable" Tone="note">
+				A durable record is what the session log projects the next request from, so a reader
+				who reloads the page sees exactly the messages the model saw.
+			</Callout>
+			<Callout Title="Live" Tone="note">
+				A live frame exists so a client can render the turn while it happens. It is not part
+				of the log, and a hard stop before settlement leaves no trace of it.
+			</Callout>
+			<Callout Title="Added" Tone="warn">
+				The family writes beside the log, not into it: a ledger line per hook, a journal per
+				write, a cost row per event. That is what makes a run inspectable after the process
+				ends.
+			</Callout>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Next"
+			Lede="The same model, driven by a real trace, is the dashboard this site is built toward."
+		/>
+		<div class="section__body stack">
+			<p class="lede">
+				Every record above is a row the dashboard would read, and every ledger the family
+				writes is a column it would add. The page is static today and the layout is the one
+				a live source would fill.
+			</p>
+			<div class="cluster">
+				<a class="button" href={Route.Turn}>
+					The turn
+				</a>
+				<a class="button button--quiet" href={Route.Connect}>
+					The ledgers
+				</a>
+			</div>
+		</div>
+	</section>
+</Base>

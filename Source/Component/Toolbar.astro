@@ -23,17 +23,15 @@ const { Label, Count, Action } = Astro.props;
 		<slot />
 	</div>
 
-	{
-		Action !== undefined && Action.length > 0 && (
-			<ul class="toolbar__actions">
-				{Action.map((Entry) => (
-					<li>
-						<a class="toolbar__action" href={Entry.Href}>
-							{Entry.Label}
-						</a>
-					</li>
-				))}
-			</ul>
-		)
-	}
+	{Action !== undefined && Action.length > 0 && (
+		<ul class="toolbar__actions">
+			{Action.map((Entry) => (
+				<li>
+					<a class="toolbar__action" href={Entry.Href}>
+						{Entry.Label}
+					</a>
+				</li>
+			))}
+		</ul>
+	)}
 </div>

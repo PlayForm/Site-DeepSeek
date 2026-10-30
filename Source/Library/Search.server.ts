@@ -54,6 +54,12 @@ const Page: Entry[] = [
 		Group: "Page",
 	},
 	{
+		Title: "Trace",
+		Detail: "What one turn leaves in the session log, and what a reload keeps.",
+		Href: Route.Trace,
+		Group: "Page",
+	},
+	{
 		Title: "Tutorial",
 		Detail: "One turn, three moments, shown twice: default beside the family.",
 		Href: Route.Tutorial,

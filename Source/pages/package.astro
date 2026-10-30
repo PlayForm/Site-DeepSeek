@@ -45,8 +45,7 @@ const Kinds = [
 			<Toolbar
 				Label="Filter"
 				Count={`${Count.All} package`}
-				Action={[{ Href: Route.Reference, Label: "Reference table" }]}
-			>
+				Action={[{ Href: Route.Reference, Label: "Reference table" }]}>
 				<Filter Entry={Catalogue} Family={Family} Kind={Kind} client:load />
 			</Toolbar>
 			{Group.map((Item) => (
