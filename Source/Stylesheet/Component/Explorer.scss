@@ -217,3 +217,60 @@
 		}
 	}
 }
+
+// The document explorer: the left pane of a page, grouped links with a count
+// beside each one. It shares this file with the graph surface above, whose root
+// is `.explorer`, so the pane keeps its own block and the two never claim each
+// other's geometry.
+.explorer-pane {
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-group);
+	min-width: 0;
+
+	&__group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__item {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-2);
+	}
+
+	&__link {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+		text-decoration: none;
+		overflow-wrap: anywhere;
+
+		&:hover {
+			color: var(--color-accent);
+			text-decoration: underline;
+		}
+	}
+
+	&__text {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+		overflow-wrap: anywhere;
+	}
+}

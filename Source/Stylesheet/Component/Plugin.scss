@@ -1,0 +1,54 @@
+@use "../Material.scss" as Material;
+
+// The plugin page: three columns that read left to right, the default
+// conversation, the seam that answers it, and the state a reader gets. The
+// columns are equal on purpose; the page argues by comparison.
+.plugin {
+	&__mock {
+		display: flex;
+		flex-direction: column;
+		max-width: calc(var(--measure) + var(--gutter-trace) + var(--space-3));
+	}
+
+	&__triptych {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--rhythm-inset);
+		align-items: start;
+	}
+
+	&__column {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-3);
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+	}
+
+	&__head {
+		@include Material.label;
+	}
+
+	&__result {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-3);
+		border: 1px solid var(--color-warn);
+		border-left-width: 2px;
+		background: var(--color-warn-soft);
+	}
+
+	&__reason {
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+	}
+
+	@media (max-width: 860px) {
+		&__triptych {
+			grid-template-columns: 1fr;
+		}
+	}
+}

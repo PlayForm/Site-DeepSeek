@@ -1,0 +1,39 @@
+@use "../Material.scss" as Material;
+
+// The pipeline strip: the stages of a turn in the order the harness reaches
+// them, each stage the seam that acts there. The current stage carries a 2px
+// accent underline, the weight the site uses to mark a selected rail, and the
+// strip wraps rather than scrolls when the viewport is narrow.
+.pipeline {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--space-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	&__stage {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-1);
+		min-width: 0;
+		padding-bottom: var(--space-2);
+		border-bottom: 2px solid transparent;
+
+		&[data-current="true"] {
+			border-bottom-color: var(--color-accent);
+		}
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__text {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+	}
+}

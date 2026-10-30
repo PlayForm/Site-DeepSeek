@@ -1,0 +1,69 @@
+---
+import "@Stylesheet/Component/Inspector.scss";
+
+import CodeBlock from "@Component/CodeBlock.astro";
+import Schema from "@Component/Schema.astro";
+
+interface Property {
+	Name: string;
+	Type: string;
+	Required: boolean;
+	Description: string;
+}
+
+interface Tab {
+	/** The button's word. */
+	Label: string;
+	/** The panel's prose, or its code when `Kind` is code. */
+	Body: string;
+	/** How the body is drawn: prose, a code block, or prose above a contract. */
+	Kind?: "text" | "code" | "schema";
+	/** The rows a `schema` tab draws under its body. */
+	Properties?: Property[];
+}
+
+interface Props {
+	/** What the inspector describes, in the harness's own words. */
+	Subject: string;
+	/** The tabs, in reading order. The first one is open. */
+	Tab: Tab[];
+}
+
+const { Subject, Tab } = Astro.props;
+
+// The radio group's name doubles as the id prefix, so two inspectors on one
+// page never share a group and the labels point at the right control.
+const Group = `inspector-${Subject.replace(/[^a-zA-Z0-9]+/g, "-").toLowerCase()}`;
+---
+
+<div class="inspector">
+	<h2 class="inspector__subject">{Subject}</h2>
+	<div class="inspector__tabs">
+		{Tab.map((Entry, Index) => (
+			<Fragment>
+				<input
+					class="inspector__radio"
+					type="radio"
+					name={Group}
+					id={`${Group}-${Index}`}
+					checked={Index === 0}
+				/>
+				<label class="inspector__tab" for={`${Group}-${Index}`}>
+					{Entry.Label}
+				</label>
+				<div class="inspector__panel">
+					{Entry.Kind === "code" ? (
+						<CodeBlock Code={Entry.Body} Language="json" Label={Entry.Label} />
+					) : Entry.Kind === "schema" ? (
+						<Fragment>
+							<p class="inspector__text">{Entry.Body}</p>
+							<Schema Properties={Entry.Properties ?? []} />
+						</Fragment>
+					) : (
+						<p class="inspector__text">{Entry.Body}</p>
+					)}
+				</div>
+			</Fragment>
+		))}
+	</div>
+</div>

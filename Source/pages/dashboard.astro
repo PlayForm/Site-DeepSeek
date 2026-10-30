@@ -3,11 +3,13 @@ import "@Stylesheet/Component/Board.scss";
 
 import CallStep from "@Component/CallStep.astro";
 import Curve from "@Component/Curve.astro";
+import LaneChart from "@Component/Lane.astro";
 import PageHero from "@Component/PageHero.astro";
 import RoleList from "@Component/RoleList.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Term from "@Component/Term.astro";
 import Trace from "@Component/Trace.astro";
+import { Lane } from "@Content/Lane";
 import { Role } from "@Content/Message";
 import { Step } from "@Content/ToolCall";
 import { Record } from "@Content/Trace";
@@ -99,6 +101,20 @@ const Stat = [
 			<p class="board__note-line">
 				{Gate}&nbsp;of the {Step.length}&nbsp;steps carry a decision vocabulary the harness
 				documents.
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Lane"
+			Lede="The same turn as time: who was busy, when, and for how long. A bar is one span of work, and the four kinds differ by fill weight rather than by hue."
+		/>
+		<div class="section__body stack">
+			<LaneChart Lane={Lane} />
+			<p class="board__note-line">
+				The spans are authored: a real timeline needs a live run's timings, which the fixture
+				does not carry.
 			</p>
 		</div>
 	</section>

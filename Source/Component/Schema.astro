@@ -1,0 +1,34 @@
+---
+import "@Stylesheet/Component/Schema.scss";
+
+interface Property {
+	/** The key, as the contract writes it. */
+	Name: string;
+	/** The value's type, in the harness's own notation. */
+	Type: string;
+	/** True when the payload is invalid without the key. */
+	Required: boolean;
+	/** What the key carries, in one clause. */
+	Description: string;
+}
+
+interface Props {
+	/** The keys of one object, in the order the contract declares them. */
+	Properties: Property[];
+}
+
+const { Properties } = Astro.props;
+---
+
+<dl class="schema">
+	{Properties.map((Property) => (
+		<div class="schema__row" data-required={Property.Required}>
+			<dt class="schema__term">
+				<span class="schema__name">{Property.Name}</span>
+				<span class="schema__type">{Property.Type}</span>
+				{Property.Required && <span class="schema__flag">required</span>}
+			</dt>
+			<dd class="schema__description">{Property.Description}</dd>
+		</div>
+	))}
+</dl>

@@ -1,0 +1,91 @@
+@use "../Material.scss" as Material;
+
+// The inspector: the right column of a document. The subject, then the tabs,
+// then the body. The switch is a radio group plus two sibling selectors, so the
+// panel changes with no script at all and one panel is open at any moment.
+.inspector {
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-tight);
+
+	&__subject {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	&__tabs {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-1);
+	}
+
+	// The control is a real radio, kept in the document so the keyboard still
+	// reaches it, and painted nowhere: the label is the button.
+	&__radio {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	&__tab {
+		order: 1;
+		padding: var(--space-1) var(--space-2);
+		border: 1px solid transparent;
+		border-radius: var(--radius-sm);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+		cursor: pointer;
+		transition:
+			background var(--motion-crisp) var(--ease-crisp),
+			color var(--motion-crisp) var(--ease-crisp);
+
+		&:hover {
+			background: var(--cabinet-inset);
+			color: var(--color-ink);
+		}
+	}
+
+	// The open tab is the checked radio's neighbour, so the paint follows the
+	// control without a class the server would have to rewrite.
+	&__radio:checked + &__tab {
+		border-color: var(--color-accent);
+		background: var(--color-accent-soft);
+		color: var(--color-accent-ink);
+	}
+
+	&__radio:focus-visible + &__tab {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	// Every panel is a sibling of its own control and label, so the checked
+	// control reaches its panel with one more `+` and hides the rest.
+	&__panel {
+		order: 2;
+		display: none;
+		flex-basis: 100%;
+		padding-top: var(--space-3);
+		border-top: var(--hairline);
+	}
+
+	&__radio:checked + &__tab + &__panel {
+		display: block;
+	}
+
+	&__text {
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+}

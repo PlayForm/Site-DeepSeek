@@ -2,15 +2,21 @@
 import "@Stylesheet/Component/Seam.scss";
 
 interface Props {
+	/** The event, named the way the harness names it. */
 	Name: string;
-	Count: number;
-	Href: string;
+	/** How many hooks act at the seam, when the caller knows the count. */
+	Count?: number;
+	/** The seam's page, when the site has one. A seam without a page stays a
+	 *  plain chip rather than a link to nothing. */
+	Href?: string;
 }
 
 const { Name, Count, Href } = Astro.props;
+
+const Tag = Href ? "a" : "span";
 ---
 
-<a class="seam" href={Href}>
+<Tag class="seam" href={Href}>
 	<span class="seam__name">{Name}</span>
-	<span class="seam__count">{Count}</span>
-</a>
+	{Count !== undefined && <span class="seam__count">{Count}</span>}
+</Tag>

@@ -1,15 +1,96 @@
 ---
+import "@Stylesheet/Component/TracePage.scss";
+
 import Callout from "@Component/Callout.astro";
+import Inspector from "@Component/Inspector.astro";
 import PageHero from "@Component/PageHero.astro";
+import Pending from "@Component/Pending.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Term from "@Component/Term.astro";
 import Trace from "@Component/Trace.astro";
-import { Record } from "@Content/Trace";
+import { Record as Fixture } from "@Content/Trace";
 import Base from "@Layout/Base.astro";
 import { Route } from "@Library/Link";
+import { Session } from "@Library/Session.server";
+
+// A real log when the build can reach one, the authored fixture when it cannot.
+// The page says which it is, because a trace that silently swaps its source is
+// a trace a reader cannot trust.
+const Record = Session.Live ? Session.Record : Fixture;
+const Source = Session.Live
+	? `read from a session log at build time: ${Session.Record.length} of its records, in log order`
+	: `the authored fixture, because ${Session.Note ?? "no log was reachable"}`;
 
 const Durable = Record.filter((Entry) => Entry.Durable).length;
 const Live = Record.length - Durable;
+
+// The inspector opens on the first record of whichever source the page reads,
+// and its tabs are built from the four records that open the turn: the same
+// four names the trace beside it starts with.
+const Opening = Record.slice(0, 4);
+const DurableOpening = Opening.filter((Entry) => Entry.Durable).length;
+const LiveOpening = Opening.length - DurableOpening;
+const Subject = Opening[0]?.Name ?? "the turn";
+
+// The contract of one session event, in the shape the log writes it.
+const Event = [
+	{
+		Name: "seq",
+		Type: "number",
+		Required: true,
+		Description: "The position the log assigns the event.",
+	},
+	{
+		Name: "type",
+		Type: "string",
+		Required: true,
+		Description: "The event name, as the harness writes it.",
+	},
+	{
+		Name: "data",
+		Type: "object",
+		Required: true,
+		Description: "The payload the event carries.",
+	},
+];
+
+// A record carries a payload only when the fixture wrote one; a real log slice
+// shows the event name and what it proves, and the tab says so instead of
+// rendering an empty block.
+const Payload = (Opening[0] as { Payload?: string } | undefined)?.Payload;
+
+const Tab = [
+	{
+		Label: "Summary",
+		Body: `${Opening.length} records open the turn: ${DurableOpening} durable, ${LiveOpening} live.`,
+	},
+	{
+		Label: "Payload",
+		Body:
+			Payload ??
+			"The record carries no payload in this slice: the page shows the name, the kind, and what it proves.",
+		Kind: (Payload === undefined ? "text" : "code") as "text" | "code",
+	},
+	{
+		Label: "Schema",
+		Body: "One session event, as the log writes it.",
+		Kind: "schema" as const,
+		Properties: Event,
+	},
+	{
+		Label: "Timing",
+		Body: Session.Live
+			? "The log carries a wall clock per record; this slice shows the order and not the durations."
+			: "The fixture carries no timings, so this tab states the order and nothing else.",
+	},
+];
+
+// The call with no result yet: the last tool call the log answers no result for.
+const Call = Record.filter((Entry) => Entry.Kind === "tool" && Entry.Name === "tool/call");
+const Result = Record.filter((Entry) => Entry.Kind === "tool" && Entry.Name === "tool/result");
+const Waiting = [...Call]
+	.reverse()
+	.find((Entry) => !Result.some((Answer) => Answer.Index > Entry.Index));
 ---
 
 <Base
@@ -18,8 +99,8 @@ const Live = Record.length - Durable;
 	<PageHero Eyebrow="Trace" Title="What a run leaves">
 		<Fragment slot="Lede">
 			One turn writes {Record.length}&nbsp;records. {Durable}&nbsp;survive a reload and {Live}
-			&nbsp;exist only while the process runs, which is the difference between a{" "}
-			<Term Name="trace" /> and a live view.
+			&nbsp;exist only while the process runs, which is the difference between
+			a&nbsp;<Term Name="trace" /> and a live view.
 		</Fragment>
 	</PageHero>
 
@@ -28,8 +109,15 @@ const Live = Record.length - Durable;
 			Title="Record"
 			Lede="Read top to bottom. The solid rail is a record the log keeps; the dashed rail is one the process drops when it ends."
 		/>
-		<div class="section__body">
-			<Trace Record={Record} />
+		<p class="muted">{Source}.</p>
+		<div class="section__body trace-page">
+			<div class="trace-page__document">
+				<Trace Record={Record} />
+				{Waiting && <Pending Name={Waiting.Name} Meta={Waiting.Proves} />}
+			</div>
+			<aside class="trace-page__inspector">
+				<Inspector Subject={Subject} Tab={Tab} />
+			</aside>
 		</div>
 	</section>
 

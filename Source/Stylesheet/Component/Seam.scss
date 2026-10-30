@@ -11,7 +11,9 @@
 	text-decoration: none;
 	transition: transform var(--motion-crisp) var(--ease-crisp);
 
-	&:hover {
+	// Only a seam that leads somewhere answers to the pointer; a chip without a
+	// page is a label and stays one.
+	&[href]:hover {
 		background: var(--cabinet-inset);
 
 		.seam__name {
@@ -19,7 +21,7 @@
 		}
 	}
 
-	&:active {
+	&[href]:active {
 		@include Material.slab-press;
 	}
 

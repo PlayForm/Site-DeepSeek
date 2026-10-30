@@ -1,0 +1,75 @@
+@use "../Material.scss" as Material;
+
+// The lane chart: one row per actor, one bar per span, positioned by percentage
+// of the turn. A bar is a solid fill with a hairline edge, never a gradient, and
+// the four kinds differ by fill weight rather than by hue, because the site has
+// one accent and the kinds are not a colour scale.
+.lane {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	border: 1px solid var(--cabinet-line);
+	background: var(--cabinet-line);
+
+	&__row {
+		display: grid;
+		grid-template-columns: 90px minmax(0, 1fr);
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-2) var(--space-3);
+		background: var(--cabinet-front);
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__track {
+		position: relative;
+		display: block;
+		height: 20px;
+		background: var(--cabinet-inset);
+	}
+
+	&__span {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		min-width: 4px;
+		padding-inline: var(--space-1);
+		border: 1px solid var(--cabinet-line);
+		overflow: hidden;
+
+		&[data-kind="model"] {
+			background: var(--color-accent);
+			border-color: var(--color-accent-deep);
+			color: var(--color-surface);
+		}
+
+		&[data-kind="tool"] {
+			background: var(--color-accent-soft);
+			border-color: var(--color-accent);
+			color: var(--color-accent-ink);
+		}
+
+		&[data-kind="disk"] {
+			background: var(--cabinet-front);
+			border-color: var(--color-line-strong);
+			color: var(--color-ink);
+		}
+
+		&[data-kind="record"] {
+			background: var(--cabinet-inset);
+			border-color: var(--color-line-strong);
+			color: var(--color-ink-muted);
+		}
+	}
+
+	&__text {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		white-space: nowrap;
+	}
+}

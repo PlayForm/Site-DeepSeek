@@ -1,0 +1,133 @@
+---
+import "@Stylesheet/Component/Plugin.scss";
+
+import Badge from "@Component/Badge.astro";
+import Line from "@Component/Line.astro";
+import PageHero from "@Component/PageHero.astro";
+import Pending from "@Component/Pending.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Table from "@Component/Table.astro";
+import Term from "@Component/Term.astro";
+import { Seam } from "@Content/Harness";
+import { Plugin } from "@Content/Plugin";
+import Base from "@Layout/Base.astro";
+import { SeamHref } from "@Library/Link";
+
+export function getStaticPaths() {
+	return Plugin.map((Entry) => ({ params: { slug: Entry.Slug }, props: { Slug: Entry.Slug } }));
+}
+
+const { Slug } = Astro.props;
+const Entry = Plugin.find((Item) => Item.Slug === Slug);
+
+// A path with no plugin behind it is a build error, not an empty page.
+if (Entry === undefined) {
+	throw new Error(`The path ${Slug} has no plugin record.`);
+}
+
+// A seam has a page only when the family documents a hook at it. The plugin's
+// seams are mostly the harness's own, so most of them stay plain text.
+const Page = new Set(Seam.map((Item) => Item.Name));
+
+// The default conversation, the same three lines on every plugin page, so a
+// reader comparing two plugins sees only the difference between them.
+const Mock = [
+	{ Seq: 20, Name: "bash ls -la", Result: "ok" },
+	{ Seq: 21, Name: "write src/index.ts", Result: "the call the plugin answers" },
+	{ Seq: 22, Name: "read src/index.ts", Result: "ok" },
+];
+
+const Contract = [
+	["Seam", Entry.Seam.join(", ")],
+	["State", Entry.State],
+	["Needs logged", Entry.Data.join(", ")],
+];
+---
+
+<Base
+	Title={Entry.Slug}
+	Description={`${Entry.Interjection} The harness plugin ${Entry.Slug}, shown by default, at its seam, and in the state a reader sees.`}>
+	<PageHero Eyebrow="Harness plugin" Title={Entry.Slug}>
+		<Fragment slot="Lede">
+			{Entry.Interjection}
+		</Fragment>
+		<Fragment slot="Actions">
+			<Badge Label={Entry.Role} Tone="accent" />
+			{Entry.Seam.map((Name) => <Badge Label={Name} Tone="neutral" />)}
+		</Fragment>
+	</PageHero>
+
+	<section class="section">
+		<SectionHeader
+			Title="Default"
+			Lede="The harness on its own: the same three lines on every plugin page, so the difference below is the only difference."
+		/>
+		<div class="section__body">
+			<div class="plugin__triptych">
+				<div class="plugin__column">
+					<p class="plugin__head">Before the call</p>
+					<div class="plugin__mock" role="list">
+						{Mock.map((Item) => (
+							<Line Seq={Item.Seq} Kind="tool" Name={Item.Name}>
+								<span class="muted">{Item.Result}</span>
+							</Line>
+						))}
+					</div>
+				</div>
+
+				<div class="plugin__column">
+					<p class="plugin__head">At the seam</p>
+					<div class="cluster">
+						<Badge Label={Entry.Seam.join(" ")} Tone="accent" Count={Entry.Seam.length} />
+					</div>
+					<Pending Name={Entry.Slug} Meta={`answers at ${Entry.Seam[0]}`} />
+				</div>
+
+				<div class="plugin__column">
+					<p class="plugin__head">After it</p>
+					<div class="plugin__result">
+						<Badge Label={Entry.State} Tone="warn" />
+						<p class="plugin__reason">{Entry.Interjection}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Result"
+			Lede="The state a reader sees because of the interjection, and the fact the log must carry to show it."
+		/>
+		<div class="section__body stack">
+			<p class="lede">
+				<Badge Label={Entry.State} Tone="warn" />
+			</p>
+			<p class="muted">
+				Until the harness writes {Entry.Data.join(", ")}, this page cannot show the state from
+				a real run. It says so in the same slot where the state would appear, rather than
+				faking it.
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="Contract" Lede="What the plugin listens to, what it unlocks, and what it needs." />
+		<div class="section__body">
+			<Table
+				Caption={`The contract of ${Entry.Slug}`}
+				Head={["Part", "Value"]}
+				Row={Contract}
+			/>
+			<p class="muted">
+				{
+					Page.has(Entry.Seam[0]) ? (
+						<a href={SeamHref(Entry.Seam[0])}>The seam page</a>
+					) : (
+						"The seam page"
+					)
+				} lists every hook the family declares at that event, when the family stands there.
+			</p>
+		</div>
+	</section>
+</Base>

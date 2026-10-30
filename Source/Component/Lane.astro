@@ -1,0 +1,32 @@
+---
+import "@Stylesheet/Component/Lane.scss";
+
+import type { Lane } from "@Content/Lane";
+
+interface Props {
+	/** One lane per actor, in the order a reader should scan them. */
+	Lane: Lane[];
+}
+
+const { Lane } = Astro.props;
+---
+
+<div class="lane" role="img" aria-label="The turn as lanes: when each actor was busy">
+	{Lane.map((Entry) => (
+		<div class="lane__row">
+			<span class="lane__label">{Entry.Label}</span>
+			<span class="lane__track">
+				{Entry.Span.map((Span) => (
+					<span
+						class="lane__span"
+						data-kind={Span.Kind}
+						style={{ left: `${Span.Start}%`, width: `${Span.Duration}%` }}
+						title={`${Span.Label}: ${Span.Duration}% of the turn`}
+					>
+						<span class="lane__text">{Span.Label}</span>
+					</span>
+				))}
+			</span>
+		</div>
+	))}
+</div>

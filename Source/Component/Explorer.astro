@@ -1,0 +1,52 @@
+---
+import "@Stylesheet/Component/Explorer.scss";
+
+import Badge from "@Component/Badge.astro";
+
+interface Item {
+	/** The object's name, as the harness writes it. */
+	Label: string;
+	/** The page the object opens, when the site has one. */
+	Href?: string;
+	/** How many records the object carries, when the caller knows. */
+	Count?: string | number;
+}
+
+interface Group {
+	/** The heading the group's items sit under. */
+	Label: string;
+	/** The items, in the order the pane lists them. */
+	Item: Item[];
+}
+
+interface Props {
+	/** The groups, in the order the pane stacks them. */
+	Groups: Group[];
+}
+
+const { Groups } = Astro.props;
+---
+
+<nav class="explorer-pane" aria-label="Objects">
+	{Groups.map((Group) => (
+		<div class="explorer-pane__group">
+			<h2 class="explorer-pane__label">{Group.Label}</h2>
+			<ul class="explorer-pane__list">
+				{Group.Item.map((Entry) => (
+					<li class="explorer-pane__item">
+						{Entry.Href ? (
+							<a class="explorer-pane__link" href={Entry.Href}>
+								{Entry.Label}
+							</a>
+						) : (
+							<span class="explorer-pane__text">{Entry.Label}</span>
+						)}
+						{Entry.Count !== undefined && (
+							<Badge Label={String(Entry.Count)} Tone="quiet" />
+						)}
+					</li>
+				))}
+			</ul>
+		</div>
+	))}
+</nav>

@@ -1,0 +1,36 @@
+---
+import "@Stylesheet/Component/Pipeline.scss";
+
+import Seam from "@Component/Seam.astro";
+
+interface Stage {
+	/** The stage's own word, such as pre or execute. */
+	Label: string;
+	/** The seam the stage dispatches, or an empty string when it has none. */
+	Seam: string;
+}
+
+interface Props {
+	/** The stages, in the order the harness reaches them. */
+	Stages: Stage[];
+	/** The label of the stage the reader is looking at. */
+	Current?: string;
+}
+
+const { Stages, Current } = Astro.props;
+---
+
+<ol class="pipeline">
+	{Stages.map((Stage) => (
+		<li class="pipeline__stage" data-current={Stage.Label === Current}>
+			{Stage.Seam ? (
+				<Fragment>
+					<span class="pipeline__label">{Stage.Label}</span>
+					<Seam Name={Stage.Seam} />
+				</Fragment>
+			) : (
+				<span class="pipeline__text">{Stage.Label}</span>
+			)}
+		</li>
+	))}
+</ol>

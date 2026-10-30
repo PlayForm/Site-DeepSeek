@@ -1,0 +1,27 @@
+@use "../Material.scss" as Material;
+
+// The trace page's document: the log on the left, the inspector on the right.
+// The log keeps the reading measure; the inspector takes a fixed column, and
+// on a narrow viewport the two stack so neither is squeezed.
+.trace-page {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 320px;
+	gap: var(--rhythm-block);
+	align-items: start;
+
+	&__document {
+		display: flex;
+		flex-direction: column;
+		gap: var(--rhythm-group);
+		min-width: 0;
+	}
+
+	&__inspector {
+		min-width: 0;
+	}
+
+	@media (max-width: 960px) {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--rhythm-head);
+	}
+}
