@@ -1,0 +1,61 @@
+@use "../Material.scss" as Material;
+
+// The pending row: a call with no result yet, or a job still running. The site
+// has no dark surface, and inventing one would cost the cabinet its depth, so
+// the state is carried by an accent-soft fill, a hairline, and one pulsing dot.
+.pending {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2);
+	padding: var(--space-2) var(--space-3);
+	border: var(--hairline);
+	border-left: 2px solid var(--color-accent);
+	border-radius: var(--radius-md);
+	background: var(--color-accent-soft);
+
+	&__dot {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--color-accent);
+		animation: pending-pulse 1.6s var(--ease-crisp) infinite;
+	}
+
+	&__name {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-accent-ink);
+	}
+
+	&__meta {
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+	}
+
+	&__state {
+		@include Material.label;
+
+		margin-left: auto;
+		color: var(--color-accent);
+	}
+}
+
+@keyframes pending-pulse {
+	0%,
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	50% {
+		opacity: 0.45;
+		transform: scale(0.8);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.pending__dot {
+		animation: none;
+	}
+}

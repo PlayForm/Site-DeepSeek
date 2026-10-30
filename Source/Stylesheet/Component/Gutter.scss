@@ -1,0 +1,35 @@
+@use "../Material.scss" as Material;
+
+// The gutter: the sequence number, outside the measure, the way a document's
+// line numbers sit outside its text. The chevron appears on hover only, because
+// a line that cannot fold should not look like it can.
+.gutter {
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--space-1);
+	width: 100%;
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	line-height: 1.4;
+	color: var(--color-ink-faint);
+	user-select: none;
+
+	&__number {
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__chevron {
+		width: 6px;
+		height: 6px;
+		border-right: 1px solid var(--color-ink-faint);
+		border-bottom: 1px solid var(--color-ink-faint);
+		transform: rotate(-45deg);
+		opacity: 0;
+		transition: opacity var(--motion-crisp) var(--ease-crisp);
+	}
+
+	&[data-foldable="true"]:hover &__chevron {
+		opacity: 1;
+	}
+}

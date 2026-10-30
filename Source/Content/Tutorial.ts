@@ -30,8 +30,7 @@ export const Scenario: Scenario[] = [
 			"A grep over a large tree returns two hundred kilobytes of matches, and the result reaches the model as content.",
 		Default:
 			"The harness hands the result to the model, bounded only by its own spill policy, so the bytes the model did not ask for are still in its context.",
-		Family:
-			"The CCR hook replaces the result with a preview and a retrieval marker, and keeps the original behind a tool call. The model asks for the bytes only when it needs them.",
+		Family: "The CCR hook replaces the result with a preview and a retrieval marker, and keeps the original behind a tool call. The model asks for the bytes only when it needs them.",
 		Property: "Bounded context",
 		Knob: "autoExpandLimitBytes",
 		KnobNote:

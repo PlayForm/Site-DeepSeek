@@ -87,6 +87,11 @@
 	--gutter: var(--space-6);
 	--measure: 68ch;
 
+	/* The trace gutter: the column the sequence number lives in. It sits
+	   outside the measure, the way a document's line numbers do, so the text
+	   keeps the reading width it has everywhere else on the site. */
+	--gutter-trace: var(--space-8);
+
 	--hairline: 1px solid var(--color-line);
 	--hairline-strong: 1px solid var(--color-line-strong);
 

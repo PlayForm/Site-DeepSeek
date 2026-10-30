@@ -6,9 +6,19 @@
 
 	display: inline-flex;
 	align-items: center;
+	gap: var(--space-1);
 	padding: 1px var(--space-2);
 	line-height: 1.6;
 	white-space: nowrap;
+
+	// The count is the badge's second half: the same chip, one quiet number
+	// after the label, separated by a hairline rather than a space.
+	&__count {
+		padding-left: var(--space-1);
+		border-left: 1px solid currentColor;
+		opacity: 0.7;
+		font-variant-numeric: tabular-nums;
+	}
 
 	&--accent {
 		border-color: var(--color-accent-deep);

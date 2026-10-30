@@ -9,8 +9,8 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import Term from "@Component/Term.astro";
 import Trace from "@Component/Trace.astro";
 import { Role } from "@Content/Message";
-import { Record } from "@Content/Trace";
 import { Step } from "@Content/ToolCall";
+import { Record } from "@Content/Trace";
 import Base from "@Layout/Base.astro";
 import { Ledger } from "@Library/Ledger.server";
 import { Route } from "@Library/Link";
@@ -32,9 +32,9 @@ const Stat = [
 	Description={`One turn as an operator would read it: ${Record.length} records, ${Step.length} tool gates, and the ledgers the family writes.`}>
 	<PageHero Eyebrow="Observability" Title="The board">
 		<Fragment slot="Lede">
-			One turn, read the way an operator reads it: the{" "}
-			<Term Name="trace" /> it leaves, the messages the model saw, the gates the tool
-			call passed, and the ledgers the family wrote beside them.
+			One turn, read the way an operator reads it: the <Term Name="trace" /> it leaves, the
+			messages the model saw, the gates the tool call passed, and the ledgers the family wrote
+			beside them.
 		</Fragment>
 	</PageHero>
 
@@ -65,7 +65,9 @@ const Stat = [
 				<ul class="board__ledger">
 					{Ledger.slice(0, 8).map((Entry) => (
 						<li class="board__ledger-row">
-							<a class="board__ledger-slug" href={Entry.Href}>{Entry.Slug}</a>
+							<a class="board__ledger-slug" href={Entry.Href}>
+								{Entry.Slug}
+							</a>
 							<span class="board__ledger-path">{Entry.Path}</span>
 						</li>
 					))}
@@ -102,28 +104,34 @@ const Stat = [
 	</section>
 
 	<section class="section">
-		<SectionHeader
-			Title="Measure"
-			Lede="The one curve the site can draw without a live run."
-		/>
+		<SectionHeader Title="Measure" Lede="The one curve the site can draw without a live run." />
 		<div class="section__body">
 			<Curve />
 		</div>
 	</section>
 
 	<section class="section">
-		<SectionHeader Title="Live" Lede="The board is static today. The shape is the one a live source fills." />
+		<SectionHeader
+			Title="Live"
+			Lede="The board is static today. The shape is the one a live source fills."
+		/>
 		<div class="section__body stack">
 			<p class="lede">
-				Every panel above reads an authored map today: the trace from the harness's own turn,
-				the messages from the seam table, the calls from the pipeline, and the ledgers from
-				each package's documented path. A plugin that served the same four from a running
-				harness would change the source, not the layout.
+				Every panel above reads an authored map today: the trace from the harness's own
+				turn, the messages from the seam table, the calls from the pipeline, and the ledgers
+				from each package's documented path. A plugin that served the same four from a
+				running harness would change the source, not the layout.
 			</p>
 			<div class="cluster">
-				<a class="button" href={Route.Trace}>The trace</a>
-				<a class="button button--quiet" href={Route.Message}>The conversation</a>
-				<a class="button button--quiet" href={Route.Tool}>The tool call</a>
+				<a class="button" href={Route.Trace}>
+					The trace
+				</a>
+				<a class="button button--quiet" href={Route.Message}>
+					The conversation
+				</a>
+				<a class="button button--quiet" href={Route.Tool}>
+					The tool call
+				</a>
 			</div>
 		</div>
 	</section>

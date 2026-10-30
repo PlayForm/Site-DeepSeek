@@ -1,0 +1,33 @@
+---
+import "@Stylesheet/Component/Line.scss";
+
+import Gutter from "@Component/Gutter.astro";
+
+interface Props {
+	/** The sequence number the record answers to. */
+	Seq: number | string;
+	/** The kind of record: turn, step, message, tool, session. */
+	Kind: string;
+	/** The event name, as the harness writes it. */
+	Name: string;
+	/** True when the line can fold its children. */
+	Foldable?: boolean;
+	/** True when the line is the current one in a live view. */
+	Current?: boolean;
+}
+
+const { Seq, Kind, Name, Foldable = false, Current = false } = Astro.props;
+---
+
+<div class="line" data-kind={Kind} data-current={Current} role="listitem">
+	<span class="line__gutter">
+		<Gutter Seq={Seq} Foldable={Foldable} />
+	</span>
+	<span class="line__body">
+		<span class="line__kind">{Kind}</span>
+		<span class="line__name">{Name}</span>
+		<span class="line__slot">
+			<slot />
+		</span>
+	</span>
+</div>

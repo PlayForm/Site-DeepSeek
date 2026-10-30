@@ -1,0 +1,17 @@
+---
+import "@Stylesheet/Component/Gutter.scss";
+
+interface Props {
+	/** The sequence number the record answers to. */
+	Seq: number | string;
+	/** True when the line can fold its children, which shows a chevron on hover. */
+	Foldable?: boolean;
+}
+
+const { Seq, Foldable = false } = Astro.props;
+---
+
+<span class="gutter" data-foldable={Foldable}>
+	{Foldable && <span class="gutter__chevron" aria-hidden="true" />}
+	<span class="gutter__number">{String(Seq).padStart(2, "0")}</span>
+</span>

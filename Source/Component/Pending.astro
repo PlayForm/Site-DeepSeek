@@ -1,0 +1,19 @@
+---
+import "@Stylesheet/Component/Pending.scss";
+
+interface Props {
+	/** What is in flight, in the harness's own words. */
+	Name: string;
+	/** The quiet facts beside it: the tool, the job, the elapsed time. */
+	Meta?: string;
+}
+
+const { Name, Meta } = Astro.props;
+---
+
+<div class="pending">
+	<span class="pending__dot" aria-hidden="true" />
+	<span class="pending__name">{Name}</span>
+	{Meta && <span class="pending__meta">{Meta}</span>}
+	<span class="pending__state">pending</span>
+</div>

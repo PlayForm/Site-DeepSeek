@@ -4,9 +4,14 @@ import "@Stylesheet/Component/Badge.scss";
 interface Props {
 	Label: string;
 	Tone?: "neutral" | "accent" | "quiet";
+	/** A count or a duration the badge carries beside its label. */
+	Count?: string | number;
 }
 
-const { Label, Tone = "neutral" } = Astro.props;
+const { Label, Tone = "neutral", Count } = Astro.props;
 ---
 
-<span class:list={["badge", `badge--${Tone}`]}>{Label}</span>
+<span class:list={["badge", `badge--${Tone}`]}>
+	{Label}
+	{Count !== undefined && <span class="badge__count">{Count}</span>}
+</span>

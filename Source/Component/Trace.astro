@@ -2,6 +2,7 @@
 import "@Stylesheet/Component/Trace.scss";
 
 import Badge from "@Component/Badge.astro";
+import Line from "@Component/Line.astro";
 import type { Record } from "@Content/Trace";
 
 interface Props {
@@ -10,17 +11,16 @@ interface Props {
 }
 
 const { Record } = Astro.props;
-
-const Tone = (Entry: Record) => (Entry.Durable ? "accent" : "quiet");
 ---
 
-<ol class="trace">
+<div class="trace" role="list">
 	{Record.map((Entry) => (
-		<li class="trace__row" data-kind={Entry.Kind} data-durable={Entry.Durable}>
-			<span class="trace__index">{String(Entry.Index).padStart(2, "0")}</span>
-			<span class="trace__name">{Entry.Name}</span>
-			<Badge Label={Entry.Durable ? "durable" : "live"} Tone={Tone(Entry)} />
+		<Line Seq={Entry.Index} Kind={Entry.Kind} Name={Entry.Name}>
+			<Badge
+				Label={Entry.Durable ? "durable" : "live"}
+				Tone={Entry.Durable ? "accent" : "quiet"}
+			/>
 			<span class="trace__proves">{Entry.Proves}</span>
-		</li>
+		</Line>
 	))}
-</ol>
+</div>

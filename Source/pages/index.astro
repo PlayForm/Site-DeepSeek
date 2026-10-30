@@ -66,9 +66,7 @@ const Dash = Sample.filter((Item) => Item.Slug === "hook-dsh-normalize-dash");
 
 // The stages the family stands at: the documented seams plus the arms the
 // source registers, so the home graph lights the same stages the turn page does.
-const Used = [
-	...new Set([...SeamPage.map((Entry) => Entry.Name), ...Object.values(Arm).flat()]),
-];
+const Used = [...new Set([...SeamPage.map((Entry) => Entry.Name), ...Object.values(Arm).flat()])];
 ---
 
 <Base Title={Content.Title} Description={Content.Description}>
@@ -103,9 +101,15 @@ const Used = [
 		<div class="section__body stack">
 			<Flow Stage={Stage} Family={Used} client:load />
 			<div class="cluster">
-				<a class="button" href={Route.Turn}>The turn, stage by stage</a>
-				<a class="button button--quiet" href={Route.Tool}>One tool call</a>
-				<a class="button button--quiet" href={Route.Message}>What the model reads</a>
+				<a class="button" href={Route.Turn}>
+					The turn, stage by stage
+				</a>
+				<a class="button button--quiet" href={Route.Tool}>
+					One tool call
+				</a>
+				<a class="button button--quiet" href={Route.Message}>
+					What the model reads
+				</a>
 			</div>
 		</div>
 	</section>
@@ -118,8 +122,12 @@ const Used = [
 		<div class="section__body stack">
 			<Matrix Row={Intervention} />
 			<div class="cluster">
-				<a class="button" href={Route.Intervention}>Every intervention</a>
-				<a class="button button--quiet" href={Route.Composition}>How they compose</a>
+				<a class="button" href={Route.Intervention}>
+					Every intervention
+				</a>
+				<a class="button button--quiet" href={Route.Composition}>
+					How they compose
+				</a>
 			</div>
 		</div>
 	</section>
@@ -132,8 +140,12 @@ const Used = [
 		<div class="section__body stack">
 			<Curve />
 			<div class="cluster">
-				<a class="button" href={Route.Tutorial}>One turn, three moments</a>
-				<a class="button button--quiet" href={Route.Dashboard}>The board</a>
+				<a class="button" href={Route.Tutorial}>
+					One turn, three moments
+				</a>
+				<a class="button button--quiet" href={Route.Dashboard}>
+					The board
+				</a>
 			</div>
 		</div>
 	</section>
