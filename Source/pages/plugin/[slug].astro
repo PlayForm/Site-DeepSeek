@@ -2,9 +2,11 @@
 import "@Stylesheet/Component/Plugin.scss";
 
 import Badge from "@Component/Badge.astro";
+import Explorer from "@Component/Explorer.astro";
 import Line from "@Component/Line.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pending from "@Component/Pending.astro";
+import Pipeline from "@Component/Pipeline.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 import Term from "@Component/Term.astro";
@@ -29,6 +31,25 @@ if (Entry === undefined) {
 // seams are mostly the harness's own, so most of them stay plain text.
 const Page = new Set(Seam.map((Item) => Item.Name));
 
+// The tool pipeline the plugin interjects into, with the seam it answers at.
+const Stage = [
+	{ Label: "pre", Seam: "tools/pre-execute" },
+	{ Label: "execute", Seam: "tools/execute" },
+	{ Label: "post", Seam: "tools/post-execute" },
+	{ Label: "result", Seam: "tools/result" },
+];
+
+// The other plugins, grouped by the role each plays, so a reader can move
+// between them without going back to a catalogue.
+const Role = [...new Set(Plugin.map((Item) => Item.Role))];
+const Group = Role.map((Name) => ({
+	Label: Name,
+	Item: Plugin.filter((Item) => Item.Role === Name).map((Item) => ({
+		Label: Item.Slug,
+		Href: `/plugin/${Item.Slug}/`,
+	})),
+}));
+
 // The default conversation, the same three lines on every plugin page, so a
 // reader comparing two plugins sees only the difference between them.
 const Mock = [
@@ -48,12 +69,12 @@ const Contract = [
 	Title={Entry.Slug}
 	Description={`${Entry.Interjection} The harness plugin ${Entry.Slug}, shown by default, at its seam, and in the state a reader sees.`}>
 	<PageHero Eyebrow="Harness plugin" Title={Entry.Slug}>
-		<Fragment slot="Lede">
-			{Entry.Interjection}
-		</Fragment>
+		<Fragment slot="Lede">{Entry.Interjection}</Fragment>
 		<Fragment slot="Actions">
 			<Badge Label={Entry.Role} Tone="accent" />
-			{Entry.Seam.map((Name) => <Badge Label={Name} Tone="neutral" />)}
+			{Entry.Seam.map((Name) => (
+				<Badge Label={Name} Tone="neutral" />
+			))}
 		</Fragment>
 	</PageHero>
 
@@ -77,9 +98,7 @@ const Contract = [
 
 				<div class="plugin__column">
 					<p class="plugin__head">At the seam</p>
-					<div class="cluster">
-						<Badge Label={Entry.Seam.join(" ")} Tone="accent" Count={Entry.Seam.length} />
-					</div>
+					<Pipeline Stages={Stage} Current={Entry.Seam[0]} />
 					<Pending Name={Entry.Slug} Meta={`answers at ${Entry.Seam[0]}`} />
 				</div>
 
@@ -104,15 +123,18 @@ const Contract = [
 				<Badge Label={Entry.State} Tone="warn" />
 			</p>
 			<p class="muted">
-				Until the harness writes {Entry.Data.join(", ")}, this page cannot show the state from
-				a real run. It says so in the same slot where the state would appear, rather than
-				faking it.
+				Until the harness writes {Entry.Data.join(", ")}, this page cannot show the state
+				from a real run. It says so in the same slot where the state would appear, rather
+				than faking it.
 			</p>
 		</div>
 	</section>
 
 	<section class="section">
-		<SectionHeader Title="Contract" Lede="What the plugin listens to, what it unlocks, and what it needs." />
+		<SectionHeader
+			Title="Contract"
+			Lede="What the plugin listens to, what it unlocks, and what it needs."
+		/>
 		<div class="section__body">
 			<Table
 				Caption={`The contract of ${Entry.Slug}`}
@@ -120,14 +142,23 @@ const Contract = [
 				Row={Contract}
 			/>
 			<p class="muted">
-				{
-					Page.has(Entry.Seam[0]) ? (
-						<a href={SeamHref(Entry.Seam[0])}>The seam page</a>
-					) : (
-						"The seam page"
-					)
-				} lists every hook the family declares at that event, when the family stands there.
+				{Page.has(Entry.Seam[0]) ? (
+					<a href={SeamHref(Entry.Seam[0])}>The seam page</a>
+				) : (
+					"The seam page"
+				)}{" "}
+				lists every hook the family declares at that event, when the family stands there.
 			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Other"
+			Lede="The harness plugins this site documents, grouped by the role each plays."
+		/>
+		<div class="section__body">
+			<Explorer Groups={Group} />
 		</div>
 	</section>
 </Base>

@@ -62,8 +62,7 @@ export const Plugin: Plugin[] = [
 		Role: "watch",
 		Seam: ["tools/execute"],
 		State: "call.background",
-		Interjection:
-			"It wraps the tool body, and a call that outlives its window becomes a job.",
+		Interjection: "It wraps the tool body, and a call that outlives its window becomes a job.",
 		Data: ["the window", "the job id", "the outcome"],
 	},
 	{
@@ -88,8 +87,7 @@ export const Plugin: Plugin[] = [
 		Role: "advise",
 		Seam: ["agent/pre-step"],
 		State: "step.note",
-		Interjection:
-			"It notices a repeated call and adds a note to the step that says so.",
+		Interjection: "It notices a repeated call and adds a note to the step that says so.",
 		Data: ["the repeated call", "the note"],
 	},
 ];

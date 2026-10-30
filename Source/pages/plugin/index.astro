@@ -1,0 +1,64 @@
+---
+import "@Stylesheet/Component/Plugin.scss";
+
+import Explorer from "@Component/Explorer.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Term from "@Component/Term.astro";
+import { Plugin } from "@Content/Plugin";
+import Base from "@Layout/Base.astro";
+import { Route } from "@Library/Link";
+
+const Role = [...new Set(Plugin.map((Item) => Item.Role))];
+const Group = Role.map((Name) => ({
+	Label: Name,
+	Item: Plugin.filter((Item) => Item.Role === Name).map((Item) => ({
+		Label: Item.Slug,
+		Href: `/plugin/${Item.Slug}/`,
+	})),
+}));
+
+const Seam = [...new Set(Plugin.flatMap((Item) => Item.Seam))];
+---
+
+<Base
+	Title="Harness plugin"
+	Description={`${Plugin.length} harness plugins shown by default, at their seam, and in the state each unlocks.`}>
+	<PageHero Eyebrow="Harness" Title="The plugins the harness ships">
+		<Fragment slot="Lede">
+			{Plugin.length}&nbsp;plugins from the harness itself, each read the same way: what the
+			harness does on its own, the <Term Name="seam" /> the plugin answers at, and the state a
+			reader sees because of it.
+		</Fragment>
+	</PageHero>
+
+	<section class="section">
+		<SectionHeader
+			Title="Role"
+			Lede="Five roles, and the seam each plugin answers at. A page for each names the state it unlocks and the facts the log would need to show it."
+		/>
+		<div class="section__body">
+			<Explorer Groups={Group} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Seam"
+			Lede="The events these plugins answer at, and the family's own pages where they overlap."
+		/>
+		<div class="section__body stack">
+			<ul class="cluster">
+				{Seam.map((Name) => (
+					<li>
+						<span class="mono">{Name}</span>
+					</li>
+				))}
+			</ul>
+			<p class="muted">
+				<a href={Route.Trace}>The trace</a> shows what the log keeps, and{" "}
+				<a href={Route.Behavior}>the family</a> shows where its own hooks stand.
+			</p>
+		</div>
+	</section>
+</Base>

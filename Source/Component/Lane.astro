@@ -21,8 +21,7 @@ const { Lane } = Astro.props;
 						class="lane__span"
 						data-kind={Span.Kind}
 						style={{ left: `${Span.Start}%`, width: `${Span.Duration}%` }}
-						title={`${Span.Label}: ${Span.Duration}% of the turn`}
-					>
+						title={`${Span.Label}: ${Span.Duration}% of the turn`}>
 						<span class="lane__text">{Span.Label}</span>
 					</span>
 				))}

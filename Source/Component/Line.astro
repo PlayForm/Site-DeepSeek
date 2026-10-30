@@ -19,7 +19,7 @@ interface Props {
 const { Seq, Kind, Name, Foldable = false, Current = false } = Astro.props;
 ---
 
-<div class="line" data-kind={Kind} data-current={Current} role="listitem">
+<div class="line" data-kind={Kind} data-seq={Seq} data-current={Current} role="listitem">
 	<span class="line__gutter">
 		<Gutter Seq={Seq} Foldable={Foldable} />
 	</span>

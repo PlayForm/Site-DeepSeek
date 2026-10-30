@@ -6,10 +6,10 @@
 // fallback: when no log is reachable (a Cloudflare build has none), the trace
 // page renders the authored fixture instead, and says which one it is. A live
 // source is never fetched at runtime.
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { join } from "node:path";
-import { homedir } from "node:os";
 import { execFileSync } from "node:child_process";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import { zstdDecompressSync } from "node:zlib";
 
 import type { Record } from "@Content/Trace";
@@ -101,7 +101,9 @@ function Load(): Session {
 		// concatenated frames and the in-process decompressor stops after the
 		// first. The CLI reads them all, and the reader degrades to the fixture
 		// when the binary is not there.
-		Text = execFileSync("zstd", ["-dc", Path], { maxBuffer: 256 * 1024 * 1024 }).toString("utf8");
+		Text = execFileSync("zstd", ["-dc", Path], { maxBuffer: 256 * 1024 * 1024 }).toString(
+			"utf8",
+		);
 	} catch (Error) {
 		try {
 			Text = zstdDecompressSync(readFileSync(Path)).toString("utf8");
