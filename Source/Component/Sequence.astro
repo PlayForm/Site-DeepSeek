@@ -1,0 +1,84 @@
+---
+import "@Stylesheet/Component/Sequence.scss";
+
+import { Actor, Message } from "@Content/Sequence";
+
+// The sequence is drawn as SVG rather than as positioned boxes: the geometry is
+// a few lines of arithmetic over the actor count and the message count, and the
+// drawing then scales with its container instead of needing a width per label.
+const Width = 760;
+const Head = 40;
+const Row = 46;
+const Pad = 20;
+
+const Height = Head + Message.length * Row + Pad;
+const Column = (Index: number) => Pad + (Index * (Width - Pad * 2)) / (Actor.length - 1);
+const At = (Name: string) => Column(Actor.indexOf(Name));
+
+const Seam = Message.filter((Item) => Item.Seam !== undefined).length;
+---
+
+<figure class="sequence">
+	<svg
+		class="sequence__plot"
+		viewBox={`0 0 ${Width} ${Height}`}
+		role="img"
+		aria-label="One tool call as a sequence: the participants, the messages between them, and the seams each dispatch fires"
+	>
+		{
+			Actor.map((Name, Index) => (
+				<g>
+					<line
+						class="sequence__life"
+						x1={Column(Index)}
+						y1={Head}
+						x2={Column(Index)}
+						y2={Height - Pad}
+					/>
+					<text class="sequence__actor" x={Column(Index)} y={20} text-anchor="middle">
+						{Name}
+					</text>
+				</g>
+			))
+		}
+
+		{
+			Message.map((Item, Index) => {
+				const Y = Head + Index * Row + 20;
+				const From = At(Item.From);
+				const To = At(Item.To);
+				const Left = Math.min(From, To);
+				const Right = Math.max(From, To);
+				const Mid = (Left + Right) / 2;
+
+				return (
+					<g class="sequence__msg" data-durable={Item.Durable === true}>
+						<line class="sequence__line" x1={Left} y1={Y} x2={Right - 6} y2={Y} />
+						<polygon
+							class="sequence__head"
+							points={
+								To > From
+									? `${Right},${Y} ${Right - 8},${Y - 4} ${Right - 8},${Y + 4}`
+									: `${Left},${Y} ${Left + 8},${Y - 4} ${Left + 8},${Y + 4}`
+							}
+						/>
+						<text class="sequence__label" x={Mid} y={Y - 8} text-anchor="middle">
+							{Item.Label}
+						</text>
+						{Item.Seam && (
+							<text class="sequence__seam" x={Mid} y={Y + 16} text-anchor="middle">
+								{Item.Seam}
+							</text>
+						)}
+					</g>
+				);
+			})
+		}
+	</svg>
+
+	<figcaption class="sequence__caption">
+		{Message.length}&nbsp;messages between {Actor.length}&nbsp;participants, and {Seam}&nbsp;of
+		them fire a seam. A solid message is one the log keeps; a dashed one exists only while the
+		process runs.
+	</figcaption>
+</figure>

@@ -3,6 +3,7 @@ import CallStep from "@Component/CallStep.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import Sequence from "@Component/Sequence.astro";
 import Table from "@Component/Table.astro";
 import { Step } from "@Content/ToolCall";
 import Base from "@Layout/Base.astro";
@@ -91,6 +92,16 @@ const Row = [
 		</SectionHeader>
 		<div class="section__body">
 			<CallStep Entry={Step} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="The call, as a sequence"
+			Lede="The same call drawn as participants and messages: who sends what to whom, and which dispatch fires a seam."
+		/>
+		<div class="section__body">
+			<Sequence />
 		</div>
 	</section>
 
