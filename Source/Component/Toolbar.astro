@@ -1,0 +1,39 @@
+---
+import "@Stylesheet/Component/Toolbar.scss";
+
+interface Props {
+	/** What the controls act on, in a word or two. */
+	Label: string;
+	/** The count the controls report, already formatted by the page. */
+	Count?: string;
+	/** The destinations the page offers beside the controls. */
+	Action?: { Href: string; Label: string }[];
+}
+
+const { Label, Count, Action } = Astro.props;
+---
+
+<div class="toolbar">
+	<div class="toolbar__lead">
+		<span class="toolbar__label">{Label}</span>
+		{Count !== undefined && <span class="toolbar__count">{Count}</span>}
+	</div>
+
+	<div class="toolbar__controls">
+		<slot />
+	</div>
+
+	{
+		Action !== undefined && Action.length > 0 && (
+			<ul class="toolbar__actions">
+				{Action.map((Entry) => (
+					<li>
+						<a class="toolbar__action" href={Entry.Href}>
+							{Entry.Label}
+						</a>
+					</li>
+				))}
+			</ul>
+		)
+	}
+</div>

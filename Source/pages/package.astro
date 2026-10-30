@@ -6,7 +6,9 @@ import PackageCard from "@Component/PackageCard.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
+import Toolbar from "@Component/Toolbar.astro";
 import Base from "@Layout/Base.astro";
+import { Route } from "@Library/Link";
 import { Count, Family, Kind, Package, SelectFamily } from "@Library/Package.server";
 
 const Group = Family.map((Release) => ({
@@ -40,7 +42,13 @@ const Kinds = [
 
 	<section class="section">
 		<div class="section__body">
-			<Filter Entry={Catalogue} Family={Family} Kind={Kind} client:load />
+			<Toolbar
+				Label="Filter"
+				Count={`${Count.All} package`}
+				Action={[{ Href: Route.Reference, Label: "Reference table" }]}
+			>
+				<Filter Entry={Catalogue} Family={Family} Kind={Kind} client:load />
+			</Toolbar>
 			{Group.map((Item) => (
 				<section class="section" data-group>
 					<SectionHeader Title={Item.Release} />

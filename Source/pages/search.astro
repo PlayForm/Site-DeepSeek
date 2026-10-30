@@ -4,6 +4,7 @@ import "@Stylesheet/Component/Search.scss";
 import PageHero from "@Component/PageHero.astro";
 import Search from "@Component/Search.tsx";
 import Term from "@Component/Term.astro";
+import Toolbar from "@Component/Toolbar.astro";
 import Base from "@Layout/Base.astro";
 import { Search as Index } from "@Library/Search.server";
 
@@ -25,7 +26,9 @@ const TermCount = Index.filter((Entry) => Entry.Group === "Term").length;
 
 	<section class="section">
 		<div class="section__body">
-			<Search Entry={Index} client:load />
+			<Toolbar Label="Search" Count={`${Index.length} entry`}>
+				<Search Entry={Index} client:load />
+			</Toolbar>
 		</div>
 	</section>
 </Base>

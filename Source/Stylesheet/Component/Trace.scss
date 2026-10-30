@@ -1,0 +1,58 @@
+@use "../Material.scss" as Material;
+
+// The trace: one record per row, the durable ones carrying a solid rail and the
+// live ones a dashed one, so a reader can see at a glance what a reload keeps.
+.trace {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: 1px solid var(--cabinet-line);
+	background: var(--cabinet-line);
+
+	&__row {
+		display: grid;
+		grid-template-columns: auto minmax(160px, 220px) auto 1fr;
+		align-items: center;
+		gap: var(--space-3);
+		padding: var(--space-2) var(--space-3);
+		background: var(--cabinet-front);
+		border-left: 2px solid var(--color-accent);
+
+		&[data-durable="false"] {
+			border-left-style: dashed;
+			border-left-color: var(--color-line-strong);
+			background: var(--cabinet-inset);
+		}
+	}
+
+	&__index {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	&__name {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+	}
+
+	&__proves {
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	@media (max-width: 720px) {
+		&__row {
+			grid-template-columns: auto 1fr;
+		}
+
+		&__proves {
+			grid-column: 1 / -1;
+		}
+	}
+}

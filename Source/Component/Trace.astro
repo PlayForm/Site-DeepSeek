@@ -1,0 +1,26 @@
+---
+import "@Stylesheet/Component/Trace.scss";
+
+import Badge from "@Component/Badge.astro";
+import type { Record } from "@Content/Trace";
+
+interface Props {
+	/** The records, in the order the log writes them. */
+	Record: Record[];
+}
+
+const { Record } = Astro.props;
+
+const Tone = (Entry: Record) => (Entry.Durable ? "accent" : "quiet");
+---
+
+<ol class="trace">
+	{Record.map((Entry) => (
+		<li class="trace__row" data-kind={Entry.Kind} data-durable={Entry.Durable}>
+			<span class="trace__index">{String(Entry.Index).padStart(2, "0")}</span>
+			<span class="trace__name">{Entry.Name}</span>
+			<Badge Label={Entry.Durable ? "durable" : "live"} Tone={Tone(Entry)} />
+			<span class="trace__proves">{Entry.Proves}</span>
+		</li>
+	))}
+</ol>

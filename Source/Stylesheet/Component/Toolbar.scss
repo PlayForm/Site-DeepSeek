@@ -1,0 +1,66 @@
+@use "../Material.scss" as Material;
+
+// The task toolbar: one frame for the controls a collection page carries, so
+// the catalogue's filter, the search field, and any future control sit in the
+// same place instead of each page inventing a row.
+.toolbar {
+	@include Material.tray;
+
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-3) var(--rhythm-inset);
+	padding: var(--space-3) var(--space-4);
+
+	&__lead {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-2);
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__count {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+	}
+
+	&__controls {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+		flex: 1 1 320px;
+		min-width: 0;
+	}
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-3);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__action {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-faint);
+		text-decoration: none;
+
+		&:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	@media (max-width: 720px) {
+		&__controls {
+			flex-basis: 100%;
+		}
+	}
+}
