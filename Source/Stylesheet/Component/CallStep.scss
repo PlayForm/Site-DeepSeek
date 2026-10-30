@@ -1,0 +1,178 @@
+@use "../Material.scss" as Material;
+
+// One call through the tool pipeline: a numbered rail with one step per seam,
+// in the order the harness runs them. Each step states what it receives, the
+// decision vocabulary the docs name there, the packages that stand there, and
+// the one change the model reads afterwards. The approval branch is an inset
+// tray under the gate, because it is a branch of that step and not a step of
+// its own.
+.call {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	&__step {
+		display: grid;
+		grid-template-columns: 48px minmax(0, 1fr);
+		gap: var(--rhythm-group);
+		padding-block: var(--rhythm-inset);
+		border-top: 1px solid var(--color-line);
+
+		&:first-child {
+			border-top: 0;
+			padding-top: 0;
+		}
+	}
+
+	&__index {
+		@include Material.label;
+
+		padding-top: 2px;
+		color: var(--color-accent);
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--rhythm-tight);
+		min-width: 0;
+	}
+
+	&__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-3);
+	}
+
+	&__title {
+		font-size: var(--text-lg);
+	}
+
+	&__link {
+		display: inline-flex;
+		text-decoration: none;
+
+		.badge {
+			transition: color var(--motion-crisp) var(--ease-crisp);
+		}
+
+		&:hover .badge {
+			color: var(--color-accent-deep);
+		}
+	}
+
+	&__empty {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-faint);
+	}
+
+	&__flow {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-3) var(--rhythm-group);
+		margin: 0;
+	}
+
+	&__pair {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		min-width: 0;
+		padding-left: var(--space-3);
+		border-left: 1px solid var(--color-line);
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__value {
+		margin: 0;
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+	}
+
+	&__list {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__item {
+		display: inline-flex;
+	}
+
+	&__none {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-faint);
+	}
+
+	&__branch {
+		@include Material.tray;
+
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-3) var(--rhythm-tight);
+	}
+
+	&__branch-lead {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	&__branch-note {
+		max-width: 68ch;
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&__plugin {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+		min-width: 0;
+	}
+
+	&__plugin-link {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+		text-decoration: none;
+		border-bottom: 1px solid var(--color-line);
+
+		&:hover {
+			color: var(--color-accent);
+			border-bottom-color: var(--color-accent);
+		}
+	}
+
+	&__change {
+		max-width: 68ch;
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	@media (max-width: 860px) {
+		&__flow {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+}

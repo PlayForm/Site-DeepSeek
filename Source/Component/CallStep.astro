@@ -1,0 +1,110 @@
+---
+import "@Stylesheet/Component/CallStep.scss";
+
+import Badge from "@Component/Badge.astro";
+import { Seam } from "@Content/Harness";
+import { Approval } from "@Content/ToolCall";
+import type { Step } from "@Content/ToolCall";
+import { PackageHref, SeamHref } from "@Library/Link";
+
+interface Props {
+	/** The tool pipeline, in the order the harness runs it. */
+	Entry: Step[];
+}
+
+const { Entry } = Astro.props;
+
+// A seam has a page only when the family documents a hook at it. The rail draws
+// every seam the pipeline dispatches, so a seam without a page stays plain text
+// rather than a link to nothing.
+const Page = new Set(Seam.map((Item) => Item.Name));
+
+// The approval branch belongs to the gate: a step whose vocabulary carries `ask`
+// is a step that can hand the call to the one-shot prompt.
+const Ask = "ask";
+---
+
+<ol class="call">
+	{Entry.map((Item) => (
+		<li class="call__step">
+			<span class="call__index">{String(Item.Index).padStart(2, "0")}</span>
+			<div class="call__body">
+				<header class="call__head">
+					<h3 class="call__title">{Item.Title}</h3>
+					{Item.Seam.length > 0 ? (
+						Page.has(Item.Seam) ? (
+							<a class="call__link" href={SeamHref(Item.Seam)}>
+								<Badge Label={Item.Seam} Tone="accent" />
+							</a>
+						) : (
+							<Badge Label={Item.Seam} Tone="quiet" />
+						)
+					) : (
+						<span class="call__empty">no seam here</span>
+					)}
+				</header>
+
+				<dl class="call__flow">
+					<div class="call__pair">
+						<dt class="call__label">Receives</dt>
+						<dd class="call__value">{Item.Receives}</dd>
+					</div>
+					<div class="call__pair">
+						<dt class="call__label">Decides</dt>
+						<dd class="call__value">
+							{Item.Decides.length > 0 ? (
+								<ul class="call__list">
+									{Item.Decides.map((Name) => (
+										<li class="call__item">
+											<Badge Label={Name} Tone="neutral" />
+										</li>
+									))}
+								</ul>
+							) : (
+								<span class="call__none">the docs name none here</span>
+							)}
+						</dd>
+					</div>
+				</dl>
+
+				{Item.Decides.includes(Ask) && (
+					<div class="call__branch">
+						<div class="call__branch-lead">
+							<span class="call__label">Branch</span>
+							{Page.has(Approval) ? (
+								<a class="call__link" href={SeamHref(Approval)}>
+									<Badge Label={Approval} Tone="quiet" />
+								</a>
+							) : (
+								<Badge Label={Approval} Tone="quiet" />
+							)}
+						</div>
+						<p class="call__branch-note">
+							An ask is one prompt, and the call waits on it: allowed once continues to
+							the guards, and rejected, cancelled, or unavailable is a deny.
+						</p>
+					</div>
+				)}
+
+				<div class="call__plugin">
+					<span class="call__label">Plugin</span>
+					{Item.Plugin.length > 0 ? (
+						<ul class="call__list">
+							{Item.Plugin.map((Slug) => (
+								<li class="call__item">
+									<a class="call__plugin-link" href={PackageHref(Slug)}>
+										{Slug}
+									</a>
+								</li>
+							))}
+						</ul>
+					) : (
+						<span class="call__none">none of the four</span>
+					)}
+				</div>
+
+				<p class="call__change">{Item.Changes}</p>
+			</div>
+		</li>
+	))}
+</ol>

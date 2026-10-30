@@ -8,6 +8,7 @@ import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 import { BehaviorFor, type Effect } from "@Content/Behavior";
 import { SeamFor } from "@Content/Harness";
+import { SeamRow } from "@Content/Turn";
 import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
 import { SeamHref } from "@Library/Link";
@@ -79,6 +80,10 @@ if (Seam === undefined || Seam !== Declared) {
 // location, and the listeners it already has there. A seam the family uses
 // but the harness does not declare has no entry, and the page says so.
 const Harness = SeamFor(Seam);
+
+// The payload and the power, from the harness's own seam table. A seam the
+// table does not list renders the honest gap instead of a shape.
+const SeamData = SeamRow.find((Entry) => Entry.Name === Seam);
 
 const Hook = SelectKind("hook").flatMap((Entry) => {
 	const Behavior = BehaviorFor(Entry.Slug);
@@ -185,6 +190,28 @@ const Lede = Claim();
 			{Harness !== undefined ? (
 				<>
 					<p class="lede">It carries {Harness.Carries}.</p>
+					<dl class="definition">
+						<div class="definition__row">
+							<dt class="definition__term">Payload</dt>
+							<dd class="definition__detail">
+								{SeamData?.Shape ?? "The harness docs do not state the shape at this seam."}
+							</dd>
+						</div>
+						<div class="definition__row">
+							<dt class="definition__term">Power</dt>
+							<dd class="definition__detail">
+								{SeamData?.Power === "Change"
+									? "A listener may replace what it passes on."
+									: SeamData?.Power === "Stop"
+										? "A listener may end the turn, and cannot rewrite it."
+										: "A listener observes a fact that already happened."}
+							</dd>
+						</div>
+						<div class="definition__row">
+							<dt class="definition__term">Declared</dt>
+							<dd class="definition__detail">{Harness.Declared}</dd>
+						</div>
+					</dl>
 					<ul class="cluster">
 						{Harness.Harness.length > 0 ? (
 							Harness.Harness.map((Name) => (
@@ -206,7 +233,6 @@ const Lede = Claim();
 							? "A waterfall listener receives the payload and may return a changed one, so a hook here can rewrite what the model reads next."
 							: "An emit listener observes a fact that already happened. A hook here records it, or acts on the world beside it, but it cannot change the payload."}
 					</p>
-					<p class="muted">Declared in {Harness.Declared}.</p>
 				</>
 			) : (
 				<Absence

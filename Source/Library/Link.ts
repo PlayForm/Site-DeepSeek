@@ -15,6 +15,7 @@ export const Route = {
 	Turn: "/turn/",
 	Intervention: "/intervention/",
 	Tutorial: "/tutorial/",
+	Tool: "/tool/",
 	Composition: "/composition/",
 	Trace: "/trace/",
 	Observatory: "/explore/",
