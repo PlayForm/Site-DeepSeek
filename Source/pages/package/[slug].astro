@@ -1,4 +1,5 @@
 ---
+import Absence from "@Component/Absence.astro";
 import Badge from "@Component/Badge.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
@@ -6,6 +7,7 @@ import Definition from "@Component/Definition.astro";
 import Icon from "@Component/Icon.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
+import Provenance from "@Component/Provenance.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 import Transform from "@Component/Transform.astro";
@@ -130,31 +132,45 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 		</div>
 	</section>
 
-	{SurfaceFor(Entry.Slug).length > 0 && (
-		<section class="section">
-			<SectionHeader Title="Surface" />
-			<div class="section__body">
-				<Table
-					Caption={`The surfaces ${Entry.Slug} registers`}
-					Head={["Kind", "Name", "What"]}
-					Row={SurfaceFor(Entry.Slug).map((Item) => [Item.Kind, Item.Name, Item.What])}
-				/>
-			</div>
-		</section>
-	)}
+	<section class="section">
+		<SectionHeader Title="Surface" />
+		<div class="section__body">
+			{
+				SurfaceFor(Entry.Slug).length > 0 ? (
+					<Table
+						Caption={`The surfaces ${Entry.Slug} registers`}
+						Head={["Kind", "Name", "What"]}
+						Row={SurfaceFor(Entry.Slug).map((Item) => [Item.Kind, Item.Name, Item.What])}
+					/>
+				) : (
+					<Absence
+						Title="No surface"
+						Note="The README documents no listener, tool, service, or configuration, so this package registers nothing a page can list."
+					/>
+				)
+			}
+		</div>
+	</section>
 
-	{Entry.Dependencies.length > 0 && (
-		<section class="section">
-			<SectionHeader Title="Dependencies" />
-			<div class="section__body">
-				<Table
-					Caption={`Dependencies of ${Entry.Slug}`}
-					Head={["Package", "Role"]}
-					Row={Depend}
-				/>
-			</div>
-		</section>
-	)}
+	<section class="section">
+		<SectionHeader Title="Dependencies" />
+		<div class="section__body">
+			{
+				Entry.Dependencies.length > 0 ? (
+					<Table
+						Caption={`Dependencies of ${Entry.Slug}`}
+						Head={["Package", "Role"]}
+						Row={Depend}
+					/>
+				) : (
+					<Absence
+						Title="No dependency"
+						Note="The manifest declares no dependency, so this package stands alone in the graph."
+					/>
+				)
+			}
+		</div>
+	</section>
 
 	{RequiredBy.length > 0 && (
 		<section class="section">
@@ -183,21 +199,30 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 		</section>
 	)}
 
-	{Knob.length > 0 && (
-		<section class="section">
-			<SectionHeader
-				Title="Configuration"
-				Lede="Every knob this plugin documents, with its default."
-			/>
-			<div class="section__body">
-				<Table
-					Caption={`Configuration of ${Entry.Slug}`}
-					Head={["Field", "Type", "Default", "Meaning"]}
-					Row={Knob}
-				/>
-			</div>
-		</section>
-	)}
+	<section class="section">
+		<SectionHeader
+			Title="Configuration"
+			Lede={Knob.length > 0
+				? "Every knob this plugin documents, with its default."
+				: undefined}
+		/>
+		<div class="section__body">
+			{
+				Knob.length > 0 ? (
+					<Table
+						Caption={`Configuration of ${Entry.Slug}`}
+						Head={["Field", "Type", "Default", "Meaning"]}
+						Row={Knob}
+					/>
+				) : (
+					<Absence
+						Title="No configuration"
+						Note="The README documents no knob, so the package reads no field and takes no option."
+					/>
+				)
+			}
+		</div>
+	</section>
 
 	{Release.length > 0 && (
 		<section class="section">
@@ -225,6 +250,13 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 			</p>
 		</div>
 	</section>
+
+	<Provenance
+		Data="The monorepo, read during the build"
+		Connection="Build-time read; nothing is fetched at runtime"
+		Capture="package.json, README.md, CHANGELOG.md"
+		Note="This page is static. It cannot invoke the plugin, read a ledger, or change a configuration. Every figure comes from those three files; a missing README falls back to the manifest's own description, and a package with no surface table shows no surface section."
+	/>
 
 	<Pager
 		Previous={Previous ? { Href: Previous.Href, Label: Previous.Slug } : undefined}

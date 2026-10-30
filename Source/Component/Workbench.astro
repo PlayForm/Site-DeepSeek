@@ -1,0 +1,69 @@
+---
+import "@Stylesheet/Component/Workbench.scss";
+
+import Badge from "@Component/Badge.astro";
+import Icon from "@Component/Icon.astro";
+import Term from "@Component/Term.astro";
+
+export interface WorkbenchHook {
+	Slug: string;
+	Href: string;
+	Summary: string;
+	Effect: string;
+}
+
+interface Props {
+	Seam: string;
+	Model: string;
+	Hook: WorkbenchHook[];
+}
+
+const { Seam, Model, Hook } = Astro.props;
+
+const Tone: Record<string, "accent" | "neutral" | "quiet"> = {
+	rewrite: "accent",
+	record: "neutral",
+	advise: "quiet",
+	pass: "quiet",
+};
+
+function ToneFor(Effect: string): "accent" | "neutral" | "quiet" {
+	return Tone[Effect] ?? "quiet";
+}
+---
+
+<div class="workbench">
+	<header class="workbench__head">
+		<h2 class="workbench__name">{Seam}</h2>
+		<span class="workbench__count">{Hook.length}&nbsp;<Term Name="hook" /></span>
+	</header>
+
+	<div class="workbench__lens">
+		<div class="workbench__panel workbench__panel--model">
+			<p class="workbench__label">Model</p>
+			<p class="workbench__model">{Model}</p>
+		</div>
+
+		<div class="workbench__panel workbench__panel--harness">
+			<p class="workbench__label">Harness</p>
+			{Hook.length > 0 ? (
+				<ul class="workbench__list">
+					{Hook.map((Item) => (
+						<li class="workbench__hook">
+							<a class="workbench__slug" href={Item.Href}>
+								<Icon Name={Item.Slug} Size={32} />
+								{Item.Slug}
+							</a>
+							<Badge Label={Item.Effect} Tone={ToneFor(Item.Effect)} />
+							<span class="workbench__summary">{Item.Summary}</span>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="workbench__empty">
+					No&nbsp;<Term Name="hook" /> listens at this&nbsp;<Term Name="seam" />.
+				</p>
+			)}
+		</div>
+	</div>
+</div>

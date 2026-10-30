@@ -1,0 +1,23 @@
+@use "../Material.scss" as Material;
+
+// An absence stated as a fact. A section that has nothing to show says so in
+// place, beside the rest of the record, instead of vanishing and leaving the
+// reader unable to tell "none" from "not read".
+.absence {
+	border-left: 2px solid var(--cabinet-line);
+	padding: var(--space-2) 0 var(--space-2) var(--space-3);
+	max-width: var(--measure);
+
+	&__title {
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--color-ink);
+	}
+
+	&__note {
+		margin-top: var(--space-1);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+}

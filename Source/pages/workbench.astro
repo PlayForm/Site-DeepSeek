@@ -1,0 +1,79 @@
+---
+import PageHero from "@Component/PageHero.astro";
+import Workbench from "@Component/Workbench.astro";
+import { BehaviorFor } from "@Content/Behavior";
+import Base from "@Layout/Base.astro";
+import { SelectKind } from "@Library/Package.server";
+
+// Every hook, grouped by the seam its README names. The mapping is authored in
+// `Source/Content/Behavior.ts`; nothing here infers it.
+const Group = new Map<string, { Slug: string; Href: string; Summary: string; Effect: string }[]>();
+
+for (const Entry of SelectKind("hook")) {
+	const Behavior = BehaviorFor(Entry.Slug);
+
+	if (!Behavior) {
+		continue;
+	}
+
+	const List = Group.get(Behavior.Seam) ?? [];
+
+	List.push({
+		Slug: Entry.Slug,
+		Href: Entry.Href,
+		Summary: Entry.Summary,
+		Effect: Behavior.Effect,
+	});
+	Group.set(Behavior.Seam, List);
+}
+
+// The five stages of one turn, in the order the harness reaches them. The model
+// line says what the model sees at that seam; the hooks are read from the map.
+const Stage = [
+	{
+		Seam: "system-prompt/assemble",
+		Model:
+			"The model reads one assembled block, and the blocks it can edit are already inside it.",
+	},
+	{
+		Seam: "llm/stream",
+		Model:
+			"The model writes text, and every dash, quote, ellipsis, space, fullwidth glyph, and invisible mark reaches the transcript as plain ASCII.",
+	},
+	{
+		Seam: "tools/pre-execute",
+		Model:
+			"The model asks for a tool call, and a workspace change is gated or restated before it runs.",
+	},
+	{
+		Seam: "tools/post-execute",
+		Model:
+			"The model reads a result that has already been compressed, stripped, and annotated.",
+	},
+	{
+		Seam: "fs/observed",
+		Model:
+			"The model is not watching: the write already happened, and the hooks act on the file on disk.",
+	},
+].map((Entry) => ({
+	...Entry,
+	Hook: Group.get(Entry.Seam) ?? [],
+}));
+---
+
+<Base
+	Title="Workbench"
+	Description="One turn of the harness, stage by stage: what the model sees, and the hooks that shape it.">
+	<PageHero Eyebrow="One turn" Title="Workbench">
+		<Fragment slot="Lede">
+			One turn, stage by stage, through two lenses: what the model reads and writes, and what
+			the harness does with it.
+		</Fragment>
+	</PageHero>
+
+	{Stage.map((Entry) => (
+		<section class="section">
+			<Workbench Seam={Entry.Seam} Model={Entry.Model} Hook={Entry.Hook} />
+		</section>
+	))}
+</Base>

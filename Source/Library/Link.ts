@@ -11,6 +11,7 @@ export const Route = {
 	Package: "/package/",
 	Showcase: "/showcase/",
 	Behavior: "/behavior/",
+	Workbench: "/workbench/",
 	Observatory: "/explore/",
 	Timeline: "/tl/",
 	Setup: "/setup/",
@@ -18,6 +19,7 @@ export const Route = {
 	CaseStudy: "/case-study/",
 	Marketplace: "/marketplace/",
 	Connect: "/connect/",
+	Search: "/search/",
 	Library: "/library/",
 	NotFound: "/404/",
 };
@@ -35,9 +37,11 @@ export const Primary = [
 
 export const Sitemap = [
 	{ Href: Route.Home, Label: "Overview" },
+	{ Href: Route.Search, Label: "Search" },
 	{ Href: Route.Package, Label: "Package" },
 	{ Href: Route.Showcase, Label: "Showcase" },
 	{ Href: Route.Behavior, Label: "Behavior" },
+	{ Href: Route.Workbench, Label: "Workbench" },
 	{ Href: Route.Observatory, Label: "Observatory" },
 	{ Href: Route.Timeline, Label: "Timeline" },
 	{ Href: Route.Setup, Label: "Setup" },

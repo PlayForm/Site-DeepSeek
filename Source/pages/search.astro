@@ -1,0 +1,28 @@
+---
+import "@Stylesheet/Component/Search.scss";
+
+import Search from "@Component/Search.tsx";
+import PageHero from "@Component/PageHero.astro";
+import Base from "@Layout/Base.astro";
+import { Search as Index } from "@Library/Search.server";
+
+const PackageCount = Index.filter((Entry) => Entry.Group === "Package").length;
+const PageCount = Index.filter((Entry) => Entry.Group === "Page").length;
+const TermCount = Index.filter((Entry) => Entry.Group === "Term").length;
+---
+
+<Base
+	Title="Search"
+	Description={`Search the ${PackageCount} packages, the site pages, and the ${TermCount} terms of the vocabulary.`}>
+	<PageHero
+		Eyebrow="Search"
+		Title="Search"
+		Lede={`Packages, pages, and terms at once: ${PackageCount} packages, ${PageCount} pages, ${TermCount} terms.`}
+	/>
+
+	<section class="section">
+		<div class="section__body">
+			<Search Entry={Index} client:load />
+		</div>
+	</section>
+</Base>

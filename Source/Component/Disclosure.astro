@@ -1,0 +1,23 @@
+---
+import "@Stylesheet/Component/Disclosure.scss";
+
+interface Props {
+	/** What the hidden body holds, said in full rather than "More". */
+	Summary: string;
+	/** A count or a state, when the summary can carry one. */
+	Count?: string | number;
+	/** Open on first paint; closed by default. */
+	Open?: boolean;
+}
+
+const { Summary, Count, Open = false } = Astro.props;
+---
+
+<details class="disclosure" open={Open}>
+	<summary class="disclosure__summary">
+		<span class="disclosure__chevron" aria-hidden="true"></span>
+		<span class="disclosure__text">{Summary}</span>
+		{Count !== undefined && <span class="disclosure__count">{Count}</span>}
+	</summary>
+	<div class="disclosure__body"><slot /></div>
+</details>

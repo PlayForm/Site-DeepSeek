@@ -1,4 +1,5 @@
 ---
+import Disclosure from "@Component/Disclosure.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
@@ -54,11 +55,13 @@ const Watch = [
 			Lede="The default path each plugin documents for its own ledger."
 		/>
 		<div class="section__body">
-			<Table
-				Caption="Every plugin that documents a ledger file"
-				Head={["Plugin", "File"]}
-				Row={Row}
-			/>
+			<Disclosure Summary="Every ledger file" Count={Ledger.length}>
+				<Table
+					Caption="Every plugin that documents a ledger file"
+					Head={["Plugin", "File"]}
+					Row={Row}
+				/>
+			</Disclosure>
 		</div>
 	</section>
 

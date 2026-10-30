@@ -1,4 +1,5 @@
 ---
+import Cabinet from "@Component/Cabinet.astro";
 import Card from "@Component/Card.astro";
 import PageHero from "@Component/PageHero.astro";
 import Seam from "@Component/Seam.astro";
@@ -87,7 +88,9 @@ const Dash = Sample.filter((Item) => Item.Slug === "hook-dsh-normalize-dash");
 			</Fragment>
 		</SectionHeader>
 		<div class="section__body stack">
-			<Transform Sample={Dash} />
+			<Cabinet Label="Transform" State="live">
+				<Transform Sample={Dash} />
+			</Cabinet>
 			<div class="cluster">
 				{SeamList.map((Item) => (
 					<Seam Name={Item.Name} Count={Item.Count} Href={Item.Href} />
@@ -138,6 +141,9 @@ const Dash = Sample.filter((Item) => Item.Slug === "hook-dsh-normalize-dash");
 			</Card>
 			<Card Title="Behavior" Href={Route.Behavior} Meta="Hook">
 				The hooks and the events they listen on.
+			</Card>
+			<Card Title="Workbench" Href={Route.Workbench} Meta="One turn">
+				One turn, five seams, two lenses.
 			</Card>
 			<Card Title="Timeline" Href={Route.Timeline} Meta="Release">
 				Every version the changelogs record.

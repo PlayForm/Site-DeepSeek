@@ -1,0 +1,45 @@
+---
+import "@Stylesheet/Component/Provenance.scss";
+
+import Disclosure from "@Component/Disclosure.astro";
+
+interface Props {
+	/** Where the facts came from. */
+	Data: string;
+	/** How they reached this page. */
+	Connection: string;
+	/** What was read, in the source's own words. */
+	Capture: string;
+	/** The detail behind the rail: the files, the gaps, the limits. */
+	Note?: string;
+}
+
+const { Data, Connection, Capture, Note } = Astro.props;
+---
+
+<section class="provenance" aria-label="Provenance">
+	<dl class="provenance__group">
+		<div class="provenance__item">
+			<dt class="provenance__term">Data</dt>
+			<dd class="provenance__value">{Data}</dd>
+		</div>
+		<div class="provenance__item">
+			<dt class="provenance__term">Connection</dt>
+			<dd class="provenance__value">{Connection}</dd>
+		</div>
+		<div class="provenance__item">
+			<dt class="provenance__term">Capture</dt>
+			<dd class="provenance__value">{Capture}</dd>
+		</div>
+	</dl>
+
+	{
+		Note && (
+			<div class="provenance__detail">
+				<Disclosure Summary="Expand provenance" Count="source">
+					<p class="provenance__note">{Note}</p>
+				</Disclosure>
+			</div>
+		)
+	}
+</section>

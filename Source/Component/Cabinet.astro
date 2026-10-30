@@ -1,0 +1,24 @@
+---
+import "@Stylesheet/Component/Cabinet.scss";
+
+interface Props {
+	Label: string;
+	State?: string;
+}
+
+const { Label, State = "exhibit" } = Astro.props;
+---
+
+<figure class="cabinet">
+	<span class="cabinet__plane" aria-hidden="true"></span>
+	<div class="cabinet__front">
+		<div class="cabinet__lintel">
+			<span class="cabinet__label">{Label}</span>
+			<span class="cabinet__state">{State}</span>
+		</div>
+		<div class="cabinet__aperture">
+			<slot />
+		</div>
+	</div>
+	<span class="cabinet__wall" aria-hidden="true"></span>
+</figure>

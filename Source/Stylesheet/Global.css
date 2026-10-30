@@ -140,7 +140,11 @@
 	--cabinet-front: #111a2c;
 	--cabinet-light: #1b2742;
 	--cabinet-right: #0a1120;
-	--cabinet-line: #2b3852;
+	/* The drawn line is the only dark token that moved: at #2b3852 a control
+	   boundary measured 1.48:1 on the front, too faint to see the edge of an
+	   input. This step measures 2.62:1 on the front and 2.89:1 on the canvas,
+	   which reads as an edge without turning every hairline into a rule. */
+	--cabinet-line: #4a5d80;
 	--cabinet-inset: #0f1728;
 }
 

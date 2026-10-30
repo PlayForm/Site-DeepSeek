@@ -1,0 +1,89 @@
+@use "../Material.scss" as Material;
+
+// The frame that carries one exhibit: the slab front with its lintel, and the
+// two faces the frontal oblique exposes. The projection moves one pixel right
+// and one pixel up for every pixel of depth, so the top plane and the right
+// wall are strips exactly --cabinet-depth wide, cut on the diagonal by
+// clip-path, and the front stays square. The top plane is the lit face and the
+// right wall is the shadow face; both read as planes, not as borders. Zero
+// elevation holds: one solid fill per face, no shadow, no gradient, no blur.
+.cabinet {
+	position: relative;
+	display: block;
+	margin: 0;
+	padding-top: var(--cabinet-depth);
+
+	// The top plane: the band above the front, its far edge shifted right by
+	// the depth, so its left and right ends are the 45 degree diagonals.
+	&__plane {
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		height: var(--cabinet-depth);
+		background: var(--cabinet-light);
+		clip-path: polygon(
+			0 100%,
+			calc(100% - var(--cabinet-depth)) 100%,
+			100% 0,
+			var(--cabinet-depth) 0
+		);
+		pointer-events: none;
+	}
+
+	// The front: the slab, holding the lintel and the padded aperture.
+	&__front {
+		@include Material.slab;
+
+		position: relative;
+		display: block;
+		width: 100%;
+		background: var(--cabinet-front);
+	}
+
+	// The lintel: the mono label on the left, the quiet state word on the
+	// right, on the inset tone so the bar reads inside the front face.
+	&__lintel {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-4);
+		padding: var(--rhythm-tight) var(--rhythm-inset);
+		background: var(--cabinet-inset);
+	}
+
+	&__label {
+		@include Material.label;
+
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__state {
+		@include Material.label;
+
+		flex: 0 0 auto;
+		margin-left: auto;
+	}
+
+	// The aperture: the front's padded opening, where the exhibit sits.
+	&__aperture {
+		min-width: 0;
+		padding: var(--rhythm-inset);
+	}
+
+	// The right wall: the depth-wide strip beside the front, its top edge
+	// running up the 45 degree diagonal to the plane's far corner. It covers
+	// the front's own right depth, so the two never stack into a double wall.
+	&__wall {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: var(--cabinet-depth);
+		background: var(--cabinet-right);
+		clip-path: polygon(0 var(--cabinet-depth), 100% 0, 100% 100%, 0 100%);
+		pointer-events: none;
+	}
+}

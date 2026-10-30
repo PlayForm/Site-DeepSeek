@@ -1,0 +1,17 @@
+---
+import "@Stylesheet/Component/Absence.scss";
+
+interface Props {
+	/** What is absent, said as a fact: "No configuration". */
+	Title: string;
+	/** Why it is absent, and what the page can still establish. */
+	Note: string;
+}
+
+const { Title, Note } = Astro.props;
+---
+
+<div class="absence">
+	<p class="absence__title">{Title}</p>
+	<p class="absence__note">{Note}</p>
+</div>

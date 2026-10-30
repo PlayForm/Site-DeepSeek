@@ -1,0 +1,120 @@
+@use "../Material.scss" as Material;
+
+// One stage of a turn: the seam as its heading, then the model's view beside
+// the harness hooks that act there.
+.workbench {
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-head);
+
+	&__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-3);
+	}
+
+	&__name {
+		font-family: var(--font-mono);
+		font-size: var(--text-xl);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+	}
+
+	&__count {
+		@include Material.label;
+
+		margin-left: auto;
+	}
+
+	&__lens {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+		gap: var(--rhythm-group);
+	}
+
+	&__panel {
+		display: flex;
+		flex-direction: column;
+		gap: var(--rhythm-tight);
+		min-width: 0;
+		padding: var(--space-4);
+	}
+
+	&__panel--model {
+		@include Material.tray;
+
+		border-left: 2px solid var(--color-accent);
+	}
+
+	&__panel--harness {
+		@include Material.tray;
+	}
+
+	&__label {
+		@include Material.label;
+	}
+
+	&__model {
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+	}
+
+	&__empty {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__hook {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 2px var(--space-2);
+		min-width: 0;
+		padding-left: var(--space-3);
+		border-left: 1px solid var(--color-line);
+
+		.badge {
+			grid-column: 2;
+			grid-row: 1;
+		}
+	}
+
+	&__slug {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+		text-decoration: none;
+
+		&:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	&__summary {
+		grid-column: 1 / -1;
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	@media (max-width: 860px) {
+		&__lens {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+}
