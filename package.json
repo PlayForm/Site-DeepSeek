@@ -24,6 +24,7 @@
 		"url": "https://PlayForm.Cloud"
 	},
 	"scripts": {
+		"Check": "node Scripts/Check.ts",
 		"Diagrams": "node Scripts/Diagram.ts",
 		"Prepare": "node Scripts/Prepare.ts",
 		"Run": "astro dev --host",

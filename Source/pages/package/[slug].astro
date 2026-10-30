@@ -145,10 +145,7 @@ const File = [
 	<section class="section">
 		<SectionHeader Title="What it does" />
 		<div class="section__body stack">
-			<p class="lede">
-				{Entry.Summary}
-				{/[.!?:;,]$/.test(Entry.Summary) ? "" : "."}
-			</p>
+			<p class="lede">{Entry.Summary}{/[.!?:;,]$/.test(Entry.Summary) ? "" : "."}</p>
 			<p class="muted">
 				<a href={`${Entry.Source}/README.md`}>Read the full description in the README</a>.
 			</p>

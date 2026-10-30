@@ -189,7 +189,9 @@ function ReadPackage(Family: Family, Directory: string, Slug: string): PackageRe
 		Private: Manifest.private === true,
 		Licence: Manifest.license ?? "unlicensed",
 		Description,
-		Summary: SummaryFor(Slug) ?? Summarize(Description),
+		// The summary is trimmed at the source: a page appends a period to it,
+		// and a trailing space would put that period one space too far right.
+		Summary: (SummaryFor(Slug) ?? Summarize(Description)).trim(),
 		Directory: Relative,
 		Href: `/package/${Slug}/`,
 		Source: `https://github.com/PlayForm/DeepSeek/tree/${Branch}/${Relative}`,
