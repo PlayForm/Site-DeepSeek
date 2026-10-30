@@ -203,7 +203,8 @@ const Lede = Claim();
 						<div class="definition__row">
 							<dt class="definition__term">Payload</dt>
 							<dd class="definition__detail">
-								{SeamData?.Shape ?? "The harness docs do not state the shape at this seam."}
+								{SeamData?.Shape ??
+									"The harness docs do not state the shape at this seam."}
 							</dd>
 						</div>
 						<div class="definition__row">

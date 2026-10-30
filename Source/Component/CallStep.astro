@@ -3,8 +3,7 @@ import "@Stylesheet/Component/CallStep.scss";
 
 import Badge from "@Component/Badge.astro";
 import { Seam } from "@Content/Harness";
-import { Approval } from "@Content/ToolCall";
-import type { Step } from "@Content/ToolCall";
+import { Approval, type Step } from "@Content/ToolCall";
 import { PackageHref, SeamHref } from "@Library/Link";
 
 interface Props {
@@ -80,8 +79,8 @@ const Ask = "ask";
 							)}
 						</div>
 						<p class="call__branch-note">
-							An ask is one prompt, and the call waits on it: allowed once continues to
-							the guards, and rejected, cancelled, or unavailable is a deny.
+							An ask is one prompt, and the call waits on it: allowed once continues
+							to the guards, and rejected, cancelled, or unavailable is a deny.
 						</p>
 					</div>
 				)}

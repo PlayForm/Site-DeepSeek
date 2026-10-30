@@ -4,8 +4,8 @@ import PageHero from "@Component/PageHero.astro";
 import RoleList from "@Component/RoleList.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
-import { Role } from "@Content/Message";
 import { Seam as SeamPage } from "@Content/Harness";
+import { Role } from "@Content/Message";
 import Base from "@Layout/Base.astro";
 import { Route, SeamHref } from "@Library/Link";
 
@@ -95,9 +95,8 @@ const After = [
 			<CodeBlock Label="Before - the harness default" Language="text" Code={Before} />
 			<CodeBlock Label="After - the family's seams" Language="text" Code={After} />
 			<p class="muted">
-				CCR replaces the oversized read with a preview and a marker, live-containers
-				adds a section to the system prompt, and normalize-dash rewrites the dash the
-				model wrote.
+				CCR replaces the oversized read with a preview and a marker, live-containers adds a
+				section to the system prompt, and normalize-dash rewrites the dash the model wrote.
 			</p>
 		</div>
 	</section>
@@ -124,13 +123,17 @@ const After = [
 		<SectionHeader Title="Read" />
 		<div class="section__body stack">
 			<p class="lede">
-				Every message above is a projection of the log, so the seam that changes it
-				changes what the next request carries. The turn shows where the seams sit, and
-				the tool pipeline shows how a result becomes model content.
+				Every message above is a projection of the log, so the seam that changes it changes
+				what the next request carries. The turn shows where the seams sit, and the tool
+				pipeline shows how a result becomes model content.
 			</p>
 			<div class="cluster">
-				<a class="button" href={Route.Turn}>The stages</a>
-				<a class="button button--quiet" href={Route.Tool}>The tool pipeline</a>
+				<a class="button" href={Route.Turn}>
+					The stages
+				</a>
+				<a class="button button--quiet" href={Route.Tool}>
+					The tool pipeline
+				</a>
 			</div>
 		</div>
 	</section>

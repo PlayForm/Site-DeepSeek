@@ -40,7 +40,15 @@ export default function Flow(Props: Props) {
 				},
 			},
 			...(Entry.Index < Props.Stage.length
-				? [{ data: { id: `edge-${Entry.Index}`, source: `stage-${Entry.Index}`, target: `stage-${Entry.Index + 1}` } }]
+				? [
+						{
+							data: {
+								id: `edge-${Entry.Index}`,
+								source: `stage-${Entry.Index}`,
+								target: `stage-${Entry.Index + 1}`,
+							},
+						},
+					]
 				: []),
 		]),
 	);
@@ -74,7 +82,7 @@ export default function Flow(Props: Props) {
 						},
 					},
 					{
-						selector: 'node[family = 1]',
+						selector: "node[family = 1]",
 						style: {
 							"background-color": "#ebf2ff",
 							"border-color": "#0052ff",
@@ -122,12 +130,22 @@ export default function Flow(Props: Props) {
 		if (!Instance) return;
 		Instance.elements().remove();
 		Instance.add(Data());
-		Instance.layout({ name: "breadthfirst", directed: true, padding: 16, spacingFactor: 1.1 }).run();
+		Instance.layout({
+			name: "breadthfirst",
+			directed: true,
+			padding: 16,
+			spacingFactor: 1.1,
+		}).run();
 	});
 
 	return (
 		<div class="flow">
-			<div class="flow__canvas" ref={Host} role="img" aria-label="The turn as a graph of stages" />
+			<div
+				class="flow__canvas"
+				ref={Host}
+				role="img"
+				aria-label="The turn as a graph of stages"
+			/>
 
 			<Show when={Select()}>
 				{(Entry) => (
@@ -151,7 +169,10 @@ export default function Flow(Props: Props) {
 				<For each={Props.Stage}>
 					{(Entry) => (
 						<li class="flow__item" data-family={Count(Entry) > 0}>
-							<button class="flow__pick" type="button" onClick={() => SetSelect(Entry)}>
+							<button
+								class="flow__pick"
+								type="button"
+								onClick={() => SetSelect(Entry)}>
 								{String(Entry.Index).padStart(2, "0")} {Entry.Title}
 							</button>
 						</li>

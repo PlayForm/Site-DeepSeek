@@ -53,7 +53,10 @@ function HasPage(Name: string): boolean {
 							<li class="stage__seam">
 								{HasPage(Name) ? (
 									<a class="stage__link" href={SeamHref(Name)}>
-										<Badge Label={Name} Tone={IsUsed(Name) ? "accent" : "quiet"} />
+										<Badge
+											Label={Name}
+											Tone={IsUsed(Name) ? "accent" : "quiet"}
+										/>
 									</a>
 								) : (
 									<Badge Label={Name} Tone={IsUsed(Name) ? "accent" : "quiet"} />

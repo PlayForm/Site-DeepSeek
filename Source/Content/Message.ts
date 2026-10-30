@@ -30,8 +30,7 @@ export const Role: Role[] = [
 		What: "The system prompt: the instructions, the step's admitted tool schemas, and every registered section, assembled fresh for each step.",
 		Seam: ["system-prompt/assemble"],
 		Plugin: ["hook-dsh-live-containers", "hook-dsh-tool-coach"],
-		Change:
-			"live-containers appends a live section at every assembly, and tool-coach appends a persistent coaching section once its ladder escalates.",
+		Change: "live-containers appends a live section at every assembly, and tool-coach appends a persistent coaching section once its ladder escalates.",
 	},
 	{
 		Order: 2,
@@ -47,8 +46,7 @@ export const Role: Role[] = [
 		What: "The assistant messages: the text and reasoning the stream carries, settled as assistant/message and replayed as history.",
 		Seam: ["llm/stream"],
 		Plugin: ["hook-dsh-normalize-dash"],
-		Change:
-			"normalize-dash rewrites the dash family in each delta and in the assembled block before the stream is settled.",
+		Change: "normalize-dash rewrites the dash family in each delta and in the assembled block before the stream is settled.",
 	},
 	{
 		Order: 4,
@@ -56,8 +54,7 @@ export const Role: Role[] = [
 		What: "The tool results: what the pipeline returns for each call, before the result becomes model content.",
 		Seam: ["tools/post-execute"],
 		Plugin: ["hook-dsh-ccr", "hook-dsh-tool-coach"],
-		Change:
-			"CCR replaces an oversized result with a preview and a retrieval marker, and tool-coach prepends a coaching note once a pattern repeats past its threshold.",
+		Change: "CCR replaces an oversized result with a preview and a retrieval marker, and tool-coach prepends a coaching note once a pattern repeats past its threshold.",
 	},
 ];
 

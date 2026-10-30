@@ -75,17 +75,18 @@ const Row = [
 	Description={`One call through ${Gate} steps and ${Standing} packages, from the gate to the frozen outcome.`}>
 	<PageHero Eyebrow="Tool call" Title="One call, four gates">
 		<Fragment slot="Lede">
-			The model asks for a tool, and the harness decides {Gate}&nbsp;times: whether the call may
-			run, what body runs, what the model reads back, and what is frozen as the record.
+			The model asks for a tool, and the harness decides {Gate}&nbsp;times: whether the call
+			may run, what body runs, what the model reads back, and what is frozen as the record.
 		</Fragment>
 	</PageHero>
 
 	<section class="section">
 		<SectionHeader Title="The call">
 			<Fragment slot="Lede">
-				{Decided}&nbsp;of the {Gate}&nbsp;steps carry a decision vocabulary the docs name, and
-				the other&nbsp;{Gate - Decided}&nbsp;say so rather than borrow a word. A seam with a
-				page on this site is linked, and each package is linked at the step where it acts.
+				{Decided}&nbsp;of the {Gate}&nbsp;steps carry a decision vocabulary the docs name,
+				and the other&nbsp;{Gate - Decided}&nbsp;say so rather than borrow a word. A seam
+				with a page on this site is linked, and each package is linked at the step where it
+				acts.
 			</Fragment>
 		</SectionHeader>
 		<div class="section__body">
@@ -105,11 +106,11 @@ const Row = [
 			<CodeBlock Label="What the model reads back" Language="text" Code={After} />
 			<p>
 				The default hands the model every byte the tool wrote. The hook stores the bytes,
-				hands back the shape of the result, and keeps the rest one call
-				away:&nbsp;<a href={PackageHref("hook-dsh-ccr")}>ccr_retrieve</a> is the one tool that
-				reads a marker back, so the bytes are retrievable rather than gone. Nothing is
-				dropped and nothing is summarized by a model: the preview is a pure function of the
-				result, and the marker is the hash of the exact bytes that were stored.
+				hands back the shape of the result, and keeps the rest one call away:&nbsp;
+				<a href={PackageHref("hook-dsh-ccr")}>ccr_retrieve</a> is the one tool that reads a
+				marker back, so the bytes are retrievable rather than gone. Nothing is dropped and
+				nothing is summarized by a model: the preview is a pure function of the result, and
+				the marker is the hash of the exact bytes that were stored.
 			</p>
 		</div>
 	</section>
@@ -140,8 +141,12 @@ const Row = [
 				pages that place this one.
 			</p>
 			<div class="cluster">
-				<a class="button" href={Route.Turn}>The whole turn</a>
-				<a class="button button--quiet" href={Route.Behavior}>Every seam</a>
+				<a class="button" href={Route.Turn}>
+					The whole turn
+				</a>
+				<a class="button button--quiet" href={Route.Behavior}>
+					Every seam
+				</a>
 			</div>
 		</div>
 	</section>
