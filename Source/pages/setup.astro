@@ -5,6 +5,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
+import Term from "@Component/Term.astro";
 import Terminal from "@Component/Terminal.astro";
 import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
@@ -36,11 +37,12 @@ const Confirm = [
 <Base
 	Title="Set up a plugin"
 	Description="Install a plugin, load its bundle patch, set its configuration, and confirm it activated.">
-	<PageHero
-		Eyebrow="Setup"
-		Title="Set up a plugin"
-		Lede="Install it, load its bundle patch, set its configuration, and confirm it activated."
-	/>
+	<PageHero Eyebrow="Setup" Title="Set up a plugin">
+		<Fragment slot="Lede">
+			Install it, load its bundle patch, set its <Term Name="knob" />, and confirm it
+			activated.
+		</Fragment>
+	</PageHero>
 
 	<StatBand
 		Stat={[
@@ -70,7 +72,10 @@ const Confirm = [
 			Lede="List the package in your profile's bundles, then restart the app. A dependency alone is not activation."
 		/>
 		<div class="section__body stack">
-			<Diagram Id="Install" Caption="The path a reader takes: install, load, configure, confirm." />
+			<Diagram
+				Id="Install"
+				Caption="The path a reader takes: install, load, configure, confirm."
+			/>
 			<CodeBlock
 				Label="~/.dsh/profiles/<profile>/package.json"
 				Language="json"

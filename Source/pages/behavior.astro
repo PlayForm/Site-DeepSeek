@@ -3,8 +3,8 @@ import Diagram from "@Component/Diagram.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
-import Trajectory, { type TrajectoryStep } from "@Component/Trajectory.astro";
 import Term from "@Component/Term.astro";
+import Trajectory, { type TrajectoryStep } from "@Component/Trajectory.astro";
 import Transform from "@Component/Transform.astro";
 import { BehaviorFor } from "@Content/Behavior";
 import { Transform as Sample } from "@Content/Transform";
@@ -98,10 +98,7 @@ const Classic = SelectKind("hook").filter((Entry) => Entry.Family === "Classic")
 <Base
 	Title="Hook"
 	Description={`All ${Count.Hook} hooks on ${Step.length} seams, in the order a conversation reaches them.`}>
-	<PageHero
-		Eyebrow="Behavior"
-		Title="Hook"
-	>
+	<PageHero Eyebrow="Behavior" Title="Hook">
 		<Fragment slot="Lede">
 			{Count.Hook} <Term Name="hook" /> on {Step.length} <Term Name="seam" />, in the order a
 			conversation reaches them.
@@ -130,7 +127,10 @@ const Classic = SelectKind("hook").filter((Entry) => Entry.Family === "Classic")
 	<section class="section">
 		<SectionHeader Title="Seam" Lede="The same order, as one path." />
 		<div class="section__body">
-			<Diagram Id="Trajectory" Caption="The seven seams a turn reaches, and the hooks at each." />
+			<Diagram
+				Id="Trajectory"
+				Caption="The seven seams a turn reaches, and the hooks at each."
+			/>
 		</div>
 	</section>
 

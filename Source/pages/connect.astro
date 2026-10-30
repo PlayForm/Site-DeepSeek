@@ -1,21 +1,16 @@
 ---
-import Base from "@Layout/Base.astro";
-
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
 import Term from "@Component/Term.astro";
 import Terminal from "@Component/Terminal.astro";
-
+import Base from "@Layout/Base.astro";
 import { Ledger } from "@Library/Ledger.server";
 import { Route } from "@Library/Link";
 import { Count, SelectKind } from "@Library/Package.server";
 
-const Row = Ledger.map((Entry) => [
-	{ Text: Entry.Slug, Href: Entry.Href },
-	Entry.Path,
-]);
+const Row = Ledger.map((Entry) => [{ Text: Entry.Slug, Href: Entry.Href }, Entry.Path]);
 
 const Watch = [
 	{
@@ -27,15 +22,11 @@ const Watch = [
 
 <Base
 	Title="Read your run"
-	Description={`Every plugin that keeps a ledger, and the file it writes: ${Ledger.length} paths.`}
->
-	<PageHero
-		Eyebrow="Connect"
-		Title="Read your run"
-	>
+	Description={`Every plugin that keeps a ledger, and the file it writes: ${Ledger.length} paths.`}>
+	<PageHero Eyebrow="Connect" Title="Read your run">
 		<Fragment slot="Lede">
-			{Ledger.length} <Term Name="plugin" /> keep a <Term Name="ledger" />. Each one writes its
-			own file, and the file says what it did.
+			{Ledger.length} <Term Name="plugin" /> keep a <Term Name="ledger" />. Each one writes
+			its own file, and the file says what it did.
 		</Fragment>
 	</PageHero>
 
@@ -58,7 +49,10 @@ const Watch = [
 	</section>
 
 	<section class="section">
-		<SectionHeader Title="File" Lede="The default path each plugin documents for its own ledger." />
+		<SectionHeader
+			Title="File"
+			Lede="The default path each plugin documents for its own ledger."
+		/>
 		<div class="section__body">
 			<Table
 				Caption="Every plugin that documents a ledger file"
@@ -72,9 +66,10 @@ const Watch = [
 		<SectionHeader Title="Turn it off" />
 		<div class="section__body">
 			<p class="lede">
-				Every plugin documents a <code>log</code> switch beside <code>logFile</code>. Set it to
-				<code> false</code> to stop the file, and open <a href={Route.Setup}>Setup</a> for the rest
-				of the knobs.
+				Every plugin documents a <code>log</code> switch beside <code>logFile</code>. Set it
+				to
+				<code> false</code> to stop the file, and open <a href={Route.Setup}>Setup</a> for
+				the rest of the knobs.
 			</p>
 		</div>
 	</section>

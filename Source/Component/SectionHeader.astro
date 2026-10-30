@@ -12,13 +12,11 @@ const { Title, Lede, Id } = Astro.props;
 
 <header class="section-header" id={Id}>
 	<h2>{Title}</h2>
-	{
-		Astro.slots.has("Lede") ? (
-			<div class="section-header__lede">
-				<slot name="Lede" />
-			</div>
-		) : (
-			Lede && <p class="section-header__lede">{Lede}</p>
-		)
-	}
+	{Astro.slots.has("Lede") ? (
+		<div class="section-header__lede">
+			<slot name="Lede" />
+		</div>
+	) : (
+		Lede && <p class="section-header__lede">{Lede}</p>
+	)}
 </header>

@@ -1,8 +1,11 @@
 ---
+import Definition from "@Component/Definition.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
+import Term from "@Component/Term.astro";
 import { BehaviorFor } from "@Content/Behavior";
+import { Term as Vocabulary } from "@Content/Term";
 import Base from "@Layout/Base.astro";
 import { Count, Package } from "@Library/Package.server";
 
@@ -13,16 +16,22 @@ const Row = Package.map((Entry) => [
 	Entry.Family,
 	Entry.Version,
 ]);
+
+const Word = Object.values(Vocabulary).map((Entry) => ({
+	Term: Entry.Name,
+	Detail: Entry.Meaning,
+}));
 ---
 
 <Base
 	Title="Reference"
-	Description={`All ${Count.All} packages with their kind, seam, release, and version.`}>
-	<PageHero
-		Eyebrow="Table"
-		Title="Reference"
-		Lede={`${Count.All} row: kind, seam, release, and version for every package.`}
-	/>
+	Description={`All ${Count.All} packages with their kind, seam, release, and version, and the vocabulary the site uses.`}>
+	<PageHero Eyebrow="Table" Title="Reference">
+		<Fragment slot="Lede">
+			{Count.All} <Term Name="package" />: kind, <Term Name="seam" />, release, and version.
+			The vocabulary below holds every word the site defines.
+		</Fragment>
+	</PageHero>
 
 	<section class="section">
 		<SectionHeader Title="Package" />
@@ -32,6 +41,16 @@ const Row = Package.map((Entry) => [
 				Head={["Package", "Kind", "Listen", "Release", "Version"]}
 				Row={Row}
 			/>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Term"
+			Lede="One word per concept, borrowed from the code. Every page uses these words with these meanings."
+		/>
+		<div class="section__body">
+			<Definition Definition={Word} />
 		</div>
 	</section>
 </Base>

@@ -4,6 +4,7 @@ import Icon from "@Component/Icon.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
+import Term from "@Component/Term.astro";
 import Terminal from "@Component/Terminal.astro";
 import Transform from "@Component/Transform.astro";
 import { Transform as Sample } from "@Content/Transform";
@@ -32,10 +33,11 @@ const Confirm = [
 <Base
 	Title="One character"
 	Description="An em dash leaves the model and arrives as a hyphen: the seam, the package, the configuration, and the ledger line.">
-	<PageHero
-		Eyebrow="Case study"
-		Title="One character, end to end"
-		Lede="An em dash leaves the model and arrives in the transcript as a hyphen.">
+	<PageHero Eyebrow="Case study" Title="One character, end to end">
+		<Fragment slot="Lede">
+			An em dash leaves the model, passes one <Term Name="hook" /> at its <Term Name="seam" />
+			, and arrives in the transcript as a hyphen.
+		</Fragment>
 		<Icon slot="Mark" Name={Slug} Size={64} Priority />
 	</PageHero>
 

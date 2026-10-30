@@ -80,9 +80,7 @@ const Dash = Sample.filter((Item) => Item.Slug === "hook-dsh-normalize-dash");
 	/>
 
 	<section class="section">
-		<SectionHeader
-			Title="What your model writes"
-		>
+		<SectionHeader Title="What your model writes">
 			<Fragment slot="Lede">
 				The stream leaves the model, passes a <Term Name="hook" />, and arrives in the
 				transcript changed.
@@ -91,11 +89,9 @@ const Dash = Sample.filter((Item) => Item.Slug === "hook-dsh-normalize-dash");
 		<div class="section__body stack">
 			<Transform Sample={Dash} />
 			<div class="cluster">
-				{
-					SeamList.map((Item) => (
-						<Seam Name={Item.Name} Count={Item.Count} Href={Item.Href} />
-					))
-				}
+				{SeamList.map((Item) => (
+					<Seam Name={Item.Name} Count={Item.Count} Href={Item.Href} />
+				))}
 			</div>
 		</div>
 	</section>

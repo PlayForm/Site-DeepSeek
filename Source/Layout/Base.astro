@@ -111,10 +111,13 @@ const Year = new Date().getFullYear();
 					class="shell-theme"
 					type="button"
 					data-theme-toggle
-					aria-label="Switch between the light and dark theme"
-				>
-					<span class="shell-theme__cell" data-theme-cell="light">Light</span>
-					<span class="shell-theme__cell" data-theme-cell="dark">Dark</span>
+					aria-label="Switch between the light and dark theme">
+					<span class="shell-theme__cell" data-theme-cell="light">
+						Light
+					</span>
+					<span class="shell-theme__cell" data-theme-cell="dark">
+						Dark
+					</span>
 				</button>
 			</div>
 		</header>
@@ -159,8 +162,7 @@ const Year = new Date().getFullYear();
 					return;
 				}
 
-				const Next =
-					document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+				const Next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
 
 				document.documentElement.dataset.theme = Next;
 				localStorage.setItem("theme", Next);

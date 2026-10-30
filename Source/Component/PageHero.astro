@@ -22,15 +22,13 @@ const Heading = Level === 1 ? "h1" : "h2";
 			<Heading>{Title}</Heading>
 		</div>
 	</div>
-	{
-		Astro.slots.has("Lede") ? (
-			<div class="lede">
-				<slot name="Lede" />
-			</div>
-		) : (
-			Lede && <p class="lede">{Lede}</p>
-		)
-	}
+	{Astro.slots.has("Lede") ? (
+		<div class="lede">
+			<slot name="Lede" />
+		</div>
+	) : (
+		Lede && <p class="lede">{Lede}</p>
+	)}
 	<div class="page-hero__actions">
 		<slot name="Actions" />
 	</div>

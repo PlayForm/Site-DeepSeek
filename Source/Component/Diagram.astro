@@ -21,11 +21,9 @@ const Key = Object.keys(File).find((Path) => Path.endsWith(`/${Id}.svg`));
 const Svg = Key ? File[Key] : "";
 ---
 
-{
-	Svg !== "" && (
-		<figure class="diagram">
-			<div class="diagram__stage" set:html={Svg} />
-			<figcaption class="diagram__caption">{Caption}</figcaption>
-		</figure>
-	)
-}
+{Svg !== "" && (
+	<figure class="diagram">
+		<div class="diagram__stage" set:html={Svg} />
+		<figcaption class="diagram__caption">{Caption}</figcaption>
+	</figure>
+)}
