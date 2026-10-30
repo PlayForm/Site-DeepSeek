@@ -2,7 +2,6 @@
 import Callout from "@Component/Callout.astro";
 import Matrix from "@Component/Matrix.astro";
 import PageHero from "@Component/PageHero.astro";
-import Provenance from "@Component/Provenance.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 import Term from "@Component/Term.astro";
@@ -78,10 +77,14 @@ const Row = Intervention.map((Entry) => [
 		</div>
 	</section>
 
-	<Provenance
-		Data="The family source, read by hand"
-		Connection="Build-time constant; nothing is fetched at runtime"
-		Capture="Source/Function/Apply.ts of each package, plus the README where the source was silent"
-		Note="Each mark is a Context.on registration the package's own source carries. A plugin whose marketing name claims more than its registrations is called out beside its row, not silently upgraded."
-	/>
+	<section class="section">
+		<SectionHeader Title="Read" />
+		<div class="section__body">
+			<p class="muted">
+				Each mark is a registration the package's own source carries. A plugin whose
+				marketing name claims more than its registrations is called out beside its row, not
+				silently upgraded.
+			</p>
+		</div>
+	</section>
 </Base>

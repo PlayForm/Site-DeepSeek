@@ -3,7 +3,6 @@ import Absence from "@Component/Absence.astro";
 import Badge from "@Component/Badge.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
-import Provenance from "@Component/Provenance.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
 import { SeamsOf } from "@Content/Arm";
@@ -271,16 +270,11 @@ const Lede = Claim();
 		<SectionHeader Title="Read" />
 		<div class="section__body stack">
 			<p class="muted">
-				Every fact here is read from the monorepo during the build: the hook roster from the
-				package tree, the seam from each hook's own README, and the configuration count from
-				the table that README documents.
+				A seam is the harness event a hook listens on, named area/event. This page lists the
+				hooks the repository declares at this seam, one row per hook, with the effect it has
+				and the configuration it documents. A row marked as an arm is a listener the
+				package's source registers here without documenting it in its README.
 			</p>
-			<Provenance
-				Data="The monorepo, read during the build"
-				Connection="Build-time read; nothing is fetched at runtime"
-				Capture="cordis.patch.yml, README.md, package.json"
-				Note="A seam is the harness event a hook listens on, named area/event. This page lists the hooks the repository declares at this seam, one row per hook, with the effect it has and the configuration it documents."
-			/>
 		</div>
 	</section>
 

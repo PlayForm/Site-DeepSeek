@@ -2,7 +2,6 @@
 import Callout from "@Component/Callout.astro";
 import Flow from "@Component/Graph/Flow.tsx";
 import PageHero from "@Component/PageHero.astro";
-import Provenance from "@Component/Provenance.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StageRail from "@Component/Stage.astro";
 import Table from "@Component/Table.astro";
@@ -141,12 +140,11 @@ const Row = SeamRow.map((Item) => [
 	<section class="section">
 		<SectionHeader Title="Read" />
 		<div class="section__body">
-			<Provenance
-				Data="The harness documentation, read by hand"
-				Connection="Build-time constant; nothing is fetched at runtime"
-				Capture="architecture, agent-lifecycle, event-producer-consumer, tool-execution-pipeline"
-				Note="This page transcribes the turn the harness documentation describes, stage by stage and seam by seam. The live harness can differ from the docs: a release may add, move, or retire a seam before the documentation records it."
-			/>
+			<p class="muted">
+				This page transcribes the turn the harness documentation describes, stage by stage
+				and seam by seam. The live harness can differ from the docs: a release may add, move,
+				or retire a seam before the documentation records it.
+			</p>
 		</div>
 	</section>
 </Base>

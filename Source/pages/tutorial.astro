@@ -1,7 +1,6 @@
 ---
 import Curve from "@Component/Curve.astro";
 import PageHero from "@Component/PageHero.astro";
-import Provenance from "@Component/Provenance.astro";
 import ScenarioCard from "@Component/Scenario.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Term from "@Component/Term.astro";
@@ -64,10 +63,14 @@ const OptIn = Scenario.filter((Entry) => Entry.OptIn).length;
 		</div>
 	</section>
 
-	<Provenance
-		Data="The family source and each bundle patch, read by hand"
-		Connection="Build-time constant; nothing is fetched at runtime"
-		Capture="Source/Function/Apply.ts, cordis.patch.yml, and the harness documentation"
-		Note="The default column describes the harness's own behavior, which the docs define; the family column describes what the package's listener does at the same seam. Where a package ships disabled, the page says so rather than implying the guard is on."
-	/>
+	<section class="section">
+		<SectionHeader Title="Read" />
+		<div class="section__body">
+			<p class="muted">
+				The default column describes the harness's own behavior, which the docs define; the
+				family column describes what the package's listener does at the same seam. Where a
+				package ships disabled, the page says so rather than implying the guard is on.
+			</p>
+		</div>
+	</section>
 </Base>

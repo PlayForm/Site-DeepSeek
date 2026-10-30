@@ -2,7 +2,6 @@
 import Callout from "@Component/Callout.astro";
 import Chain from "@Component/Chain.astro";
 import PageHero from "@Component/PageHero.astro";
-import Provenance from "@Component/Provenance.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Term from "@Component/Term.astro";
 import { Independent, Layer } from "@Content/Composition";
@@ -94,10 +93,14 @@ const Arm = Layer.reduce((Total, Entry) => Total + Entry.Arm.length, 0);
 		</div>
 	</section>
 
-	<Provenance
-		Data="The family source and the bundle patches, read by hand"
-		Connection="Build-time constant; nothing is fetched at runtime"
-		Capture="Source/Function/Apply.ts of each arm, and cordis.patch.yml for the mount order"
-		Note="The order is the order the listeners run in the family's own bundle, which is what the profile mounts. A profile that lists the bundles differently changes the plain order, and this page says so rather than presenting one profile as the only one."
-	/>
+	<section class="section">
+		<SectionHeader Title="Read" />
+		<div class="section__body">
+			<p class="muted">
+				The order is the order the listeners run in the family's own bundle, which is what
+				the profile mounts. A profile that lists its bundles differently changes the plain
+				order, and this page says so rather than presenting one profile as the only one.
+			</p>
+		</div>
+	</section>
 </Base>
