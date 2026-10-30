@@ -14,10 +14,11 @@ import { join } from "node:path";
 // cacheable file, and two placements of the same icon on one page cannot
 // collide in their `<defs>` ids, which an inline copy would.
 //
-// The asset is a build input, never a committed given: a missing file fails the
-// build loudly instead of shipping a broken image. The mark is decorative on
-// every placement this site has, because the package name is always the text
-// beside it; `Label` announces it when a placement ever needs that.
+// Two different misses, two different answers. A missing icon *directory* means
+// the prepare step never ran, and the build fails loudly. A missing icon *file*
+// means one package has no drawn mark yet - a package can be added to the tree
+// before its icon is drawn - and the placement renders nothing, because the
+// package name is always the text beside it and the mark is decorative.
 interface Props {
 	/** The package directory the icon was drawn for ("hook-dsh-normalize-dash"). */
 	Name: string;
@@ -29,7 +30,7 @@ interface Props {
 	Priority?: boolean;
 }
 
-const { Name, Size = 40, Label, Priority = false } = Astro.props;
+const { Name, Size = 56, Label, Priority = false } = Astro.props;
 
 // The name is a package directory, so it is validated against that shape before
 // it reaches the filesystem: no slash, no dot, no traversal.
@@ -39,23 +40,27 @@ if (/^[a-z0-9][a-z0-9-]*$/i.test(Name) === false) {
 	);
 }
 
-// The prepare step runs before the build, so a miss here means the icon set was
-// never populated rather than that this package has no icon.
-if (existsSync(join(process.cwd(), "Public", "Icon", `${Name}.svg`)) === false) {
+const Directory = join(process.cwd(), "Public", "Icon");
+
+if (existsSync(Directory) === false) {
 	throw new Error(
-		`Icon: Public/Icon/${Name}.svg is missing - run \`pnpm Prepare\` (it copies the icon set out of the monorepo) before building.`,
+		"Icon: Public/Icon/ is missing - run `pnpm Prepare` (it copies the icon set out of the monorepo) before building.",
 	);
 }
+
+const Drawn = existsSync(join(Directory, `${Name}.svg`));
 ---
 
-<img
-	class="icon"
-	src={`/Icon/${Name}.svg`}
-	width={Size}
-	height={Size}
-	alt={Label ?? ""}
-	loading={Priority ? "eager" : "lazy"}
-	decoding="async"
-	fetchpriority={Priority ? "high" : "auto"}
-	data-icon={Name}
-/>
+{Drawn && (
+	<img
+		class="icon"
+		src={`/Icon/${Name}.svg`}
+		width={Size}
+		height={Size}
+		alt={Label ?? ""}
+		loading={Priority ? "eager" : "lazy"}
+		decoding="async"
+		fetchpriority={Priority ? "high" : "auto"}
+		data-icon={Name}
+	/>
+)}

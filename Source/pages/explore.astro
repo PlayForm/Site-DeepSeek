@@ -3,6 +3,7 @@ import "@Stylesheet/Component/Explorer.scss";
 
 import Explorer from "@Component/Graph/Explorer.tsx";
 import PageHero from "@Component/PageHero.astro";
+import Term from "@Component/Term.astro";
 import Base from "@Layout/Base.astro";
 import Catalogue from "@Library/Graph/Catalogue.server";
 ---
@@ -10,11 +11,12 @@ import Catalogue from "@Library/Graph/Catalogue.server";
 <Base
 	Title="Observatory"
 	Description={`The package graph: ${Catalogue.Node.length} nodes and ${Catalogue.Edge.length} dependency edges, laid out in the browser.`}>
-	<PageHero
-		Eyebrow="Observatory"
-		Title="Package graph"
-		Lede={`${Catalogue.Node.length} node, ${Catalogue.Edge.length} edge.`}
-	/>
+	<PageHero Eyebrow="Observatory" Title="Package graph">
+		<Fragment slot="Lede">
+			{Catalogue.Node.length} <Term Name="node" />, {Catalogue.Edge.length}{" "}
+			<Term Name="edge" />.
+		</Fragment>
+	</PageHero>
 
 	<section class="section">
 		<div class="section__body">

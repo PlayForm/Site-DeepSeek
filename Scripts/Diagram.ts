@@ -344,10 +344,11 @@ try {
 			const Text = await readFile(join(Source, Name), "utf8");
 			const Svg = (await Page.evaluate(
 				(DiagramId, DiagramText) =>
-					(globalThis as unknown as { __render: (Id: string, Text: string) => Promise<string> }).__render(
-						DiagramId,
-						DiagramText,
-					),
+					(
+						globalThis as unknown as {
+							__render: (Id: string, Text: string) => Promise<string>;
+						}
+					).__render(DiagramId, DiagramText),
 				Id,
 				Text,
 			)) as string;

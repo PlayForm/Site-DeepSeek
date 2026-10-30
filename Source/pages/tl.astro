@@ -3,6 +3,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
+import Term from "@Component/Term.astro";
 import Base from "@Layout/Base.astro";
 import { Count } from "@Library/Package.server";
 import { Line } from "@Library/Release.server";
@@ -15,11 +16,12 @@ const Row = Line.map((Entry) => [Entry.Version, String(Entry.Package), Entry.Sta
 <Base
 	Title="Release"
 	Description={`The release line the tree records: ${Line.length} versions, ${Count.All} packages.`}>
-	<PageHero
-		Eyebrow="Timeline"
-		Title="Release"
-		Lede={`${Line.length} version across ${Count.All} package. ${Current} is the current line.`}
-	/>
+	<PageHero Eyebrow="Timeline" Title="Release">
+		<Fragment slot="Lede">
+			{Line.length} <Term Name="version" /> across {Count.All} <Term Name="package" />.{" "}
+			{Current} is the current line.
+		</Fragment>
+	</PageHero>
 
 	<StatBand
 		Stat={[

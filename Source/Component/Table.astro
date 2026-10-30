@@ -38,7 +38,7 @@ function IsLink(Cell: Cell): Cell is { Text: string; Href: string; Icon?: string
 						<td>
 							{IsLink(Cell) ? (
 								<a class="table__link" href={Cell.Href}>
-									{Cell.Icon && <Icon Name={Cell.Icon} Size={24} />}
+									{Cell.Icon && <Icon Name={Cell.Icon} Size={32} />}
 									{Cell.Text}
 								</a>
 							) : Index === 0 ? (

@@ -11,8 +11,13 @@ interface Props {
 const { Name } = Astro.props;
 const Entry = TermFor(Name);
 const Label = Entry?.Name ?? Name;
+
+// The label goes in through `set:html` rather than as a child expression: a
+// child written across template lines leaves the formatter's newlines inside
+// the span, and the underline then runs on past the word through that
+// whitespace. The value is one of our own lowercase words, and it is escaped
+// anyway so a term can never carry markup.
+const Text = Label.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 ---
 
-<span class="term" data-term={Label} title={Entry?.Meaning}>
-	{Label}
-</span>
+<span class="term" title={Entry?.Meaning} set:html={Text} />

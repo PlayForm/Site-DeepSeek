@@ -51,6 +51,27 @@ export const Term: Record<string, Term> = {
 		Name: "release",
 		Meaning: "One of the two trees: Classic, or the same packages rebuilt on Effect.",
 	},
+	version: {
+		Name: "version",
+		Meaning: "One line of the release: a number a package's changelog records.",
+	},
+	bundle: {
+		Name: "bundle",
+		Meaning: "One entry in the marketplace index: a package with its title and category.",
+	},
+	category: {
+		Name: "category",
+		Meaning: "The kind a bundle is listed under in the marketplace index.",
+	},
+	node: {
+		Name: "node",
+		Meaning: "One package drawn in the graph.",
+	},
+	edge: {
+		Name: "edge",
+		Meaning:
+			"One dependency drawn in the graph, from the dependency to the package that requires it.",
+	},
 };
 
 export function TermFor(Name: string): Term | undefined {

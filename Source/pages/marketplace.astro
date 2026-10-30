@@ -3,6 +3,7 @@ import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Table from "@Component/Table.astro";
+import Term from "@Component/Term.astro";
 import Base from "@Layout/Base.astro";
 import { PackageHref } from "@Library/Link";
 import { Marketplace } from "@Library/Marketplace.server";
@@ -14,11 +15,11 @@ const Bundle = Marketplace.Group.reduce((Total, Entry) => Total + Entry.Bundle.l
 <Base
 	Title="Marketplace"
 	Description={`The family as an installable index: ${Bundle} bundles in ${Marketplace.Group.length} categories.`}>
-	<PageHero
-		Eyebrow="Marketplace"
-		Title="Marketplace"
-		Lede={`${Bundle} bundle in ${Marketplace.Group.length} category.`}
-	/>
+	<PageHero Eyebrow="Marketplace" Title="Marketplace">
+		<Fragment slot="Lede">
+			{Bundle} <Term Name="bundle" /> in {Marketplace.Group.length} <Term Name="category" />.
+		</Fragment>
+	</PageHero>
 
 	<StatBand
 		Stat={[

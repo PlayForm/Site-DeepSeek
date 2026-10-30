@@ -23,7 +23,7 @@ const { Package } = Astro.props;
 	data-summary={`${Package.Slug} ${Package.Summary}`}>
 	<span class="package-card__top">
 		<span class="package-card__identity">
-			<Icon Name={Package.Slug} Size={40} />
+			<Icon Name={Package.Slug} Size={56} />
 			<span class="package-card__name">{Package.Slug}</span>
 		</span>
 		<VersionPill Version={Package.Version} Private={Package.Private} />

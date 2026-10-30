@@ -89,7 +89,7 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 	/>
 
 	<PageHero Eyebrow={`${Entry.Kind} / ${Entry.Family}`} Title={Entry.Slug} Lede={Entry.Summary}>
-		<Icon slot="Mark" Name={Entry.Slug} Size={64} Priority />
+		<Icon slot="Mark" Name={Entry.Slug} Size={88} Priority />
 		<Fragment slot="Actions">
 			<VersionPill Version={Entry.Version} Private={Entry.Private} />
 			<Badge Label={Entry.Kind} Tone="accent" />
@@ -164,7 +164,7 @@ const Release = VersionOf(Entry).sort((Left, Right) => {
 					{RequiredBy.map((Item) => (
 						<li>
 							<a class="mono cluster" href={Item!.Href}>
-								<Icon Name={Item!.Slug} Size={24} />
+								<Icon Name={Item!.Slug} Size={32} />
 								{Item!.Slug}
 							</a>
 						</li>
