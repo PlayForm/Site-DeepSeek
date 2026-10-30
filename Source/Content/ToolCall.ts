@@ -42,7 +42,7 @@ export const Step: Step[] = [
 		Decides: ["allow", "deny", "ask"],
 		Plugin: ["hook-dsh-workspace-govern", "plugin-dsh-batch-edit"],
 		Changes:
-			"The model reads nothing different unless the gate refuses, and then it reads the refusal where a result would have been.",
+			"The model reads nothing different unless the gate refuses, and then the body never runs and the refusal becomes the result the model reads.",
 	},
 	{
 		Index: 2,

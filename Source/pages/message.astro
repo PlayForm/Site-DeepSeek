@@ -1,0 +1,137 @@
+---
+import CodeBlock from "@Component/CodeBlock.astro";
+import PageHero from "@Component/PageHero.astro";
+import RoleList from "@Component/RoleList.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Table from "@Component/Table.astro";
+import { Role } from "@Content/Message";
+import { Seam as SeamPage } from "@Content/Harness";
+import Base from "@Layout/Base.astro";
+import { Route, SeamHref } from "@Library/Link";
+
+// Every seam the role list names, once, in the order the model reads the parts.
+const Seam = [...new Set(Role.flatMap((Item) => Item.Seam))];
+
+// A seam has a page only when the family documents a hook at it.
+const Page = new Set(SeamPage.map((Item) => Item.Name));
+
+// One table row per seam: the seam, the part of the conversation it changes,
+// and the package that stands there. A role the family leaves alone prints
+// "none" rather than inventing a plugin. A seam without a page stays plain
+// text, so the table never links a 404.
+const Row = Role.flatMap((Item) =>
+	Item.Seam.map((Name) => [
+		Page.has(Name) ? { Text: Name, Href: SeamHref(Name) } : Name,
+		Item.What,
+		Item.Plugin.length > 0 ? Item.Plugin.join(", ") : "none",
+	]),
+);
+
+// The worked pair. The source stays ASCII: the em dash is an escape, and the
+// page prints the glyph the model wrote before normalize-dash replaced it. The
+// same convention as `Content/Transform.ts`, which writes its samples the same
+// way.
+const Before = [
+	"system: You are a coding agent.",
+	"        Tools: read, write, bash.",
+	"",
+	"user: Read build.log and tell me what failed.",
+	"",
+	'assistant: [call] read {"path": "build.log"}',
+	"",
+	"tool: 1  Linking CXX executable app",
+	"      2  FAILED: app",
+	"      3  ld: library not found for -lfoo",
+	"      ... 38 lines ...",
+	"",
+	"assistant: The build failed at step 3 \u2014 the linker cannot find libfoo.",
+].join("\n");
+
+const After = [
+	"system: You are a coding agent.",
+	"        Tools: read, write, bash.",
+	"",
+	"        --- LIVE CONTAINER clock (recomputed each request; not harness state) ---",
+	"        time: 17:15:18 UTC",
+	"        --- END LIVE CONTAINER clock ---",
+	"",
+	"user: Read build.log and tell me what failed.",
+	"",
+	'assistant: [call] read {"path": "build.log"}',
+	"",
+	"tool: [file:38 lines | 1  Linking CXX executable app]",
+	"      <<<CCR:9f2c1a7b3d4e5f60718293a4|file|2412>>>",
+	"",
+	"assistant: The build failed at step 3 - the linker cannot find libfoo.",
+].join("\n");
+---
+
+<Base
+	Title="Conversation"
+	Description={`The conversation the model reads, role by role, and the ${Seam.length} seams that can change it.`}>
+	<PageHero Eyebrow="Conversation" Title="What the model reads">
+		<Fragment slot="Lede">
+			The model never sees the harness, only the messages the log projects, and
+			{Seam.length}&nbsp;seams can change them.
+		</Fragment>
+	</PageHero>
+
+	<section class="section">
+		<SectionHeader
+			Title="Role"
+			Lede="One entry per part of the message the model reads, in the order it reads them. Each names the seam that can change it, the package that stands there, and what that package does."
+		/>
+		<div class="section__body">
+			<RoleList Entry={Role} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Change"
+			Lede="One conversation, before and after the family's seams. The same messages, in the order the request carries them."
+		/>
+		<div class="section__body stack">
+			<CodeBlock Label="Before - the harness default" Language="text" Code={Before} />
+			<CodeBlock Label="After - the family's seams" Language="text" Code={After} />
+			<p class="muted">
+				CCR replaces the oversized read with a preview and a marker, live-containers
+				adds a section to the system prompt, and normalize-dash rewrites the dash the
+				model wrote.
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Seam"
+			Lede="One row per seam in the role list, with the part of the conversation it changes and the package that stands there."
+		/>
+		<div class="section__body">
+			<Table
+				Caption={`The ${Seam.length} seams that can change the conversation, with the part each changes and the plugin at it`}
+				Head={[
+					"Seam",
+					"Which part of the conversation it changes",
+					"Which plugin stands there",
+				]}
+				Row={Row}
+			/>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="Read" />
+		<div class="section__body stack">
+			<p class="lede">
+				Every message above is a projection of the log, so the seam that changes it
+				changes what the next request carries. The turn shows where the seams sit, and
+				the tool pipeline shows how a result becomes model content.
+			</p>
+			<div class="cluster">
+				<a class="button" href={Route.Turn}>The stages</a>
+				<a class="button button--quiet" href={Route.Tool}>The tool pipeline</a>
+			</div>
+		</div>
+	</section>
+</Base>

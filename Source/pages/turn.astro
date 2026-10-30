@@ -1,5 +1,6 @@
 ---
 import Callout from "@Component/Callout.astro";
+import Flow from "@Component/Graph/Flow.tsx";
 import PageHero from "@Component/PageHero.astro";
 import Provenance from "@Component/Provenance.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -66,6 +67,16 @@ const Row = SeamRow.map((Item) => [
 		/>
 		<div class="section__body">
 			<StageRail Entry={Stage} Used={Used} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Flow"
+			Lede="The same stages as a graph. A stage with a lit border is a stage where the family stands at one of its seams."
+		/>
+		<div class="section__body">
+			<Flow Stage={Stage} Family={Used} client:load />
 		</div>
 	</section>
 

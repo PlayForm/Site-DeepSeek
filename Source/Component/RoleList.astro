@@ -1,0 +1,76 @@
+---
+import "@Stylesheet/Component/RoleList.scss";
+
+import Badge from "@Component/Badge.astro";
+import type { Role } from "@Content/Message";
+import { Seam } from "@Content/Harness";
+import { PackageHref, SeamHref } from "@Library/Link";
+
+interface Props {
+	/** Every role the model reads, in the order it reads them. */
+	Entry: Role[];
+}
+
+const { Entry } = Astro.props;
+
+// A seam has a page only when the family documents a hook at it. A seam the
+// harness dispatches but the family never stands at stays plain text.
+const Page = new Set(Seam.map((Item) => Item.Name));
+---
+
+<ol class="role">
+	{Entry.map((Item) => (
+		<li class="role__item">
+			<header class="role__head">
+				<span class="role__order">{String(Item.Order).padStart(2, "0")}</span>
+				<h3 class="role__name">{Item.Name}</h3>
+			</header>
+
+			<p class="role__what">{Item.What}</p>
+
+			<dl class="role__facts">
+				<div class="role__pair">
+					<dt class="role__label">Seam</dt>
+					<dd class="role__value">
+						<ul class="role__seams">
+							{Item.Seam.map((Name) => (
+								<li class="role__seam">
+									{Page.has(Name) ? (
+										<a class="role__link" href={SeamHref(Name)}>
+											<Badge Label={Name} Tone="accent" />
+										</a>
+									) : (
+										<Badge Label={Name} Tone="quiet" />
+									)}
+								</li>
+							))}
+						</ul>
+					</dd>
+				</div>
+
+				<div class="role__pair">
+					<dt class="role__label">Plugin</dt>
+					<dd class="role__value">
+						{Item.Plugin.length > 0 ? (
+							<ul class="role__plugins">
+								{Item.Plugin.map((Name) => (
+									<li>
+										<a class="role__plugin" href={PackageHref(Name)}>
+											{Name}
+										</a>
+									</li>
+								))}
+							</ul>
+						) : (
+							<span class="role__none">none</span>
+						)}
+					</dd>
+				</div>
+			</dl>
+
+			<p class:list={["role__change", { "role__change--quiet": Item.Plugin.length === 0 }]}>
+				{Item.Plugin.length === 0 ? "unchanged" : Item.Change}
+			</p>
+		</li>
+	))}
+</ol>

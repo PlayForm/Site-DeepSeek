@@ -1,0 +1,83 @@
+@use "../Material.scss" as Material;
+
+// The turn as a graph, with the stage list beside it so the drawing is never
+// the only way to reach a stage.
+.flow {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 260px;
+	gap: var(--rhythm-inset);
+	align-items: start;
+
+	&__canvas {
+		@include Material.slab;
+
+		height: 320px;
+		background: var(--cabinet-front);
+	}
+
+	&__read {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-3);
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-inset);
+	}
+
+	&__title {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+	}
+
+	&__seam {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+		overflow-wrap: anywhere;
+	}
+
+	&__note {
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&__list {
+		grid-column: 1 / -1;
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__item {
+		&[data-family="true"] .flow__pick {
+			color: var(--color-accent);
+		}
+	}
+
+	&__pick {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-muted);
+		background: none;
+		border: 1px solid var(--cabinet-line);
+		padding: 2px var(--space-2);
+		cursor: pointer;
+
+		&:hover {
+			border-color: var(--color-accent);
+		}
+	}
+
+	@media (max-width: 860px) {
+		grid-template-columns: 1fr;
+
+		&__canvas {
+			height: 260px;
+		}
+	}
+}

@@ -9,7 +9,9 @@ import Table from "@Component/Table.astro";
 import Term from "@Component/Term.astro";
 import Transform from "@Component/Transform.astro";
 import { BehaviorFor } from "@Content/Behavior";
+import { Role } from "@Content/Message";
 import { Transform as Sample } from "@Content/Transform";
+import { Step } from "@Content/ToolCall";
 import { Stage } from "@Content/Turn";
 import Base from "@Layout/Base.astro";
 import { Component } from "@Library/Component";
@@ -148,6 +150,12 @@ const Dash = Sample.filter((Item) => Item.Slug === "hook-dsh-normalize-dash");
 			</Card>
 			<Card Title="Turn" Href={Route.Turn} Meta={`${Stage.length} stage`}>
 				The harness with none of our plugins, stage by stage.
+			</Card>
+			<Card Title="Tool call" Href={Route.Tool} Meta={`${Step.length} gate`}>
+				One call, four gates, and the plugins that stand at them.
+			</Card>
+			<Card Title="Conversation" Href={Route.Message} Meta={`${Role.length} role`}>
+				What the model reads, and the seams that change it.
 			</Card>
 			<Card Title="Timeline" Href={Route.Timeline} Meta="Release">
 				Every version the changelogs record.
