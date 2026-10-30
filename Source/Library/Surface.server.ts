@@ -103,11 +103,16 @@ function FromList(List: Node): Surface[] {
 		const Name = CodeOf(Item)[0] ?? Text.split(" ").slice(1, 3).join(" ");
 		const Kind = /\b(listener|service|tool|config|command)\b/i.exec(Text)?.[1]?.toLowerCase();
 
+		// The name is stripped only where the sentence opens with it. Stripping
+		// every occurrence leaves a dangling colon in a bullet that names the
+		// surface mid-sentence: "One tool from apply: , which lives inside ...".
+		const Escape = Name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 		return {
 			Kind: Kind ?? "",
 			Name,
 			What: Text.replace(/^The\s+/, "")
-				.replace(Name, "")
+				.replace(new RegExp(`^${Escape}[\\s:,-]*`, "i"), "")
 				.replace(/^\s*(waterfall\s+)?(listener|service|tool|config|command)\b[:\s-]*/i, "")
 				.replace(/^[\s:,-]+|[\s:,-]+$/g, ""),
 		};

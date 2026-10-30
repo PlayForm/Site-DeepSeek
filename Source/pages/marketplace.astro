@@ -17,7 +17,9 @@ const Bundle = Marketplace.Group.reduce((Total, Entry) => Total + Entry.Bundle.l
 	Description={`The family as an installable index: ${Bundle} bundles in ${Marketplace.Group.length} categories.`}>
 	<PageHero Eyebrow="Marketplace" Title="Marketplace">
 		<Fragment slot="Lede">
-			{Bundle} <Term Name="bundle" /> in {Marketplace.Group.length} <Term Name="category" />.
+			{Bundle}&nbsp;<Term Name="bundle" /> in {Marketplace.Group.length}&nbsp;<Term
+				Name="category"
+			/>.
 		</Fragment>
 	</PageHero>
 

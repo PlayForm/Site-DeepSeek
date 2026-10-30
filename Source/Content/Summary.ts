@@ -43,6 +43,7 @@ export const Summary: Record<string, string> = {
 	"lib-dsh-workspace-live": "Shared client machinery for the live workspace view",
 	"plugin-dsh-batch-edit": "Applies a batch of edits as one reviewed change",
 	"plugin-dsh-batchstate": "Holds the state of an open batch",
+	"plugin-dsh-boot": "Mounts the family's plugins on a later turn, so boot does not wait on them",
 	"plugin-dsh-cost": "Tracks what each run costs",
 	"plugin-dsh-cost-analysis": "Reads the cost record and explains it",
 	"plugin-dsh-factory": "Builds every plugin: config, tools, and seams",

@@ -83,8 +83,8 @@
 
 	&__list {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-		gap: var(--space-3) var(--rhythm-group);
+		grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+		gap: var(--space-4) var(--rhythm-group);
 		margin: 0;
 		padding: 0;
 		list-style: none;

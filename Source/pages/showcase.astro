@@ -41,8 +41,10 @@ const Listener = [...Group.values()].reduce((Total, List) => Total + List.size, 
 	Description={`What the site can show from the tree: ${Seam} seams, ${Listener} listeners, ${Transform.length} worked transforms, and ${Catalogue.Edge.length} dependency edges.`}>
 	<PageHero Eyebrow="Showcase" Title="Showcase">
 		<Fragment slot="Lede">
-			{Seam} <Term Name="seam" />, {Listener} <Term Name="hook" />, {Transform.length} worked
-			transforms, {Catalogue.Edge.length} dependency edge.
+			{Seam}&nbsp;
+			<Term Name="seam" />, {Listener}&nbsp;
+			<Term Name="hook" />, {Transform.length} worked transforms, {Catalogue.Edge.length}&nbsp;
+			dependency edge.
 		</Fragment>
 	</PageHero>
 
