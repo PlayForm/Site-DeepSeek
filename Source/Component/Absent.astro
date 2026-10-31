@@ -1,26 +1,28 @@
 ---
 import "@Stylesheet/Component/Absent.scss";
 
-import type { Detail } from "@Content/Detail";
+import type { Absent as AbsentRecord } from "@Content/Detail";
 
-// The extensions the plugin refuses to handle, each with the source's reason,
-// as a quiet inset panel. Nothing here failed: the filter leaves these files
-// by identity on purpose.
+// The names the plugin deliberately leaves alone, each with the source's
+// reason, as a quiet inset panel. Nothing here failed: the filter leaves these
+// files by identity on purpose, and the compressor never sees these tools.
 interface Props {
-	/** The extensions the plugin deliberately does not handle. */
-	Absent: Detail["Absent"];
+	/** The names the plugin deliberately does not handle. */
+	Absent: AbsentRecord[];
+	/** The decision the list states, when it is not the filter's. */
+	Label?: string;
 }
 
-const { Absent } = Astro.props;
+const { Absent, Label = "Deliberately absent" } = Astro.props;
 ---
 
 <aside class="absent">
-	<p class="absent__label">Deliberately absent</p>
+	<p class="absent__label">{Label}</p>
 	<dl class="absent__list">
 		{Absent.map((Entry) => (
 			<div class="absent__item">
 				<dt class="absent__extension">
-					<code>{Entry.Extension}</code>
+					<code>{Entry.Name}</code>
 				</dt>
 				<dd class="absent__why">{Entry.Why}</dd>
 			</div>

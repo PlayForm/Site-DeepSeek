@@ -1,0 +1,49 @@
+---
+import "@Stylesheet/Component/Policy.scss";
+
+import type { Policy as PolicyRecord } from "@Content/Detail";
+
+// The two lists a guard compares: the subcommands it refuses and the ones it
+// allows, with the count each list actually holds, and the precedence that
+// decides when both lists name the same subcommand. The counts are the arrays'
+// lengths, so a printed figure cannot disagree with the chips under it.
+interface Props {
+	/** The two subcommand lists and the precedence. */
+	Policy: PolicyRecord;
+}
+
+const { Policy } = Astro.props;
+
+const Refuse = Policy.Refuse.length;
+const Allow = Policy.Allow.length;
+---
+
+<div class="policy">
+	<div class="policy__grid">
+		<section class="policy__panel" data-side="refuse">
+			<header class="policy__head">
+				<span class="policy__label">Refused</span>
+				<span class="policy__count">{Refuse}</span>
+			</header>
+			<ul class="policy__chips">
+				{Policy.Refuse.map((Name) => <li class="policy__chip">{Name}</li>)}
+			</ul>
+		</section>
+		<section class="policy__panel" data-side="allow">
+			<header class="policy__head">
+				<span class="policy__label">Allowed</span>
+				<span class="policy__count">{Allow}</span>
+			</header>
+			<ul class="policy__chips">
+				{Policy.Allow.map((Name) => <li class="policy__chip">{Name}</li>)}
+			</ul>
+		</section>
+	</div>
+
+	<p class="policy__rule">
+		<span class="policy__mark" aria-hidden="true">&larr;</span>&nbsp;{Policy.Rule}
+	</p>
+	<p class="policy__strict">
+		<span class="policy__label">Strict</span>&nbsp;{Policy.Strict}
+	</p>
+</div>

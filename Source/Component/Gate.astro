@@ -1,100 +1,37 @@
 ---
 import "@Stylesheet/Component/Gate.scss";
 
-// The gate: the hook answers its seam with one of a small set of verdicts, so
-// the picture is the verdicts in a row, the one this hook returns in its
-// documented case marked, and the condition that produces it.
+import type { Gate as GateRecord } from "@Content/Detail";
+
+// The gate: the package answers its seam with one of a small set of verdicts,
+// so the picture is the verdicts in a row, the one the documented case returns
+// marked, and the condition that produces it.
 //
-// The verdicts and the condition are read from the package's own decision
-// function: the ccr hook's `Source/Function/Compress.ts` returns pass, store,
-// or replace, and its byte gate is the condition stated under the row.
-interface Outcome {
-	/** The verdict, as the source names it. */
-	Label: string;
-	/** What produces that verdict, and what it leaves behind. */
-	Note: string;
-}
-
-interface Gate {
-	/** The rule the gate keeps, said once. */
-	Rule: string;
-	/** The verdicts the hook can return, in the order it tries them. */
-	Outcome: Outcome[];
-	/** The verdict this hook returns in its documented case. */
-	Mark: string;
-	/** The condition that separates the verdicts. */
-	Condition: string;
-}
-
+// The record lives in `Source/Content/Detail.ts` with the rest of the
+// package's structured facts, so the page cannot draw a verdict the source
+// does not state.
 interface Props {
+	/** The verdicts this package's gate returns. */
+	Gate: GateRecord;
 	/** The package whose gate this is. */
 	Slug: string;
 }
 
-const { Slug } = Astro.props;
-
-const Gate: Record<string, Gate> = {
-	"hook-dsh-ccr": {
-		Rule: "The gate reads the result, the tool name, and the failure flag, and returns one verdict. Only the last two write the store, and the write happens before the verdict leaves.",
-		Outcome: [
-			{
-				Label: "pass",
-				Note: "empty content, an exempt tool, a failure while compressFailures is off, a name outside targets, or a size at or under the threshold times the type's multiplier",
-			},
-			{
-				Label: "store",
-				Note: "over the gate, with auto-expand on and the size at or under its ceiling: the full content returns, the entry is retrievable, and no marker reaches the model",
-			},
-			{
-				Label: "replace",
-				Note: "over the gate and over the auto-expand ceiling: one preview line and one retrieval marker, while the original stays in the store",
-			},
-		],
-		Mark: "replace",
-		Condition:
-			"The default configuration returns replace only above the auto-expand ceiling. At or under it the same result returns store, and at or under the threshold times the multiplier it returns pass.",
-	},
-
-	// The plugin member of the shape: the git guard answers its seam with two
-	// verdicts rather than three, because a command either runs or does not.
-	// The classifier in `Source/Function/Decide.ts` is the condition, and the
-	// allow list's precedence over the deny list is the one rule a reader has
-	// to know to predict the verdict.
-	"plugin-dsh-gitguard": {
-		Rule: "The guard judges only git, judges a compound command by its worst segment, and returns its denial once as the pre-execute decision.",
-		Outcome: [
-			{
-				Label: "allow",
-				Note: "the guard is disabled, no segment is a git command, the subcommand is allow-listed, or it is not deny-listed",
-			},
-			{
-				Label: "deny",
-				Note: "a segment's subcommand is on the deny list, or strict mode is on and any git command was read at all",
-			},
-		],
-		Mark: "deny",
-		Condition:
-			"The allow list wins over the deny list, so a user can re-allow a denied subcommand explicitly; strict mode wins over both, because it denies every git command, the read-only checks included.",
-	},
-};
-
-const Entry = Gate[Slug] ?? Gate[Slug.replace(/^ets-/, "")];
+const { Gate, Slug } = Astro.props;
 ---
 
-{Entry !== undefined && (
-	<div class="gate" role="img" aria-label={`What ${Slug} decides at its seam`}>
-		<p class="gate__rule">{Entry.Rule}</p>
-		<ol class="gate__row">
-			{Entry.Outcome.map((Item) => (
-				<li class="gate__outcome" data-mark={Item.Label === Entry.Mark ? "true" : "false"}>
-					<span class="gate__label">{Item.Label}</span>
-					<span class="gate__note">{Item.Note}</span>
-				</li>
-			))}
-		</ol>
-		<p class="gate__condition">
-			<span class="gate__condition-label">When</span>
-			<span class="gate__condition-text">{Entry.Condition}</span>
-		</p>
-	</div>
-)}
+<div class="gate" role="img" aria-label={`What ${Slug} decides at its seam`}>
+	<p class="gate__rule">{Gate.Rule}</p>
+	<ol class="gate__row">
+		{Gate.Outcome.map((Item) => (
+			<li class="gate__outcome" data-mark={Item.Label === Gate.Mark ? "true" : "false"}>
+				<span class="gate__label">{Item.Label}</span>
+				<span class="gate__note">{Item.Note}</span>
+			</li>
+		))}
+	</ol>
+	<p class="gate__condition">
+		<span class="gate__condition-label">When</span>
+		<span class="gate__condition-text">{Gate.Condition}</span>
+	</p>
+</div>

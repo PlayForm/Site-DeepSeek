@@ -1,0 +1,71 @@
+@use "../Material.scss" as Material;
+
+// The show: one plugin's operator as a single picture, with its data in the
+// order the reader scans it.
+.show {
+	@include Material.tray;
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+	padding: var(--space-6);
+
+	&__head {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	&__operator {
+		@include Material.label(10px);
+	}
+
+	&__title {
+		font-size: var(--text-lg);
+		line-height: var(--leading-snug);
+		color: var(--color-ink);
+	}
+
+	&__steps {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__step {
+		display: grid;
+		grid-template-columns: 96px minmax(0, 1fr);
+		gap: var(--space-3);
+		padding-block: var(--space-2);
+		border-top: 1px solid var(--color-line);
+	}
+
+	&__label {
+		@include Material.label(10px);
+	}
+
+	&__body {
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&__source {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		align-items: baseline;
+	}
+
+	&__slug {
+		@include Material.label(10px);
+	}
+
+	&__summary {
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+	}
+}

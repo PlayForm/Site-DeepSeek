@@ -1,7 +1,8 @@
 // The component roster. Each entry names one file under `Source/Component/`,
-// its route under `/library/`, the summary the library index prints, and the
-// properties the component accepts. The library route renders the live
-// component beside this table, so the table and the component cannot drift.
+// its route under `/library/`, the summary the library index prints, the
+// properties the component accepts, and the states the preview draws. The
+// library route renders the live component beside this table, so the table and
+// the component cannot drift.
 export const Component = [
 	{
 		Name: "Badge",
@@ -11,6 +12,7 @@ export const Component = [
 			["Label", "string", "The label text."],
 			["Tone", '"neutral" | "accent" | "quiet"', "The emphasis; neutral by default."],
 		],
+		State: ["Neutral", "Accent", "Quiet"],
 	},
 	{
 		Name: "VersionPill",
@@ -20,6 +22,7 @@ export const Component = [
 			["Version", "string", "The version string from the manifest."],
 			["Private", "boolean", "Marks a package the manifest keeps private."],
 		],
+		State: ["Public", "Private"],
 	},
 	{
 		Name: "Icon",
@@ -31,18 +34,22 @@ export const Component = [
 			["Label", "string", "The accessible name, when the mark is the only carrier."],
 			["Priority", "boolean", "Load eagerly, for a mark above the fold."],
 		],
+		State: ["Small", "Default", "Large", "Priority"],
+		Density: ["Small", "Default", "Large"],
 	},
 	{
 		Name: "Breadcrumb",
 		Slug: "breadcrumb",
 		Summary: "The trail from a section root to the page the reader is on.",
 		Prop: [["Trail", "{ Href, Label }[]", "The ancestors, root first."]],
+		State: ["Root", "Deep"],
 	},
 	{
 		Name: "Definition",
 		Slug: "definition",
 		Summary: "A term-and-detail list for the facts a page asserts about one thing.",
 		Prop: [["Definition", "{ Term, Detail }[]", "The rows, in reading order."]],
+		State: ["Short", "Long"],
 	},
 	{
 		Name: "Table",
@@ -52,11 +59,12 @@ export const Component = [
 			["Head", "string[]", "The column headings."],
 			[
 				"Row",
-				"(string | { Text, Href, Icon? })[][]",
-				"One array per row; a cell is text, or a link that may carry a package icon.",
+				"(string | { Code } | { Text, Href, Icon? } | { Badge })[][]",
+				"One array per row; a cell is text, an exact string, a link, or a badge.",
 			],
 			["Caption", "string", "The table's accessible name."],
 		],
+		State: ["Text", "Link", "Icon"],
 	},
 	{
 		Name: "Card",
@@ -67,12 +75,14 @@ export const Component = [
 			["Href", "string", "Makes the whole card a link when set."],
 			["Meta", "string", "A short line under the title."],
 		],
+		State: ["Linked", "Plain"],
 	},
 	{
 		Name: "PackageCard",
 		Slug: "package-card",
 		Summary: "One package as a card: its name, its version, its kind, and its summary.",
 		Prop: [["Package", "PackageRecord", "A record from Package.server."]],
+		State: ["Default"],
 	},
 	{
 		Name: "PageHero",
@@ -84,6 +94,7 @@ export const Component = [
 			["Eyebrow", "string", "The category row above the heading."],
 			["Level", "1 | 2", "The heading level; a demo mounts the hero at 2."],
 		],
+		State: ["Full", "Minimal"],
 	},
 	{
 		Name: "SectionHeader",
@@ -94,12 +105,14 @@ export const Component = [
 			["Lede", "string", "One sentence under the heading."],
 			["Id", "string", "The anchor the section is linked by."],
 		],
+		State: ["Anchored", "Plain"],
 	},
 	{
 		Name: "StatBand",
 		Slug: "stat-band",
 		Summary: "The row of figures a page opens with, each read from the tree.",
 		Prop: [["Stat", "{ Label, Value, Note? }[]", "The figures, in reading order."]],
+		State: ["Plain", "Noted"],
 	},
 	{
 		Name: "Callout",
@@ -109,6 +122,7 @@ export const Component = [
 			["Title", "string", "The note's heading."],
 			["Tone", '"note" | "warn"', "The accent; note by default."],
 		],
+		State: ["Note", "Warn"],
 	},
 	{
 		Name: "CodeBlock",
@@ -119,6 +133,7 @@ export const Component = [
 			["Language", "string", "The language label the block prints."],
 			["Label", "string", "The block's accessible name."],
 		],
+		State: ["Shell", "TypeScript"],
 	},
 	{
 		Name: "Terminal",
@@ -128,6 +143,7 @@ export const Component = [
 			["Line", "{ Command?, Output? }[]", "One entry per command and its output."],
 			["Label", "string", "The frame's accessible name."],
 		],
+		State: ["Success", "Failure"],
 	},
 	{
 		Name: "EmptyState",
@@ -137,6 +153,7 @@ export const Component = [
 			["Title", "string", "What is not here yet."],
 			["Note", "string", "One line on where it comes from."],
 		],
+		State: ["Default"],
 	},
 	{
 		Name: "Pager",
@@ -146,6 +163,7 @@ export const Component = [
 			["Previous", "{ Href, Label }", "The entry before this one."],
 			["Next", "{ Href, Label }", "The entry after this one."],
 		],
+		State: ["Both", "Previous only", "Next only"],
 	},
 	{
 		Name: "Line",
@@ -158,6 +176,7 @@ export const Component = [
 			["Foldable", "boolean", "Shows a chevron on hover when the line can fold."],
 			["Current", "boolean", "Marks the line a reader selected."],
 		],
+		State: ["Default", "Current", "Foldable"],
 	},
 	{
 		Name: "Gutter",
@@ -167,6 +186,7 @@ export const Component = [
 			["Seq", "number | string", "The number to print."],
 			["Foldable", "boolean", "Shows the fold chevron on hover."],
 		],
+		State: ["Default", "Foldable"],
 	},
 	{
 		Name: "Pending",
@@ -176,6 +196,7 @@ export const Component = [
 			["Name", "string", "What is in flight, in the harness's words."],
 			["Meta", "string", "The quiet facts beside it: the tool, the job, the elapsed time."],
 		],
+		State: ["Named", "With meta"],
 	},
 	{
 		Name: "Schema",
@@ -183,6 +204,7 @@ export const Component = [
 		Summary:
 			"A contract as rows: a property, its type, whether it is required, and what it means.",
 		Prop: [["Properties", "{ Name, Type, Required, Description }[]", "One row per property."]],
+		State: ["Required", "Optional"],
 	},
 	{
 		Name: "Pipeline",
@@ -192,6 +214,7 @@ export const Component = [
 			["Stages", "{ Label, Seam }[]", "One stage per entry; a seam is a chip when present."],
 			["Current", "string", "The label of the stage to mark."],
 		],
+		State: ["Current", "Seam", "Plain"],
 	},
 	{
 		Name: "Sequence",
@@ -201,6 +224,7 @@ export const Component = [
 			["Actor", "string[]", "The participants, left to right."],
 			["Message", "{ From, To, Label, Seam?, Durable? }[]", "One row per dispatch."],
 		],
+		State: ["Durable", "Live", "Seam"],
 	},
 	{
 		Name: "State",
@@ -210,6 +234,7 @@ export const Component = [
 			["State", "{ Name, Note, Tone }[]", "The states, main line and exits together."],
 			["Edge", "{ From, To, Label }[]", "The moves between them."],
 		],
+		State: ["Main line", "Exit"],
 	},
 	{
 		Name: "Fanout",
@@ -220,6 +245,7 @@ export const Component = [
 			["Listener", "{ Slug, Href, Effect, Documented }[]", "The listeners, in order."],
 			["Limit", "number", "How many to draw before the rest are counted."],
 		],
+		State: ["Documented", "Undocumented", "Over limit"],
 	},
 	{
 		Name: "Lane",
@@ -232,18 +258,21 @@ export const Component = [
 				"One lane per actor; a span carries start, duration, kind.",
 			],
 		],
+		State: ["Model", "Tool", "Disk"],
 	},
 	{
 		Name: "Chain",
 		Slug: "chain",
 		Summary: "Generations or links, joined in order, with the current one marked.",
 		Prop: [["Link", "{ Label, Body, Current? }[]", "One entry per link."]],
+		State: ["Current", "Past"],
 	},
 	{
 		Name: "Ladder",
 		Slug: "ladder",
 		Summary: "The same thing at three values, ordered by the dimension that decides it.",
 		Prop: [["Rung", "{ Label, Value, Body, Note?, Mark? }[]", "One rung per value."]],
+		State: ["Marked", "Unmarked"],
 	},
 	{
 		Name: "Fork",
@@ -253,6 +282,7 @@ export const Component = [
 			["From", "string", "What enters the fork."],
 			["Exit", "{ Label, Body, Taken? }[]", "The two exits."],
 		],
+		State: ["Taken", "Not taken"],
 	},
 	{
 		Name: "Grid",
@@ -263,12 +293,14 @@ export const Component = [
 			["Row", "{ Label, Cell }[]", "One row per label, with a cell per column."],
 			["Caption", "string", "The table's accessible name."],
 		],
+		State: ["Yes", "No", "Word"],
 	},
 	{
 		Name: "Matrix",
 		Slug: "matrix",
 		Summary: "The intervention matrix: plugins against seams, one mark per cell.",
 		Prop: [["Row", "Intervention[]", "The plugin records the matrix draws."]],
+		State: ["Rewrite", "Record", "Absent"],
 	},
 	{
 		Name: "Difference",
@@ -278,6 +310,7 @@ export const Component = [
 			["Before", "string", "The text before the seam."],
 			["After", "string", "The text after it."],
 		],
+		State: ["Changed", "Unchanged"],
 	},
 	{
 		Name: "Compare",
@@ -289,6 +322,7 @@ export const Component = [
 			["Clean", "string", "The text the harness kept."],
 			["Start", "number", "Where the handle starts, as a percentage."],
 		],
+		State: ["Model", "Transcript"],
 	},
 	{
 		Name: "Inspector",
@@ -298,24 +332,28 @@ export const Component = [
 			["Subject", "string", "What the panels describe."],
 			["Tab", "{ Label, Body, Kind?, Properties? }[]", "One tab per panel."],
 		],
+		State: ["Text", "Code", "Schema"],
 	},
 	{
 		Name: "InspectorLive",
 		Slug: "inspector-live",
 		Summary: "The inspector as an island: a click on a line fills it.",
 		Prop: [["Record", "InspectorRecord[]", "The records the document shows."]],
+		State: ["Family"],
 	},
 	{
 		Name: "Explorer",
 		Slug: "explorer",
 		Summary: "A grouped pane of objects, each a link, with a count where the caller knows one.",
 		Prop: [["Groups", "{ Label, Item }[]", "The groups, in the order the pane stacks them."]],
+		State: ["Linked", "Plain", "Counted"],
 	},
 	{
 		Name: "Trace",
 		Slug: "trace",
 		Summary: "The records of one turn as a document, one line per record.",
 		Prop: [["Record", "Record[]", "The records, in the order the log writes them."]],
+		State: ["Durable", "Live"],
 	},
 	{
 		Name: "RoleList",
@@ -323,12 +361,14 @@ export const Component = [
 		Summary:
 			"The parts of the conversation the model reads, and the seam that can change each.",
 		Prop: [["Entry", "Role[]", "One entry per role."]],
+		State: ["Changed", "Unchanged"],
 	},
 	{
 		Name: "CallStep",
 		Slug: "call-step",
 		Summary: "The tool pipeline as a rail, one step per gate, with its decision vocabulary.",
 		Prop: [["Entry", "Step[]", "The pipeline steps, in order."]],
+		State: ["Seam", "Ask branch"],
 	},
 	{
 		Name: "Curve",
@@ -336,6 +376,7 @@ export const Component = [
 		Summary:
 			"Two series on log axes: the bytes the model reads against the size of the result.",
 		Prop: [["Curve", "Curve", "The thresholds and the ceiling the chart draws."]],
+		State: ["Family", "Harness alone", "Ceiling"],
 	},
 	{
 		Name: "Show",
@@ -345,6 +386,7 @@ export const Component = [
 			["Plugin", "Plugin", "The plugin record the showcase extends."],
 			["Showcase", "Showcase", "The operator and its data."],
 		],
+		State: ["Operator", "Step", "Source"],
 	},
 	{
 		Name: "Scenario",
@@ -354,6 +396,7 @@ export const Component = [
 			["Entry", "Scenario", "The moment, its default, its family side, and its knob."],
 			["Index", "number", "The position in the page's list."],
 		],
+		State: ["Default", "Family", "Opt in"],
 	},
 	{
 		Name: "Stream",
@@ -361,12 +404,14 @@ export const Component = [
 		Summary:
 			"A package whose work is an event-driven view: the update rule and the frame that arrives.",
 		Prop: [["Slug", "string", "The package the picture is written for."]],
+		State: ["Event", "Frame"],
 	},
 	{
 		Name: "Layer",
 		Slug: "layer",
 		Summary: "A library the others build on, as stacked layers with its own layer marked.",
 		Prop: [["Slug", "string", "The package the picture is written for."]],
+		State: ["Marked", "Above", "Below"],
 	},
 	{
 		Name: "Surface",
@@ -374,6 +419,7 @@ export const Component = [
 		Summary:
 			"A client that fills a host slot: the frame, the slot, and what the package puts there.",
 		Prop: [["Slug", "string", "The package the picture is written for."]],
+		State: ["Host", "Slot", "Fill"],
 	},
 	{
 		Name: "Buffer",
@@ -381,24 +427,31 @@ export const Component = [
 		Summary:
 			"A store that holds data for others: the store, its readers, and its retention rule.",
 		Prop: [["Slug", "string", "The package the picture is written for."]],
+		State: ["Store", "Reader", "Rule"],
 	},
 	{
 		Name: "Gate",
 		Slug: "gate",
 		Summary: "A hook that decides: the three outcomes, and the one this hook returns.",
-		Prop: [["Slug", "string", "The package the picture is written for."]],
+		Prop: [
+			["Gate", "Gate", "The verdicts the package's gate returns, from the detail record."],
+			["Slug", "string", "The package the picture is written for."],
+		],
+		State: ["pass", "store", "replace"],
 	},
 	{
 		Name: "Rewrite",
 		Slug: "rewrite",
 		Summary: "A hook that changes the payload: the before and the after, with the span marked.",
 		Prop: [["Slug", "string", "The package the picture is written for."]],
+		State: ["Pair", "Class"],
 	},
 	{
 		Name: "Record",
 		Slug: "record",
 		Summary: "A hook that only observes: the ledger line it writes, verbatim.",
 		Prop: [["Slug", "string", "The package the picture is written for."]],
+		State: ["Line", "Field"],
 	},
 	{
 		Name: "Advise",
@@ -406,6 +459,7 @@ export const Component = [
 		Summary:
 			"A hook that adds a note the model then reads, with the condition that triggers it.",
 		Prop: [["Slug", "string", "The package the picture is written for."]],
+		State: ["Seam", "Trigger", "Note"],
 	},
 ];
 

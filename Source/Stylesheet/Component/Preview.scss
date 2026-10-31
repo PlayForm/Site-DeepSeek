@@ -11,3 +11,34 @@
 		padding-block: 0;
 	}
 }
+
+// The state grid: each state gets its own cell, with its name above the live
+// component. The cells sit side by side where the width allows and stack when
+// the component needs the whole frame.
+.preview__states {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: var(--space-6);
+	align-items: start;
+}
+
+.preview__state {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+	min-width: 0;
+}
+
+.preview__state--wide {
+	grid-column: 1 / -1;
+}
+
+.preview__legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-4);
+}
+
+.preview__label {
+	@include Material.label(10px);
+}

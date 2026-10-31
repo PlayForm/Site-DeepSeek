@@ -2,21 +2,64 @@
 import "@Stylesheet/Component/Preview.scss";
 
 import Badge from "@Component/Badge.astro";
+import Advise from "@Component/Advise.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
+import Buffer from "@Component/Buffer.astro";
 import Callout from "@Component/Callout.astro";
+import CallStep from "@Component/CallStep.astro";
 import Card from "@Component/Card.astro";
+import Chain from "@Component/Chain.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
+import Compare from "@Component/Compare.tsx";
+import Curve from "@Component/Curve.astro";
 import Definition from "@Component/Definition.astro";
+import Difference from "@Component/Difference.astro";
 import EmptyState from "@Component/EmptyState.astro";
+import Explorer from "@Component/Explorer.astro";
+import Fanout from "@Component/Fanout.astro";
+import Fork from "@Component/Fork.astro";
+import Gate from "@Component/Gate.astro";
+import Grid from "@Component/Grid.astro";
+import Gutter from "@Component/Gutter.astro";
 import Icon from "@Component/Icon.astro";
+import Inspector from "@Component/Inspector.astro";
+import InspectorLive from "@Component/InspectorLive.tsx";
+import Ladder from "@Component/Ladder.astro";
+import Lane from "@Component/Lane.astro";
+import Layer from "@Component/Layer.astro";
+import Line from "@Component/Line.astro";
+import Matrix from "@Component/Matrix.astro";
 import PackageCard from "@Component/PackageCard.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
+import Pending from "@Component/Pending.astro";
+import Pipeline from "@Component/Pipeline.astro";
+import Record from "@Component/Record.astro";
+import Rewrite from "@Component/Rewrite.astro";
+import RoleList from "@Component/RoleList.astro";
+import Scenario from "@Component/Scenario.astro";
+import Schema from "@Component/Schema.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import Sequence from "@Component/Sequence.astro";
+import Show from "@Component/Show.astro";
 import StatBand from "@Component/StatBand.astro";
+import State from "@Component/State.astro";
+import Stream from "@Component/Stream.astro";
+import Surface from "@Component/Surface.astro";
 import Table from "@Component/Table.astro";
 import Terminal from "@Component/Terminal.astro";
+import Trace from "@Component/Trace.astro";
 import VersionPill from "@Component/VersionPill.astro";
+
+import type { Effect } from "@Content/Behavior";
+import { DetailFor } from "@Content/Detail";
+import { Intervention as InterventionRecord } from "@Content/Intervention";
+import type { Lane as LaneRecord } from "@Content/Lane";
+import { Role as RoleRecord } from "@Content/Message";
+import { Record as SessionRecord, Timeline, TotalOf } from "@Content/Session";
+import { Step as CallStepRecord } from "@Content/ToolCall";
+import { Record as TraceRecord } from "@Content/Trace";
+import { Scenario as ScenarioRecord } from "@Content/Tutorial";
 import { Package } from "@Library/Package.server";
 
 interface Props {
@@ -26,149 +69,978 @@ interface Props {
 // The library route mounts the live component beside its contract, so a
 // component and its documented properties cannot drift apart.
 const { Slug } = Astro.props;
-const Entry = Package[0];
+const Entry = Package[0]!;
+
+// The gate's record, from the same typed map the package page reads, so the
+// library demo cannot drift from the page it previews.
+const Verdict = DetailFor("hook-dsh-ccr")?.Verdict;
+
+// The records that carry a union are built once here: an inline object literal
+// would widen a word such as `rewrite` or `model` to `string`, and the
+// component's own props would no longer type-check.
+const FanoutListener: {
+	Slug: string;
+	Href: string;
+	Effect: Effect;
+	Documented: boolean;
+}[] = [
+	{
+		Slug: "hook-dsh-ccr",
+		Href: "/package/hook-dsh-ccr/",
+		Effect: "rewrite",
+		Documented: true,
+	},
+	{
+		Slug: "hook-dsh-comment-filter",
+		Href: "/package/hook-dsh-comment-filter/",
+		Effect: "rewrite",
+		Documented: true,
+	},
+	{
+		Slug: "hook-dsh-doc-suggester",
+		Href: "/package/hook-dsh-doc-suggester/",
+		Effect: "advise",
+		Documented: false,
+	},
+	{
+		Slug: "hook-dsh-replay-suggester",
+		Href: "/package/hook-dsh-replay-suggester/",
+		Effect: "advise",
+		Documented: true,
+	},
+];
+
+const LaneRecordData: LaneRecord[] = [
+	{
+		Label: "Model",
+		Span: [
+			{ Label: "step 1", Start: 4, Duration: 22, Kind: "model" },
+			{ Label: "step 2", Start: 38, Duration: 18, Kind: "model" },
+			{ Label: "step 3", Start: 70, Duration: 16, Kind: "model" },
+		],
+	},
+	{
+		Label: "Tool",
+		Span: [
+			{ Label: "grep", Start: 28, Duration: 8, Kind: "tool" },
+			{ Label: "read", Start: 58, Duration: 6, Kind: "tool" },
+			{ Label: "write", Start: 88, Duration: 4, Kind: "tool" },
+		],
+	},
+	{
+		Label: "Disk",
+		Span: [{ Label: "write", Start: 92, Duration: 3, Kind: "disk" }],
+	},
+];
+
+const InspectorTab: {
+	Label: string;
+	Body: string;
+	Kind?: "text" | "code" | "schema";
+	Properties?: {
+		Name: string;
+		Type: string;
+		Required: boolean;
+		Description: string;
+	}[];
+}[] = [
+	{
+		Label: "Summary",
+		Body: "The result the model reads after the hook answers at the seam.",
+		Kind: "text",
+	},
+	{
+		Label: "Payload",
+		Body: '{"path":"Source/Library/Preview.astro","limit":40}',
+		Kind: "code",
+	},
+	{
+		Label: "Schema",
+		Body: "The fields the payload carries, and whether the contract requires each one.",
+		Kind: "schema",
+		Properties: [
+			{
+				Name: "path",
+				Type: "string",
+				Required: true,
+				Description: "The file the call names.",
+			},
+			{
+				Name: "limit",
+				Type: "number",
+				Required: false,
+				Description: "How many rows the result carries.",
+			},
+		],
+	},
+];
+
+const ShowPlugin = {
+	Slug: "hook-dsh-normalize-dash",
+	Summary:
+		"Six normalizers rewrite the stream at the seam, so one prompt produces one byte sequence.",
+};
+
+const ShowShowcase = {
+	Operator: "Ladder",
+	Title: "One dimension, three values",
+	Step: [
+		{ Label: "Narrow", Body: "The hook acts on one character and leaves the rest alone." },
+		{ Label: "Default", Body: "The hook acts on the whole class the character belongs to." },
+		{ Label: "Wide", Body: "The hook acts on every class the seam carries." },
+	],
+};
+
+const SessionEntry =
+	SessionRecord.find((Item) => Item.Family !== undefined) ?? SessionRecord[0]!;
+const SessionStart = Timeline("family").find((Item) => Item.Entry === SessionEntry)?.Start ?? 0;
+const SessionTotal = TotalOf("family");
 ---
 
 <div class="preview">
+	{/* Library: badge */}
 	{Slug === "badge" && (
-		<div class="cluster">
-			<Badge Label="Hook" Tone="accent" />
-			<Badge Label="Classic" />
-			<Badge Label="Draft" Tone="quiet" />
+		<div class="preview__states">
+			<div class="preview__state">
+				<span class="preview__label">Neutral</span>
+				<Badge Label="Classic" />
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Accent</span>
+				<Badge Label="Hook" Tone="accent" />
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Quiet</span>
+				<Badge Label="Draft" Tone="quiet" />
+			</div>
 		</div>
 	)}
 
+	{/* Library: version-pill */}
 	{Slug === "version-pill" && (
-		<div class="cluster">
-			<VersionPill Version="0.2.1" />
-			<VersionPill Version="0.0.0" Private />
+		<div class="preview__states">
+			<div class="preview__state">
+				<span class="preview__label">Public</span>
+				<VersionPill Version="0.2.1" />
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Private</span>
+				<VersionPill Version="0.0.0" Private />
+			</div>
 		</div>
 	)}
 
+	{/* Library: icon */}
 	{Slug === "icon" && (
-		<div class="cluster">
-			<Icon Name="hook-dsh-normalize-dash" Size={64} />
-			<Icon Name="plugin-dsh-factory" Size={40} />
-			<Icon Name="lib-dsh-core" Size={24} />
+		<div class="preview__states">
+			<div class="preview__state">
+				<span class="preview__label">Small</span>
+				<Icon Name="lib-dsh-core" Size={24} />
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Default</span>
+				<Icon Name="hook-dsh-normalize-dash" Size={40} />
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Large</span>
+				<Icon Name="plugin-dsh-factory" Size={64} />
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Priority</span>
+				<Icon Name="plugin-dsh-factory" Size={64} Priority Label="Factory" />
+			</div>
 		</div>
 	)}
 
+	{/* Library: breadcrumb */}
 	{Slug === "breadcrumb" && (
-		<Breadcrumb
-			Trail={[
-				{ Href: "/package/", Label: "Package" },
-				{ Href: "/package/hook-dsh-normalize-dash/", Label: "hook-dsh-normalize-dash" },
-			]}
-		/>
-	)}
-
-	{Slug === "definition" && (
-		<Definition
-			Definition={[
-				{ Term: "Version", Detail: "0.2.1, read from the package manifest" },
-				{ Term: "Kind", Detail: "hook" },
-				{ Term: "Licence", Detail: "CC0-1.0" },
-			]}
-		/>
-	)}
-
-	{Slug === "table" && (
-		<Table
-			Caption="Three packages and their versions"
-			Head={["Package", "Kind", "Version"]}
-			Row={[
-				["hook-dsh-normalize-dash", "hook", "0.2.1"],
-				["plugin-dsh-factory", "plugin", "0.2.1"],
-				["lib-dsh-core", "lib", "0.2.1"],
-			]}
-		/>
-	)}
-
-	{Slug === "card" && (
-		<div class="grid">
-			<Card Title="Classic release" Href="/package/" Meta="59 in Classic">
-				The TypeScript release of the family, built on the factory and the core library.
-			</Card>
-			<Card Title="Effect-TS release" Href="/package/" Meta="60 in Effect-TS">
-				The same contracts expressed through Effect, package for package.
-			</Card>
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Root</span>
+				<Breadcrumb Trail={[{ Href: "/", Label: "Overview" }]} />
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Deep</span>
+				<Breadcrumb
+					Trail={[
+						{ Href: "/package/", Label: "Package" },
+						{
+							Href: "/package/hook-dsh-normalize-dash/",
+							Label: "hook-dsh-normalize-dash",
+						},
+					]}
+				/>
+			</div>
 		</div>
 	)}
 
-	{Slug === "package-card" && Package && (
-		<div class="grid">
+	{/* Library: definition */}
+	{Slug === "definition" && (
+		<div class="preview__states">
+			<div class="preview__state">
+				<span class="preview__label">Short</span>
+				<Definition
+					Definition={[
+						{ Term: "Version", Detail: "0.2.1, read from the package manifest" },
+						{ Term: "Kind", Detail: "hook" },
+					]}
+				/>
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Long</span>
+				<Definition
+					Definition={[
+						{ Term: "Version", Detail: "0.2.1, read from the package manifest" },
+						{ Term: "Kind", Detail: "hook" },
+						{ Term: "Licence", Detail: "CC0-1.0" },
+						{ Term: "Release", Detail: "Classic and Effect-TS" },
+					]}
+				/>
+			</div>
+		</div>
+	)}
+
+	{/* Library: table */}
+	{Slug === "table" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Text</span>
+				<span class="preview__label">Link</span>
+				<span class="preview__label">Icon</span>
+			</div>
+			<Table
+				Caption="Three packages and their versions"
+				Head={["Package", "Kind", "Version"]}
+				Row={[
+					["hook-dsh-normalize-dash", "hook", "0.2.1"],
+					[
+						{ Text: "plugin-dsh-factory", Href: "/package/plugin-dsh-factory/" },
+						"plugin",
+						"0.2.1",
+					],
+					[
+						{
+							Text: "lib-dsh-core",
+							Href: "/package/lib-dsh-core/",
+							Icon: "lib-dsh-core",
+						},
+						"lib",
+						"0.2.1",
+					],
+				]}
+			/>
+		</div>
+	)}
+
+	{/* Library: card */}
+	{Slug === "card" && (
+		<div class="preview__states">
+			<div class="preview__state">
+				<span class="preview__label">Linked</span>
+				<Card Title="Classic release" Href="/package/" Meta="59 in Classic">
+					The TypeScript release of the family, built on the factory and the core library.
+				</Card>
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Plain</span>
+				<Card Title="Effect-TS release" Meta="60 in Effect-TS">
+					The same contracts expressed through Effect, package for package.
+				</Card>
+			</div>
+		</div>
+	)}
+
+	{/* Library: package-card */}
+	{Slug === "package-card" && Package.length > 0 && (
+		<div class="preview__state preview__state--wide">
+			<span class="preview__label">Default</span>
 			<PackageCard Package={Entry} />
 		</div>
 	)}
 
+	{/* Library: page-hero */}
 	{Slug === "page-hero" && (
-		<PageHero
-			Level={2}
-			Eyebrow="Reference"
-			Title="Every package, its version, and its source"
-			Lede="The reference table reads the two package trees at build time, so a new package appears here on the next build."
-		/>
-	)}
-
-	{Slug === "section-header" && (
-		<SectionHeader
-			Title="The catalogue reads the tree"
-			Lede="Each row is one package directory with a manifest, not a copy of a list."
-		/>
-	)}
-
-	{Slug === "stat-band" && (
-		<StatBand
-			Stat={[
-				{ Label: "Package", Value: 119 },
-				{ Label: "Hook", Value: 60 },
-				{ Label: "Smoke suite", Value: 595 },
-				{ Label: "Release", Value: 2 },
-			]}
-		/>
-	)}
-
-	{Slug === "callout" && (
-		<div class="stack">
-			<Callout Title="Read from the tree">
-				A version on this site is the version in the manifest at build time.
-			</Callout>
-			<Callout Title="Prototype" Tone="warn">
-				This route carries structure and real package facts; its prose is still being
-				written.
-			</Callout>
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Full</span>
+				<PageHero
+					Level={2}
+					Eyebrow="Reference"
+					Title="Every package, its version, and its source"
+					Lede="The reference table reads the two package trees at build time, so a new package appears here on the next build."
+				/>
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Minimal</span>
+				<PageHero Level={2} Title="One heading and nothing else" />
+			</div>
 		</div>
 	)}
 
+	{/* Library: section-header */}
+	{Slug === "section-header" && (
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Anchored</span>
+				<SectionHeader
+					Id="preview-anchored"
+					Title="The catalogue reads the tree"
+					Lede="Each row is one package directory with a manifest, not a copy of a list."
+				/>
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Plain</span>
+				<SectionHeader Title="A section without an anchor" />
+			</div>
+		</div>
+	)}
+
+	{/* Library: stat-band */}
+	{Slug === "stat-band" && (
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Plain</span>
+				<StatBand
+					Stat={[
+						{ Label: "Package", Value: 119 },
+						{ Label: "Hook", Value: 60 },
+						{ Label: "Release", Value: 2 },
+					]}
+				/>
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Noted</span>
+				<StatBand
+					Stat={[
+						{ Label: "Package", Value: 119, Note: "Both release trees" },
+						{ Label: "Hook", Value: 60, Note: "Registrations" },
+						{ Label: "Smoke suite", Value: 595, Note: "Assertions" },
+						{ Label: "Release", Value: 2, Note: "Classic and Effect-TS" },
+					]}
+				/>
+			</div>
+		</div>
+	)}
+
+	{/* Library: callout */}
+	{Slug === "callout" && (
+		<div class="preview__states">
+			<div class="preview__state">
+				<span class="preview__label">Note</span>
+				<Callout Title="Read from the tree">
+					A version on this site is the version in the manifest at build time.
+				</Callout>
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Warn</span>
+				<Callout Title="Prototype" Tone="warn">
+					This route carries structure and real package facts; its prose is still being
+					written.
+				</Callout>
+			</div>
+		</div>
+	)}
+
+	{/* Library: code-block */}
 	{Slug === "code-block" && (
-		<CodeBlock
-			Label="Install the dash normalizer"
-			Language="sh"
-			Code={"pnpm add @playform/hook-dsh-normalize-dash"}
-		/>
+		<div class="preview__states">
+			<div class="preview__state">
+				<span class="preview__label">Shell</span>
+				<CodeBlock
+					Label="Install the dash normalizer"
+					Language="sh"
+					Code={"pnpm add @playform/hook-dsh-normalize-dash"}
+				/>
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">TypeScript</span>
+				<CodeBlock
+					Label="Read the development flag"
+					Language="ts"
+					Code={`const Dev = process.env["SITE_DEV"] === "1";`}
+				/>
+			</div>
+		</div>
 	)}
 
+	{/* Library: terminal */}
 	{Slug === "terminal" && (
-		<Terminal
-			Label="Build"
-			Line={[
-				{ Command: "pnpm --dir Site prepublishOnly" },
-				{ Output: "119 package pages built\n4 routes generated" },
-			]}
-		/>
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Success</span>
+				<Terminal
+					Label="Build"
+					Line={[
+						{ Command: "pnpm --dir Site prepublishOnly" },
+						{ Output: "119 package pages built\n4 routes generated" },
+					]}
+				/>
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Failure</span>
+				<Terminal
+					Label="Check"
+					Line={[
+						{ Command: "pnpm --dir Site Check" },
+						{ Output: "1 issue: a declared state is not named in the preview" },
+					]}
+				/>
+			</div>
+		</div>
 	)}
 
+	{/* Library: empty-state */}
 	{Slug === "empty-state" && (
-		<EmptyState
-			Title="No stories are recorded yet"
-			Note="The showcase reads its records from the site's own content, not from the packages."
-		/>
+		<div class="preview__state preview__state--wide">
+			<span class="preview__label">Default</span>
+			<EmptyState
+				Title="No stories are recorded yet"
+				Note="The showcase reads its records from the site's own content, not from the packages."
+			/>
+		</div>
 	)}
 
+	{/* Library: pager */}
 	{Slug === "pager" && (
-		<Pager
-			Previous={{ Href: "/package/", Label: "Package" }}
-			Next={{ Href: "/setup/", Label: "Setup" }}
-		/>
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Both</span>
+				<Pager
+					Previous={{ Href: "/package/", Label: "Package" }}
+					Next={{ Href: "/setup/", Label: "Setup" }}
+				/>
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Previous only</span>
+				<Pager Previous={{ Href: "/package/", Label: "Package" }} />
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Next only</span>
+				<Pager Next={{ Href: "/setup/", Label: "Setup" }} />
+			</div>
+		</div>
+	)}
+
+	{/* Library: line */}
+	{Slug === "line" && (
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Default</span>
+				<Line Seq={1} Kind="turn" Name="turn/start" />
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Current</span>
+				<Line Seq={2} Kind="step" Name="step/start" Current />
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Foldable</span>
+				<Line Seq={3} Kind="tool" Name="read" Foldable />
+			</div>
+		</div>
+	)}
+
+	{/* Library: gutter */}
+	{Slug === "gutter" && (
+		<div class="preview__states">
+			<div class="preview__state">
+				<span class="preview__label">Default</span>
+				<Gutter Seq={4} />
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Foldable</span>
+				<Gutter Seq={5} Foldable />
+			</div>
+		</div>
+	)}
+
+	{/* Library: pending */}
+	{Slug === "pending" && (
+		<div class="preview__states">
+			<div class="preview__state">
+				<span class="preview__label">Named</span>
+				<Pending Name="read" />
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">With meta</span>
+				<Pending Name="grep" Meta="tools/post-execute, 1.2s" />
+			</div>
+		</div>
+	)}
+
+	{/* Library: schema */}
+	{Slug === "schema" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Required</span>
+				<span class="preview__label">Optional</span>
+			</div>
+			<Schema
+				Properties={[
+					{
+						Name: "path",
+						Type: "string",
+						Required: true,
+						Description: "The file the call names.",
+					},
+					{
+						Name: "limit",
+						Type: "number",
+						Required: false,
+						Description: "How many rows the result carries.",
+					},
+					{
+						Name: "offset",
+						Type: "number",
+						Required: false,
+						Description: "Where the result starts.",
+					},
+				]}
+			/>
+		</div>
+	)}
+
+	{/* Library: pipeline */}
+	{Slug === "pipeline" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Current</span>
+				<span class="preview__label">Seam</span>
+				<span class="preview__label">Plain</span>
+			</div>
+			<Pipeline
+				Current="execute"
+				Stages={[
+					{ Label: "pre", Seam: "tools/pre-execute" },
+					{ Label: "execute", Seam: "tools/execute" },
+					{ Label: "post", Seam: "tools/post-execute" },
+					{ Label: "record", Seam: "" },
+				]}
+			/>
+		</div>
+	)}
+
+	{/* Library: sequence */}
+	{Slug === "sequence" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Durable</span>
+				<span class="preview__label">Live</span>
+				<span class="preview__label">Seam</span>
+			</div>
+			<Sequence />
+		</div>
+	)}
+
+	{/* Library: state */}
+	{Slug === "state" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Main line</span>
+				<span class="preview__label">Exit</span>
+			</div>
+			<State />
+		</div>
+	)}
+
+	{/* Library: fanout */}
+	{Slug === "fanout" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Documented</span>
+				<span class="preview__label">Undocumented</span>
+				<span class="preview__label">Over limit</span>
+			</div>
+			<Fanout Source="tools/post-execute" Listener={FanoutListener} Limit={3} />
+		</div>
+	)}
+
+	{/* Library: lane */}
+	{Slug === "lane" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Model</span>
+				<span class="preview__label">Tool</span>
+				<span class="preview__label">Disk</span>
+			</div>
+			<Lane Lane={LaneRecordData} />
+		</div>
+	)}
+
+	{/* Library: chain */}
+	{Slug === "chain" && (
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Current</span>
+				<Chain
+					Link={[
+						{ Label: "v1", Body: "The first generation: the contract and the tests." },
+						{
+							Label: "v2",
+							Body: "The second generation: the runtime and the adapter.",
+							Current: true,
+						},
+						{ Label: "v3", Body: "The third generation: the next seam." },
+					]}
+				/>
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Past</span>
+				<Chain
+					Link={[
+						{ Label: "v1", Body: "The first generation: the contract and the tests." },
+						{ Label: "v2", Body: "The second generation: the runtime and the adapter." },
+					]}
+				/>
+			</div>
+		</div>
+	)}
+
+	{/* Library: ladder */}
+	{Slug === "ladder" && (
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Marked</span>
+				<Ladder
+					Rung={[
+						{ Label: "Narrow", Value: "1", Body: "The hook acts on one character." },
+						{
+							Label: "Default",
+							Value: "2",
+							Body: "The hook acts on the whole class.",
+							Mark: true,
+						},
+						{
+							Label: "Wide",
+							Value: "3",
+							Body: "The hook acts on every class at the seam.",
+						},
+					]}
+				/>
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Unmarked</span>
+				<Ladder
+					Rung={[
+						{ Label: "Narrow", Value: "1", Body: "The hook acts on one character." },
+						{ Label: "Default", Value: "2", Body: "The hook acts on the whole class." },
+						{
+							Label: "Wide",
+							Value: "3",
+							Body: "The hook acts on every class at the seam.",
+						},
+					]}
+				/>
+			</div>
+		</div>
+	)}
+
+	{/* Library: fork */}
+	{Slug === "fork" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Taken</span>
+				<span class="preview__label">Not taken</span>
+			</div>
+			<Fork
+				From="tools/pre-execute"
+				Exit={[
+					{ Label: "allow", Body: "The call continues to the body.", Taken: true },
+					{
+						Label: "deny",
+						Body: "The refusal becomes the result the model reads.",
+					},
+				]}
+			/>
+		</div>
+	)}
+
+	{/* Library: grid */}
+	{Slug === "grid" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Yes</span>
+				<span class="preview__label">No</span>
+				<span class="preview__label">Word</span>
+			</div>
+			<Grid
+				Caption="Two axes and their outcomes"
+				Head={["First axis", "Second axis", "Third axis"]}
+				Row={[
+					{ Label: "Default", Cell: ["yes", "no", "the harness"] },
+					{ Label: "Family", Cell: ["yes", "yes", "the family"] },
+				]}
+			/>
+		</div>
+	)}
+
+	{/* Library: matrix */}
+	{Slug === "matrix" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Rewrite</span>
+				<span class="preview__label">Record</span>
+				<span class="preview__label">Absent</span>
+			</div>
+			<Matrix Row={InterventionRecord.slice(0, 3)} />
+		</div>
+	)}
+
+	{/* Library: difference */}
+	{Slug === "difference" && (
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Changed</span>
+				<Difference Before={"the result is 1,024 bytes"} After={"the result is 1,025 bytes"} />
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Unchanged</span>
+				<Difference Before={"the result is 1,024 bytes"} After={"the result is 1,024 bytes"} />
+			</div>
+		</div>
+	)}
+
+	{/* Library: compare */}
+	{Slug === "compare" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Model</span>
+				<span class="preview__label">Transcript</span>
+			</div>
+			<Compare
+				Raw={"the model wrote -- this"}
+				Clean={"the model wrote - this"}
+				Start={40}
+				client:visible
+			/>
+		</div>
+	)}
+
+	{/* Library: inspector */}
+	{Slug === "inspector" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Text</span>
+				<span class="preview__label">Code</span>
+				<span class="preview__label">Schema</span>
+			</div>
+			<Inspector Subject="tool/result" Tab={InspectorTab} />
+		</div>
+	)}
+
+	{/* Library: inspector-live */}
+	{Slug === "inspector-live" && (
+		<div class="preview__state preview__state--wide">
+			<span class="preview__label">Family</span>
+			<InspectorLive
+				Entry={SessionEntry}
+				Face="family"
+				Start={SessionStart}
+				Total={SessionTotal}
+				client:visible
+			/>
+		</div>
+	)}
+
+	{/* Library: explorer */}
+	{Slug === "explorer" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Linked</span>
+				<span class="preview__label">Plain</span>
+				<span class="preview__label">Counted</span>
+			</div>
+			<Explorer
+				Groups={[
+					{
+						Label: "Hook",
+						Item: [
+							{ Label: "hook-dsh-ccr", Href: "/package/hook-dsh-ccr/", Count: 1 },
+							{
+								Label: "hook-dsh-comment-filter",
+								Href: "/package/hook-dsh-comment-filter/",
+							},
+							{ Label: "the seam table", Count: 7 },
+						],
+					},
+					{
+						Label: "Release",
+						Item: [
+							{ Label: "Classic", Href: "/package/", Count: 59 },
+							{ Label: "Effect-TS", Href: "/package/", Count: 60 },
+						],
+					},
+				]}
+			/>
+		</div>
+	)}
+
+	{/* Library: trace */}
+	{Slug === "trace" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Durable</span>
+				<span class="preview__label">Live</span>
+			</div>
+			<Trace Record={TraceRecord.slice(0, 4)} />
+		</div>
+	)}
+
+	{/* Library: role-list */}
+	{Slug === "role-list" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Changed</span>
+				<span class="preview__label">Unchanged</span>
+			</div>
+			<RoleList Entry={RoleRecord} />
+		</div>
+	)}
+
+	{/* Library: call-step */}
+	{Slug === "call-step" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Seam</span>
+				<span class="preview__label">Ask branch</span>
+			</div>
+			<CallStep Entry={CallStepRecord} />
+		</div>
+	)}
+
+	{/* Library: curve */}
+	{Slug === "curve" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Family</span>
+				<span class="preview__label">Harness alone</span>
+				<span class="preview__label">Ceiling</span>
+			</div>
+			<Curve />
+		</div>
+	)}
+
+	{/* Library: show */}
+	{Slug === "show" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Operator</span>
+				<span class="preview__label">Step</span>
+				<span class="preview__label">Source</span>
+			</div>
+			<Show Plugin={ShowPlugin} Showcase={ShowShowcase} />
+		</div>
+	)}
+
+	{/* Library: scenario */}
+	{Slug === "scenario" && (
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<div class="preview__legend">
+					<span class="preview__label">Default</span>
+					<span class="preview__label">Family</span>
+				</div>
+				<Scenario Entry={ScenarioRecord[0]!} Index={1} />
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Opt in</span>
+				<Scenario Entry={ScenarioRecord[1]!} Index={2} />
+			</div>
+		</div>
+	)}
+
+	{/* Library: stream */}
+	{Slug === "stream" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Event</span>
+				<span class="preview__label">Frame</span>
+			</div>
+			<Stream Slug="client-dsh-workspace-live" />
+		</div>
+	)}
+
+	{/* Library: layer */}
+	{Slug === "layer" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Marked</span>
+				<span class="preview__label">Above</span>
+				<span class="preview__label">Below</span>
+			</div>
+			<Layer Slug="lib-dsh-core" />
+		</div>
+	)}
+
+	{/* Library: surface */}
+	{Slug === "surface" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Host</span>
+				<span class="preview__label">Slot</span>
+				<span class="preview__label">Fill</span>
+			</div>
+			<Surface Slug="client-dsh-panel-family" />
+		</div>
+	)}
+
+	{/* Library: buffer */}
+	{Slug === "buffer" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Store</span>
+				<span class="preview__label">Reader</span>
+				<span class="preview__label">Rule</span>
+			</div>
+			<Buffer Slug="client-dsh-panel-family-host" />
+		</div>
+	)}
+
+	{/* Library: gate */}
+	{Slug === "gate" && Verdict !== undefined && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">pass</span>
+				<span class="preview__label">store</span>
+				<span class="preview__label">replace</span>
+			</div>
+			<Gate Gate={Verdict} Slug="hook-dsh-ccr" />
+		</div>
+	)}
+
+	{/* Library: rewrite */}
+	{Slug === "rewrite" && (
+		<div class="preview__states">
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Pair</span>
+				<Rewrite Slug="hook-dsh-comment-filter" />
+			</div>
+			<div class="preview__state preview__state--wide">
+				<span class="preview__label">Class</span>
+				<Rewrite Slug="hook-dsh-live-containers" />
+			</div>
+		</div>
+	)}
+
+	{/* Library: record */}
+	{Slug === "record" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Line</span>
+				<span class="preview__label">Field</span>
+			</div>
+			<Record Slug="hook-dsh-replay-suggester" />
+		</div>
+	)}
+
+	{/* Library: advise */}
+	{Slug === "advise" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Seam</span>
+				<span class="preview__label">Trigger</span>
+				<span class="preview__label">Note</span>
+			</div>
+			<Advise Slug="hook-dsh-doc-suggester" />
+		</div>
 	)}
 </div>

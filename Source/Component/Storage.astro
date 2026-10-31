@@ -1,0 +1,151 @@
+---
+import "@Stylesheet/Component/Storage.scss";
+
+import type { Stored, Storage as StorageRecord } from "@Content/Detail";
+
+// The store: a capacity band, the entries in eviction order, and the two lines
+// the insert writes. The record states the entries the store holds at one
+// insert; the machine applies the source's own order to them, so the victim is
+// derived rather than labelled: the sweep drops every entry at or past its TTL
+// (`Store.ts:167-180`), then the insert evicts the smallest lastAccessed
+// (`Store.ts:183-193`), and the fresh entry has the newest clock.
+interface Props {
+	/** The store and the entries at one insert. */
+	Storage: StorageRecord;
+}
+
+const { Storage } = Astro.props;
+
+// The sweep runs before the insert, so an entry at or past its TTL leaves
+// first, and the victim is chosen from what the sweep left.
+const Expired = Storage.Entry.filter((Item) => Item.Last >= Storage.Ttl);
+const Live = Storage.Entry.filter((Item) => Item.Last < Storage.Ttl);
+
+// The victim is the smallest lastAccessed, which is the largest age. The fresh
+// insert has the smallest age, so it is the last candidate.
+const Victim =
+	Live.length === 0
+		? undefined
+		: Live.reduce((Oldest, Item) => (Item.Last > Oldest.Last ? Item : Oldest));
+
+const Total = Storage.Entry.reduce((Sum, Item) => Sum + Item.Size, 0);
+const Survivor =
+	Total -
+	Expired.reduce((Sum, Item) => Sum + Item.Size, 0) -
+	(Victim === undefined ? 0 : Victim.Size);
+
+// The bar is drawn to the larger of the budget and the bytes on the insert, so
+// the overflow past the budget is visible rather than clipped.
+const Scale = Math.max(Storage.Budget, Total);
+const Mebibyte = 1048576;
+
+const Size = (Bytes: number): string => `${Math.round(Bytes / Mebibyte)} MiB`;
+const Percent = (Bytes: number): string => `${Math.round((Bytes / Scale) * 1000) / 10}%`;
+const Age = (Seconds: number): string =>
+	Seconds === 0 ? "now" : `${Math.round(Seconds / 60)} min`;
+
+// The state is a function of the clock, not a field the record asserts.
+const State = (Item: Stored): "expired" | "victim" | "fresh" | "live" => {
+	switch (true) {
+		case Item.Last >= Storage.Ttl:
+			return "expired";
+		case Item === Victim:
+			return "victim";
+		case Item.Fresh === true:
+			return "fresh";
+		default:
+			return "live";
+	}
+};
+
+// The list is the eviction order: the oldest access first, the fresh insert
+// last, so the two rows that leave are the first two.
+const Order = [...Storage.Entry].sort((Left, Right) => Right.Last - Left.Last);
+
+// The lines the insert writes, in the order the store writes them: the sweep's
+// TTL evictions, then the budget's victim.
+const Line = [
+	...Expired.map((Item) => `ccr: evicted ${Item.Hash} (ttl)`),
+	...(Victim === undefined ? [] : [`ccr: evicted ${Victim.Hash} (budget)`]),
+];
+---
+
+<div class="storage">
+	<dl class="storage__band">
+		<div class="storage__stat">
+			<dt class="storage__label">Budget</dt>
+			<dd class="storage__value">{Size(Storage.Budget)}</dd>
+		</div>
+		<div class="storage__stat">
+			<dt class="storage__label">TTL</dt>
+			<dd class="storage__value">{Math.round(Storage.Ttl / 60)}&nbsp;min</dd>
+		</div>
+		<div class="storage__stat">
+			<dt class="storage__label">On the insert</dt>
+			<dd class="storage__value">{Size(Total)}</dd>
+		</div>
+		<div class="storage__stat">
+			<dt class="storage__label">After the eviction</dt>
+			<dd class="storage__value">{Size(Survivor)}</dd>
+		</div>
+	</dl>
+
+	<div
+		class="storage__bar"
+		role="img"
+		aria-label={`The store at ${Size(Total)} on an insert, past its ${Size(Storage.Budget)} budget`}
+	>
+		{Order.map((Item) => (
+			<span
+				class="storage__segment"
+				data-state={State(Item)}
+				style={`width: ${Percent(Item.Size)}`}
+			/>
+		))}
+		<span
+			class="storage__budget"
+			style={`left: ${Percent(Storage.Budget)}`}
+			aria-hidden="true"
+		/>
+	</div>
+	<p class="storage__scale">
+		<span>{Size(Total)}&nbsp;on the insert</span>
+		<span>{Size(Storage.Budget)}&nbsp;budget</span>
+	</p>
+
+	<table class="storage__entries">
+		<caption class="visually-hidden">
+			The entries the store holds at one insert, oldest access first, with the eviction each
+			one meets
+		</caption>
+		<thead>
+			<tr>
+				<th scope="col">Hash</th>
+				<th scope="col">Type</th>
+				<th scope="col">Size</th>
+				<th scope="col">Last access</th>
+				<th scope="col">State</th>
+			</tr>
+		</thead>
+		<tbody>
+			{Order.map((Item) => (
+				<tr data-state={State(Item)}>
+					<td class="storage__hash">
+						<code>{Item.Hash}</code>
+					</td>
+					<td>{Item.Type}</td>
+					<td class="storage__size">{Size(Item.Size)}</td>
+					<td class="storage__age">{Age(Item.Last)}</td>
+					<td class="storage__state">{State(Item)}</td>
+				</tr>
+			))}
+		</tbody>
+	</table>
+
+	<div class="storage__lines">
+		<p class="storage__lines-label">The lines the insert writes</p>
+		{Line.map((Item) => <code class="storage__line">{Item}</code>)}
+	</div>
+
+	<p class="storage__rule">{Storage.Rule}</p>
+</div>

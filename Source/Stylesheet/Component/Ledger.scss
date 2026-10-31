@@ -1,0 +1,96 @@
+@use "../Material.scss" as Material;
+
+// The lines: one row per event, the line quoted in mono on the inset face,
+// and the place it surfaces at the right edge. The denial rows carry the
+// accent edge because they are the rows the documented case writes; a reader
+// audits the ledger row, and the model reads the result row.
+.ledger {
+	@include Material.slab;
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-tight);
+	padding: var(--rhythm-inset);
+
+	&__rule {
+		max-width: var(--measure);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__row {
+		display: grid;
+		grid-template-columns: 32px 96px minmax(0, 1fr) 64px;
+		gap: var(--space-3);
+		align-items: baseline;
+		padding-block: var(--space-3);
+		padding-left: var(--space-3);
+		border-left: 2px solid transparent;
+		border-top: 1px solid var(--color-line);
+
+		&:first-child {
+			border-top: 0;
+		}
+
+		&[data-mark="true"] {
+			border-left-color: var(--color-accent);
+		}
+	}
+
+	&__index {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-faint);
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__when {
+		@include Material.label;
+	}
+
+	&__text {
+		padding: var(--space-2) var(--space-3);
+		border: 1px solid var(--color-line);
+		background: var(--cabinet-inset);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-snug);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+		white-space: pre-wrap;
+	}
+
+	&__where {
+		@include Material.label;
+
+		justify-self: end;
+
+		&[data-where="result"] {
+			color: var(--color-accent-ink);
+		}
+	}
+
+	@media (max-width: 720px) {
+		&__row {
+			grid-template-columns: 24px minmax(0, 1fr);
+		}
+
+		&__text,
+		&__where {
+			grid-column: 2;
+		}
+
+		&__where {
+			justify-self: start;
+		}
+	}
+}

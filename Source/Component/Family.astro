@@ -1,7 +1,7 @@
 ---
 import "@Stylesheet/Component/Family.scss";
 
-import type { Detail } from "@Content/Detail";
+import type { Family as FamilyRecord } from "@Content/Detail";
 
 // The family matrix: one row per comment-syntax family, the syntax in mono at
 // the left, every extension it covers as a chip, and the refinement beneath
@@ -9,7 +9,7 @@ import type { Detail } from "@Content/Detail";
 // family with thirty-five extensions grows its row rather than the page.
 interface Props {
 	/** The families, in the order the source's table lists them. */
-	Family: Detail["Family"];
+	Family: FamilyRecord[];
 }
 
 const { Family } = Astro.props;

@@ -15,18 +15,23 @@ import Family from "@Component/Family.astro";
 import Flow from "@Component/Flow.astro";
 import Gate from "@Component/Gate.astro";
 import Icon from "@Component/Icon.astro";
+import Ladder from "@Component/Ladder.astro";
 import Layer from "@Component/Layer.astro";
+import Ledger from "@Component/Ledger.astro";
 import Normalizer from "@Component/Normalizer.astro";
 import Origin from "@Component/Origin.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
+import Policy from "@Component/Policy.astro";
 import Provenance from "@Component/Provenance.astro";
 import Record from "@Component/Record.astro";
 import Retrieve from "@Component/Retrieve.astro";
 import Rewrite from "@Component/Rewrite.astro";
+import Schema from "@Component/Schema.astro";
 import Scheme from "@Component/Scheme.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Service from "@Component/Service.astro";
+import Storage from "@Component/Storage.astro";
 import Stream from "@Component/Stream.astro";
 import Surface from "@Component/Surface.astro";
 import Table from "@Component/Table.astro";
@@ -99,9 +104,33 @@ const Portrait = PortraitFor(Entry.Slug);
 const Current = CurrentFor(Entry.Slug);
 
 // The structured facts the package's source documents, when the site has
-// authored them: the syntax families it recognizes and the extensions it
-// deliberately leaves alone.
+// authored them: the comment-syntax families, the compressor's gate, marker,
+// store, retrieval and exemptions, or the guard's lists, order, shapes and
+// lines. The record is one typed entry per package, and the section draws only
+// the facts the record carries.
 const Detail = DetailFor(Entry.Slug);
+
+// The verdicts the record carries, for the portrait's gate: the gate is the
+// shallow picture of a gate-shaped package, and the detail draws the facts
+// behind it. A package with no record keeps the page it has.
+const Verdict = Detail?.Verdict;
+
+// The section's one caption, by the kind of record the package has.
+const Lede =
+	Detail === undefined
+		? undefined
+		: {
+				Syntax: "The comment syntax the scanner knows, and the extensions it leaves alone.",
+				Compress:
+					"The address the gate writes, the store behind it, and the four answers the retrieval returns.",
+				Guard:
+					"The two lists the guard compares, the order it compares them in, and the lines it leaves.",
+			}[Detail.Kind];
+
+// The badge tone a verdict carries: the denial is the marked verdict, so it
+// takes the accent and the allowed verdict stays quiet.
+const Tone = (Label: "allow" | "deny"): "accent" | "quiet" =>
+	Label === "deny" ? "accent" : "quiet";
 
 // The character table the family's source documents, when the site has
 // authored one: the code points it maps, the character each one becomes, and
@@ -244,7 +273,9 @@ const File = [
 				{Portrait.Shape === "layer" && <Layer Slug={Entry.Slug} />}
 				{Portrait.Shape === "surface" && <Surface Slug={Entry.Slug} />}
 				{Portrait.Shape === "buffer" && <Buffer Slug={Entry.Slug} />}
-				{Portrait.Shape === "gate" && <Gate Slug={Entry.Slug} />}
+				{Portrait.Shape === "gate" && Verdict !== undefined && (
+					<Gate Gate={Verdict} Slug={Entry.Slug} />
+				)}
 				{Portrait.Shape === "rewrite" && <Rewrite Slug={Entry.Slug} />}
 				{Portrait.Shape === "record" && <Record Slug={Entry.Slug} />}
 				{Portrait.Shape === "advise" && <Advise Slug={Entry.Slug} />}
@@ -269,13 +300,52 @@ const File = [
 
 	{Detail !== undefined && (
 		<section class="section">
-			<SectionHeader
-				Title="Detail"
-				Lede="The comment syntax the scanner knows, and the extensions it leaves alone."
-			/>
+			<SectionHeader Title="Detail" Lede={Lede} />
 			<div class="section__body stack">
-				<Family Family={Detail.Family} />
-				<Absent Absent={Detail.Absent} />
+				{Detail.Kind === "Syntax" && (
+					<>
+						<Family Family={Detail.Family} />
+						<Absent Absent={Detail.Absent} />
+					</>
+				)}
+				{Detail.Kind === "Compress" && (
+					<>
+						<Schema Properties={Detail.Marker} />
+						<Storage Storage={Detail.Storage} />
+						<Table
+							Caption="The four answers ccr_retrieve can return"
+							Head={["Call", "The store answers", "The model receives", "The ledger"]}
+							Row={Detail.Retrieval.map((Item) => [
+								{ Code: Item.Call },
+								Item.Answer,
+								Item.Model,
+								{ Code: Item.Line },
+							])}
+						/>
+						<Absent Label="Never compressed" Absent={Detail.Exempt} />
+					</>
+				)}
+				{Detail.Kind === "Guard" && (
+					<>
+						<Policy Policy={Detail.Policy} />
+						<Ladder Rung={Detail.Order} />
+						<Table
+							Caption="The exact command shapes the guard judges"
+							Head={["Command", "Verdict", "Why"]}
+							Row={Detail.Command.map((Item) => [
+								{ Code: Item.Shape },
+								{
+									Badge: {
+										Label: Item.Verdict,
+										Tone: Tone(Item.Verdict),
+									},
+								},
+								Item.Why,
+							])}
+						/>
+						<Ledger Ledger={Detail.Ledger} />
+					</>
+				)}
 			</div>
 		</section>
 	)}

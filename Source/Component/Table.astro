@@ -4,12 +4,14 @@ import "@Stylesheet/Component/Table.scss";
 import Badge from "@Component/Badge.astro";
 import Icon from "@Component/Icon.astro";
 
-// A cell is text, a link when the row names something the reader can open, or
-// a badge when the row carries a state the table states at a glance. A link
-// cell may carry the package mark its target was drawn for, so a table
-// of packages identifies each row the way a card does.
+// A cell is text, a code token when the row states a string exactly, a link
+// when the row names something the reader can open, or a badge when the row
+// carries a state the table states at a glance. A link cell may carry the
+// package mark its target was drawn for, so a table of packages identifies
+// each row the way a card does.
 type Cell =
 	| string
+	| { Code: string }
 	| { Text: string; Href: string; Icon?: string }
 	| { Badge: { Label: string; Tone?: "neutral" | "accent" | "quiet" } };
 
@@ -20,6 +22,10 @@ interface Props {
 }
 
 const { Head, Row, Caption } = Astro.props;
+
+function IsCode(Cell: Cell): Cell is { Code: string } {
+	return typeof Cell !== "string" && "Code" in Cell;
+}
 
 function IsLink(Cell: Cell): Cell is { Text: string; Href: string; Icon?: string } {
 	return typeof Cell !== "string" && "Text" in Cell;
@@ -47,7 +53,9 @@ function IsBadge(
 				<tr>
 					{Cells.map((Cell, Index) => (
 						<td>
-							{IsBadge(Cell) ? (
+							{IsCode(Cell) ? (
+								<code class="table__code">{Cell.Code}</code>
+							) : IsBadge(Cell) ? (
 								<Badge Label={Cell.Badge.Label} Tone={Cell.Badge.Tone} />
 							) : IsLink(Cell) ? (
 								<a class="table__link" href={Cell.Href}>

@@ -2,7 +2,7 @@
 //
 //     pnpm Check
 //
-// Five checks, each one a failure mode the site has shipped before:
+// Six checks, each one a failure mode the site has shipped before:
 //
 // 1. Links: every `href="/..."` in a built page resolves to a file or a page.
 // 2. Structure: one h1, a title, a description, no skipped heading levels, no
@@ -11,13 +11,17 @@
 //    what a whitespace-only text node looks like after the compressor drops it.
 // 4. Plural: a count followed by a plural noun, which the site's voice forbids.
 // 5. Islands: every `astro-island` is counted and reported, because an island
-//    that hydrated but never drew is invisible to the other four checks.
+//    that hydrated but never drew is invisible to the other five checks.
+// 6. Library: every registry slug has a preview block, and every state the
+//    registry declares is named in that block.
 //
 // A failure exits non-zero, so the script is usable as the last step of a build.
 
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { readFileSync } from "node:fs";
 import { join, relative } from "node:path";
+
+import { Library } from "./Library.ts";
 
 const Root = join(process.cwd(), "Target");
 
@@ -156,6 +160,11 @@ for (const Entry of Island.filter((Item) => Item.Count > 1)) {
 	console.log(`  ${Entry.Route} ${Entry.Count}`);
 }
 
+// 6. Library. The registry and the preview are source files, so the check runs
+// before the built output matters: the library is a development surface, and a
+// production build publishes no `/library/` route to inspect.
+for (const Line of Library()) Issue.push(Line);
+
 if (Issue.length > 0) {
 	console.error(`\n${Issue.length} issue(s):`);
 
@@ -164,4 +173,4 @@ if (Issue.length > 0) {
 	process.exit(1);
 }
 
-console.log("checks: links, structure, spacing, plural all pass");
+console.log("checks: links, structure, spacing, plural, library all pass");

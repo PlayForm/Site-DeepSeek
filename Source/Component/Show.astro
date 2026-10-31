@@ -1,0 +1,50 @@
+---
+import "@Stylesheet/Component/Show.scss";
+
+// The show: one plugin's operator, drawn as the single picture its dimension
+// calls for. The operator names the picture, and the step list is the data the
+// picture carries, in the order a reader scans it.
+interface Plugin {
+	/** The package directory the operator belongs to. */
+	Slug: string;
+	/** What the plugin does, in one clause. */
+	Summary: string;
+}
+
+interface Showcase {
+	/** The operator's own name: a ladder, a chain, a grid. */
+	Operator: string;
+	/** What the picture proves, in one sentence. */
+	Title: string;
+	/** The data the picture draws, in reading order. */
+	Step: { Label: string; Body: string }[];
+}
+
+interface Props {
+	/** The plugin record the showcase extends. */
+	Plugin: Plugin;
+	/** The operator and its data. */
+	Showcase: Showcase;
+}
+
+const { Plugin, Showcase } = Astro.props;
+---
+
+<figure class="show">
+	<header class="show__head">
+		<span class="show__operator">{Showcase.Operator}</span>
+		<h2 class="show__title">{Showcase.Title}</h2>
+	</header>
+	<ol class="show__steps">
+		{Showcase.Step.map((Entry) => (
+			<li class="show__step">
+				<span class="show__label">{Entry.Label}</span>
+				<span class="show__body">{Entry.Body}</span>
+			</li>
+		))}
+	</ol>
+	<figcaption class="show__source">
+		<span class="show__slug">{Plugin.Slug}</span>
+		<span class="show__summary">{Plugin.Summary}</span>
+	</figcaption>
+</figure>
