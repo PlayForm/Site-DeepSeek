@@ -1,0 +1,81 @@
+@use "../Material.scss" as Material;
+
+// The deck: cards in a stack, the first one readable and the rest peeking at
+// the bottom and right. On hover the stack fans into a hand, each card keeping
+// its index in the exposed edge; the first card stays on top, so the readable
+// face never moves behind another.
+.deck {
+	--spread: 64px;
+
+	position: relative;
+	width: 100%;
+	max-width: 320px;
+	height: 210px;
+	margin-block: 0;
+	margin-inline: auto;
+	padding: 0;
+	list-style: none;
+
+	&__card {
+		@include Material.slab;
+
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: calc(100% - 16px);
+		height: calc(100% - 16px);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		padding: var(--space-4);
+		border-radius: var(--radius-md);
+		overflow: hidden;
+		transform: translate(calc(var(--index) * 8px), calc(var(--index) * 8px));
+		transform-origin: bottom center;
+		z-index: calc(10 - var(--index));
+		transition: transform var(--motion-snap) var(--ease-snap);
+
+		&:first-child {
+			border-left: 2px solid var(--color-accent);
+		}
+	}
+
+	&__head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-3);
+	}
+
+	&__label {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	&__index {
+		@include Material.label(10px);
+
+		flex: none;
+	}
+
+	&__body {
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&:hover &__card {
+		transform:
+			translateX(calc((var(--index) - (var(--count) - 1) / 2) * var(--spread)))
+			rotate(calc((var(--index) - (var(--count) - 1) / 2) * 4deg));
+	}
+
+	@media (max-width: 640px) {
+		--spread: 44px;
+
+		max-width: 260px;
+		height: 220px;
+	}
+}

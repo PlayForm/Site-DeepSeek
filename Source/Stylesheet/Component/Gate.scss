@@ -19,9 +19,13 @@
 		color: var(--color-ink-muted);
 	}
 
+	// One track per verdict rather than a fixed three: the ccr gate answers
+	// with three and the git guard with two, and a fixed three would leave the
+	// guard's row short by a column.
 	&__row {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-auto-flow: column;
+		grid-auto-columns: minmax(0, 1fr);
 		gap: var(--space-2);
 		margin: 0;
 		padding: 0;
@@ -88,7 +92,8 @@
 
 	@media (max-width: 720px) {
 		&__row {
-			grid-template-columns: minmax(0, 1fr);
+			grid-auto-flow: row;
+			grid-auto-columns: auto;
 		}
 	}
 }

@@ -1,0 +1,98 @@
+---
+import "@Stylesheet/Component/Bundle.scss";
+
+// The bundle: the package's work is what it loads, so the picture is the rail
+// the mounts happen on, the parts in the order they mount, and the rule that
+// catches a part which fails.
+//
+// The parts are the mount steps of `Source/Library.ts`, in the order the code
+// runs them: the list is read and filtered at apply, the detach hands the rail
+// back, each specifier is guarded against a second mount, imported, mounted,
+// and recorded. A bundle whose parts were a fixed set of plugins would draw
+// the config rather than the bundle, and the config is a profile's business;
+// what this package owns is the sequence, so the sequence is what is drawn.
+interface Part {
+	/** The step, said in two or three words. */
+	Name: string;
+	/** What that step brings to the mount, and what it guards. */
+	Brings: string;
+}
+
+interface Bundle {
+	/** The seam the mounts happen on. */
+	Rail: string;
+	/** The rule the mount keeps, said once. */
+	Rule: string;
+	/** The parts, in the order they run. */
+	Part: Part[];
+	/** What happens when a part fails. */
+	Contain: string;
+}
+
+interface Props {
+	/** The package whose bundle this is. */
+	Slug: string;
+}
+
+const { Slug } = Astro.props;
+
+const Bundle: Record<string, Bundle> = {
+	"plugin-dsh-boot": {
+		Rail: "the loader's apply, on the harness's own boot rail",
+		Rule: "The rail exists because a plugin that awaits inside apply holds the harness's ready message open, and a stuck fiber leaves the host loading with no error anywhere. This bundle's apply schedules the mounts and returns.",
+		Part: [
+			{
+				Name: "the mount list",
+				Brings: "read once at apply: every specifier that is a non-empty string, in the order the config lists them",
+			},
+			{
+				Name: "the detach",
+				Brings: "setImmediate hands the rail back to the loader, so no import is awaited inside apply",
+			},
+			{
+				Name: "the guard",
+				Brings: "a specifier this process already mounted is skipped, because a re-applied fiber would double-register its services",
+			},
+			{
+				Name: "the import",
+				Brings: "a dynamic import of the specifier, then a mount with an empty config",
+			},
+			{
+				Name: "the record",
+				Brings: "the specifier joins the mounted set, in memory only, so a later turn does not mount it twice",
+			},
+		],
+		Contain:
+			"An import that throws, or a plugin whose apply rejects, is logged once as a warning and skipped. The failure is dropped from the mounted set, so a later boot retries it, and nothing reaches the rail.",
+	},
+};
+
+const Entry = Bundle[Slug] ?? Bundle[Slug.replace(/^ets-/, "")];
+---
+
+{
+	Entry !== undefined && (
+		<div class="bundle" role="img" aria-label={`How ${Slug} mounts what it loads`}>
+			<div class="bundle__rail">
+				<span class="bundle__label">Rail</span>
+				<span class="bundle__rail-text">{Entry.Rail}</span>
+			</div>
+			<p class="bundle__rule">{Entry.Rule}</p>
+			<ol class="bundle__part-list">
+				{Entry.Part.map((Item, Index) => (
+					<li class="bundle__part">
+						<span class="bundle__index">{String(Index + 1).padStart(2, "0")}</span>
+						<div class="bundle__body">
+							<span class="bundle__name">{Item.Name}</span>
+							<span class="bundle__brings">{Item.Brings}</span>
+						</div>
+					</li>
+				))}
+			</ol>
+			<div class="bundle__contain">
+				<span class="bundle__label">Contained</span>
+				<p class="bundle__contain-text">{Entry.Contain}</p>
+			</div>
+		</div>
+	)
+}

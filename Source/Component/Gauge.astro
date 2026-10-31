@@ -1,0 +1,78 @@
+---
+import "@Stylesheet/Component/Gauge.scss";
+
+interface Props {
+	/** The quantity, in bytes. */
+	Value: number;
+	/** The quantity's ceiling, in bytes. */
+	Ceiling: number;
+	/** What the quantity is. */
+	Label: string;
+	/** A quiet fact under the ceiling. */
+	Note?: string;
+}
+
+const { Value, Ceiling, Label, Note } = Astro.props;
+
+// The gauge is a semicircle: the accent arc is the value's share of the
+// ceiling and the line colour is the remainder. The ratio is clamped for the
+// drawing only; the value in the middle prints what the caller passed.
+const Width = 260;
+const Height = 150;
+const Center = 130;
+const Baseline = 128;
+const Radius = 96;
+const Ratio = Ceiling > 0 ? Math.min(Math.max(Value / Ceiling, 0), 1) : 0;
+const Angle = Math.PI - Ratio * Math.PI;
+const Start = { X: Center - Radius, Y: Baseline };
+const Finish = { X: Center + Radius, Y: Baseline };
+const Tip = {
+	X: Center + Math.cos(Angle) * Radius,
+	Y: Baseline - Math.sin(Angle) * Radius,
+};
+const Arc = (To: { X: number; Y: number }) =>
+	`M ${Start.X.toFixed(2)} ${Start.Y.toFixed(2)} A ${Radius} ${Radius} 0 0 1 ${To.X.toFixed(2)} ${To.Y.toFixed(2)}`;
+const Remainder = Arc(Finish);
+const Fill = Ratio > 0 ? Arc(Tip) : "";
+
+function Read(Bytes: number): { Amount: string; Unit: string } {
+	switch (true) {
+		case Bytes >= 1048576:
+			return {
+				Amount: (Bytes / 1048576).toFixed(Bytes % 1048576 === 0 ? 0 : 1),
+				Unit: "MB",
+			};
+		case Bytes >= 1024:
+			return {
+				Amount: (Bytes / 1024).toFixed(Bytes % 1024 === 0 ? 0 : 1),
+				Unit: "KB",
+			};
+		default:
+			return { Amount: String(Bytes), Unit: "B" };
+	}
+}
+
+const ValueRead = Read(Value);
+const CeilingRead = Read(Ceiling);
+---
+
+<figure class="gauge">
+	<div class="gauge__plot">
+		<svg class="gauge__arc" viewBox={`0 0 ${Width} ${Height}`} aria-hidden="true">
+			<path class="gauge__remainder" d={Remainder} />
+			{Fill && <path class="gauge__fill" d={Fill} />}
+		</svg>
+		<div class="gauge__readout">
+			<span class="gauge__value">{ValueRead.Amount}&nbsp;{ValueRead.Unit}</span>
+			<span class="gauge__label">{Label}</span>
+		</div>
+	</div>
+
+	<figcaption class="gauge__foot">
+		<span class="gauge__ceiling">
+			<span class="gauge__ceiling-label">ceiling</span>
+			<span class="gauge__ceiling-value">{CeilingRead.Amount}&nbsp;{CeilingRead.Unit}</span>
+		</span>
+		{Note && <span class="gauge__note">{Note}</span>}
+	</figcaption>
+</figure>

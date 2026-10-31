@@ -1,0 +1,60 @@
+---
+import "@Stylesheet/Component/Cascade.scss";
+
+interface Step {
+	/** The stage's own name. */
+	Label: string;
+	/** Where the stage starts, as a percentage of the call. */
+	At: number;
+	/** How long the stage runs, as a percentage of the call. */
+	Width: number;
+	/** A quiet fact beside the stage. */
+	Note?: string;
+}
+
+interface Props {
+	/** The stages, in the order they run. */
+	Step: Step[];
+}
+
+const { Step } = Astro.props;
+
+// The bar starts at its own At, and the data is cumulative, so each bar begins
+// where the previous one ended. The track keeps the bar inside its hundred
+// percent even if a caller overshoots, while the elapsed value prints the
+// caller's own arithmetic rather than the clamp.
+const Left = (Value: number) => Math.max(0, Math.min(Value, 100));
+const Wide = (Value: number) => Math.max(0, Math.min(Value, 100 - Left(Value)));
+---
+
+<figure class="cascade">
+	<div class="cascade__head" aria-hidden="true">
+		<span class="cascade__head-cell">Stage</span>
+		<span class="cascade__head-cell">Share</span>
+		<span class="cascade__head-cell cascade__head-cell--end">Elapsed</span>
+	</div>
+
+	<ol class="cascade__list">
+		{Step.map((Entry) => (
+			<li class="cascade__step">
+				<span class="cascade__label">
+					<span class="cascade__name">{Entry.Label}</span>
+					{Entry.Note && <span class="cascade__note">{Entry.Note}</span>}
+				</span>
+				<span class="cascade__track">
+					<span
+						class="cascade__bar"
+						title={`${Entry.Width}% of the call`}
+						style={{ left: `${Left(Entry.At)}%`, width: `${Wide(Entry.Width)}%` }}
+					/>
+				</span>
+				<span class="cascade__elapsed">{Entry.At + Entry.Width}%</span>
+			</li>
+		))}
+	</ol>
+
+	<figcaption class="cascade__caption">
+		Each bar starts where the one above it ended. The widths are a share of the call, not a
+		measured duration.
+	</figcaption>
+</figure>

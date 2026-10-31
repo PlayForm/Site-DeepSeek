@@ -1,14 +1,19 @@
 ---
-import Curve from "@Component/Curve.astro";
+import "@Stylesheet/Component/Tutorial.scss";
+
+import CurveChart from "@Component/Curve.astro";
+import Gauge from "@Component/Gauge.astro";
 import PageHero from "@Component/PageHero.astro";
 import ScenarioCard from "@Component/Scenario.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Term from "@Component/Term.astro";
+import { Curve } from "@Content/Curve";
 import { Scenario } from "@Content/Tutorial";
 import Base from "@Layout/Base.astro";
 import { Route } from "@Library/Link";
 
 const OptIn = Scenario.filter((Entry) => Entry.OptIn).length;
+const Share = ((Curve.Threshold / Curve.Ceiling) * 100).toFixed(1);
 ---
 
 <Base
@@ -47,8 +52,7 @@ const OptIn = Scenario.filter((Entry) => Entry.OptIn).length;
 				on install.
 			</p>
 			<p class="muted">
-				<a href={Route.Setup}>Set up a plugin</a> shows the line, and{" "}
-				<a href={Route.Intervention}>Intervention</a> shows every seam the family stands at.
+				<a href={Route.Setup}>Set up a plugin</a> shows the line, and&nbsp;<a href={Route.Intervention}>Intervention</a> shows every seam the family stands at.
 			</p>
 		</div>
 	</section>
@@ -58,8 +62,14 @@ const OptIn = Scenario.filter((Entry) => Entry.OptIn).length;
 			Title="Measure"
 			Lede="The one number the site can measure without a live run: how much of a tool result reaches the model, and where the two curves part."
 		/>
-		<div class="section__body">
-			<Curve />
+		<div class="section__body tutorial-measure">
+			<CurveChart />
+			<Gauge
+				Value={Curve.Threshold}
+				Ceiling={Curve.Ceiling}
+				Label="The threshold"
+				Note={`${Share}% of the ceiling`}
+			/>
 		</div>
 	</section>
 

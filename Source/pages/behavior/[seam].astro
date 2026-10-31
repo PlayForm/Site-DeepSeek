@@ -1,6 +1,7 @@
 ---
 import Absence from "@Component/Absence.astro";
 import Badge from "@Component/Badge.astro";
+import Constellation from "@Component/Constellation.astro";
 import Fanout from "@Component/Fanout.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
@@ -258,7 +259,8 @@ const Lede = Claim();
 			Title="Fan"
 			Lede="One event, many hands. The same listener list the table below details, drawn as the dispatch it is."
 		/>
-		<div class="section__body">
+		<div class="section__body stack">
+			<Constellation Source={Seam} Listener={Hook} />
 			<Fanout Source={Seam} Listener={Hook} />
 		</div>
 	</section>

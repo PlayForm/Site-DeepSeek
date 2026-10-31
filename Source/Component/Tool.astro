@@ -1,0 +1,209 @@
+---
+import "@Stylesheet/Component/Tool.scss";
+
+// The tool: the package's work is the callable surface it registers, so the
+// picture is a register: one row per call, what the call takes, and what it
+// hands back, with the seam the names live on stated once above them.
+//
+// The seam is a field rather than a constant, because the family registers two
+// kinds of callable and only one of them is a tool. A model-facing tool is
+// registered on the tools seam; the cost family's surface is five verbs on the
+// commands service, which the README says in as many words is not a tool and
+// never enters the model context. Printing a command as a tool would be a lie
+// a reader would catch, so the register names its own seam and the rows are
+// the calls a reader can actually make.
+//
+// The rows are transcribed from each package's tool definition or command
+// handler: the action table of `Source/Function/Tools.ts` for the batch edit
+// engine, the five verbs of `Source/Function/Apply.ts` for the cost ledger,
+// the one verb of the analysis half, the two registrations of the normalizer,
+// and the five tools of the workspace agent.
+interface Call {
+	/** The call, as the caller types it. */
+	Name: string;
+	/** What the call takes, named the way the source names the fields. */
+	Takes: string;
+	/** What the call hands back. */
+	Returns: string;
+}
+
+interface Tool {
+	/** The seam the names are registered on. */
+	Seam: string;
+	/** The rule the register keeps, said once. */
+	Rule: string;
+	/** The calls, in the order the package registers them. */
+	Call: Call[];
+	/** What the register does not cover, when the package also acts elsewhere. */
+	Note?: string;
+}
+
+interface Props {
+	/** The package whose calls these are. */
+	Slug: string;
+}
+
+const { Slug } = Astro.props;
+
+const Tool: Record<string, Tool> = {
+	"plugin-dsh-batch-edit": {
+		Seam: "the tools seam: one tool, and the action is its first field",
+		Rule: "The tool is a machine rather than a call: open declares the scope, insert and remove move files in and out, commit runs the table, state re-presents, and close settles. Every write goes through the factory's executor, behind the policy's write verdict.",
+		Call: [
+			{
+				Name: "batch_edit, action=open",
+				Takes: "the paths or globs, and the prepared searches and operations",
+				Returns: "the machine id, the held files with their versions, and a miss listed rather than guessed",
+			},
+			{
+				Name: "batch_edit, action=insert",
+				Takes: "the machine id, and more paths or globs",
+				Returns: "the same machine with the files added, and the lease unchanged",
+			},
+			{
+				Name: "batch_edit, action=remove",
+				Takes: "the machine id, and the files to drop",
+				Returns: "the machine without them, and one removed line per file",
+			},
+			{
+				Name: "batch_edit, action=commit",
+				Takes: "the machine id, the transition table, and an optional opfile",
+				Returns: "one outcome per file, or the typed job id when the inline deadline passes",
+			},
+			{
+				Name: "batch_edit, action=state",
+				Takes: "the machine id",
+				Returns: "every held file, its state, and its version",
+			},
+			{
+				Name: "batch_edit, action=close",
+				Takes: "the machine id",
+				Returns: "the machine closed, after the in-flight files settle",
+			},
+		],
+		Note: "The held file's states are the flow below: observed, running, done, errored, and halted, with an external touch halting the file rather than being overwritten.",
+	},
+	"plugin-dsh-cost": {
+		Seam: "the commands service: one command, five verbs, and no model-visible surface",
+		Rule: "None of the five is a tool, and none enters the model context: a command renders its text outside the history, and every figure it prints is read from the provider's own usage.",
+		Call: [
+			{
+				Name: "/cost report",
+				Takes: "a scope: file, project, client, model, or session; and one UTC day",
+				Returns: "the rollup rows for that scope, or for the whole ledger when no day is named",
+			},
+			{
+				Name: "/cost export",
+				Takes: "csv, json, or markdown, and an optional path",
+				Returns: "the bundle written, and the number of rows it carried",
+			},
+			{
+				Name: "/cost annotate",
+				Takes: "an optional path, or every file the project knows",
+				Returns: "written or skipped per file, with the reason",
+			},
+			{
+				Name: "/cost assess",
+				Takes: "an optional session",
+				Returns: "the spend bucketed as delivered, explored, reverted, overhead, and carry, with the cost per surviving line",
+			},
+			{
+				Name: "/cost forecast",
+				Takes: "a day count, thirty by default",
+				Returns: "the daily rate per scope and key, projected with its confidence band",
+			},
+		],
+		Note: "The ledger behind the verbs is one SQLite file: the effective-dated prices, the call and touch grain, the allocations, the day rollup, and the views the five verbs read.",
+	},
+	"plugin-dsh-cost-analysis": {
+		Seam: "the commands service: one command, over a ledger opened read-only",
+		Rule: "The plugin never writes a row, never creates a table, and registers no listener: the ledger keeps recording facts, and the judgement lives here.",
+		Call: [
+			{
+				Name: "/cost analysis",
+				Takes: "a scope: file, project, client, model, or session",
+				Returns: "the metric rows of the enabled families, or the empty-ledger line when the scope has none",
+			},
+		],
+		Note: "The five families it renders: credit, effectiveness, lines, overhead, and cache.",
+	},
+	"plugin-dsh-normalize-file": {
+		Seam: "the tools seam for the file call, and the commands service for the one-shot overpass",
+		Rule: "One agent-chosen file per call: the tool reads, applies the family's six transforms with a count, and writes only when the count is above zero, through the factory's one write executor.",
+		Call: [
+			{
+				Name: "normalize-file",
+				Takes: "a path",
+				Returns: "the count and the fresh version, or the unchanged result when the count is zero",
+			},
+			{
+				Name: "normalize-overpass",
+				Takes: "files, batch, results on or off, or scopes",
+				Returns: "the one-shot arm, armed for the next tool result or the next step",
+			},
+		],
+		Note: "The six transforms are the dash, quote, ellipsis, space, invisible, and fullwidth tables, which is the same chain raw-write applies under its normalize flag.",
+	},
+	"plugin-dsh-workspace": {
+		Seam: "the tools seam: five tools over the graph, four of them reads",
+		Rule: "Every tool returns a compact table plus ids, never a file body, and pagination is by cursor. The one tool that changes anything is the index trigger, and it delegates the walk to the graph service.",
+		Call: [
+			{
+				Name: "workspace_map",
+				Takes: "a path or module prefix, and a depth",
+				Returns: "the modules with their roles, the file count, the entry points, and the hot symbols",
+			},
+			{
+				Name: "workspace_find",
+				Takes: "a name or pattern, a kind, and a limit",
+				Returns: "the matching nodes with id, path, span, and kind, and a cursor for the next page",
+			},
+			{
+				Name: "workspace_expand",
+				Takes: "a node id, edge kinds, and a depth",
+				Returns: "the connected nodes and edges, and the kinds that are deferred",
+			},
+			{
+				Name: "workspace_context",
+				Takes: "a node id or a query, and a token budget",
+				Returns: "the orientation packet, its eight sections, and its version",
+			},
+			{
+				Name: "workspace_index",
+				Takes: "a path, and a file bound",
+				Returns: "the walk's counts: indexed, skipped, failed, and files",
+			},
+		],
+		Note: "The index trigger runs first when the graph is empty: a map over an unindexed workspace reports zero files, honestly.",
+	},
+};
+
+const Entry = Tool[Slug] ?? Tool[Slug.replace(/^ets-/, "")];
+---
+
+{
+	Entry !== undefined && (
+		<div class="tool" role="img" aria-label={`The calls ${Slug} registers`}>
+			<div class="tool__meta">
+				<span class="tool__label">Seam</span>
+				<span class="tool__seam">{Entry.Seam}</span>
+			</div>
+			<p class="tool__rule">{Entry.Rule}</p>
+			<div class="tool__head">
+				<span class="tool__head-cell">Name</span>
+				<span class="tool__head-cell">Takes</span>
+				<span class="tool__head-cell">Returns</span>
+			</div>
+			<ol class="tool__register">
+				{Entry.Call.map((Item) => (
+					<li class="tool__row">
+						<span class="tool__name">{Item.Name}</span>
+						<span class="tool__takes">{Item.Takes}</span>
+						<span class="tool__returns">{Item.Returns}</span>
+					</li>
+				))}
+			</ol>
+			{Entry.Note !== undefined && <p class="tool__note">{Entry.Note}</p>}
+		</div>
+	)
+}

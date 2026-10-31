@@ -90,6 +90,31 @@ const Layer: Record<string, Stack> = {
 			},
 		],
 	},
+
+	// The base is the ETS tree's floor, and the corpus draws it as the layer
+	// graph rather than as a plugin: it has no patch row, no Config, and no
+	// listener, so the only arrow that matters is which way the dependency
+	// points.
+	"ets-base-dsh": {
+		Rule: "The base imports one package, effect, and every ETS package imports the base. The arrow points up: the base depends on nothing of the family.",
+		Layer: [
+			{
+				Label: "Consumers",
+				Provides:
+					"ets-plugin-dsh-factory, which materializes the runtime, and the ets-hook bundles",
+			},
+			{
+				Label: "Base",
+				Provides:
+					"the contracts, the stream mechanism, the four service layers, and materialize()",
+				Mark: true,
+			},
+			{
+				Label: "Runtime",
+				Provides: "effect, pinned, and nothing else: no Config and no patch row",
+			},
+		],
+	},
 };
 
 const Entry = Layer[Slug];

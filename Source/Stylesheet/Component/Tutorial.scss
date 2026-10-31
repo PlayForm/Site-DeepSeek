@@ -1,0 +1,16 @@
+@use "../Material.scss" as Material;
+
+// The tutorial's measure section: the curve keeps the reading width and the
+// gauge takes a narrow column beside it, so the log curve and the linear share
+// are read together. A narrow viewport stacks them rather than squeezing the
+// curve into a third of its width.
+.tutorial-measure {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(240px, 280px);
+	gap: var(--rhythm-group);
+	align-items: start;
+
+	@media (max-width: 860px) {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

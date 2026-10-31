@@ -8,6 +8,7 @@ import InspectorLive from "@Component/InspectorLive.tsx";
 import LaneChart from "@Component/Lane.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pending from "@Component/Pending.astro";
+import Ribbon from "@Component/Ribbon.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import StatBand from "@Component/StatBand.astro";
 import Term from "@Component/Term.astro";
@@ -50,11 +51,25 @@ const Shown = Ledger.slice(0, 8);
 // The coverage grid's own number, so the caption counts the rows it sits under.
 const Feedable = Coverage.filter((Entry) => Entry.Feed === "yes").length;
 
+// The ribbon's ticks are the first record of each kind, so the band names the
+// five phases of the log; every record is a mark, and a live record is the
+// warn kind because a reload drops it.
+const RibbonTick: { At: number; Label: string }[] = Record.filter(
+	(Entry, Index, List) => List.findIndex((Item) => Item.Kind === Entry.Kind) === Index,
+).map((Entry) => ({ At: Entry.Index, Label: Entry.Kind }));
+
+const RibbonMark: { At: number; Label: string; Kind: "ok" | "warn" }[] = Record.map((Entry) => ({
+	At: Entry.Index,
+	Label: Entry.Name,
+	Kind: Entry.Durable ? "ok" : "warn",
+}));
+
 // The page's readings, in the order it reads them: the index in the hero and
-// the six section addresses below are the same list.
+// the seven section addresses below are the same list.
 const Machine = [
 	{ Name: "Record", Id: "record" },
 	{ Name: "Lane", Id: "lane" },
+	{ Name: "Ribbon", Id: "ribbon" },
 	{ Name: "Board", Id: "board" },
 	{ Name: "Graph", Id: "graph" },
 	{ Name: "Coverage", Id: "coverage" },
@@ -64,7 +79,7 @@ const Machine = [
 
 <Base
 	Title="Trace"
-	Description={`One run as an operator reads it: ${Record.length} records, the lanes, the counts, the package graph, and the states the log can and cannot feed.`}>
+	Description={`One run as an operator reads it: ${Record.length} records, the ribbon, the lanes, the counts, the package graph, and the states the log can and cannot feed.`}>
 	<PageHero Eyebrow="Observability" Title="What a run leaves">
 		<Fragment slot="Lede">
 			One run, read every way an operator reads it afterwards: the order the log wrote, the
@@ -118,6 +133,16 @@ const Machine = [
 				short bars on the record lane are the ledger writes, and the board names the files
 				they land in.
 			</p>
+		</div>
+	</section>
+
+	<section class="section trace-page__section" id="ribbon">
+		<SectionHeader
+			Title="Ribbon"
+			Lede="The same run, record by record: one mark per event in the order the log wrote it, a tick for each kind, and the window the records occupy. A warn mark is a record a reload does not keep."
+		/>
+		<div class="section__body">
+			<Ribbon Tick={RibbonTick} Mark={RibbonMark} />
 		</div>
 	</section>
 

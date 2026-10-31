@@ -1,0 +1,64 @@
+---
+import "@Stylesheet/Component/Constellation.scss";
+
+import type { Effect } from "@Content/Behavior";
+
+interface Listener {
+	/** The package directory. */
+	Slug: string;
+	/** What it does at the seam. */
+	Effect: Effect;
+	/** True when the README documents it, false when only the source does. */
+	Documented?: boolean;
+}
+
+interface Props {
+	/** The event the listeners answer. */
+	Source: string;
+	/** The listeners, in the order the page lists them. */
+	Listener: Listener[];
+}
+
+const { Source, Listener } = Astro.props;
+
+// The dots leave the top of the ring to the count: the count is the ring's
+// caption, and the dots fill the rest of the circle. The positions are
+// percentages, so the picture keeps its shape at any width and the label keeps
+// its type size instead of scaling with a viewBox.
+const Center = 50;
+const Radius = 36;
+const Gap = 40;
+const Start = -90 + Gap / 2;
+const End = 270 - Gap / 2;
+const Step = Listener.length > 1 ? (End - Start) / (Listener.length - 1) : 0;
+const Angle = (Index: number) => (Listener.length === 1 ? 90 : Start + Index * Step);
+const Point = (Degrees: number) => ({
+	X: Center + Math.cos((Degrees * Math.PI) / 180) * Radius,
+	Y: Center + Math.sin((Degrees * Math.PI) / 180) * Radius,
+});
+---
+
+<figure
+	class="constellation"
+	role="img"
+	aria-label={`${Source}: one event, ${Listener.length} listener, one dot each on the ring`}>
+	<div class="constellation__plot">
+		<span class="constellation__ring" aria-hidden="true" />
+		<span class="constellation__count">{Listener.length}&nbsp;listener</span>
+		<span class="constellation__source" aria-hidden="true" />
+		<span class="constellation__event">{Source}</span>
+
+		{Listener.map((Item, Index) => {
+			const Dot = Point(Angle(Index));
+
+			return (
+				<span
+					class="constellation__dot"
+					data-documented={Item.Documented !== false}
+					title={`${Item.Slug}: ${Item.Effect}${Item.Documented === false ? " arm" : ""}`}
+					style={{ left: `${Dot.X}%`, top: `${Dot.Y}%` }}
+				/>
+			);
+		})}
+	</div>
+</figure>

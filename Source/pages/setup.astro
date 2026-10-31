@@ -1,5 +1,6 @@
 ---
 import CodeBlock from "@Component/CodeBlock.astro";
+import Deck from "@Component/Deck.astro";
 import Diagram from "@Component/Diagram.astro";
 import Grid from "@Component/Grid.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -25,6 +26,14 @@ const Knob = ConfigFor(Example?.Slug ?? "").map((Item) => [
 	Item.Default,
 	Item.Meaning,
 ]);
+
+// The three axes the deck stacks: the switch, the point it acts at, and what
+// it writes. The grid below holds all eight.
+const DeckCard = ["enabled", "threshold", "replacement"].flatMap((Name) => {
+	const Entry = Axis.find((Item) => Item.Name === Name);
+
+	return Entry ? [{ Label: Entry.Name, Body: Entry.Turn }] : [];
+});
 
 // The activation line the package documents, so a reader knows what to look
 // for after the install.
@@ -110,7 +119,8 @@ const Confirm = [
 			Title="Axis"
 			Lede="The eight axes a reader actually turns, across the family. The exact field and default live on each package's page; this is the shape of the choice."
 		/>
-		<div class="section__body">
+		<div class="section__body stack">
+			<Deck Card={DeckCard} />
 			<Grid
 				Head={["Ships as", "Turn it"]}
 				Row={Axis.map((Item) => ({

@@ -2,13 +2,12 @@
 // the work in the order it happens, the branch that decides, the ledger it
 // writes, and the path that fails.
 //
-// Every record is transcribed by hand from two places, and a record is only
-// written when both agree:
+// Every record is transcribed by hand, from the corpus where the corpus draws
+// the package and from the source in every case:
 //
 //   * the corpus at `Diagram/`, one Mermaid flowchart per package, which is
-//     the package's own control flow drawn by the diagram lane - for the
-//     governance trio in `02-governance/` and the tool coach in
-//     `04-guardians/`;
+//     the package's own control flow - for the governance trio in
+//     `02-governance/` and the tool coach in `04-guardians/`;
 //   * the package's `Source/` tree in `Classic/packages/<slug>/` and
 //     `EffectTS/packages/ets-<slug>/`, which is the arbiter when the two
 //     disagree: `Source/Function/Apply.ts` for the listeners and the
@@ -23,10 +22,14 @@
 // to be read twice to see the same shape.
 //
 // The twins do not differ in control flow. Every `ets-` package registers the
-// same listeners in the same order and composes the same ledger strings; the
-// ETS tree swaps the factory's own base import, which is a fact about the
-// package's dependencies rather than about its flow. The lookup strips the
-// prefix for that reason, the way `PortraitFor` does.
+// same listeners in the same order and composes the same ledger strings, and
+// its own corpus diagram says so in as many words; what the ETS diagrams add
+// is the Effect runtime around the hook (the dispatch, the scope fork, the
+// per-step containment), which is that release tree's execution model rather
+// than the hook's own decisions. The two things that do differ are the ledger
+// file, which is named for the package identity, and the factory base import.
+// The lookup strips the prefix for that reason, the way `PortraitFor` does,
+// and fills the identity into the one path that carries it.
 
 export interface Stage {
 	/** The node's own words. */
@@ -104,9 +107,9 @@ export const Current: Current[] = [
 				Note: "The directory pauses, and the line carries the count.",
 			},
 			{
-				Label: "~/.dsh/playform/hook-dsh-package-governor.log",
+				Label: "~/.dsh/playform/<identity>.log",
 				Kind: "store",
-				Note: "One global ledger, with the module identity hook-dsh-governor-package.",
+				Note: "One global ledger, with the module identity as the line prefix.",
 			},
 		],
 		Rule: "The manifest is the only thing that changes: the listener never awaits, the chain pass and the update stage run as detached continuations, and the author is never told.",
@@ -165,7 +168,7 @@ export const Current: Current[] = [
 				Note: "The version token is the service's, so a stale fence cannot overwrite.",
 			},
 			{
-				Label: "~/.dsh/playform/hook-dsh-package-pinner.log",
+				Label: "~/.dsh/playform/<identity>.log",
 				Kind: "store",
 				Note: "The pinner's own ledger, separate from the governor's.",
 			},
@@ -231,7 +234,7 @@ export const Current: Current[] = [
 				Note: "The directory pauses, and the line carries the count.",
 			},
 			{
-				Label: "~/.dsh/playform/hook-dsh-cargo-governor.log",
+				Label: "~/.dsh/playform/<identity>.log",
 				Kind: "store",
 				Note: "The cargo module's own ledger, separate from the npm governor's.",
 			},
@@ -365,7 +368,7 @@ export const Current: Current[] = [
 			{
 				Label: "ignored <path> (own actor | excluded | not included)",
 				Kind: "fail",
-				Note: "A malformed event is caught and ledgered rather than thrown into the emitter.",
+				Note: "A malformed event is caught on the same path, and ledgered as failed rather than thrown.",
 			},
 			{
 				Label: "Record the watch entry: the version, the clock stamp, the check sets, and the debounce deadline",
@@ -388,7 +391,7 @@ export const Current: Current[] = [
 				Note: "There is no setTimeout and no setInterval anywhere; the next event is the bound.",
 			},
 			{
-				Label: "~/.dsh/playform/hook-dsh-workspace-monitor.log",
+				Label: "~/.dsh/playform/<identity>.log",
 				Kind: "store",
 				Note: "The health counters ride the probed state instead of the ledger.",
 			},
@@ -525,7 +528,7 @@ export const Current: Current[] = [
 				Note: "The observer records accepted or errored for the same call, so the trail is auditable.",
 			},
 			{
-				Label: "~/.dsh/playform/hook-dsh-workspace-govern.log",
+				Label: "~/.dsh/playform/<identity>.log",
 				Kind: "store",
 				Note: "The decision ring is bounded by maxDecisions.",
 			},
@@ -591,7 +594,7 @@ export const Current: Current[] = [
 				Note: "The pass runs as a microtask at mount, after the storage open had its first tick.",
 			},
 			{
-				Label: "~/.dsh/playform/hook-dsh-workspace-journal.log",
+				Label: "~/.dsh/playform/<identity>.log",
 				Kind: "store",
 				Note: "One line per open, seal, revert, and recovery.",
 			},
@@ -772,7 +775,7 @@ export const Current: Current[] = [
 				Note: "The inbox line says so, and the decision stands.",
 			},
 			{
-				Label: "~/.dsh/playform/hook-dsh-batch-decision.log",
+				Label: "~/.dsh/playform/<identity>.log",
 				Kind: "store",
 				Note: "One line per decision, per refusal, and per handoff.",
 			},
@@ -828,7 +831,7 @@ export const Current: Current[] = [
 				Note: "The task is detached from the emit, so the rejection is warned rather than unhandled.",
 			},
 			{
-				Label: "~/.dsh/playform/hook-dsh-lesson-nudge.log",
+				Label: "~/.dsh/playform/<identity>.log",
 				Kind: "store",
 				Note: "The activation line, the cap line, and one line per review.",
 			},
@@ -879,7 +882,7 @@ export const Current: Current[] = [
 				Note: "A ccr-compressed result is untouched, because the hook never replaces content.",
 			},
 			{
-				Label: "~/.dsh/playform/hook-dsh-test-suggester.log",
+				Label: "~/.dsh/playform/<identity>.log",
 				Kind: "store",
 				Note: "Every activation, refusal, and suggestion is one line.",
 			},
@@ -945,7 +948,7 @@ export const Current: Current[] = [
 				Note: "Discovery and control are never denied, because flagging them hard dilutes the signal.",
 			},
 			{
-				Label: "~/.dsh/playform/hook-dsh-tool-coach.log",
+				Label: "~/.dsh/playform/<identity>.log",
 				Kind: "store",
 				Note: "Every tier writes its own line, and the deny is byte-exact.",
 			},
@@ -956,7 +959,25 @@ export const Current: Current[] = [
 
 /** The flow of one package, or undefined when the site has not authored one. */
 export function CurrentFor(Slug: string): Current | undefined {
-	return Current.find((Entry) => Entry.Slug === Slug || Entry.Slug === Slug.replace(/^ets-/, ""));
+	const Entry = Current.find(
+		(Item) => Item.Slug === Slug || Item.Slug === Slug.replace(/^ets-/, ""),
+	);
+
+	if (Entry === undefined) {
+		return undefined;
+	}
+
+	// The ledger file is named for the package identity, so it is the one
+	// thing the two trees do not share: the data carries `<identity>` and the
+	// lookup fills it with the slug the page was built for, so a Classic page
+	// prints `hook-dsh-...log` and its twin prints `ets-hook-dsh-...log`.
+	return {
+		...Entry,
+		Stage: Entry.Stage.map((Item) => ({
+			...Item,
+			Label: Item.Label.replace("<identity>", Slug),
+		})),
+	};
 }
 
 export default Current;

@@ -1,0 +1,74 @@
+@use "../Material.scss" as Material;
+
+// The ribbon: a labelled band with one mark per event and the window the
+// marks occupy bracketed above it. A mark is a dot; a warn dot is the caution
+// colour, so the band never needs a second hue to say which events it flags.
+.ribbon {
+	@include Material.tray;
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	margin: 0;
+	padding: var(--rhythm-inset);
+
+	&__plot {
+		width: 100%;
+		height: auto;
+	}
+
+	&__band {
+		fill: var(--cabinet-front);
+		stroke: var(--cabinet-line);
+		stroke-width: 1;
+	}
+
+	&__axis {
+		stroke: var(--color-line-strong);
+		stroke-width: 1;
+	}
+
+	&__tick-line {
+		stroke: var(--color-line-strong);
+		stroke-width: 1;
+	}
+
+	&__tick-label {
+		fill: var(--color-ink-faint);
+		font-family: var(--font-mono);
+		font-size: 10px;
+	}
+
+	&__mark {
+		stroke: var(--cabinet-front);
+		stroke-width: 1;
+
+		&[data-kind="ok"] {
+			fill: var(--color-ink-muted);
+		}
+
+		&[data-kind="warn"] {
+			fill: var(--color-warn);
+			stroke: var(--color-warn-soft);
+		}
+	}
+
+	&__bracket {
+		fill: none;
+		stroke: var(--color-accent);
+		stroke-width: 1;
+	}
+
+	&__window-label {
+		fill: var(--color-accent-ink);
+		font-family: var(--font-mono);
+		font-size: 10px;
+	}
+
+	&__caption {
+		max-width: var(--measure);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+}

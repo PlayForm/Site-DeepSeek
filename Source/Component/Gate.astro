@@ -54,6 +54,28 @@ const Gate: Record<string, Gate> = {
 		Condition:
 			"The default configuration returns replace only above the auto-expand ceiling. At or under it the same result returns store, and at or under the threshold times the multiplier it returns pass.",
 	},
+
+	// The plugin member of the shape: the git guard answers its seam with two
+	// verdicts rather than three, because a command either runs or does not.
+	// The classifier in `Source/Function/Decide.ts` is the condition, and the
+	// allow list's precedence over the deny list is the one rule a reader has
+	// to know to predict the verdict.
+	"plugin-dsh-gitguard": {
+		Rule: "The guard judges only git, and judges a compound command by its worst segment: any denied segment denies the whole command. A denial is the pre-execute decision, returned once, and the command never executes.",
+		Outcome: [
+			{
+				Label: "allow",
+				Note: "the guard is disabled, no segment is a git command, the subcommand is allow-listed, or it is not deny-listed",
+			},
+			{
+				Label: "deny",
+				Note: "a segment's subcommand is on the deny list, or strict mode is on and any git command was read at all",
+			},
+		],
+		Mark: "deny",
+		Condition:
+			"The allow list wins over the deny list, so a user can re-allow a denied subcommand explicitly; strict mode wins over both, because it denies every git command, the read-only checks included.",
+	},
 };
 
 const Entry = Gate[Slug] ?? Gate[Slug.replace(/^ets-/, "")];

@@ -65,10 +65,11 @@ const Behavior = BehaviorFor(Entry.Slug);
 const Harness = Behavior === undefined ? undefined : SeamFor(Behavior.Seam);
 const Arm = ArmFor(Entry.Slug);
 
-// The harness's own plugins at that seam, when this site documents one there.
-// The link is the dissection: the package page says what the family adds, and
-// the plugin page shows the line it changes.
+// The family's other packages at that seam, in the order the behavior map
+// lists them, as one sentence: this package's page says what the family adds
+// there, and the neighbours are named rather than drawn again.
 const Own = Behavior === undefined ? [] : HookFor(Behavior.Seam);
+const OwnName = Own.map((Item) => Item.Slug).join(", ");
 
 // The dissected change, when this package has one: the one line that differs
 // with the package installed, transcribed from the source by the dissection.
@@ -236,7 +237,7 @@ const File = [
 			<section class="section">
 				<SectionHeader
 					Title="Flow"
-					Lede="The order this hook's work happens in, with the branch that decides it inline, transcribed from the corpus and the source."
+					Lede="The order this hook's work happens in, with the branch that decides it inline, transcribed from the source and from the corpus where the corpus draws it."
 				/>
 				<div class="section__body">
 					<Flow Stage={Current.Stage} Rule={Current.Rule} />
@@ -289,14 +290,7 @@ const File = [
 			)}
 			{Own.length > 0 && (
 				<p class="muted">
-					The harness ships its own plugin at this seam:&nbsp;
-					{Own.map((Item, Index) => (
-						<Fragment>
-							{Index > 0 && ", "}
-							<a href={`/plugin/${Item.Slug}/`}>{Item.Slug}</a>
-						</Fragment>
-					))}
-					, and its page shows the line it changes.
+					The family answers at this seam too: {OwnName}.
 				</p>
 			)}
 		</div>

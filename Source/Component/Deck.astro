@@ -1,0 +1,29 @@
+---
+import "@Stylesheet/Component/Deck.scss";
+
+interface Card {
+	/** The axis's own name. */
+	Label: string;
+	/** What turning it does. */
+	Body: string;
+}
+
+interface Props {
+	/** The cards, in the order they are stacked. The first is the top card. */
+	Card: Card[];
+}
+
+const { Card } = Astro.props;
+---
+
+<ul class="deck" aria-label="The axes, stacked">
+	{Card.map((Entry, Index) => (
+		<li class="deck__card" style={`--index: ${Index}; --count: ${Card.length}`}>
+			<span class="deck__head">
+				<span class="deck__label">{Entry.Label}</span>
+				<span class="deck__index">{String(Index + 1).padStart(2, "0")}</span>
+			</span>
+			<span class="deck__body">{Entry.Body}</span>
+		</li>
+	))}
+</ul>

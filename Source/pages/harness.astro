@@ -1,6 +1,7 @@
 ---
 import Anchor from "@Component/Anchor.astro";
 import ArmChain from "@Component/ArmChain.astro";
+import Cascade from "@Component/Cascade.astro";
 import Matrix from "@Component/Matrix.astro";
 import PageHero from "@Component/PageHero.astro";
 import RoleList from "@Component/RoleList.astro";
@@ -48,6 +49,23 @@ const ArmCount = Layer.reduce((Total, Entry) => Total + Entry.Arm.length, 0);
 
 // The seams that can change what the model reads, once each.
 const Change = [...new Set(Role.flatMap((Entry) => Entry.Seam))];
+
+// The four stages of one call, as a share of it. The order and the seams are
+// the documented pipeline's; the widths are authored, because the log carries
+// no clock.
+const Timing = [
+	{ At: 0, Width: 14 },
+	{ At: 14, Width: 56 },
+	{ At: 70, Width: 22 },
+	{ At: 92, Width: 8 },
+];
+
+const Call = Step.map((Entry, Index) => ({
+	Label: Entry.Title,
+	At: Timing[Index]?.At ?? 0,
+	Width: Timing[Index]?.Width ?? 0,
+	Note: Entry.Seam,
+}));
 
 // The section list the anchor row prints, in the order the page reads them.
 const Section = [
@@ -120,6 +138,7 @@ const Section = [
 		</SectionHeader>
 		<div class="section__body stack">
 			<Sequence />
+			<Cascade Step={Call} />
 			<p class="muted">
 				Every change the family makes to a call happens between the gate and the result: a
 				call can be refused before it runs, and a result can be rewritten before it is read.

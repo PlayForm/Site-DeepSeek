@@ -4,6 +4,22 @@
 // that answer: the verdict it returns, the payload it changes, the line it
 // writes, or the note it adds.
 //
+// A plugin's work is none of those, because a plugin is not a listener: it
+// registers tools, provides a service, or loads a bundle. So the plugin takes
+// one of three shapes, chosen by what it actually registers:
+//
+//   * the tool, when the package's surface is a register of calls - the batch
+//     edit engine, the cost family's command verbs, the normalizer, the five
+//     workspace tools;
+//   * the service, when the package's surface is a contract a consumer calls -
+//     the factory and the fourteen services beside it;
+//   * the bundle, when the package's work is what it loads - the boot rail.
+//
+// Two of the twenty-three keep a shape the eight already had, because the
+// three new ones would be a lie on their page: the git guard registers no tool
+// and no service, so it takes the gate its verdict is; the ETS base is not a
+// plugin at all, so it takes the layer its position is.
+//
 // Every record is written by hand from the package's own README and its
 // `Source/` tree in `Classic/packages/`, and from
 // `Documentation/Interpretability/Turn.md` for where it sits in the harness.
@@ -19,7 +35,18 @@ export interface Portrait {
 	/** The things it does, each a phrase; the last says so when the flow carries it. */
 	Does: string[];
 	/** The one visual that fits this package's kind. */
-	Shape: "stream" | "layer" | "surface" | "buffer" | "gate" | "rewrite" | "record" | "advise";
+	Shape:
+		| "stream"
+		| "layer"
+		| "surface"
+		| "buffer"
+		| "gate"
+		| "rewrite"
+		| "record"
+		| "advise"
+		| "tool"
+		| "service"
+		| "bundle";
 }
 
 export const Portrait: Portrait[] = [
