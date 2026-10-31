@@ -153,25 +153,40 @@ function Read(Path: string, Folder: Folder, Relative: string): StoryboardRecord 
 	};
 }
 
-// The storyboards live beside the site, not inside it: the lab reads the
-// repository's `Documentation/` folder at build time, so a storyboard edited in
-// the repository appears in the lab with no page edit.
+// The storyboards are read from the monorepo the site ships with, never from a
+// folder beside the checkout: the deployment holds only `Site/` and its
+// submodule, so `Module/DeepSeek/Documentation` is the one path that exists
+// both locally and on the remote. The parent checkout is a fallback for local
+// authoring, where the submodule may not carry the storyboards yet.
+const Module = resolve(process.cwd(), "Module", "DeepSeek", "Documentation");
 const Beside = resolve(process.cwd(), "..", "Documentation");
 
 export const Folder: Folder[] = ["Design", "Showcase"];
 
-function FindRoot(): string {
-	if (!existsSync(Beside)) {
-		throw new Error(
-			`The storyboards are not reachable at ${Beside}. Run the lab from a checkout that holds Documentation/ beside Site/.`,
-		);
+function FindRoot(): string | undefined {
+	// The submodule first: it is the tree the deployment holds, so a storyboard
+	// committed there appears in the lab everywhere. The parent checkout is the
+	// local fallback, where the storyboards are authored before they are synced.
+	if (existsSync(Module)) {
+		return Module;
 	}
 
-	return Beside;
+	if (existsSync(Beside)) {
+		return Beside;
+	}
+
+	return undefined;
 }
 
 function Load(): StoryboardRecord[] {
 	const Root = FindRoot();
+
+	// No root means no storyboards in this checkout: the lab renders empty and
+	// the build continues.
+	if (Root === undefined) {
+		return [];
+	}
+
 	const Roster: StoryboardRecord[] = [];
 
 	for (const Name of Folder) {

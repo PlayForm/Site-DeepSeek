@@ -15,9 +15,9 @@ const DevRoute = {
 	name: "DevRoute",
 	hooks: {
 		"astro:config:setup": ({ injectRoute }: { injectRoute: (Route: unknown) => void }) => {
-			if (!Dev) {
-				return;
-			}
+			// if (!Dev) {
+			// 	return;
+			// }
 
 			injectRoute({ pattern: "/library", entrypoint: "./Source/pages/_Library.astro" });
 			injectRoute({
