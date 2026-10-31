@@ -7,8 +7,9 @@
 // byte-identical tables, so one record covers both pages and the reader drops
 // the `ets-` prefix. The dash names, its replacement default, and the gate
 // every flavor shares (the edit exemption, the raw marker, the tool-result
-// exemptions) come from hook-dsh-normalize-dash/SCHEME.md:30-50 and :91-104;
-// the other flavors' laws come from their README and their core header.
+// exemptions) come from hook-dsh-normalize-dash/SCHEME.md:30-50, :91-104, and
+// :184-187; the other flavors' laws come from their README and their core
+// header.
 export interface Entry {
 	/** The code point, as the source names it. */
 	Code: string;
@@ -80,7 +81,7 @@ export const Table: Table[] = [
 		Slug: "hook-dsh-normalize-ellipsis",
 		Family: "Ellipsis",
 		Entry: [{ Code: "U+2026", To: "...", Name: "Horizontal ellipsis" }],
-		Rule: "No context rule: the horizontal ellipsis becomes the configured replacement, the ASCII three-dot sequence by default, so a chunk boundary cannot change the result; an edit call, a raw-marked call, and a listed tool result pass by identity.",
+		Rule: "No context rule: the horizontal ellipsis becomes the configured replacement, the ASCII three-dot sequence by default; an edit call, a raw-marked call, and a listed tool result pass by identity.",
 	},
 	{
 		Slug: "hook-dsh-normalize-spaces",

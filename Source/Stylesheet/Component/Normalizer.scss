@@ -116,7 +116,7 @@
 	}
 
 	&__gone {
-		@include Material.label;
+		@include Material.label(10px);
 
 		display: inline-flex;
 		align-items: center;
@@ -183,6 +183,9 @@
 		&__gone {
 			min-width: 44px;
 			height: 44px;
+		}
+
+		&__glyph {
 			font-size: var(--text-2xl);
 		}
 

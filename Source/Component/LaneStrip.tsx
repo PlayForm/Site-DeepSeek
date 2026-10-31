@@ -48,21 +48,23 @@ export default function LaneStrip(Props: Props) {
 				{(Name) => (
 					<div class="lane-strip__row">
 						<span class="lane-strip__name">{Name}</span>
-						<span class="lane-strip__track">
+						<span class="lane-strip__track" aria-hidden="true">
 							<For each={Span(Name)}>
 								{(Item) => (
-									<span
-										class="lane-strip__span"
-										data-resource={Name}
-										data-state={Item.Outcome.State}
-										style={{
-											left: Share(Item.Start, Total()),
-											width: Share(Item.Outcome.Took, Total()),
-										}}
-										title={`${SpanLabel(Item.Entry)}: ${FormatDuration(Item.Outcome.Took)}`}
-									>
-										<span class="lane-strip__text">{SpanLabel(Item.Entry)}</span>
-									</span>
+									<>
+										<span
+											class="lane-strip__span"
+											data-resource={Name}
+											data-state={Item.Outcome.State}
+											style={{
+												left: Share(Item.Start, Total()),
+												width: Share(Item.Outcome.Took, Total()),
+											}}
+											title={`${SpanLabel(Item.Entry)}: ${FormatDuration(Item.Outcome.Took)}`}
+										>
+											<span class="lane-strip__text">{SpanLabel(Item.Entry)}</span>
+										</span>{" "}
+									</>
 								)}
 							</For>
 						</span>

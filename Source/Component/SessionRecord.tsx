@@ -41,13 +41,13 @@ export default function SessionRecord(Props: Props) {
 			>
 				<span class="session-record__seq">
 					{String(Props.Entry.Seq).padStart(2, "0")}
-				</span>
+				</span>{" "}
 				<span class="session-record__kind" data-kind={Props.Entry.Kind}>
 					{Props.Entry.Kind.toUpperCase()}
-				</span>
+				</span>{" "}
 				<span class="session-record__dispatch" title={Props.Entry.Dispatch}>
 					{DispatchGlyph[Props.Entry.Dispatch]}
-				</span>
+				</span>{" "}
 				<span class="session-record__call">
 					<span class="session-record__name">{Props.Entry.Name}</span>
 					<span class="session-record__payload">{Props.Entry.Payload}</span>
@@ -59,15 +59,15 @@ export default function SessionRecord(Props: Props) {
 					</span>
 					<span class="session-record__result" data-kind={Props.Entry.Kind}>
 						{Outcome().Result}
-					</span>
+					</span>{" "}
 					<Show when={Outcome().State !== "ok"}>
 						<span class="session-record__state" data-state={Outcome().State}>
 							{Outcome().State}
 						</span>
-					</Show>
+					</Show>{" "}
 					<Show when={Note()}>
 						<span class="session-record__note">{Note() ?? ""}</span>
-					</Show>
+					</Show>{" "}
 					<Show when={Outcome().By !== undefined}>
 						<span class="session-record__by">{Outcome().By ?? ""}</span>
 					</Show>

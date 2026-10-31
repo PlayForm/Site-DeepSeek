@@ -58,8 +58,8 @@ export default function SessionTree(Props: Props) {
 						>
 							<span class="session-tree__number">
 								{String(Group.Index).padStart(2, "0")}
-							</span>
-							<span class="session-tree__name">{Group.Title}</span>
+							</span>{" "}
+							<span class="session-tree__name">{Group.Title}</span>{" "}
 							<span class="session-tree__count">
 								{Plural(TurnStep(Group.Index).length, "step")}
 							</span>
@@ -76,10 +76,10 @@ export default function SessionTree(Props: Props) {
 								>
 									<span class="session-tree__number">
 										{String(Item.Index).padStart(2, "0")}
-									</span>
+									</span>{" "}
 									<span class="session-tree__name">
 										step&nbsp;{Item.Index}
-									</span>
+									</span>{" "}
 									<span class="session-tree__count">
 										{Plural(Item.Record.length, "record")}
 									</span>
@@ -98,10 +98,10 @@ export default function SessionTree(Props: Props) {
 				<For each={Plugin}>
 					{(Item) => (
 						<div class="session-tree__plugin" data-state={Item.State} title={Item.Does}>
-							<span class="session-tree__slug">{Item.Slug}</span>
+							<span class="session-tree__slug">{Item.Slug}</span>{" "}
 							<span class="session-tree__plugin-count">
 								{FormatNumber(PluginRecord(Item.Slug, Props.Face))}
-							</span>
+							</span>{" "}
 							<span class="session-tree__state">{Item.State}</span>
 						</div>
 					)}

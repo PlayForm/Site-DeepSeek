@@ -109,6 +109,10 @@ for (const File of Page) {
 	const Text = Verbatim.replace(/<script[\s\S]*?<\/script>/g, " ")
 		.replace(/<style[\s\S]*?<\/style>/g, " ")
 		.replace(/\sprops="[^"]*"/g, " ")
+		// The renderer marks each dynamic child with a comment. A comment is not
+		// text and not a space: the component decides where a boundary needs one,
+		// so the marker is dropped rather than turned into whitespace.
+		.replace(/<!--[\s\S]*?-->/g, "")
 		.replace(
 			/<\/?(?:td|th|tr|dt|dd|li|p|div|section|article|aside|header|footer|nav|main|figure|figcaption|h[1-6]|br)\b[^>]*>/g,
 			" ",
