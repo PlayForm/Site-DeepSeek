@@ -75,35 +75,33 @@ const Bundle: Record<string, Bundle> = {
 const Entry = Bundle[Slug] ?? Bundle[Slug.replace(/^ets-/, "")];
 ---
 
-{
-	Entry !== undefined && (
-		<div class="bundle" role="img" aria-label={`How ${Slug} mounts what it loads`}>
-			<div class="bundle__band">
-				<div class="bundle__identity">
-					<span class="bundle__label">Rail</span>
-					<span class="bundle__rail-text">{Entry.Rail}</span>
-				</div>
-				<div class="bundle__figure">
-					<span class="bundle__figure-value">{Entry.Part.length}</span>
-					<span class="bundle__label">Parts</span>
-				</div>
+{Entry !== undefined && (
+	<div class="bundle" role="img" aria-label={`How ${Slug} mounts what it loads`}>
+		<div class="bundle__band">
+			<div class="bundle__identity">
+				<span class="bundle__label">Rail</span>
+				<span class="bundle__rail-text">{Entry.Rail}</span>
 			</div>
-			<p class="bundle__rule">{Entry.Rule}</p>
-			<ol class="bundle__part-list">
-				{Entry.Part.map((Item, Index) => (
-					<li class="bundle__part" style={`--step: ${Index}`}>
-						<span class="bundle__index">{String(Index + 1).padStart(2, "0")}</span>
-						<div class="bundle__body">
-							<span class="bundle__name">{Item.Name}</span>
-							<span class="bundle__brings">{Item.Brings}</span>
-						</div>
-					</li>
-				))}
-			</ol>
-			<div class="bundle__contain">
-				<span class="bundle__contain-label">Contained</span>
-				<p class="bundle__contain-text">{Entry.Contain}</p>
+			<div class="bundle__figure">
+				<span class="bundle__figure-value">{Entry.Part.length}</span>
+				<span class="bundle__label">Parts</span>
 			</div>
 		</div>
-	)
-}
+		<p class="bundle__rule">{Entry.Rule}</p>
+		<ol class="bundle__part-list">
+			{Entry.Part.map((Item, Index) => (
+				<li class="bundle__part" style={`--step: ${Index}`}>
+					<span class="bundle__index">{String(Index + 1).padStart(2, "0")}</span>
+					<div class="bundle__body">
+						<span class="bundle__name">{Item.Name}</span>
+						<span class="bundle__brings">{Item.Brings}</span>
+					</div>
+				</li>
+			))}
+		</ol>
+		<div class="bundle__contain">
+			<span class="bundle__contain-label">Contained</span>
+			<p class="bundle__contain-text">{Entry.Contain}</p>
+		</div>
+	</div>
+)}

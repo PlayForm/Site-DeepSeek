@@ -65,28 +65,26 @@ const Buffer: Record<string, Buffer> = {
 const Entry = Buffer[Slug];
 ---
 
-{
-	Entry !== undefined && (
-		<div class="buffer" role="img" aria-label={`What ${Slug} holds, and who reads it`}>
-			<div class="buffer__store">
-				<span class="buffer__label">The store</span>
-				<span class="buffer__name">{Entry.Store}</span>
-				<span class="buffer__label">Holds</span>
-				<ul class="buffer__hold">
-					{Entry.Hold.map((Item) => (
-						<li class="buffer__cell">{Item}</li>
-					))}
-				</ul>
-			</div>
-			<div class="buffer__readers">
-				<span class="buffer__label">Read by</span>
-				<ul class="buffer__read">
-					{Entry.Reader.map((Item) => (
-						<li class="buffer__reader">{Item}</li>
-					))}
-				</ul>
-			</div>
-			<p class="buffer__rule">{Entry.Rule}</p>
+{Entry !== undefined && (
+	<div class="buffer" role="img" aria-label={`What ${Slug} holds, and who reads it`}>
+		<div class="buffer__store">
+			<span class="buffer__label">The store</span>
+			<span class="buffer__name">{Entry.Store}</span>
+			<span class="buffer__label">Holds</span>
+			<ul class="buffer__hold">
+				{Entry.Hold.map((Item) => (
+					<li class="buffer__cell">{Item}</li>
+				))}
+			</ul>
 		</div>
-	)
-}
+		<div class="buffer__readers">
+			<span class="buffer__label">Read by</span>
+			<ul class="buffer__read">
+				{Entry.Reader.map((Item) => (
+					<li class="buffer__reader">{Item}</li>
+				))}
+			</ul>
+		</div>
+		<p class="buffer__rule">{Entry.Rule}</p>
+	</div>
+)}

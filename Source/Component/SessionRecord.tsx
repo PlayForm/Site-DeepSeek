@@ -1,7 +1,5 @@
 import "@Stylesheet/Component/SessionRecord.scss";
 
-import { Show } from "solid-js";
-
 import {
 	DispatchGlyph,
 	FormatSize,
@@ -11,6 +9,7 @@ import {
 	type Entry,
 	type Face,
 } from "@Content/Session";
+import { Show } from "solid-js";
 
 interface Props {
 	/** The record the row draws. */
@@ -31,17 +30,13 @@ export default function SessionRecord(Props: Props) {
 		<div
 			class="session-record"
 			data-current={Props.Entry.Seq === Props.Pick ? "true" : undefined}
-			role="listitem"
-		>
+			role="listitem">
 			<button
 				type="button"
 				class="session-record__line"
 				aria-label={`Select record ${Props.Entry.Seq}, ${Props.Entry.Name}${Outcome().State === "ok" ? "" : `, ${Outcome().State}`}`}
-				onClick={() => Props.OnPick(Props.Entry.Seq)}
-			>
-				<span class="session-record__seq">
-					{String(Props.Entry.Seq).padStart(2, "0")}
-				</span>{" "}
+				onClick={() => Props.OnPick(Props.Entry.Seq)}>
+				<span class="session-record__seq">{String(Props.Entry.Seq).padStart(2, "0")}</span>{" "}
 				<span class="session-record__kind" data-kind={Props.Entry.Kind}>
 					{Props.Entry.Kind.toUpperCase()}
 				</span>{" "}

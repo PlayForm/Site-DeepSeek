@@ -58,7 +58,10 @@ export const Scheme: Scheme[] = [
 				Name: "Exclusion",
 				Claim: "A path inside the tooling is never governed.",
 				Condition: [
-					{ Body: "no path segment is node_modules, .git, .dsh, .pnpm, .store", Hold: true },
+					{
+						Body: "no path segment is node_modules, .git, .dsh, .pnpm, .store",
+						Hold: true,
+					},
 					{ Body: "no path segment is the harness application bundle", Hold: true },
 				],
 			},
@@ -66,7 +69,10 @@ export const Scheme: Scheme[] = [
 				Name: "Non-trigger",
 				Claim: "The governor does not trigger itself.",
 				Condition: [
-					{ Body: "its own write goes through the fs service, which dispatches no fs/observed", Hold: true },
+					{
+						Body: "its own write goes through the fs service, which dispatches no fs/observed",
+						Hold: true,
+					},
 					{ Body: "its update stage is a continuation, not an author call", Hold: true },
 				],
 			},

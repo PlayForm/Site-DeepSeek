@@ -40,37 +40,35 @@ const { Stage: Entry, Rule } = Astro.props;
 ---
 
 <ol class="flow-line">
-	{
-		Entry.map((Item, Index) => (
-			<li class="flow-line__stage" data-kind={Item.Kind}>
-				<span class="flow-line__index">{String(Index + 1).padStart(2, "0")}</span>
-				<div class="flow-line__body">
-					{Item.Kind === "seam" ? (
-						<Pipeline Stages={[{ Label: "seam", Seam: Item.Label }]} />
-					) : (
-						<span class="flow-line__head">
-							{Item.Kind !== "step" && (
-								<Badge
-									Label={Item.Kind}
-									Tone={Item.Kind === "store" ? "accent" : "quiet"}
-								/>
-							)}
-							<span class="flow-line__label">{Item.Label}</span>
-						</span>
-					)}
-					{Item.Note !== undefined && (
-						// The row is the picture; the note is the reason. It stays
-						// behind a disclosure so a fifteen-stage flow reads as fifteen
-						// labels and not as fifteen sentences.
-						<details class="flow-line__why">
-							<summary class="flow-line__summary">why</summary>
-							<p class="flow-line__note">{Item.Note}</p>
-						</details>
-					)}
-				</div>
-			</li>
-		))
-	}
+	{Entry.map((Item, Index) => (
+		<li class="flow-line__stage" data-kind={Item.Kind}>
+			<span class="flow-line__index">{String(Index + 1).padStart(2, "0")}</span>
+			<div class="flow-line__body">
+				{Item.Kind === "seam" ? (
+					<Pipeline Stages={[{ Label: "seam", Seam: Item.Label }]} />
+				) : (
+					<span class="flow-line__head">
+						{Item.Kind !== "step" && (
+							<Badge
+								Label={Item.Kind}
+								Tone={Item.Kind === "store" ? "accent" : "quiet"}
+							/>
+						)}
+						<span class="flow-line__label">{Item.Label}</span>
+					</span>
+				)}
+				{Item.Note !== undefined && (
+					// The row is the picture; the note is the reason. It stays
+					// behind a disclosure so a fifteen-stage flow reads as fifteen
+					// labels and not as fifteen sentences.
+					<details class="flow-line__why">
+						<summary class="flow-line__summary">why</summary>
+						<p class="flow-line__note">{Item.Note}</p>
+					</details>
+				)}
+			</div>
+		</li>
+	))}
 </ol>
 
 <Callout Title="Rule">

@@ -1,0 +1,52 @@
+---
+import "@Stylesheet/Component/World.scss";
+
+import { Behavior } from "@Content/Behavior";
+import { Stage } from "@Content/Turn";
+
+// Two worlds, one stage rail: the harness as it runs with nothing installed,
+// and the same harness with the family listening. The row is aligned by stage,
+// so a reader sees where the family changes the run and where it passes
+// through, which is the question a seam page answers one seam at a time.
+//
+// The intervention column is derived, not typed: a stage is touched when any
+// behavior record names one of its seams, so the picture cannot claim a
+// change the records do not have.
+const Touched = new Map<string, string[]>();
+
+for (const [Slug, Entry] of Object.entries(Behavior)) {
+	Touched.set(Entry.Seam, [...(Touched.get(Entry.Seam) ?? []), Slug]);
+}
+
+const Rail = Stage.map((Entry) => ({
+	Title: Entry.Title,
+	Seam: Entry.Seam,
+	Slug: Entry.Seam.flatMap((Name) => Touched.get(Name) ?? []),
+}));
+---
+
+<figure class="world">
+	<figcaption class="world__caption">
+		The same turn twice: what the harness does alone, and what changes when the family
+		listens at a seam.
+	</figcaption>
+
+	<div class="world__legend">
+		<span class="world__key" data-kind="base">the harness alone</span>
+		<span class="world__key" data-kind="family">with the family</span>
+	</div>
+
+	<ol class="world__rail">
+		{Rail.map((Entry) => (
+			<li class="world__stage" data-touched={Entry.Slug.length > 0}>
+				<span class="world__title">{Entry.Title}</span>
+				<span class="world__base">
+					{Entry.Seam.length > 0 ? Entry.Seam[0] : "no seam"}
+				</span>
+				<span class="world__family">
+					{Entry.Slug.length > 0 ? Entry.Slug.join(", ") : "passes through"}
+				</span>
+			</li>
+		))}
+	</ol>
+</figure>

@@ -22,41 +22,43 @@ const Total = Family.reduce((Sum, Entry) => Sum + Entry.Extension.length, 0);
 <div class="family">
 	<table>
 		<caption class="visually-hidden">
-			The comment syntax families, the extensions each one covers, and the refinement each
-			one needs
+			The comment syntax families, the extensions each one covers, and the refinement each one
+			needs
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" class="family__lead">Syntax</th>
+				<th scope="col" class="family__lead">
+					Syntax
+				</th>
 				<th scope="col">Extensions</th>
-				<th scope="col" class="family__count">Count</th>
+				<th scope="col" class="family__count">
+					Count
+				</th>
 			</tr>
 		</thead>
 		<tbody>
-			{
-				Family.map((Entry) => (
-					<tr>
-						<th scope="row" class="family__lead">
-							<code class="family__syntax">{Entry.Syntax}</code>
-						</th>
-						<td>
-							<ul class="family__chips">
-								{Entry.Extension.map((Name) => (
-									<li class="family__chip">{Name}</li>
-								))}
-							</ul>
-							{Entry.Note !== undefined && (
-								<p class="family__note">{Entry.Note}</p>
-							)}
-						</td>
-						<td class="family__count">{Entry.Extension.length}</td>
-					</tr>
-				))
-			}
+			{Family.map((Entry) => (
+				<tr>
+					<th scope="row" class="family__lead">
+						<code class="family__syntax">{Entry.Syntax}</code>
+					</th>
+					<td>
+						<ul class="family__chips">
+							{Entry.Extension.map((Name) => (
+								<li class="family__chip">{Name}</li>
+							))}
+						</ul>
+						{Entry.Note !== undefined && <p class="family__note">{Entry.Note}</p>}
+					</td>
+					<td class="family__count">{Entry.Extension.length}</td>
+				</tr>
+			))}
 		</tbody>
 		<tfoot>
 			<tr>
-				<th scope="row" colspan="2">All extensions</th>
+				<th scope="row" colspan="2">
+					All extensions
+				</th>
 				<td class="family__count">{Total}</td>
 			</tr>
 		</tfoot>

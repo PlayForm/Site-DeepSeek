@@ -1,7 +1,5 @@
 import "@Stylesheet/Component/SessionDocument.scss";
 
-import { For } from "solid-js";
-
 import SessionRecord from "@Component/SessionRecord";
 import {
 	Call,
@@ -19,6 +17,7 @@ import {
 	TurnStep,
 	type Face,
 } from "@Content/Session";
+import { For } from "solid-js";
 
 interface Props {
 	/** The face the document reads. */
@@ -41,15 +40,13 @@ export default function SessionDocument(Props: Props) {
 				<div
 					class="session-document__face"
 					role="group"
-					aria-label="Read the run with the family or without it"
-				>
+					aria-label="Read the run with the family or without it">
 					<button
 						type="button"
 						class="session-document__face-cell"
 						data-active={Props.Face === "family" ? "true" : undefined}
 						aria-pressed={Props.Face === "family"}
-						onClick={() => Props.OnFace("family")}
-					>
+						onClick={() => Props.OnFace("family")}>
 						Family
 					</button>
 					<button
@@ -57,8 +54,7 @@ export default function SessionDocument(Props: Props) {
 						class="session-document__face-cell"
 						data-active={Props.Face === "default" ? "true" : undefined}
 						aria-pressed={Props.Face === "default"}
-						onClick={() => Props.OnFace("default")}
-					>
+						onClick={() => Props.OnFace("default")}>
 						Default
 					</button>
 				</div>

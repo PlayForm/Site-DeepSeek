@@ -53,8 +53,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "client-dsh-workspace-live",
 		Role: "The live view of the workspace, presenting representations rather than processes",
-		Plugs:
-			"the workspaceLive client service, the workspace-live tab in conversation.view, and the D5 trace bus",
+		Plugs: "the workspaceLive client service, the workspace-live tab in conversation.view, and the D5 trace bus",
 		Does: [
 			"Holds one snapshot until an event or a graph refresh replaces it",
 			"Follows observe/stamp, graph/indexed, graph/invalidated, and the batch transitions",
@@ -153,8 +152,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-ccr",
 		Role: "The gate on oversized tool output: whole, stored, or a marker the model can retrieve",
-		Plugs:
-			"the tools/post-execute waterfall (prepended), the ccr_retrieve tool, and the agent/pre-step engine phase",
+		Plugs: "the tools/post-execute waterfall (prepended), the ccr_retrieve tool, and the agent/pre-step engine phase",
 		Does: [
 			"Reads the result, the tool name, and the failure flag before any other listener sees them",
 			"Returns pass, store, or replace, and writes the store only for the last two",
@@ -181,8 +179,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-live-containers",
 		Role: "The conversation blocks that are recomputed at ask time and read as live",
-		Plugs:
-			"the system-prompt/assemble waterfall as one appended section, beside its own tools and observers",
+		Plugs: "the system-prompt/assemble waterfall as one appended section, beside its own tools and observers",
 		Does: [
 			"Appends one section whose blocks are recomputed at every request",
 			"Frames each block so the model cannot mistake it for harness state",
@@ -269,8 +266,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-replay-suggester",
 		Role: "The record of what a search touched, and the recall that answers with it",
-		Plugs:
-			"the tools/post-execute waterfall, the replay_history storage domain, and the seeded history file",
+		Plugs: "the tools/post-execute waterfall, the replay_history storage domain, and the seeded history file",
 		Does: [
 			"Appends one entry per judged call that names a path, in the store's own order",
 			"Recalls the paths recorded around a similar earlier call",
@@ -285,8 +281,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-convention-suggester",
 		Role: "The pack's conventions, named before the model writes the file",
-		Plugs:
-			"the tools/post-execute waterfall, the agent/pre-step counter reset, and the pack's convention/ domain",
+		Plugs: "the tools/post-execute waterfall, the agent/pre-step counter reset, and the pack's convention/ domain",
 		Does: [
 			"Classifies the written path into one of the pack's convention intents",
 			"Names the companion targets the convention requires, each with its reason",
@@ -334,8 +329,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-search-suggester",
 		Role: "The target set for an intent, named at the first search that shows it",
-		Plugs:
-			"the tools/post-execute waterfall, the suggestion_dismiss tool, and the optional sticky prompt section",
+		Plugs: "the tools/post-execute waterfall, the suggestion_dismiss tool, and the optional sticky prompt section",
 		Does: [
 			"Classifies a search call into one of ten intents, destructive first",
 			"Names the standard locations for that intent before the next search",
@@ -355,8 +349,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-package-governor",
 		Role: "The silent governor of every written package.json",
-		Plugs:
-			"the fs/observed event through the factory's Wire, and the direct-govern entries for package.json",
+		Plugs: "the fs/observed event through the factory's Wire, and the direct-govern entries for package.json",
 		Does: [
 			"Gates on the basename, the actor tool, a present observation, the stash, and the exclusion list",
 			"Canonicalizes a chain-governed pin to the resolved range the nearest registry records",
@@ -368,8 +361,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-package-pinner",
 		Role: "The silent pinner of every written package.json",
-		Plugs:
-			"the fs/observed event through the factory's Wire, and the direct-govern pin entry for package.json",
+		Plugs: "the fs/observed event through the factory's Wire, and the direct-govern pin entry for package.json",
 		Does: [
 			"Strips one leading ^, ~, or = from the sections the config declares",
 			"Leaves a static version, a compound range, a wildcard, and a protocol dependency as authored",
@@ -381,8 +373,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-cargo-governor",
 		Role: "The silent governor of every written Cargo.toml",
-		Plugs:
-			"the fs/observed event through the factory's Wire, the direct-govern entries for Cargo.toml, and the subprocess seam",
+		Plugs: "the fs/observed event through the factory's Wire, the direct-govern entries for Cargo.toml, and the subprocess seam",
 		Does: [
 			"Gates on the basename, the actor tool, a present observation, the stash, and the exclusion list",
 			"Rewrites dependency pins surgically, so comments and formatting survive the pass",
@@ -394,8 +385,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-workspace-observe",
 		Role: "The first step of the invisible flow: one observation stamp per file state",
-		Plugs:
-			"the workspaceObserve service, the fs/observed listener on the root context, and the trace bus",
+		Plugs: "the workspaceObserve service, the fs/observed listener on the root context, and the trace bus",
 		Does: [
 			"Stamps the event's display path and version verbatim, and stamps an absence as absent",
 			"Guards the own actor, the exclusion list, the include list, and a repeat event",
@@ -443,8 +433,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-workspace-govern",
 		Role: "The gate that checks the means, because an intent must not authorize its own",
-		Plugs:
-			"the workspaceGovern service, the tools/pre-execute gate, and the tools/post-execute observer",
+		Plugs: "the workspaceGovern service, the tools/pre-execute gate, and the tools/post-execute observer",
 		Does: [
 			"Runs four independent checks on a proposed change: contributes, scope, policy, preconditions",
 			"Takes each failure behavior from the recovery table rather than a silent default",
@@ -457,8 +446,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-workspace-journal",
 		Role: "The evidence record: the pre-images, the revert, and what a crash left applying",
-		Plugs:
-			"the workspaceJournal service, the fs/observed checkpoint listener, and the boot recovery pass",
+		Plugs: "the workspaceJournal service, the fs/observed checkpoint listener, and the boot recovery pass",
 		Does: [
 			"Journals a batch before its writes land, with each file's pre-image and version",
 			"Replays a revert backward through the version fence, and reports a conflict rather than overwriting",
@@ -483,8 +471,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-workspace-operate",
 		Role: "The operation engine: typed proposals, and the refusal-to-guess beside them",
-		Plugs:
-			"the workspaceOperate service, the workspace_propose and workspace_proposals tools, and the fs/observed fence tracker",
+		Plugs: "the workspaceOperate service, the workspace_propose and workspace_proposals tools, and the fs/observed fence tracker",
 		Does: [
 			"Proposes a rename, a connect, or a replace, and never writes a file",
 			"Refuses with a typed reason: a bad request, an absent graph, an unknown symbol, a stale fence, a full table",
@@ -496,8 +483,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-batch-decision",
 		Role: "The thin workflow owner between a proposal, its decision, and the board",
-		Plugs:
-			"the batch/proposed and batch/decision events, the batch_decision tool, and the agent-team inbox",
+		Plugs: "the batch/proposed and batch/decision events, the batch_decision tool, and the agent-team inbox",
 		Does: [
 			"Records a proposal once, and ignores a revision that is not newer",
 			"Answers the policy gate before the auto-approve knob, so an approve verdict is never widened",
@@ -510,8 +496,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-lesson-nudge",
 		Role: "The idle edge of the agent's status turned into a self-improvement review",
-		Plugs:
-			"the agent/status event on its idle edge, and the lesson service that plugin-dsh-lesson-review provides",
+		Plugs: "the agent/status event on its idle edge, and the lesson service that plugin-dsh-lesson-review provides",
 		Does: [
 			"Applies four gates in order: the switch, the idle edge, the service, and the cadence",
 			"Claims the idle phase through agent.runMaintenance, so the review never shares the live turn",
@@ -536,8 +521,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "hook-dsh-tool-coach",
 		Role: "The four-tier ladder that keeps file content out of the terminal",
-		Plugs:
-			"the tools/post-execute and tools/pre-execute waterfalls, the system-prompt/assemble section, and the agent/pre-step reset",
+		Plugs: "the tools/post-execute and tools/pre-execute waterfalls, the system-prompt/assemble section, and the agent/pre-step reset",
 		Does: [
 			"Normalizes the command before matching, so an obfuscated variant still counts",
 			"Classifies a segment as write, read, search, discovery, or control, and lets an exempt head dominate its pipe",
@@ -557,8 +541,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "plugin-dsh-batch-edit",
 		Role: "The batch edit engine: files opened as processes, and one commit that runs a transition table across them",
-		Plugs:
-			"the batch_edit tool, the factory's write executor, and the fs/observed event through the factory's Wire",
+		Plugs: "the batch_edit tool, the factory's write executor, and the fs/observed event through the factory's Wire",
 		Does: [
 			"Machines opened over globs, each file held at its observed version",
 			"A prepared schema checked fail-loud, and a miss listed rather than guessed",
@@ -654,8 +637,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "plugin-dsh-ingester",
 		Role: "The only writer of the batch flow: an approved proposal, applied under a version fence",
-		Plugs:
-			"the ctx.ingester service, the batch/proposed and batch/decision events, and the governed filesystem",
+		Plugs: "the ctx.ingester service, the batch/proposed and batch/decision events, and the governed filesystem",
 		Does: [
 			"A proposal recorded from the bus, within the ring bound",
 			"A decision resolved to its proposal, and a stranger refused",
@@ -715,8 +697,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "plugin-dsh-queue",
 		Role: "The subagent queue: tasks as data, a seat per slot, and a spawn only when the policy allows it",
-		Plugs:
-			"the ctx.dshQueue service, the queue_enqueue and queue_status tools, and the harness subagent service",
+		Plugs: "the ctx.dshQueue service, the queue_enqueue and queue_status tools, and the harness subagent service",
 		Does: [
 			"A task queued with its spec verbatim",
 			"Dependencies, then priority, then enqueue order",
@@ -764,8 +745,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "plugin-dsh-workspace-context",
 		Role: "The context economy: the eight-section orientation packet, clamped to a token budget",
-		Plugs:
-			"the ctx.workspaceContext service, the workspace_context tool, and the graph's invalidation event",
+		Plugs: "the ctx.workspaceContext service, the workspace_context tool, and the graph's invalidation event",
 		Does: [
 			"The packet from the graph's snapshot, through the caller's lens",
 			"Neighbors ranked by edge strength, each section bounded",
@@ -777,8 +757,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "plugin-dsh-workspace-evidence",
 		Role: "The validation objects, and the invalidation pass that keeps them honest",
-		Plugs:
-			"the ctx.workspaceEvidence service, the fs/observed listener through the factory's Wire, and the storage domain",
+		Plugs: "the ctx.workspaceEvidence service, the fs/observed listener through the factory's Wire, and the storage domain",
 		Does: [
 			"One validation with its kind, subject, dependencies, and verdict",
 			"Every dependent marked stale in one pass",
@@ -814,8 +793,7 @@ export const Portrait: Portrait[] = [
 	{
 		Slug: "plugin-dsh-workspace-semantics",
 		Role: "The semantic model: the symbols, the references, the dependencies, and the rename plan",
-		Plugs:
-			"the ctx.workspaceSemantics service, the fs/observed listener on the root context, and the optional lsp seam",
+		Plugs: "the ctx.workspaceSemantics service, the fs/observed listener on the root context, and the optional lsp seam",
 		Does: [
 			"A file resolved lazily through its adapter",
 			"The references the graph asks for, and the symbols a caller asks for",
@@ -839,7 +817,9 @@ export const Portrait: Portrait[] = [
 ];
 
 export function PortraitFor(Slug: string): Portrait | undefined {
-	return Portrait.find((Entry) => Entry.Slug === Slug || Entry.Slug === Slug.replace(/^ets-/, ""));
+	return Portrait.find(
+		(Entry) => Entry.Slug === Slug || Entry.Slug === Slug.replace(/^ets-/, ""),
+	);
 }
 
 export default Portrait;

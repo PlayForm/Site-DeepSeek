@@ -70,7 +70,9 @@ const CeilingRead = Read(Ceiling);
 			{Fill && <path class="gauge__fill" d={Fill} />}
 		</svg>
 		<div class="gauge__readout">
-			<span class="gauge__value">{ValueRead.Amount}&nbsp;{ValueRead.Unit}</span>
+			<span class="gauge__value">
+				{ValueRead.Amount}&nbsp;{ValueRead.Unit}
+			</span>
 			<span class="gauge__label">{Label}</span>
 		</div>
 	</div>
@@ -78,7 +80,9 @@ const CeilingRead = Read(Ceiling);
 	<figcaption class="gauge__foot">
 		<span class="gauge__ceiling">
 			<span class="gauge__ceiling-label">ceiling</span>
-			<span class="gauge__ceiling-value">{CeilingRead.Amount}&nbsp;{CeilingRead.Unit}</span>
+			<span class="gauge__ceiling-value">
+				{CeilingRead.Amount}&nbsp;{CeilingRead.Unit}
+			</span>
 		</span>
 		{Note && <span class="gauge__note">{Note}</span>}
 	</figcaption>

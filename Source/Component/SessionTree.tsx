@@ -1,7 +1,5 @@
 import "@Stylesheet/Component/SessionTree.scss";
 
-import { For } from "solid-js";
-
 import {
 	Acting,
 	FormatNumber,
@@ -15,6 +13,7 @@ import {
 	TurnStep,
 	type Face,
 } from "@Content/Session";
+import { For } from "solid-js";
 
 interface Props {
 	/** The face the tree reads. */
@@ -54,8 +53,7 @@ export default function SessionTree(Props: Props) {
 							class="session-tree__turn"
 							href={`#turn-${Group.Index}`}
 							data-current={CurrentTurn() === Group.Index ? "true" : undefined}
-							onClick={() => Props.OnPick(First(Group.Index))}
-						>
+							onClick={() => Props.OnPick(First(Group.Index))}>
 							<span class="session-tree__number">
 								{String(Group.Index).padStart(2, "0")}
 							</span>{" "}
@@ -69,17 +67,12 @@ export default function SessionTree(Props: Props) {
 								<a
 									class="session-tree__step"
 									href={`#step-${Item.Index}`}
-									data-current={
-										CurrentStep() === Item.Index ? "true" : undefined
-									}
-									onClick={() => Props.OnPick(First(Group.Index, Item.Index))}
-								>
+									data-current={CurrentStep() === Item.Index ? "true" : undefined}
+									onClick={() => Props.OnPick(First(Group.Index, Item.Index))}>
 									<span class="session-tree__number">
 										{String(Item.Index).padStart(2, "0")}
 									</span>{" "}
-									<span class="session-tree__name">
-										step&nbsp;{Item.Index}
-									</span>{" "}
+									<span class="session-tree__name">step&nbsp;{Item.Index}</span>{" "}
 									<span class="session-tree__count">
 										{Plural(Item.Record.length, "record")}
 									</span>

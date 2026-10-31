@@ -61,7 +61,8 @@ const Tool: Record<string, Tool> = {
 			{
 				Name: "batch_edit, action=open",
 				Takes: "the paths or globs, and the prepared searches and operations",
-				Returns: "the machine id, the held files with their versions, and a miss listed rather than guessed",
+				Returns:
+					"the machine id, the held files with their versions, and a miss listed rather than guessed",
 			},
 			{
 				Name: "batch_edit, action=insert",
@@ -76,7 +77,8 @@ const Tool: Record<string, Tool> = {
 			{
 				Name: "batch_edit, action=commit",
 				Takes: "the machine id, the transition table, and an optional opfile",
-				Returns: "one outcome per file, or the typed job id when the inline deadline passes",
+				Returns:
+					"one outcome per file, or the typed job id when the inline deadline passes",
 			},
 			{
 				Name: "batch_edit, action=state",
@@ -98,7 +100,8 @@ const Tool: Record<string, Tool> = {
 			{
 				Name: "/cost report",
 				Takes: "a scope: file, project, client, model, or session; and one UTC day",
-				Returns: "the rollup rows for that scope, or for the whole ledger when no day is named",
+				Returns:
+					"the rollup rows for that scope, or for the whole ledger when no day is named",
 			},
 			{
 				Name: "/cost export",
@@ -113,7 +116,8 @@ const Tool: Record<string, Tool> = {
 			{
 				Name: "/cost assess",
 				Takes: "an optional session",
-				Returns: "the spend bucketed as delivered, explored, reverted, overhead, and carry, with the cost per surviving line",
+				Returns:
+					"the spend bucketed as delivered, explored, reverted, overhead, and carry, with the cost per surviving line",
 			},
 			{
 				Name: "/cost forecast",
@@ -130,7 +134,8 @@ const Tool: Record<string, Tool> = {
 			{
 				Name: "/analysis",
 				Takes: "a scope: file, project, client, model, or session",
-				Returns: "the metric rows of the enabled families, or the empty-ledger line when the scope has none",
+				Returns:
+					"the metric rows of the enabled families, or the empty-ledger line when the scope has none",
 			},
 		],
 		Note: "The ledger plugin already owns the cost name, so this half registers analysis; the five families it renders are credit, effectiveness, lines, overhead, and cache.",
@@ -142,7 +147,8 @@ const Tool: Record<string, Tool> = {
 			{
 				Name: "normalize-file",
 				Takes: "a path",
-				Returns: "the count and the fresh version, or the unchanged result when the count is zero",
+				Returns:
+					"the count and the fresh version, or the unchanged result when the count is zero",
 			},
 			{
 				Name: "normalize-overpass",
@@ -159,12 +165,14 @@ const Tool: Record<string, Tool> = {
 			{
 				Name: "workspace_map",
 				Takes: "a path or module prefix, and a depth",
-				Returns: "the modules with their roles, the file count, the entry points, and the hot symbols",
+				Returns:
+					"the modules with their roles, the file count, the entry points, and the hot symbols",
 			},
 			{
 				Name: "workspace_find",
 				Takes: "a name or pattern, a kind, and a limit",
-				Returns: "the matching nodes with id, path, span, and kind, and a cursor for the next page",
+				Returns:
+					"the matching nodes with id, path, span, and kind, and a cursor for the next page",
 			},
 			{
 				Name: "workspace_expand",
@@ -189,38 +197,36 @@ const Tool: Record<string, Tool> = {
 const Entry = Tool[Slug] ?? Tool[Slug.replace(/^ets-/, "")];
 ---
 
-{
-	Entry !== undefined && (
-		<div class="tool" role="img" aria-label={`The calls ${Slug} registers`}>
-			<div class="tool__band">
-				<div class="tool__identity">
-					<span class="tool__label">Seam</span>
-					<span class="tool__seam">{Entry.Seam}</span>
-				</div>
-				<div class="tool__figure">
-					<span class="tool__figure-value">{Entry.Call.length}</span>
-					<span class="tool__label">Calls</span>
-				</div>
+{Entry !== undefined && (
+	<div class="tool" role="img" aria-label={`The calls ${Slug} registers`}>
+		<div class="tool__band">
+			<div class="tool__identity">
+				<span class="tool__label">Seam</span>
+				<span class="tool__seam">{Entry.Seam}</span>
 			</div>
-			<p class="tool__rule">{Entry.Rule}</p>
-			<ol class="tool__calls">
-				{Entry.Call.map((Item, Index) => (
-					<li class="tool__call" data-entry={Index === 0 ? "true" : "false"}>
-						<span class="tool__name">{Item.Name}</span>
-						<dl class="tool__facts">
-							<div class="tool__row">
-								<dt class="tool__label">Takes</dt>
-								<dd class="tool__value">{Item.Takes}</dd>
-							</div>
-							<div class="tool__row">
-								<dt class="tool__label">Returns</dt>
-								<dd class="tool__value tool__value--answer">{Item.Returns}</dd>
-							</div>
-						</dl>
-					</li>
-				))}
-			</ol>
-			{Entry.Note !== undefined && <p class="tool__note">{Entry.Note}</p>}
+			<div class="tool__figure">
+				<span class="tool__figure-value">{Entry.Call.length}</span>
+				<span class="tool__label">Calls</span>
+			</div>
 		</div>
-	)
-}
+		<p class="tool__rule">{Entry.Rule}</p>
+		<ol class="tool__calls">
+			{Entry.Call.map((Item, Index) => (
+				<li class="tool__call" data-entry={Index === 0 ? "true" : "false"}>
+					<span class="tool__name">{Item.Name}</span>
+					<dl class="tool__facts">
+						<div class="tool__row">
+							<dt class="tool__label">Takes</dt>
+							<dd class="tool__value">{Item.Takes}</dd>
+						</div>
+						<div class="tool__row">
+							<dt class="tool__label">Returns</dt>
+							<dd class="tool__value tool__value--answer">{Item.Returns}</dd>
+						</div>
+					</dl>
+				</li>
+			))}
+		</ol>
+		{Entry.Note !== undefined && <p class="tool__note">{Entry.Note}</p>}
+	</div>
+)}

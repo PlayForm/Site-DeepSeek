@@ -1,14 +1,13 @@
 ---
 import Absence from "@Component/Absence.astro";
 import Absent from "@Component/Absent.astro";
+import Activation from "@Component/Activation.astro";
 import Advise from "@Component/Advise.astro";
 import Badge from "@Component/Badge.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import Buffer from "@Component/Buffer.astro";
 import Bundle from "@Component/Bundle.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
-import Activation from "@Component/Activation.astro";
-import Scheme from "@Component/Scheme.astro";
 import Definition from "@Component/Definition.astro";
 import Difference from "@Component/Difference.astro";
 import Disclosure from "@Component/Disclosure.astro";
@@ -22,9 +21,10 @@ import Origin from "@Component/Origin.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
 import Provenance from "@Component/Provenance.astro";
-import Retrieve from "@Component/Retrieve.astro";
 import Record from "@Component/Record.astro";
+import Retrieve from "@Component/Retrieve.astro";
 import Rewrite from "@Component/Rewrite.astro";
+import Scheme from "@Component/Scheme.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Service from "@Component/Service.astro";
 import Stream from "@Component/Stream.astro";
@@ -33,17 +33,17 @@ import Table from "@Component/Table.astro";
 import Tool from "@Component/Tool.astro";
 import Transform from "@Component/Transform.astro";
 import VersionPill from "@Component/VersionPill.astro";
+import { Activation as ActivationData } from "@Content/Activation";
 import { ArmFor } from "@Content/Arm";
 import { BehaviorFor } from "@Content/Behavior";
-import { Activation as ActivationData } from "@Content/Activation";
-import { SchemeFor } from "@Content/Scheme";
 import { CurrentFor } from "@Content/Current";
 import { DeltaFor } from "@Content/Delta";
 import { DetailFor } from "@Content/Detail";
-import { TableFor } from "@Content/Table";
 import { SeamFor } from "@Content/Harness";
 import { HookFor } from "@Content/Hook";
 import { PortraitFor } from "@Content/Portrait";
+import { SchemeFor } from "@Content/Scheme";
+import { TableFor } from "@Content/Table";
 import { Transform as Sample } from "@Content/Transform";
 import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
@@ -231,99 +231,87 @@ const File = [
 		</div>
 	</section>
 
-	{
-		Portrait !== undefined && (
-			<section class="section">
-				<SectionHeader Title={Portrait.Role} Lede={`Plugs into ${Portrait.Plugs}.`} />
-				<div class="section__body stack">
-					<ul class="stack">
-						{Portrait.Does.map((Item) => (
-							<li>{Item}</li>
-						))}
-					</ul>
-					{Portrait.Shape === "stream" && <Stream Slug={Entry.Slug} />}
-					{Portrait.Shape === "layer" && <Layer Slug={Entry.Slug} />}
-					{Portrait.Shape === "surface" && <Surface Slug={Entry.Slug} />}
-					{Portrait.Shape === "buffer" && <Buffer Slug={Entry.Slug} />}
-					{Portrait.Shape === "gate" && <Gate Slug={Entry.Slug} />}
-					{Portrait.Shape === "rewrite" && <Rewrite Slug={Entry.Slug} />}
-					{Portrait.Shape === "record" && <Record Slug={Entry.Slug} />}
-					{Portrait.Shape === "advise" && <Advise Slug={Entry.Slug} />}
-					{Portrait.Shape === "tool" && <Tool Slug={Entry.Slug} />}
-					{Portrait.Shape === "service" && <Service Slug={Entry.Slug} />}
-					{Portrait.Shape === "bundle" && <Bundle Slug={Entry.Slug} />}
-				</div>
-			</section>
-		)
-	}
+	{Portrait !== undefined && (
+		<section class="section">
+			<SectionHeader Title={Portrait.Role} Lede={`Plugs into ${Portrait.Plugs}.`} />
+			<div class="section__body stack">
+				<ul class="stack">
+					{Portrait.Does.map((Item) => (
+						<li>{Item}</li>
+					))}
+				</ul>
+				{Portrait.Shape === "stream" && <Stream Slug={Entry.Slug} />}
+				{Portrait.Shape === "layer" && <Layer Slug={Entry.Slug} />}
+				{Portrait.Shape === "surface" && <Surface Slug={Entry.Slug} />}
+				{Portrait.Shape === "buffer" && <Buffer Slug={Entry.Slug} />}
+				{Portrait.Shape === "gate" && <Gate Slug={Entry.Slug} />}
+				{Portrait.Shape === "rewrite" && <Rewrite Slug={Entry.Slug} />}
+				{Portrait.Shape === "record" && <Record Slug={Entry.Slug} />}
+				{Portrait.Shape === "advise" && <Advise Slug={Entry.Slug} />}
+				{Portrait.Shape === "tool" && <Tool Slug={Entry.Slug} />}
+				{Portrait.Shape === "service" && <Service Slug={Entry.Slug} />}
+				{Portrait.Shape === "bundle" && <Bundle Slug={Entry.Slug} />}
+			</div>
+		</section>
+	)}
 
-	{
-		Current !== undefined && (
-			<section class="section">
-				<SectionHeader
-					Title="Flow"
-					Lede="The order this package's work happens in, with the branch that decides it inline, transcribed from the source and from the corpus where the corpus draws it."
-				/>
-				<div class="section__body">
-					<Flow Stage={Current.Stage} Rule={Current.Rule} />
-				</div>
-			</section>
-		)
-	}
+	{Current !== undefined && (
+		<section class="section">
+			<SectionHeader
+				Title="Flow"
+				Lede="The order this package's work happens in, with the branch that decides it inline, transcribed from the source and from the corpus where the corpus draws it."
+			/>
+			<div class="section__body">
+				<Flow Stage={Current.Stage} Rule={Current.Rule} />
+			</div>
+		</section>
+	)}
 
-	{
-		Detail !== undefined && (
-			<section class="section">
-				<SectionHeader
-					Title="Detail"
-					Lede="The comment syntax the scanner knows, and the extensions it leaves alone."
-				/>
-				<div class="section__body stack">
-					<Family Family={Detail.Family} />
-					<Absent Absent={Detail.Absent} />
-				</div>
-			</section>
-		)
-	}
+	{Detail !== undefined && (
+		<section class="section">
+			<SectionHeader
+				Title="Detail"
+				Lede="The comment syntax the scanner knows, and the extensions it leaves alone."
+			/>
+			<div class="section__body stack">
+				<Family Family={Detail.Family} />
+				<Absent Absent={Detail.Absent} />
+			</div>
+		</section>
+	)}
 
-	{
-		Tabulation !== undefined && (
-			<section class="section">
-				<SectionHeader Title="Table" />
-				<div class="section__body">
-					<Normalizer Table={Tabulation} />
-				</div>
-			</section>
-		)
-	}
+	{Tabulation !== undefined && (
+		<section class="section">
+			<SectionHeader Title="Table" />
+			<div class="section__body">
+				<Normalizer Table={Tabulation} />
+			</div>
+		</section>
+	)}
 
-	{
-		ActivationData.Slug.includes(Entry.Slug) && (
-			<section class="section">
-				<SectionHeader
-					Title="Activation"
-					Lede="The one line this package writes when it loads, as a template and as the strings the source composes from it."
-				/>
-				<div class="section__body">
-					<Activation />
-				</div>
-			</section>
-		)
-	}
+	{ActivationData.Slug.includes(Entry.Slug) && (
+		<section class="section">
+			<SectionHeader
+				Title="Activation"
+				Lede="The one line this package writes when it loads, as a template and as the strings the source composes from it."
+			/>
+			<div class="section__body">
+				<Activation />
+			</div>
+		</section>
+	)}
 
-	{
-		SchemeFor(Entry.Slug) !== undefined && (
-			<section class="section">
-				<SectionHeader
-					Title="Scheme"
-					Lede="The laws the package states in its own SCHEME.md: when it runs, what it refuses, and what stays identical because of it."
-				/>
-				<div class="section__body">
-					<Scheme Scheme={SchemeFor(Entry.Slug)!} />
-				</div>
-			</section>
-		)
-	}
+	{SchemeFor(Entry.Slug) !== undefined && (
+		<section class="section">
+			<SectionHeader
+				Title="Scheme"
+				Lede="The laws the package states in its own SCHEME.md: when it runs, what it refuses, and what stays identical because of it."
+			/>
+			<div class="section__body">
+				<Scheme Scheme={SchemeFor(Entry.Slug)!} />
+			</div>
+		</section>
+	)}
 
 	<section class="section">
 		<SectionHeader Title="Install" />
@@ -367,11 +355,7 @@ const File = [
 					documents.
 				</p>
 			)}
-			{Own.length > 0 && (
-				<p class="muted">
-					The family answers at this seam too: {OwnName}.
-				</p>
-			)}
+			{Own.length > 0 && <p class="muted">The family answers at this seam too: {OwnName}.</p>}
 		</div>
 	</section>
 
@@ -408,25 +392,23 @@ const File = [
 		</section>
 	)}
 
-	{
-		Entry.Slug === "hook-dsh-ccr" && (
-			<section class="section">
-				<SectionHeader
-					Title="Retrieve"
-					Lede="The loop the marker opens: the result arrives, the gate replaces it, the model asks for the bytes by hash, and the store returns them exactly."
+	{Entry.Slug === "hook-dsh-ccr" && (
+		<section class="section">
+			<SectionHeader
+				Title="Retrieve"
+				Lede="The loop the marker opens: the result arrives, the gate replaces it, the model asks for the bytes by hash, and the store returns them exactly."
+			/>
+			<div class="section__body">
+				<Retrieve
+					Marker="<<<CCR:9d3c1f0a7b2e4d5c6a8b9c0d|terminal|5231>>>"
+					Hash="9d3c1f0a7b2e4d5c6a8b9c0d"
+					Size={5231}
+					Preview="[terminal:exit 0 | 142 lines | make: *** Error 1]"
+					Body="make: Entering directory '/repo'&#10;go build ./...&#10;make: *** Error 1"
 				/>
-				<div class="section__body">
-					<Retrieve
-						Marker="<<<CCR:9d3c1f0a7b2e4d5c6a8b9c0d|terminal|5231>>>"
-						Hash="9d3c1f0a7b2e4d5c6a8b9c0d"
-						Size={5231}
-						Preview="[terminal:exit 0 | 142 lines | make: *** Error 1]"
-						Body="make: Entering directory '/repo'&#10;go build ./...&#10;make: *** Error 1"
-					/>
-				</div>
-			</section>
-		)
-	}
+			</div>
+		</section>
+	)}
 
 	<section class="section">
 		<SectionHeader Title="Surface" />

@@ -60,9 +60,10 @@ const Word = Object.values(Vocabulary).map((Entry) => ({
 	Description={`All ${Count.All} packages: ${Count.Classic} in Classic and ${Count.EffectTS} in Effect-TS, with their seams, their versions, and the marketplace index.`}>
 	<PageHero Eyebrow="Two releases" Title="Package">
 		<Fragment slot="Lede">
-			{Count.All}&nbsp;<Term Name="package" /> in two releases: {Count.Classic}&nbsp;in Classic,{" "}
-			{Count.EffectTS}&nbsp;in Effect-TS. The cards filter, the table lists, and the marketplace
-			indexes the same set.
+			{Count.All}&nbsp;
+			<Term Name="package" /> in two releases: {Count.Classic}&nbsp;in Classic,{" "}
+			{Count.EffectTS}&nbsp;in Effect-TS. The cards filter, the table lists, and the
+			marketplace indexes the same set.
 		</Fragment>
 	</PageHero>
 
@@ -148,10 +149,18 @@ const Word = Object.values(Vocabulary).map((Entry) => ({
 		<SectionHeader Title="Next" Lede="The pages that read this catalogue." />
 		<div class="section__body">
 			<div class="cluster">
-				<a class="button" href={Route.Package}>Package</a>
-				<a class="button button--quiet" href={Route.Behavior}>Behavior</a>
-				<a class="button button--quiet" href={Route.Trace}>Trace</a>
-				<a class="button button--quiet" href={Route.Harness}>Harness</a>
+				<a class="button" href={Route.Package}>
+					Package
+				</a>
+				<a class="button button--quiet" href={Route.Behavior}>
+					Behavior
+				</a>
+				<a class="button button--quiet" href={Route.Trace}>
+					Trace
+				</a>
+				<a class="button button--quiet" href={Route.Harness}>
+					Harness
+				</a>
 			</div>
 		</div>
 	</section>

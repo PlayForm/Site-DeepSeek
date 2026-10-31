@@ -107,23 +107,21 @@ const Advise: Record<string, Advise> = {
 const Entry = Advise[Slug] ?? Advise[Slug.replace(/^ets-/, "")];
 ---
 
-{
-	Entry !== undefined && (
-		<div class="advise" role="img" aria-label={`The note ${Slug} adds at its seam`}>
-			<div class="advise__meta">
-				<div class="advise__row">
-					<span class="advise__label">Seam</span>
-					<span class="advise__value">{Entry.Seam}</span>
-				</div>
-				<div class="advise__row">
-					<span class="advise__label">Trigger</span>
-					<span class="advise__value">{Entry.Trigger}</span>
-				</div>
+{Entry !== undefined && (
+	<div class="advise" role="img" aria-label={`The note ${Slug} adds at its seam`}>
+		<div class="advise__meta">
+			<div class="advise__row">
+				<span class="advise__label">Seam</span>
+				<span class="advise__value">{Entry.Seam}</span>
 			</div>
-			<blockquote class="advise__quote">
-				<pre class="advise__text">{Entry.Note.join("\n")}</pre>
-			</blockquote>
-			<p class="advise__rule">{Entry.Rule}</p>
+			<div class="advise__row">
+				<span class="advise__label">Trigger</span>
+				<span class="advise__value">{Entry.Trigger}</span>
+			</div>
 		</div>
-	)
-}
+		<blockquote class="advise__quote">
+			<pre class="advise__text">{Entry.Note.join("\n")}</pre>
+		</blockquote>
+		<p class="advise__rule">{Entry.Rule}</p>
+	</div>
+)}

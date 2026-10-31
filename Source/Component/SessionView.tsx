@@ -1,13 +1,12 @@
 import "@Stylesheet/Component/SessionView.scss";
 import "@Stylesheet/Component/SectionHeader.scss";
 
-import { createMemo, createSignal, Show } from "solid-js";
-
 import InspectorLive from "@Component/InspectorLive";
 import LaneStrip from "@Component/LaneStrip";
 import SessionDocument from "@Component/SessionDocument";
 import SessionTree from "@Component/SessionTree";
 import { Record, Timeline, TotalOf, type Face } from "@Content/Session";
+import { createMemo, createSignal, Show } from "solid-js";
 
 // The session view: one island, so the face switch reaches every machine. The
 // lane, the tree, the document, and the inspector all read the same signal;
@@ -18,7 +17,9 @@ export default function SessionView() {
 
 	const Moment = createMemo(() => Timeline(View()));
 	const Total = createMemo(() => TotalOf(View()));
-	const Selected = createMemo(() => Moment().find((Item) => Item.Entry.Seq === Pick()) ?? Moment()[0]);
+	const Selected = createMemo(
+		() => Moment().find((Item) => Item.Entry.Seq === Pick()) ?? Moment()[0],
+	);
 
 	return (
 		<>

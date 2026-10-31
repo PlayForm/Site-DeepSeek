@@ -7,7 +7,10 @@ import { Route } from "@Library/Link";
 // bookmark at the exact anchor before the page paints; the button is the
 // visible link for a client that blocks the refresh and for a crawler.
 ---
-<Base Title="Intervention" Description="The coverage moved to the harness page, at /harness/#coverage.">
+
+<Base
+	Title="Intervention"
+	Description="The coverage moved to the harness page, at /harness/#coverage.">
 	<Fragment slot="Head">
 		<meta http-equiv="refresh" content={`0; url=${Route.Harness}#coverage`} />
 	</Fragment>
@@ -17,7 +20,9 @@ import { Route } from "@Library/Link";
 			plugin against the seams of the turn.
 		</Fragment>
 		<Fragment slot="Actions">
-			<a class="button" href={`${Route.Harness}#coverage`}>Read the coverage</a>
+			<a class="button" href={`${Route.Harness}#coverage`}>
+				Read the coverage
+			</a>
 		</Fragment>
 	</PageHero>
 </Base>

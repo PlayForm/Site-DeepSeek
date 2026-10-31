@@ -1,0 +1,89 @@
+@use "../Material.scss" as Material;
+
+// Two worlds: the aligned stage rail. Each stage is a row with the title and
+// the two faces side by side, and the row that the family touches is the only
+// one that carries the accent, so the eye finds the interventions first.
+.world {
+	margin: 0;
+	padding: 0;
+
+	&__caption {
+		@include Material.label;
+
+		margin-bottom: var(--rhythm-tight);
+		color: var(--color-ink-faint);
+	}
+
+	&__legend {
+		display: flex;
+		gap: var(--space-3);
+		margin-bottom: var(--space-2);
+	}
+
+	&__key {
+		@include Material.label;
+
+		padding: 2px var(--space-2);
+		border: 1px solid var(--cabinet-line);
+		color: var(--color-ink-muted);
+
+		&[data-kind="family"] {
+			border-color: var(--color-accent);
+			background: var(--color-accent-soft);
+			color: var(--color-accent-ink);
+		}
+	}
+
+	&__rail {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-line);
+	}
+
+	&__stage {
+		display: grid;
+		grid-template-columns: minmax(140px, 200px) minmax(0, 1fr) minmax(0, 1.4fr);
+		gap: var(--space-1);
+		padding: 0;
+		background: var(--cabinet-front);
+
+		&[data-touched="true"] {
+			background: var(--color-accent-soft);
+		}
+	}
+
+	&__title {
+		@include Material.label;
+
+		padding: var(--space-2) var(--space-3);
+		color: var(--color-ink);
+	}
+
+	&__base,
+	&__family {
+		padding: var(--space-2) var(--space-3);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-faint);
+		overflow-wrap: anywhere;
+	}
+
+	&__family {
+		color: var(--color-ink-muted);
+	}
+
+	&__stage[data-touched="true"] &__family {
+		color: var(--color-accent-ink);
+	}
+
+	@media (max-width: 720px) {
+		&__stage {
+			grid-template-columns: 1fr;
+		}
+	}
+}

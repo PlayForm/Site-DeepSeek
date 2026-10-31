@@ -10,11 +10,10 @@ const { Rule, Variant } = Activation;
 ---
 
 <div class="activation">
-	<code class="activation__template"
-		>activated (<span class="activation__slot">k1=v1</span>, <span class="activation__slot"
-			>k2=v2</span
-		>, ...)</code
-	>
+	<code class="activation__template">
+		activated (<span class="activation__slot">k1=v1</span>,{" "}
+		<span class="activation__slot">k2=v2</span>, ...)
+	</code>
 
 	<dl class="activation__rule">
 		{Rule.map((Item) => (

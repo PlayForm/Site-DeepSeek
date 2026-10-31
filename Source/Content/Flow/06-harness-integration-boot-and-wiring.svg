@@ -1,1 +1,754 @@
-<svg id="dsh-diagram-06-harness-integration-boot-and-wiring" width="100%" xmlns="http://www.w3.org/2000/svg" class="flowchart" viewBox="-83.45889282226562 -2.371795028448105 808.0057678222656 715.9582169950008" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#dsh-diagram-06-harness-integration-boot-and-wiring{font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:14px;fill:#0b0f19;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#dsh-diagram-06-harness-integration-boot-and-wiring .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#dsh-diagram-06-harness-integration-boot-and-wiring .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#dsh-diagram-06-harness-integration-boot-and-wiring .error-icon{fill:#ffffff;}#dsh-diagram-06-harness-integration-boot-and-wiring .error-text{fill:#000000;stroke:#000000;}#dsh-diagram-06-harness-integration-boot-and-wiring .edge-thickness-normal{stroke-width:1px;}#dsh-diagram-06-harness-integration-boot-and-wiring .edge-thickness-thick{stroke-width:3.5px;}#dsh-diagram-06-harness-integration-boot-and-wiring .edge-pattern-solid{stroke-dasharray:0;}#dsh-diagram-06-harness-integration-boot-and-wiring .edge-thickness-invisible{stroke-width:0;fill:none;}#dsh-diagram-06-harness-integration-boot-and-wiring .edge-pattern-dashed{stroke-dasharray:3;}#dsh-diagram-06-harness-integration-boot-and-wiring .edge-pattern-dotted{stroke-dasharray:2;}#dsh-diagram-06-harness-integration-boot-and-wiring .marker{fill:#616f84;stroke:#616f84;}#dsh-diagram-06-harness-integration-boot-and-wiring .marker.cross{stroke:#616f84;}#dsh-diagram-06-harness-integration-boot-and-wiring svg{font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:14px;}#dsh-diagram-06-harness-integration-boot-and-wiring p{margin:0;}#dsh-diagram-06-harness-integration-boot-and-wiring .label{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#0b0f19;}#dsh-diagram-06-harness-integration-boot-and-wiring .cluster-label text{fill:#000000;}#dsh-diagram-06-harness-integration-boot-and-wiring .cluster-label span{color:#000000;}#dsh-diagram-06-harness-integration-boot-and-wiring .cluster-label span p{background-color:transparent;}#dsh-diagram-06-harness-integration-boot-and-wiring .label text,#dsh-diagram-06-harness-integration-boot-and-wiring span{fill:#0b0f19;color:#0b0f19;}#dsh-diagram-06-harness-integration-boot-and-wiring .node rect,#dsh-diagram-06-harness-integration-boot-and-wiring .node circle,#dsh-diagram-06-harness-integration-boot-and-wiring .node ellipse,#dsh-diagram-06-harness-integration-boot-and-wiring .node polygon,#dsh-diagram-06-harness-integration-boot-and-wiring .node path{fill:#f0f4ff;stroke:#0052ff;stroke-width:1px;}#dsh-diagram-06-harness-integration-boot-and-wiring .rough-node .label text,#dsh-diagram-06-harness-integration-boot-and-wiring .node .label text,#dsh-diagram-06-harness-integration-boot-and-wiring .image-shape .label,#dsh-diagram-06-harness-integration-boot-and-wiring .icon-shape .label{text-anchor:middle;}#dsh-diagram-06-harness-integration-boot-and-wiring .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#dsh-diagram-06-harness-integration-boot-and-wiring .rough-node .label,#dsh-diagram-06-harness-integration-boot-and-wiring .node .label,#dsh-diagram-06-harness-integration-boot-and-wiring .image-shape .label,#dsh-diagram-06-harness-integration-boot-and-wiring .icon-shape .label{text-align:center;}#dsh-diagram-06-harness-integration-boot-and-wiring .node.clickable{cursor:pointer;}#dsh-diagram-06-harness-integration-boot-and-wiring .root .anchor path{fill:#616f84!important;stroke-width:0;stroke:#616f84;}#dsh-diagram-06-harness-integration-boot-and-wiring .arrowheadPath{fill:#0b0b0b;}#dsh-diagram-06-harness-integration-boot-and-wiring .edgePaths .path{stroke:#616f84;stroke-width:1px;}#dsh-diagram-06-harness-integration-boot-and-wiring .flowchart-link{stroke:#616f84;fill:none;}#dsh-diagram-06-harness-integration-boot-and-wiring .edgeLabel{background-color:#ffffff;text-align:center;}#dsh-diagram-06-harness-integration-boot-and-wiring .edgeLabel p{background-color:#ffffff;}#dsh-diagram-06-harness-integration-boot-and-wiring .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dsh-diagram-06-harness-integration-boot-and-wiring .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#dsh-diagram-06-harness-integration-boot-and-wiring .cluster rect{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1px;}#dsh-diagram-06-harness-integration-boot-and-wiring .cluster text{fill:#000000;}#dsh-diagram-06-harness-integration-boot-and-wiring .cluster span{color:#000000;}#dsh-diagram-06-harness-integration-boot-and-wiring .node .collapsed-indicator{fill:#e2e8f0;stroke:none;opacity:0.6;}#dsh-diagram-06-harness-integration-boot-and-wiring .node .collapsed-separator{stroke:#e2e8f0;stroke-width:0.75px;}#dsh-diagram-06-harness-integration-boot-and-wiring div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:12px;background:#ffffff;border:1px solid #e2e8f0;border-radius:2px;pointer-events:none;z-index:100;}#dsh-diagram-06-harness-integration-boot-and-wiring .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#0b0f19;}#dsh-diagram-06-harness-integration-boot-and-wiring rect.text{fill:none;stroke-width:0;}#dsh-diagram-06-harness-integration-boot-and-wiring .icon-shape,#dsh-diagram-06-harness-integration-boot-and-wiring .image-shape{background-color:#ffffff;text-align:center;}#dsh-diagram-06-harness-integration-boot-and-wiring .icon-shape p,#dsh-diagram-06-harness-integration-boot-and-wiring .image-shape p{background-color:#ffffff;padding:2px;}#dsh-diagram-06-harness-integration-boot-and-wiring .icon-shape .label rect,#dsh-diagram-06-harness-integration-boot-and-wiring .image-shape .label rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dsh-diagram-06-harness-integration-boot-and-wiring .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#dsh-diagram-06-harness-integration-boot-and-wiring .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#dsh-diagram-06-harness-integration-boot-and-wiring .node .neo-node{stroke:#0052ff;}#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node rect,#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].cluster rect,#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node polygon{stroke:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].swimlane.cluster rect{filter:none;}#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node path{stroke:#0052ff;stroke-width:1px;}#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node .neo-line path{stroke:#0052ff;filter:none;}#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node circle{stroke:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node circle .state-start{fill:#000000;}#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].icon-shape .icon{fill:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].icon-shape .icon-neo path{stroke:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-06-harness-integration-boot-and-wiring :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edges edgePaths"><path d="M154.46484375,99.68982696533203L154.46484375,112.61875915346656Q154.46484375,119.68982696533203 161.53591156186548,119.68982696533203L261.9005467714679,119.68982696533203Q268.97161458333335,119.68982696533203 268.97161458333335,126.7608947771975L268.97161458333335,135.68982696533203" id="dsh-diagram-06-harness-integration-boot-and-wiring-L_PROFILE_LOADER_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_PROFILE_LOADER_0" data-points="W3sieCI6MTU0LjQ2NDg0Mzc1LCJ5Ijo5OS42ODk4MjY5NjUzMzIwM30seyJ4IjoxNTQuNDY0ODQzNzUsInkiOjExOS42ODk4MjY5NjUzMzIwM30seyJ4IjoyNjguOTcxNjE0NTgzMzMzMzUsInkiOjExOS42ODk4MjY5NjUzMzIwM30seyJ4IjoyNjguOTcxNjE0NTgzMzMzMzUsInkiOjEzOS42ODk4MjY5NjUzMzIwM31d" data-look="classic" marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)"/><path d="M334.51171875,99.68982696533203L334.51171875,118.4353998819987Q334.51171875,119.68982696533203 333.2572916666667,119.68982696533203L333.2572916666667,119.68982696533203Q332.00286458333335,119.68982696533203 332.00286458333335,120.94425404866536L332.00286458333335,135.68982696533203" id="dsh-diagram-06-harness-integration-boot-and-wiring-L_PATCH_LOADER_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_PATCH_LOADER_0" data-points="W3sieCI6MzM0LjUxMTcxODc1LCJ5Ijo5OS42ODk4MjY5NjUzMzIwM30seyJ4IjozMzQuNTExNzE4NzUsInkiOjExOS42ODk4MjY5NjUzMzIwM30seyJ4IjozMzIuMDAyODY0NTgzMzMzMzUsInkiOjExOS42ODk4MjY5NjUzMzIwM30seyJ4IjozMzIuMDAyODY0NTgzMzMzMzUsInkiOjEzOS42ODk4MjY5NjUzMzIwM31d" data-look="classic" marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)"/><path d="M300.48723958333335,202.08982849121094L300.48723958333335,215.01876067934546Q300.48723958333335,222.08982849121094 307.5583073951988,222.08982849121094L397.27528635480115,222.08982849121094Q404.34635416666663,222.08982849121094 404.34635416666663,229.1608963030764L404.34635416666663,238.08982849121094" id="dsh-diagram-06-harness-integration-boot-and-wiring-L_LOADER_APPLY_0" class="edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_LOADER_APPLY_0" data-points="W3sieCI6MzAwLjQ4NzIzOTU4MzMzMzM1LCJ5IjoyMDIuMDg5ODI4NDkxMjEwOTR9LHsieCI6MzAwLjQ4NzIzOTU4MzMzMzM1LCJ5IjoyMjIuMDg5ODI4NDkxMjEwOTR9LHsieCI6NDA0LjM0NjM1NDE2NjY2NjYzLCJ5IjoyMjIuMDg5ODI4NDkxMjEwOTR9LHsieCI6NDA0LjM0NjM1NDE2NjY2NjYzLCJ5IjoyNDIuMDg5ODI4NDkxMjEwOTR9XQ==" data-look="classic" marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)"/><path d="M552.2997395833333,202.08982849121094L552.2997395833333,215.01876067934546Q552.2997395833333,222.08982849121094 545.2286717714678,222.08982849121094L470.2559636451988,222.08982849121094Q463.1848958333333,222.08982849121094 463.1848958333333,229.1608963030764L463.1848958333333,238.08982849121094" id="dsh-diagram-06-harness-integration-boot-and-wiring-L_SVC_APPLY_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SVC_APPLY_0" data-points="W3sieCI6NTUyLjI5OTczOTU4MzMzMzMsInkiOjIwMi4wODk4Mjg0OTEyMTA5NH0seyJ4Ijo1NTIuMjk5NzM5NTgzMzMzMywieSI6MjIyLjA4OTgyODQ5MTIxMDk0fSx7IngiOjQ2My4xODQ4OTU4MzMzMzMzLCJ5IjoyMjIuMDg5ODI4NDkxMjEwOTR9LHsieCI6NDYzLjE4NDg5NTgzMzMzMzMsInkiOjI0Mi4wODk4Mjg0OTEyMTA5NH1d" data-look="classic" marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)"/><path d="M380.8109375,304.48983001708984L380.8109375,317.41876220522437Q380.8109375,324.48983001708984 373.73986968813455,324.48983001708984L130.55544281186548,324.48983001708984Q123.484375,324.48983001708984 123.484375,331.5608978289553L123.484375,375.8898277282715" id="dsh-diagram-06-harness-integration-boot-and-wiring-L_APPLY_FACTORY_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_APPLY_FACTORY_0" data-points="W3sieCI6MzgwLjgxMDkzNzUsInkiOjMwNC40ODk4MzAwMTcwODk4NH0seyJ4IjozODAuODEwOTM3NSwieSI6MzI0LjQ4OTgzMDAxNzA4OTg0fSx7IngiOjEyMy40ODQzNzUsInkiOjMyNC40ODk4MzAwMTcwODk4NH0seyJ4IjoxMjMuNDg0Mzc1LCJ5IjozNzkuODg5ODI3NzI4MjcxNX1d" data-look="classic" marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)"/><path d="M123.484375,442.2898292541504L123.484375,493.68982696533203" id="dsh-diagram-06-harness-integration-boot-and-wiring-L_FACTORY_LISTEN_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_FACTORY_LISTEN_0" data-points="W3sieCI6MTIzLjQ4NDM3NSwieSI6NDQyLjI4OTgyOTI1NDE1MDR9LHsieCI6MTIzLjQ4NDM3NSwieSI6NDk3LjY4OTgyNjk2NTMzMjAzfV0=" data-look="classic" marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)"/><path d="M416.1140625,304.48983001708984L416.1140625,337.41876220522437Q416.1140625,344.48983001708984 409.0429946881345,344.48983001708984L375.5398178118655,344.48983001708984Q368.46875,344.48983001708984 368.46875,351.5608978289553L368.46875,360.48983001708984" id="dsh-diagram-06-harness-integration-boot-and-wiring-L_APPLY_TOOLS_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_APPLY_TOOLS_0" data-points="W3sieCI6NDE2LjExNDA2MjUsInkiOjMwNC40ODk4MzAwMTcwODk4NH0seyJ4Ijo0MTYuMTE0MDYyNSwieSI6MzQ0LjQ4OTgzMDAxNzA4OTg0fSx7IngiOjM2OC40Njg3NSwieSI6MzQ0LjQ4OTgzMDAxNzA4OTg0fSx7IngiOjM2OC40Njg3NSwieSI6MzY0LjQ4OTgzMDAxNzA4OTg0fV0=" data-look="classic" marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)"/><path d="M123.484375,575.4898223876953L123.484375,588.4187545758298Q123.484375,595.4898223876953 130.55544281186548,595.4898223876953L282.8195571881345,595.4898223876953Q289.890625,595.4898223876953 289.890625,602.5608901995608L289.890625,611.4898223876953" id="dsh-diagram-06-harness-integration-boot-and-wiring-L_LISTEN_LED_0" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_LISTEN_LED_0" data-points="W3sieCI6MTIzLjQ4NDM3NSwieSI6NTc1LjQ4OTgyMjM4NzY5NTN9LHsieCI6MTIzLjQ4NDM3NSwieSI6NTk1LjQ4OTgyMjM4NzY5NTN9LHsieCI6Mjg5Ljg5MDYyNSwieSI6NTk1LjQ4OTgyMjM4NzY5NTN9LHsieCI6Mjg5Ljg5MDYyNSwieSI6NjE1LjQ4OTgyMjM4NzY5NTN9XQ==" data-look="classic" marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)"/><path d="M451.4171875,304.48983001708984L451.4171875,337.41876220522437Q451.4171875,344.48983001708984 458.4882553118655,344.48983001708984L491.9914321881345,344.48983001708984Q499.0625,344.48983001708984 499.0625,351.5608978289553L499.0625,411.08982849121094L499.0625,536.5898246765137L499.0625,588.4187545758298Q499.0625,595.4898223876953 491.9914321881345,595.4898223876953L339.7273178118655,595.4898223876953Q332.65625,595.4898223876953 332.65625,602.5608901995608L332.65625,611.4898223876953" id="dsh-diagram-06-harness-integration-boot-and-wiring-L_APPLY_LED_0" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_APPLY_LED_0" data-points="W3sieCI6NDUxLjQxNzE4NzUsInkiOjMwNC40ODk4MzAwMTcwODk4NH0seyJ4Ijo0NTEuNDE3MTg3NSwieSI6MzQ0LjQ4OTgzMDAxNzA4OTg0fSx7IngiOjQ5OS4wNjI1LCJ5IjozNDQuNDg5ODMwMDE3MDg5ODR9LHsieCI6NDk5LjA2MjUsInkiOjQxMS4wODk4Mjg0OTEyMTA5NH0seyJ4Ijo0OTkuMDYyNSwieSI6NTM2LjU4OTgyNDY3NjUxMzd9LHsieCI6NDk5LjA2MjUsInkiOjU5NS40ODk4MjIzODc2OTUzfSx7IngiOjMzMi42NTYyNSwieSI6NTk1LjQ4OTgyMjM4NzY5NTN9LHsieCI6MzMyLjY1NjI1LCJ5Ijo2MTUuNDg5ODIyMzg3Njk1M31d" data-look="classic" marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)"/><path d="M486.7203125,304.48983001708984L486.7203125,317.41876220522437Q486.7203125,324.48983001708984 493.79138031186545,324.48983001708984L610.2336196881345,324.48983001708984Q617.3046875,324.48983001708984 617.3046875,331.5608978289553L617.3046875,360.48983001708984" id="dsh-diagram-06-harness-integration-boot-and-wiring-L_APPLY_FAIL_0" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_APPLY_FAIL_0" data-points="W3sieCI6NDg2LjcyMDMxMjUsInkiOjMwNC40ODk4MzAwMTcwODk4NH0seyJ4Ijo0ODYuNzIwMzEyNSwieSI6MzI0LjQ4OTgzMDAxNzA4OTg0fSx7IngiOjYxNy4zMDQ2ODc1LCJ5IjozMjQuNDg5ODMwMDE3MDg5ODR9LHsieCI6NjE3LjMwNDY4NzUsInkiOjM2NC40ODk4MzAwMTcwODk4NH1d" data-look="classic" marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"/><g class="nodes"><g class="node default store" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-PROFILE-0" data-look="classic" transform="translate(154.46484375, 55.844913482666016)"><path d="M0,13.429943306722201 a72.546875,13.429943306722201 0,0,0 145.09375,0 a72.546875,13.429943306722201 0,0,0 -145.09375,0 l0,60.82994483260111 a72.546875,13.429943306722201 0,0,0 145.09375,0 l0,-60.82994483260111" class="basic label-container outer-path" style="" transform="translate(-72.546875, -43.84491572302275)"/><g class="label" style="" transform="translate(0, -6.2000017166137695)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">profile</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> package.json</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">dsh.profile.bundles</tspan></tspan></text></g></g></g><g class="node default store" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-PATCH-1" data-look="classic" transform="translate(334.51171875, 56.518672943115234)"><path d="M0,12.98076923076923 a67.5,12.98076923076923 0,0,0 135,0 a67.5,12.98076923076923 0,0,0 -135,0 l0,60.38077075664813 a67.5,12.98076923076923 0,0,0 135,0 l0,-60.38077075664813" class="basic label-container outer-path" style="" transform="translate(-67.5, -43.17115460909329)"/><g class="label" style="" transform="translate(0, -6.2000017166137695)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">cordis.patch.yml</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">insert</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> rows</tspan></tspan></text></g></g></g><g class="node default host" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-LOADER-2" data-look="classic" transform="translate(300.48723958333335, 170.88982772827148)"><rect class="basic label-container" style="" x="-104.546875" y="-31.200000762939453" width="209.09375" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Cordis</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> loader</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">compose</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> bundle</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> layers</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-APPLY-3" data-look="classic" transform="translate(433.765625, 273.2898292541504)"><rect class="basic label-container" style="" x="-98.2578125" y="-31.200000762939453" width="196.515625" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">apply()</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">name</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Config</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> inject</tspan></tspan></text></g></g></g><g class="node default host" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-SVC-4" data-look="classic" transform="translate(552.2997395833333, 170.88982772827148)"><rect class="basic label-container" style="" x="-107.265625" y="-31.200000762939453" width="214.53125" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">services</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">fs</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> tools</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> pluginFactory</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-FACTORY-5" data-look="classic" transform="translate(123.484375, 411.08982849121094)"><rect class="basic label-container" style="" x="-94.390625" y="-31.200000762939453" width="188.78125" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">factory</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> methods</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">State</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Wire</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Attach</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-LISTEN-6" data-look="classic" transform="translate(123.484375, 536.5898246765137)"><rect class="basic label-container" style="" x="-111.484375" y="-38.89999961853027" width="222.96875" height="77.79999923706055"/><g class="label" style="" transform="translate(0, -23.899999618530273)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">listeners</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> registered</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">llm/stream</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> fs/observed</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="2.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tools/*</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-TOOLS-7" data-look="classic" transform="translate(368.46875, 411.08982849121094)"><rect class="basic label-container" style="" x="-110.59375" y="-46.60000038146973" width="221.1875" height="93.20000076293945"/><g class="label" style="" transform="translate(0, -31.600000381469727)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tools</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> registered</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">raw-write</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> normalize-file</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="2.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">ccr_retrieve</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="3.2em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">live_container_set</tspan></tspan></text></g></g></g><g class="node default store" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-LED-8" data-look="classic" transform="translate(311.2734375, 659.538143157959)"><path d="M0,13.565547996112286 a74.1484375,13.565547996112286 0,0,0 148.296875,0 a74.1484375,13.565547996112286 0,0,0 -148.296875,0 l0,60.96554952199119 a74.1484375,13.565547996112286 0,0,0 148.296875,0 l0,-60.96554952199119" class="basic label-container outer-path" style="" transform="translate(-74.1484375, -44.04832275710788)"/><g class="label" style="" transform="translate(0, -6.2000017166137695)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">activation</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> line</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">~/.dsh/&lt;identity&gt;.log</tspan></tspan></text></g></g></g><g class="node default fail" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-FAIL-9" data-look="classic" transform="translate(617.3046875, 395.6898307800293)"><rect class="basic label-container" style="" x="-97.2421875" y="-31.200000762939453" width="194.484375" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">apply</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> returns</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> a</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> value</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">event</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> delivery</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> dies</tspan></tspan></text></g></g></g></g></g></g><defs><filter id="dsh-diagram-06-harness-integration-boot-and-wiring-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="dsh-diagram-06-harness-integration-boot-and-wiring-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs></svg>
+<svg id="dsh-diagram-06-harness-integration-boot-and-wiring" width="100%" xmlns="http://www.w3.org/2000/svg"
+	class="flowchart" viewBox="-83.45889282226562 -2.371795028448105 808.0057678222656 715.9582169950008"
+	role="graphics-document document" aria-roledescription="flowchart-v2">
+	<style>
+		#dsh-diagram-06-harness-integration-boot-and-wiring {
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			font-size: 14px;
+			fill: #0b0f19;
+		}
+
+		@keyframes edge-animation-frame {
+			from {
+				stroke-dashoffset: 0;
+			}
+		}
+
+		@keyframes dash {
+			to {
+				stroke-dashoffset: 0;
+			}
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edge-animation-slow {
+			stroke-dasharray: 9, 5 !important;
+			stroke-dashoffset: 900;
+			animation: dash 50s linear infinite;
+			stroke-linecap: round;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edge-animation-fast {
+			stroke-dasharray: 9, 5 !important;
+			stroke-dashoffset: 900;
+			animation: dash 20s linear infinite;
+			stroke-linecap: round;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .error-icon {
+			fill: #ffffff;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .error-text {
+			fill: #000000;
+			stroke: #000000;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edge-thickness-normal {
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edge-thickness-thick {
+			stroke-width: 3.5px;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edge-pattern-solid {
+			stroke-dasharray: 0;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edge-thickness-invisible {
+			stroke-width: 0;
+			fill: none;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edge-pattern-dashed {
+			stroke-dasharray: 3;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edge-pattern-dotted {
+			stroke-dasharray: 2;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .marker {
+			fill: #616f84;
+			stroke: #616f84;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .marker.cross {
+			stroke: #616f84;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring svg {
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			font-size: 14px;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring p {
+			margin: 0;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .label {
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			color: #0b0f19;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .cluster-label text {
+			fill: #000000;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .cluster-label span {
+			color: #000000;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .cluster-label span p {
+			background-color: transparent;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .label text,
+		#dsh-diagram-06-harness-integration-boot-and-wiring span {
+			fill: #0b0f19;
+			color: #0b0f19;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node rect,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node circle,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node ellipse,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node polygon,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node path {
+			fill: #f0f4ff;
+			stroke: #0052ff;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .rough-node .label text,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node .label text,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .image-shape .label,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .icon-shape .label {
+			text-anchor: middle;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node .katex path {
+			fill: #000;
+			stroke: #000;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .rough-node .label,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node .label,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .image-shape .label,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .icon-shape .label {
+			text-align: center;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node.clickable {
+			cursor: pointer;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .root .anchor path {
+			fill: #616f84 !important;
+			stroke-width: 0;
+			stroke: #616f84;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .arrowheadPath {
+			fill: #0b0b0b;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edgePaths .path {
+			stroke: #616f84;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .flowchart-link {
+			stroke: #616f84;
+			fill: none;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edgeLabel {
+			background-color: #ffffff;
+			text-align: center;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edgeLabel p {
+			background-color: #ffffff;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .edgeLabel rect {
+			opacity: 0.5;
+			background-color: #ffffff;
+			fill: #ffffff;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .labelBkg {
+			background-color: rgba(255, 255, 255, 0.5);
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .cluster rect {
+			fill: #f8fafc;
+			stroke: #e2e8f0;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .cluster text {
+			fill: #000000;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .cluster span {
+			color: #000000;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node .collapsed-indicator {
+			fill: #e2e8f0;
+			stroke: none;
+			opacity: 0.6;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node .collapsed-separator {
+			stroke: #e2e8f0;
+			stroke-width: 0.75px;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring div.mermaidTooltip {
+			position: absolute;
+			text-align: center;
+			max-width: 200px;
+			padding: 2px;
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			font-size: 12px;
+			background: #ffffff;
+			border: 1px solid #e2e8f0;
+			border-radius: 2px;
+			pointer-events: none;
+			z-index: 100;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .flowchartTitleText {
+			text-anchor: middle;
+			font-size: 18px;
+			fill: #0b0f19;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring rect.text {
+			fill: none;
+			stroke-width: 0;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .icon-shape,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .image-shape {
+			background-color: #ffffff;
+			text-align: center;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .icon-shape p,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .image-shape p {
+			background-color: #ffffff;
+			padding: 2px;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .icon-shape .label rect,
+		#dsh-diagram-06-harness-integration-boot-and-wiring .image-shape .label rect {
+			opacity: 0.5;
+			background-color: #ffffff;
+			fill: #ffffff;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .label-icon {
+			display: inline-block;
+			height: 1em;
+			overflow: visible;
+			vertical-align: -0.125em;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node .label-icon path {
+			fill: currentColor;
+			stroke: revert;
+			stroke-width: revert;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring .node .neo-node {
+			stroke: #0052ff;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node rect,
+		#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].cluster rect,
+		#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node polygon {
+			stroke: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].swimlane.cluster rect {
+			filter: none;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node path {
+			stroke: #0052ff;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node .outer-path {
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node .neo-line path {
+			stroke: #0052ff;
+			filter: none;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node circle {
+			stroke: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].node circle .state-start {
+			fill: #000000;
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].icon-shape .icon {
+			fill: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring [data-look="neo"].icon-shape .icon-neo path {
+			stroke: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-06-harness-integration-boot-and-wiring :root {
+			--mermaid-font-family: "trebuchet ms", verdana, arial, sans-serif;
+		}
+	</style>
+	<g>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd"
+			class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse"
+			markerWidth="8" markerHeight="8" orient="auto">
+			<path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointStart"
+			class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse"
+			markerWidth="8" markerHeight="8" orient="auto">
+			<path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd-margin"
+			class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse"
+			markerWidth="10.5" markerHeight="14" orient="auto">
+			<path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath"
+				style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointStart-margin"
+			class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse"
+			markerWidth="11.5" markerHeight="14" orient="auto">
+			<polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath"
+				style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-circleEnd"
+			class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse"
+			markerWidth="11" markerHeight="11" orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-circleStart"
+			class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse"
+			markerWidth="11" markerHeight="11" orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-circleEnd-margin"
+			class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse"
+			markerWidth="14" markerHeight="14" orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-circleStart-margin"
+			class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse"
+			markerWidth="14" markerHeight="14" orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-crossEnd"
+			class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse"
+			markerWidth="11" markerHeight="11" orient="auto">
+			<path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath"
+				style="stroke-width: 2; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-crossStart"
+			class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse"
+			markerWidth="11" markerHeight="11" orient="auto">
+			<path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath"
+				style="stroke-width: 2; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-crossEnd-margin"
+			class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse"
+			markerWidth="12" markerHeight="12" orient="auto">
+			<path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;" />
+		</marker>
+		<marker id="dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-crossStart-margin"
+			class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse"
+			markerWidth="12" markerHeight="12" orient="auto">
+			<path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath"
+				style="stroke-width: 2.5; stroke-dasharray: 1, 0;" />
+		</marker>
+		<g class="root">
+			<g class="clusters" />
+			<g class="edges edgePaths">
+				<path
+					d="M154.46484375,99.68982696533203L154.46484375,112.61875915346656Q154.46484375,119.68982696533203 161.53591156186548,119.68982696533203L261.9005467714679,119.68982696533203Q268.97161458333335,119.68982696533203 268.97161458333335,126.7608947771975L268.97161458333335,135.68982696533203"
+					id="dsh-diagram-06-harness-integration-boot-and-wiring-L_PROFILE_LOADER_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_PROFILE_LOADER_0"
+					data-points="W3sieCI6MTU0LjQ2NDg0Mzc1LCJ5Ijo5OS42ODk4MjY5NjUzMzIwM30seyJ4IjoxNTQuNDY0ODQzNzUsInkiOjExOS42ODk4MjY5NjUzMzIwM30seyJ4IjoyNjguOTcxNjE0NTgzMzMzMzUsInkiOjExOS42ODk4MjY5NjUzMzIwM30seyJ4IjoyNjguOTcxNjE0NTgzMzMzMzUsInkiOjEzOS42ODk4MjY5NjUzMzIwM31d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)" />
+				<path
+					d="M334.51171875,99.68982696533203L334.51171875,118.4353998819987Q334.51171875,119.68982696533203 333.2572916666667,119.68982696533203L333.2572916666667,119.68982696533203Q332.00286458333335,119.68982696533203 332.00286458333335,120.94425404866536L332.00286458333335,135.68982696533203"
+					id="dsh-diagram-06-harness-integration-boot-and-wiring-L_PATCH_LOADER_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_PATCH_LOADER_0"
+					data-points="W3sieCI6MzM0LjUxMTcxODc1LCJ5Ijo5OS42ODk4MjY5NjUzMzIwM30seyJ4IjozMzQuNTExNzE4NzUsInkiOjExOS42ODk4MjY5NjUzMzIwM30seyJ4IjozMzIuMDAyODY0NTgzMzMzMzUsInkiOjExOS42ODk4MjY5NjUzMzIwM30seyJ4IjozMzIuMDAyODY0NTgzMzMzMzUsInkiOjEzOS42ODk4MjY5NjUzMzIwM31d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)" />
+				<path
+					d="M300.48723958333335,202.08982849121094L300.48723958333335,215.01876067934546Q300.48723958333335,222.08982849121094 307.5583073951988,222.08982849121094L397.27528635480115,222.08982849121094Q404.34635416666663,222.08982849121094 404.34635416666663,229.1608963030764L404.34635416666663,238.08982849121094"
+					id="dsh-diagram-06-harness-integration-boot-and-wiring-L_LOADER_APPLY_0"
+					class="edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_LOADER_APPLY_0"
+					data-points="W3sieCI6MzAwLjQ4NzIzOTU4MzMzMzM1LCJ5IjoyMDIuMDg5ODI4NDkxMjEwOTR9LHsieCI6MzAwLjQ4NzIzOTU4MzMzMzM1LCJ5IjoyMjIuMDg5ODI4NDkxMjEwOTR9LHsieCI6NDA0LjM0NjM1NDE2NjY2NjYzLCJ5IjoyMjIuMDg5ODI4NDkxMjEwOTR9LHsieCI6NDA0LjM0NjM1NDE2NjY2NjYzLCJ5IjoyNDIuMDg5ODI4NDkxMjEwOTR9XQ=="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)" />
+				<path
+					d="M552.2997395833333,202.08982849121094L552.2997395833333,215.01876067934546Q552.2997395833333,222.08982849121094 545.2286717714678,222.08982849121094L470.2559636451988,222.08982849121094Q463.1848958333333,222.08982849121094 463.1848958333333,229.1608963030764L463.1848958333333,238.08982849121094"
+					id="dsh-diagram-06-harness-integration-boot-and-wiring-L_SVC_APPLY_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_SVC_APPLY_0"
+					data-points="W3sieCI6NTUyLjI5OTczOTU4MzMzMzMsInkiOjIwMi4wODk4Mjg0OTEyMTA5NH0seyJ4Ijo1NTIuMjk5NzM5NTgzMzMzMywieSI6MjIyLjA4OTgyODQ5MTIxMDk0fSx7IngiOjQ2My4xODQ4OTU4MzMzMzMzLCJ5IjoyMjIuMDg5ODI4NDkxMjEwOTR9LHsieCI6NDYzLjE4NDg5NTgzMzMzMzMsInkiOjI0Mi4wODk4Mjg0OTEyMTA5NH1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)" />
+				<path
+					d="M380.8109375,304.48983001708984L380.8109375,317.41876220522437Q380.8109375,324.48983001708984 373.73986968813455,324.48983001708984L130.55544281186548,324.48983001708984Q123.484375,324.48983001708984 123.484375,331.5608978289553L123.484375,375.8898277282715"
+					id="dsh-diagram-06-harness-integration-boot-and-wiring-L_APPLY_FACTORY_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_APPLY_FACTORY_0"
+					data-points="W3sieCI6MzgwLjgxMDkzNzUsInkiOjMwNC40ODk4MzAwMTcwODk4NH0seyJ4IjozODAuODEwOTM3NSwieSI6MzI0LjQ4OTgzMDAxNzA4OTg0fSx7IngiOjEyMy40ODQzNzUsInkiOjMyNC40ODk4MzAwMTcwODk4NH0seyJ4IjoxMjMuNDg0Mzc1LCJ5IjozNzkuODg5ODI3NzI4MjcxNX1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)" />
+				<path d="M123.484375,442.2898292541504L123.484375,493.68982696533203"
+					id="dsh-diagram-06-harness-integration-boot-and-wiring-L_FACTORY_LISTEN_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_FACTORY_LISTEN_0"
+					data-points="W3sieCI6MTIzLjQ4NDM3NSwieSI6NDQyLjI4OTgyOTI1NDE1MDR9LHsieCI6MTIzLjQ4NDM3NSwieSI6NDk3LjY4OTgyNjk2NTMzMjAzfV0="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)" />
+				<path
+					d="M416.1140625,304.48983001708984L416.1140625,337.41876220522437Q416.1140625,344.48983001708984 409.0429946881345,344.48983001708984L375.5398178118655,344.48983001708984Q368.46875,344.48983001708984 368.46875,351.5608978289553L368.46875,360.48983001708984"
+					id="dsh-diagram-06-harness-integration-boot-and-wiring-L_APPLY_TOOLS_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_APPLY_TOOLS_0"
+					data-points="W3sieCI6NDE2LjExNDA2MjUsInkiOjMwNC40ODk4MzAwMTcwODk4NH0seyJ4Ijo0MTYuMTE0MDYyNSwieSI6MzQ0LjQ4OTgzMDAxNzA4OTg0fSx7IngiOjM2OC40Njg3NSwieSI6MzQ0LjQ4OTgzMDAxNzA4OTg0fSx7IngiOjM2OC40Njg3NSwieSI6MzY0LjQ4OTgzMDAxNzA4OTg0fV0="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)" />
+				<path
+					d="M123.484375,575.4898223876953L123.484375,588.4187545758298Q123.484375,595.4898223876953 130.55544281186548,595.4898223876953L282.8195571881345,595.4898223876953Q289.890625,595.4898223876953 289.890625,602.5608901995608L289.890625,611.4898223876953"
+					id="dsh-diagram-06-harness-integration-boot-and-wiring-L_LISTEN_LED_0"
+					class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_LISTEN_LED_0"
+					data-points="W3sieCI6MTIzLjQ4NDM3NSwieSI6NTc1LjQ4OTgyMjM4NzY5NTN9LHsieCI6MTIzLjQ4NDM3NSwieSI6NTk1LjQ4OTgyMjM4NzY5NTN9LHsieCI6Mjg5Ljg5MDYyNSwieSI6NTk1LjQ4OTgyMjM4NzY5NTN9LHsieCI6Mjg5Ljg5MDYyNSwieSI6NjE1LjQ4OTgyMjM4NzY5NTN9XQ=="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)" />
+				<path
+					d="M451.4171875,304.48983001708984L451.4171875,337.41876220522437Q451.4171875,344.48983001708984 458.4882553118655,344.48983001708984L491.9914321881345,344.48983001708984Q499.0625,344.48983001708984 499.0625,351.5608978289553L499.0625,411.08982849121094L499.0625,536.5898246765137L499.0625,588.4187545758298Q499.0625,595.4898223876953 491.9914321881345,595.4898223876953L339.7273178118655,595.4898223876953Q332.65625,595.4898223876953 332.65625,602.5608901995608L332.65625,611.4898223876953"
+					id="dsh-diagram-06-harness-integration-boot-and-wiring-L_APPLY_LED_0"
+					class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_APPLY_LED_0"
+					data-points="W3sieCI6NDUxLjQxNzE4NzUsInkiOjMwNC40ODk4MzAwMTcwODk4NH0seyJ4Ijo0NTEuNDE3MTg3NSwieSI6MzQ0LjQ4OTgzMDAxNzA4OTg0fSx7IngiOjQ5OS4wNjI1LCJ5IjozNDQuNDg5ODMwMDE3MDg5ODR9LHsieCI6NDk5LjA2MjUsInkiOjQxMS4wODk4Mjg0OTEyMTA5NH0seyJ4Ijo0OTkuMDYyNSwieSI6NTM2LjU4OTgyNDY3NjUxMzd9LHsieCI6NDk5LjA2MjUsInkiOjU5NS40ODk4MjIzODc2OTUzfSx7IngiOjMzMi42NTYyNSwieSI6NTk1LjQ4OTgyMjM4NzY5NTN9LHsieCI6MzMyLjY1NjI1LCJ5Ijo2MTUuNDg5ODIyMzg3Njk1M31d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)" />
+				<path
+					d="M486.7203125,304.48983001708984L486.7203125,317.41876220522437Q486.7203125,324.48983001708984 493.79138031186545,324.48983001708984L610.2336196881345,324.48983001708984Q617.3046875,324.48983001708984 617.3046875,331.5608978289553L617.3046875,360.48983001708984"
+					id="dsh-diagram-06-harness-integration-boot-and-wiring-L_APPLY_FAIL_0"
+					class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_APPLY_FAIL_0"
+					data-points="W3sieCI6NDg2LjcyMDMxMjUsInkiOjMwNC40ODk4MzAwMTcwODk4NH0seyJ4Ijo0ODYuNzIwMzEyNSwieSI6MzI0LjQ4OTgzMDAxNzA4OTg0fSx7IngiOjYxNy4zMDQ2ODc1LCJ5IjozMjQuNDg5ODMwMDE3MDg5ODR9LHsieCI6NjE3LjMwNDY4NzUsInkiOjM2NC40ODk4MzAwMTcwODk4NH1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-06-harness-integration-boot-and-wiring_flowchart-v2-pointEnd)" />
+			</g>
+			<g class="edgeLabels" />
+			<g class="nodes">
+				<g class="node default store"
+					id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-PROFILE-0" data-look="classic"
+					transform="translate(154.46484375, 55.844913482666016)">
+					<path
+						d="M0,13.429943306722201 a72.546875,13.429943306722201 0,0,0 145.09375,0 a72.546875,13.429943306722201 0,0,0 -145.09375,0 l0,60.82994483260111 a72.546875,13.429943306722201 0,0,0 145.09375,0 l0,-60.82994483260111"
+						class="basic label-container outer-path" style=""
+						transform="translate(-72.546875, -43.84491572302275)" />
+					<g class="label" style="" transform="translate(0, -6.2000017166137695)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">profile
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										 package.json</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										dsh.profile.bundles</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default store" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-PATCH-1"
+					data-look="classic" transform="translate(334.51171875, 56.518672943115234)">
+					<path
+						d="M0,12.98076923076923 a67.5,12.98076923076923 0,0,0 135,0 a67.5,12.98076923076923 0,0,0 -135,0 l0,60.38077075664813 a67.5,12.98076923076923 0,0,0 135,0 l0,-60.38077075664813"
+						class="basic label-container outer-path" style=""
+						transform="translate(-67.5, -43.17115460909329)" />
+					<g class="label" style="" transform="translate(0, -6.2000017166137695)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										cordis.patch.yml</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">insert
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> rows
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default host" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-LOADER-2"
+					data-look="classic" transform="translate(300.48723958333335, 170.88982772827148)">
+					<rect class="basic label-container" style="" x="-104.546875" y="-31.200000762939453"
+						width="209.09375" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Cordis
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> loader
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">compose
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> bundle
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> layers
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-APPLY-3"
+					data-look="classic" transform="translate(433.765625, 273.2898292541504)">
+					<rect class="basic label-container" style="" x="-98.2578125" y="-31.200000762939453"
+						width="196.515625" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">apply()
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">name
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Config
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> inject
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default host" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-SVC-4"
+					data-look="classic" transform="translate(552.2997395833333, 170.88982772827148)">
+					<rect class="basic label-container" style="" x="-107.265625" y="-31.200000762939453"
+						width="214.53125" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">services
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">fs</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> tools
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										 pluginFactory</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-FACTORY-5"
+					data-look="classic" transform="translate(123.484375, 411.08982849121094)">
+					<rect class="basic label-container" style="" x="-94.390625" y="-31.200000762939453"
+						width="188.78125" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">factory
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> methods
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">State
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Wire
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Attach
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-LISTEN-6"
+					data-look="classic" transform="translate(123.484375, 536.5898246765137)">
+					<rect class="basic label-container" style="" x="-111.484375" y="-38.89999961853027"
+						width="222.96875" height="77.79999923706055" />
+					<g class="label" style="" transform="translate(0, -23.899999618530273)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">listeners
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> registered
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">llm/stream
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										 fs/observed</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="2.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tools/*
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-TOOLS-7"
+					data-look="classic" transform="translate(368.46875, 411.08982849121094)">
+					<rect class="basic label-container" style="" x="-110.59375" y="-46.60000038146973" width="221.1875"
+						height="93.20000076293945" />
+					<g class="label" style="" transform="translate(0, -31.600000381469727)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tools
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> registered
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">raw-write
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										 normalize-file</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="2.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										ccr_retrieve</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="3.2em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										live_container_set</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default store" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-LED-8"
+					data-look="classic" transform="translate(311.2734375, 659.538143157959)">
+					<path
+						d="M0,13.565547996112286 a74.1484375,13.565547996112286 0,0,0 148.296875,0 a74.1484375,13.565547996112286 0,0,0 -148.296875,0 l0,60.96554952199119 a74.1484375,13.565547996112286 0,0,0 148.296875,0 l0,-60.96554952199119"
+						class="basic label-container outer-path" style=""
+						transform="translate(-74.1484375, -44.04832275710788)" />
+					<g class="label" style="" transform="translate(0, -6.2000017166137695)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">activation
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> line
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										~/.dsh/&lt;identity&gt;.log</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default fail" id="dsh-diagram-06-harness-integration-boot-and-wiring-flowchart-FAIL-9"
+					data-look="classic" transform="translate(617.3046875, 395.6898307800293)">
+					<rect class="basic label-container" style="" x="-97.2421875" y="-31.200000762939453"
+						width="194.484375" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">apply
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> returns
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> a</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> value
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">event
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> delivery
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> dies
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<defs>
+		<filter id="dsh-diagram-06-harness-integration-boot-and-wiring-drop-shadow" height="130%" width="130%">
+			<feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000" />
+		</filter>
+	</defs>
+	<defs>
+		<filter id="dsh-diagram-06-harness-integration-boot-and-wiring-drop-shadow-small" height="150%" width="150%">
+			<feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000" />
+		</filter>
+	</defs>
+</svg>

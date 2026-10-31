@@ -1,1 +1,922 @@
-<svg id="dsh-diagram-04-guardians-Classic-tool-coach" width="100%" xmlns="http://www.w3.org/2000/svg" class="flowchart" viewBox="-84.09142303466797 -1.0287684798240662 2043.890251159668 713.2287806868553" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#dsh-diagram-04-guardians-Classic-tool-coach{font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:14px;fill:#0b0f19;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#dsh-diagram-04-guardians-Classic-tool-coach .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#dsh-diagram-04-guardians-Classic-tool-coach .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#dsh-diagram-04-guardians-Classic-tool-coach .error-icon{fill:#ffffff;}#dsh-diagram-04-guardians-Classic-tool-coach .error-text{fill:#000000;stroke:#000000;}#dsh-diagram-04-guardians-Classic-tool-coach .edge-thickness-normal{stroke-width:1px;}#dsh-diagram-04-guardians-Classic-tool-coach .edge-thickness-thick{stroke-width:3.5px;}#dsh-diagram-04-guardians-Classic-tool-coach .edge-pattern-solid{stroke-dasharray:0;}#dsh-diagram-04-guardians-Classic-tool-coach .edge-thickness-invisible{stroke-width:0;fill:none;}#dsh-diagram-04-guardians-Classic-tool-coach .edge-pattern-dashed{stroke-dasharray:3;}#dsh-diagram-04-guardians-Classic-tool-coach .edge-pattern-dotted{stroke-dasharray:2;}#dsh-diagram-04-guardians-Classic-tool-coach .marker{fill:#616f84;stroke:#616f84;}#dsh-diagram-04-guardians-Classic-tool-coach .marker.cross{stroke:#616f84;}#dsh-diagram-04-guardians-Classic-tool-coach svg{font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:14px;}#dsh-diagram-04-guardians-Classic-tool-coach p{margin:0;}#dsh-diagram-04-guardians-Classic-tool-coach .label{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#0b0f19;}#dsh-diagram-04-guardians-Classic-tool-coach .cluster-label text{fill:#000000;}#dsh-diagram-04-guardians-Classic-tool-coach .cluster-label span{color:#000000;}#dsh-diagram-04-guardians-Classic-tool-coach .cluster-label span p{background-color:transparent;}#dsh-diagram-04-guardians-Classic-tool-coach .label text,#dsh-diagram-04-guardians-Classic-tool-coach span{fill:#0b0f19;color:#0b0f19;}#dsh-diagram-04-guardians-Classic-tool-coach .node rect,#dsh-diagram-04-guardians-Classic-tool-coach .node circle,#dsh-diagram-04-guardians-Classic-tool-coach .node ellipse,#dsh-diagram-04-guardians-Classic-tool-coach .node polygon,#dsh-diagram-04-guardians-Classic-tool-coach .node path{fill:#f0f4ff;stroke:#0052ff;stroke-width:1px;}#dsh-diagram-04-guardians-Classic-tool-coach .rough-node .label text,#dsh-diagram-04-guardians-Classic-tool-coach .node .label text,#dsh-diagram-04-guardians-Classic-tool-coach .image-shape .label,#dsh-diagram-04-guardians-Classic-tool-coach .icon-shape .label{text-anchor:middle;}#dsh-diagram-04-guardians-Classic-tool-coach .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#dsh-diagram-04-guardians-Classic-tool-coach .rough-node .label,#dsh-diagram-04-guardians-Classic-tool-coach .node .label,#dsh-diagram-04-guardians-Classic-tool-coach .image-shape .label,#dsh-diagram-04-guardians-Classic-tool-coach .icon-shape .label{text-align:center;}#dsh-diagram-04-guardians-Classic-tool-coach .node.clickable{cursor:pointer;}#dsh-diagram-04-guardians-Classic-tool-coach .root .anchor path{fill:#616f84!important;stroke-width:0;stroke:#616f84;}#dsh-diagram-04-guardians-Classic-tool-coach .arrowheadPath{fill:#0b0b0b;}#dsh-diagram-04-guardians-Classic-tool-coach .edgePaths .path{stroke:#616f84;stroke-width:1px;}#dsh-diagram-04-guardians-Classic-tool-coach .flowchart-link{stroke:#616f84;fill:none;}#dsh-diagram-04-guardians-Classic-tool-coach .edgeLabel{background-color:#ffffff;text-align:center;}#dsh-diagram-04-guardians-Classic-tool-coach .edgeLabel p{background-color:#ffffff;}#dsh-diagram-04-guardians-Classic-tool-coach .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dsh-diagram-04-guardians-Classic-tool-coach .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#dsh-diagram-04-guardians-Classic-tool-coach .cluster rect{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1px;}#dsh-diagram-04-guardians-Classic-tool-coach .cluster text{fill:#000000;}#dsh-diagram-04-guardians-Classic-tool-coach .cluster span{color:#000000;}#dsh-diagram-04-guardians-Classic-tool-coach .node .collapsed-indicator{fill:#e2e8f0;stroke:none;opacity:0.6;}#dsh-diagram-04-guardians-Classic-tool-coach .node .collapsed-separator{stroke:#e2e8f0;stroke-width:0.75px;}#dsh-diagram-04-guardians-Classic-tool-coach div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:12px;background:#ffffff;border:1px solid #e2e8f0;border-radius:2px;pointer-events:none;z-index:100;}#dsh-diagram-04-guardians-Classic-tool-coach .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#0b0f19;}#dsh-diagram-04-guardians-Classic-tool-coach rect.text{fill:none;stroke-width:0;}#dsh-diagram-04-guardians-Classic-tool-coach .icon-shape,#dsh-diagram-04-guardians-Classic-tool-coach .image-shape{background-color:#ffffff;text-align:center;}#dsh-diagram-04-guardians-Classic-tool-coach .icon-shape p,#dsh-diagram-04-guardians-Classic-tool-coach .image-shape p{background-color:#ffffff;padding:2px;}#dsh-diagram-04-guardians-Classic-tool-coach .icon-shape .label rect,#dsh-diagram-04-guardians-Classic-tool-coach .image-shape .label rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dsh-diagram-04-guardians-Classic-tool-coach .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#dsh-diagram-04-guardians-Classic-tool-coach .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#dsh-diagram-04-guardians-Classic-tool-coach .node .neo-node{stroke:#0052ff;}#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node rect,#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].cluster rect,#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node polygon{stroke:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].swimlane.cluster rect{filter:none;}#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node path{stroke:#0052ff;stroke-width:1px;}#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node .neo-line path{stroke:#0052ff;filter:none;}#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node circle{stroke:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node circle .state-start{fill:#000000;}#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].icon-shape .icon{fill:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].icon-shape .icon-neo path{stroke:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-04-guardians-Classic-tool-coach :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edges edgePaths"><path d="M159.8113250732422,203.6800067901611L195.8113250732422,203.6800067901611" id="dsh-diagram-04-guardians-Classic-tool-coach-L_EV_DET_0" class="edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_EV_DET_0" data-points="W3sieCI6MTU5LjgxMTMyNTA3MzI0MjIsInkiOjIwMy42ODAwMDY3OTAxNjExfSx7IngiOjE5OS44MTEzMjUwNzMyNDIyLCJ5IjoyMDMuNjgwMDA2NzkwMTYxMX1d" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M406.5769500732422,203.6800067901611L442.5769500732422,203.6800067901611" id="dsh-diagram-04-guardians-Classic-tool-coach-L_DET_CLS_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_DET_CLS_0" data-points="W3sieCI6NDA2LjU3Njk1MDA3MzI0MjIsInkiOjIwMy42ODAwMDY3OTAxNjExfSx7IngiOjQ0Ni41NzY5NTAwNzMyNDIyLCJ5IjoyMDMuNjgwMDA2NzkwMTYxMX1d" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M633.8269500732422,203.6800067901611L669.8269500732422,203.6800067901611" id="dsh-diagram-04-guardians-Classic-tool-coach-L_CLS_EXE_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_CLS_EXE_0" data-points="W3sieCI6NjMzLjgyNjk1MDA3MzI0MjIsInkiOjIwMy42ODAwMDY3OTAxNjExfSx7IngiOjY3My44MjY5NTAwNzMyNDIyLCJ5IjoyMDMuNjgwMDA2NzkwMTYxMX1d" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M829.1602205042218,176.6133385976155L856.2269592285156,176.6133385976155L869.1558914166501,176.6133385976155Q876.2269592285156,176.6133385976155 876.2269592285156,169.54227078575002L876.2269592285156,30.071067811865476Q876.2269592285156,23 883.2980270403812,23L906.2972717285156,23L1046.3675842285156,23L1431.869155883789,23L1574.970718383789,23L1697.8996505719235,23Q1704.970718383789,23 1704.970718383789,30.071067811865476L1704.970718383789,52.9844806017291Q1704.970718383789,60.05554841359458 1712.0417861956546,60.05554841359458L1720.970718383789,60.05554841359458" id="dsh-diagram-04-guardians-Classic-tool-coach-L_EXE_LED_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_EXE_LED_0" data-points="W3sieCI6ODI5LjE2MDIyMDUwNDIyMTgsInkiOjE3Ni42MTMzMzg1OTc2MTU1fSx7IngiOjg1Ni4yMjY5NTkyMjg1MTU2LCJ5IjoxNzYuNjEzMzM4NTk3NjE1NX0seyJ4Ijo4NzYuMjI2OTU5MjI4NTE1NiwieSI6MTc2LjYxMzMzODU5NzYxNTV9LHsieCI6ODc2LjIyNjk1OTIyODUxNTYsInkiOjIzfSx7IngiOjkwNi4yOTcyNzE3Mjg1MTU2LCJ5IjoyM30seyJ4IjoxMDQ2LjM2NzU4NDIyODUxNTYsInkiOjIzfSx7IngiOjE0MzEuODY5MTU1ODgzNzg5LCJ5IjoyM30seyJ4IjoxNTc0Ljk3MDcxODM4Mzc4OSwieSI6MjN9LHsieCI6MTcwNC45NzA3MTgzODM3ODksInkiOjIzfSx7IngiOjE3MDQuOTcwNzE4MzgzNzg5LCJ5Ijo2MC4wNTU1NDg0MTM1OTQ1OH0seyJ4IjoxNzI0Ljk3MDcxODM4Mzc4OSwieSI6NjAuMDU1NTQ4NDEzNTk0NTh9XQ==" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M829.1602205042218,230.74667498270668L856.2269592285156,230.74667498270668L869.1558914166501,230.74667498270668Q876.2269592285156,230.74667498270668 876.2269592285156,237.81774279457215L876.2269592285156,270.32894134340796Q876.2269592285156,277.40000915527344 883.2980270403812,277.40000915527344L952.3675842285156,277.40000915527344" id="dsh-diagram-04-guardians-Classic-tool-coach-L_EXE_T0_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_EXE_T0_0" data-points="W3sieCI6ODI5LjE2MDIyMDUwNDIyMTgsInkiOjIzMC43NDY2NzQ5ODI3MDY2OH0seyJ4Ijo4NTYuMjI2OTU5MjI4NTE1NiwieSI6MjMwLjc0NjY3NDk4MjcwNjY4fSx7IngiOjg3Ni4yMjY5NTkyMjg1MTU2LCJ5IjoyMzAuNzQ2Njc0OTgyNzA2Njh9LHsieCI6ODc2LjIyNjk1OTIyODUxNTYsInkiOjI3Ny40MDAwMDkxNTUyNzM0NH0seyJ4Ijo5NTYuMzY3NTg0MjI4NTE1NiwieSI6Mjc3LjQwMDAwOTE1NTI3MzQ0fV0=" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M1136.3675842285156,264.6800086975098L1149.29651641665,264.6800086975098Q1156.3675842285156,264.6800086975098 1156.3675842285156,257.6089408856443L1156.3675842285156,61.071067811865476Q1156.3675842285156,54 1163.4386520403812,54L1287.5675888061523,54L1431.869155883789,54L1574.970718383789,54L1677.8996505719235,54Q1684.970718383789,54 1684.970718383789,61.071067811865476L1684.970718383789,73.4200560869586Q1684.970718383789,80.49112389882407 1692.0417861956546,80.49112389882407L1720.970718383789,80.49112389882407" id="dsh-diagram-04-guardians-Classic-tool-coach-L_T0_LED_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_T0_LED_0" data-points="W3sieCI6MTEzNi4zNjc1ODQyMjg1MTU2LCJ5IjoyNjQuNjgwMDA4Njk3NTA5OH0seyJ4IjoxMTU2LjM2NzU4NDIyODUxNTYsInkiOjI2NC42ODAwMDg2OTc1MDk4fSx7IngiOjExNTYuMzY3NTg0MjI4NTE1NiwieSI6NTR9LHsieCI6MTI4Ny41Njc1ODg4MDYxNTIzLCJ5Ijo1NH0seyJ4IjoxNDMxLjg2OTE1NTg4Mzc4OSwieSI6NTR9LHsieCI6MTU3NC45NzA3MTgzODM3ODksInkiOjU0fSx7IngiOjE2ODQuOTcwNzE4MzgzNzg5LCJ5Ijo1NH0seyJ4IjoxNjg0Ljk3MDcxODM4Mzc4OSwieSI6ODAuNDkxMTIzODk4ODI0MDd9LHsieCI6MTcyNC45NzA3MTgzODM3ODksInkiOjgwLjQ5MTEyMzg5ODgyNDA3fV0=" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M1136.3675842285156,273.16000900268557L1169.29651641665,273.16000900268557Q1176.3675842285156,273.16000900268557 1176.3675842285156,266.0889411908201L1176.3675842285156,173.2710723895022Q1176.3675842285156,166.20000457763672 1183.4386520403812,166.20000457763672L1192.3675842285156,166.20000457763672" id="dsh-diagram-04-guardians-Classic-tool-coach-L_T0_G1_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_T0_G1_0" data-points="W3sieCI6MTEzNi4zNjc1ODQyMjg1MTU2LCJ5IjoyNzMuMTYwMDA5MDAyNjg1NTd9LHsieCI6MTE3Ni4zNjc1ODQyMjg1MTU2LCJ5IjoyNzMuMTYwMDA5MDAyNjg1NTd9LHsieCI6MTE3Ni4zNjc1ODQyMjg1MTU2LCJ5IjoxNjYuMjAwMDA0NTc3NjM2NzJ9LHsieCI6MTE5Ni4zNjc1ODQyMjg1MTU2LCJ5IjoxNjYuMjAwMDA0NTc3NjM2NzJ9XQ==" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M1378.767593383789,166.20000457763672L1480.970718383789,166.20000457763672" id="dsh-diagram-04-guardians-Classic-tool-coach-L_G1_NOTE_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G1_NOTE_0" data-points="W3sieCI6MTM3OC43Njc1OTMzODM3ODksInkiOjE2Ni4yMDAwMDQ1Nzc2MzY3Mn0seyJ4IjoxNDg0Ljk3MDcxODM4Mzc4OSwieSI6MTY2LjIwMDAwNDU3NzYzNjcyfV0=" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M1664.970718383789,166.20000457763672L1677.8996505719235,166.20000457763672Q1684.970718383789,166.20000457763672 1684.970718383789,159.12893676577124L1684.970718383789,107.99776719591904Q1684.970718383789,100.92669938405356 1692.0417861956546,100.92669938405356L1720.970718383789,100.92669938405356" id="dsh-diagram-04-guardians-Classic-tool-coach-L_NOTE_LED_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_NOTE_LED_0" data-points="W3sieCI6MTY2NC45NzA3MTgzODM3ODksInkiOjE2Ni4yMDAwMDQ1Nzc2MzY3Mn0seyJ4IjoxNjg0Ljk3MDcxODM4Mzc4OSwieSI6MTY2LjIwMDAwNDU3NzYzNjcyfSx7IngiOjE2ODQuOTcwNzE4MzgzNzg5LCJ5IjoxMDAuOTI2Njk5Mzg0MDUzNTZ9LHsieCI6MTcyNC45NzA3MTgzODM3ODksInkiOjEwMC45MjY2OTkzODQwNTM1Nn1d" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M1136.3675842285156,281.6400093078613L1169.29651641665,281.6400093078613Q1176.3675842285156,281.6400093078613 1176.3675842285156,288.7110771197268L1176.3675842285156,381.5289459210447Q1176.3675842285156,388.60001373291016 1183.4386520403812,388.60001373291016L1192.3675842285156,388.60001373291016" id="dsh-diagram-04-guardians-Classic-tool-coach-L_T0_G2_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_T0_G2_0" data-points="W3sieCI6MTEzNi4zNjc1ODQyMjg1MTU2LCJ5IjoyODEuNjQwMDA5MzA3ODYxM30seyJ4IjoxMTc2LjM2NzU4NDIyODUxNTYsInkiOjI4MS42NDAwMDkzMDc4NjEzfSx7IngiOjExNzYuMzY3NTg0MjI4NTE1NiwieSI6Mzg4LjYwMDAxMzczMjkxMDE2fSx7IngiOjExOTYuMzY3NTg0MjI4NTE1NiwieSI6Mzg4LjYwMDAxMzczMjkxMDE2fV0=" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M1378.767593383789,388.60001373291016L1480.970718383789,388.60001373291016" id="dsh-diagram-04-guardians-Classic-tool-coach-L_G2_SEC_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G2_SEC_0" data-points="W3sieCI6MTM3OC43Njc1OTMzODM3ODksInkiOjM4OC42MDAwMTM3MzI5MTAxNn0seyJ4IjoxNDg0Ljk3MDcxODM4Mzc4OSwieSI6Mzg4LjYwMDAxMzczMjkxMDE2fV0=" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M1664.970718383789,388.60001373291016L1720.970718383789,388.60001373291016" id="dsh-diagram-04-guardians-Classic-tool-coach-L_SEC_SP_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SEC_SP_0" data-points="W3sieCI6MTY2NC45NzA3MTgzODM3ODksInkiOjM4OC42MDAwMTM3MzI5MTAxNn0seyJ4IjoxNzI0Ljk3MDcxODM4Mzc4OSwieSI6Mzg4LjYwMDAxMzczMjkxMDE2fV0=" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M1136.3675842285156,290.1200096130371L1149.29651641665,290.1200096130371Q1156.3675842285156,290.1200096130371 1156.3675842285156,297.1910774249026L1156.3675842285156,603.9289550763181Q1156.3675842285156,611.0000228881836 1163.4386520403812,611.0000228881836L1192.3675842285156,611.0000228881836" id="dsh-diagram-04-guardians-Classic-tool-coach-L_T0_G3_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_T0_G3_0" data-points="W3sieCI6MTEzNi4zNjc1ODQyMjg1MTU2LCJ5IjoyOTAuMTIwMDA5NjEzMDM3MX0seyJ4IjoxMTU2LjM2NzU4NDIyODUxNTYsInkiOjI5MC4xMjAwMDk2MTMwMzcxfSx7IngiOjExNTYuMzY3NTg0MjI4NTE1NiwieSI6NjExLjAwMDAyMjg4ODE4MzZ9LHsieCI6MTE5Ni4zNjc1ODQyMjg1MTU2LCJ5Ijo2MTEuMDAwMDIyODg4MTgzNn1d" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M1378.767593383789,611.0000228881836L1480.970718383789,611.0000228881836" id="dsh-diagram-04-guardians-Classic-tool-coach-L_G3_DENY_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G3_DENY_0" data-points="W3sieCI6MTM3OC43Njc1OTMzODM3ODksInkiOjYxMS4wMDAwMjI4ODgxODM2fSx7IngiOjE0ODQuOTcwNzE4MzgzNzg5LCJ5Ijo2MTEuMDAwMDIyODg4MTgzNn1d" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/><path d="M1664.970718383789,611.0000228881836L1720.970718383789,611.0000228881836" id="dsh-diagram-04-guardians-Classic-tool-coach-L_DENY_PRE_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_DENY_PRE_0" data-points="W3sieCI6MTY2NC45NzA3MTgzODM3ODksInkiOjYxMS4wMDAwMjI4ODgxODM2fSx7IngiOjE3MjQuOTcwNzE4MzgzNzg5LCJ5Ijo2MTEuMDAwMDIyODg4MTgzNn1d" data-look="classic" marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(1287.5675888061523, 22.5)"><g class="label" data-id="L_EXE_LED_0" transform="translate(0, -8.500000953674316)"><g><rect class="background" style="" x="-13.1015625" y="-1.9999990463256836" width="26.203125" height="21"/><text y="-10.1" text-anchor="middle" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em" text-anchor="middle"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">yes</tspan></tspan></text></g></g></g><g class="edgeLabel" transform="translate(906.2972717285156, 276.90000915527344)"><g class="label" data-id="L_EXE_T0_0" transform="translate(0, -8.500000953674316)"><g><rect class="background" style="" x="-10.0703125" y="-1.9999990463256836" width="20.140625" height="21"/><text y="-10.1" text-anchor="middle" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em" text-anchor="middle"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">no</tspan></tspan></text></g></g></g><g class="edgeLabel" transform="translate(1431.869155883789, 165.70000457763672)"><g class="label" data-id="L_G1_NOTE_0" transform="translate(0, -8.500000953674316)"><g><rect class="background" style="" x="-13.1015625" y="-1.9999990463256836" width="26.203125" height="21"/><text y="-10.1" text-anchor="middle" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em" text-anchor="middle"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">yes</tspan></tspan></text></g></g></g><g class="edgeLabel" transform="translate(1431.869155883789, 388.10001373291016)"><g class="label" data-id="L_G2_SEC_0" transform="translate(0, -8.500000953674316)"><g><rect class="background" style="" x="-13.1015625" y="-1.9999990463256836" width="26.203125" height="21"/><text y="-10.1" text-anchor="middle" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em" text-anchor="middle"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">yes</tspan></tspan></text></g></g></g><g class="edgeLabel" transform="translate(1431.869155883789, 610.5000228881836)"><g class="label" data-id="L_G3_DENY_0" transform="translate(0, -8.500000953674316)"><g><rect class="background" style="" x="-13.1015625" y="-1.9999990463256836" width="26.203125" height="21"/><text y="-10.1" text-anchor="middle" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em" text-anchor="middle"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">yes</tspan></tspan></text></g></g></g></g><g class="nodes"><g class="node default host" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-EV-0" data-look="classic" transform="translate(85.9056625366211, 203.6800067901611)"><g class="basic label-container outer-path"><path d="M-50.21784199719522 -23.700000762939453 C-15.879791418122949 -23.700000762939453, 18.458259160949325 -23.700000762939453, 50.21784199719522 -23.700000762939453 C50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453 C50.794781277307195 -23.681499443170445, 51.37172055741917 -23.66299812340144, 51.736306259619816 -23.651306569554883 C52.27771979458267 -23.599077056982058, 52.81913332954552 -23.546847544409236, 53.24853082668054 -23.505424084286666 C53.650665506341255 -23.44041006788014, 54.05280018600196 -23.375396051473615, 54.748301643260206 -23.262952769558456 C55.11174731596531 -23.179998666468176, 55.47519298867042 -23.0970445633779, 56.229455829373634 -22.924888992012413 C56.58595993124562 -22.819080445905026, 56.9424640331176 -22.713271899797636, 57.68590700476352 -22.49262192822492 C58.177825670181164 -22.311591312104934, 58.6697443355988 -22.130560695984943, 59.11167029914239 -21.967927856282078 C59.65009121414713 -21.72958488889845, 60.18851212915187 -21.49124192151482, 60.50088694530837 -21.35296285667203 C60.85353004040212 -21.168989179840302, 61.20617313549587 -20.98501550300858, 61.84784835407632 -20.65025395248775 C62.22326360292811 -20.42267502244891, 62.598678851779894 -20.195096092410076, 63.147019572095324 -19.862688725347105 C63.61602299072502 -19.535532243341798, 64.08502640935471 -19.20837576133649, 64.39306202615916 -18.993503449700643 C64.75550847309273 -18.70446205337614, 65.1179549200263 -18.415420657051637, 65.58085546054882 -18.046269794285653 C65.940723978991 -17.719446727435695, 66.30059249743319 -17.392623660585738, 66.70551897726152 -17.024880145373203 C67.10000200025152 -16.61754403647751, 67.49448502324151 -16.210207927581823, 67.76243109266748 -15.933531612118086 C68.01519776420247 -15.636617496902035, 68.26796443573745 -15.339703381685986, 68.74724872817761 -14.776708779736955 C68.96556285865759 -14.484187733720221, 69.18387698913757 -14.191666687703485, 69.65592505688484 -13.559165281385798 C69.9857134179855 -13.052521798160598, 70.31550177908613 -12.545878314935397, 70.48472613284407 -12.285904264461589 C70.74816656338162 -11.818139103805919, 71.01160699391916 -11.35037394315025, 71.23024623465692 -10.962157831596507 C71.47586163253722 -10.452132202570432, 71.72147703041752 -9.942106573544356, 71.88942186031144 -9.593365540825921 C72.0492473512828 -9.198593488111015, 72.20907284225416 -8.80382143539611, 72.45954431576912 -8.185152053277628 C72.64293046211499 -7.632822199098319, 72.82631660846087 -7.08049234491901, 72.9382708455696 -6.743304020232797 C73.0865270741647 -6.177938765943767, 73.23478330275981 -5.6125735116547375, 73.32363425971542 -5.2737463045346535 C73.43590336092889 -4.697268197886415, 73.54817246214236 -4.1207900912381765, 73.61405101727762 -3.7825176340561533 C73.66199897992496 -3.410642704159535, 73.7099469425723 -3.038767774262917, 73.80832773350522 -2.2757457872718168 C73.83687703166754 -1.831067423815061, 73.86542632982984 -1.3863890603583053, 73.90566608369899 -0.7596224129016405 C73.90566608369899 -0.42849023309941503, 73.90566608369899 -0.0973580532971896, 73.90566608369899 0.7596224129016347 C73.88596023868824 1.0665568552158038, 73.8662543936775 1.373491297529973, 73.80832773350522 2.2757457872718008 C73.74661601614689 2.7543696807460245, 73.68490429878857 3.232993574220248, 73.61405101727762 3.782517634056137 C73.52263533443728 4.251917844729888, 73.43121965159693 4.721318055403639, 73.32363425971542 5.273746304534648 C73.19594814115325 5.760668814126, 73.0682620225911 6.247591323717353, 72.9382708455696 6.743304020232781 C72.7560543662833 7.292111023589863, 72.57383788699697 7.840918026946945, 72.45954431576914 8.185152053277612 C72.30688068021064 8.562234184657704, 72.15421704465214 8.939316316037797, 71.88942186031144 9.593365540825914 C71.71884234041296 9.947577563712148, 71.54826282051448 10.301789586598384, 71.23024623465692 10.962157831596501 C70.94209717407995 11.473795666907282, 70.65394811350298 11.985433502218063, 70.48472613284409 12.285904264461584 C70.22235748218685 12.688972967718554, 69.9599888315296 13.092041670975522, 69.65592505688485 13.559165281385784 C69.33875558200694 13.984143482988605, 69.02158610712902 14.409121684591426, 68.74724872817761 14.77670877973695 C68.3968848849913 15.188266086211039, 68.046521041805 15.599823392685128, 67.7624310926675 15.933531612118074 C67.44657427106665 16.259679712748277, 67.1307174494658 16.58582781337848, 66.70551897726152 17.0248801453732 C66.26512202730542 17.424837003058553, 65.82472507734934 17.824793860743906, 65.58085546054885 18.046269794285635 C65.25569696993625 18.30557503771835, 64.93053847932366 18.56488028115106, 64.39306202615917 18.99350344970064 C63.96691224575433 19.290767088784385, 63.540762465349495 19.588030727868134, 63.14701957209534 19.8626887253471 C62.75429305553622 20.10076184760242, 62.36156653897711 20.338834969857743, 61.847848354076326 20.650253952487745 C61.42367413051464 20.87154537322332, 60.99949990695295 21.0928367939589, 60.50088694530838 21.352962856672026 C60.03306201799735 21.560055074459218, 59.56523709068633 21.76714729224641, 59.1116702991424 21.967927856282078 C58.60142950076507 22.155701186699172, 58.09118870238773 22.343474517116267, 57.685907004763536 22.492621928224914 C57.248362319385905 22.622482894126076, 56.81081763400827 22.752343860027235, 56.229455829373656 22.924888992012406 C55.692013765971566 23.04755663584671, 55.15457170256948 23.170224279681015, 54.74830164326021 23.262952769558456 C54.2509526252192 23.34336030179609, 53.75360360717818 23.42376783403372, 53.24853082668056 23.505424084286663 C52.81065625068323 23.547665318011898, 52.37278167468591 23.589906551737137, 51.736306259619816 23.651306569554883 C51.2097346660346 23.668192695651733, 50.68316307244939 23.68507882174858, 50.21784199719523 23.700000762939453 C50.21784199719523 23.700000762939453, 50.21784199719522 23.700000762939453, 50.21784199719522 23.700000762939453 C27.44566323136424 23.700000762939453, 4.673484465533257 23.700000762939453, -50.217841997195215 23.700000762939453 C-50.64408941188999 23.68633183799045, -51.07033682658478 23.672662913041453, -51.73630625961981 23.651306569554883 C-52.16845526195273 23.609617675035043, -52.60060426428564 23.5679287805152, -53.24853082668055 23.505424084286663 C-53.71063967402872 23.430713909555045, -54.17274852137689 23.356003734823428, -54.748301643260206 23.262952769558456 C-55.231615240193285 23.15263959497445, -55.71492883712637 23.04232642039044, -56.22945582937363 22.924888992012413 C-56.649777574072004 22.800139704499795, -57.07009931877038 22.67539041698718, -57.685907004763514 22.492621928224924 C-58.20022397135723 22.303348530224515, -58.71454093795094 22.114075132224105, -59.111670299142396 21.967927856282078 C-59.63076153260843 21.738141565521, -60.14985276607447 21.50835527475993, -60.500886945308366 21.352962856672033 C-60.99025016182609 21.097662380066833, -61.47961337834382 20.842361903461637, -61.84784835407632 20.65025395248775 C-62.32836310343017 20.35896308761134, -62.808877852784015 20.06767222273493, -63.14701957209531 19.862688725347112 C-63.552371852041254 19.579932522274206, -63.95772413198719 19.297176319201302, -64.39306202615916 18.993503449700643 C-64.78115144769463 18.68401246351935, -65.16924086923008 18.37452147733805, -65.58085546054882 18.046269794285653 C-65.87027086253312 17.783430383715427, -66.15968626451743 17.520590973145197, -66.7055189772615 17.024880145373213 C-67.0332471291871 16.686473921528364, -67.3609752811127 16.348067697683515, -67.7624310926675 15.933531612118081 C-68.02798380378592 15.621598287261062, -68.29353651490433 15.309664962404042, -68.74724872817761 14.776708779736957 C-69.0001937950479 14.43778543390041, -69.25313886191819 14.098862088063864, -69.65592505688484 13.5591652813858 C-69.97468777718004 13.069460143236887, -70.29345049747523 12.579755005087975, -70.48472613284407 12.2859042644616 C-70.6848136634429 11.930628592823883, -70.88490119404172 11.575352921186166, -71.23024623465692 10.962157831596508 C-71.36977138105337 10.672430879744388, -71.50929652744982 10.382703927892269, -71.88942186031144 9.593365540825925 C-72.04644635045662 9.205512014305361, -72.20347084060178 8.817658487784795, -72.45954431576912 8.18515205327763 C-72.58488093174124 7.807658135647415, -72.71021754771337 7.430164218017201, -72.9382708455696 6.743304020232791 C-73.04920639286121 6.320258698639556, -73.16014194015283 5.897213377046321, -73.3236342597154 5.273746304534657 C-73.4297599732387 4.728813195270053, -73.53588568676199 4.183880086005448, -73.61405101727762 3.7825176340561555 C-73.66578162171828 3.3813052813776414, -73.71751222615895 2.9800929286991273, -73.80832773350521 2.2757457872718305 C-73.82913834926681 1.9516036487582398, -73.8499489650284 1.627461510244649, -73.90566608369899 0.7596224129016435 C-73.90566608369899 0.15776626095267265, -73.90566608369899 -0.44408989099629814, -73.90566608369899 -0.7596224129016319 C-73.87595143184194 -1.2224521008105358, -73.84623677998489 -1.6852817887194398, -73.80832773350522 -2.2757457872717977 C-73.7659223809139 -2.6046333280859915, -73.7235170283226 -2.9335208689001853, -73.61405101727762 -3.7825176340561444 C-73.54411447482317 -4.1416269984662035, -73.47417793236875 -4.500736362876263, -73.32363425971542 -5.2737463045346455 C-73.17243240544887 -5.8503445061511155, -73.02123055118234 -6.426942707767586, -72.9382708455696 -6.743304020232778 C-72.79886957177882 -7.163158446313906, -72.65946829798804 -7.583012872395034, -72.45954431576914 -8.1851520532776 C-72.32824063760434 -8.509474676928576, -72.19693695943954 -8.833797300579551, -71.88942186031144 -9.593365540825912 C-71.6583301815738 -10.073232356294458, -71.42723850283615 -10.553099171763002, -71.23024623465692 -10.962157831596498 C-70.94600634377322 -11.466854540270518, -70.66176645288951 -11.971551248944538, -70.48472613284407 -12.28590426446159 C-70.20238993949981 -12.719648475321797, -69.92005374615555 -13.153392686182006, -69.65592505688485 -13.559165281385793 C-69.33958156820269 -13.983036736735212, -69.02323807952051 -14.40690819208463, -68.74724872817762 -14.77670877973695 C-68.50080542562903 -15.066195105931701, -68.25436212308043 -15.355681432126454, -67.7624310926675 -15.933531612118074 C-67.46761372977167 -16.23795474426366, -67.17279636687584 -16.542377876409248, -66.70551897726153 -17.024880145373192 C-66.43780508349549 -17.26801082037004, -66.17009118972945 -17.511141495366886, -65.58085546054885 -18.04626979428563 C-65.13824268830994 -18.399241701725625, -64.69562991607104 -18.752213609165622, -64.39306202615917 -18.993503449700636 C-63.97461631001172 -19.285393067062, -63.55617059386426 -19.57728268442336, -63.14701957209534 -19.862688725347095 C-62.82503781471805 -20.057875958844043, -62.50305605734076 -20.25306319234099, -61.84784835407633 -20.65025395248774 C-61.38371821267437 -20.892390349967606, -60.91958807127239 -21.13452674744747, -60.50088694530838 -21.352962856672026 C-60.002797529392254 -21.573452265800537, -59.504708113476134 -21.793941674929048, -59.1116702991424 -21.967927856282074 C-58.668575506489105 -22.13099083590185, -58.2254807138358 -22.294053815521632, -57.68590700476354 -22.492621928224914 C-57.19351125532773 -22.63876240201943, -56.701115505891906 -22.784902875813952, -56.22945582937366 -22.924888992012402 C-55.773325568005454 -23.02899774764157, -55.317195306637245 -23.13310650327074, -54.74830164326021 -23.262952769558453 C-54.42675911618112 -23.31493727173706, -54.10521658910202 -23.36692177391567, -53.248530826680565 -23.505424084286663 C-52.86455059719951 -23.54246619522091, -52.480570367718464 -23.579508306155155, -51.736306259619816 -23.651306569554883 C-51.428688682778805 -23.661171266502883, -51.121071105937794 -23.671035963450887, -50.21784199719523 -23.700000762939453 C-50.21784199719523 -23.700000762939453, -50.21784199719523 -23.700000762939453, -50.21784199719522 -23.700000762939453" stroke="none" stroke-width="0" fill="#f0f4ff" style=""/><path d="M-50.21784199719522 -23.700000762939453 C-22.20066962070462 -23.700000762939453, 5.816502755785983 -23.700000762939453, 50.21784199719522 -23.700000762939453 M-50.21784199719522 -23.700000762939453 C-21.1843989742339 -23.700000762939453, 7.849044048727421 -23.700000762939453, 50.21784199719522 -23.700000762939453 M50.21784199719522 -23.700000762939453 C50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453 M50.21784199719522 -23.700000762939453 C50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453 M50.21784199719522 -23.700000762939453 C50.807125104818255 -23.68110360064797, 51.396408212441294 -23.662206438356485, 51.736306259619816 -23.651306569554883 M50.21784199719522 -23.700000762939453 C50.77940177498028 -23.681992633875684, 51.34096155276533 -23.663984504811918, 51.736306259619816 -23.651306569554883 M51.736306259619816 -23.651306569554883 C52.31491012280194 -23.59548935074666, 52.893513985984065 -23.539672131938435, 53.24853082668054 -23.505424084286666 M51.736306259619816 -23.651306569554883 C52.204954575039885 -23.606096630198373, 52.67360289045995 -23.56088669084186, 53.24853082668054 -23.505424084286666 M53.24853082668054 -23.505424084286666 C53.55382844138646 -23.456065933559376, 53.85912605609237 -23.406707782832086, 54.748301643260206 -23.262952769558456 M53.24853082668054 -23.505424084286666 C53.73015112200722 -23.42755944995942, 54.21177141733389 -23.349694815632176, 54.748301643260206 -23.262952769558456 M54.748301643260206 -23.262952769558456 C55.13688178183082 -23.174261888652094, 55.52546192040144 -23.08557100774573, 56.229455829373634 -22.924888992012413 M54.748301643260206 -23.262952769558456 C55.29161916847924 -23.138944089905408, 55.83493669369827 -23.014935410252356, 56.229455829373634 -22.924888992012413 M56.229455829373634 -22.924888992012413 C56.785538287175534 -22.759846637473196, 57.34162074497743 -22.594804282933975, 57.68590700476352 -22.49262192822492 M56.229455829373634 -22.924888992012413 C56.65341952216248 -22.79905879342352, 57.07738321495132 -22.67322859483463, 57.68590700476352 -22.49262192822492 M57.68590700476352 -22.49262192822492 C58.19230247136531 -22.306263715447084, 58.69869793796709 -22.119905502669248, 59.11167029914239 -21.967927856282078 M57.68590700476352 -22.49262192822492 C58.09131078159226 -22.34342959084051, 58.496714558421004 -22.1942372534561, 59.11167029914239 -21.967927856282078 M59.11167029914239 -21.967927856282078 C59.45178674083872 -21.81736839673889, 59.791903182535044 -21.666808937195697, 60.50088694530837 -21.35296285667203 M59.11167029914239 -21.967927856282078 C59.531801859558385 -21.781948077245854, 59.95193341997439 -21.59596829820963, 60.50088694530837 -21.35296285667203 M60.50088694530837 -21.35296285667203 C61.011352363454264 -21.08665337499402, 61.521817781600156 -20.820343893316014, 61.84784835407632 -20.65025395248775 M60.50088694530837 -21.35296285667203 C60.967576390496895 -21.109491272046036, 61.43426583568541 -20.86601968742004, 61.84784835407632 -20.65025395248775 M61.84784835407632 -20.65025395248775 C62.23165388840741 -20.417588782084568, 62.615459422738496 -20.184923611681388, 63.147019572095324 -19.862688725347105 M61.84784835407632 -20.65025395248775 C62.29980735961801 -20.37627374732245, 62.751766365159696 -20.10229354215715, 63.147019572095324 -19.862688725347105 M63.147019572095324 -19.862688725347105 C63.417706942274506 -19.673868933777506, 63.68839431245368 -19.485049142207906, 64.39306202615916 -18.993503449700643 M63.147019572095324 -19.862688725347105 C63.603087447601084 -19.544555518254416, 64.05915532310685 -19.226422311161727, 64.39306202615916 -18.993503449700643 M64.39306202615916 -18.993503449700643 C64.65549519239728 -18.784219983265587, 64.91792835863541 -18.574936516830526, 65.58085546054882 -18.046269794285653 M64.39306202615916 -18.993503449700643 C64.70676764181559 -18.743331569271664, 65.02047325747203 -18.493159688842685, 65.58085546054882 -18.046269794285653 M65.58085546054882 -18.046269794285653 C66.025283661901 -17.64265186074344, 66.46971186325318 -17.239033927201234, 66.70551897726152 -17.024880145373203 M65.58085546054882 -18.046269794285653 C65.87011981225372 -17.783567563582615, 66.1593841639586 -17.520865332879577, 66.70551897726152 -17.024880145373203 M66.70551897726152 -17.024880145373203 C67.07229914742568 -16.646149506466706, 67.43907931758984 -16.267418867560206, 67.76243109266748 -15.933531612118086 M66.70551897726152 -17.024880145373203 C66.95949101131004 -16.762633168726328, 67.21346304535855 -16.500386192079453, 67.76243109266748 -15.933531612118086 M67.76243109266748 -15.933531612118086 C68.01599509973236 -15.635680901218947, 68.26955910679723 -15.33783019031981, 68.74724872817761 -14.776708779736955 M67.76243109266748 -15.933531612118086 C67.99420779438498 -15.66127350981278, 68.22598449610247 -15.389015407507472, 68.74724872817761 -14.776708779736955 M68.74724872817761 -14.776708779736955 C69.03408198061295 -14.392378352520453, 69.3209152330483 -14.00804792530395, 69.65592505688484 -13.559165281385798 M68.74724872817761 -14.776708779736955 C69.05022891766336 -14.370742927889136, 69.35320910714911 -13.964777076041317, 69.65592505688484 -13.559165281385798 M69.65592505688484 -13.559165281385798 C69.86485989112585 -13.238185269132911, 70.07379472536687 -12.917205256880026, 70.48472613284407 -12.285904264461589 M69.65592505688484 -13.559165281385798 C69.89635881332092 -13.189794465996354, 70.136792569757 -12.820423650606907, 70.48472613284407 -12.285904264461589 M70.48472613284407 -12.285904264461589 C70.71593250674334 -11.875373935419358, 70.94713888064261 -11.464843606377126, 71.23024623465692 -10.962157831596507 M70.48472613284407 -12.285904264461589 C70.74509098391503 -11.823600106585042, 71.00545583498598 -11.361295948708493, 71.23024623465692 -10.962157831596507 M71.23024623465692 -10.962157831596507 C71.48795249445558 -10.427025269093933, 71.74565875425426 -9.89189270659136, 71.88942186031144 -9.593365540825921 M71.23024623465692 -10.962157831596507 C71.465642551301 -10.473352343410742, 71.70103886794509 -9.984546855224977, 71.88942186031144 -9.593365540825921 M71.88942186031144 -9.593365540825921 C72.03518968792442 -9.233316188392664, 72.18095751553739 -8.873266835959406, 72.45954431576912 -8.185152053277628 M71.88942186031144 -9.593365540825921 C72.09965300203201 -9.074090556233497, 72.30988414375258 -8.554815571641072, 72.45954431576912 -8.185152053277628 M72.45954431576912 -8.185152053277628 C72.64779958561842 -7.618157174895504, 72.8360548554677 -7.051162296513381, 72.9382708455696 -6.743304020232797 M72.45954431576912 -8.185152053277628 C72.60886557501858 -7.7354202115300295, 72.75818683426803 -7.285688369782431, 72.9382708455696 -6.743304020232797 M72.9382708455696 -6.743304020232797 C73.08453736385766 -6.185526393690397, 73.23080388214574 -5.627748767147997, 73.32363425971542 -5.2737463045346535 M72.9382708455696 -6.743304020232797 C73.08498896997438 -6.183804223840067, 73.23170709437915 -5.624304427447337, 73.32363425971542 -5.2737463045346535 M73.32363425971542 -5.2737463045346535 C73.38559471654041 -4.9555924540855205, 73.44755517336539 -4.6374386036363875, 73.61405101727762 -3.7825176340561533 M73.32363425971542 -5.2737463045346535 C73.39331515495148 -4.915949634559872, 73.46299605018754 -4.55815296458509, 73.61405101727762 -3.7825176340561533 M73.61405101727762 -3.7825176340561533 C73.66487504796059 -3.388336488419031, 73.71569907864358 -2.9941553427819088, 73.80832773350522 -2.2757457872718168 M73.61405101727762 -3.7825176340561533 C73.68589309193813 -3.225324689811581, 73.75773516659862 -2.668131745567009, 73.80832773350522 -2.2757457872718168 M73.80832773350522 -2.2757457872718168 C73.8456622230176 -1.694230977258974, 73.88299671252997 -1.1127161672461314, 73.90566608369899 -0.7596224129016405 M73.80832773350522 -2.2757457872718168 C73.8291036174161 -1.9521446253681909, 73.84987950132698 -1.628543463464565, 73.90566608369899 -0.7596224129016405 M73.90566608369899 -0.7596224129016405 C73.90566608369899 -0.4323541916305023, 73.90566608369899 -0.10508597035936418, 73.90566608369899 0.7596224129016347 M73.90566608369899 -0.7596224129016405 C73.90566608369899 -0.26192332307686406, 73.90566608369899 0.23577576674791234, 73.90566608369899 0.7596224129016347 M73.90566608369899 0.7596224129016347 C73.87875166913678 1.1788361446326707, 73.85183725457455 1.5980498763637068, 73.80832773350522 2.2757457872718008 M73.90566608369899 0.7596224129016347 C73.88533362607572 1.0763168524484186, 73.86500116845247 1.3930112919952027, 73.80832773350522 2.2757457872718008 M73.80832773350522 2.2757457872718008 C73.73504961777888 2.844076382444626, 73.66177150205255 3.4124069776174517, 73.61405101727762 3.782517634056137 M73.80832773350522 2.2757457872718008 C73.74423836805164 2.772810249853113, 73.68014900259804 3.2698747124344254, 73.61405101727762 3.782517634056137 M73.61405101727762 3.782517634056137 C73.5473581913415 4.124971199704343, 73.48066536540539 4.46742476535255, 73.32363425971542 5.273746304534648 M73.61405101727762 3.782517634056137 C73.53894034947093 4.168195038598245, 73.46382968166424 4.553872443140353, 73.32363425971542 5.273746304534648 M73.32363425971542 5.273746304534648 C73.17099182460153 5.855838065273757, 73.01834938948764 6.437929826012867, 72.9382708455696 6.743304020232781 M73.32363425971542 5.273746304534648 C73.22413653164924 5.6531742642391265, 73.12463880358305 6.032602223943606, 72.9382708455696 6.743304020232781 M72.9382708455696 6.743304020232781 C72.76324012722814 7.2704686565194825, 72.58820940888668 7.797633292806185, 72.45954431576914 8.185152053277612 M72.9382708455696 6.743304020232781 C72.78525349140945 7.2041679109586445, 72.63223613724931 7.665031801684507, 72.45954431576914 8.185152053277612 M72.45954431576914 8.185152053277612 C72.2651208465358 8.665381781206019, 72.07069737730245 9.145611509134424, 71.88942186031144 9.593365540825914 M72.45954431576914 8.185152053277612 C72.301607290251 8.575259559812062, 72.14367026473286 8.965367066346513, 71.88942186031144 9.593365540825914 M71.88942186031144 9.593365540825914 C71.65824998400537 10.073398888261247, 71.4270781076993 10.553432235696581, 71.23024623465692 10.962157831596501 M71.88942186031144 9.593365540825914 C71.74761432118518 9.88783193001687, 71.60580678205892 10.182298319207828, 71.23024623465692 10.962157831596501 M71.23024623465692 10.962157831596501 C71.0273082564696 11.322494761566722, 70.82437027828227 11.68283169153694, 70.48472613284409 12.285904264461584 M71.23024623465692 10.962157831596501 C71.02378842204999 11.328744584000619, 70.81733060944306 11.695331336404736, 70.48472613284409 12.285904264461584 M70.48472613284409 12.285904264461584 C70.19746945669512 12.727207658244444, 69.91021278054616 13.168511052027304, 69.65592505688485 13.559165281385784 M70.48472613284409 12.285904264461584 C70.2049616608747 12.715697620686093, 69.92519718890532 13.145490976910603, 69.65592505688485 13.559165281385784 M69.65592505688485 13.559165281385784 C69.41943821636508 13.876036103287907, 69.18295137584529 14.192906925190028, 68.74724872817761 14.77670877973695 M69.65592505688485 13.559165281385784 C69.4084799411499 13.89071919375683, 69.16103482541494 14.222273106127878, 68.74724872817761 14.77670877973695 M68.74724872817761 14.77670877973695 C68.5410706932253 15.018897231454478, 68.33489265827298 15.261085683172006, 67.7624310926675 15.933531612118074 M68.74724872817761 14.77670877973695 C68.42171515341299 15.159099040040624, 68.09618157864837 15.5414893003443, 67.7624310926675 15.933531612118074 M67.7624310926675 15.933531612118074 C67.44298581261148 16.263385090721158, 67.12354053255547 16.59323856932424, 66.70551897726152 17.0248801453732 M67.7624310926675 15.933531612118074 C67.35831013158165 16.35081968338717, 66.95418917049578 16.768107754656263, 66.70551897726152 17.0248801453732 M66.70551897726152 17.0248801453732 C66.36200160910546 17.336853530161033, 66.0184842409494 17.648826914948863, 65.58085546054885 18.046269794285635 M66.70551897726152 17.0248801453732 C66.31381933150612 17.38061139984355, 65.92211968575072 17.736342654313894, 65.58085546054885 18.046269794285635 M65.58085546054885 18.046269794285635 C65.27146026679002 18.293004227956416, 64.9620650730312 18.539738661627194, 64.39306202615917 18.99350344970064 M65.58085546054885 18.046269794285635 C65.16110115545672 18.381012682465432, 64.7413468503646 18.715755570645225, 64.39306202615917 18.99350344970064 M64.39306202615917 18.99350344970064 C63.96715999213075 19.290594271636962, 63.541257958102335 19.58768509357329, 63.14701957209534 19.8626887253471 M64.39306202615917 18.99350344970064 C63.98730799188535 19.27653989920101, 63.58155395761153 19.559576348701373, 63.14701957209534 19.8626887253471 M63.14701957209534 19.8626887253471 C62.687010473414844 20.14154894428074, 62.22700137473435 20.420409163214384, 61.847848354076326 20.650253952487745 M63.14701957209534 19.8626887253471 C62.65022691190073 20.163847355434797, 62.15343425170612 20.465005985522495, 61.847848354076326 20.650253952487745 M61.847848354076326 20.650253952487745 C61.387459538963164 20.890438502439174, 60.92707072385 21.1306230523906, 60.50088694530838 21.352962856672026 M61.847848354076326 20.650253952487745 C61.57196960481209 20.794179719270126, 61.296090855547845 20.93810548605251, 60.50088694530838 21.352962856672026 M60.50088694530838 21.352962856672026 C60.12070969908974 21.5212560460157, 59.74053245287109 21.68954923535938, 59.1116702991424 21.967927856282078 M60.50088694530838 21.352962856672026 C60.02736166154233 21.56257845316679, 59.553836377776285 21.772194049661554, 59.1116702991424 21.967927856282078 M59.1116702991424 21.967927856282078 C58.747848441743756 22.10181766293716, 58.38402658434511 22.235707469592246, 57.685907004763536 22.492621928224914 M59.1116702991424 21.967927856282078 C58.72227876604502 22.11122753995779, 58.33288723294764 22.254527223633495, 57.685907004763536 22.492621928224914 M57.685907004763536 22.492621928224914 C57.38785735141871 22.5810815008431, 57.089807698073884 22.669541073461293, 56.229455829373656 22.924888992012406 M57.685907004763536 22.492621928224914 C57.1074620778276 22.66430134622012, 56.529017150891654 22.835980764215325, 56.229455829373656 22.924888992012406 M56.229455829373656 22.924888992012406 C55.82765416104291 23.016597600807977, 55.42585249271215 23.108306209603548, 54.74830164326021 23.262952769558456 M56.229455829373656 22.924888992012406 C55.68983725590403 23.048053410066572, 55.1502186824344 23.171217828120735, 54.74830164326021 23.262952769558456 M54.74830164326021 23.262952769558456 C54.157888990981526 23.358406108460372, 53.56747633870284 23.453859447362287, 53.24853082668056 23.505424084286663 M54.74830164326021 23.262952769558456 C54.44119649505274 23.312603148284644, 54.134091346845274 23.362253527010836, 53.24853082668056 23.505424084286663 M53.24853082668056 23.505424084286663 C52.708408966974396 23.55752899050094, 52.168287107268235 23.60963389671522, 51.736306259619816 23.651306569554883 M53.24853082668056 23.505424084286663 C52.75656862945459 23.552883085781946, 52.264606432228625 23.600342087277227, 51.736306259619816 23.651306569554883 M51.736306259619816 23.651306569554883 C51.42477755385096 23.66129668879505, 51.1132488480821 23.671286808035216, 50.21784199719523 23.700000762939453 M51.736306259619816 23.651306569554883 C51.15229997499327 23.670034514403582, 50.568293690366716 23.68876245925228, 50.21784199719523 23.700000762939453 M50.21784199719523 23.700000762939453 C50.21784199719523 23.700000762939453, 50.21784199719522 23.700000762939453, 50.21784199719522 23.700000762939453 M50.21784199719523 23.700000762939453 C50.21784199719523 23.700000762939453, 50.21784199719522 23.700000762939453, 50.21784199719522 23.700000762939453 M50.21784199719522 23.700000762939453 C20.495161085872436 23.700000762939453, -9.22751982545035 23.700000762939453, -50.217841997195215 23.700000762939453 M50.21784199719522 23.700000762939453 C26.979190750724577 23.700000762939453, 3.740539504253931 23.700000762939453, -50.217841997195215 23.700000762939453 M-50.217841997195215 23.700000762939453 C-50.672140675684886 23.685432288559024, -51.12643935417456 23.670863814178595, -51.73630625961981 23.651306569554883 M-50.217841997195215 23.700000762939453 C-50.76193178050918 23.68255286259509, -51.306021563823144 23.66510496225073, -51.73630625961981 23.651306569554883 M-51.73630625961981 23.651306569554883 C-52.20528031242632 23.606065206704457, -52.67425436523283 23.56082384385403, -53.24853082668055 23.505424084286663 M-51.73630625961981 23.651306569554883 C-52.26527436613475 23.60027765249661, -52.79424247264968 23.54924873543834, -53.24853082668055 23.505424084286663 M-53.24853082668055 23.505424084286663 C-53.56523647142258 23.45422157173373, -53.8819421161646 23.403019059180796, -54.748301643260206 23.262952769558456 M-53.24853082668055 23.505424084286663 C-53.634389935048 23.44304137602789, -54.020249043415454 23.38065866776912, -54.748301643260206 23.262952769558456 M-54.748301643260206 23.262952769558456 C-55.114722682219764 23.179319558536676, -55.48114372117933 23.0956863475149, -56.22945582937363 22.924888992012413 M-54.748301643260206 23.262952769558456 C-55.109559951981055 23.1804979180237, -55.470818260701904 23.098043066488945, -56.22945582937363 22.924888992012413 M-56.22945582937363 22.924888992012413 C-56.62649450746964 22.80704999645207, -57.023533185565654 22.68921100089172, -57.685907004763514 22.492621928224924 M-56.22945582937363 22.924888992012413 C-56.70307019970505 22.784322732950606, -57.17668457003648 22.643756473888804, -57.685907004763514 22.492621928224924 M-57.685907004763514 22.492621928224924 C-58.13371504895779 22.327824428469246, -58.58152309315207 22.16302692871357, -59.111670299142396 21.967927856282078 M-57.685907004763514 22.492621928224924 C-58.06764151751318 22.35214009881789, -58.44937603026285 22.21165826941086, -59.111670299142396 21.967927856282078 M-59.111670299142396 21.967927856282078 C-59.479345046834766 21.80516915216254, -59.84701979452714 21.642410448043, -60.500886945308366 21.352962856672033 M-59.111670299142396 21.967927856282078 C-59.62903744545657 21.738904767759905, -60.14640459177074 21.509881679237733, -60.500886945308366 21.352962856672033 M-60.500886945308366 21.352962856672033 C-60.97364531730099 21.10632511681967, -61.446403689293625 20.8596873769673, -61.84784835407632 20.65025395248775 M-60.500886945308366 21.352962856672033 C-60.95508463792867 21.116008211359524, -61.409282330548976 20.879053566047016, -61.84784835407632 20.65025395248775 M-61.84784835407632 20.65025395248775 C-62.20813803923949 20.43184422804463, -62.56842772440266 20.21343450360151, -63.14701957209531 19.862688725347112 M-61.84784835407632 20.65025395248775 C-62.187336300169 20.444454364513746, -62.52682424626168 20.238654776539747, -63.14701957209531 19.862688725347112 M-63.14701957209531 19.862688725347112 C-63.459362227465924 19.644812010056203, -63.77170488283654 19.42693529476529, -64.39306202615916 18.993503449700643 M-63.14701957209531 19.862688725347112 C-63.53057850796291 19.5951346156846, -63.914137443830505 19.32758050602209, -64.39306202615916 18.993503449700643 M-64.39306202615916 18.993503449700643 C-64.77038893630916 18.692595279946797, -65.14771584645916 18.39168711019295, -65.58085546054882 18.046269794285653 M-64.39306202615916 18.993503449700643 C-64.72111763720818 18.73188782981549, -65.0491732482572 18.47027220993034, -65.58085546054882 18.046269794285653 M-65.58085546054882 18.046269794285653 C-65.81893463893942 17.830052583701185, -66.05701381733002 17.613835373116714, -66.7055189772615 17.024880145373213 M-65.58085546054882 18.046269794285653 C-65.99982698175819 17.665770944102295, -66.41879850296756 17.285272093918937, -66.7055189772615 17.024880145373213 M-66.7055189772615 17.024880145373213 C-67.01404930856314 16.70629724749298, -67.3225796398648 16.387714349612747, -67.7624310926675 15.933531612118081 M-66.7055189772615 17.024880145373213 C-66.95862259071589 16.763529884288445, -67.21172620417026 16.502179623203673, -67.7624310926675 15.933531612118081 M-67.7624310926675 15.933531612118081 C-67.96335325420283 15.69751700838381, -68.16427541573816 15.461502404649542, -68.74724872817761 14.776708779736957 M-67.7624310926675 15.933531612118081 C-68.0292360468397 15.620127331315445, -68.2960410010119 15.306723050512808, -68.74724872817761 14.776708779736957 M-68.74724872817761 14.776708779736957 C-68.96425297037602 14.485942864684246, -69.18125721257444 14.195176949631533, -69.65592505688484 13.5591652813858 M-68.74724872817761 14.776708779736957 C-68.94858756313377 14.506933083240904, -69.14992639808993 14.23715738674485, -69.65592505688484 13.5591652813858 M-69.65592505688484 13.5591652813858 C-69.91880388278055 13.155312811961297, -70.18168270867628 12.751460342536793, -70.48472613284407 12.2859042644616 M-69.65592505688484 13.5591652813858 C-69.95927211881448 13.09314273417026, -70.26261918074412 12.627120186954722, -70.48472613284407 12.2859042644616 M-70.48472613284407 12.2859042644616 C-70.6822276548546 11.935220312934172, -70.87972917686513 11.584536361406744, -71.23024623465692 10.962157831596508 M-70.48472613284407 12.2859042644616 C-70.77001883366077 11.779338185142985, -71.05531153447747 11.272772105824371, -71.23024623465692 10.962157831596508 M-71.23024623465692 10.962157831596508 C-71.4030595173653 10.603307352440646, -71.57587280007368 10.244456873284783, -71.88942186031144 9.593365540825925 M-71.23024623465692 10.962157831596508 C-71.48977437072548 10.423242104037582, -71.74930250679407 9.884326376478656, -71.88942186031144 9.593365540825925 M-71.88942186031144 9.593365540825925 C-72.06940133460314 9.148812759659007, -72.24938080889484 8.70425997849209, -72.45954431576912 8.18515205327763 M-71.88942186031144 9.593365540825925 C-72.01790477069437 9.276010268132001, -72.1463876810773 8.958654995438076, -72.45954431576912 8.18515205327763 M-72.45954431576912 8.18515205327763 C-72.59033415777243 7.791233887695048, -72.72112399977574 7.397315722112467, -72.9382708455696 6.743304020232791 M-72.45954431576912 8.18515205327763 C-72.6089045097068 7.735302946452504, -72.75826470364449 7.285453839627378, -72.9382708455696 6.743304020232791 M-72.9382708455696 6.743304020232791 C-73.03419099309026 6.377518925681596, -73.13011114061094 6.0117338311304, -73.3236342597154 5.273746304534657 M-72.9382708455696 6.743304020232791 C-73.05012893177822 6.3167406579181105, -73.16198701798683 5.89017729560343, -73.3236342597154 5.273746304534657 M-73.3236342597154 5.273746304534657 C-73.40673767666158 4.847027822429449, -73.48984109360775 4.420309340324241, -73.61405101727762 3.7825176340561555 M-73.3236342597154 5.273746304534657 C-73.41794912962469 4.789459381005287, -73.51226399953399 4.305172457475916, -73.61405101727762 3.7825176340561555 M-73.61405101727762 3.7825176340561555 C-73.66238727824539 3.4076311390644225, -73.71072353921316 3.03274464407269, -73.80832773350521 2.2757457872718305 M-73.61405101727762 3.7825176340561555 C-73.6598289152445 3.4274732972934623, -73.70560681321138 3.0724289605307695, -73.80832773350521 2.2757457872718305 M-73.80832773350521 2.2757457872718305 C-73.83190068977707 1.908577965589858, -73.85547364604892 1.5414101439078856, -73.90566608369899 0.7596224129016435 M-73.80832773350521 2.2757457872718305 C-73.82850831204634 1.961416987023958, -73.84868889058747 1.6470881867760852, -73.90566608369899 0.7596224129016435 M-73.90566608369899 0.7596224129016435 C-73.90566608369899 0.4058928776450151, -73.90566608369899 0.05216334238838671, -73.90566608369899 -0.7596224129016319 M-73.90566608369899 0.7596224129016435 C-73.90566608369899 0.37142659615890955, -73.90566608369899 -0.01676922058382435, -73.90566608369899 -0.7596224129016319 M-73.90566608369899 -0.7596224129016319 C-73.88310414942934 -1.1110427508169518, -73.8605422151597 -1.4624630887322718, -73.80832773350522 -2.2757457872717977 M-73.90566608369899 -0.7596224129016319 C-73.87684895368234 -1.2084724736796335, -73.84803182366569 -1.6573225344576352, -73.80832773350522 -2.2757457872717977 M-73.80832773350522 -2.2757457872717977 C-73.75364772322484 -2.6998331492170924, -73.69896771294445 -3.123920511162387, -73.61405101727762 -3.7825176340561444 M-73.80832773350522 -2.2757457872717977 C-73.73998320627334 -2.8058124443288746, -73.67163867904145 -3.3358791013859515, -73.61405101727762 -3.7825176340561444 M-73.61405101727762 -3.7825176340561444 C-73.50339601967954 -4.350707659780256, -73.39274102208147 -4.918897685504368, -73.32363425971542 -5.2737463045346455 M-73.61405101727762 -3.7825176340561444 C-73.49954288004909 -4.370492717421278, -73.38503474282057 -4.958467800786413, -73.32363425971542 -5.2737463045346455 M-73.32363425971542 -5.2737463045346455 C-73.19014723098364 -5.782790198733106, -73.05666020225186 -6.291834092931566, -72.9382708455696 -6.743304020232778 M-73.32363425971542 -5.2737463045346455 C-73.1862361921294 -5.797704684939274, -73.0488381245434 -6.321663065343901, -72.9382708455696 -6.743304020232778 M-72.9382708455696 -6.743304020232778 C-72.78566451322693 -7.202929978731846, -72.63305818088425 -7.6625559372309135, -72.45954431576914 -8.1851520532776 M-72.9382708455696 -6.743304020232778 C-72.83890652490811 -7.042573522510661, -72.73954220424662 -7.341843024788545, -72.45954431576914 -8.1851520532776 M-72.45954431576914 -8.1851520532776 C-72.32923074625623 -8.507029089415942, -72.19891717674332 -8.828906125554287, -71.88942186031144 -9.593365540825912 M-72.45954431576914 -8.1851520532776 C-72.33765169843589 -8.486229174724151, -72.21575908110265 -8.787306296170703, -71.88942186031144 -9.593365540825912 M-71.88942186031144 -9.593365540825912 C-71.69673908154421 -9.993475453687092, -71.50405630277697 -10.393585366548272, -71.23024623465692 -10.962157831596498 M-71.88942186031144 -9.593365540825912 C-71.68133349658822 -10.02546548047491, -71.473245132865 -10.457565420123906, -71.23024623465692 -10.962157831596498 M-71.23024623465692 -10.962157831596498 C-71.02613965082583 -11.324569739221378, -70.82203306699473 -11.686981646846258, -70.48472613284407 -12.28590426446159 M-71.23024623465692 -10.962157831596498 C-71.07323519743558 -11.24094682727454, -70.91622416021424 -11.519735822952581, -70.48472613284407 -12.28590426446159 M-70.48472613284407 -12.28590426446159 C-70.1785810639339 -12.7562253017693, -69.87243599502375 -13.226546339077007, -69.65592505688485 -13.559165281385793 M-70.48472613284407 -12.28590426446159 C-70.24175095847897 -12.659179380256287, -69.99877578411386 -13.032454496050983, -69.65592505688485 -13.559165281385793 M-69.65592505688485 -13.559165281385793 C-69.3471918221293 -13.972839689781926, -69.03845858737377 -14.38651409817806, -68.74724872817762 -14.77670877973695 M-69.65592505688485 -13.559165281385793 C-69.40760081869001 -13.891897137763388, -69.15927658049517 -14.224628994140984, -68.74724872817762 -14.77670877973695 M-68.74724872817762 -14.77670877973695 C-68.48669934180548 -15.082764914649756, -68.22614995543331 -15.38882104956256, -67.7624310926675 -15.933531612118074 M-68.74724872817762 -14.77670877973695 C-68.47643728476604 -15.094819310775867, -68.20562584135445 -15.412929841814785, -67.7624310926675 -15.933531612118074 M-67.7624310926675 -15.933531612118074 C-67.37389440830691 -16.334727638175416, -66.98535772394632 -16.73592366423276, -66.70551897726153 -17.024880145373192 M-67.7624310926675 -15.933531612118074 C-67.52490286192432 -16.17879901179083, -67.28737463118114 -16.424066411463585, -66.70551897726153 -17.024880145373192 M-66.70551897726153 -17.024880145373192 C-66.42890754066217 -17.276091333355176, -66.1522961040628 -17.527302521337162, -65.58085546054885 -18.04626979428563 M-66.70551897726153 -17.024880145373192 C-66.44568772479259 -17.260852014107265, -66.18585647232366 -17.496823882841337, -65.58085546054885 -18.04626979428563 M-65.58085546054885 -18.04626979428563 C-65.16063316730539 -18.381385890562424, -64.74041087406194 -18.716501986839216, -64.39306202615917 -18.993503449700636 M-65.58085546054885 -18.04626979428563 C-65.23977952982314 -18.318268772627686, -64.89870359909742 -18.59026775096974, -64.39306202615917 -18.993503449700636 M-64.39306202615917 -18.993503449700636 C-64.0616215860732 -19.2247019528792, -63.73018114598724 -19.45590045605777, -63.14701957209534 -19.862688725347095 M-64.39306202615917 -18.993503449700636 C-63.940867417064915 -19.30893483381566, -63.48867280797066 -19.62436621793068, -63.14701957209534 -19.862688725347095 M-63.14701957209534 -19.862688725347095 C-62.8591419422324 -20.037201836326744, -62.57126431236945 -20.211714947306398, -61.84784835407633 -20.65025395248774 M-63.14701957209534 -19.862688725347095 C-62.77437560470072 -20.088587688280736, -62.40173163730611 -20.314486651214377, -61.84784835407633 -20.65025395248774 M-61.84784835407633 -20.65025395248774 C-61.44443561246354 -20.86071412138894, -61.04102287085076 -21.071174290290138, -60.50088694530838 -21.352962856672026 M-61.84784835407633 -20.65025395248774 C-61.392847163808604 -20.887627782008245, -60.937845973540874 -21.12500161152875, -60.50088694530838 -21.352962856672026 M-60.50088694530838 -21.352962856672026 C-59.95974891744954 -21.592508609315875, -59.418610889590695 -21.832054361959727, -59.1116702991424 -21.967927856282074 M-60.50088694530838 -21.352962856672026 C-60.12235508489981 -21.520527682526218, -59.74382322449124 -21.68809250838041, -59.1116702991424 -21.967927856282074 M-59.1116702991424 -21.967927856282074 C-58.58798352495281 -22.16064943009132, -58.06429675076322 -22.353371003900563, -57.68590700476354 -22.492621928224914 M-59.1116702991424 -21.967927856282074 C-58.82291380186796 -22.074192916514868, -58.53415730459352 -22.180457976747665, -57.68590700476354 -22.492621928224914 M-57.68590700476354 -22.492621928224914 C-57.31350212465006 -22.60314974184949, -56.94109724453657 -22.713677555474067, -56.22945582937366 -22.924888992012402 M-57.68590700476354 -22.492621928224914 C-57.39406117754332 -22.579240237813867, -57.1022153503231 -22.66585854740282, -56.22945582937366 -22.924888992012402 M-56.22945582937366 -22.924888992012402 C-55.70134399521423 -23.045427071907508, -55.17323216105479 -23.165965151802613, -54.74830164326021 -23.262952769558453 M-56.22945582937366 -22.924888992012402 C-55.780601562114754 -23.02733704946642, -55.331747294855845 -23.12978510692044, -54.74830164326021 -23.262952769558453 M-54.74830164326021 -23.262952769558453 C-54.42567608078946 -23.31511236850012, -54.10305051831871 -23.367271967441788, -53.248530826680565 -23.505424084286663 M-54.74830164326021 -23.262952769558453 C-54.33550532968792 -23.3296904762536, -53.922709016115626 -23.396428182948746, -53.248530826680565 -23.505424084286663 M-53.248530826680565 -23.505424084286663 C-52.72168615872507 -23.556248155780914, -52.19484149076957 -23.607072227275165, -51.736306259619816 -23.651306569554883 M-53.248530826680565 -23.505424084286663 C-52.77149406100084 -23.551443247351138, -52.29445729532111 -23.597462410415613, -51.736306259619816 -23.651306569554883 M-51.736306259619816 -23.651306569554883 C-51.318851299348054 -23.664693537604013, -50.9013963390763 -23.67808050565314, -50.21784199719523 -23.700000762939453 M-51.736306259619816 -23.651306569554883 C-51.346440142089236 -23.663808817115726, -50.956574024558655 -23.676311064676568, -50.21784199719523 -23.700000762939453 M-50.21784199719523 -23.700000762939453 C-50.21784199719523 -23.700000762939453, -50.21784199719522 -23.700000762939453, -50.21784199719522 -23.700000762939453 M-50.21784199719523 -23.700000762939453 C-50.21784199719523 -23.700000762939453, -50.21784199719523 -23.700000762939453, -50.21784199719522 -23.700000762939453" stroke="#0052ff" stroke-width="1.3" fill="none" stroke-dasharray="0 0" style=""/></g><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">post-execute</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">terminal</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> call</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-DET-1" data-look="classic" transform="translate(303.1941375732422, 203.6800067901611)"><rect class="basic label-container" style="" x="-103.3828125" y="-31.200000762939453" width="206.765625" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">detect</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">normalize</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> rows</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> craft</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-CLS-2" data-look="classic" transform="translate(540.2019500732422, 203.6800067901611)"><rect class="basic label-container" style="" x="-93.625" y="-38.89999961853027" width="187.25" height="77.79999923706055"/><g class="label" style="" transform="translate(0, -23.899999618530273)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">classify</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">write</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> read</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> search</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="2.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">discovery</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> control</tspan></tspan></text></g></g></g><g class="node default" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-EXE-3" data-look="classic" transform="translate(765.0269546508789, 203.6800067901611)"><polygon points="91.20000076293945,0 182.4000015258789,-91.20000076293945 91.20000076293945,-182.4000015258789 0,-91.20000076293945" class="label-container" transform="translate(-90.70000076293945, 91.20000076293945)"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">exempt</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">head?</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-T0-4" data-look="classic" transform="translate(1046.3675842285156, 277.40000915527344)"><rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tier</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 0</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">offense</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> line</tspan></tspan></text></g></g></g><g class="node default" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-G1-5" data-look="classic" transform="translate(1287.5675888061523, 166.20000457763672)"><polygon points="91.20000076293945,0 182.4000015258789,-91.20000076293945 91.20000076293945,-182.4000015258789 0,-91.20000076293945" class="label-container" transform="translate(-90.70000076293945, 91.20000076293945)"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">3</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> strikes</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">in</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 8?</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-NOTE-6" data-look="classic" transform="translate(1574.970718383789, 166.20000457763672)"><rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tier</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 1</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">notice</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> +</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> live</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> tool</tspan></tspan></text></g></g></g><g class="node default" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-G2-7" data-look="classic" transform="translate(1287.5675888061523, 388.60001373291016)"><polygon points="91.20000076293945,0 182.4000015258789,-91.20000076293945 91.20000076293945,-182.4000015258789 0,-91.20000076293945" class="label-container" transform="translate(-90.70000076293945, 91.20000076293945)"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">6</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> since</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">last</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> note?</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-SEC-8" data-look="classic" transform="translate(1574.970718383789, 388.60001373291016)"><rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tier</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 2</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">persistent</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> section</tspan></tspan></text></g></g></g><g class="node default" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-G3-9" data-look="classic" transform="translate(1287.5675888061523, 611.0000228881836)"><polygon points="91.20000076293945,0 182.4000015258789,-91.20000076293945 91.20000076293945,-182.4000015258789 0,-91.20000076293945" class="label-container" transform="translate(-90.70000076293945, 91.20000076293945)"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">enforce</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> and</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">4</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> strikes?</tspan></tspan></text></g></g></g><g class="node default fail" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-DENY-10" data-look="classic" transform="translate(1574.970718383789, 611.0000228881836)"><rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tier</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 3</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">deny</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> with</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> reason</tspan></tspan></text></g></g></g><g class="node default store" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-LED-11" data-look="classic" transform="translate(1792.470718383789, 80.49112389882407)"><path d="M0,12.98076923076923 a67.5,12.98076923076923 0,0,0 135,0 a67.5,12.98076923076923 0,0,0 -135,0 l0,75.78076846782977 a67.5,12.98076923076923 0,0,0 135,0 l0,-75.78076846782977" class="basic label-container outer-path" style="" transform="translate(-67.5, -50.87115346468411)"/><g class="label" style="" transform="translate(0, -13.90000057220459)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">~/.dsh/</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">hook-dsh-tool-</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="2.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">coach.log</tspan></tspan></text></g></g></g><g class="node default host" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-SP-12" data-look="classic" transform="translate(1837.384780883789, 388.60001373291016)"><rect class="basic label-container" style="" x="-112.4140625" y="-31.200000762939453" width="224.828125" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">system-prompt/assemble</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">appended</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> section</tspan></tspan></text></g></g></g><g class="node default host" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-PRE-13" data-look="classic" transform="translate(1814.970718383789, 611.0000228881836)"><rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tools/pre-execute</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">blocked</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> call</tspan></tspan></text></g></g></g></g></g></g><defs><filter id="dsh-diagram-04-guardians-Classic-tool-coach-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="dsh-diagram-04-guardians-Classic-tool-coach-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs></svg>
+<svg id="dsh-diagram-04-guardians-Classic-tool-coach" width="100%" xmlns="http://www.w3.org/2000/svg" class="flowchart"
+	viewBox="-84.09142303466797 -1.0287684798240662 2043.890251159668 713.2287806868553"
+	role="graphics-document document" aria-roledescription="flowchart-v2">
+	<style>
+		#dsh-diagram-04-guardians-Classic-tool-coach {
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			font-size: 14px;
+			fill: #0b0f19;
+		}
+
+		@keyframes edge-animation-frame {
+			from {
+				stroke-dashoffset: 0;
+			}
+		}
+
+		@keyframes dash {
+			to {
+				stroke-dashoffset: 0;
+			}
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edge-animation-slow {
+			stroke-dasharray: 9, 5 !important;
+			stroke-dashoffset: 900;
+			animation: dash 50s linear infinite;
+			stroke-linecap: round;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edge-animation-fast {
+			stroke-dasharray: 9, 5 !important;
+			stroke-dashoffset: 900;
+			animation: dash 20s linear infinite;
+			stroke-linecap: round;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .error-icon {
+			fill: #ffffff;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .error-text {
+			fill: #000000;
+			stroke: #000000;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edge-thickness-normal {
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edge-thickness-thick {
+			stroke-width: 3.5px;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edge-pattern-solid {
+			stroke-dasharray: 0;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edge-thickness-invisible {
+			stroke-width: 0;
+			fill: none;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edge-pattern-dashed {
+			stroke-dasharray: 3;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edge-pattern-dotted {
+			stroke-dasharray: 2;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .marker {
+			fill: #616f84;
+			stroke: #616f84;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .marker.cross {
+			stroke: #616f84;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach svg {
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			font-size: 14px;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach p {
+			margin: 0;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .label {
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			color: #0b0f19;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .cluster-label text {
+			fill: #000000;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .cluster-label span {
+			color: #000000;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .cluster-label span p {
+			background-color: transparent;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .label text,
+		#dsh-diagram-04-guardians-Classic-tool-coach span {
+			fill: #0b0f19;
+			color: #0b0f19;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .node rect,
+		#dsh-diagram-04-guardians-Classic-tool-coach .node circle,
+		#dsh-diagram-04-guardians-Classic-tool-coach .node ellipse,
+		#dsh-diagram-04-guardians-Classic-tool-coach .node polygon,
+		#dsh-diagram-04-guardians-Classic-tool-coach .node path {
+			fill: #f0f4ff;
+			stroke: #0052ff;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .rough-node .label text,
+		#dsh-diagram-04-guardians-Classic-tool-coach .node .label text,
+		#dsh-diagram-04-guardians-Classic-tool-coach .image-shape .label,
+		#dsh-diagram-04-guardians-Classic-tool-coach .icon-shape .label {
+			text-anchor: middle;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .node .katex path {
+			fill: #000;
+			stroke: #000;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .rough-node .label,
+		#dsh-diagram-04-guardians-Classic-tool-coach .node .label,
+		#dsh-diagram-04-guardians-Classic-tool-coach .image-shape .label,
+		#dsh-diagram-04-guardians-Classic-tool-coach .icon-shape .label {
+			text-align: center;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .node.clickable {
+			cursor: pointer;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .root .anchor path {
+			fill: #616f84 !important;
+			stroke-width: 0;
+			stroke: #616f84;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .arrowheadPath {
+			fill: #0b0b0b;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edgePaths .path {
+			stroke: #616f84;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .flowchart-link {
+			stroke: #616f84;
+			fill: none;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edgeLabel {
+			background-color: #ffffff;
+			text-align: center;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edgeLabel p {
+			background-color: #ffffff;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .edgeLabel rect {
+			opacity: 0.5;
+			background-color: #ffffff;
+			fill: #ffffff;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .labelBkg {
+			background-color: rgba(255, 255, 255, 0.5);
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .cluster rect {
+			fill: #f8fafc;
+			stroke: #e2e8f0;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .cluster text {
+			fill: #000000;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .cluster span {
+			color: #000000;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .node .collapsed-indicator {
+			fill: #e2e8f0;
+			stroke: none;
+			opacity: 0.6;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .node .collapsed-separator {
+			stroke: #e2e8f0;
+			stroke-width: 0.75px;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach div.mermaidTooltip {
+			position: absolute;
+			text-align: center;
+			max-width: 200px;
+			padding: 2px;
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			font-size: 12px;
+			background: #ffffff;
+			border: 1px solid #e2e8f0;
+			border-radius: 2px;
+			pointer-events: none;
+			z-index: 100;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .flowchartTitleText {
+			text-anchor: middle;
+			font-size: 18px;
+			fill: #0b0f19;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach rect.text {
+			fill: none;
+			stroke-width: 0;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .icon-shape,
+		#dsh-diagram-04-guardians-Classic-tool-coach .image-shape {
+			background-color: #ffffff;
+			text-align: center;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .icon-shape p,
+		#dsh-diagram-04-guardians-Classic-tool-coach .image-shape p {
+			background-color: #ffffff;
+			padding: 2px;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .icon-shape .label rect,
+		#dsh-diagram-04-guardians-Classic-tool-coach .image-shape .label rect {
+			opacity: 0.5;
+			background-color: #ffffff;
+			fill: #ffffff;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .label-icon {
+			display: inline-block;
+			height: 1em;
+			overflow: visible;
+			vertical-align: -0.125em;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .node .label-icon path {
+			fill: currentColor;
+			stroke: revert;
+			stroke-width: revert;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach .node .neo-node {
+			stroke: #0052ff;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node rect,
+		#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].cluster rect,
+		#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node polygon {
+			stroke: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].swimlane.cluster rect {
+			filter: none;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node path {
+			stroke: #0052ff;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node .outer-path {
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node .neo-line path {
+			stroke: #0052ff;
+			filter: none;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node circle {
+			stroke: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].node circle .state-start {
+			fill: #000000;
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].icon-shape .icon {
+			fill: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach [data-look="neo"].icon-shape .icon-neo path {
+			stroke: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-04-guardians-Classic-tool-coach :root {
+			--mermaid-font-family: "trebuchet ms", verdana, arial, sans-serif;
+		}
+	</style>
+	<g>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd" class="marker flowchart-v2"
+			viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8"
+			orient="auto">
+			<path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointStart" class="marker flowchart-v2"
+			viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8"
+			orient="auto">
+			<path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd-margin"
+			class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse"
+			markerWidth="10.5" markerHeight="14" orient="auto">
+			<path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath"
+				style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointStart-margin"
+			class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse"
+			markerWidth="11.5" markerHeight="14" orient="auto">
+			<polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath"
+				style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-circleEnd" class="marker flowchart-v2"
+			viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11"
+			orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-circleStart" class="marker flowchart-v2"
+			viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11"
+			orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-circleEnd-margin"
+			class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse"
+			markerWidth="14" markerHeight="14" orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-circleStart-margin"
+			class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse"
+			markerWidth="14" markerHeight="14" orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-crossEnd" class="marker cross flowchart-v2"
+			viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11"
+			orient="auto">
+			<path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath"
+				style="stroke-width: 2; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-crossStart"
+			class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse"
+			markerWidth="11" markerHeight="11" orient="auto">
+			<path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath"
+				style="stroke-width: 2; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-crossEnd-margin"
+			class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse"
+			markerWidth="12" markerHeight="12" orient="auto">
+			<path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;" />
+		</marker>
+		<marker id="dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-crossStart-margin"
+			class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse"
+			markerWidth="12" markerHeight="12" orient="auto">
+			<path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath"
+				style="stroke-width: 2.5; stroke-dasharray: 1, 0;" />
+		</marker>
+		<g class="root">
+			<g class="clusters" />
+			<g class="edges edgePaths">
+				<path d="M159.8113250732422,203.6800067901611L195.8113250732422,203.6800067901611"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_EV_DET_0"
+					class="edge-thickness-thick edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_EV_DET_0"
+					data-points="W3sieCI6MTU5LjgxMTMyNTA3MzI0MjIsInkiOjIwMy42ODAwMDY3OTAxNjExfSx7IngiOjE5OS44MTEzMjUwNzMyNDIyLCJ5IjoyMDMuNjgwMDA2NzkwMTYxMX1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path d="M406.5769500732422,203.6800067901611L442.5769500732422,203.6800067901611"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_DET_CLS_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_DET_CLS_0"
+					data-points="W3sieCI6NDA2LjU3Njk1MDA3MzI0MjIsInkiOjIwMy42ODAwMDY3OTAxNjExfSx7IngiOjQ0Ni41NzY5NTAwNzMyNDIyLCJ5IjoyMDMuNjgwMDA2NzkwMTYxMX1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path d="M633.8269500732422,203.6800067901611L669.8269500732422,203.6800067901611"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_CLS_EXE_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_CLS_EXE_0"
+					data-points="W3sieCI6NjMzLjgyNjk1MDA3MzI0MjIsInkiOjIwMy42ODAwMDY3OTAxNjExfSx7IngiOjY3My44MjY5NTAwNzMyNDIyLCJ5IjoyMDMuNjgwMDA2NzkwMTYxMX1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path
+					d="M829.1602205042218,176.6133385976155L856.2269592285156,176.6133385976155L869.1558914166501,176.6133385976155Q876.2269592285156,176.6133385976155 876.2269592285156,169.54227078575002L876.2269592285156,30.071067811865476Q876.2269592285156,23 883.2980270403812,23L906.2972717285156,23L1046.3675842285156,23L1431.869155883789,23L1574.970718383789,23L1697.8996505719235,23Q1704.970718383789,23 1704.970718383789,30.071067811865476L1704.970718383789,52.9844806017291Q1704.970718383789,60.05554841359458 1712.0417861956546,60.05554841359458L1720.970718383789,60.05554841359458"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_EXE_LED_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_EXE_LED_0"
+					data-points="W3sieCI6ODI5LjE2MDIyMDUwNDIyMTgsInkiOjE3Ni42MTMzMzg1OTc2MTU1fSx7IngiOjg1Ni4yMjY5NTkyMjg1MTU2LCJ5IjoxNzYuNjEzMzM4NTk3NjE1NX0seyJ4Ijo4NzYuMjI2OTU5MjI4NTE1NiwieSI6MTc2LjYxMzMzODU5NzYxNTV9LHsieCI6ODc2LjIyNjk1OTIyODUxNTYsInkiOjIzfSx7IngiOjkwNi4yOTcyNzE3Mjg1MTU2LCJ5IjoyM30seyJ4IjoxMDQ2LjM2NzU4NDIyODUxNTYsInkiOjIzfSx7IngiOjE0MzEuODY5MTU1ODgzNzg5LCJ5IjoyM30seyJ4IjoxNTc0Ljk3MDcxODM4Mzc4OSwieSI6MjN9LHsieCI6MTcwNC45NzA3MTgzODM3ODksInkiOjIzfSx7IngiOjE3MDQuOTcwNzE4MzgzNzg5LCJ5Ijo2MC4wNTU1NDg0MTM1OTQ1OH0seyJ4IjoxNzI0Ljk3MDcxODM4Mzc4OSwieSI6NjAuMDU1NTQ4NDEzNTk0NTh9XQ=="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path
+					d="M829.1602205042218,230.74667498270668L856.2269592285156,230.74667498270668L869.1558914166501,230.74667498270668Q876.2269592285156,230.74667498270668 876.2269592285156,237.81774279457215L876.2269592285156,270.32894134340796Q876.2269592285156,277.40000915527344 883.2980270403812,277.40000915527344L952.3675842285156,277.40000915527344"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_EXE_T0_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_EXE_T0_0"
+					data-points="W3sieCI6ODI5LjE2MDIyMDUwNDIyMTgsInkiOjIzMC43NDY2NzQ5ODI3MDY2OH0seyJ4Ijo4NTYuMjI2OTU5MjI4NTE1NiwieSI6MjMwLjc0NjY3NDk4MjcwNjY4fSx7IngiOjg3Ni4yMjY5NTkyMjg1MTU2LCJ5IjoyMzAuNzQ2Njc0OTgyNzA2Njh9LHsieCI6ODc2LjIyNjk1OTIyODUxNTYsInkiOjI3Ny40MDAwMDkxNTUyNzM0NH0seyJ4Ijo5NTYuMzY3NTg0MjI4NTE1NiwieSI6Mjc3LjQwMDAwOTE1NTI3MzQ0fV0="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path
+					d="M1136.3675842285156,264.6800086975098L1149.29651641665,264.6800086975098Q1156.3675842285156,264.6800086975098 1156.3675842285156,257.6089408856443L1156.3675842285156,61.071067811865476Q1156.3675842285156,54 1163.4386520403812,54L1287.5675888061523,54L1431.869155883789,54L1574.970718383789,54L1677.8996505719235,54Q1684.970718383789,54 1684.970718383789,61.071067811865476L1684.970718383789,73.4200560869586Q1684.970718383789,80.49112389882407 1692.0417861956546,80.49112389882407L1720.970718383789,80.49112389882407"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_T0_LED_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_T0_LED_0"
+					data-points="W3sieCI6MTEzNi4zNjc1ODQyMjg1MTU2LCJ5IjoyNjQuNjgwMDA4Njk3NTA5OH0seyJ4IjoxMTU2LjM2NzU4NDIyODUxNTYsInkiOjI2NC42ODAwMDg2OTc1MDk4fSx7IngiOjExNTYuMzY3NTg0MjI4NTE1NiwieSI6NTR9LHsieCI6MTI4Ny41Njc1ODg4MDYxNTIzLCJ5Ijo1NH0seyJ4IjoxNDMxLjg2OTE1NTg4Mzc4OSwieSI6NTR9LHsieCI6MTU3NC45NzA3MTgzODM3ODksInkiOjU0fSx7IngiOjE2ODQuOTcwNzE4MzgzNzg5LCJ5Ijo1NH0seyJ4IjoxNjg0Ljk3MDcxODM4Mzc4OSwieSI6ODAuNDkxMTIzODk4ODI0MDd9LHsieCI6MTcyNC45NzA3MTgzODM3ODksInkiOjgwLjQ5MTEyMzg5ODgyNDA3fV0="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path
+					d="M1136.3675842285156,273.16000900268557L1169.29651641665,273.16000900268557Q1176.3675842285156,273.16000900268557 1176.3675842285156,266.0889411908201L1176.3675842285156,173.2710723895022Q1176.3675842285156,166.20000457763672 1183.4386520403812,166.20000457763672L1192.3675842285156,166.20000457763672"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_T0_G1_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_T0_G1_0"
+					data-points="W3sieCI6MTEzNi4zNjc1ODQyMjg1MTU2LCJ5IjoyNzMuMTYwMDA5MDAyNjg1NTd9LHsieCI6MTE3Ni4zNjc1ODQyMjg1MTU2LCJ5IjoyNzMuMTYwMDA5MDAyNjg1NTd9LHsieCI6MTE3Ni4zNjc1ODQyMjg1MTU2LCJ5IjoxNjYuMjAwMDA0NTc3NjM2NzJ9LHsieCI6MTE5Ni4zNjc1ODQyMjg1MTU2LCJ5IjoxNjYuMjAwMDA0NTc3NjM2NzJ9XQ=="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path d="M1378.767593383789,166.20000457763672L1480.970718383789,166.20000457763672"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_G1_NOTE_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_G1_NOTE_0"
+					data-points="W3sieCI6MTM3OC43Njc1OTMzODM3ODksInkiOjE2Ni4yMDAwMDQ1Nzc2MzY3Mn0seyJ4IjoxNDg0Ljk3MDcxODM4Mzc4OSwieSI6MTY2LjIwMDAwNDU3NzYzNjcyfV0="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path
+					d="M1664.970718383789,166.20000457763672L1677.8996505719235,166.20000457763672Q1684.970718383789,166.20000457763672 1684.970718383789,159.12893676577124L1684.970718383789,107.99776719591904Q1684.970718383789,100.92669938405356 1692.0417861956546,100.92669938405356L1720.970718383789,100.92669938405356"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_NOTE_LED_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_NOTE_LED_0"
+					data-points="W3sieCI6MTY2NC45NzA3MTgzODM3ODksInkiOjE2Ni4yMDAwMDQ1Nzc2MzY3Mn0seyJ4IjoxNjg0Ljk3MDcxODM4Mzc4OSwieSI6MTY2LjIwMDAwNDU3NzYzNjcyfSx7IngiOjE2ODQuOTcwNzE4MzgzNzg5LCJ5IjoxMDAuOTI2Njk5Mzg0MDUzNTZ9LHsieCI6MTcyNC45NzA3MTgzODM3ODksInkiOjEwMC45MjY2OTkzODQwNTM1Nn1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path
+					d="M1136.3675842285156,281.6400093078613L1169.29651641665,281.6400093078613Q1176.3675842285156,281.6400093078613 1176.3675842285156,288.7110771197268L1176.3675842285156,381.5289459210447Q1176.3675842285156,388.60001373291016 1183.4386520403812,388.60001373291016L1192.3675842285156,388.60001373291016"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_T0_G2_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_T0_G2_0"
+					data-points="W3sieCI6MTEzNi4zNjc1ODQyMjg1MTU2LCJ5IjoyODEuNjQwMDA5MzA3ODYxM30seyJ4IjoxMTc2LjM2NzU4NDIyODUxNTYsInkiOjI4MS42NDAwMDkzMDc4NjEzfSx7IngiOjExNzYuMzY3NTg0MjI4NTE1NiwieSI6Mzg4LjYwMDAxMzczMjkxMDE2fSx7IngiOjExOTYuMzY3NTg0MjI4NTE1NiwieSI6Mzg4LjYwMDAxMzczMjkxMDE2fV0="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path d="M1378.767593383789,388.60001373291016L1480.970718383789,388.60001373291016"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_G2_SEC_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_G2_SEC_0"
+					data-points="W3sieCI6MTM3OC43Njc1OTMzODM3ODksInkiOjM4OC42MDAwMTM3MzI5MTAxNn0seyJ4IjoxNDg0Ljk3MDcxODM4Mzc4OSwieSI6Mzg4LjYwMDAxMzczMjkxMDE2fV0="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path d="M1664.970718383789,388.60001373291016L1720.970718383789,388.60001373291016"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_SEC_SP_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_SEC_SP_0"
+					data-points="W3sieCI6MTY2NC45NzA3MTgzODM3ODksInkiOjM4OC42MDAwMTM3MzI5MTAxNn0seyJ4IjoxNzI0Ljk3MDcxODM4Mzc4OSwieSI6Mzg4LjYwMDAxMzczMjkxMDE2fV0="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path
+					d="M1136.3675842285156,290.1200096130371L1149.29651641665,290.1200096130371Q1156.3675842285156,290.1200096130371 1156.3675842285156,297.1910774249026L1156.3675842285156,603.9289550763181Q1156.3675842285156,611.0000228881836 1163.4386520403812,611.0000228881836L1192.3675842285156,611.0000228881836"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_T0_G3_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_T0_G3_0"
+					data-points="W3sieCI6MTEzNi4zNjc1ODQyMjg1MTU2LCJ5IjoyOTAuMTIwMDA5NjEzMDM3MX0seyJ4IjoxMTU2LjM2NzU4NDIyODUxNTYsInkiOjI5MC4xMjAwMDk2MTMwMzcxfSx7IngiOjExNTYuMzY3NTg0MjI4NTE1NiwieSI6NjExLjAwMDAyMjg4ODE4MzZ9LHsieCI6MTE5Ni4zNjc1ODQyMjg1MTU2LCJ5Ijo2MTEuMDAwMDIyODg4MTgzNn1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path d="M1378.767593383789,611.0000228881836L1480.970718383789,611.0000228881836"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_G3_DENY_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_G3_DENY_0"
+					data-points="W3sieCI6MTM3OC43Njc1OTMzODM3ODksInkiOjYxMS4wMDAwMjI4ODgxODM2fSx7IngiOjE0ODQuOTcwNzE4MzgzNzg5LCJ5Ijo2MTEuMDAwMDIyODg4MTgzNn1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+				<path d="M1664.970718383789,611.0000228881836L1720.970718383789,611.0000228881836"
+					id="dsh-diagram-04-guardians-Classic-tool-coach-L_DENY_PRE_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_DENY_PRE_0"
+					data-points="W3sieCI6MTY2NC45NzA3MTgzODM3ODksInkiOjYxMS4wMDAwMjI4ODgxODM2fSx7IngiOjE3MjQuOTcwNzE4MzgzNzg5LCJ5Ijo2MTEuMDAwMDIyODg4MTgzNn1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-04-guardians-Classic-tool-coach_flowchart-v2-pointEnd)" />
+			</g>
+			<g class="edgeLabels">
+				<g class="edgeLabel" transform="translate(1287.5675888061523, 22.5)">
+					<g class="label" data-id="L_EXE_LED_0" transform="translate(0, -8.500000953674316)">
+						<g>
+							<rect class="background" style="" x="-13.1015625" y="-1.9999990463256836" width="26.203125"
+								height="21" /><text y="-10.1" text-anchor="middle" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em" text-anchor="middle">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">yes</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="edgeLabel" transform="translate(906.2972717285156, 276.90000915527344)">
+					<g class="label" data-id="L_EXE_T0_0" transform="translate(0, -8.500000953674316)">
+						<g>
+							<rect class="background" style="" x="-10.0703125" y="-1.9999990463256836" width="20.140625"
+								height="21" /><text y="-10.1" text-anchor="middle" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em" text-anchor="middle">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">no</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="edgeLabel" transform="translate(1431.869155883789, 165.70000457763672)">
+					<g class="label" data-id="L_G1_NOTE_0" transform="translate(0, -8.500000953674316)">
+						<g>
+							<rect class="background" style="" x="-13.1015625" y="-1.9999990463256836" width="26.203125"
+								height="21" /><text y="-10.1" text-anchor="middle" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em" text-anchor="middle">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">yes</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="edgeLabel" transform="translate(1431.869155883789, 388.10001373291016)">
+					<g class="label" data-id="L_G2_SEC_0" transform="translate(0, -8.500000953674316)">
+						<g>
+							<rect class="background" style="" x="-13.1015625" y="-1.9999990463256836" width="26.203125"
+								height="21" /><text y="-10.1" text-anchor="middle" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em" text-anchor="middle">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">yes</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="edgeLabel" transform="translate(1431.869155883789, 610.5000228881836)">
+					<g class="label" data-id="L_G3_DENY_0" transform="translate(0, -8.500000953674316)">
+						<g>
+							<rect class="background" style="" x="-13.1015625" y="-1.9999990463256836" width="26.203125"
+								height="21" /><text y="-10.1" text-anchor="middle" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em" text-anchor="middle">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">yes</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+			</g>
+			<g class="nodes">
+				<g class="node default host" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-EV-0"
+					data-look="classic" transform="translate(85.9056625366211, 203.6800067901611)">
+					<g class="basic label-container outer-path">
+						<path
+							d="M-50.21784199719522 -23.700000762939453 C-15.879791418122949 -23.700000762939453, 18.458259160949325 -23.700000762939453, 50.21784199719522 -23.700000762939453 C50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453 C50.794781277307195 -23.681499443170445, 51.37172055741917 -23.66299812340144, 51.736306259619816 -23.651306569554883 C52.27771979458267 -23.599077056982058, 52.81913332954552 -23.546847544409236, 53.24853082668054 -23.505424084286666 C53.650665506341255 -23.44041006788014, 54.05280018600196 -23.375396051473615, 54.748301643260206 -23.262952769558456 C55.11174731596531 -23.179998666468176, 55.47519298867042 -23.0970445633779, 56.229455829373634 -22.924888992012413 C56.58595993124562 -22.819080445905026, 56.9424640331176 -22.713271899797636, 57.68590700476352 -22.49262192822492 C58.177825670181164 -22.311591312104934, 58.6697443355988 -22.130560695984943, 59.11167029914239 -21.967927856282078 C59.65009121414713 -21.72958488889845, 60.18851212915187 -21.49124192151482, 60.50088694530837 -21.35296285667203 C60.85353004040212 -21.168989179840302, 61.20617313549587 -20.98501550300858, 61.84784835407632 -20.65025395248775 C62.22326360292811 -20.42267502244891, 62.598678851779894 -20.195096092410076, 63.147019572095324 -19.862688725347105 C63.61602299072502 -19.535532243341798, 64.08502640935471 -19.20837576133649, 64.39306202615916 -18.993503449700643 C64.75550847309273 -18.70446205337614, 65.1179549200263 -18.415420657051637, 65.58085546054882 -18.046269794285653 C65.940723978991 -17.719446727435695, 66.30059249743319 -17.392623660585738, 66.70551897726152 -17.024880145373203 C67.10000200025152 -16.61754403647751, 67.49448502324151 -16.210207927581823, 67.76243109266748 -15.933531612118086 C68.01519776420247 -15.636617496902035, 68.26796443573745 -15.339703381685986, 68.74724872817761 -14.776708779736955 C68.96556285865759 -14.484187733720221, 69.18387698913757 -14.191666687703485, 69.65592505688484 -13.559165281385798 C69.9857134179855 -13.052521798160598, 70.31550177908613 -12.545878314935397, 70.48472613284407 -12.285904264461589 C70.74816656338162 -11.818139103805919, 71.01160699391916 -11.35037394315025, 71.23024623465692 -10.962157831596507 C71.47586163253722 -10.452132202570432, 71.72147703041752 -9.942106573544356, 71.88942186031144 -9.593365540825921 C72.0492473512828 -9.198593488111015, 72.20907284225416 -8.80382143539611, 72.45954431576912 -8.185152053277628 C72.64293046211499 -7.632822199098319, 72.82631660846087 -7.08049234491901, 72.9382708455696 -6.743304020232797 C73.0865270741647 -6.177938765943767, 73.23478330275981 -5.6125735116547375, 73.32363425971542 -5.2737463045346535 C73.43590336092889 -4.697268197886415, 73.54817246214236 -4.1207900912381765, 73.61405101727762 -3.7825176340561533 C73.66199897992496 -3.410642704159535, 73.7099469425723 -3.038767774262917, 73.80832773350522 -2.2757457872718168 C73.83687703166754 -1.831067423815061, 73.86542632982984 -1.3863890603583053, 73.90566608369899 -0.7596224129016405 C73.90566608369899 -0.42849023309941503, 73.90566608369899 -0.0973580532971896, 73.90566608369899 0.7596224129016347 C73.88596023868824 1.0665568552158038, 73.8662543936775 1.373491297529973, 73.80832773350522 2.2757457872718008 C73.74661601614689 2.7543696807460245, 73.68490429878857 3.232993574220248, 73.61405101727762 3.782517634056137 C73.52263533443728 4.251917844729888, 73.43121965159693 4.721318055403639, 73.32363425971542 5.273746304534648 C73.19594814115325 5.760668814126, 73.0682620225911 6.247591323717353, 72.9382708455696 6.743304020232781 C72.7560543662833 7.292111023589863, 72.57383788699697 7.840918026946945, 72.45954431576914 8.185152053277612 C72.30688068021064 8.562234184657704, 72.15421704465214 8.939316316037797, 71.88942186031144 9.593365540825914 C71.71884234041296 9.947577563712148, 71.54826282051448 10.301789586598384, 71.23024623465692 10.962157831596501 C70.94209717407995 11.473795666907282, 70.65394811350298 11.985433502218063, 70.48472613284409 12.285904264461584 C70.22235748218685 12.688972967718554, 69.9599888315296 13.092041670975522, 69.65592505688485 13.559165281385784 C69.33875558200694 13.984143482988605, 69.02158610712902 14.409121684591426, 68.74724872817761 14.77670877973695 C68.3968848849913 15.188266086211039, 68.046521041805 15.599823392685128, 67.7624310926675 15.933531612118074 C67.44657427106665 16.259679712748277, 67.1307174494658 16.58582781337848, 66.70551897726152 17.0248801453732 C66.26512202730542 17.424837003058553, 65.82472507734934 17.824793860743906, 65.58085546054885 18.046269794285635 C65.25569696993625 18.30557503771835, 64.93053847932366 18.56488028115106, 64.39306202615917 18.99350344970064 C63.96691224575433 19.290767088784385, 63.540762465349495 19.588030727868134, 63.14701957209534 19.8626887253471 C62.75429305553622 20.10076184760242, 62.36156653897711 20.338834969857743, 61.847848354076326 20.650253952487745 C61.42367413051464 20.87154537322332, 60.99949990695295 21.0928367939589, 60.50088694530838 21.352962856672026 C60.03306201799735 21.560055074459218, 59.56523709068633 21.76714729224641, 59.1116702991424 21.967927856282078 C58.60142950076507 22.155701186699172, 58.09118870238773 22.343474517116267, 57.685907004763536 22.492621928224914 C57.248362319385905 22.622482894126076, 56.81081763400827 22.752343860027235, 56.229455829373656 22.924888992012406 C55.692013765971566 23.04755663584671, 55.15457170256948 23.170224279681015, 54.74830164326021 23.262952769558456 C54.2509526252192 23.34336030179609, 53.75360360717818 23.42376783403372, 53.24853082668056 23.505424084286663 C52.81065625068323 23.547665318011898, 52.37278167468591 23.589906551737137, 51.736306259619816 23.651306569554883 C51.2097346660346 23.668192695651733, 50.68316307244939 23.68507882174858, 50.21784199719523 23.700000762939453 C50.21784199719523 23.700000762939453, 50.21784199719522 23.700000762939453, 50.21784199719522 23.700000762939453 C27.44566323136424 23.700000762939453, 4.673484465533257 23.700000762939453, -50.217841997195215 23.700000762939453 C-50.64408941188999 23.68633183799045, -51.07033682658478 23.672662913041453, -51.73630625961981 23.651306569554883 C-52.16845526195273 23.609617675035043, -52.60060426428564 23.5679287805152, -53.24853082668055 23.505424084286663 C-53.71063967402872 23.430713909555045, -54.17274852137689 23.356003734823428, -54.748301643260206 23.262952769558456 C-55.231615240193285 23.15263959497445, -55.71492883712637 23.04232642039044, -56.22945582937363 22.924888992012413 C-56.649777574072004 22.800139704499795, -57.07009931877038 22.67539041698718, -57.685907004763514 22.492621928224924 C-58.20022397135723 22.303348530224515, -58.71454093795094 22.114075132224105, -59.111670299142396 21.967927856282078 C-59.63076153260843 21.738141565521, -60.14985276607447 21.50835527475993, -60.500886945308366 21.352962856672033 C-60.99025016182609 21.097662380066833, -61.47961337834382 20.842361903461637, -61.84784835407632 20.65025395248775 C-62.32836310343017 20.35896308761134, -62.808877852784015 20.06767222273493, -63.14701957209531 19.862688725347112 C-63.552371852041254 19.579932522274206, -63.95772413198719 19.297176319201302, -64.39306202615916 18.993503449700643 C-64.78115144769463 18.68401246351935, -65.16924086923008 18.37452147733805, -65.58085546054882 18.046269794285653 C-65.87027086253312 17.783430383715427, -66.15968626451743 17.520590973145197, -66.7055189772615 17.024880145373213 C-67.0332471291871 16.686473921528364, -67.3609752811127 16.348067697683515, -67.7624310926675 15.933531612118081 C-68.02798380378592 15.621598287261062, -68.29353651490433 15.309664962404042, -68.74724872817761 14.776708779736957 C-69.0001937950479 14.43778543390041, -69.25313886191819 14.098862088063864, -69.65592505688484 13.5591652813858 C-69.97468777718004 13.069460143236887, -70.29345049747523 12.579755005087975, -70.48472613284407 12.2859042644616 C-70.6848136634429 11.930628592823883, -70.88490119404172 11.575352921186166, -71.23024623465692 10.962157831596508 C-71.36977138105337 10.672430879744388, -71.50929652744982 10.382703927892269, -71.88942186031144 9.593365540825925 C-72.04644635045662 9.205512014305361, -72.20347084060178 8.817658487784795, -72.45954431576912 8.18515205327763 C-72.58488093174124 7.807658135647415, -72.71021754771337 7.430164218017201, -72.9382708455696 6.743304020232791 C-73.04920639286121 6.320258698639556, -73.16014194015283 5.897213377046321, -73.3236342597154 5.273746304534657 C-73.4297599732387 4.728813195270053, -73.53588568676199 4.183880086005448, -73.61405101727762 3.7825176340561555 C-73.66578162171828 3.3813052813776414, -73.71751222615895 2.9800929286991273, -73.80832773350521 2.2757457872718305 C-73.82913834926681 1.9516036487582398, -73.8499489650284 1.627461510244649, -73.90566608369899 0.7596224129016435 C-73.90566608369899 0.15776626095267265, -73.90566608369899 -0.44408989099629814, -73.90566608369899 -0.7596224129016319 C-73.87595143184194 -1.2224521008105358, -73.84623677998489 -1.6852817887194398, -73.80832773350522 -2.2757457872717977 C-73.7659223809139 -2.6046333280859915, -73.7235170283226 -2.9335208689001853, -73.61405101727762 -3.7825176340561444 C-73.54411447482317 -4.1416269984662035, -73.47417793236875 -4.500736362876263, -73.32363425971542 -5.2737463045346455 C-73.17243240544887 -5.8503445061511155, -73.02123055118234 -6.426942707767586, -72.9382708455696 -6.743304020232778 C-72.79886957177882 -7.163158446313906, -72.65946829798804 -7.583012872395034, -72.45954431576914 -8.1851520532776 C-72.32824063760434 -8.509474676928576, -72.19693695943954 -8.833797300579551, -71.88942186031144 -9.593365540825912 C-71.6583301815738 -10.073232356294458, -71.42723850283615 -10.553099171763002, -71.23024623465692 -10.962157831596498 C-70.94600634377322 -11.466854540270518, -70.66176645288951 -11.971551248944538, -70.48472613284407 -12.28590426446159 C-70.20238993949981 -12.719648475321797, -69.92005374615555 -13.153392686182006, -69.65592505688485 -13.559165281385793 C-69.33958156820269 -13.983036736735212, -69.02323807952051 -14.40690819208463, -68.74724872817762 -14.77670877973695 C-68.50080542562903 -15.066195105931701, -68.25436212308043 -15.355681432126454, -67.7624310926675 -15.933531612118074 C-67.46761372977167 -16.23795474426366, -67.17279636687584 -16.542377876409248, -66.70551897726153 -17.024880145373192 C-66.43780508349549 -17.26801082037004, -66.17009118972945 -17.511141495366886, -65.58085546054885 -18.04626979428563 C-65.13824268830994 -18.399241701725625, -64.69562991607104 -18.752213609165622, -64.39306202615917 -18.993503449700636 C-63.97461631001172 -19.285393067062, -63.55617059386426 -19.57728268442336, -63.14701957209534 -19.862688725347095 C-62.82503781471805 -20.057875958844043, -62.50305605734076 -20.25306319234099, -61.84784835407633 -20.65025395248774 C-61.38371821267437 -20.892390349967606, -60.91958807127239 -21.13452674744747, -60.50088694530838 -21.352962856672026 C-60.002797529392254 -21.573452265800537, -59.504708113476134 -21.793941674929048, -59.1116702991424 -21.967927856282074 C-58.668575506489105 -22.13099083590185, -58.2254807138358 -22.294053815521632, -57.68590700476354 -22.492621928224914 C-57.19351125532773 -22.63876240201943, -56.701115505891906 -22.784902875813952, -56.22945582937366 -22.924888992012402 C-55.773325568005454 -23.02899774764157, -55.317195306637245 -23.13310650327074, -54.74830164326021 -23.262952769558453 C-54.42675911618112 -23.31493727173706, -54.10521658910202 -23.36692177391567, -53.248530826680565 -23.505424084286663 C-52.86455059719951 -23.54246619522091, -52.480570367718464 -23.579508306155155, -51.736306259619816 -23.651306569554883 C-51.428688682778805 -23.661171266502883, -51.121071105937794 -23.671035963450887, -50.21784199719523 -23.700000762939453 C-50.21784199719523 -23.700000762939453, -50.21784199719523 -23.700000762939453, -50.21784199719522 -23.700000762939453"
+							stroke="none" stroke-width="0" fill="#f0f4ff" style="" />
+						<path
+							d="M-50.21784199719522 -23.700000762939453 C-22.20066962070462 -23.700000762939453, 5.816502755785983 -23.700000762939453, 50.21784199719522 -23.700000762939453 M-50.21784199719522 -23.700000762939453 C-21.1843989742339 -23.700000762939453, 7.849044048727421 -23.700000762939453, 50.21784199719522 -23.700000762939453 M50.21784199719522 -23.700000762939453 C50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453 M50.21784199719522 -23.700000762939453 C50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453, 50.21784199719522 -23.700000762939453 M50.21784199719522 -23.700000762939453 C50.807125104818255 -23.68110360064797, 51.396408212441294 -23.662206438356485, 51.736306259619816 -23.651306569554883 M50.21784199719522 -23.700000762939453 C50.77940177498028 -23.681992633875684, 51.34096155276533 -23.663984504811918, 51.736306259619816 -23.651306569554883 M51.736306259619816 -23.651306569554883 C52.31491012280194 -23.59548935074666, 52.893513985984065 -23.539672131938435, 53.24853082668054 -23.505424084286666 M51.736306259619816 -23.651306569554883 C52.204954575039885 -23.606096630198373, 52.67360289045995 -23.56088669084186, 53.24853082668054 -23.505424084286666 M53.24853082668054 -23.505424084286666 C53.55382844138646 -23.456065933559376, 53.85912605609237 -23.406707782832086, 54.748301643260206 -23.262952769558456 M53.24853082668054 -23.505424084286666 C53.73015112200722 -23.42755944995942, 54.21177141733389 -23.349694815632176, 54.748301643260206 -23.262952769558456 M54.748301643260206 -23.262952769558456 C55.13688178183082 -23.174261888652094, 55.52546192040144 -23.08557100774573, 56.229455829373634 -22.924888992012413 M54.748301643260206 -23.262952769558456 C55.29161916847924 -23.138944089905408, 55.83493669369827 -23.014935410252356, 56.229455829373634 -22.924888992012413 M56.229455829373634 -22.924888992012413 C56.785538287175534 -22.759846637473196, 57.34162074497743 -22.594804282933975, 57.68590700476352 -22.49262192822492 M56.229455829373634 -22.924888992012413 C56.65341952216248 -22.79905879342352, 57.07738321495132 -22.67322859483463, 57.68590700476352 -22.49262192822492 M57.68590700476352 -22.49262192822492 C58.19230247136531 -22.306263715447084, 58.69869793796709 -22.119905502669248, 59.11167029914239 -21.967927856282078 M57.68590700476352 -22.49262192822492 C58.09131078159226 -22.34342959084051, 58.496714558421004 -22.1942372534561, 59.11167029914239 -21.967927856282078 M59.11167029914239 -21.967927856282078 C59.45178674083872 -21.81736839673889, 59.791903182535044 -21.666808937195697, 60.50088694530837 -21.35296285667203 M59.11167029914239 -21.967927856282078 C59.531801859558385 -21.781948077245854, 59.95193341997439 -21.59596829820963, 60.50088694530837 -21.35296285667203 M60.50088694530837 -21.35296285667203 C61.011352363454264 -21.08665337499402, 61.521817781600156 -20.820343893316014, 61.84784835407632 -20.65025395248775 M60.50088694530837 -21.35296285667203 C60.967576390496895 -21.109491272046036, 61.43426583568541 -20.86601968742004, 61.84784835407632 -20.65025395248775 M61.84784835407632 -20.65025395248775 C62.23165388840741 -20.417588782084568, 62.615459422738496 -20.184923611681388, 63.147019572095324 -19.862688725347105 M61.84784835407632 -20.65025395248775 C62.29980735961801 -20.37627374732245, 62.751766365159696 -20.10229354215715, 63.147019572095324 -19.862688725347105 M63.147019572095324 -19.862688725347105 C63.417706942274506 -19.673868933777506, 63.68839431245368 -19.485049142207906, 64.39306202615916 -18.993503449700643 M63.147019572095324 -19.862688725347105 C63.603087447601084 -19.544555518254416, 64.05915532310685 -19.226422311161727, 64.39306202615916 -18.993503449700643 M64.39306202615916 -18.993503449700643 C64.65549519239728 -18.784219983265587, 64.91792835863541 -18.574936516830526, 65.58085546054882 -18.046269794285653 M64.39306202615916 -18.993503449700643 C64.70676764181559 -18.743331569271664, 65.02047325747203 -18.493159688842685, 65.58085546054882 -18.046269794285653 M65.58085546054882 -18.046269794285653 C66.025283661901 -17.64265186074344, 66.46971186325318 -17.239033927201234, 66.70551897726152 -17.024880145373203 M65.58085546054882 -18.046269794285653 C65.87011981225372 -17.783567563582615, 66.1593841639586 -17.520865332879577, 66.70551897726152 -17.024880145373203 M66.70551897726152 -17.024880145373203 C67.07229914742568 -16.646149506466706, 67.43907931758984 -16.267418867560206, 67.76243109266748 -15.933531612118086 M66.70551897726152 -17.024880145373203 C66.95949101131004 -16.762633168726328, 67.21346304535855 -16.500386192079453, 67.76243109266748 -15.933531612118086 M67.76243109266748 -15.933531612118086 C68.01599509973236 -15.635680901218947, 68.26955910679723 -15.33783019031981, 68.74724872817761 -14.776708779736955 M67.76243109266748 -15.933531612118086 C67.99420779438498 -15.66127350981278, 68.22598449610247 -15.389015407507472, 68.74724872817761 -14.776708779736955 M68.74724872817761 -14.776708779736955 C69.03408198061295 -14.392378352520453, 69.3209152330483 -14.00804792530395, 69.65592505688484 -13.559165281385798 M68.74724872817761 -14.776708779736955 C69.05022891766336 -14.370742927889136, 69.35320910714911 -13.964777076041317, 69.65592505688484 -13.559165281385798 M69.65592505688484 -13.559165281385798 C69.86485989112585 -13.238185269132911, 70.07379472536687 -12.917205256880026, 70.48472613284407 -12.285904264461589 M69.65592505688484 -13.559165281385798 C69.89635881332092 -13.189794465996354, 70.136792569757 -12.820423650606907, 70.48472613284407 -12.285904264461589 M70.48472613284407 -12.285904264461589 C70.71593250674334 -11.875373935419358, 70.94713888064261 -11.464843606377126, 71.23024623465692 -10.962157831596507 M70.48472613284407 -12.285904264461589 C70.74509098391503 -11.823600106585042, 71.00545583498598 -11.361295948708493, 71.23024623465692 -10.962157831596507 M71.23024623465692 -10.962157831596507 C71.48795249445558 -10.427025269093933, 71.74565875425426 -9.89189270659136, 71.88942186031144 -9.593365540825921 M71.23024623465692 -10.962157831596507 C71.465642551301 -10.473352343410742, 71.70103886794509 -9.984546855224977, 71.88942186031144 -9.593365540825921 M71.88942186031144 -9.593365540825921 C72.03518968792442 -9.233316188392664, 72.18095751553739 -8.873266835959406, 72.45954431576912 -8.185152053277628 M71.88942186031144 -9.593365540825921 C72.09965300203201 -9.074090556233497, 72.30988414375258 -8.554815571641072, 72.45954431576912 -8.185152053277628 M72.45954431576912 -8.185152053277628 C72.64779958561842 -7.618157174895504, 72.8360548554677 -7.051162296513381, 72.9382708455696 -6.743304020232797 M72.45954431576912 -8.185152053277628 C72.60886557501858 -7.7354202115300295, 72.75818683426803 -7.285688369782431, 72.9382708455696 -6.743304020232797 M72.9382708455696 -6.743304020232797 C73.08453736385766 -6.185526393690397, 73.23080388214574 -5.627748767147997, 73.32363425971542 -5.2737463045346535 M72.9382708455696 -6.743304020232797 C73.08498896997438 -6.183804223840067, 73.23170709437915 -5.624304427447337, 73.32363425971542 -5.2737463045346535 M73.32363425971542 -5.2737463045346535 C73.38559471654041 -4.9555924540855205, 73.44755517336539 -4.6374386036363875, 73.61405101727762 -3.7825176340561533 M73.32363425971542 -5.2737463045346535 C73.39331515495148 -4.915949634559872, 73.46299605018754 -4.55815296458509, 73.61405101727762 -3.7825176340561533 M73.61405101727762 -3.7825176340561533 C73.66487504796059 -3.388336488419031, 73.71569907864358 -2.9941553427819088, 73.80832773350522 -2.2757457872718168 M73.61405101727762 -3.7825176340561533 C73.68589309193813 -3.225324689811581, 73.75773516659862 -2.668131745567009, 73.80832773350522 -2.2757457872718168 M73.80832773350522 -2.2757457872718168 C73.8456622230176 -1.694230977258974, 73.88299671252997 -1.1127161672461314, 73.90566608369899 -0.7596224129016405 M73.80832773350522 -2.2757457872718168 C73.8291036174161 -1.9521446253681909, 73.84987950132698 -1.628543463464565, 73.90566608369899 -0.7596224129016405 M73.90566608369899 -0.7596224129016405 C73.90566608369899 -0.4323541916305023, 73.90566608369899 -0.10508597035936418, 73.90566608369899 0.7596224129016347 M73.90566608369899 -0.7596224129016405 C73.90566608369899 -0.26192332307686406, 73.90566608369899 0.23577576674791234, 73.90566608369899 0.7596224129016347 M73.90566608369899 0.7596224129016347 C73.87875166913678 1.1788361446326707, 73.85183725457455 1.5980498763637068, 73.80832773350522 2.2757457872718008 M73.90566608369899 0.7596224129016347 C73.88533362607572 1.0763168524484186, 73.86500116845247 1.3930112919952027, 73.80832773350522 2.2757457872718008 M73.80832773350522 2.2757457872718008 C73.73504961777888 2.844076382444626, 73.66177150205255 3.4124069776174517, 73.61405101727762 3.782517634056137 M73.80832773350522 2.2757457872718008 C73.74423836805164 2.772810249853113, 73.68014900259804 3.2698747124344254, 73.61405101727762 3.782517634056137 M73.61405101727762 3.782517634056137 C73.5473581913415 4.124971199704343, 73.48066536540539 4.46742476535255, 73.32363425971542 5.273746304534648 M73.61405101727762 3.782517634056137 C73.53894034947093 4.168195038598245, 73.46382968166424 4.553872443140353, 73.32363425971542 5.273746304534648 M73.32363425971542 5.273746304534648 C73.17099182460153 5.855838065273757, 73.01834938948764 6.437929826012867, 72.9382708455696 6.743304020232781 M73.32363425971542 5.273746304534648 C73.22413653164924 5.6531742642391265, 73.12463880358305 6.032602223943606, 72.9382708455696 6.743304020232781 M72.9382708455696 6.743304020232781 C72.76324012722814 7.2704686565194825, 72.58820940888668 7.797633292806185, 72.45954431576914 8.185152053277612 M72.9382708455696 6.743304020232781 C72.78525349140945 7.2041679109586445, 72.63223613724931 7.665031801684507, 72.45954431576914 8.185152053277612 M72.45954431576914 8.185152053277612 C72.2651208465358 8.665381781206019, 72.07069737730245 9.145611509134424, 71.88942186031144 9.593365540825914 M72.45954431576914 8.185152053277612 C72.301607290251 8.575259559812062, 72.14367026473286 8.965367066346513, 71.88942186031144 9.593365540825914 M71.88942186031144 9.593365540825914 C71.65824998400537 10.073398888261247, 71.4270781076993 10.553432235696581, 71.23024623465692 10.962157831596501 M71.88942186031144 9.593365540825914 C71.74761432118518 9.88783193001687, 71.60580678205892 10.182298319207828, 71.23024623465692 10.962157831596501 M71.23024623465692 10.962157831596501 C71.0273082564696 11.322494761566722, 70.82437027828227 11.68283169153694, 70.48472613284409 12.285904264461584 M71.23024623465692 10.962157831596501 C71.02378842204999 11.328744584000619, 70.81733060944306 11.695331336404736, 70.48472613284409 12.285904264461584 M70.48472613284409 12.285904264461584 C70.19746945669512 12.727207658244444, 69.91021278054616 13.168511052027304, 69.65592505688485 13.559165281385784 M70.48472613284409 12.285904264461584 C70.2049616608747 12.715697620686093, 69.92519718890532 13.145490976910603, 69.65592505688485 13.559165281385784 M69.65592505688485 13.559165281385784 C69.41943821636508 13.876036103287907, 69.18295137584529 14.192906925190028, 68.74724872817761 14.77670877973695 M69.65592505688485 13.559165281385784 C69.4084799411499 13.89071919375683, 69.16103482541494 14.222273106127878, 68.74724872817761 14.77670877973695 M68.74724872817761 14.77670877973695 C68.5410706932253 15.018897231454478, 68.33489265827298 15.261085683172006, 67.7624310926675 15.933531612118074 M68.74724872817761 14.77670877973695 C68.42171515341299 15.159099040040624, 68.09618157864837 15.5414893003443, 67.7624310926675 15.933531612118074 M67.7624310926675 15.933531612118074 C67.44298581261148 16.263385090721158, 67.12354053255547 16.59323856932424, 66.70551897726152 17.0248801453732 M67.7624310926675 15.933531612118074 C67.35831013158165 16.35081968338717, 66.95418917049578 16.768107754656263, 66.70551897726152 17.0248801453732 M66.70551897726152 17.0248801453732 C66.36200160910546 17.336853530161033, 66.0184842409494 17.648826914948863, 65.58085546054885 18.046269794285635 M66.70551897726152 17.0248801453732 C66.31381933150612 17.38061139984355, 65.92211968575072 17.736342654313894, 65.58085546054885 18.046269794285635 M65.58085546054885 18.046269794285635 C65.27146026679002 18.293004227956416, 64.9620650730312 18.539738661627194, 64.39306202615917 18.99350344970064 M65.58085546054885 18.046269794285635 C65.16110115545672 18.381012682465432, 64.7413468503646 18.715755570645225, 64.39306202615917 18.99350344970064 M64.39306202615917 18.99350344970064 C63.96715999213075 19.290594271636962, 63.541257958102335 19.58768509357329, 63.14701957209534 19.8626887253471 M64.39306202615917 18.99350344970064 C63.98730799188535 19.27653989920101, 63.58155395761153 19.559576348701373, 63.14701957209534 19.8626887253471 M63.14701957209534 19.8626887253471 C62.687010473414844 20.14154894428074, 62.22700137473435 20.420409163214384, 61.847848354076326 20.650253952487745 M63.14701957209534 19.8626887253471 C62.65022691190073 20.163847355434797, 62.15343425170612 20.465005985522495, 61.847848354076326 20.650253952487745 M61.847848354076326 20.650253952487745 C61.387459538963164 20.890438502439174, 60.92707072385 21.1306230523906, 60.50088694530838 21.352962856672026 M61.847848354076326 20.650253952487745 C61.57196960481209 20.794179719270126, 61.296090855547845 20.93810548605251, 60.50088694530838 21.352962856672026 M60.50088694530838 21.352962856672026 C60.12070969908974 21.5212560460157, 59.74053245287109 21.68954923535938, 59.1116702991424 21.967927856282078 M60.50088694530838 21.352962856672026 C60.02736166154233 21.56257845316679, 59.553836377776285 21.772194049661554, 59.1116702991424 21.967927856282078 M59.1116702991424 21.967927856282078 C58.747848441743756 22.10181766293716, 58.38402658434511 22.235707469592246, 57.685907004763536 22.492621928224914 M59.1116702991424 21.967927856282078 C58.72227876604502 22.11122753995779, 58.33288723294764 22.254527223633495, 57.685907004763536 22.492621928224914 M57.685907004763536 22.492621928224914 C57.38785735141871 22.5810815008431, 57.089807698073884 22.669541073461293, 56.229455829373656 22.924888992012406 M57.685907004763536 22.492621928224914 C57.1074620778276 22.66430134622012, 56.529017150891654 22.835980764215325, 56.229455829373656 22.924888992012406 M56.229455829373656 22.924888992012406 C55.82765416104291 23.016597600807977, 55.42585249271215 23.108306209603548, 54.74830164326021 23.262952769558456 M56.229455829373656 22.924888992012406 C55.68983725590403 23.048053410066572, 55.1502186824344 23.171217828120735, 54.74830164326021 23.262952769558456 M54.74830164326021 23.262952769558456 C54.157888990981526 23.358406108460372, 53.56747633870284 23.453859447362287, 53.24853082668056 23.505424084286663 M54.74830164326021 23.262952769558456 C54.44119649505274 23.312603148284644, 54.134091346845274 23.362253527010836, 53.24853082668056 23.505424084286663 M53.24853082668056 23.505424084286663 C52.708408966974396 23.55752899050094, 52.168287107268235 23.60963389671522, 51.736306259619816 23.651306569554883 M53.24853082668056 23.505424084286663 C52.75656862945459 23.552883085781946, 52.264606432228625 23.600342087277227, 51.736306259619816 23.651306569554883 M51.736306259619816 23.651306569554883 C51.42477755385096 23.66129668879505, 51.1132488480821 23.671286808035216, 50.21784199719523 23.700000762939453 M51.736306259619816 23.651306569554883 C51.15229997499327 23.670034514403582, 50.568293690366716 23.68876245925228, 50.21784199719523 23.700000762939453 M50.21784199719523 23.700000762939453 C50.21784199719523 23.700000762939453, 50.21784199719522 23.700000762939453, 50.21784199719522 23.700000762939453 M50.21784199719523 23.700000762939453 C50.21784199719523 23.700000762939453, 50.21784199719522 23.700000762939453, 50.21784199719522 23.700000762939453 M50.21784199719522 23.700000762939453 C20.495161085872436 23.700000762939453, -9.22751982545035 23.700000762939453, -50.217841997195215 23.700000762939453 M50.21784199719522 23.700000762939453 C26.979190750724577 23.700000762939453, 3.740539504253931 23.700000762939453, -50.217841997195215 23.700000762939453 M-50.217841997195215 23.700000762939453 C-50.672140675684886 23.685432288559024, -51.12643935417456 23.670863814178595, -51.73630625961981 23.651306569554883 M-50.217841997195215 23.700000762939453 C-50.76193178050918 23.68255286259509, -51.306021563823144 23.66510496225073, -51.73630625961981 23.651306569554883 M-51.73630625961981 23.651306569554883 C-52.20528031242632 23.606065206704457, -52.67425436523283 23.56082384385403, -53.24853082668055 23.505424084286663 M-51.73630625961981 23.651306569554883 C-52.26527436613475 23.60027765249661, -52.79424247264968 23.54924873543834, -53.24853082668055 23.505424084286663 M-53.24853082668055 23.505424084286663 C-53.56523647142258 23.45422157173373, -53.8819421161646 23.403019059180796, -54.748301643260206 23.262952769558456 M-53.24853082668055 23.505424084286663 C-53.634389935048 23.44304137602789, -54.020249043415454 23.38065866776912, -54.748301643260206 23.262952769558456 M-54.748301643260206 23.262952769558456 C-55.114722682219764 23.179319558536676, -55.48114372117933 23.0956863475149, -56.22945582937363 22.924888992012413 M-54.748301643260206 23.262952769558456 C-55.109559951981055 23.1804979180237, -55.470818260701904 23.098043066488945, -56.22945582937363 22.924888992012413 M-56.22945582937363 22.924888992012413 C-56.62649450746964 22.80704999645207, -57.023533185565654 22.68921100089172, -57.685907004763514 22.492621928224924 M-56.22945582937363 22.924888992012413 C-56.70307019970505 22.784322732950606, -57.17668457003648 22.643756473888804, -57.685907004763514 22.492621928224924 M-57.685907004763514 22.492621928224924 C-58.13371504895779 22.327824428469246, -58.58152309315207 22.16302692871357, -59.111670299142396 21.967927856282078 M-57.685907004763514 22.492621928224924 C-58.06764151751318 22.35214009881789, -58.44937603026285 22.21165826941086, -59.111670299142396 21.967927856282078 M-59.111670299142396 21.967927856282078 C-59.479345046834766 21.80516915216254, -59.84701979452714 21.642410448043, -60.500886945308366 21.352962856672033 M-59.111670299142396 21.967927856282078 C-59.62903744545657 21.738904767759905, -60.14640459177074 21.509881679237733, -60.500886945308366 21.352962856672033 M-60.500886945308366 21.352962856672033 C-60.97364531730099 21.10632511681967, -61.446403689293625 20.8596873769673, -61.84784835407632 20.65025395248775 M-60.500886945308366 21.352962856672033 C-60.95508463792867 21.116008211359524, -61.409282330548976 20.879053566047016, -61.84784835407632 20.65025395248775 M-61.84784835407632 20.65025395248775 C-62.20813803923949 20.43184422804463, -62.56842772440266 20.21343450360151, -63.14701957209531 19.862688725347112 M-61.84784835407632 20.65025395248775 C-62.187336300169 20.444454364513746, -62.52682424626168 20.238654776539747, -63.14701957209531 19.862688725347112 M-63.14701957209531 19.862688725347112 C-63.459362227465924 19.644812010056203, -63.77170488283654 19.42693529476529, -64.39306202615916 18.993503449700643 M-63.14701957209531 19.862688725347112 C-63.53057850796291 19.5951346156846, -63.914137443830505 19.32758050602209, -64.39306202615916 18.993503449700643 M-64.39306202615916 18.993503449700643 C-64.77038893630916 18.692595279946797, -65.14771584645916 18.39168711019295, -65.58085546054882 18.046269794285653 M-64.39306202615916 18.993503449700643 C-64.72111763720818 18.73188782981549, -65.0491732482572 18.47027220993034, -65.58085546054882 18.046269794285653 M-65.58085546054882 18.046269794285653 C-65.81893463893942 17.830052583701185, -66.05701381733002 17.613835373116714, -66.7055189772615 17.024880145373213 M-65.58085546054882 18.046269794285653 C-65.99982698175819 17.665770944102295, -66.41879850296756 17.285272093918937, -66.7055189772615 17.024880145373213 M-66.7055189772615 17.024880145373213 C-67.01404930856314 16.70629724749298, -67.3225796398648 16.387714349612747, -67.7624310926675 15.933531612118081 M-66.7055189772615 17.024880145373213 C-66.95862259071589 16.763529884288445, -67.21172620417026 16.502179623203673, -67.7624310926675 15.933531612118081 M-67.7624310926675 15.933531612118081 C-67.96335325420283 15.69751700838381, -68.16427541573816 15.461502404649542, -68.74724872817761 14.776708779736957 M-67.7624310926675 15.933531612118081 C-68.0292360468397 15.620127331315445, -68.2960410010119 15.306723050512808, -68.74724872817761 14.776708779736957 M-68.74724872817761 14.776708779736957 C-68.96425297037602 14.485942864684246, -69.18125721257444 14.195176949631533, -69.65592505688484 13.5591652813858 M-68.74724872817761 14.776708779736957 C-68.94858756313377 14.506933083240904, -69.14992639808993 14.23715738674485, -69.65592505688484 13.5591652813858 M-69.65592505688484 13.5591652813858 C-69.91880388278055 13.155312811961297, -70.18168270867628 12.751460342536793, -70.48472613284407 12.2859042644616 M-69.65592505688484 13.5591652813858 C-69.95927211881448 13.09314273417026, -70.26261918074412 12.627120186954722, -70.48472613284407 12.2859042644616 M-70.48472613284407 12.2859042644616 C-70.6822276548546 11.935220312934172, -70.87972917686513 11.584536361406744, -71.23024623465692 10.962157831596508 M-70.48472613284407 12.2859042644616 C-70.77001883366077 11.779338185142985, -71.05531153447747 11.272772105824371, -71.23024623465692 10.962157831596508 M-71.23024623465692 10.962157831596508 C-71.4030595173653 10.603307352440646, -71.57587280007368 10.244456873284783, -71.88942186031144 9.593365540825925 M-71.23024623465692 10.962157831596508 C-71.48977437072548 10.423242104037582, -71.74930250679407 9.884326376478656, -71.88942186031144 9.593365540825925 M-71.88942186031144 9.593365540825925 C-72.06940133460314 9.148812759659007, -72.24938080889484 8.70425997849209, -72.45954431576912 8.18515205327763 M-71.88942186031144 9.593365540825925 C-72.01790477069437 9.276010268132001, -72.1463876810773 8.958654995438076, -72.45954431576912 8.18515205327763 M-72.45954431576912 8.18515205327763 C-72.59033415777243 7.791233887695048, -72.72112399977574 7.397315722112467, -72.9382708455696 6.743304020232791 M-72.45954431576912 8.18515205327763 C-72.6089045097068 7.735302946452504, -72.75826470364449 7.285453839627378, -72.9382708455696 6.743304020232791 M-72.9382708455696 6.743304020232791 C-73.03419099309026 6.377518925681596, -73.13011114061094 6.0117338311304, -73.3236342597154 5.273746304534657 M-72.9382708455696 6.743304020232791 C-73.05012893177822 6.3167406579181105, -73.16198701798683 5.89017729560343, -73.3236342597154 5.273746304534657 M-73.3236342597154 5.273746304534657 C-73.40673767666158 4.847027822429449, -73.48984109360775 4.420309340324241, -73.61405101727762 3.7825176340561555 M-73.3236342597154 5.273746304534657 C-73.41794912962469 4.789459381005287, -73.51226399953399 4.305172457475916, -73.61405101727762 3.7825176340561555 M-73.61405101727762 3.7825176340561555 C-73.66238727824539 3.4076311390644225, -73.71072353921316 3.03274464407269, -73.80832773350521 2.2757457872718305 M-73.61405101727762 3.7825176340561555 C-73.6598289152445 3.4274732972934623, -73.70560681321138 3.0724289605307695, -73.80832773350521 2.2757457872718305 M-73.80832773350521 2.2757457872718305 C-73.83190068977707 1.908577965589858, -73.85547364604892 1.5414101439078856, -73.90566608369899 0.7596224129016435 M-73.80832773350521 2.2757457872718305 C-73.82850831204634 1.961416987023958, -73.84868889058747 1.6470881867760852, -73.90566608369899 0.7596224129016435 M-73.90566608369899 0.7596224129016435 C-73.90566608369899 0.4058928776450151, -73.90566608369899 0.05216334238838671, -73.90566608369899 -0.7596224129016319 M-73.90566608369899 0.7596224129016435 C-73.90566608369899 0.37142659615890955, -73.90566608369899 -0.01676922058382435, -73.90566608369899 -0.7596224129016319 M-73.90566608369899 -0.7596224129016319 C-73.88310414942934 -1.1110427508169518, -73.8605422151597 -1.4624630887322718, -73.80832773350522 -2.2757457872717977 M-73.90566608369899 -0.7596224129016319 C-73.87684895368234 -1.2084724736796335, -73.84803182366569 -1.6573225344576352, -73.80832773350522 -2.2757457872717977 M-73.80832773350522 -2.2757457872717977 C-73.75364772322484 -2.6998331492170924, -73.69896771294445 -3.123920511162387, -73.61405101727762 -3.7825176340561444 M-73.80832773350522 -2.2757457872717977 C-73.73998320627334 -2.8058124443288746, -73.67163867904145 -3.3358791013859515, -73.61405101727762 -3.7825176340561444 M-73.61405101727762 -3.7825176340561444 C-73.50339601967954 -4.350707659780256, -73.39274102208147 -4.918897685504368, -73.32363425971542 -5.2737463045346455 M-73.61405101727762 -3.7825176340561444 C-73.49954288004909 -4.370492717421278, -73.38503474282057 -4.958467800786413, -73.32363425971542 -5.2737463045346455 M-73.32363425971542 -5.2737463045346455 C-73.19014723098364 -5.782790198733106, -73.05666020225186 -6.291834092931566, -72.9382708455696 -6.743304020232778 M-73.32363425971542 -5.2737463045346455 C-73.1862361921294 -5.797704684939274, -73.0488381245434 -6.321663065343901, -72.9382708455696 -6.743304020232778 M-72.9382708455696 -6.743304020232778 C-72.78566451322693 -7.202929978731846, -72.63305818088425 -7.6625559372309135, -72.45954431576914 -8.1851520532776 M-72.9382708455696 -6.743304020232778 C-72.83890652490811 -7.042573522510661, -72.73954220424662 -7.341843024788545, -72.45954431576914 -8.1851520532776 M-72.45954431576914 -8.1851520532776 C-72.32923074625623 -8.507029089415942, -72.19891717674332 -8.828906125554287, -71.88942186031144 -9.593365540825912 M-72.45954431576914 -8.1851520532776 C-72.33765169843589 -8.486229174724151, -72.21575908110265 -8.787306296170703, -71.88942186031144 -9.593365540825912 M-71.88942186031144 -9.593365540825912 C-71.69673908154421 -9.993475453687092, -71.50405630277697 -10.393585366548272, -71.23024623465692 -10.962157831596498 M-71.88942186031144 -9.593365540825912 C-71.68133349658822 -10.02546548047491, -71.473245132865 -10.457565420123906, -71.23024623465692 -10.962157831596498 M-71.23024623465692 -10.962157831596498 C-71.02613965082583 -11.324569739221378, -70.82203306699473 -11.686981646846258, -70.48472613284407 -12.28590426446159 M-71.23024623465692 -10.962157831596498 C-71.07323519743558 -11.24094682727454, -70.91622416021424 -11.519735822952581, -70.48472613284407 -12.28590426446159 M-70.48472613284407 -12.28590426446159 C-70.1785810639339 -12.7562253017693, -69.87243599502375 -13.226546339077007, -69.65592505688485 -13.559165281385793 M-70.48472613284407 -12.28590426446159 C-70.24175095847897 -12.659179380256287, -69.99877578411386 -13.032454496050983, -69.65592505688485 -13.559165281385793 M-69.65592505688485 -13.559165281385793 C-69.3471918221293 -13.972839689781926, -69.03845858737377 -14.38651409817806, -68.74724872817762 -14.77670877973695 M-69.65592505688485 -13.559165281385793 C-69.40760081869001 -13.891897137763388, -69.15927658049517 -14.224628994140984, -68.74724872817762 -14.77670877973695 M-68.74724872817762 -14.77670877973695 C-68.48669934180548 -15.082764914649756, -68.22614995543331 -15.38882104956256, -67.7624310926675 -15.933531612118074 M-68.74724872817762 -14.77670877973695 C-68.47643728476604 -15.094819310775867, -68.20562584135445 -15.412929841814785, -67.7624310926675 -15.933531612118074 M-67.7624310926675 -15.933531612118074 C-67.37389440830691 -16.334727638175416, -66.98535772394632 -16.73592366423276, -66.70551897726153 -17.024880145373192 M-67.7624310926675 -15.933531612118074 C-67.52490286192432 -16.17879901179083, -67.28737463118114 -16.424066411463585, -66.70551897726153 -17.024880145373192 M-66.70551897726153 -17.024880145373192 C-66.42890754066217 -17.276091333355176, -66.1522961040628 -17.527302521337162, -65.58085546054885 -18.04626979428563 M-66.70551897726153 -17.024880145373192 C-66.44568772479259 -17.260852014107265, -66.18585647232366 -17.496823882841337, -65.58085546054885 -18.04626979428563 M-65.58085546054885 -18.04626979428563 C-65.16063316730539 -18.381385890562424, -64.74041087406194 -18.716501986839216, -64.39306202615917 -18.993503449700636 M-65.58085546054885 -18.04626979428563 C-65.23977952982314 -18.318268772627686, -64.89870359909742 -18.59026775096974, -64.39306202615917 -18.993503449700636 M-64.39306202615917 -18.993503449700636 C-64.0616215860732 -19.2247019528792, -63.73018114598724 -19.45590045605777, -63.14701957209534 -19.862688725347095 M-64.39306202615917 -18.993503449700636 C-63.940867417064915 -19.30893483381566, -63.48867280797066 -19.62436621793068, -63.14701957209534 -19.862688725347095 M-63.14701957209534 -19.862688725347095 C-62.8591419422324 -20.037201836326744, -62.57126431236945 -20.211714947306398, -61.84784835407633 -20.65025395248774 M-63.14701957209534 -19.862688725347095 C-62.77437560470072 -20.088587688280736, -62.40173163730611 -20.314486651214377, -61.84784835407633 -20.65025395248774 M-61.84784835407633 -20.65025395248774 C-61.44443561246354 -20.86071412138894, -61.04102287085076 -21.071174290290138, -60.50088694530838 -21.352962856672026 M-61.84784835407633 -20.65025395248774 C-61.392847163808604 -20.887627782008245, -60.937845973540874 -21.12500161152875, -60.50088694530838 -21.352962856672026 M-60.50088694530838 -21.352962856672026 C-59.95974891744954 -21.592508609315875, -59.418610889590695 -21.832054361959727, -59.1116702991424 -21.967927856282074 M-60.50088694530838 -21.352962856672026 C-60.12235508489981 -21.520527682526218, -59.74382322449124 -21.68809250838041, -59.1116702991424 -21.967927856282074 M-59.1116702991424 -21.967927856282074 C-58.58798352495281 -22.16064943009132, -58.06429675076322 -22.353371003900563, -57.68590700476354 -22.492621928224914 M-59.1116702991424 -21.967927856282074 C-58.82291380186796 -22.074192916514868, -58.53415730459352 -22.180457976747665, -57.68590700476354 -22.492621928224914 M-57.68590700476354 -22.492621928224914 C-57.31350212465006 -22.60314974184949, -56.94109724453657 -22.713677555474067, -56.22945582937366 -22.924888992012402 M-57.68590700476354 -22.492621928224914 C-57.39406117754332 -22.579240237813867, -57.1022153503231 -22.66585854740282, -56.22945582937366 -22.924888992012402 M-56.22945582937366 -22.924888992012402 C-55.70134399521423 -23.045427071907508, -55.17323216105479 -23.165965151802613, -54.74830164326021 -23.262952769558453 M-56.22945582937366 -22.924888992012402 C-55.780601562114754 -23.02733704946642, -55.331747294855845 -23.12978510692044, -54.74830164326021 -23.262952769558453 M-54.74830164326021 -23.262952769558453 C-54.42567608078946 -23.31511236850012, -54.10305051831871 -23.367271967441788, -53.248530826680565 -23.505424084286663 M-54.74830164326021 -23.262952769558453 C-54.33550532968792 -23.3296904762536, -53.922709016115626 -23.396428182948746, -53.248530826680565 -23.505424084286663 M-53.248530826680565 -23.505424084286663 C-52.72168615872507 -23.556248155780914, -52.19484149076957 -23.607072227275165, -51.736306259619816 -23.651306569554883 M-53.248530826680565 -23.505424084286663 C-52.77149406100084 -23.551443247351138, -52.29445729532111 -23.597462410415613, -51.736306259619816 -23.651306569554883 M-51.736306259619816 -23.651306569554883 C-51.318851299348054 -23.664693537604013, -50.9013963390763 -23.67808050565314, -50.21784199719523 -23.700000762939453 M-51.736306259619816 -23.651306569554883 C-51.346440142089236 -23.663808817115726, -50.956574024558655 -23.676311064676568, -50.21784199719523 -23.700000762939453 M-50.21784199719523 -23.700000762939453 C-50.21784199719523 -23.700000762939453, -50.21784199719522 -23.700000762939453, -50.21784199719522 -23.700000762939453 M-50.21784199719523 -23.700000762939453 C-50.21784199719523 -23.700000762939453, -50.21784199719523 -23.700000762939453, -50.21784199719522 -23.700000762939453"
+							stroke="#0052ff" stroke-width="1.3" fill="none" stroke-dasharray="0 0" style="" />
+					</g>
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										post-execute</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">terminal
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> call
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-DET-1"
+					data-look="classic" transform="translate(303.1941375732422, 203.6800067901611)">
+					<rect class="basic label-container" style="" x="-103.3828125" y="-31.200000762939453"
+						width="206.765625" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">detect
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">normalize
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> rows
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> craft
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-CLS-2"
+					data-look="classic" transform="translate(540.2019500732422, 203.6800067901611)">
+					<rect class="basic label-container" style="" x="-93.625" y="-38.89999961853027" width="187.25"
+						height="77.79999923706055" />
+					<g class="label" style="" transform="translate(0, -23.899999618530273)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">classify
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">write
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> read
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> search
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="2.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">discovery
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> control
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-EXE-3"
+					data-look="classic" transform="translate(765.0269546508789, 203.6800067901611)">
+					<polygon
+						points="91.20000076293945,0 182.4000015258789,-91.20000076293945 91.20000076293945,-182.4000015258789 0,-91.20000076293945"
+						class="label-container" transform="translate(-90.70000076293945, 91.20000076293945)" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">exempt
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">head?
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-T0-4"
+					data-look="classic" transform="translate(1046.3675842285156, 277.40000915527344)">
+					<rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180"
+						height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tier
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 0</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">offense
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> line
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-G1-5"
+					data-look="classic" transform="translate(1287.5675888061523, 166.20000457763672)">
+					<polygon
+						points="91.20000076293945,0 182.4000015258789,-91.20000076293945 91.20000076293945,-182.4000015258789 0,-91.20000076293945"
+						class="label-container" transform="translate(-90.70000076293945, 91.20000076293945)" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">3</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> strikes
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">in</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 8?</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-NOTE-6"
+					data-look="classic" transform="translate(1574.970718383789, 166.20000457763672)">
+					<rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180"
+						height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tier
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 1</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">notice
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> +</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> live
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> tool
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-G2-7"
+					data-look="classic" transform="translate(1287.5675888061523, 388.60001373291016)">
+					<polygon
+						points="91.20000076293945,0 182.4000015258789,-91.20000076293945 91.20000076293945,-182.4000015258789 0,-91.20000076293945"
+						class="label-container" transform="translate(-90.70000076293945, 91.20000076293945)" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">6</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> since
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">last
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> note?
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-SEC-8"
+					data-look="classic" transform="translate(1574.970718383789, 388.60001373291016)">
+					<rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180"
+						height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tier
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 2</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">persistent
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> section
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-G3-9"
+					data-look="classic" transform="translate(1287.5675888061523, 611.0000228881836)">
+					<polygon
+						points="91.20000076293945,0 182.4000015258789,-91.20000076293945 91.20000076293945,-182.4000015258789 0,-91.20000076293945"
+						class="label-container" transform="translate(-90.70000076293945, 91.20000076293945)" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">enforce
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> and
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">4</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> strikes?
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default fail" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-DENY-10"
+					data-look="classic" transform="translate(1574.970718383789, 611.0000228881836)">
+					<rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180"
+						height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">tier
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 3</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">deny
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> with
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> reason
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default store" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-LED-11"
+					data-look="classic" transform="translate(1792.470718383789, 80.49112389882407)">
+					<path
+						d="M0,12.98076923076923 a67.5,12.98076923076923 0,0,0 135,0 a67.5,12.98076923076923 0,0,0 -135,0 l0,75.78076846782977 a67.5,12.98076923076923 0,0,0 135,0 l0,-75.78076846782977"
+						class="basic label-container outer-path" style=""
+						transform="translate(-67.5, -50.87115346468411)" />
+					<g class="label" style="" transform="translate(0, -13.90000057220459)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">~/.dsh/
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										hook-dsh-tool-</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="2.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">coach.log
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default host" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-SP-12"
+					data-look="classic" transform="translate(1837.384780883789, 388.60001373291016)">
+					<rect class="basic label-container" style="" x="-112.4140625" y="-31.200000762939453"
+						width="224.828125" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										system-prompt/assemble</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">appended
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> section
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default host" id="dsh-diagram-04-guardians-Classic-tool-coach-flowchart-PRE-13"
+					data-look="classic" transform="translate(1814.970718383789, 611.0000228881836)">
+					<rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180"
+						height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										tools/pre-execute</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">blocked
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> call
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<defs>
+		<filter id="dsh-diagram-04-guardians-Classic-tool-coach-drop-shadow" height="130%" width="130%">
+			<feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000" />
+		</filter>
+	</defs>
+	<defs>
+		<filter id="dsh-diagram-04-guardians-Classic-tool-coach-drop-shadow-small" height="150%" width="150%">
+			<feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000" />
+		</filter>
+	</defs>
+</svg>

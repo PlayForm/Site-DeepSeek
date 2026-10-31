@@ -7,6 +7,7 @@ import { Route } from "@Library/Link";
 // bookmark at the exact anchor before the page paints; the button is the
 // visible link for a client that blocks the refresh and for a crawler.
 ---
+
 <Base Title="Tool call" Description="One tool call moved to the harness page, at /harness/#call.">
 	<Fragment slot="Head">
 		<meta http-equiv="refresh" content={`0; url=${Route.Harness}#call`} />
@@ -17,7 +18,9 @@ import { Route } from "@Library/Link";
 			call as participants and as a lifecycle.
 		</Fragment>
 		<Fragment slot="Actions">
-			<a class="button" href={`${Route.Harness}#call`}>Read the call</a>
+			<a class="button" href={`${Route.Harness}#call`}>
+				Read the call
+			</a>
 		</Fragment>
 	</PageHero>
 </Base>

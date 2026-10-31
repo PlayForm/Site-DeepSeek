@@ -67,8 +67,7 @@
 	}
 
 	&:hover &__card {
-		transform:
-			translateX(calc((var(--index) - (var(--count) - 1) / 2) * var(--spread)))
+		transform: translateX(calc((var(--index) - (var(--count) - 1) / 2) * var(--spread)))
 			rotate(calc((var(--index) - (var(--count) - 1) / 2) * 4deg));
 	}
 

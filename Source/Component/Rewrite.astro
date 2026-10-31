@@ -132,55 +132,51 @@ const Entry = Rewrite[Slug] ?? Rewrite[Slug.replace(/^ets-/, "")];
 // the markup, because the comparison belongs to the site's own Difference
 // library and the markup only draws it.
 const Diff =
-	Entry !== undefined && Entry.Mode === "pair"
-		? Compare(Entry.Before, Entry.After)
-		: undefined;
+	Entry !== undefined && Entry.Mode === "pair" ? Compare(Entry.Before, Entry.After) : undefined;
 ---
 
-{
-	Entry !== undefined && (
-		<div class="rewrite" role="img" aria-label={`What ${Slug} changes in the payload`}>
-			{Entry.Mode === "pair" && Diff !== undefined && (
-				<ol class="rewrite__pair">
-					<li class="rewrite__row">
-						<span class="rewrite__label">{Entry.Label[0]}</span>
-						<span class="rewrite__text">
-							{Diff.Prefix}
-							<mark class="rewrite__mark">{Diff.Before}</mark>
-							{Diff.Suffix}
-						</span>
-					</li>
-					<li class="rewrite__row">
-						<span class="rewrite__label">{Entry.Label[1]}</span>
-						<span class="rewrite__text">
-							{Diff.Prefix}
-							<mark class="rewrite__mark rewrite__mark--after">{Diff.After}</mark>
-							{Diff.Suffix}
-						</span>
-					</li>
-				</ol>
-			)}
-			{Entry.Mode === "class" && (
-				<div class="rewrite__split">
-					<div class="rewrite__side">
-						<span class="rewrite__label">{Entry.Label[0]}</span>
-						<ul class="rewrite__list">
-							{Entry.Before.map((Item) => (
-								<li class="rewrite__item">{Item}</li>
-							))}
-						</ul>
-					</div>
-					<div class="rewrite__side">
-						<span class="rewrite__label">{Entry.Label[1]}</span>
-						<ul class="rewrite__list">
-							{Entry.After.map((Item) => (
-								<li class="rewrite__item">{Item}</li>
-							))}
-						</ul>
-					</div>
+{Entry !== undefined && (
+	<div class="rewrite" role="img" aria-label={`What ${Slug} changes in the payload`}>
+		{Entry.Mode === "pair" && Diff !== undefined && (
+			<ol class="rewrite__pair">
+				<li class="rewrite__row">
+					<span class="rewrite__label">{Entry.Label[0]}</span>
+					<span class="rewrite__text">
+						{Diff.Prefix}
+						<mark class="rewrite__mark">{Diff.Before}</mark>
+						{Diff.Suffix}
+					</span>
+				</li>
+				<li class="rewrite__row">
+					<span class="rewrite__label">{Entry.Label[1]}</span>
+					<span class="rewrite__text">
+						{Diff.Prefix}
+						<mark class="rewrite__mark rewrite__mark--after">{Diff.After}</mark>
+						{Diff.Suffix}
+					</span>
+				</li>
+			</ol>
+		)}
+		{Entry.Mode === "class" && (
+			<div class="rewrite__split">
+				<div class="rewrite__side">
+					<span class="rewrite__label">{Entry.Label[0]}</span>
+					<ul class="rewrite__list">
+						{Entry.Before.map((Item) => (
+							<li class="rewrite__item">{Item}</li>
+						))}
+					</ul>
 				</div>
-			)}
-			<p class="rewrite__note">{Entry.Note}</p>
-		</div>
-	)
-}
+				<div class="rewrite__side">
+					<span class="rewrite__label">{Entry.Label[1]}</span>
+					<ul class="rewrite__list">
+						{Entry.After.map((Item) => (
+							<li class="rewrite__item">{Item}</li>
+						))}
+					</ul>
+				</div>
+			</div>
+		)}
+		<p class="rewrite__note">{Entry.Note}</p>
+	</div>
+)}

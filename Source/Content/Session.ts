@@ -157,7 +157,7 @@ export const Record: Entry[] = [
 		Step: 1,
 		Kind: "context",
 		Name: "context/assemble",
-		Payload: "{\"sections\":9,\"tools\":14}",
+		Payload: '{"sections":9,"tools":14}',
 		Dispatch: "waterfall",
 		Default: {
 			Result: "system prompt assembled: 9 sections, 14 tool schemas, 24,812 chars",
@@ -172,7 +172,7 @@ export const Record: Entry[] = [
 		Step: 1,
 		Kind: "context",
 		Name: "context/recall",
-		Payload: "{\"query\":\"session view\",\"hits\":3}",
+		Payload: '{"query":"session view","hits":3}',
 		Dispatch: "parallel",
 		Default: {
 			Result: "3 journal entries recalled: the trace page, the session view, and the lane strip",
@@ -187,7 +187,7 @@ export const Record: Entry[] = [
 		Step: 1,
 		Kind: "tool",
 		Name: "read",
-		Payload: "{\"file_path\":\"Temporary/Corca/Curated/Components.md\"}",
+		Payload: '{"file_path":"Temporary/Corca/Curated/Components.md"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "the components file: the line, the gutter, the chip, and the card, measured",
@@ -196,8 +196,7 @@ export const Record: Entry[] = [
 			State: "ok",
 		},
 		Family: {
-			Result:
-				"the components file: the line, the gutter, the chip, and the card, measured\n\ndoc-suggester: the line and gutter anatomy is documented in Components.md; read it before the document.",
+			Result: "the components file: the line, the gutter, the chip, and the card, measured\n\ndoc-suggester: the line and gutter anatomy is documented in Components.md; read it before the document.",
 			Size: 196,
 			Took: 30,
 			State: "noted",
@@ -212,7 +211,7 @@ export const Record: Entry[] = [
 		Step: 1,
 		Kind: "tool",
 		Name: "read",
-		Payload: "{\"file_path\":\"Temporary/Corca/Curated/Trace-UX-Model.md\"}",
+		Payload: '{"file_path":"Temporary/Corca/Curated/Trace-UX-Model.md"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "the trace model: the session as a tree, a document, and an inspector",
@@ -228,11 +227,10 @@ export const Record: Entry[] = [
 		Kind: "assistant",
 		Name: "assistant/message",
 		Payload:
-			"{\"text\":\"The specimens name four machines: a lane for time, a tree for turns and steps, a document for records, and an inspector for the selected record.\"}",
+			'{"text":"The specimens name four machines: a lane for time, a tree for turns and steps, a document for records, and an inspector for the selected record."}',
 		Dispatch: "emit",
 		Default: {
-			Result:
-				"The specimens name four machines: a lane for time, a tree for turns and steps, a document for records, and an inspector for the selected record.",
+			Result: "The specimens name four machines: a lane for time, a tree for turns and steps, a document for records, and an inspector for the selected record.",
 			Size: 146,
 			Took: 1240,
 			State: "ok",
@@ -244,7 +242,7 @@ export const Record: Entry[] = [
 		Step: 2,
 		Kind: "tool",
 		Name: "bash",
-		Payload: "{\"command\":\"ls Source\",\"description\":\"List the source folders\"}",
+		Payload: '{"command":"ls Source","description":"List the source folders"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "Source/Component\nSource/Content\nSource/Layout\nSource/Library\nSource/Stylesheet",
@@ -259,11 +257,10 @@ export const Record: Entry[] = [
 		Step: 2,
 		Kind: "tool",
 		Name: "bash",
-		Payload: "{\"command\":\"rg -n trace-page Source\",\"description\":\"Find the trace page wiring\"}",
+		Payload: '{"command":"rg -n trace-page Source","description":"Find the trace page wiring"}',
 		Dispatch: "serial",
 		Default: {
-			Result:
-				"Source/pages/trace.astro:99: section trace-page__section\nSource/Stylesheet/Component/TracePage.scss:1",
+			Result: "Source/pages/trace.astro:99: section trace-page__section\nSource/Stylesheet/Component/TracePage.scss:1",
 			Size: 99,
 			Took: 48,
 			State: "ok",
@@ -275,7 +272,7 @@ export const Record: Entry[] = [
 		Step: 2,
 		Kind: "tool",
 		Name: "grep",
-		Payload: "{\"pattern\":\"InspectorLive\",\"path\":\"Source\"}",
+		Payload: '{"pattern":"InspectorLive","path":"Source"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "Source/Component/InspectorLive.tsx\nSource/pages/trace.astro",
@@ -290,7 +287,7 @@ export const Record: Entry[] = [
 		Step: 2,
 		Kind: "tool",
 		Name: "read",
-		Payload: "{\"file_path\":\"Source/Component/InspectorLive.tsx\"}",
+		Payload: '{"file_path":"Source/Component/InspectorLive.tsx"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "the inspector: a signal, a document-level click, and a radio group of tabs",
@@ -306,11 +303,10 @@ export const Record: Entry[] = [
 		Kind: "assistant",
 		Name: "assistant/message",
 		Payload:
-			"{\"text\":\"The inspector already listens for a click on a data-seq line. The new record shape can keep that listener and add the family face.\"}",
+			'{"text":"The inspector already listens for a click on a data-seq line. The new record shape can keep that listener and add the family face."}',
 		Dispatch: "emit",
 		Default: {
-			Result:
-				"The inspector already listens for a click on a data-seq line. The new record shape can keep that listener and add the family face.",
+			Result: "The inspector already listens for a click on a data-seq line. The new record shape can keep that listener and add the family face.",
 			Size: 133,
 			Took: 1460,
 			State: "ok",
@@ -322,7 +318,7 @@ export const Record: Entry[] = [
 		Step: 3,
 		Kind: "tool",
 		Name: "write",
-		Payload: "{\"file_path\":\"Source/pages/trace.astro\",\"content\":\"<the session view>\"}",
+		Payload: '{"file_path":"Source/pages/trace.astro","content":"<the session view>"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "wrote 12,884 bytes to Source/pages/trace.astro",
@@ -349,7 +345,7 @@ export const Record: Entry[] = [
 		Step: 3,
 		Kind: "tool",
 		Name: "read",
-		Payload: "{\"file_path\":\"Source/pages/trace.astro\"}",
+		Payload: '{"file_path":"Source/pages/trace.astro"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "the current trace page: seven sections, one record list, one inspector",
@@ -364,7 +360,8 @@ export const Record: Entry[] = [
 		Step: 3,
 		Kind: "tool",
 		Name: "write",
-		Payload: "{\"file_path\":\"Source/pages/trace.astro\",\"content\":\"<the session view, now read>\"}",
+		Payload:
+			'{"file_path":"Source/pages/trace.astro","content":"<the session view, now read>"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "wrote 12,884 bytes to Source/pages/trace.astro",
@@ -380,11 +377,10 @@ export const Record: Entry[] = [
 		Kind: "assistant",
 		Name: "assistant/message",
 		Payload:
-			"{\"text\":\"The page now renders the session view. The next pass writes the data and runs the check.\"}",
+			'{"text":"The page now renders the session view. The next pass writes the data and runs the check."}',
 		Dispatch: "emit",
 		Default: {
-			Result:
-				"The page now renders the session view. The next pass writes the data and runs the check.",
+			Result: "The page now renders the session view. The next pass writes the data and runs the check.",
 			Size: 91,
 			Took: 1180,
 			State: "ok",
@@ -396,7 +392,7 @@ export const Record: Entry[] = [
 		Step: 4,
 		Kind: "system",
 		Name: "request/header",
-		Payload: "{\"model\":\"deepseek-v4.1-flash\",\"effort\":\"max\",\"tools\":14}",
+		Payload: '{"model":"deepseek-v4.1-flash","effort":"max","tools":14}',
 		Dispatch: "parallel",
 		Default: {
 			Result: "deepseek-v4.1-flash, effort max, 14 tools, 24,812 prompt chars",
@@ -412,7 +408,7 @@ export const Record: Entry[] = [
 		Kind: "tool",
 		Name: "edit",
 		Payload:
-			"{\"file_path\":\"Source/pages/trace.astro\",\"old_string\":\"<Trace Record={Record} />\",\"new_string\":\"<SessionView />\"}",
+			'{"file_path":"Source/pages/trace.astro","old_string":"<Trace Record={Record} />","new_string":"<SessionView />"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "edited Source/pages/trace.astro: 1 replacement",
@@ -428,7 +424,7 @@ export const Record: Entry[] = [
 		Kind: "tool",
 		Name: "write",
 		Payload:
-			"{\"file_path\":\"package.json\",\"content\":\"{\\\"dependencies\\\":{\\\"leftpad\\\":\\\"^2.0.0\\\"}}\"}",
+			'{"file_path":"package.json","content":"{\\"dependencies\\":{\\"leftpad\\":\\"^2.0.0\\"}}"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "wrote 1,204 bytes to package.json",
@@ -452,18 +448,16 @@ export const Record: Entry[] = [
 		Step: 4,
 		Kind: "tool",
 		Name: "bash",
-		Payload: "{\"command\":\"pnpm check\",\"description\":\"Run the site check\"}",
+		Payload: '{"command":"pnpm check","description":"Run the site check"}',
 		Dispatch: "serial",
 		Default: {
-			Result:
-				"make: *** Error 1\nsrc/session.ts:41: error TS2322: Type 'string' is not assignable to type 'number'.\n... 139 more lines",
+			Result: "make: *** Error 1\nsrc/session.ts:41: error TS2322: Type 'string' is not assignable to type 'number'.\n... 139 more lines",
 			Size: 5231,
 			Took: 1820,
 			State: "ok",
 		},
 		Family: {
-			Result:
-				"[terminal:exit 1 | 142 lines | make: *** Error 1] plus <<<CCR:9d3c1f0a|terminal|5231>>>",
+			Result: "[terminal:exit 1 | 142 lines | make: *** Error 1] plus <<<CCR:9d3c1f0a|terminal|5231>>>",
 			Size: 92,
 			Took: 1960,
 			State: "ccr",
@@ -478,11 +472,10 @@ export const Record: Entry[] = [
 		Kind: "assistant",
 		Name: "assistant/message",
 		Payload:
-			"{\"text\":\"The check fails on a string assigned to a number in the session data. The next step reads the file and repairs the type.\"}",
+			'{"text":"The check fails on a string assigned to a number in the session data. The next step reads the file and repairs the type."}',
 		Dispatch: "emit",
 		Default: {
-			Result:
-				"The check fails on a string assigned to a number in the session data. The next step reads the file and repairs the type.",
+			Result: "The check fails on a string assigned to a number in the session data. The next step reads the file and repairs the type.",
 			Size: 127,
 			Took: 1520,
 			State: "ok",
@@ -495,18 +488,16 @@ export const Record: Entry[] = [
 		Kind: "tool",
 		Name: "bash",
 		Payload:
-			"{\"command\":\"rg -n Size Source/Content/Session.ts\",\"description\":\"Find the size fields\"}",
+			'{"command":"rg -n Size Source/Content/Session.ts","description":"Find the size fields"}',
 		Dispatch: "serial",
 		Default: {
-			Result:
-				"Source/Content/Session.ts:41: Size: 5_231\nSource/Content/Session.ts:42: Took: 1_820",
+			Result: "Source/Content/Session.ts:41: Size: 5_231\nSource/Content/Session.ts:42: Took: 1_820",
 			Size: 78,
 			Took: 52,
 			State: "ok",
 		},
 		Family: {
-			Result:
-				"Tool-coach note (strike 3, read-class bash pattern): use read for a single file.\n\nSource/Content/Session.ts:41: Size: 5_231\nSource/Content/Session.ts:42: Took: 1_820",
+			Result: "Tool-coach note (strike 3, read-class bash pattern): use read for a single file.\n\nSource/Content/Session.ts:41: Size: 5_231\nSource/Content/Session.ts:42: Took: 1_820",
 			Size: 194,
 			Took: 54,
 			State: "noted",
@@ -521,7 +512,7 @@ export const Record: Entry[] = [
 		Step: 5,
 		Kind: "tool",
 		Name: "read",
-		Payload: "{\"file_path\":\".dsh/sessions/7c41e0a2/session.v4.jsonl\"}",
+		Payload: '{"file_path":".dsh/sessions/7c41e0a2/session.v4.jsonl"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "the full session log: 4.2 MB of records, one JSON object per line",
@@ -545,7 +536,7 @@ export const Record: Entry[] = [
 		Kind: "system",
 		Name: "approval/request",
 		Payload:
-			"{\"tool\":\"write\",\"file_path\":\"/Users/nikola/Developer/Documentation/Module/astro/package.json\"}",
+			'{"tool":"write","file_path":"/Users/nikola/Developer/Documentation/Module/astro/package.json"}',
 		Dispatch: "waterfall",
 		Default: {
 			Result: "approved without a wait",
@@ -572,11 +563,10 @@ export const Record: Entry[] = [
 		Kind: "assistant",
 		Name: "assistant/message",
 		Payload:
-			"{\"text\":\"The operator allowed the outside write. The next step writes the governed package and records the journal line.\"}",
+			'{"text":"The operator allowed the outside write. The next step writes the governed package and records the journal line."}',
 		Dispatch: "emit",
 		Default: {
-			Result:
-				"The operator allowed the outside write. The next step writes the governed package and records the journal line.",
+			Result: "The operator allowed the outside write. The next step writes the governed package and records the journal line.",
 			Size: 111,
 			Took: 1360,
 			State: "ok",
@@ -589,7 +579,7 @@ export const Record: Entry[] = [
 		Kind: "tool",
 		Name: "write",
 		Payload:
-			"{\"file_path\":\"/Users/nikola/Developer/Documentation/Module/astro/package.json\",\"content\":\"<the astro package, governed>\"}",
+			'{"file_path":"/Users/nikola/Developer/Documentation/Module/astro/package.json","content":"<the astro package, governed>"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "wrote 1,204 bytes to the astro package",
@@ -605,7 +595,7 @@ export const Record: Entry[] = [
 		Kind: "system",
 		Name: "fs/observed",
 		Payload:
-			"{\"path\":\"/Users/nikola/Developer/Documentation/Module/astro/package.json\",\"batch\":3}",
+			'{"path":"/Users/nikola/Developer/Documentation/Module/astro/package.json","batch":3}',
 		Dispatch: "emit",
 		Default: {
 			Result: "no journal line",
@@ -614,8 +604,7 @@ export const Record: Entry[] = [
 			State: "ok",
 		},
 		Family: {
-			Result:
-				"journal: recorded write /Users/nikola/Developer/Documentation/Module/astro/package.json (batch 3, max 200)",
+			Result: "journal: recorded write /Users/nikola/Developer/Documentation/Module/astro/package.json (batch 3, max 200)",
 			Size: 106,
 			Took: 5,
 			State: "recorded",
@@ -630,8 +619,7 @@ export const Record: Entry[] = [
 		Step: 6,
 		Kind: "tool",
 		Name: "read",
-		Payload:
-			"{\"file_path\":\"/Users/nikola/Developer/Documentation/Module/astro/package.json\"}",
+		Payload: '{"file_path":"/Users/nikola/Developer/Documentation/Module/astro/package.json"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "the package file: one dependency range, leftpad at ^1.0.0 after the governor",
@@ -647,18 +635,16 @@ export const Record: Entry[] = [
 		Kind: "assistant",
 		Name: "assistant/message",
 		Payload:
-			"{\"text\":\"The governed write landed\\u2014the journal holds its batch\\u2014and the range now points at the registry latest.\"}",
+			'{"text":"The governed write landed\\u2014the journal holds its batch\\u2014and the range now points at the registry latest."}',
 		Dispatch: "emit",
 		Default: {
-			Result:
-				"The governed write landed\u2014the journal holds its batch\u2014and the range now points at the registry latest.",
+			Result: "The governed write landed\u2014the journal holds its batch\u2014and the range now points at the registry latest.",
 			Size: 108,
 			Took: 1400,
 			State: "ok",
 		},
 		Family: {
-			Result:
-				"The governed write landed - the journal holds its batch - and the range now points at the registry latest.",
+			Result: "The governed write landed - the journal holds its batch - and the range now points at the registry latest.",
 			Size: 112,
 			Took: 1410,
 			State: "normalized",
@@ -673,7 +659,7 @@ export const Record: Entry[] = [
 		Step: 7,
 		Kind: "context",
 		Name: "context/trim",
-		Payload: "{\"dropped\":3,\"kept\":1208}",
+		Payload: '{"dropped":3,"kept":1208}',
 		Dispatch: "waterfall",
 		Default: {
 			Result: "context trimmed: 3 tool results dropped, 1,208 chars kept",
@@ -689,7 +675,7 @@ export const Record: Entry[] = [
 		Kind: "tool",
 		Name: "bash",
 		Payload:
-			"{\"command\":\"pnpm diagrams\",\"description\":\"Rebuild the diagrams\",\"run_in_background\":true}",
+			'{"command":"pnpm diagrams","description":"Rebuild the diagrams","run_in_background":true}',
 		Dispatch: "serial",
 		Default: {
 			Result: "started the diagram build in the background: job 5f21a0c3",
@@ -704,11 +690,10 @@ export const Record: Entry[] = [
 		Step: 7,
 		Kind: "tool",
 		Name: "read",
-		Payload: "{\"file_path\":\"Temporary/Corca/Assets/Screenshots/61-missing.png\"}",
+		Payload: '{"file_path":"Temporary/Corca/Assets/Screenshots/61-missing.png"}',
 		Dispatch: "serial",
 		Default: {
-			Result:
-				"EACCES: permission denied, open Temporary/Corca/Assets/Screenshots/61-missing.png",
+			Result: "EACCES: permission denied, open Temporary/Corca/Assets/Screenshots/61-missing.png",
 			Size: 84,
 			Took: 18,
 			State: "failed",
@@ -722,11 +707,10 @@ export const Record: Entry[] = [
 		Kind: "assistant",
 		Name: "assistant/message",
 		Payload:
-			"{\"text\":\"The missing screenshot is a dead reference in the brief. The next step greps the page for the path and repairs it.\"}",
+			'{"text":"The missing screenshot is a dead reference in the brief. The next step greps the page for the path and repairs it."}',
 		Dispatch: "emit",
 		Default: {
-			Result:
-				"The missing screenshot is a dead reference in the brief. The next step greps the page for the path and repairs it.",
+			Result: "The missing screenshot is a dead reference in the brief. The next step greps the page for the path and repairs it.",
 			Size: 113,
 			Took: 1260,
 			State: "ok",
@@ -738,10 +722,10 @@ export const Record: Entry[] = [
 		Step: 8,
 		Kind: "tool",
 		Name: "grep",
-		Payload: "{\"pattern\":\"61-missing\",\"path\":\"Source\"}",
+		Payload: '{"pattern":"61-missing","path":"Source"}',
 		Dispatch: "serial",
 		Default: {
-			Result: "Source/pages/trace.astro:1: import \"@Stylesheet/Component/TracePage.scss\";",
+			Result: 'Source/pages/trace.astro:1: import "@Stylesheet/Component/TracePage.scss";',
 			Size: 69,
 			Took: 22,
 			State: "ok",
@@ -753,7 +737,7 @@ export const Record: Entry[] = [
 		Step: 8,
 		Kind: "tool",
 		Name: "read",
-		Payload: "{\"file_path\":\"Source/pages/trace.astro\"}",
+		Payload: '{"file_path":"Source/pages/trace.astro"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "the trace page: the old record list, the lane chart, and the inspector",
@@ -768,7 +752,8 @@ export const Record: Entry[] = [
 		Step: 8,
 		Kind: "tool",
 		Name: "write",
-		Payload: "{\"file_path\":\"Source/pages/trace.astro\",\"content\":\"<the session view, repaired>\"}",
+		Payload:
+			'{"file_path":"Source/pages/trace.astro","content":"<the session view, repaired>"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "wrote 12,902 bytes to Source/pages/trace.astro",
@@ -784,11 +769,10 @@ export const Record: Entry[] = [
 		Kind: "assistant",
 		Name: "assistant/message",
 		Payload:
-			"{\"text\":\"The dead reference is gone. The last step flushes the session and reads the page once more.\"}",
+			'{"text":"The dead reference is gone. The last step flushes the session and reads the page once more."}',
 		Dispatch: "emit",
 		Default: {
-			Result:
-				"The dead reference is gone. The last step flushes the session and reads the page once more.",
+			Result: "The dead reference is gone. The last step flushes the session and reads the page once more.",
 			Size: 94,
 			Took: 1320,
 			State: "ok",
@@ -800,7 +784,7 @@ export const Record: Entry[] = [
 		Step: 9,
 		Kind: "system",
 		Name: "request/header",
-		Payload: "{\"model\":\"deepseek-v4.1-flash\",\"effort\":\"max\",\"tools\":14}",
+		Payload: '{"model":"deepseek-v4.1-flash","effort":"max","tools":14}',
 		Dispatch: "parallel",
 		Default: {
 			Result: "deepseek-v4.1-flash, effort max, 14 tools, 6,204 prompt chars",
@@ -815,7 +799,7 @@ export const Record: Entry[] = [
 		Step: 9,
 		Kind: "tool",
 		Name: "bash",
-		Payload: "{\"command\":\"ls -la Target/trace\",\"description\":\"Check the built page\"}",
+		Payload: '{"command":"ls -la Target/trace","description":"Check the built page"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "Target/trace/index.html: 1 file, 12,902 bytes",
@@ -830,7 +814,7 @@ export const Record: Entry[] = [
 		Step: 9,
 		Kind: "tool",
 		Name: "read",
-		Payload: "{\"file_path\":\"Target/trace/index.html\"}",
+		Payload: '{"file_path":"Target/trace/index.html"}',
 		Dispatch: "serial",
 		Default: {
 			Result: "the built page: one h1, two h2 sections, forty records, and one island",
@@ -846,11 +830,10 @@ export const Record: Entry[] = [
 		Kind: "assistant",
 		Name: "assistant/message",
 		Payload:
-			"{\"text\":\"The session view is built. The four machines share one island, and the family face is the default.\"}",
+			'{"text":"The session view is built. The four machines share one island, and the family face is the default."}',
 		Dispatch: "emit",
 		Default: {
-			Result:
-				"The session view is built. The four machines share one island, and the family face is the default.",
+			Result: "The session view is built. The four machines share one island, and the family face is the default.",
 			Size: 96,
 			Took: 980,
 			State: "ok",
@@ -862,7 +845,7 @@ export const Record: Entry[] = [
 		Step: 9,
 		Kind: "system",
 		Name: "session/flush",
-		Payload: "{\"records\":40,\"steps\":9,\"turns\":3}",
+		Payload: '{"records":40,"steps":9,"turns":3}',
 		Dispatch: "serial",
 		Default: {
 			Result: "session flushed: 40 records, 9 steps, 3 turns",
@@ -876,9 +859,9 @@ export const Record: Entry[] = [
 // The steps are an expression over the records, not a second list: each turn's
 // distinct step numbers, sorted, with the records that carry them.
 export const Step: Step[] = Turn.flatMap((Group) => {
-	const Index = [...new Set(Record.filter((Entry) => Entry.Turn === Group.Index).map((Entry) => Entry.Step))].sort(
-		(Left, Right) => Left - Right,
-	);
+	const Index = [
+		...new Set(Record.filter((Entry) => Entry.Turn === Group.Index).map((Entry) => Entry.Step)),
+	].sort((Left, Right) => Left - Right);
 
 	return Index.map((Order) => ({
 		Index: Order,
@@ -1183,7 +1166,8 @@ export function TurnStep(Index: number): Step[] {
 
 /** The family packages that act in the given face. */
 export function Acting(Face: Face): number {
-	return new Set(Record.filter((Entry) => Touched(Entry, Face)).map((Entry) => Entry.Plugin)).size;
+	return new Set(Record.filter((Entry) => Touched(Entry, Face)).map((Entry) => Entry.Plugin))
+		.size;
 }
 
 /** The records one package touched in the given face. */

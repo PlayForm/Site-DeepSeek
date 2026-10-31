@@ -7,6 +7,7 @@ import { Route } from "@Library/Link";
 // stale bookmark at the exact anchor before the page paints; the button is the
 // visible link for a client that blocks the refresh and for a crawler.
 ---
+
 <Base
 	Title="Composition"
 	Description="The composition moved to the harness page, at /harness/#composition.">
@@ -19,7 +20,9 @@ import { Route } from "@Library/Link";
 			arms at each seam in the order they run.
 		</Fragment>
 		<Fragment slot="Actions">
-			<a class="button" href={`${Route.Harness}#composition`}>Read the composition</a>
+			<a class="button" href={`${Route.Harness}#composition`}>
+				Read the composition
+			</a>
 		</Fragment>
 	</PageHero>
 </Base>

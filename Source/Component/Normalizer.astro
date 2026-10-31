@@ -29,7 +29,8 @@ const Named = Tabulation.Entry.some((Entry) => Entry.Name !== undefined);
 	<div class="normalizer__band">
 		<p class="normalizer__family">{Tabulation.Family}</p>
 		<p class="normalizer__tally">
-			<span class="normalizer__count">{Count}</span>&nbsp;<span class="normalizer__unit">{Unit}</span>
+			<span class="normalizer__count">{Count}</span>&nbsp;
+			<span class="normalizer__unit">{Unit}</span>
 		</p>
 	</div>
 
@@ -50,27 +51,31 @@ const Named = Tabulation.Entry.some((Entry) => Entry.Name !== undefined);
 				</tr>
 			</thead>
 			<tbody>
-				{
-					Tabulation.Entry.map((Entry) => (
-						<tr>
-							<td class="normalizer__cell">
-								<span class="normalizer__glyph" title={Entry.Name ?? Entry.Code}>{Glyph(Entry.Code)}</span>
-							</td>
-							<td class="normalizer__arrow">
-								<span aria-hidden="true">&rarr;</span>
-							</td>
-							<td class="normalizer__cell">
-								{Entry.To === "" ? (
-									<span class="normalizer__gone">removed</span>
-								) : (
-									<span class="normalizer__glyph normalizer__glyph--out" title={Entry.Name ?? Entry.Code}>{Entry.To}</span>
-								)}
-							</td>
-							<td class="normalizer__code">{Entry.Code}</td>
-							{Named && <td class="normalizer__name">{Entry.Name}</td>}
-						</tr>
-					))
-				}
+				{Tabulation.Entry.map((Entry) => (
+					<tr>
+						<td class="normalizer__cell">
+							<span class="normalizer__glyph" title={Entry.Name ?? Entry.Code}>
+								{Glyph(Entry.Code)}
+							</span>
+						</td>
+						<td class="normalizer__arrow">
+							<span aria-hidden="true">&rarr;</span>
+						</td>
+						<td class="normalizer__cell">
+							{Entry.To === "" ? (
+								<span class="normalizer__gone">removed</span>
+							) : (
+								<span
+									class="normalizer__glyph normalizer__glyph--out"
+									title={Entry.Name ?? Entry.Code}>
+									{Entry.To}
+								</span>
+							)}
+						</td>
+						<td class="normalizer__code">{Entry.Code}</td>
+						{Named && <td class="normalizer__name">{Entry.Name}</td>}
+					</tr>
+				))}
 			</tbody>
 		</table>
 	</div>

@@ -180,10 +180,9 @@ export const Component = [
 	{
 		Name: "Schema",
 		Slug: "schema",
-		Summary: "A contract as rows: a property, its type, whether it is required, and what it means.",
-		Prop: [
-			["Properties", "{ Name, Type, Required, Description }[]", "One row per property."],
-		],
+		Summary:
+			"A contract as rows: a property, its type, whether it is required, and what it means.",
+		Prop: [["Properties", "{ Name, Type, Required, Description }[]", "One row per property."]],
 	},
 	{
 		Name: "Pipeline",
@@ -227,7 +226,11 @@ export const Component = [
 		Slug: "lane",
 		Summary: "Who was busy, when, and for how long, as one bar per span of work.",
 		Prop: [
-			["Lane", "{ Label, Span }[]", "One lane per actor; a span carries start, duration, kind."],
+			[
+				"Lane",
+				"{ Label, Span }[]",
+				"One lane per actor; a span carries start, duration, kind.",
+			],
 		],
 	},
 	{
@@ -240,9 +243,7 @@ export const Component = [
 		Name: "Ladder",
 		Slug: "ladder",
 		Summary: "The same thing at three values, ordered by the dimension that decides it.",
-		Prop: [
-			["Rung", "{ Label, Value, Body, Note?, Mark? }[]", "One rung per value."],
-		],
+		Prop: [["Rung", "{ Label, Value, Body, Note?, Mark? }[]", "One rung per value."]],
 	},
 	{
 		Name: "Fork",
@@ -281,7 +282,8 @@ export const Component = [
 	{
 		Name: "Compare",
 		Slug: "compare",
-		Summary: "A drag slider that reveals one text under another, for the same comparison at a length.",
+		Summary:
+			"A drag slider that reveals one text under another, for the same comparison at a length.",
 		Prop: [
 			["Raw", "string", "The text the model wrote."],
 			["Clean", "string", "The text the harness kept."],
@@ -318,7 +320,8 @@ export const Component = [
 	{
 		Name: "RoleList",
 		Slug: "role-list",
-		Summary: "The parts of the conversation the model reads, and the seam that can change each.",
+		Summary:
+			"The parts of the conversation the model reads, and the seam that can change each.",
 		Prop: [["Entry", "Role[]", "One entry per role."]],
 	},
 	{
@@ -330,7 +333,8 @@ export const Component = [
 	{
 		Name: "Curve",
 		Slug: "curve",
-		Summary: "Two series on log axes: the bytes the model reads against the size of the result.",
+		Summary:
+			"Two series on log axes: the bytes the model reads against the size of the result.",
 		Prop: [["Curve", "Curve", "The thresholds and the ceiling the chart draws."]],
 	},
 	{
@@ -354,7 +358,8 @@ export const Component = [
 	{
 		Name: "Stream",
 		Slug: "stream",
-		Summary: "A package whose work is an event-driven view: the update rule and the frame that arrives.",
+		Summary:
+			"A package whose work is an event-driven view: the update rule and the frame that arrives.",
 		Prop: [["Slug", "string", "The package the picture is written for."]],
 	},
 	{
@@ -366,13 +371,15 @@ export const Component = [
 	{
 		Name: "Surface",
 		Slug: "surface",
-		Summary: "A client that fills a host slot: the frame, the slot, and what the package puts there.",
+		Summary:
+			"A client that fills a host slot: the frame, the slot, and what the package puts there.",
 		Prop: [["Slug", "string", "The package the picture is written for."]],
 	},
 	{
 		Name: "Buffer",
 		Slug: "buffer",
-		Summary: "A store that holds data for others: the store, its readers, and its retention rule.",
+		Summary:
+			"A store that holds data for others: the store, its readers, and its retention rule.",
 		Prop: [["Slug", "string", "The package the picture is written for."]],
 	},
 	{
@@ -396,7 +403,8 @@ export const Component = [
 	{
 		Name: "Advise",
 		Slug: "advise",
-		Summary: "A hook that adds a note the model then reads, with the condition that triggers it.",
+		Summary:
+			"A hook that adds a note the model then reads, with the condition that triggers it.",
 		Prop: [["Slug", "string", "The package the picture is written for."]],
 	},
 ];

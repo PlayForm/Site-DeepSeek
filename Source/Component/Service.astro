@@ -54,25 +54,74 @@ const Service: Record<string, Service> = {
 		Name: "ctx.pluginFactory",
 		Rule: "One service and no Config of its own, because it is the config mechanism: the schema, the ledger, the gate, and the write are the methods its consumers compose.",
 		Method: [
-			{ Name: "State", Meaning: "the consumer's state: the shared cells unwrapped, the module's fields mapped" },
-			{ Name: "Append", Meaning: "the ledger: one logger line and one dated line in the consumer's own file, never throwing" },
+			{
+				Name: "State",
+				Meaning:
+					"the consumer's state: the shared cells unwrapped, the module's fields mapped",
+			},
+			{
+				Name: "Append",
+				Meaning:
+					"the ledger: one logger line and one dated line in the consumer's own file, never throwing",
+			},
 			{ Name: "Match", Meaning: "the exclusion-first segment match over a path" },
-			{ Name: "Discover", Meaning: "the nearest registry or policy file, found by a plain-fs walk" },
+			{
+				Name: "Discover",
+				Meaning: "the nearest registry or policy file, found by a plain-fs walk",
+			},
 			{ Name: "Parse", Meaning: "the JSON parse of an auxiliary file, contained" },
-			{ Name: "ResolvePolicy", Meaning: "the union keep-list: the global policy, the directory's, the nearest registry's" },
-			{ Name: "Gate", Meaning: "the gate set in order, and the verdict it reaches, logging nothing" },
-			{ Name: "Write", Meaning: "the one write executor: intent, policy, observe, stash, and transform" },
-			{ Name: "GuardedWrite", Meaning: "the write behind the version fence, with the stash pre-registered" },
-			{ Name: "Refresh", Meaning: "the observation re-emit at the fresh version, under the same actor" },
-			{ Name: "Continue", Meaning: "a transform run detached and contained, off the settled chain" },
+			{
+				Name: "ResolvePolicy",
+				Meaning:
+					"the union keep-list: the global policy, the directory's, the nearest registry's",
+			},
+			{
+				Name: "Gate",
+				Meaning: "the gate set in order, and the verdict it reaches, logging nothing",
+			},
+			{
+				Name: "Write",
+				Meaning: "the one write executor: intent, policy, observe, stash, and transform",
+			},
+			{
+				Name: "GuardedWrite",
+				Meaning: "the write behind the version fence, with the stash pre-registered",
+			},
+			{
+				Name: "Refresh",
+				Meaning: "the observation re-emit at the fresh version, under the same actor",
+			},
+			{
+				Name: "Continue",
+				Meaning: "a transform run detached and contained, off the settled chain",
+			},
 			{ Name: "Wire", Meaning: "the fs/observed registration on the root context" },
-			{ Name: "Attach", Meaning: "the fiber-owned effects: jobs, inflight, and the journal domain" },
-			{ Name: "Journal", Meaning: "the best-effort record into the consumer's journal domain" },
-			{ Name: "Schema", Meaning: "the schema factory: the shared block plus the module's fields" },
-			{ Name: "UpdateKey", Meaning: "the namespaced inflight key an update stage must register under" },
+			{
+				Name: "Attach",
+				Meaning: "the fiber-owned effects: jobs, inflight, and the journal domain",
+			},
+			{
+				Name: "Journal",
+				Meaning: "the best-effort record into the consumer's journal domain",
+			},
+			{
+				Name: "Schema",
+				Meaning: "the schema factory: the shared block plus the module's fields",
+			},
+			{
+				Name: "UpdateKey",
+				Meaning: "the namespaced inflight key an update stage must register under",
+			},
 			{ Name: "Seam", Meaning: "the probe-once accessor for an optional service" },
-			{ Name: "RegisterGovern", Meaning: "a direct-govern step for one basename, replaced in place on a reload" },
-			{ Name: "Govern", Meaning: "the direct-govern fold: the registered steps in order, one try/catch each" },
+			{
+				Name: "RegisterGovern",
+				Meaning: "a direct-govern step for one basename, replaced in place on a reload",
+			},
+			{
+				Name: "Govern",
+				Meaning:
+					"the direct-govern fold: the registered steps in order, one try/catch each",
+			},
 		],
 		Consumer: [
 			"the three governance hooks",
@@ -89,16 +138,25 @@ const Service: Record<string, Service> = {
 		Name: "ctx.batchstate",
 		Rule: "The board records and projects, and the service and the spliced block read the live state rather than a copy of it.",
 		Method: [
-			{ Name: "getState", Meaning: "the whole board: the members, the queue, the proposals, and the gates" },
+			{
+				Name: "getState",
+				Meaning: "the whole board: the members, the queue, the proposals, and the gates",
+			},
 			{ Name: "getContext", Meaning: "one agent's compiled context block" },
 			{ Name: "getScope", Meaning: "the surfaces one agent owns" },
 			{ Name: "whoElse", Meaning: "the other lanes in the batch" },
 			{ Name: "getProposals", Meaning: "the proposals the inbox delivered" },
 			{ Name: "getGates", Meaning: "the compiled arbiter truth" },
 			{ Name: "getQueue", Meaning: "the queue's own compiled line, read-only" },
-			{ Name: "setGate", Meaning: "record the build state and the lane that owns the failure" },
+			{
+				Name: "setGate",
+				Meaning: "record the build state and the lane that owns the failure",
+			},
 			{ Name: "setTask", Meaning: "record a lane's current activity" },
-			{ Name: "setStatus", Meaning: "move a lane between idle, active, completed, failed, and interrupted" },
+			{
+				Name: "setStatus",
+				Meaning: "move a lane between idle, active, completed, failed, and interrupted",
+			},
 			{ Name: "setScope", Meaning: "declare the surfaces a lane owns" },
 			{ Name: "queue", Meaning: "set a lane's queue position" },
 			{ Name: "clear", Meaning: "clear one lane, or the whole board" },
@@ -117,13 +175,27 @@ const Service: Record<string, Service> = {
 		Name: "ctx.feedback",
 		Rule: "The block transfers as text and the parent only appends: nothing sanitizes the honest content, and the read is always the recipient's choice.",
 		Method: [
-			{ Name: "Record", Meaning: "store a block in its session's record, and journal the event" },
-			{ Name: "Push", Meaning: "forward a block one hop to the parent session, adding one link to the chain" },
+			{
+				Name: "Record",
+				Meaning: "store a block in its session's record, and journal the event",
+			},
+			{
+				Name: "Push",
+				Meaning:
+					"forward a block one hop to the parent session, adding one link to the chain",
+			},
 			{ Name: "Delta", Meaning: "the parent's append: a new observation, never an edit" },
 			{ Name: "Read", Meaning: "the recipient's optional read, recorded as read-at" },
-			{ Name: "Summary", Meaning: "the council view: counts, the unread count, the clusters, and the outcomes" },
+			{
+				Name: "Summary",
+				Meaning:
+					"the council view: counts, the unread count, the clusters, and the outcomes",
+			},
 			{ Name: "Render", Meaning: "one block in the transfer format" },
-			{ Name: "Outcome", Meaning: "record one batch outcome into the journal and the summary" },
+			{
+				Name: "Outcome",
+				Meaning: "record one batch outcome into the journal and the summary",
+			},
 		],
 		Consumer: [
 			"plugin-dsh-ingester, which reports the outcome after an apply",
@@ -136,7 +208,10 @@ const Service: Record<string, Service> = {
 		Rule: "One apply per decision, claimed synchronously and keyed by proposal, outcome, and time, so a decision delivered twice applies once.",
 		Method: [
 			{ Name: "Apply", Meaning: "apply per target, in the proposal's order, version-fenced" },
-			{ Name: "WhenIdle", Meaning: "await every in-flight apply, so a caller needs no sleep" },
+			{
+				Name: "WhenIdle",
+				Meaning: "await every in-flight apply, so a caller needs no sleep",
+			},
 			{ Name: "Proposals", Meaning: "the proposals recorded from batch/proposed" },
 		],
 		Consumer: [
@@ -152,13 +227,22 @@ const Service: Record<string, Service> = {
 			{ Name: "Configure", Meaning: "apply the validated knobs" },
 			{ Name: "Tick", Meaning: "advance the nudge counter for one agent" },
 			{ Name: "Reset", Meaning: "reset the counter after a review" },
-			{ Name: "Digest", Meaning: "the bounded digest: a verbatim tail and a hard character cap" },
+			{
+				Name: "Digest",
+				Meaning: "the bounded digest: a verbatim tail and a hard character cap",
+			},
 			{ Name: "Prompt", Meaning: "the constant review prompt" },
 			{ Name: "Parse", Meaning: "the strict reply parse into five operation kinds" },
 			{ Name: "Judge", Meaning: "the deterministic acceptance rules" },
 			{ Name: "Snapshot", Meaning: "the messages the review reads" },
-			{ Name: "Review", Meaning: "one round trip: digest, ask, parse, judge, queue or apply, report" },
-			{ Name: "Curate", Meaning: "the token-free lifecycle pass: active to stale to archived" },
+			{
+				Name: "Review",
+				Meaning: "one round trip: digest, ask, parse, judge, queue or apply, report",
+			},
+			{
+				Name: "Curate",
+				Meaning: "the token-free lifecycle pass: active to stale to archived",
+			},
 			{ Name: "Status", Meaning: "the corpus counts" },
 			{ Name: "Pin", Meaning: "protect an entry from the lifecycle pass" },
 			{ Name: "Unpin", Meaning: "release an entry back to it" },
@@ -179,8 +263,15 @@ const Service: Record<string, Service> = {
 		Name: "ctx.passOn",
 		Rule: "The pass-on never writes a file: it computes the proposal, the decision decides, and the ingester applies.",
 		Method: [
-			{ Name: "Prepare", Meaning: "resolve, operate, preview, and digest an intent; then publish the proposal" },
-			{ Name: "Get", Meaning: "fetch a prepared proposal, or null when it is unknown or expired" },
+			{
+				Name: "Prepare",
+				Meaning:
+					"resolve, operate, preview, and digest an intent; then publish the proposal",
+			},
+			{
+				Name: "Get",
+				Meaning: "fetch a prepared proposal, or null when it is unknown or expired",
+			},
 		],
 		Consumer: [
 			"plugin-dsh-batchstate, through the inbox splice",
@@ -196,8 +287,14 @@ const Service: Record<string, Service> = {
 			{ Name: "Put", Meaning: "an idempotent upsert by id" },
 			{ Name: "Get", Meaning: "one pattern by id" },
 			{ Name: "List", Meaning: "the whole registry" },
-			{ Name: "Match", Meaning: "the ranked matches, where the empty result is the abstention" },
-			{ Name: "Record", Meaning: "move the confidence on accepted, rejected, applied, or failed" },
+			{
+				Name: "Match",
+				Meaning: "the ranked matches, where the empty result is the abstention",
+			},
+			{
+				Name: "Record",
+				Meaning: "move the confidence on accepted, rejected, applied, or failed",
+			},
 			{ Name: "Decay", Meaning: "the half-life sweep toward the neutral floor" },
 			{ Name: "Save", Meaning: "the full snapshot flush" },
 			{ Name: "Flush", Meaning: "await the pending store work" },
@@ -213,13 +310,20 @@ const Service: Record<string, Service> = {
 		Rule: "The policy is the outer gate and autoSpawn is the inner one: an approve verdict refuses a launch even with the knob on, and a knob that is off refuses on its own.",
 		Method: [
 			{ Name: "Enqueue", Meaning: "queue a task with its spec verbatim" },
-			{ Name: "Dispatch", Meaning: "the deterministic next assignment, and the seat it takes" },
+			{
+				Name: "Dispatch",
+				Meaning: "the deterministic next assignment, and the seat it takes",
+			},
 			{ Name: "Capacity", Meaning: "the free slots for the main pool or one agent" },
 			{ Name: "Start", Meaning: "flip a task to running" },
 			{ Name: "Complete", Meaning: "settle a task, and release its seat" },
 			{ Name: "Fail", Meaning: "settle a task as failed" },
 			{ Name: "Interrupt", Meaning: "settle it, and abort the child" },
-			{ Name: "Reconcile", Meaning: "requeue an active task whose agent is gone, and fail it on the second detection" },
+			{
+				Name: "Reconcile",
+				Meaning:
+					"requeue an active task whose agent is gone, and fail it on the second detection",
+			},
 			{ Name: "Flush", Meaning: "join the in-flight spawns" },
 			{ Name: "Board", Meaning: "the one compiled line the board splices" },
 			{ Name: "Snapshot", Meaning: "the full queue record" },
@@ -229,15 +333,25 @@ const Service: Record<string, Service> = {
 			"plugin-dsh-batchstate, which projects the board line",
 			"the routing enforcer, which the dispatcher probes",
 		],
-		Beside: ["the two tools: queue_enqueue and queue_status", "the unload effect that aborts every spawned child"],
+		Beside: [
+			"the two tools: queue_enqueue and queue_status",
+			"the unload effect that aborts every spawned child",
+		],
 	},
 	"plugin-dsh-route": {
 		Name: "ctx.dshRoute",
 		Rule: "Silence is the contract: the launch succeeds exactly as if the caller had passed the right values, and the ledger line is the only record.",
 		Method: [
-			{ Name: "Resolve", Meaning: "the deterministic role resolution: same request and policy, same route" },
+			{
+				Name: "Resolve",
+				Meaning: "the deterministic role resolution: same request and policy, same route",
+			},
 			{ Name: "Classify", Meaning: "the keyword inference for one spec text" },
-			{ Name: "Escalate", Meaning: "the escalation route, or undefined when the ladder is exhausted or disabled" },
+			{
+				Name: "Escalate",
+				Meaning:
+					"the escalation route, or undefined when the ladder is exhausted or disabled",
+			},
 			{ Name: "Policy", Meaning: "the policy view, which is the audit surface" },
 		],
 		Consumer: [
@@ -250,7 +364,11 @@ const Service: Record<string, Service> = {
 		Name: "ctx.workspaceAuthority",
 		Rule: "The license decides and the weight only ranks: the capability carries no weight, and the policy reads the weight only to order candidates.",
 		Method: [
-			{ Name: "grant", Meaning: "a capability over a resource, with its operations, expiry, and delegation" },
+			{
+				Name: "grant",
+				Meaning:
+					"a capability over a resource, with its operations, expiry, and delegation",
+			},
 			{ Name: "revoke", Meaning: "withdraw a capability" },
 			{ Name: "authorize", Meaning: "answer whether one operation is permitted" },
 			{ Name: "acquire", Meaning: "a lease with a TTL" },
@@ -285,9 +403,16 @@ const Service: Record<string, Service> = {
 		Name: "ctx.workspaceEvidence",
 		Rule: "The service records the caller's verdict and never invents one, and its sequence is its own counter rather than a wall clock.",
 		Method: [
-			{ Name: "validate", Meaning: "record one validation with its kind, subject, dependencies, and the caller's verdict" },
+			{
+				Name: "validate",
+				Meaning:
+					"record one validation with its kind, subject, dependencies, and the caller's verdict",
+			},
 			{ Name: "check", Meaning: "read one validation's status" },
-			{ Name: "invalidate", Meaning: "mark every dependent validation stale, and return the count" },
+			{
+				Name: "invalidate",
+				Meaning: "mark every dependent validation stale, and return the count",
+			},
 			{ Name: "list", Meaning: "the objects, optionally filtered by status" },
 			{ Name: "statistics", Meaning: "the counts" },
 		],
@@ -302,13 +427,23 @@ const Service: Record<string, Service> = {
 		Rule: "The deferred kinds are not faked, and a reference that names no symbol node of the same file is dropped rather than turned into a dangling edge.",
 		Method: [
 			{ Name: "indexFile", Meaning: "resolve, gate, parse, store, and bump one file" },
-			{ Name: "indexWorkspace", Meaning: "the deterministic walk, one indexFile per candidate, capped at the file bound" },
+			{
+				Name: "indexWorkspace",
+				Meaning:
+					"the deterministic walk, one indexFile per candidate, capped at the file bound",
+			},
 			{ Name: "removeFile", Meaning: "delete a record, and bump the revision" },
 			{ Name: "getNode", Meaning: "one node by its stable id" },
 			{ Name: "find", Meaning: "the name or pattern query, with the limit clamped" },
 			{ Name: "expand", Meaning: "the outgoing breadth-first walk, capped at depth three" },
-			{ Name: "neighborhood", Meaning: "the connected component the graph suggester consumes" },
-			{ Name: "snapshot", Meaning: "the whole read, with an invalid record skipped and counted" },
+			{
+				Name: "neighborhood",
+				Meaning: "the connected component the graph suggester consumes",
+			},
+			{
+				Name: "snapshot",
+				Meaning: "the whole read, with an invalid record skipped and counted",
+			},
 			{ Name: "statistics", Meaning: "files, nodes, edges, and the index revision" },
 		],
 		Consumer: [
@@ -323,7 +458,10 @@ const Service: Record<string, Service> = {
 		Method: [
 			{ Name: "rename", Meaning: "the AST-aware rename, through the semantics plan first" },
 			{ Name: "connect", Meaning: "join two files with an import or a reference comment" },
-			{ Name: "replace", Meaning: "replace a node's span, or a plain span, after the fingerprint check" },
+			{
+				Name: "replace",
+				Meaning: "replace a node's span, or a plain span, after the fingerprint check",
+			},
 			{ Name: "act", Meaning: "the dispatch by the operation's kind" },
 		],
 		Consumer: [
@@ -336,9 +474,15 @@ const Service: Record<string, Service> = {
 		Name: "ctx.workspaceSemantics",
 		Rule: "An extension with no adapter, or an adapter that cannot be certain, answers undefined plus one line, never a guessed plan.",
 		Method: [
-			{ Name: "resolve", Meaning: "build the file's knowledge graph lazily through its adapter" },
+			{
+				Name: "resolve",
+				Meaning: "build the file's knowledge graph lazily through its adapter",
+			},
 			{ Name: "symbol", Meaning: "one symbol of a resolved file" },
-			{ Name: "references", Meaning: "the reference list, deepened through the lsp seam when it exists" },
+			{
+				Name: "references",
+				Meaning: "the reference list, deepened through the lsp seam when it exists",
+			},
 			{ Name: "rename", Meaning: "the per-adapter rename plan" },
 			{ Name: "adapt", Meaning: "register an any-file adapter" },
 			{ Name: "statistics", Meaning: "the adapter count and the index size" },
@@ -354,58 +498,56 @@ const Service: Record<string, Service> = {
 const Entry = Service[Slug] ?? Service[Slug.replace(/^ets-/, "")];
 ---
 
-{
-	Entry !== undefined && (
-		<div class="service" role="img" aria-label={`The contract ${Slug} provides`}>
-			<div class="service__band">
-				<div class="service__identity">
-					<span class="service__label">Service</span>
-					<span class="service__name">{Entry.Name}</span>
-				</div>
-				<div class="service__figures">
-					<div class="service__figure">
-						<span class="service__figure-value">{Entry.Method.length}</span>
-						<span class="service__label">Methods</span>
-					</div>
-					<div class="service__figure">
-						<span class="service__figure-value">{Entry.Consumer.length}</span>
-						<span class="service__label">Consumers</span>
-					</div>
-				</div>
+{Entry !== undefined && (
+	<div class="service" role="img" aria-label={`The contract ${Slug} provides`}>
+		<div class="service__band">
+			<div class="service__identity">
+				<span class="service__label">Service</span>
+				<span class="service__name">{Entry.Name}</span>
 			</div>
-			<div class="service__body">
-				<div class="service__main">
+			<div class="service__figures">
+				<div class="service__figure">
+					<span class="service__figure-value">{Entry.Method.length}</span>
 					<span class="service__label">Methods</span>
-					<ol class="service__method">
-						{Entry.Method.map((Item) => (
-							<li class="service__row">
-								<span class="service__call">{Item.Name}</span>
-								<span class="service__meaning">{Item.Meaning}</span>
-							</li>
-						))}
-					</ol>
 				</div>
-				<div class="service__side">
-					<span class="service__label">Consumed by</span>
-					<ul class="service__consumer">
-						{Entry.Consumer.map((Item) => (
-							<li class="service__read">{Item}</li>
-						))}
-					</ul>
-					{Entry.Beside !== undefined && (
-						<div class="service__beside">
-							<span class="service__label">Also registers</span>
-							{Entry.Beside.map((Item) => (
-								<span class="service__also">{Item}</span>
-							))}
-						</div>
-					)}
+				<div class="service__figure">
+					<span class="service__figure-value">{Entry.Consumer.length}</span>
+					<span class="service__label">Consumers</span>
 				</div>
 			</div>
-			<p class="service__rule">
-				<span class="service__rule-label">Rule</span>
-				<span class="service__rule-text">{Entry.Rule}</span>
-			</p>
 		</div>
-	)
-}
+		<div class="service__body">
+			<div class="service__main">
+				<span class="service__label">Methods</span>
+				<ol class="service__method">
+					{Entry.Method.map((Item) => (
+						<li class="service__row">
+							<span class="service__call">{Item.Name}</span>
+							<span class="service__meaning">{Item.Meaning}</span>
+						</li>
+					))}
+				</ol>
+			</div>
+			<div class="service__side">
+				<span class="service__label">Consumed by</span>
+				<ul class="service__consumer">
+					{Entry.Consumer.map((Item) => (
+						<li class="service__read">{Item}</li>
+					))}
+				</ul>
+				{Entry.Beside !== undefined && (
+					<div class="service__beside">
+						<span class="service__label">Also registers</span>
+						{Entry.Beside.map((Item) => (
+							<span class="service__also">{Item}</span>
+						))}
+					</div>
+				)}
+			</div>
+		</div>
+		<p class="service__rule">
+			<span class="service__rule-label">Rule</span>
+			<span class="service__rule-text">{Entry.Rule}</span>
+		</p>
+	</div>
+)}

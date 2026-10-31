@@ -38,16 +38,14 @@ const Ledger: Record<string, Ledger> = {
 const Entry = Ledger[Slug] ?? Ledger[Slug.replace(/^ets-/, "")];
 ---
 
-{
-	Entry !== undefined && (
-		<div class="record" role="img" aria-label={`The line ${Slug} writes`}>
-			<p class="record__rule">{Entry.Rule}</p>
-			<pre class="record__line">{Entry.Line}</pre>
-			<div class="record__field">
-				<span class="record__label">Carries</span>
-				<span class="record__value">{Entry.Field}</span>
-			</div>
-			<p class="record__note">{Entry.Note}</p>
+{Entry !== undefined && (
+	<div class="record" role="img" aria-label={`The line ${Slug} writes`}>
+		<p class="record__rule">{Entry.Rule}</p>
+		<pre class="record__line">{Entry.Line}</pre>
+		<div class="record__field">
+			<span class="record__label">Carries</span>
+			<span class="record__value">{Entry.Field}</span>
 		</div>
-	)
-}
+		<p class="record__note">{Entry.Note}</p>
+	</div>
+)}

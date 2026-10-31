@@ -32,7 +32,11 @@ const { Marker, Hash, Size, Preview, Body } = Astro.props;
 	<li class="retrieve__hop" data-hop="gate">
 		<span class="retrieve__step">The gate replaces it</span>
 		<span class="retrieve__body">
-			<CodeBlock Label="What the model reads" Language="text" Code={`${Preview}\n${Marker}`} />
+			<CodeBlock
+				Label="What the model reads"
+				Language="text"
+				Code={`${Preview}\n${Marker}`}
+			/>
 		</span>
 	</li>
 
@@ -44,8 +48,8 @@ const { Marker, Hash, Size, Preview, Body } = Astro.props;
 				<code class="retrieve__hash">{Hash}</code>
 			</span>
 			<span class="retrieve__note">
-				An exact hash and an optional line range. No prefix, no fuzzy match: the marker is the
-				address.
+				An exact hash and an optional line range. No prefix, no fuzzy match: the marker is
+				the address.
 			</span>
 		</span>
 	</li>

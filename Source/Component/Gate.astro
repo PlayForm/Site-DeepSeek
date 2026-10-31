@@ -81,25 +81,20 @@ const Gate: Record<string, Gate> = {
 const Entry = Gate[Slug] ?? Gate[Slug.replace(/^ets-/, "")];
 ---
 
-{
-	Entry !== undefined && (
-		<div class="gate" role="img" aria-label={`What ${Slug} decides at its seam`}>
-			<p class="gate__rule">{Entry.Rule}</p>
-			<ol class="gate__row">
-				{Entry.Outcome.map((Item) => (
-					<li
-						class="gate__outcome"
-						data-mark={Item.Label === Entry.Mark ? "true" : "false"}
-					>
-						<span class="gate__label">{Item.Label}</span>
-						<span class="gate__note">{Item.Note}</span>
-					</li>
-				))}
-			</ol>
-			<p class="gate__condition">
-				<span class="gate__condition-label">When</span>
-				<span class="gate__condition-text">{Entry.Condition}</span>
-			</p>
-		</div>
-	)
-}
+{Entry !== undefined && (
+	<div class="gate" role="img" aria-label={`What ${Slug} decides at its seam`}>
+		<p class="gate__rule">{Entry.Rule}</p>
+		<ol class="gate__row">
+			{Entry.Outcome.map((Item) => (
+				<li class="gate__outcome" data-mark={Item.Label === Entry.Mark ? "true" : "false"}>
+					<span class="gate__label">{Item.Label}</span>
+					<span class="gate__note">{Item.Note}</span>
+				</li>
+			))}
+		</ol>
+		<p class="gate__condition">
+			<span class="gate__condition-label">When</span>
+			<span class="gate__condition-text">{Entry.Condition}</span>
+		</p>
+	</div>
+)}

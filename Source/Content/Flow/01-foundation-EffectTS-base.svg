@@ -1,1 +1,815 @@
-<svg id="dsh-diagram-01-foundation-EffectTS-base" width="100%" xmlns="http://www.w3.org/2000/svg" class="flowchart" viewBox="-88.28968048095703 -1.5190678238868713 1445.914680480957 617.9190922379494" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#dsh-diagram-01-foundation-EffectTS-base{font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:14px;fill:#0b0f19;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#dsh-diagram-01-foundation-EffectTS-base .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#dsh-diagram-01-foundation-EffectTS-base .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#dsh-diagram-01-foundation-EffectTS-base .error-icon{fill:#ffffff;}#dsh-diagram-01-foundation-EffectTS-base .error-text{fill:#000000;stroke:#000000;}#dsh-diagram-01-foundation-EffectTS-base .edge-thickness-normal{stroke-width:1px;}#dsh-diagram-01-foundation-EffectTS-base .edge-thickness-thick{stroke-width:3.5px;}#dsh-diagram-01-foundation-EffectTS-base .edge-pattern-solid{stroke-dasharray:0;}#dsh-diagram-01-foundation-EffectTS-base .edge-thickness-invisible{stroke-width:0;fill:none;}#dsh-diagram-01-foundation-EffectTS-base .edge-pattern-dashed{stroke-dasharray:3;}#dsh-diagram-01-foundation-EffectTS-base .edge-pattern-dotted{stroke-dasharray:2;}#dsh-diagram-01-foundation-EffectTS-base .marker{fill:#616f84;stroke:#616f84;}#dsh-diagram-01-foundation-EffectTS-base .marker.cross{stroke:#616f84;}#dsh-diagram-01-foundation-EffectTS-base svg{font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:14px;}#dsh-diagram-01-foundation-EffectTS-base p{margin:0;}#dsh-diagram-01-foundation-EffectTS-base .label{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#0b0f19;}#dsh-diagram-01-foundation-EffectTS-base .cluster-label text{fill:#000000;}#dsh-diagram-01-foundation-EffectTS-base .cluster-label span{color:#000000;}#dsh-diagram-01-foundation-EffectTS-base .cluster-label span p{background-color:transparent;}#dsh-diagram-01-foundation-EffectTS-base .label text,#dsh-diagram-01-foundation-EffectTS-base span{fill:#0b0f19;color:#0b0f19;}#dsh-diagram-01-foundation-EffectTS-base .node rect,#dsh-diagram-01-foundation-EffectTS-base .node circle,#dsh-diagram-01-foundation-EffectTS-base .node ellipse,#dsh-diagram-01-foundation-EffectTS-base .node polygon,#dsh-diagram-01-foundation-EffectTS-base .node path{fill:#f0f4ff;stroke:#0052ff;stroke-width:1px;}#dsh-diagram-01-foundation-EffectTS-base .rough-node .label text,#dsh-diagram-01-foundation-EffectTS-base .node .label text,#dsh-diagram-01-foundation-EffectTS-base .image-shape .label,#dsh-diagram-01-foundation-EffectTS-base .icon-shape .label{text-anchor:middle;}#dsh-diagram-01-foundation-EffectTS-base .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#dsh-diagram-01-foundation-EffectTS-base .rough-node .label,#dsh-diagram-01-foundation-EffectTS-base .node .label,#dsh-diagram-01-foundation-EffectTS-base .image-shape .label,#dsh-diagram-01-foundation-EffectTS-base .icon-shape .label{text-align:center;}#dsh-diagram-01-foundation-EffectTS-base .node.clickable{cursor:pointer;}#dsh-diagram-01-foundation-EffectTS-base .root .anchor path{fill:#616f84!important;stroke-width:0;stroke:#616f84;}#dsh-diagram-01-foundation-EffectTS-base .arrowheadPath{fill:#0b0b0b;}#dsh-diagram-01-foundation-EffectTS-base .edgePaths .path{stroke:#616f84;stroke-width:1px;}#dsh-diagram-01-foundation-EffectTS-base .flowchart-link{stroke:#616f84;fill:none;}#dsh-diagram-01-foundation-EffectTS-base .edgeLabel{background-color:#ffffff;text-align:center;}#dsh-diagram-01-foundation-EffectTS-base .edgeLabel p{background-color:#ffffff;}#dsh-diagram-01-foundation-EffectTS-base .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dsh-diagram-01-foundation-EffectTS-base .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#dsh-diagram-01-foundation-EffectTS-base .cluster rect{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1px;}#dsh-diagram-01-foundation-EffectTS-base .cluster text{fill:#000000;}#dsh-diagram-01-foundation-EffectTS-base .cluster span{color:#000000;}#dsh-diagram-01-foundation-EffectTS-base .node .collapsed-indicator{fill:#e2e8f0;stroke:none;opacity:0.6;}#dsh-diagram-01-foundation-EffectTS-base .node .collapsed-separator{stroke:#e2e8f0;stroke-width:0.75px;}#dsh-diagram-01-foundation-EffectTS-base div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:12px;background:#ffffff;border:1px solid #e2e8f0;border-radius:2px;pointer-events:none;z-index:100;}#dsh-diagram-01-foundation-EffectTS-base .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#0b0f19;}#dsh-diagram-01-foundation-EffectTS-base rect.text{fill:none;stroke-width:0;}#dsh-diagram-01-foundation-EffectTS-base .icon-shape,#dsh-diagram-01-foundation-EffectTS-base .image-shape{background-color:#ffffff;text-align:center;}#dsh-diagram-01-foundation-EffectTS-base .icon-shape p,#dsh-diagram-01-foundation-EffectTS-base .image-shape p{background-color:#ffffff;padding:2px;}#dsh-diagram-01-foundation-EffectTS-base .icon-shape .label rect,#dsh-diagram-01-foundation-EffectTS-base .image-shape .label rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dsh-diagram-01-foundation-EffectTS-base .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#dsh-diagram-01-foundation-EffectTS-base .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#dsh-diagram-01-foundation-EffectTS-base .node .neo-node{stroke:#0052ff;}#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node rect,#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].cluster rect,#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node polygon{stroke:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].swimlane.cluster rect{filter:none;}#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node path{stroke:#0052ff;stroke-width:1px;}#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node .neo-line path{stroke:#0052ff;filter:none;}#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node circle{stroke:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node circle .state-start{fill:#000000;}#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].icon-shape .icon{fill:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].icon-shape .icon-neo path{stroke:#0052ff;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dsh-diagram-01-foundation-EffectTS-base :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edges edgePaths"><path d="M1037.53125,43.20000076293945L1110.4601821881345,43.20000076293945Q1117.53125,43.20000076293945 1117.53125,50.27106857480493L1117.53125,324.7789368611387Q1117.53125,331.85000467300415 1124.6023178118655,331.85000467300415L1133.53125,331.85000467300415" id="dsh-diagram-01-foundation-EffectTS-base-L_UPD_HOOKS_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_UPD_HOOKS_0" data-points="W3sieCI6MTAzNy41MzEyNSwieSI6NDMuMjAwMDAwNzYyOTM5NDV9LHsieCI6MTExNy41MzEyNSwieSI6NDMuMjAwMDAwNzYyOTM5NDV9LHsieCI6MTExNy41MzEyNSwieSI6MzMxLjg1MDAwNDY3MzAwNDE1fSx7IngiOjExMzcuNTMxMjUsInkiOjMzMS44NTAwMDQ2NzMwMDQxNX1d" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M1037.53125,248.00000381469727L1070.4601821881345,248.00000381469727Q1077.53125,248.00000381469727 1077.53125,255.07107162656274L1077.53125,335.3789372426084Q1077.53125,342.4500050544739 1084.6023178118655,342.4500050544739L1133.53125,342.4500050544739" id="dsh-diagram-01-foundation-EffectTS-base-L_STR_HOOKS_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_STR_HOOKS_0" data-points="W3sieCI6MTAzNy41MzEyNSwieSI6MjQ4LjAwMDAwMzgxNDY5NzI3fSx7IngiOjEwNzcuNTMxMjUsInkiOjI0OC4wMDAwMDM4MTQ2OTcyN30seyJ4IjoxMDc3LjUzMTI1LCJ5IjozNDIuNDUwMDA1MDU0NDczOX0seyJ4IjoxMTM3LjUzMTI1LCJ5IjozNDIuNDUwMDA1MDU0NDczOX1d" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M1037.53125,350.4000053405762L1056.2062499523163,350.4000053405762Q1057.53125,350.4000053405762 1057.53125,349.07500529289246L1057.53125,349.07500529289246Q1057.53125,347.75000524520874 1058.8562500476837,347.75000524520874L1133.53125,347.75000524520874" id="dsh-diagram-01-foundation-EffectTS-base-L_GATE_HOOKS_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_GATE_HOOKS_0" data-points="W3sieCI6MTAzNy41MzEyNSwieSI6MzUwLjQwMDAwNTM0MDU3NjJ9LHsieCI6MTA1Ny41MzEyNSwieSI6MzUwLjQwMDAwNTM0MDU3NjJ9LHsieCI6MTA1Ny41MzEyNSwieSI6MzQ3Ljc1MDAwNTI0NTIwODc0fSx7IngiOjExMzcuNTMxMjUsInkiOjM0Ny43NTAwMDUyNDUyMDg3NH1d" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M1037.53125,452.8000068664551L1070.4601821881345,452.8000068664551Q1077.53125,452.8000068664551 1077.53125,445.7289390545896L1077.53125,360.1210732478091Q1077.53125,353.0500054359436 1084.6023178118655,353.0500054359436L1133.53125,353.0500054359436" id="dsh-diagram-01-foundation-EffectTS-base-L_OVR_HOOKS_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_OVR_HOOKS_0" data-points="W3sieCI6MTAzNy41MzEyNSwieSI6NDUyLjgwMDAwNjg2NjQ1NTF9LHsieCI6MTA3Ny41MzEyNSwieSI6NDUyLjgwMDAwNjg2NjQ1NTF9LHsieCI6MTA3Ny41MzEyNSwieSI6MzUzLjA1MDAwNTQzNTk0MzZ9LHsieCI6MTEzNy41MzEyNSwieSI6MzUzLjA1MDAwNTQzNTk0MzZ9XQ==" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M227.296875,80.12149874369304L263.296875,80.12149874369304" id="dsh-diagram-01-foundation-EffectTS-base-L_LEDS_SVCS_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_LEDS_SVCS_0" data-points="W3sieCI6MjI3LjI5Njg3NSwieSI6ODAuMTIxNDk4NzQzNjkzMDR9LHsieCI6MjY3LjI5Njg3NSwieSI6ODAuMTIxNDk4NzQzNjkzMDR9XQ==" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M478.984375,80.12149874369304L491.9133071881345,80.12149874369304Q498.984375,80.12149874369304 498.984375,87.19256655555851L498.984375,124.39560063499329Q498.984375,131.46666844685876 506.0554428118655,131.46666844685876L514.984375,131.46666844685876" id="dsh-diagram-01-foundation-EffectTS-base-L_SVCS_MAT_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_SVCS_MAT_0" data-points="W3sieCI6NDc4Ljk4NDM3NSwieSI6ODAuMTIxNDk4NzQzNjkzMDR9LHsieCI6NDk4Ljk4NDM3NSwieSI6ODAuMTIxNDk4NzQzNjkzMDR9LHsieCI6NDk4Ljk4NDM3NSwieSI6MTMxLjQ2NjY2ODQ0Njg1ODc2fSx7IngiOjUxOC45ODQzNzUsInkiOjEzMS40NjY2Njg0NDY4NTg3Nn1d" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M744.6875,138.53333536783856L809,138.53333536783856" id="dsh-diagram-01-foundation-EffectTS-base-L_MAT_FAC_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_MAT_FAC_0" data-points="W3sieCI6NzQ0LjY4NzUsInkiOjEzOC41MzMzMzUzNjc4Mzg1Nn0seyJ4Ijo4MTMsInkiOjEzOC41MzMzMzUzNjc4Mzg1Nn1d" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M744.6875,551.7500081062317L757.6164321881345,551.7500081062317Q764.6875,551.7500081062317 764.6875,544.6789402943662L764.6875,159.73773702166366Q764.6875,152.6666692097982 771.7585678118655,152.6666692097982L809,152.6666692097982" id="dsh-diagram-01-foundation-EffectTS-base-L_TYP_FAC_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_TYP_FAC_0" data-points="W3sieCI6NzQ0LjY4NzUsInkiOjU1MS43NTAwMDgxMDYyMzE3fSx7IngiOjc2NC42ODc1LCJ5Ijo1NTEuNzUwMDA4MTA2MjMxN30seyJ4Ijo3NjQuNjg3NSwieSI6MTUyLjY2NjY2OTIwOTc5ODJ9LHsieCI6ODEzLCJ5IjoxNTIuNjY2NjY5MjA5Nzk4Mn1d" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M744.6875,562.3500084877014L781.1124999523163,562.3500084877014Q784.6875,562.3500084877014 784.6875,558.7750084400177L784.6875,558.7750084400177Q784.6875,555.200008392334 788.2625000476837,555.200008392334L827.109375,555.200008392334" id="dsh-diagram-01-foundation-EffectTS-base-L_TYP_LIB_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_TYP_LIB_0" data-points="W3sieCI6NzQ0LjY4NzUsInkiOjU2Mi4zNTAwMDg0ODc3MDE0fSx7IngiOjc4NC42ODc1LCJ5Ijo1NjIuMzUwMDA4NDg3NzAxNH0seyJ4Ijo3ODQuNjg3NSwieSI6NTU1LjIwMDAwODM5MjMzNH0seyJ4Ijo4MzEuMTA5Mzc1LCJ5Ijo1NTUuMjAwMDA4MzkyMzM0fV0=" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M744.6875,572.9500088691711L757.6164321881345,572.9500088691711Q764.6875,572.9500088691711 764.6875,580.0210766810367L764.6875,599.3289413434079Q764.6875,606.4000091552734 771.7585678118655,606.4000091552734L921.109375,606.4000091552734L1110.4601821881345,606.4000091552734Q1117.53125,606.4000091552734 1117.53125,599.3289413434079L1117.53125,370.7210736292788Q1117.53125,363.65000581741333 1124.6023178118655,363.65000581741333L1133.53125,363.65000581741333" id="dsh-diagram-01-foundation-EffectTS-base-L_TYP_HOOKS_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_TYP_HOOKS_0" data-points="W3sieCI6NzQ0LjY4NzUsInkiOjU3Mi45NTAwMDg4NjkxNzExfSx7IngiOjc2NC42ODc1LCJ5Ijo1NzIuOTUwMDA4ODY5MTcxMX0seyJ4Ijo3NjQuNjg3NSwieSI6NjA2LjQwMDAwOTE1NTI3MzR9LHsieCI6OTIxLjEwOTM3NSwieSI6NjA2LjQwMDAwOTE1NTI3MzR9LHsieCI6MTExNy41MzEyNSwieSI6NjA2LjQwMDAwOTE1NTI3MzR9LHsieCI6MTExNy41MzEyNSwieSI6MzYzLjY1MDAwNTgxNzQxMzMzfSx7IngiOjExMzcuNTMxMjUsInkiOjM2My42NTAwMDU4MTc0MTMzM31d" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M1011.109375,555.200008392334L1090.4601821881345,555.200008392334Q1097.53125,555.200008392334 1097.53125,548.1289405804685L1097.53125,365.42107343854394Q1097.53125,358.35000562667847 1104.6023178118655,358.35000562667847L1133.53125,358.35000562667847" id="dsh-diagram-01-foundation-EffectTS-base-L_LIB_HOOKS_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_LIB_HOOKS_0" data-points="W3sieCI6MTAxMS4xMDkzNzUsInkiOjU1NS4yMDAwMDgzOTIzMzR9LHsieCI6MTA5Ny41MzEyNSwieSI6NTU1LjIwMDAwODM5MjMzNH0seyJ4IjoxMDk3LjUzMTI1LCJ5IjozNTguMzUwMDA1NjI2Njc4NDd9LHsieCI6MTEzNy41MzEyNSwieSI6MzU4LjM1MDAwNTYyNjY3ODQ3fV0=" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M1020.90625,145.60000228881836L1090.4601821881345,145.60000228881836Q1097.53125,145.60000228881836 1097.53125,152.67107010068383L1097.53125,330.07893705187354Q1097.53125,337.150004863739 1104.6023178118655,337.150004863739L1133.53125,337.150004863739" id="dsh-diagram-01-foundation-EffectTS-base-L_FAC_HOOKS_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_FAC_HOOKS_0" data-points="W3sieCI6MTAyMC45MDYyNSwieSI6MTQ1LjYwMDAwMjI4ODgxODM2fSx7IngiOjEwOTcuNTMxMjUsInkiOjE0NS42MDAwMDIyODg4MTgzNn0seyJ4IjoxMDk3LjUzMTI1LCJ5IjozMzcuMTUwMDA0ODYzNzM5fSx7IngiOjExMzcuNTMxMjUsInkiOjMzNy4xNTAwMDQ4NjM3Mzl9XQ==" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/><path d="M478.984375,196.94517199198407L491.9133071881345,196.94517199198407Q498.984375,196.94517199198407 498.984375,189.8741041801186L498.984375,152.67107010068386Q498.984375,145.6000022888184 506.0554428118655,145.6000022888184L514.984375,145.6000022888184" id="dsh-diagram-01-foundation-EffectTS-base-L_EFF_MAT_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_EFF_MAT_0" data-points="W3sieCI6NDc4Ljk4NDM3NSwieSI6MTk2Ljk0NTE3MTk5MTk4NDA3fSx7IngiOjQ5OC45ODQzNzUsInkiOjE5Ni45NDUxNzE5OTE5ODQwN30seyJ4Ijo0OTguOTg0Mzc1LCJ5IjoxNDUuNjAwMDAyMjg4ODE4NH0seyJ4Ijo1MTguOTg0Mzc1LCJ5IjoxNDUuNjAwMDAyMjg4ODE4NH1d" data-look="classic" marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"/><g class="nodes"><g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-UPD-0" data-look="classic" transform="translate(921.109375, 43.20000076293945)"><rect class="basic label-container" style="" x="-116.421875" y="-31.200000762939453" width="232.84375" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Update</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> +</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Activate</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">envelope</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> proof</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> composer</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-STR-1" data-look="classic" transform="translate(941.9609375, 248.00000381469727)"><rect class="basic label-container" style="" x="-95.5703125" y="-31.200000762939453" width="191.140625" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Chunk</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> /</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Block</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> /</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Strip</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">stream</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> dispatch</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-GATE-2" data-look="classic" transform="translate(940.9765625, 350.4000053405762)"><rect class="basic label-container" style="" x="-96.5546875" y="-31.200000762939453" width="193.109375" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">StreamGate</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">the</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> gate</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> transformer</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-LEDS-3" data-look="classic" transform="translate(119.6484375, 80.12149874369304)"><rect class="basic label-container" style="" x="-107.6484375" y="-31.200000762939453" width="215.296875" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Append</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> LedgerService</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">the</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> ledger</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> service</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-SVCS-4" data-look="classic" transform="translate(373.140625, 80.12149874369304)"><rect class="basic label-container" style="" x="-105.84375" y="-31.200000762939453" width="211.6875" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Write</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Journal</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Govern</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Effect</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> services</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-MAT-5" data-look="classic" transform="translate(631.8359375, 138.53333536783856)"><rect class="basic label-container" style="" x="-112.8515625" y="-31.200000762939453" width="225.703125" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">materialize()</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Layer.mergeAll</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> -&gt;</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> scoped</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-TYP-6" data-look="classic" transform="translate(645.53125, 562.3500084877014)"><rect class="basic label-container" style="" x="-99.15625" y="-31.200000762939453" width="198.3125" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Interface</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> contracts</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">State</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Options</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Gate</tspan></tspan></text></g></g></g><g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-OVR-7" data-look="classic" transform="translate(922.640625, 452.8000068664551)"><rect class="basic label-container" style="" x="-114.890625" y="-31.200000762939453" width="229.78125" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Overpass</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> scaffolding</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">RewriteBlocks</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> StepBatch</tspan></tspan></text></g></g></g><g class="node default host" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-LIB-8" data-look="classic" transform="translate(921.109375, 555.200008392334)"><rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">ets-lib-dsh-core</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">13</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> pure</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> helpers</tspan></tspan></text></g></g></g><g class="node default host" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-FAC-9" data-look="classic" transform="translate(916.953125, 145.60000228881836)"><rect class="basic label-container" style="" x="-103.953125" y="-31.200000762939453" width="207.90625" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">ets-plugin-dsh-factory</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">the</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Cordis</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> shell</tspan></tspan></text></g></g></g><g class="node default host" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-HOOKS-10" data-look="classic" transform="translate(1242.578125, 347.75000524520874)"><rect class="basic label-container" style="" x="-105.046875" y="-31.200000762939453" width="210.09375" height="62.400001525878906"/><g class="label" style="" transform="translate(0, -16.200000762939453)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">12</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> ets-hook</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> bundles</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">governance</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> normalize</tspan></tspan></text></g></g></g><g class="node default store" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-EFF-11" data-look="classic" transform="translate(391.015625, 196.94517199198407)"><path d="M0,14.615784008307374 a87.96875,14.615784008307374 0,0,0 175.9375,0 a87.96875,14.615784008307374 0,0,0 -175.9375,0 l0,62.01578553418628 a87.96875,14.615784008307374 0,0,0 175.9375,0 l0,-62.01578553418628" class="basic label-container outer-path" style="" transform="translate(-87.96875, -45.62367677540051)"/><g class="label" style="" transform="translate(0, -6.2000017166137695)"><rect/><g><rect class="background" style="stroke: none"/><text y="-10.1" style=""><tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">effect</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 4.0.5</tspan></tspan><tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em"><tspan font-style="normal" class="text-inner-tspan" font-weight="normal">one</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> runtime</tspan><tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> dependency</tspan></tspan></text></g></g></g></g></g></g><defs><filter id="dsh-diagram-01-foundation-EffectTS-base-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="dsh-diagram-01-foundation-EffectTS-base-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs></svg>
+<svg id="dsh-diagram-01-foundation-EffectTS-base" width="100%" xmlns="http://www.w3.org/2000/svg" class="flowchart"
+	viewBox="-88.28968048095703 -1.5190678238868713 1445.914680480957 617.9190922379494"
+	role="graphics-document document" aria-roledescription="flowchart-v2">
+	<style>
+		#dsh-diagram-01-foundation-EffectTS-base {
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			font-size: 14px;
+			fill: #0b0f19;
+		}
+
+		@keyframes edge-animation-frame {
+			from {
+				stroke-dashoffset: 0;
+			}
+		}
+
+		@keyframes dash {
+			to {
+				stroke-dashoffset: 0;
+			}
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edge-animation-slow {
+			stroke-dasharray: 9, 5 !important;
+			stroke-dashoffset: 900;
+			animation: dash 50s linear infinite;
+			stroke-linecap: round;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edge-animation-fast {
+			stroke-dasharray: 9, 5 !important;
+			stroke-dashoffset: 900;
+			animation: dash 20s linear infinite;
+			stroke-linecap: round;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .error-icon {
+			fill: #ffffff;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .error-text {
+			fill: #000000;
+			stroke: #000000;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edge-thickness-normal {
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edge-thickness-thick {
+			stroke-width: 3.5px;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edge-pattern-solid {
+			stroke-dasharray: 0;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edge-thickness-invisible {
+			stroke-width: 0;
+			fill: none;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edge-pattern-dashed {
+			stroke-dasharray: 3;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edge-pattern-dotted {
+			stroke-dasharray: 2;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .marker {
+			fill: #616f84;
+			stroke: #616f84;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .marker.cross {
+			stroke: #616f84;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base svg {
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			font-size: 14px;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base p {
+			margin: 0;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .label {
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			color: #0b0f19;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .cluster-label text {
+			fill: #000000;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .cluster-label span {
+			color: #000000;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .cluster-label span p {
+			background-color: transparent;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .label text,
+		#dsh-diagram-01-foundation-EffectTS-base span {
+			fill: #0b0f19;
+			color: #0b0f19;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .node rect,
+		#dsh-diagram-01-foundation-EffectTS-base .node circle,
+		#dsh-diagram-01-foundation-EffectTS-base .node ellipse,
+		#dsh-diagram-01-foundation-EffectTS-base .node polygon,
+		#dsh-diagram-01-foundation-EffectTS-base .node path {
+			fill: #f0f4ff;
+			stroke: #0052ff;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .rough-node .label text,
+		#dsh-diagram-01-foundation-EffectTS-base .node .label text,
+		#dsh-diagram-01-foundation-EffectTS-base .image-shape .label,
+		#dsh-diagram-01-foundation-EffectTS-base .icon-shape .label {
+			text-anchor: middle;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .node .katex path {
+			fill: #000;
+			stroke: #000;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .rough-node .label,
+		#dsh-diagram-01-foundation-EffectTS-base .node .label,
+		#dsh-diagram-01-foundation-EffectTS-base .image-shape .label,
+		#dsh-diagram-01-foundation-EffectTS-base .icon-shape .label {
+			text-align: center;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .node.clickable {
+			cursor: pointer;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .root .anchor path {
+			fill: #616f84 !important;
+			stroke-width: 0;
+			stroke: #616f84;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .arrowheadPath {
+			fill: #0b0b0b;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edgePaths .path {
+			stroke: #616f84;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .flowchart-link {
+			stroke: #616f84;
+			fill: none;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edgeLabel {
+			background-color: #ffffff;
+			text-align: center;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edgeLabel p {
+			background-color: #ffffff;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .edgeLabel rect {
+			opacity: 0.5;
+			background-color: #ffffff;
+			fill: #ffffff;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .labelBkg {
+			background-color: rgba(255, 255, 255, 0.5);
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .cluster rect {
+			fill: #f8fafc;
+			stroke: #e2e8f0;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .cluster text {
+			fill: #000000;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .cluster span {
+			color: #000000;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .node .collapsed-indicator {
+			fill: #e2e8f0;
+			stroke: none;
+			opacity: 0.6;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .node .collapsed-separator {
+			stroke: #e2e8f0;
+			stroke-width: 0.75px;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base div.mermaidTooltip {
+			position: absolute;
+			text-align: center;
+			max-width: 200px;
+			padding: 2px;
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			font-size: 12px;
+			background: #ffffff;
+			border: 1px solid #e2e8f0;
+			border-radius: 2px;
+			pointer-events: none;
+			z-index: 100;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .flowchartTitleText {
+			text-anchor: middle;
+			font-size: 18px;
+			fill: #0b0f19;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base rect.text {
+			fill: none;
+			stroke-width: 0;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .icon-shape,
+		#dsh-diagram-01-foundation-EffectTS-base .image-shape {
+			background-color: #ffffff;
+			text-align: center;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .icon-shape p,
+		#dsh-diagram-01-foundation-EffectTS-base .image-shape p {
+			background-color: #ffffff;
+			padding: 2px;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .icon-shape .label rect,
+		#dsh-diagram-01-foundation-EffectTS-base .image-shape .label rect {
+			opacity: 0.5;
+			background-color: #ffffff;
+			fill: #ffffff;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .label-icon {
+			display: inline-block;
+			height: 1em;
+			overflow: visible;
+			vertical-align: -0.125em;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .node .label-icon path {
+			fill: currentColor;
+			stroke: revert;
+			stroke-width: revert;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base .node .neo-node {
+			stroke: #0052ff;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node rect,
+		#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].cluster rect,
+		#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node polygon {
+			stroke: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].swimlane.cluster rect {
+			filter: none;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node path {
+			stroke: #0052ff;
+			stroke-width: 1px;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node .outer-path {
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node .neo-line path {
+			stroke: #0052ff;
+			filter: none;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node circle {
+			stroke: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].node circle .state-start {
+			fill: #000000;
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].icon-shape .icon {
+			fill: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base [data-look="neo"].icon-shape .icon-neo path {
+			stroke: #0052ff;
+			filter: drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));
+		}
+
+		#dsh-diagram-01-foundation-EffectTS-base :root {
+			--mermaid-font-family: "trebuchet ms", verdana, arial, sans-serif;
+		}
+	</style>
+	<g>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd" class="marker flowchart-v2"
+			viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8"
+			orient="auto">
+			<path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointStart" class="marker flowchart-v2"
+			viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8"
+			orient="auto">
+			<path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd-margin" class="marker flowchart-v2"
+			viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14"
+			orient="auto">
+			<path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath"
+				style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointStart-margin" class="marker flowchart-v2"
+			viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14"
+			orient="auto">
+			<polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath"
+				style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-circleEnd" class="marker flowchart-v2"
+			viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11"
+			orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-circleStart" class="marker flowchart-v2"
+			viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11"
+			orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-circleEnd-margin" class="marker flowchart-v2"
+			viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14"
+			orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-circleStart-margin" class="marker flowchart-v2"
+			viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14"
+			orient="auto">
+			<circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-crossEnd" class="marker cross flowchart-v2"
+			viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11"
+			orient="auto">
+			<path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath"
+				style="stroke-width: 2; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-crossStart" class="marker cross flowchart-v2"
+			viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11"
+			orient="auto">
+			<path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath"
+				style="stroke-width: 2; stroke-dasharray: 1, 0;" />
+		</marker>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-crossEnd-margin"
+			class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse"
+			markerWidth="12" markerHeight="12" orient="auto">
+			<path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;" />
+		</marker>
+		<marker id="dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-crossStart-margin"
+			class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse"
+			markerWidth="12" markerHeight="12" orient="auto">
+			<path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath"
+				style="stroke-width: 2.5; stroke-dasharray: 1, 0;" />
+		</marker>
+		<g class="root">
+			<g class="clusters" />
+			<g class="edges edgePaths">
+				<path
+					d="M1037.53125,43.20000076293945L1110.4601821881345,43.20000076293945Q1117.53125,43.20000076293945 1117.53125,50.27106857480493L1117.53125,324.7789368611387Q1117.53125,331.85000467300415 1124.6023178118655,331.85000467300415L1133.53125,331.85000467300415"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_UPD_HOOKS_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_UPD_HOOKS_0"
+					data-points="W3sieCI6MTAzNy41MzEyNSwieSI6NDMuMjAwMDAwNzYyOTM5NDV9LHsieCI6MTExNy41MzEyNSwieSI6NDMuMjAwMDAwNzYyOTM5NDV9LHsieCI6MTExNy41MzEyNSwieSI6MzMxLjg1MDAwNDY3MzAwNDE1fSx7IngiOjExMzcuNTMxMjUsInkiOjMzMS44NTAwMDQ2NzMwMDQxNX1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path
+					d="M1037.53125,248.00000381469727L1070.4601821881345,248.00000381469727Q1077.53125,248.00000381469727 1077.53125,255.07107162656274L1077.53125,335.3789372426084Q1077.53125,342.4500050544739 1084.6023178118655,342.4500050544739L1133.53125,342.4500050544739"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_STR_HOOKS_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_STR_HOOKS_0"
+					data-points="W3sieCI6MTAzNy41MzEyNSwieSI6MjQ4LjAwMDAwMzgxNDY5NzI3fSx7IngiOjEwNzcuNTMxMjUsInkiOjI0OC4wMDAwMDM4MTQ2OTcyN30seyJ4IjoxMDc3LjUzMTI1LCJ5IjozNDIuNDUwMDA1MDU0NDczOX0seyJ4IjoxMTM3LjUzMTI1LCJ5IjozNDIuNDUwMDA1MDU0NDczOX1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path
+					d="M1037.53125,350.4000053405762L1056.2062499523163,350.4000053405762Q1057.53125,350.4000053405762 1057.53125,349.07500529289246L1057.53125,349.07500529289246Q1057.53125,347.75000524520874 1058.8562500476837,347.75000524520874L1133.53125,347.75000524520874"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_GATE_HOOKS_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_GATE_HOOKS_0"
+					data-points="W3sieCI6MTAzNy41MzEyNSwieSI6MzUwLjQwMDAwNTM0MDU3NjJ9LHsieCI6MTA1Ny41MzEyNSwieSI6MzUwLjQwMDAwNTM0MDU3NjJ9LHsieCI6MTA1Ny41MzEyNSwieSI6MzQ3Ljc1MDAwNTI0NTIwODc0fSx7IngiOjExMzcuNTMxMjUsInkiOjM0Ny43NTAwMDUyNDUyMDg3NH1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path
+					d="M1037.53125,452.8000068664551L1070.4601821881345,452.8000068664551Q1077.53125,452.8000068664551 1077.53125,445.7289390545896L1077.53125,360.1210732478091Q1077.53125,353.0500054359436 1084.6023178118655,353.0500054359436L1133.53125,353.0500054359436"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_OVR_HOOKS_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_OVR_HOOKS_0"
+					data-points="W3sieCI6MTAzNy41MzEyNSwieSI6NDUyLjgwMDAwNjg2NjQ1NTF9LHsieCI6MTA3Ny41MzEyNSwieSI6NDUyLjgwMDAwNjg2NjQ1NTF9LHsieCI6MTA3Ny41MzEyNSwieSI6MzUzLjA1MDAwNTQzNTk0MzZ9LHsieCI6MTEzNy41MzEyNSwieSI6MzUzLjA1MDAwNTQzNTk0MzZ9XQ=="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path d="M227.296875,80.12149874369304L263.296875,80.12149874369304"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_LEDS_SVCS_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_LEDS_SVCS_0"
+					data-points="W3sieCI6MjI3LjI5Njg3NSwieSI6ODAuMTIxNDk4NzQzNjkzMDR9LHsieCI6MjY3LjI5Njg3NSwieSI6ODAuMTIxNDk4NzQzNjkzMDR9XQ=="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path
+					d="M478.984375,80.12149874369304L491.9133071881345,80.12149874369304Q498.984375,80.12149874369304 498.984375,87.19256655555851L498.984375,124.39560063499329Q498.984375,131.46666844685876 506.0554428118655,131.46666844685876L514.984375,131.46666844685876"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_SVCS_MAT_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_SVCS_MAT_0"
+					data-points="W3sieCI6NDc4Ljk4NDM3NSwieSI6ODAuMTIxNDk4NzQzNjkzMDR9LHsieCI6NDk4Ljk4NDM3NSwieSI6ODAuMTIxNDk4NzQzNjkzMDR9LHsieCI6NDk4Ljk4NDM3NSwieSI6MTMxLjQ2NjY2ODQ0Njg1ODc2fSx7IngiOjUxOC45ODQzNzUsInkiOjEzMS40NjY2Njg0NDY4NTg3Nn1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path d="M744.6875,138.53333536783856L809,138.53333536783856"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_MAT_FAC_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_MAT_FAC_0"
+					data-points="W3sieCI6NzQ0LjY4NzUsInkiOjEzOC41MzMzMzUzNjc4Mzg1Nn0seyJ4Ijo4MTMsInkiOjEzOC41MzMzMzUzNjc4Mzg1Nn1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path
+					d="M744.6875,551.7500081062317L757.6164321881345,551.7500081062317Q764.6875,551.7500081062317 764.6875,544.6789402943662L764.6875,159.73773702166366Q764.6875,152.6666692097982 771.7585678118655,152.6666692097982L809,152.6666692097982"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_TYP_FAC_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_TYP_FAC_0"
+					data-points="W3sieCI6NzQ0LjY4NzUsInkiOjU1MS43NTAwMDgxMDYyMzE3fSx7IngiOjc2NC42ODc1LCJ5Ijo1NTEuNzUwMDA4MTA2MjMxN30seyJ4Ijo3NjQuNjg3NSwieSI6MTUyLjY2NjY2OTIwOTc5ODJ9LHsieCI6ODEzLCJ5IjoxNTIuNjY2NjY5MjA5Nzk4Mn1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path
+					d="M744.6875,562.3500084877014L781.1124999523163,562.3500084877014Q784.6875,562.3500084877014 784.6875,558.7750084400177L784.6875,558.7750084400177Q784.6875,555.200008392334 788.2625000476837,555.200008392334L827.109375,555.200008392334"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_TYP_LIB_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_TYP_LIB_0"
+					data-points="W3sieCI6NzQ0LjY4NzUsInkiOjU2Mi4zNTAwMDg0ODc3MDE0fSx7IngiOjc4NC42ODc1LCJ5Ijo1NjIuMzUwMDA4NDg3NzAxNH0seyJ4Ijo3ODQuNjg3NSwieSI6NTU1LjIwMDAwODM5MjMzNH0seyJ4Ijo4MzEuMTA5Mzc1LCJ5Ijo1NTUuMjAwMDA4MzkyMzM0fV0="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path
+					d="M744.6875,572.9500088691711L757.6164321881345,572.9500088691711Q764.6875,572.9500088691711 764.6875,580.0210766810367L764.6875,599.3289413434079Q764.6875,606.4000091552734 771.7585678118655,606.4000091552734L921.109375,606.4000091552734L1110.4601821881345,606.4000091552734Q1117.53125,606.4000091552734 1117.53125,599.3289413434079L1117.53125,370.7210736292788Q1117.53125,363.65000581741333 1124.6023178118655,363.65000581741333L1133.53125,363.65000581741333"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_TYP_HOOKS_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_TYP_HOOKS_0"
+					data-points="W3sieCI6NzQ0LjY4NzUsInkiOjU3Mi45NTAwMDg4NjkxNzExfSx7IngiOjc2NC42ODc1LCJ5Ijo1NzIuOTUwMDA4ODY5MTcxMX0seyJ4Ijo3NjQuNjg3NSwieSI6NjA2LjQwMDAwOTE1NTI3MzR9LHsieCI6OTIxLjEwOTM3NSwieSI6NjA2LjQwMDAwOTE1NTI3MzR9LHsieCI6MTExNy41MzEyNSwieSI6NjA2LjQwMDAwOTE1NTI3MzR9LHsieCI6MTExNy41MzEyNSwieSI6MzYzLjY1MDAwNTgxNzQxMzMzfSx7IngiOjExMzcuNTMxMjUsInkiOjM2My42NTAwMDU4MTc0MTMzM31d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path
+					d="M1011.109375,555.200008392334L1090.4601821881345,555.200008392334Q1097.53125,555.200008392334 1097.53125,548.1289405804685L1097.53125,365.42107343854394Q1097.53125,358.35000562667847 1104.6023178118655,358.35000562667847L1133.53125,358.35000562667847"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_LIB_HOOKS_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_LIB_HOOKS_0"
+					data-points="W3sieCI6MTAxMS4xMDkzNzUsInkiOjU1NS4yMDAwMDgzOTIzMzR9LHsieCI6MTA5Ny41MzEyNSwieSI6NTU1LjIwMDAwODM5MjMzNH0seyJ4IjoxMDk3LjUzMTI1LCJ5IjozNTguMzUwMDA1NjI2Njc4NDd9LHsieCI6MTEzNy41MzEyNSwieSI6MzU4LjM1MDAwNTYyNjY3ODQ3fV0="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path
+					d="M1020.90625,145.60000228881836L1090.4601821881345,145.60000228881836Q1097.53125,145.60000228881836 1097.53125,152.67107010068383L1097.53125,330.07893705187354Q1097.53125,337.150004863739 1104.6023178118655,337.150004863739L1133.53125,337.150004863739"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_FAC_HOOKS_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_FAC_HOOKS_0"
+					data-points="W3sieCI6MTAyMC45MDYyNSwieSI6MTQ1LjYwMDAwMjI4ODgxODM2fSx7IngiOjEwOTcuNTMxMjUsInkiOjE0NS42MDAwMDIyODg4MTgzNn0seyJ4IjoxMDk3LjUzMTI1LCJ5IjozMzcuMTUwMDA0ODYzNzM5fSx7IngiOjExMzcuNTMxMjUsInkiOjMzNy4xNTAwMDQ4NjM3Mzl9XQ=="
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+				<path
+					d="M478.984375,196.94517199198407L491.9133071881345,196.94517199198407Q498.984375,196.94517199198407 498.984375,189.8741041801186L498.984375,152.67107010068386Q498.984375,145.6000022888184 506.0554428118655,145.6000022888184L514.984375,145.6000022888184"
+					id="dsh-diagram-01-foundation-EffectTS-base-L_EFF_MAT_0"
+					class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link"
+					style=";" data-edge="true" data-et="edge" data-id="L_EFF_MAT_0"
+					data-points="W3sieCI6NDc4Ljk4NDM3NSwieSI6MTk2Ljk0NTE3MTk5MTk4NDA3fSx7IngiOjQ5OC45ODQzNzUsInkiOjE5Ni45NDUxNzE5OTE5ODQwN30seyJ4Ijo0OTguOTg0Mzc1LCJ5IjoxNDUuNjAwMDAyMjg4ODE4NH0seyJ4Ijo1MTguOTg0Mzc1LCJ5IjoxNDUuNjAwMDAyMjg4ODE4NH1d"
+					data-look="classic"
+					marker-end="url(#dsh-diagram-01-foundation-EffectTS-base_flowchart-v2-pointEnd)" />
+			</g>
+			<g class="edgeLabels" />
+			<g class="nodes">
+				<g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-UPD-0"
+					data-look="classic" transform="translate(921.109375, 43.20000076293945)">
+					<rect class="basic label-container" style="" x="-116.421875" y="-31.200000762939453"
+						width="232.84375" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Update
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> +</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Activate
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">envelope
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> proof
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> composer
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-STR-1"
+					data-look="classic" transform="translate(941.9609375, 248.00000381469727)">
+					<rect class="basic label-container" style="" x="-95.5703125" y="-31.200000762939453"
+						width="191.140625" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Chunk
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> /</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Block
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> /</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Strip
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">stream
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> dispatch
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-GATE-2"
+					data-look="classic" transform="translate(940.9765625, 350.4000053405762)">
+					<rect class="basic label-container" style="" x="-96.5546875" y="-31.200000762939453"
+						width="193.109375" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">StreamGate
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">the</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> gate
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										 transformer</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-LEDS-3"
+					data-look="classic" transform="translate(119.6484375, 80.12149874369304)">
+					<rect class="basic label-container" style="" x="-107.6484375" y="-31.200000762939453"
+						width="215.296875" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Append
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										 LedgerService</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">the</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> ledger
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> service
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-SVCS-4"
+					data-look="classic" transform="translate(373.140625, 80.12149874369304)">
+					<rect class="basic label-container" style="" x="-105.84375" y="-31.200000762939453" width="211.6875"
+						height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Write
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Journal
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Govern
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Effect
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> services
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-MAT-5"
+					data-look="classic" transform="translate(631.8359375, 138.53333536783856)">
+					<rect class="basic label-container" style="" x="-112.8515625" y="-31.200000762939453"
+						width="225.703125" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										materialize()</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										Layer.mergeAll</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> -&gt;
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> scoped
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-TYP-6"
+					data-look="classic" transform="translate(645.53125, 562.3500084877014)">
+					<rect class="basic label-container" style="" x="-99.15625" y="-31.200000762939453" width="198.3125"
+						height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Interface
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> contracts
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">State
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Options
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Gate
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default hook" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-OVR-7"
+					data-look="classic" transform="translate(922.640625, 452.8000068664551)">
+					<rect class="basic label-container" style="" x="-114.890625" y="-31.200000762939453"
+						width="229.78125" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">Overpass
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										 scaffolding</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										RewriteBlocks</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> StepBatch
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default host" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-LIB-8"
+					data-look="classic" transform="translate(921.109375, 555.200008392334)">
+					<rect class="basic label-container" style="" x="-90" y="-31.200000762939453" width="180"
+						height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										ets-lib-dsh-core</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">13</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> pure
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> helpers
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default host" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-FAC-9"
+					data-look="classic" transform="translate(916.953125, 145.60000228881836)">
+					<rect class="basic label-container" style="" x="-103.953125" y="-31.200000762939453"
+						width="207.90625" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">
+										ets-plugin-dsh-factory</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">the</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> Cordis
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> shell
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default host" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-HOOKS-10"
+					data-look="classic" transform="translate(1242.578125, 347.75000524520874)">
+					<rect class="basic label-container" style="" x="-105.046875" y="-31.200000762939453"
+						width="210.09375" height="62.400001525878906" />
+					<g class="label" style="" transform="translate(0, -16.200000762939453)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">12</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> ets-hook
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> bundles
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">governance
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> .</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> normalize
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+				<g class="node default store" id="dsh-diagram-01-foundation-EffectTS-base-flowchart-EFF-11"
+					data-look="classic" transform="translate(391.015625, 196.94517199198407)">
+					<path
+						d="M0,14.615784008307374 a87.96875,14.615784008307374 0,0,0 175.9375,0 a87.96875,14.615784008307374 0,0,0 -175.9375,0 l0,62.01578553418628 a87.96875,14.615784008307374 0,0,0 175.9375,0 l0,-62.01578553418628"
+						class="basic label-container outer-path" style=""
+						transform="translate(-87.96875, -45.62367677540051)" />
+					<g class="label" style="" transform="translate(0, -6.2000017166137695)">
+						<rect />
+						<g>
+							<rect class="background" style="stroke: none" /><text y="-10.1" style="">
+								<tspan class="text-outer-tspan row" x="0" y="-0.1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">effect
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> 4.0.5
+									</tspan>
+								</tspan>
+								<tspan class="text-outer-tspan row" x="0" y="1em" dy="1.1em">
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal">one</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> runtime
+									</tspan>
+									<tspan font-style="normal" class="text-inner-tspan" font-weight="normal"> dependency
+									</tspan>
+								</tspan>
+							</text>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+	<defs>
+		<filter id="dsh-diagram-01-foundation-EffectTS-base-drop-shadow" height="130%" width="130%">
+			<feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000" />
+		</filter>
+	</defs>
+	<defs>
+		<filter id="dsh-diagram-01-foundation-EffectTS-base-drop-shadow-small" height="150%" width="150%">
+			<feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000" />
+		</filter>
+	</defs>
+</svg>

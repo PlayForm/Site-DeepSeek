@@ -1,8 +1,6 @@
 import "@Stylesheet/Component/Inspector.scss";
 import "@Stylesheet/Component/Schema.scss";
 
-import { createSignal, For, Show } from "solid-js";
-
 import {
 	FormatDuration,
 	FormatNumber,
@@ -13,6 +11,7 @@ import {
 	type Entry,
 	type Face,
 } from "@Content/Session";
+import { createSignal, For, Show } from "solid-js";
 
 interface Props {
 	/** The selected record, in the session's own shape. */
@@ -43,7 +42,7 @@ export default function InspectorLive(Props: Props) {
 	return (
 		<div class="inspector" aria-live="polite">
 			<p class="inspector__subject">
-				<span class="inspector__seq">{String(Props.Entry.Seq).padStart(2, "0")}</span>
+				<span class="inspector__seq">{String(Props.Entry.Seq).padStart(2, "0")}</span>{" "}
 				<span class="inspector__name">{Props.Entry.Name}</span>
 			</p>
 			<p class="inspector__sub">
@@ -73,8 +72,7 @@ export default function InspectorLive(Props: Props) {
 												<div class="inspector__object-head">
 													<span
 														class="inspector__glyph"
-														data-kind={Props.Entry.Kind}
-													>
+														data-kind={Props.Entry.Kind}>
 														{Props.Entry.Kind.toUpperCase()}
 													</span>
 													<span class="inspector__object-type">
@@ -82,10 +80,19 @@ export default function InspectorLive(Props: Props) {
 													</span>
 												</div>
 												<dl class="inspector__rows">
-													<Row Key="Seq" Value={String(Props.Entry.Seq)} />
+													<Row
+														Key="Seq"
+														Value={String(Props.Entry.Seq)}
+													/>
 													<Row Key="Kind" Value={Props.Entry.Kind} />
-													<Row Key="Turn" Value={String(Props.Entry.Turn)} />
-													<Row Key="Step" Value={String(Props.Entry.Step)} />
+													<Row
+														Key="Turn"
+														Value={String(Props.Entry.Turn)}
+													/>
+													<Row
+														Key="Step"
+														Value={String(Props.Entry.Step)}
+													/>
 													<Row
 														Key="Dispatch"
 														Value={Props.Entry.Dispatch}
@@ -97,7 +104,10 @@ export default function InspectorLive(Props: Props) {
 														/>
 													</Show>
 													<Show when={Outcome().By !== undefined}>
-														<Row Key="By" Value={String(Outcome().By)} />
+														<Row
+															Key="By"
+															Value={String(Outcome().By)}
+														/>
 													</Show>
 													<Show when={Outcome().Reason !== undefined}>
 														<Row
@@ -109,8 +119,7 @@ export default function InspectorLive(Props: Props) {
 														when={
 															Props.Face === "family" &&
 															Props.Entry.Plugin !== undefined
-														}
-													>
+														}>
 														<Row
 															Key="Plugin"
 															Value={String(Props.Entry.Plugin)}
@@ -120,8 +129,7 @@ export default function InspectorLive(Props: Props) {
 														when={
 															Props.Face === "family" &&
 															Props.Entry.Effect !== undefined
-														}
-													>
+														}>
 														<Row
 															Key="Effect"
 															Value={String(Props.Entry.Effect)}
@@ -144,8 +152,7 @@ export default function InspectorLive(Props: Props) {
 															Outcome().Gate === "deny"
 																? "deny"
 																: "pass"
-														}
-													>
+														}>
 														pre
 													</span>
 													<span class="inspector__arrow">-&gt;</span>
@@ -155,8 +162,7 @@ export default function InspectorLive(Props: Props) {
 															Outcome().Gate === "deny"
 																? "skip"
 																: "pass"
-														}
-													>
+														}>
 														execute
 													</span>
 													<span class="inspector__arrow">-&gt;</span>
@@ -166,8 +172,7 @@ export default function InspectorLive(Props: Props) {
 															Outcome().Gate === "deny"
 																? "skip"
 																: "pass"
-														}
-													>
+														}>
 														post
 													</span>
 												</div>
@@ -200,8 +205,7 @@ export default function InspectorLive(Props: Props) {
 													{(Item) => (
 														<div
 															class="schema__row"
-															data-required={Item.Required}
-														>
+															data-required={Item.Required}>
 															<dt class="schema__term">
 																<span class="schema__name">
 																	{Item.Name}

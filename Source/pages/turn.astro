@@ -7,6 +7,7 @@ import { Route } from "@Library/Link";
 // bookmark at the exact anchor before the page paints; the button is the
 // visible link for a client that blocks the refresh and for a crawler.
 ---
+
 <Base Title="Turn" Description="The turn moved to the harness page, at /harness/#turn.">
 	<Fragment slot="Head">
 		<meta http-equiv="refresh" content={`0; url=${Route.Harness}#turn`} />
@@ -17,7 +18,9 @@ import { Route } from "@Library/Link";
 			from the queue to the close.
 		</Fragment>
 		<Fragment slot="Actions">
-			<a class="button" href={`${Route.Harness}#turn`}>Read the turn</a>
+			<a class="button" href={`${Route.Harness}#turn`}>
+				Read the turn
+			</a>
 		</Fragment>
 	</PageHero>
 </Base>

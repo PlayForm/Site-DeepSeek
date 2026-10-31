@@ -34,14 +34,22 @@ export const Coverage: Coverage[] = [
 		Why: "agent/pre-step closes the turn with no step and no reason",
 	},
 	{ State: "call.pending", Feed: "yes", Why: "a tool/call with no tool/result for its id" },
-	{ State: "call.background", Feed: "yes", Why: "job/registered and job/settled carry the job id" },
+	{
+		State: "call.background",
+		Feed: "yes",
+		Why: "job/registered and job/settled carry the job id",
+	},
 	{ State: "call.failed", Feed: "yes", Why: "the tool/result content carries the error shape" },
 	{
 		State: "call.denied",
 		Feed: "no",
 		Why: "tools/pre-execute decides in memory, and nothing names the listener",
 	},
-	{ State: "result.truncated", Feed: "yes", Why: "the result body ends with the truncation marker" },
+	{
+		State: "result.truncated",
+		Feed: "yes",
+		Why: "the result body ends with the truncation marker",
+	},
 	{
 		State: "result.spilled",
 		Feed: "no",
@@ -62,7 +70,11 @@ export const Coverage: Coverage[] = [
 		Feed: "no",
 		Why: "agent/assistant-stream is process-local and never written",
 	},
-	{ State: "error.retry", Feed: "yes", Why: "llm/retry and llm/retry-started are session events" },
+	{
+		State: "error.retry",
+		Feed: "yes",
+		Why: "llm/retry and llm/retry-started are session events",
+	},
 	{
 		State: "error.silent",
 		Feed: "no",

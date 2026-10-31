@@ -7,6 +7,7 @@ import { Route } from "@Library/Link";
 // stale bookmark at the exact anchor before the page paints; the button is the
 // visible link for a client that blocks the refresh and for a crawler.
 ---
+
 <Base
 	Title="Conversation"
 	Description="The conversation moved to the harness page, at /harness/#conversation.">
@@ -15,11 +16,13 @@ import { Route } from "@Library/Link";
 	</Fragment>
 	<PageHero Eyebrow="Conversation" Title="What the model reads">
 		<Fragment slot="Lede">
-			This page moved: the conversation is now a section of the harness page, which lists
-			what the model reads, role by role.
+			This page moved: the conversation is now a section of the harness page, which lists what
+			the model reads, role by role.
 		</Fragment>
 		<Fragment slot="Actions">
-			<a class="button" href={`${Route.Harness}#conversation`}>Read the conversation</a>
+			<a class="button" href={`${Route.Harness}#conversation`}>
+				Read the conversation
+			</a>
 		</Fragment>
 	</PageHero>
 </Base>

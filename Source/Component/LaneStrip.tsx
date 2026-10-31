@@ -1,7 +1,5 @@
 import "@Stylesheet/Component/LaneStrip.scss";
 
-import { createMemo, For } from "solid-js";
-
 import {
 	FormatDuration,
 	FormatTick,
@@ -15,6 +13,7 @@ import {
 	type Face,
 	type Resource,
 } from "@Content/Session";
+import { createMemo, For } from "solid-js";
 
 interface Props {
 	/** The face the lane draws. */
@@ -34,12 +33,9 @@ export default function LaneStrip(Props: Props) {
 		<div
 			class="lane-strip"
 			role="img"
-			aria-label="The run as time: the input, the model, and the tools"
-		>
+			aria-label="The run as time: the input, the model, and the tools">
 			<div class="lane-strip__head">
-				<span class="lane-strip__meta">
-					{FormatDuration(Total())}&nbsp;of wall clock
-				</span>
+				<span class="lane-strip__meta">{FormatDuration(Total())}&nbsp;of wall clock</span>
 				<span class="lane-strip__meta">
 					{Plural(Step.length, "step")},&nbsp;{Plural(Record.length, "record")}
 				</span>
@@ -60,9 +56,10 @@ export default function LaneStrip(Props: Props) {
 												left: Share(Item.Start, Total()),
 												width: Share(Item.Outcome.Took, Total()),
 											}}
-											title={`${SpanLabel(Item.Entry)}: ${FormatDuration(Item.Outcome.Took)}`}
-										>
-											<span class="lane-strip__text">{SpanLabel(Item.Entry)}</span>
+											title={`${SpanLabel(Item.Entry)}: ${FormatDuration(Item.Outcome.Took)}`}>
+											<span class="lane-strip__text">
+												{SpanLabel(Item.Entry)}
+											</span>
 										</span>{" "}
 									</>
 								)}
