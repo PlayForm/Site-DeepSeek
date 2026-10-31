@@ -141,7 +141,14 @@ function Read(Path: string, Folder: Folder, Relative: string): StoryboardRecord 
 		Folder,
 		Stem,
 		File: `Documentation/${Folder}/${Relative}.md`,
-		Method: Stem === "README" || Stem === "Process" || Stem === "Pass-Log",
+		// The lab reads every Markdown in the folder, but only a storyboard owes
+		// the layout and history sections. The method documents and the two
+		// dissections are records, not storyboards, so they are exempt.
+		Method:
+			Stem === "README" ||
+			Stem === "Process" ||
+			Stem === "Pass-Log" ||
+			Stem.startsWith("Dissection-"),
 		Section: SectionOf(Tree, Source),
 	};
 }
