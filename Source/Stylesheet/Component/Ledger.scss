@@ -31,7 +31,7 @@
 		display: grid;
 		grid-template-columns: 32px 96px minmax(0, 1fr) 64px;
 		gap: var(--space-3);
-		align-items: baseline;
+		align-items: start;
 		padding-block: var(--space-3);
 		padding-left: var(--space-3);
 		border-left: 2px solid transparent;
@@ -44,6 +44,14 @@
 		&[data-mark="true"] {
 			border-left-color: var(--color-accent);
 		}
+	}
+
+	// The labels sit on the first line of the quoted row, not on its border:
+	// the code cell carries an 8px padding and a 1px edge above its text.
+	&__index,
+	&__when,
+	&__where {
+		padding-top: calc(var(--space-2) + 1px);
 	}
 
 	&__index {

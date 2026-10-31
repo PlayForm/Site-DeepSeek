@@ -461,6 +461,157 @@ export const Component = [
 		Prop: [["Slug", "string", "The package the picture is written for."]],
 		State: ["Seam", "Trigger", "Note"],
 	},
+	{
+		Name: "Tool",
+		Slug: "tool",
+		Summary:
+			"A register of the calls a package registers: the seam, the count, and what each call takes and returns.",
+		Prop: [["Slug", "string", "The package whose calls these are."]],
+		State: ["Seam", "Calls", "Note"],
+	},
+	{
+		Name: "Service",
+		Slug: "service",
+		Summary:
+			"A service contract: the name on the context, the methods a consumer calls, and the consumers that call them.",
+		Prop: [["Slug", "string", "The package whose contract this is."]],
+		State: ["Service", "Methods", "Consumers", "Rule"],
+	},
+	{
+		Name: "Bundle",
+		Slug: "bundle",
+		Summary:
+			"The rail a bundle mounts on, its parts in the order they run, and the rule that contains a failing part.",
+		Prop: [["Slug", "string", "The package whose bundle this is."]],
+		State: ["Rail", "Parts", "Contained"],
+	},
+	{
+		Name: "Flow",
+		Slug: "flow",
+		Summary:
+			"One package's control flow: the stages in order, the branch that decides, and the rule the flow obeys.",
+		Prop: [
+			["Stage", "Stage[]", "The package's flow, in order, with branches inline."],
+			["Rule", "string", "The rule the flow obeys, said once."],
+		],
+		State: ["Seam", "Step", "Branch", "Store", "Fail"],
+	},
+	{
+		Name: "Normalizer",
+		Slug: "normalizer",
+		Summary:
+			"One normalize family's table: the character each code point arrives as, the character it becomes, and its name.",
+		Prop: [
+			["Table", "Table", "The family's table: the code points it maps and the law it obeys."],
+		],
+		State: ["Family", "Code point", "Name", "Rule"],
+	},
+	{
+		Name: "Family",
+		Slug: "family",
+		Summary:
+			"The comment-syntax families, every extension each one covers, and the refinement the family needs.",
+		Prop: [["Family", "Family[]", "The families, in the order the source's table lists them."]],
+		State: ["Syntax", "Extensions", "Count", "Note"],
+	},
+	{
+		Name: "Absent",
+		Slug: "absent",
+		Summary: "The names a plugin deliberately leaves alone, each with the source's reason.",
+		Prop: [
+			["Absent", "Absent[]", "The names the plugin deliberately does not handle."],
+			["Label", "string", "The decision the list states; deliberately absent by default."],
+		],
+		State: ["Default label", "Named label"],
+	},
+	{
+		Name: "Activation",
+		Slug: "activation",
+		Summary:
+			"The activation line a plugin writes when it loads, as a template and as the strings the source composes.",
+		Prop: [],
+		State: ["Template", "Rule", "Variant"],
+	},
+	{
+		Name: "Scheme",
+		Slug: "scheme",
+		Summary:
+			"A package's scheme: the pipeline it runs, the laws that decide when it runs, and the silence invariant.",
+		Prop: [["Scheme", "Scheme", "The scheme record the section draws."]],
+		State: ["Pipeline", "Law", "Silence"],
+	},
+	{
+		Name: "Constellation",
+		Slug: "constellation",
+		Summary: "One event and every listener that answers it, one dot each on a ring.",
+		Prop: [
+			["Source", "string", "The event the listeners answer."],
+			[
+				"Listener",
+				"{ Slug, Effect, Documented? }[]",
+				"The listeners, in the order the page lists them.",
+			],
+		],
+		State: ["Documented", "Undocumented"],
+	},
+	{
+		Name: "Ribbon",
+		Slug: "ribbon",
+		Summary:
+			"A band of labelled positions with one mark per event, and the bracket over the window the marks occupy.",
+		Prop: [
+			["Tick", "{ At, Label }[]", "The labelled positions, in the order they read."],
+			[
+				"Mark",
+				"{ At, Label, Kind? }[]",
+				"The events, one mark each; an absent kind is drawn as ok.",
+			],
+		],
+		State: ["Tick", "Mark", "Warn"],
+	},
+	{
+		Name: "Cascade",
+		Slug: "cascade",
+		Summary:
+			"The stages of one call as shares of it, each bar starting where the one above it ended.",
+		Prop: [["Step", "{ Label, At, Width, Note? }[]", "The stages, in the order they run."]],
+		State: ["Stage", "Share", "Elapsed"],
+	},
+	{
+		Name: "Gauge",
+		Slug: "gauge",
+		Summary: "One quantity against its ceiling, as a semicircle with the value in the middle.",
+		Prop: [
+			["Value", "number", "The quantity, in bytes."],
+			["Ceiling", "number", "The quantity's ceiling, in bytes."],
+			["Label", "string", "What the quantity is."],
+			["Note", "string", "A quiet fact under the ceiling."],
+		],
+		State: ["Under ceiling", "At ceiling", "Over ceiling"],
+	},
+	{
+		Name: "Deck",
+		Slug: "deck",
+		Summary: "The axes, stacked as cards, the first one readable and the rest peeking behind it.",
+		Prop: [
+			[
+				"Card",
+				"{ Label, Body }[]",
+				"The cards, in the order they are stacked; the first is the top card.",
+			],
+		],
+		State: ["Stack", "Top card"],
+	},
+	{
+		Name: "Anchor",
+		Slug: "anchor",
+		Summary:
+			"The in-page navigator: one link per section, with the section the page opens on marked.",
+		Prop: [
+			["Entry", "{ Href, Label }[]", "One entry per section, in the order the page reads them."],
+		],
+		State: ["Current", "Plain"],
+	},
 ];
 
 export default Component;

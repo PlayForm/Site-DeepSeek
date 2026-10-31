@@ -1,0 +1,40 @@
+---
+import Card from "@Component/Card.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Base from "@Layout/Base.astro";
+import { Folder, Storyboard } from "@Library/Design.server";
+import { DesignHref } from "@Library/Link";
+
+// The storyboards grouped by the folder they live in, in the order the folders
+// are read. A folder with no file is not drawn, so the index never prints an
+// empty group.
+const List = Folder.map((Name) => ({
+	Name,
+	Entry: Storyboard.filter((Candidate) => Candidate.Folder === Name),
+})).filter((Group) => Group.Entry.length > 0);
+---
+
+<Base
+	Title="Design lab"
+	Description="Every storyboard in the repository, grouped by folder, each one read beside the page it produced.">
+	<PageHero Eyebrow="Development" Title="Design lab" Lede={`${Storyboard.length} total.`} />
+
+	{List.map((Group) => (
+		<section class="section">
+			<SectionHeader Title={Group.Name} />
+			<div class="section__body grid">
+				{Group.Entry.map((Entry) => (
+					<Card
+						Title={Entry.Title}
+						Href={DesignHref(Entry.Slug)}
+						Meta={`${Entry.Section.length} section`}>
+						{Entry.Section.map((Part) => Part.Heading)
+							.filter((Heading) => Heading !== "")
+							.join(", ")}
+					</Card>
+				))}
+			</div>
+		</section>
+	))}
+</Base>

@@ -78,7 +78,7 @@ export interface Slot {
 	Description: string;
 }
 
-/** One stored entry, as the store's LRU clock sees it. */
+/** One stored entry, as the store's two clocks see it. */
 export interface Stored {
 	/** The 24-hex hash the marker carries. */
 	Hash: string;
@@ -87,7 +87,9 @@ export interface Stored {
 	/** The serialized byte size. */
 	Size: number;
 	/** The seconds since the entry was last accessed, the LRU clock. */
-	Last: number;
+	Access: number;
+	/** The seconds since the entry was stored, the TTL clock. */
+	Age: number;
 	/** True for the entry the current insert just wrote. */
 	Fresh?: boolean;
 }
@@ -443,12 +445,19 @@ export const Detail: Detail[] = [
 		Storage: {
 			Budget: 268435456,
 			Ttl: 3600,
-			Rule: "The victim is the entry with the smallest lastAccessed, so the oldest read leaves first, and a fresh insert has the newest clock and is the last candidate.",
+			Rule: "The victim is the entry with the smallest lastAccessed, so the oldest read leaves first; the TTL counts from the store, not from the last read, so an entry expires on its own clock.",
 			Entry: [
-				{ Hash: "b41c9e7a2d5f8031c6a9e4d2", Type: "terminal", Size: 100663296, Last: 2520 },
-				{ Hash: "6f0a2c8e1b4d7935a2c8e0f6", Type: "grep", Size: 67108864, Last: 120 },
-				{ Hash: "d9e2a7c4f10b8365e2a7c4f1", Type: "file", Size: 125829120, Last: 0, Fresh: true },
-				{ Hash: "3c8f5a1d9e2b7046f3c8f5a1", Type: "web", Size: 25165824, Last: 4200 },
+				{ Hash: "b41c9e7a2d5f8031c6a9e4d2", Type: "terminal", Size: 100663296, Access: 2520, Age: 2520 },
+				{ Hash: "6f0a2c8e1b4d7935a2c8e0f6", Type: "grep", Size: 67108864, Access: 120, Age: 3000 },
+				{
+					Hash: "d9e2a7c4f10b8365e2a7c4f1",
+					Type: "file",
+					Size: 125829120,
+					Access: 0,
+					Age: 0,
+					Fresh: true,
+				},
+				{ Hash: "3c8f5a1d9e2b7046f3c8f5a1", Type: "web", Size: 25165824, Access: 4200, Age: 4200 },
 			],
 		},
 		Retrieval: [

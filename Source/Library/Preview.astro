@@ -1,24 +1,34 @@
 ---
 import "@Stylesheet/Component/Preview.scss";
 
+import Absent from "@Component/Absent.astro";
+import Activation from "@Component/Activation.astro";
+import Anchor from "@Component/Anchor.astro";
 import Badge from "@Component/Badge.astro";
 import Advise from "@Component/Advise.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import Buffer from "@Component/Buffer.astro";
+import Bundle from "@Component/Bundle.astro";
 import Callout from "@Component/Callout.astro";
 import CallStep from "@Component/CallStep.astro";
 import Card from "@Component/Card.astro";
+import Cascade from "@Component/Cascade.astro";
 import Chain from "@Component/Chain.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import Compare from "@Component/Compare.tsx";
+import Constellation from "@Component/Constellation.astro";
 import Curve from "@Component/Curve.astro";
+import Deck from "@Component/Deck.astro";
 import Definition from "@Component/Definition.astro";
 import Difference from "@Component/Difference.astro";
 import EmptyState from "@Component/EmptyState.astro";
 import Explorer from "@Component/Explorer.astro";
+import Family from "@Component/Family.astro";
 import Fanout from "@Component/Fanout.astro";
+import Flow from "@Component/Flow.astro";
 import Fork from "@Component/Fork.astro";
 import Gate from "@Component/Gate.astro";
+import Gauge from "@Component/Gauge.astro";
 import Grid from "@Component/Grid.astro";
 import Gutter from "@Component/Gutter.astro";
 import Icon from "@Component/Icon.astro";
@@ -29,6 +39,7 @@ import Lane from "@Component/Lane.astro";
 import Layer from "@Component/Layer.astro";
 import Line from "@Component/Line.astro";
 import Matrix from "@Component/Matrix.astro";
+import Normalizer from "@Component/Normalizer.astro";
 import PackageCard from "@Component/PackageCard.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
@@ -36,11 +47,14 @@ import Pending from "@Component/Pending.astro";
 import Pipeline from "@Component/Pipeline.astro";
 import Record from "@Component/Record.astro";
 import Rewrite from "@Component/Rewrite.astro";
+import Ribbon from "@Component/Ribbon.astro";
 import RoleList from "@Component/RoleList.astro";
 import Scenario from "@Component/Scenario.astro";
 import Schema from "@Component/Schema.astro";
+import Scheme from "@Component/Scheme.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Sequence from "@Component/Sequence.astro";
+import Service from "@Component/Service.astro";
 import Show from "@Component/Show.astro";
 import StatBand from "@Component/StatBand.astro";
 import State from "@Component/State.astro";
@@ -48,15 +62,20 @@ import Stream from "@Component/Stream.astro";
 import Surface from "@Component/Surface.astro";
 import Table from "@Component/Table.astro";
 import Terminal from "@Component/Terminal.astro";
+import Tool from "@Component/Tool.astro";
 import Trace from "@Component/Trace.astro";
 import VersionPill from "@Component/VersionPill.astro";
 
+import { Axis } from "@Content/Axis";
 import type { Effect } from "@Content/Behavior";
+import { CurrentFor } from "@Content/Current";
 import { DetailFor } from "@Content/Detail";
 import { Intervention as InterventionRecord } from "@Content/Intervention";
 import type { Lane as LaneRecord } from "@Content/Lane";
 import { Role as RoleRecord } from "@Content/Message";
+import { SchemeFor } from "@Content/Scheme";
 import { Record as SessionRecord, Timeline, TotalOf } from "@Content/Session";
+import { TableFor } from "@Content/Table";
 import { Step as CallStepRecord } from "@Content/ToolCall";
 import { Record as TraceRecord } from "@Content/Trace";
 import { Scenario as ScenarioRecord } from "@Content/Tutorial";
@@ -195,6 +214,83 @@ const SessionEntry =
 	SessionRecord.find((Item) => Item.Family !== undefined) ?? SessionRecord[0]!;
 const SessionStart = Timeline("family").find((Item) => Item.Entry === SessionEntry)?.Start ?? 0;
 const SessionTotal = TotalOf("family");
+
+// The six previews that carry a content record read it through the same
+// accessor the package page uses, so a demo cannot drift from the page it
+// previews.
+const FlowRecord = CurrentFor("hook-dsh-package-governor");
+const NormalizerTable = TableFor("hook-dsh-normalize-quotes");
+const SchemeRecord = SchemeFor("hook-dsh-package-governor");
+
+// The comment filter's syntax record carries the families and the deliberate
+// absences, and the ccr record carries the exempt list the labelled form of the
+// same component draws, so both are narrowed once here.
+const SyntaxRecord = DetailFor("hook-dsh-comment-filter");
+const CompressRecord = DetailFor("hook-dsh-ccr");
+const FamilyRecord =
+	SyntaxRecord !== undefined && SyntaxRecord.Kind === "Syntax" ? SyntaxRecord.Family : [];
+const AbsentRecord =
+	SyntaxRecord !== undefined && SyntaxRecord.Kind === "Syntax" ? SyntaxRecord.Absent : [];
+const ExemptRecord =
+	CompressRecord !== undefined && CompressRecord.Kind === "Compress" ? CompressRecord.Exempt : [];
+
+// The ring draws the listeners the spine already names, so the two pictures of
+// one seam cannot disagree.
+const ConstellationListener = FanoutListener.map(({ Slug, Effect, Documented }) => ({
+	Slug,
+	Effect,
+	Documented,
+}));
+
+// The ribbon's band: one turn's labelled positions, and the events it carries,
+// in the order the log writes them.
+const RibbonTick = [
+	{ At: 0, Label: "turn/start" },
+	{ At: 4, Label: "step/start" },
+	{ At: 12, Label: "step/end" },
+	{ At: 20, Label: "turn/end" },
+];
+
+const RibbonMark: { At: number; Label: string; Kind?: "ok" | "warn" }[] = [
+	{ At: 1, Label: "step/start", Kind: "ok" },
+	{ At: 6, Label: "read", Kind: "ok" },
+	{ At: 9, Label: "write", Kind: "warn" },
+	{ At: 18, Label: "step/end", Kind: "ok" },
+];
+
+// The cascade's stages are the call's own steps, with the shares the harness
+// page authors for them, because the log carries no clock.
+const CascadeShare = [
+	{ At: 0, Width: 14 },
+	{ At: 14, Width: 56 },
+	{ At: 70, Width: 22 },
+	{ At: 92, Width: 8 },
+];
+
+const CascadeStep = CallStepRecord.flatMap((Stage, Index) => {
+	const Share = CascadeShare[Index];
+
+	return Share === undefined
+		? []
+		: [{ Label: Stage.Title, At: Share.At, Width: Share.Width, Note: Stage.Seam }];
+});
+
+// The deck's cards: the three axes the setup page stacks, read from the same
+// record so the demo cannot drift from the page it previews.
+const DeckCard = ["enabled", "threshold", "replacement"].flatMap((Name) => {
+	const AxisEntry = Axis.find((Item) => Item.Name === Name);
+
+	return AxisEntry === undefined ? [] : [{ Label: AxisEntry.Name, Body: AxisEntry.Turn }];
+});
+
+// The anchor's row: four sections of the harness page, in the order it reads
+// them, so the demo names real sections rather than invented ones.
+const AnchorEntry = [
+	{ Href: "#claim", Label: "The claim" },
+	{ Href: "#turn", Label: "The turn" },
+	{ Href: "#call", Label: "The call" },
+	{ Href: "#fate", Label: "The fate" },
+];
 ---
 
 <div class="preview">
@@ -1041,6 +1137,206 @@ const SessionTotal = TotalOf("family");
 				<span class="preview__label">Note</span>
 			</div>
 			<Advise Slug="hook-dsh-doc-suggester" />
+		</div>
+	)}
+
+	{/* Library: tool */}
+	{Slug === "tool" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Seam</span>
+				<span class="preview__label">Calls</span>
+				<span class="preview__label">Note</span>
+			</div>
+			<Tool Slug="plugin-dsh-batch-edit" />
+		</div>
+	)}
+
+	{/* Library: service */}
+	{Slug === "service" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Service</span>
+				<span class="preview__label">Methods</span>
+				<span class="preview__label">Consumers</span>
+				<span class="preview__label">Rule</span>
+			</div>
+			<Service Slug="plugin-dsh-factory" />
+		</div>
+	)}
+
+	{/* Library: bundle */}
+	{Slug === "bundle" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Rail</span>
+				<span class="preview__label">Parts</span>
+				<span class="preview__label">Contained</span>
+			</div>
+			<Bundle Slug="plugin-dsh-boot" />
+		</div>
+	)}
+
+	{/* Library: flow */}
+	{Slug === "flow" && FlowRecord !== undefined && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Seam</span>
+				<span class="preview__label">Step</span>
+				<span class="preview__label">Branch</span>
+				<span class="preview__label">Store</span>
+				<span class="preview__label">Fail</span>
+			</div>
+			<Flow Stage={FlowRecord.Stage} Rule={FlowRecord.Rule} />
+		</div>
+	)}
+
+	{/* Library: normalizer */}
+	{Slug === "normalizer" && NormalizerTable !== undefined && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Family</span>
+				<span class="preview__label">Code point</span>
+				<span class="preview__label">Name</span>
+				<span class="preview__label">Rule</span>
+			</div>
+			<Normalizer Table={NormalizerTable} />
+		</div>
+	)}
+
+	{/* Library: family */}
+	{Slug === "family" && FamilyRecord.length > 0 && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Syntax</span>
+				<span class="preview__label">Extensions</span>
+				<span class="preview__label">Count</span>
+				<span class="preview__label">Note</span>
+			</div>
+			<Family Family={FamilyRecord} />
+		</div>
+	)}
+
+	{/* Library: absent */}
+	{Slug === "absent" && AbsentRecord.length > 0 && ExemptRecord.length > 0 && (
+		<div class="preview__states">
+			<div class="preview__state">
+				<span class="preview__label">Default label</span>
+				<Absent Absent={AbsentRecord} />
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Named label</span>
+				<Absent Label="Never compressed" Absent={ExemptRecord} />
+			</div>
+		</div>
+	)}
+
+	{/* Library: activation */}
+	{Slug === "activation" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Template</span>
+				<span class="preview__label">Rule</span>
+				<span class="preview__label">Variant</span>
+			</div>
+			<Activation />
+		</div>
+	)}
+
+	{/* Library: scheme */}
+	{Slug === "scheme" && SchemeRecord !== undefined && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Pipeline</span>
+				<span class="preview__label">Law</span>
+				<span class="preview__label">Silence</span>
+			</div>
+			<Scheme Scheme={SchemeRecord} />
+		</div>
+	)}
+
+	{/* Library: constellation */}
+	{Slug === "constellation" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Documented</span>
+				<span class="preview__label">Undocumented</span>
+			</div>
+			<Constellation Source="tools/post-execute" Listener={ConstellationListener} />
+		</div>
+	)}
+
+	{/* Library: ribbon */}
+	{Slug === "ribbon" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Tick</span>
+				<span class="preview__label">Mark</span>
+				<span class="preview__label">Warn</span>
+			</div>
+			<Ribbon Tick={RibbonTick} Mark={RibbonMark} />
+		</div>
+	)}
+
+	{/* Library: cascade */}
+	{Slug === "cascade" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Stage</span>
+				<span class="preview__label">Share</span>
+				<span class="preview__label">Elapsed</span>
+			</div>
+			<Cascade Step={CascadeStep} />
+		</div>
+	)}
+
+	{/* Library: gauge */}
+	{Slug === "gauge" && (
+		<div class="preview__states">
+			<div class="preview__state">
+				<span class="preview__label">Under ceiling</span>
+				<Gauge
+					Value={20480}
+					Ceiling={102400}
+					Label="Bytes the model reads"
+					Note="Above the 1 KB gate, below the ceiling"
+				/>
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">At ceiling</span>
+				<Gauge Value={102400} Ceiling={102400} Label="Bytes the model reads" />
+			</div>
+			<div class="preview__state">
+				<span class="preview__label">Over ceiling</span>
+				<Gauge
+					Value={131072}
+					Ceiling={102400}
+					Label="Bytes the model reads"
+					Note="The arc clamps; the readout does not"
+				/>
+			</div>
+		</div>
+	)}
+
+	{/* Library: deck */}
+	{Slug === "deck" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Stack</span>
+				<span class="preview__label">Top card</span>
+			</div>
+			<Deck Card={DeckCard} />
+		</div>
+	)}
+
+	{/* Library: anchor */}
+	{Slug === "anchor" && (
+		<div class="preview__state preview__state--wide">
+			<div class="preview__legend">
+				<span class="preview__label">Current</span>
+				<span class="preview__label">Plain</span>
+			</div>
+			<Anchor Entry={AnchorEntry} />
 		</div>
 	)}
 </div>

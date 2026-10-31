@@ -5,9 +5,10 @@ import { defineConfig } from "astro/config";
 
 export const On = process.env["NODE_ENV"] === "development";
 
-// The component library is a development surface: it is mounted here rather
-// than auto-routed from `pages/`, so a production build publishes no library
-// route at all. `SITE_DEV=1` forces it on for a release-candidate check.
+// The component library and the design lab are development surfaces: they are
+// mounted here rather than auto-routed from `pages/`, so a production build
+// publishes neither route at all. `SITE_DEV=1` forces them on for a
+// release-candidate check.
 export const Dev = process.env["SITE_DEV"] === "1" || On;
 
 const DevRoute = {
@@ -22,6 +23,11 @@ const DevRoute = {
 			injectRoute({
 				pattern: "/library/[slug]",
 				entrypoint: "./Source/pages/_Component.astro",
+			});
+			injectRoute({ pattern: "/design", entrypoint: "./Source/pages/_Design.astro" });
+			injectRoute({
+				pattern: "/design/[slug]",
+				entrypoint: "./Source/pages/_DesignDetail.astro",
 			});
 		},
 	},

@@ -31,6 +31,7 @@ export const Route = {
 	Connect: "/connect/",
 	Search: "/search/",
 	Library: "/library/",
+	Design: "/design/",
 	NotFound: "/404/",
 };
 
@@ -59,7 +60,12 @@ export const Sitemap = [
 	{ Href: Route.Setup, Label: "Setup" },
 	{ Href: Route.CaseStudy, Label: "Case study" },
 	{ Href: Route.Connect, Label: "Connect" },
-	...(Dev ? [{ Href: Route.Library, Label: "Component" }] : []),
+	...(Dev
+		? [
+				{ Href: Route.Library, Label: "Component" },
+				{ Href: Route.Design, Label: "Design lab" },
+			]
+		: []),
 ];
 
 export function PackageHref(Slug) {
@@ -74,6 +80,12 @@ export function SeamHref(Seam: string): string {
 
 export function ComponentHref(Slug) {
 	return `/library/${Slug}/`;
+}
+
+// The lab keeps one path segment per storyboard: the reader prefixes the slug
+// with its folder, so the two folders cannot collide on a `README.md`.
+export function DesignHref(Slug: string): string {
+	return `/design/${Slug}/`;
 }
 
 export function IsCurrent(Path, Href) {

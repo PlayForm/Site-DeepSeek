@@ -1,0 +1,79 @@
+---
+import "@Stylesheet/Layout/Lab.scss";
+
+import Breadcrumb from "@Component/Breadcrumb.astro";
+import PageHero from "@Component/PageHero.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Base from "@Layout/Base.astro";
+import { Component } from "@Library/Component";
+import { Split, Storyboard } from "@Library/Design.server";
+import { ComponentHref, DesignHref, Route } from "@Library/Link";
+import { FindPackage } from "@Library/Package.server";
+
+export function getStaticPaths() {
+	return Storyboard.map((Entry) => ({
+		params: { slug: Entry.Slug },
+		props: { Entry },
+	}));
+}
+
+interface Props {
+	Entry: (typeof Storyboard)[number];
+}
+
+const { Entry } = Astro.props;
+
+// The page the storyboard describes: the package whose directory the file is
+// named after, or the component whose slug it is. A storyboard that names
+// neither still renders; it just has no page to open.
+const Package = FindPackage(Entry.Stem);
+
+const Target =
+	Package !== undefined
+		? { Href: Package.Href, Label: "Open the package page" }
+		: Component.some((Candidate) => Candidate.Slug === Entry.Stem)
+			? { Href: ComponentHref(Entry.Stem), Label: "Open the component page" }
+			: undefined;
+
+const Description = Entry.Method
+	? `The ${Entry.Folder.toLowerCase()} method, as written in the repository.`
+	: `The ${Entry.Folder.toLowerCase()} storyboard, as written in the repository.`;
+
+const Section = Entry.Section.map((Part) => ({
+	Heading: Part.Heading,
+	Block: Split(Part.Body),
+}));
+---
+
+<Base Title={Entry.Title} Description={Description}>
+	<Breadcrumb
+		Trail={[
+			{ Href: Route.Design, Label: "Design lab" },
+			{ Href: DesignHref(Entry.Slug), Label: Entry.Title },
+		]}
+	/>
+
+	<PageHero Eyebrow={Entry.Folder} Title={Entry.Title}>
+		<Fragment slot="Actions">
+			<a class="button button--quiet" href={Route.Design}>All storyboards</a>
+			{Target && <a class="button button--quiet" href={Target.Href}>{Target.Label}</a>}
+		</Fragment>
+	</PageHero>
+
+	<p class="mono faint">{Entry.File}</p>
+
+	{Section.map((Part) => (
+		<section class="section">
+			{Part.Heading !== "" && <SectionHeader Title={Part.Heading} />}
+			<div class="section__body stack">
+				{Part.Block.map((Block) =>
+					Block.Kind === "Verbatim" ? (
+						<pre class="lab__verbatim">{Block.Text}</pre>
+					) : (
+						<p class="lab__prose">{Block.Text}</p>
+					),
+				)}
+			</div>
+		</section>
+	))}
+</Base>

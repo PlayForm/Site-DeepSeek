@@ -112,7 +112,6 @@
 			border-bottom: 1px solid var(--cabinet-line);
 			background: var(--cabinet-inset);
 			text-align: left;
-			white-space: nowrap;
 		}
 
 		td {
@@ -136,6 +135,10 @@
 
 		tr[data-state="expired"] td:first-child {
 			border-left: 2px dashed var(--color-line-strong);
+		}
+
+		tr[data-state="expired"] .storage__hash {
+			color: var(--color-ink-faint);
 		}
 	}
 

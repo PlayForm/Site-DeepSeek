@@ -1,0 +1,24 @@
+@use "../Material.scss" as Material;
+
+// The design lab: the storyboard as written. A verbatim block keeps the columns
+// it was drawn in, so it never wraps and it scrolls rather than breaking; the
+// prose keeps the reading measure every other page uses.
+.lab {
+	&__verbatim {
+		@include Material.tray;
+
+		margin: 0;
+		padding: var(--space-4);
+		overflow-x: auto;
+		white-space: pre;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-snug);
+		color: var(--color-ink);
+		tab-size: 2;
+	}
+
+	&__prose {
+		max-width: var(--measure);
+	}
+}

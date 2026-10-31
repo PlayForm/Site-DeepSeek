@@ -20,24 +20,28 @@ const Allow = Policy.Allow.length;
 
 <div class="policy">
 	<div class="policy__grid">
-		<section class="policy__panel" data-side="refuse">
+		<div class="policy__panel" data-side="refuse">
 			<header class="policy__head">
 				<span class="policy__label">Refused</span>
 				<span class="policy__count">{Refuse}</span>
 			</header>
 			<ul class="policy__chips">
-				{Policy.Refuse.map((Name) => <li class="policy__chip">{Name}</li>)}
+				{Policy.Refuse.map((Name) => (
+					<li class="policy__chip">{Name}</li>
+				))}
 			</ul>
-		</section>
-		<section class="policy__panel" data-side="allow">
+		</div>
+		<div class="policy__panel" data-side="allow">
 			<header class="policy__head">
 				<span class="policy__label">Allowed</span>
 				<span class="policy__count">{Allow}</span>
 			</header>
 			<ul class="policy__chips">
-				{Policy.Allow.map((Name) => <li class="policy__chip">{Name}</li>)}
+				{Policy.Allow.map((Name) => (
+					<li class="policy__chip">{Name}</li>
+				))}
 			</ul>
-		</section>
+		</div>
 	</div>
 
 	<p class="policy__rule">

@@ -51,6 +51,7 @@
 	}
 
 	&__description {
+		max-width: var(--measure);
 		margin: 0;
 		font-size: var(--text-sm);
 		line-height: var(--leading-body);
