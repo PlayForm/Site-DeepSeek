@@ -3,8 +3,8 @@ import "@Stylesheet/Component/SessionTree.scss";
 import {
 	Acting,
 	FormatNumber,
-	Plural,
 	PluginRecord,
+	Plural,
 	Session,
 	TurnRecord,
 	TurnStep,

@@ -1209,15 +1209,13 @@ export function TurnStep(Index: number, Data: SessionData = Session): Step[] {
 
 /** The family packages that act in the given face. */
 export function Acting(Face: Face, Data: SessionData = Session): number {
-	return new Set(
-		Data.Record.filter((Entry) => Touched(Entry, Face)).map((Entry) => Entry.Plugin),
-	).size;
+	return new Set(Data.Record.filter((Entry) => Touched(Entry, Face)).map((Entry) => Entry.Plugin))
+		.size;
 }
 
 /** The records one package touched in the given face. */
 export function PluginRecord(Slug: string, Face: Face, Data: SessionData = Session): number {
-	return Data.Record.filter((Entry) => Touched(Entry, Face) && Entry.Plugin === Slug)
-		.length;
+	return Data.Record.filter((Entry) => Touched(Entry, Face) && Entry.Plugin === Slug).length;
 }
 
 /** The clause a state's chip carries, derived where the number is a measurement. */

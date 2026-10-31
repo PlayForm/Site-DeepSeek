@@ -16,6 +16,7 @@ import Family from "@Component/Family.astro";
 import Flow from "@Component/Flow.astro";
 import Gate from "@Component/Gate.astro";
 import Icon from "@Component/Icon.astro";
+import Knob from "@Component/Knob.astro";
 import Ladder from "@Component/Ladder.astro";
 import Layer from "@Component/Layer.astro";
 import Ledger from "@Component/Ledger.astro";
@@ -23,19 +24,18 @@ import Normalizer from "@Component/Normalizer.astro";
 import Origin from "@Component/Origin.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
+import Pair from "@Component/Pair.astro";
 import Policy from "@Component/Policy.astro";
 import Provenance from "@Component/Provenance.astro";
-import Record from "@Component/Record.astro";
-import Knob from "@Component/Knob.astro";
-import Pair from "@Component/Pair.astro";
 import Reach from "@Component/Reach.astro";
+import Record from "@Component/Record.astro";
 import Retrieve from "@Component/Retrieve.astro";
 import Rewrite from "@Component/Rewrite.astro";
 import Schema from "@Component/Schema.astro";
 import Scheme from "@Component/Scheme.astro";
-import SessionView from "@Component/SessionView.tsx";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Service from "@Component/Service.astro";
+import SessionView from "@Component/SessionView.tsx";
 import Storage from "@Component/Storage.astro";
 import Stream from "@Component/Stream.astro";
 import Surface from "@Component/Surface.astro";
@@ -174,7 +174,9 @@ const PairRecord =
 		: {
 				Before: {
 					Label: "arrives",
-					Glyph: String.fromCodePoint(Number.parseInt(Ellipsis.Code.replace("U+", ""), 16)),
+					Glyph: String.fromCodePoint(
+						Number.parseInt(Ellipsis.Code.replace("U+", ""), 16),
+					),
 					Code: Ellipsis.Code,
 					Name: Ellipsis.Name ?? "the code point",
 				},
@@ -250,10 +252,8 @@ const Seen =
 		: {
 				rewrite:
 					"The person sees the text after the rewrite and not what it replaced, so the change stays invisible unless the source is read beside the result.",
-				record:
-					"The person sees the effect and not the record: the line that testifies to what happened sits in a file, and the page prints the line rather than a screen that shows it.",
-				advise:
-					"The person sees the note arrive as context rather than as content, so the result it is about reads exactly as it did before.",
+				record: "The person sees the effect and not the record: the line that testifies to what happened sits in a file, and the page prints the line rather than a screen that shows it.",
+				advise: "The person sees the note arrive as context rather than as content, so the result it is about reads exactly as it did before.",
 				pass: "The person sees the harness as it was: this package observes the seam and changes nothing the model reads.",
 				gate: "The person sees the decision once, as the answer the call returns, and never the bytes the check compared or the line it wrote.",
 				tool: "The person sees the call and its output; the gate, the fence, and the ledger behind it never reach the transcript.",
@@ -411,9 +411,15 @@ const File = [
 					serves, and the architecture that makes it possible.
 				</p>
 				<div class="cluster">
-					<a class="button" href="#conversational">Conversational</a>
-					<a class="button button--quiet" href="#functional">Functional</a>
-					<a class="button button--quiet" href="#architectural">Architectural</a>
+					<a class="button" href="#conversational">
+						Conversational
+					</a>
+					<a class="button button--quiet" href="#functional">
+						Functional
+					</a>
+					<a class="button button--quiet" href="#architectural">
+						Architectural
+					</a>
 				</div>
 			</nav>
 			<section id="conversational" class="stack">
@@ -488,9 +494,9 @@ const File = [
 					<header class="section-header">
 						<h3>Flow</h3>
 						<p class="section-header__lede">
-							The order this package's work happens in, with the branch that decides it
-							inline, transcribed from the source; the rule it obeys is the last band of
-							Architecture.
+							The order this package's work happens in, with the branch that decides
+							it inline, transcribed from the source; the rule it obeys is the last
+							band of Architecture.
 						</p>
 					</header>
 					<Flow Stage={Current.Stage} />
@@ -737,13 +743,13 @@ const File = [
 					{Portrait === undefined ? (
 						<>
 							The site has authored no portrait for this package, so it has no shape
-							machine; the facts its source documents are
-							in&nbsp;<a href="#architecture">Architecture</a>.
+							machine; the facts its source documents are in&nbsp;
+							<a href="#architecture">Architecture</a>.
 						</>
 					) : (
 						<>
-							Its shape machine belongs
-							to&nbsp;<a href="#architecture">Architecture</a>.
+							Its shape machine belongs to&nbsp;
+							<a href="#architecture">Architecture</a>.
 						</>
 					)}
 				</p>
@@ -819,7 +825,12 @@ const File = [
 							<Storage Storage={Detail.Storage} />
 							<Table
 								Caption="The four answers ccr_retrieve can return"
-								Head={["Call", "The store answers", "The model receives", "The ledger"]}
+								Head={[
+									"Call",
+									"The store answers",
+									"The model receives",
+									"The ledger",
+								]}
 								Row={Detail.Retrieval.map((Item) => [
 									{ Code: Item.Call },
 									Item.Answer,

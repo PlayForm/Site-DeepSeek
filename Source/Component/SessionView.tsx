@@ -5,13 +5,7 @@ import InspectorLive from "@Component/InspectorLive";
 import LaneStrip from "@Component/LaneStrip";
 import SessionDocument from "@Component/SessionDocument";
 import SessionTree from "@Component/SessionTree";
-import {
-	Session,
-	Timeline,
-	TotalOf,
-	type Face,
-	type SessionData,
-} from "@Content/Session";
+import { Session, Timeline, TotalOf, type Face, type SessionData } from "@Content/Session";
 import { createMemo, createSignal, Show } from "solid-js";
 
 interface Props {

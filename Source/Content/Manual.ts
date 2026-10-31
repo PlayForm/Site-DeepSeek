@@ -20,8 +20,7 @@ export const Manual: SessionData = {
 		Effort: "max",
 		Simulated: true,
 	},
-	Prompt:
-		"Show the stream rewrite: the model streams, the hook normalizes, and the transcript keeps three dots.",
+	Prompt: "Show the stream rewrite: the model streams, the hook normalizes, and the transcript keeps three dots.",
 	Turn: [{ Index: 1, Title: "Stream the rewrite" }],
 	Record: [
 		{

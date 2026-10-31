@@ -25,10 +25,7 @@ interface Props {
 // far beyond the canvas, and fit() shrinks the row until the labels are
 // unreadable. Removing the skew keeps the rotation and the spacing the layout
 // computed, so the row fits at the node's own size.
-const Straighten = (
-	Node: import("cytoscape").NodeSingular,
-	Position: { x: number; y: number },
-) => {
+const Straighten = (Node: import("cytoscape").NodeSingular, Position: { x: number; y: number }) => {
 	const Box = Node.cy().extent();
 	const Center = Box.x1 + Box.w / 2;
 	const Skew = Box.w / Box.h;
