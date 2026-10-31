@@ -3,21 +3,14 @@
 	"port": 9999,
 	"url": "http://localhost:9999",
 	"urls": {
-		"local": [
-			"http://localhost:9999/"
-		],
+		"local": ["http://localhost:9999/"],
 		"network": [
 			"http://127.0.2.2:9999/",
 			"http://127.0.2.3:9999/",
 			"http://192.168.0.147:9999/",
 			"http://100.96.0.9:9999/"
 		],
-		"networkInterfaceNames": [
-			"lo0",
-			"lo0",
-			"en0",
-			"utun5"
-		]
+		"networkInterfaceNames": ["lo0", "lo0", "en0", "utun5"]
 	},
 	"background": false,
 	"startedAt": "2026-10-31T01:11:53.777Z"

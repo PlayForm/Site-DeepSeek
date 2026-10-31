@@ -1202,6 +1202,55 @@ export const Current: Current[] = [
 		Rule: "The gate is all-or-nothing on the apply loop, the machine stays open across a halt, and no plugin-owned timer exists anywhere.",
 	},
 	{
+		Slug: "hook-dsh-ccr",
+		Stage: [
+			{
+				Label: "tools/post-execute on the result",
+				Kind: "seam",
+				Note: "The dispatch arrives after the tool ran and before the model reads anything.",
+			},
+			{
+				Label: "the result is smaller than the ceiling",
+				Kind: "branch",
+				Note: "It returns by identity: no marker reaches the model while the content is cheap enough to keep inline.",
+			},
+			{
+				Label: "the type is classified and the bytes are serialized",
+				Kind: "step",
+				Note: "One of eight types, and the size is the UTF-8 byte length of the serialized content, not the preview's.",
+			},
+			{
+				Label: "the preview line and the marker are composed",
+				Kind: "step",
+				Note: "The preview names the type, the count, and the first location; the marker carries the hash, the type, and the size.",
+			},
+			{
+				Label: "the original is stored under its hash",
+				Kind: "step",
+				Note: "An LRU store with a byte budget and a TTL: the oldest and the expired entries evict first.",
+			},
+			{
+				Label: "the model reads the preview, not the bytes",
+				Kind: "step",
+				Note: "The result the model sees is the preview plus the marker; the original is one call away.",
+			},
+			{
+				Label: "ccr_retrieve is called with the hash",
+				Kind: "branch",
+				Note: "An exact match only: no prefix, no fuzzy. A miss returns an unknown-hash line, an expired entry a gone line.",
+			},
+			{
+				Label: "the stored bytes are returned, whole or by line range",
+				Kind: "step",
+			},
+			{
+				Label: "~/.dsh/hook-dsh-ccr.log",
+				Kind: "store",
+			},
+		],
+		Rule: "The marker is the address: the gate replaces the bytes only when the result is over the ceiling, and the retrieval matches the hash exactly.",
+	},
+	{
 		Slug: "plugin-dsh-gitguard",
 		Stage: [
 			{

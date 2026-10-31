@@ -447,8 +447,20 @@ export const Detail: Detail[] = [
 			Ttl: 3600,
 			Rule: "The victim is the entry with the smallest lastAccessed, so the oldest read leaves first; the TTL counts from the store, not from the last read, so an entry expires on its own clock.",
 			Entry: [
-				{ Hash: "b41c9e7a2d5f8031c6a9e4d2", Type: "terminal", Size: 100663296, Access: 2520, Age: 2520 },
-				{ Hash: "6f0a2c8e1b4d7935a2c8e0f6", Type: "grep", Size: 67108864, Access: 120, Age: 3000 },
+				{
+					Hash: "b41c9e7a2d5f8031c6a9e4d2",
+					Type: "terminal",
+					Size: 100663296,
+					Access: 2520,
+					Age: 2520,
+				},
+				{
+					Hash: "6f0a2c8e1b4d7935a2c8e0f6",
+					Type: "grep",
+					Size: 67108864,
+					Access: 120,
+					Age: 3000,
+				},
 				{
 					Hash: "d9e2a7c4f10b8365e2a7c4f1",
 					Type: "file",
@@ -457,7 +469,13 @@ export const Detail: Detail[] = [
 					Age: 0,
 					Fresh: true,
 				},
-				{ Hash: "3c8f5a1d9e2b7046f3c8f5a1", Type: "web", Size: 25165824, Access: 4200, Age: 4200 },
+				{
+					Hash: "3c8f5a1d9e2b7046f3c8f5a1",
+					Type: "web",
+					Size: 25165824,
+					Access: 4200,
+					Age: 4200,
+				},
 			],
 		},
 		Retrieval: [
@@ -470,15 +488,13 @@ export const Detail: Detail[] = [
 			{
 				Call: "ccr_retrieve(hash, range)",
 				Answer: "The entry is found, and the range slices the joined text.",
-				Model:
-					"A 0-based line slice: start defaults to 0, count to the end, and both clamp. Asking past the end returns an empty slice, never an error.",
+				Model: "A 0-based line slice: start defaults to 0, count to the end, and both clamp. Asking past the end returns an empty slice, never an error.",
 				Line: "retrieved <hash>",
 			},
 			{
 				Call: "ccr_retrieve(hash), unknown",
 				Answer: "No entry under that hash.",
-				Model:
-					"A self-describing error: the entry is gone, and the model should re-run the original tool.",
+				Model: "A self-describing error: the entry is gone, and the model should re-run the original tool.",
 				Line: "retrieval miss <hash> (unknown)",
 			},
 			{

@@ -26,7 +26,9 @@ export function Design(): string[] {
 		}
 
 		for (const Heading of Required) {
-			if (!Entry.Section.some((Part) => Part.Heading.toLowerCase() === Heading.toLowerCase())) {
+			if (
+				!Entry.Section.some((Part) => Part.Heading.toLowerCase() === Heading.toLowerCase())
+			) {
 				Issue.push(`${Entry.Title} (${Entry.File}): no "## ${Heading}" section`);
 			}
 		}
@@ -47,5 +49,7 @@ if (process.argv[1]?.endsWith("Design.ts") === true) {
 		process.exit(1);
 	}
 
-	console.log(`design: ${Story.length} storyboard(s), every one carries the layout and the history`);
+	console.log(
+		`design: ${Story.length} storyboard(s), every one carries the layout and the history`,
+	);
 }

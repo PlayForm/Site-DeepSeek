@@ -18,17 +18,15 @@ const { Ledger } = Astro.props;
 <div class="ledger">
 	<p class="ledger__rule">{Ledger.Rule}</p>
 	<ol class="ledger__list">
-		{
-			Ledger.Line.map((Item, Index) => (
-				<li class="ledger__row" data-mark={Item.Mark ? "true" : "false"}>
-					<span class="ledger__index">{String(Index + 1).padStart(2, "0")}</span>
-					<span class="ledger__when">{Item.When}</span>
-					<code class="ledger__text">{Item.Text}</code>
-					<span class="ledger__where" data-where={Item.Where}>
-						{Item.Where}
-					</span>
-				</li>
-			))
-		}
+		{Ledger.Line.map((Item, Index) => (
+			<li class="ledger__row" data-mark={Item.Mark ? "true" : "false"}>
+				<span class="ledger__index">{String(Index + 1).padStart(2, "0")}</span>
+				<span class="ledger__when">{Item.When}</span>
+				<code class="ledger__text">{Item.Text}</code>
+				<span class="ledger__where" data-where={Item.Where}>
+					{Item.Where}
+				</span>
+			</li>
+		))}
 	</ol>
 </div>

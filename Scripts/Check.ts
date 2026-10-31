@@ -19,8 +19,7 @@
 //
 // A failure exits non-zero, so the script is usable as the last step of a build.
 
-import { existsSync, readdirSync, statSync } from "node:fs";
-import { readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
 import { Design } from "./Design.ts";
@@ -58,11 +57,15 @@ function Resolve(Href: string): boolean {
 
 	const Direct = join(Root, Path);
 
-	return (existsSync(Direct) && statSync(Direct).isFile()) || existsSync(join(Root, Path, "index.html"));
+	return (
+		(existsSync(Direct) && statSync(Direct).isFile()) ||
+		existsSync(join(Root, Path, "index.html"))
+	);
 }
 
 // 2, 3, 4. One pass per page over the built HTML.
-const Plural = /\b\d[\d,]*\s+(hooks|seams|packages|versions|nodes|edges|rows|results|pages|terms|bundles|categories|knobs|files|examples|listeners)\b/gi;
+const Plural =
+	/\b\d[\d,]*\s+(hooks|seams|packages|versions|nodes|edges|rows|results|pages|terms|bundles|categories|knobs|files|examples|listeners)\b/gi;
 
 for (const File of Page) {
 	const Html = readFileSync(File, "utf8");
@@ -92,7 +95,9 @@ for (const File of Page) {
 		Previous = Level;
 	}
 
-	const Id = [...Html.matchAll(/\sid=(?:"([^"]+)"|([^\s>]+))/g)].map((Match) => Match[1] ?? Match[2]);
+	const Id = [...Html.matchAll(/\sid=(?:"([^"]+)"|([^\s>]+))/g)].map(
+		(Match) => Match[1] ?? Match[2],
+	);
 	const Duplicate = Id.find((Value, Index) => Id.indexOf(Value) !== Index);
 
 	if (Duplicate !== undefined) Issue.push(`${Route}: duplicate id ${Duplicate}`);
@@ -107,7 +112,10 @@ for (const File of Page) {
 	//   README's sentence. Inline `code` stays, because it is part of a
 	//   sentence the site did write, and dropping it would leave the sentence's
 	//   punctuation stranded.
-	const Verbatim = Html.replace(/<table[\s\S]*?<\/table>/g, " ").replace(/<pre[\s\S]*?<\/pre>/g, " ");
+	const Verbatim = Html.replace(/<table[\s\S]*?<\/table>/g, " ").replace(
+		/<pre[\s\S]*?<\/pre>/g,
+		" ",
+	);
 
 	// An island carries its props as a JSON attribute, and that JSON holds the
 	// page's own strings with no spaces between them. It is data, not text: drop
@@ -138,7 +146,9 @@ for (const File of Page) {
 	for (const Match of Text.matchAll(/\s+[,.;:!?](?=\s|$)/g)) {
 		const At = Match.index ?? 0;
 
-		Issue.push(`${Route}: space before punctuation "${Text.slice(Math.max(0, At - 30), At + 8).trim()}"`);
+		Issue.push(
+			`${Route}: space before punctuation "${Text.slice(Math.max(0, At - 30), At + 8).trim()}"`,
+		);
 	}
 
 	for (const Match of Text.matchAll(Plural)) {
@@ -154,7 +164,9 @@ const Island = Page.map((File) => ({
 })).filter((Entry) => Entry.Count > 0);
 
 console.log(`pages: ${Page.length}`);
-console.log(`islands: ${Island.length} page(s), ${Island.reduce((Total, Entry) => Total + Entry.Count, 0)} island(s)`);
+console.log(
+	`islands: ${Island.length} page(s), ${Island.reduce((Total, Entry) => Total + Entry.Count, 0)} island(s)`,
+);
 
 // Only the pages with more than one island are worth naming: a page with one
 // is the normal case, and a page with several is where a hydration mistake

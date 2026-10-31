@@ -55,8 +55,14 @@ const Section = Entry.Section.map((Part) => ({
 
 	<PageHero Eyebrow={Entry.Folder} Title={Entry.Title}>
 		<Fragment slot="Actions">
-			<a class="button button--quiet" href={Route.Design}>All storyboards</a>
-			{Target && <a class="button button--quiet" href={Target.Href}>{Target.Label}</a>}
+			<a class="button button--quiet" href={Route.Design}>
+				All storyboards
+			</a>
+			{Target && (
+				<a class="button button--quiet" href={Target.Href}>
+					{Target.Label}
+				</a>
+			)}
 		</Fragment>
 	</PageHero>
 

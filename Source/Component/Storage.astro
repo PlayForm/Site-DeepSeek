@@ -1,7 +1,7 @@
 ---
 import "@Stylesheet/Component/Storage.scss";
 
-import type { Stored, Storage as StorageRecord } from "@Content/Detail";
+import type { Storage as StorageRecord, Stored } from "@Content/Detail";
 
 // The store: a capacity band, the entries in eviction order, and the two lines
 // the insert writes. The record states the entries the store holds at one
@@ -94,8 +94,7 @@ const Line = [
 	<div
 		class="storage__bar"
 		role="img"
-		aria-label={`The store at ${Size(Total)} on an insert, past its ${Size(Storage.Budget)} budget`}
-	>
+		aria-label={`The store at ${Size(Total)} on an insert, past its ${Size(Storage.Budget)} budget`}>
 		{Order.map((Item) => (
 			<span
 				class="storage__segment"

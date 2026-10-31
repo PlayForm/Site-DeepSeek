@@ -592,7 +592,8 @@ export const Component = [
 	{
 		Name: "Deck",
 		Slug: "deck",
-		Summary: "The axes, stacked as cards, the first one readable and the rest peeking behind it.",
+		Summary:
+			"The axes, stacked as cards, the first one readable and the rest peeking behind it.",
 		Prop: [
 			[
 				"Card",
@@ -608,7 +609,11 @@ export const Component = [
 		Summary:
 			"The in-page navigator: one link per section, with the section the page opens on marked.",
 		Prop: [
-			["Entry", "{ Href, Label }[]", "One entry per section, in the order the page reads them."],
+			[
+				"Entry",
+				"{ Href, Label }[]",
+				"One entry per section, in the order the page reads them.",
+			],
 		],
 		State: ["Current", "Plain"],
 	},

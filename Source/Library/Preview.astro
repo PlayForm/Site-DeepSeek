@@ -3,9 +3,9 @@ import "@Stylesheet/Component/Preview.scss";
 
 import Absent from "@Component/Absent.astro";
 import Activation from "@Component/Activation.astro";
+import Advise from "@Component/Advise.astro";
 import Anchor from "@Component/Anchor.astro";
 import Badge from "@Component/Badge.astro";
-import Advise from "@Component/Advise.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import Buffer from "@Component/Buffer.astro";
 import Bundle from "@Component/Bundle.astro";
@@ -65,7 +65,6 @@ import Terminal from "@Component/Terminal.astro";
 import Tool from "@Component/Tool.astro";
 import Trace from "@Component/Trace.astro";
 import VersionPill from "@Component/VersionPill.astro";
-
 import { Axis } from "@Content/Axis";
 import type { Effect } from "@Content/Behavior";
 import { CurrentFor } from "@Content/Current";
@@ -210,8 +209,7 @@ const ShowShowcase = {
 	],
 };
 
-const SessionEntry =
-	SessionRecord.find((Item) => Item.Family !== undefined) ?? SessionRecord[0]!;
+const SessionEntry = SessionRecord.find((Item) => Item.Family !== undefined) ?? SessionRecord[0]!;
 const SessionStart = Timeline("family").find((Item) => Item.Entry === SessionEntry)?.Start ?? 0;
 const SessionTotal = TotalOf("family");
 
@@ -784,7 +782,10 @@ const AnchorEntry = [
 				<Chain
 					Link={[
 						{ Label: "v1", Body: "The first generation: the contract and the tests." },
-						{ Label: "v2", Body: "The second generation: the runtime and the adapter." },
+						{
+							Label: "v2",
+							Body: "The second generation: the runtime and the adapter.",
+						},
 					]}
 				/>
 			</div>
@@ -886,11 +887,17 @@ const AnchorEntry = [
 		<div class="preview__states">
 			<div class="preview__state preview__state--wide">
 				<span class="preview__label">Changed</span>
-				<Difference Before={"the result is 1,024 bytes"} After={"the result is 1,025 bytes"} />
+				<Difference
+					Before={"the result is 1,024 bytes"}
+					After={"the result is 1,025 bytes"}
+				/>
 			</div>
 			<div class="preview__state preview__state--wide">
 				<span class="preview__label">Unchanged</span>
-				<Difference Before={"the result is 1,024 bytes"} After={"the result is 1,024 bytes"} />
+				<Difference
+					Before={"the result is 1,024 bytes"}
+					After={"the result is 1,024 bytes"}
+				/>
 			</div>
 		</div>
 	)}

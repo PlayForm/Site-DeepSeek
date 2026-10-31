@@ -35,7 +35,10 @@ const Here = dirname(fileURLToPath(import.meta.url));
 
 // Two corpora: the site's own diagrams, and the family's flowcharts copied out
 // of `Diagram/` at the repository root, one per package plus the overviews.
-const Source = [join(Here, "..", "Source", "Content", "Mermaid"), join(Here, "..", "Source", "Content", "Flow")];
+const Source = [
+	join(Here, "..", "Source", "Content", "Mermaid"),
+	join(Here, "..", "Source", "Content", "Flow"),
+];
 
 const BrowserPath =
 	process.env["DSH_BROWSER"] ?? "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser";

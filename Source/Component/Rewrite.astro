@@ -50,6 +50,13 @@ interface Props {
 const { Slug } = Astro.props;
 
 const Rewrite: Record<string, Rewrite> = {
+	"hook-dsh-package-governor": {
+		Mode: "pair",
+		Label: ["What the author wrote", "What the next read finds"],
+		Before: '{ "dependencies": { "serde": "^2.0.0", "left-pad": "1.0.0" } }',
+		After: '{ "dependencies": { "serde": "^2.1.0", "left-pad": "1.0.0" } }',
+		Note: "The chain-governed pin is rewritten to the resolved version, and the author's tool result is still the bytes the author sent.",
+	},
 	"hook-dsh-comment-filter": {
 		Mode: "pair",
 		Label: ["Result", "Model"],

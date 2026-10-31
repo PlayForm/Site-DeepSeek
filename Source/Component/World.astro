@@ -27,22 +27,24 @@ const Rail = Stage.map((Entry) => ({
 
 <figure class="world">
 	<figcaption class="world__caption">
-		The same turn twice: what the harness does alone, and what changes when the family
-		listens at a seam.
+		The same turn twice: what the harness does alone, and what changes when the family listens
+		at a seam.
 	</figcaption>
 
 	<div class="world__legend">
-		<span class="world__key" data-kind="base">the harness alone</span>
-		<span class="world__key" data-kind="family">with the family</span>
+		<span class="world__key" data-kind="base">
+			the harness alone
+		</span>
+		<span class="world__key" data-kind="family">
+			with the family
+		</span>
 	</div>
 
 	<ol class="world__rail">
 		{Rail.map((Entry) => (
 			<li class="world__stage" data-touched={Entry.Slug.length > 0}>
 				<span class="world__title">{Entry.Title}</span>
-				<span class="world__base">
-					{Entry.Seam.length > 0 ? Entry.Seam[0] : "no seam"}
-				</span>
+				<span class="world__base">{Entry.Seam.length > 0 ? Entry.Seam[0] : "no seam"}</span>
 				<span class="world__family">
 					{Entry.Slug.length > 0 ? Entry.Slug.join(", ") : "passes through"}
 				</span>
