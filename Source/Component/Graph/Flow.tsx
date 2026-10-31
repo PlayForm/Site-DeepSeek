@@ -4,8 +4,8 @@ import { createEffect, createMemo, createSignal, For, onCleanup, onMount, Show }
 
 // Flow: the turn as a graph. One node per stage, one edge from each stage to
 // the next, and a node lights up when the family stands at any of its seams.
-// Cytoscape renders it, breadth-first left to right, so the drawing reads as
-// the turn reads: left to right, with the family's stations lit.
+// Cytoscape renders it as one row, left to right, so the drawing reads as the
+// turn reads, with the family's stations lit.
 
 export interface FlowStage {
 	Index: number;
@@ -19,6 +19,35 @@ interface Props {
 	/** The seams the family documents a hook at. */
 	Family: string[];
 }
+
+// Breadth-first rotates the tree into the requested direction, and then skews
+// it by the canvas aspect ratio. The skew stretches one row of twelve stages
+// far beyond the canvas, and fit() shrinks the row until the labels are
+// unreadable. Removing the skew keeps the rotation and the spacing the layout
+// computed, so the row fits at the node's own size.
+const Straighten = (
+	Node: import("cytoscape").NodeSingular,
+	Position: { x: number; y: number },
+) => {
+	const Box = Node.cy().extent();
+	const Center = Box.x1 + Box.w / 2;
+	const Skew = Box.w / Box.h;
+
+	return { x: (Position.x - Center) / Skew + Center, y: Position.y };
+};
+
+// The row is twelve nodes wide, so the spacing is one node plus a gap rather
+// than a share of the canvas.
+const Layout = {
+	name: "breadthfirst",
+	directed: true,
+	direction: "rightward",
+	padding: 12,
+	spacingFactor: 1.1,
+	avoidOverlap: true,
+	fit: true,
+	transform: Straighten,
+} as const;
 
 export default function Flow(Props: Props) {
 	const [Select, SetSelect] = createSignal<FlowStage | undefined>(Props.Stage[0]);
@@ -60,6 +89,9 @@ export default function Flow(Props: Props) {
 			const Cytoscape = (await import("cytoscape")).default;
 			if (!Live || !Host) return;
 
+			const Token = (Name: string) =>
+				getComputedStyle(document.documentElement).getPropertyValue(Name).trim();
+
 			Instance = Cytoscape({
 				container: Host,
 				elements: Data(),
@@ -68,44 +100,48 @@ export default function Flow(Props: Props) {
 						selector: "node",
 						style: {
 							shape: "round-rectangle",
-							"background-color": "#ffffff",
+							"background-color": Token("--color-surface"),
 							"border-width": 1,
-							"border-color": "#b9c6dc",
+							"border-color": Token("--cabinet-line"),
 							label: "data(label)",
 							"font-family": "IBM Plex Mono, monospace",
-							"font-size": 10,
-							color: "#0b0f19",
+							"font-size": 12,
+							color: Token("--color-ink"),
 							"text-valign": "center",
 							"text-halign": "center",
-							width: 132,
-							height: 44,
+							"text-wrap": "wrap",
+							"text-max-width": "76px",
+							width: 84,
+							height: 48,
+							"min-width": "84px",
+							"min-height": "48px",
 						},
 					},
 					{
 						selector: "node[family = 1]",
 						style: {
-							"background-color": "#ebf2ff",
-							"border-color": "#0052ff",
+							"background-color": Token("--color-accent-soft"),
+							"border-color": Token("--color-accent"),
 							"border-width": 2,
 						},
 					},
 					{
 						selector: "node:selected",
-						style: { "border-color": "#0052ff", "border-width": 3 },
+						style: { "border-color": Token("--color-accent"), "border-width": 3 },
 					},
 					{
 						selector: "edge",
 						style: {
 							width: 1,
-							"line-color": "#cbd5e1",
-							"target-arrow-color": "#cbd5e1",
+							"line-color": Token("--color-line-strong"),
+							"target-arrow-color": Token("--color-line-strong"),
 							"target-arrow-shape": "triangle",
 							"curve-style": "bezier",
 							"arrow-scale": 0.7,
 						},
 					},
 				],
-				layout: { name: "breadthfirst", directed: true, padding: 16, spacingFactor: 1.1 },
+				layout: Layout,
 				userZoomingEnabled: false,
 				userPanningEnabled: false,
 				boxSelectionEnabled: false,
@@ -116,7 +152,7 @@ export default function Flow(Props: Props) {
 				SetSelect(Props.Stage.find((Entry) => String(Entry.Index) === Id));
 			});
 
-			Instance.fit(undefined, 16);
+			Instance.fit(undefined, 12);
 		})();
 
 		onCleanup(() => {
@@ -130,12 +166,7 @@ export default function Flow(Props: Props) {
 		if (!Instance) return;
 		Instance.elements().remove();
 		Instance.add(Data());
-		Instance.layout({
-			name: "breadthfirst",
-			directed: true,
-			padding: 16,
-			spacingFactor: 1.1,
-		}).run();
+		Instance.layout(Layout).run();
 	});
 
 	return (
@@ -146,6 +177,21 @@ export default function Flow(Props: Props) {
 				role="img"
 				aria-label="The turn as a graph of stages"
 			/>
+
+			<ul class="flow__list">
+				<For each={Props.Stage}>
+					{(Entry) => (
+						<li class="flow__item" data-family={Count(Entry) > 0}>
+							<button
+								class="flow__pick"
+								type="button"
+								onClick={() => SetSelect(Entry)}>
+								{String(Entry.Index).padStart(2, "0")} {Entry.Title}
+							</button>
+						</li>
+					)}
+				</For>
+			</ul>
 
 			<Show when={Select()}>
 				{(Entry) => (
@@ -164,21 +210,6 @@ export default function Flow(Props: Props) {
 					</aside>
 				)}
 			</Show>
-
-			<ul class="flow__list">
-				<For each={Props.Stage}>
-					{(Entry) => (
-						<li class="flow__item" data-family={Count(Entry) > 0}>
-							<button
-								class="flow__pick"
-								type="button"
-								onClick={() => SetSelect(Entry)}>
-								{String(Entry.Index).padStart(2, "0")} {Entry.Title}
-							</button>
-						</li>
-					)}
-				</For>
-			</ul>
 		</div>
 	);
 }

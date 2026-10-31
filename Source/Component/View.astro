@@ -1,0 +1,50 @@
+---
+import "@Stylesheet/Component/View.scss";
+
+// The five views of a plugin page: four the system shares, and one the plugin
+// owns. The row is the switcher and it is static - each cell is an anchor to a
+// section, and the current cell is lit by the fragment the URL carries - so a
+// link from another plugin's page lands on the same view with a different
+// plugin's marks, and no island ships for the mark.
+interface Pane {
+	/** The section id the anchor names, which is also the view's word. */
+	Id: string;
+	/** The view's name, as the page's heading prints it. */
+	Name: string;
+	/** What the view holds, in three or four words. */
+	Note: string;
+	/** Whether the system shares the view or the plugin owns it. */
+	Kind: "shared" | "own";
+}
+
+const Pane: Pane[] = [
+	{ Id: "conversation", Name: "Conversation", Note: "the turn as a document", Kind: "shared" },
+	{ Id: "harness", Name: "Harness", Note: "the seam and the dispatch", Kind: "shared" },
+	{ Id: "family", Name: "Family", Note: "the neighbours at the seam", Kind: "shared" },
+	{ Id: "person", Name: "Person", Note: "the wait and the refusal", Kind: "shared" },
+	{ Id: "architecture", Name: "Architecture", Note: "this plugin's own shape", Kind: "own" },
+];
+
+// The channel number is drawn, not typed: a view inserted anywhere renumbers
+// the rest rather than leaving a gap a reader has to notice.
+const Ordinal = (Index: number): string => String(Index + 1).padStart(2, "0");
+---
+
+<nav class="view" aria-label="The views of this page">
+	<ol class="view__row">
+		{Pane.map((Entry, Index) => (
+			<li class="view__cell" data-kind={Entry.Kind}>
+				<a class="view__link" href={`#${Entry.Id}`} data-view={Entry.Id}>
+					<span class="view__index">{Ordinal(Index)}&nbsp;</span>
+					<span class="view__name">{Entry.Name}&nbsp;</span>
+					<span class="view__note">{Entry.Note}</span>
+					<span class="view__lamp" aria-hidden="true" />
+				</a>
+			</li>
+		))}
+	</ol>
+
+	<p class="view__key">
+		Four views are the same system on every plugin page; the fifth is this plugin alone.
+	</p>
+</nav>

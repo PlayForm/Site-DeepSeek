@@ -1,6 +1,7 @@
 ---
 import Anchor from "@Component/Anchor.astro";
 import ArmChain from "@Component/ArmChain.astro";
+import CallStep from "@Component/CallStep.astro";
 import Cascade from "@Component/Cascade.astro";
 import Matrix from "@Component/Matrix.astro";
 import PageHero from "@Component/PageHero.astro";
@@ -10,17 +11,18 @@ import Sequence from "@Component/Sequence.astro";
 import StageRail from "@Component/Stage.astro";
 import StatBand from "@Component/StatBand.astro";
 import StateLife from "@Component/State.astro";
+import Table from "@Component/Table.astro";
 import Term from "@Component/Term.astro";
 import World from "@Component/World.astro";
 import { Arm } from "@Content/Arm";
 import { Layer } from "@Content/Composition";
-import { Seam } from "@Content/Harness";
+import { Seam, SeamFor } from "@Content/Harness";
 import { Intervention } from "@Content/Intervention";
 import { Role } from "@Content/Message";
 import { Step } from "@Content/ToolCall";
 import { SeamRow, Stage } from "@Content/Turn";
 import Base from "@Layout/Base.astro";
-import { Route } from "@Library/Link";
+import { PackageHref, Route } from "@Library/Link";
 
 // The turn is drawn once, as the stage rail. `turn.astro` also carried the Flow
 // island, which draws the same stages with the same lit seams as a graph: two
@@ -67,6 +69,63 @@ const Call = Step.map((Entry, Index) => ({
 	Width: Timing[Index]?.Width ?? 0,
 	Note: Entry.Seam,
 }));
+
+// One row per decision the docs name, in the order the pipeline reaches them:
+// the gate's three words, then the result's four.
+const Row = [
+	[
+		"allow",
+		"Passes the call to the registered guards, and then to the body.",
+		"None of the four: a gate with nothing to say returns the downstream decision unchanged.",
+	],
+	[
+		"deny",
+		"Skips the guards and the body: the refusal becomes the result, and the call still reaches tools/post-execute and tools/result.",
+		{ Text: "hook-dsh-workspace-govern", Href: PackageHref("hook-dsh-workspace-govern") },
+	],
+	[
+		"ask",
+		"Opens approval/request, one prompt: allowed once continues to the guards, and rejected, cancelled, or unavailable is a deny.",
+		{ Text: "hook-dsh-workspace-govern", Href: PackageHref("hook-dsh-workspace-govern") },
+	],
+	[
+		"accept",
+		"The result stands as the model will read it.",
+		"hook-dsh-ccr and hook-dsh-comment-filter, carrying the content they rewrote.",
+	],
+	[
+		"block",
+		"The result is withheld from the model.",
+		"None of the four: no listener here blocks a result.",
+	],
+	[
+		"replace",
+		"The result is replaced before it becomes model content.",
+		{ Text: "hook-dsh-ccr", Href: PackageHref("hook-dsh-ccr") },
+	],
+	[
+		"add context",
+		"Extra context is appended to the batch after the recorded results.",
+		"None of the four: no listener here adds context.",
+	],
+];
+
+// One row per stage: the stage, the seam it dispatches, the family packages
+// that act there, and the harness's own listeners where its event matrix names
+// one. The matrix is the harness's side of the seam, so the fourth column is
+// read from it rather than from the family's behavior map.
+const Answer = Step.map((Item) => {
+	const Harness = SeamFor(Item.Seam)?.Harness ?? [];
+
+	return [
+		Item.Title,
+		Item.Seam === "" ? "no seam" : Item.Seam,
+		Item.Plugin.length > 0
+			? Item.Plugin.map((Slug) => ({ Text: Slug, Href: PackageHref(Slug) }))
+			: "none",
+		Harness.length > 0 ? Harness.join(", ") : "none",
+	];
+});
 
 // The section list the anchor row prints, in the order the page reads them.
 const Section = [
@@ -138,6 +197,25 @@ const Section = [
 		</SectionHeader>
 		<div class="section__body stack">
 			<Sequence />
+			<CallStep Entry={Step} />
+			<SectionHeader
+				Title="Decision"
+				Lede="One row per decision the docs name, with what the harness does at that word and which of the four plugins can return it."
+			/>
+			<Table
+				Caption="The decision vocabulary the tool pipeline names, what the harness does at each word, and the plugin that can return it"
+				Head={["Decision", "What the harness does", "Which plugin can return it"]}
+				Row={Row}
+			/>
+			<SectionHeader
+				Title="Who answers"
+				Lede="One row per stage of the call, the seam it dispatches, and the plugins that answer there: the family's own, and the harness's where this site documents one."
+			/>
+			<Table
+				Caption="Each stage of the tool pipeline, its seam, and the plugins that answer there"
+				Head={["Stage", "Seam", "Family", "Harness"]}
+				Row={Answer}
+			/>
 			<Cascade Step={Call} />
 			<p class="muted">
 				Every change the family makes to a call happens between the gate and the result: a

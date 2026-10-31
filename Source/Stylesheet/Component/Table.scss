@@ -53,6 +53,17 @@
 		gap: var(--space-2);
 	}
 
+	// A cell that names several packages wraps them as a set, so the reader
+	// reads every package without the cell becoming a column of its own.
+	&__links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1) var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
 	// A cell that states a string exactly: a command, a marker, a ledger line.
 	// It wraps at any character, because a 24-hex hash and a long path have no
 	// word boundary to break at.

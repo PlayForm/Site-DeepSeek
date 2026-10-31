@@ -5,14 +5,17 @@ import Badge from "@Component/Badge.astro";
 import Icon from "@Component/Icon.astro";
 
 // A cell is text, a code token when the row states a string exactly, a link
-// when the row names something the reader can open, or a badge when the row
-// carries a state the table states at a glance. A link cell may carry the
-// package mark its target was drawn for, so a table of packages identifies
-// each row the way a card does.
+// when the row names something the reader can open, a list of links when the
+// row names several, or a badge when the row carries a state the table states
+// at a glance. A link cell may carry the package mark its target was drawn for,
+// so a table of packages identifies each row the way a card does.
+type Link = { Text: string; Href: string; Icon?: string };
+
 type Cell =
 	| string
 	| { Code: string }
-	| { Text: string; Href: string; Icon?: string }
+	| Link
+	| Link[]
 	| { Badge: { Label: string; Tone?: "neutral" | "accent" | "quiet" } };
 
 interface Props {
@@ -23,11 +26,15 @@ interface Props {
 
 const { Head, Row, Caption } = Astro.props;
 
+function IsLinks(Cell: Cell): Cell is Link[] {
+	return Array.isArray(Cell);
+}
+
 function IsCode(Cell: Cell): Cell is { Code: string } {
 	return typeof Cell !== "string" && "Code" in Cell;
 }
 
-function IsLink(Cell: Cell): Cell is { Text: string; Href: string; Icon?: string } {
+function IsLink(Cell: Cell): Cell is Link {
 	return typeof Cell !== "string" && "Text" in Cell;
 }
 
@@ -53,7 +60,18 @@ function IsBadge(
 				<tr>
 					{Cells.map((Cell, Index) => (
 						<td>
-							{IsCode(Cell) ? (
+							{IsLinks(Cell) ? (
+								<ul class="table__links">
+									{Cell.map((Entry) => (
+										<li>
+											<a class="table__link" href={Entry.Href}>
+												{Entry.Icon && <Icon Name={Entry.Icon} Size={32} />}
+												{Entry.Text}
+											</a>
+										</li>
+									))}
+								</ul>
+							) : IsCode(Cell) ? (
 								<code class="table__code">{Cell.Code}</code>
 							) : IsBadge(Cell) ? (
 								<Badge Label={Cell.Badge.Label} Tone={Cell.Badge.Tone} />

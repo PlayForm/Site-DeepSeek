@@ -7,6 +7,7 @@ import Badge from "@Component/Badge.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import Buffer from "@Component/Buffer.astro";
 import Bundle from "@Component/Bundle.astro";
+import Callout from "@Component/Callout.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import Definition from "@Component/Definition.astro";
 import Difference from "@Component/Difference.astro";
@@ -38,6 +39,7 @@ import Table from "@Component/Table.astro";
 import Tool from "@Component/Tool.astro";
 import Transform from "@Component/Transform.astro";
 import VersionPill from "@Component/VersionPill.astro";
+import View from "@Component/View.astro";
 import { Activation as ActivationData } from "@Content/Activation";
 import { ArmFor } from "@Content/Arm";
 import { BehaviorFor } from "@Content/Behavior";
@@ -46,14 +48,16 @@ import { DeltaFor } from "@Content/Delta";
 import { DetailFor } from "@Content/Detail";
 import { SeamFor } from "@Content/Harness";
 import { HookFor } from "@Content/Hook";
+import { Conversation } from "@Content/Mock";
 import { PortraitFor } from "@Content/Portrait";
 import { SchemeFor } from "@Content/Scheme";
+import { Plural } from "@Content/Session";
 import { TableFor } from "@Content/Table";
 import { Transform as Sample } from "@Content/Transform";
 import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
 import Catalogue from "@Library/Graph/Catalogue.server";
-import { Route } from "@Library/Link";
+import { PackageHref, Route, SeamHref } from "@Library/Link";
 import { Package, type PackageRecord } from "@Library/Package.server";
 import { VersionOf } from "@Library/Release.server";
 import { SurfaceFor } from "@Library/Surface.server";
@@ -84,9 +88,11 @@ const Arm = ArmFor(Entry.Slug);
 
 // The family's other packages at that seam, in the order the behavior map
 // lists them, as one sentence: this package's page says what the family adds
-// there, and the neighbours are named rather than drawn again.
+// there, and the neighbours are named rather than drawn again. The map records
+// the Classic identity, so an ETS page reads its own record through the prefix
+// its twin strips.
+const Identity = Entry.Slug.replace(/^ets-/, "");
 const Own = Behavior === undefined ? [] : HookFor(Behavior.Seam);
-const OwnName = Own.map((Item) => Item.Slug).join(", ");
 
 // The dissected change, when this package has one: the one line that differs
 // with the package installed, transcribed from the source by the dissection.
@@ -126,10 +132,11 @@ const Lede =
 				Guard: "The two lists the guard compares, the order it compares them in, and the lines it leaves.",
 			}[Detail.Kind];
 
-// The badge tone a verdict carries: the denial is the marked verdict, so it
-// takes the accent and the allowed verdict stays quiet.
-const Tone = (Label: "allow" | "deny"): "accent" | "quiet" =>
-	Label === "deny" ? "accent" : "quiet";
+// The badge tone a verdict carries, and the tone an effect at a seam carries:
+// the marked value takes the accent, and the allowed verdict, the record, the
+// advice, and the pass stay quiet.
+const Tone = (Label: string): "accent" | "quiet" =>
+	Label === "deny" || Label === "rewrite" ? "accent" : "quiet";
 
 // The character table the family's source documents, when the site has
 // authored one: the code points it maps, the character each one becomes, and
@@ -140,6 +147,107 @@ const Tabulation = TableFor(Entry.Slug);
 // markup, because two adjacent expressions split across lines render with a
 // space between them, and the page would print "on a timer ." forever.
 const Sentence = /[.!?:;,]$/.test(Entry.Summary) ? Entry.Summary : `${Entry.Summary}.`;
+
+// The portrait's one sentence, with its period, for the same reason.
+const Role =
+	Portrait === undefined
+		? undefined
+		: /[.!?:;,]$/.test(Portrait.Role)
+			? Portrait.Role
+			: `${Portrait.Role}.`;
+
+// The twin: the same package in the other release tree, found by the prefix
+// law the content maps already use, run the other way. A package with no
+// counterpart gets a note that says so rather than a link to nothing.
+const Twin = Package.find(
+	(Item) =>
+		Item.Slug ===
+		(Entry.Family === "EffectTS" ? Entry.Slug.replace(/^ets-/, "") : `ets-${Entry.Slug}`),
+);
+
+// The twin's one difference, by the kind of package: the hooks' twins agree on
+// the listeners, the order, and the ledger strings, and differ in the ledger
+// file's name and the factory base import; the plugins' twins agree on the
+// surface and differ in the wiring; the rest carry the same names and job.
+const TwinNote =
+	Twin === undefined
+		? "No package in the other release tree carries its name, so this one stands alone in the family."
+		: Entry.Kind === "hook"
+			? "It registers the same listeners in the same order and composes the same ledger strings; the ledger file's name, which carries the package identity, and the factory base import are the only differences."
+			: Entry.Kind === "plugin"
+				? "It registers the same surface under the other runtime, and the two trees differ in the wiring: the Effect tree returns Effect envelopes where this one returns the dispatch envelope."
+				: "It carries the same names and the same job in the other release tree, and its wiring is that tree's own.";
+
+// The family's answers at this seam, with this package marked: the row's
+// position is the order the behavior map registers them in, not a ranking. An
+// ETS page marks its Classic record as the twin, because the map holds the one
+// identity and the tree holds the other.
+const Position = (Slug: string): string =>
+	Slug === Entry.Slug ? "this package" : Slug === Identity ? "its twin" : "neighbour";
+
+const Answer = Own.map((Item) => [
+	{ Text: Item.Slug, Href: PackageHref(Item.Slug) },
+	{ Badge: { Label: Item.Effect, Tone: Tone(Item.Effect) } },
+	Position(Item.Slug),
+]);
+
+// The neighbours' one caption, by what the seam holds.
+const FamilyNote =
+	Behavior === undefined
+		? "The behavior map documents no seam for this package, so it has no neighbour to name at one."
+		: `The behavior map lists ${Plural(Own.length, "answer")} at ${Behavior.Seam}, in the order the family registers them.`;
+
+// The three calls every plugin page shares. The fixture is the site's one
+// conversation, so a reader who moves between plugins stays in the same frame.
+const Call = Conversation.map((Item) => [
+	{ Code: String(Item.Seq) },
+	{ Code: Item.Call },
+	{ Badge: { Label: Item.Outcome, Tone: "quiet" as const } },
+]);
+
+// The frame's caption, with the count read from the fixture rather than typed.
+const TurnNote = `The same ${Plural(Conversation.length, "call")} on every plugin page, so a reader who moves between plugins stays in the same frame.`;
+
+// What the person meets: the effect when the behavior map records the seam,
+// and the portrait's shape when the package is not a listener. A machine draws
+// the mechanism; only a sentence says the wait, the silence, and the refusal,
+// so the view carries one paragraph per plugin.
+const Persona = Behavior !== undefined ? Behavior.Effect : Portrait?.Shape;
+
+const Seen =
+	Persona === undefined
+		? "The person sees the result and never the contract: this package documents no seam and no portrait, so the page cannot place the wait."
+		: {
+				rewrite:
+					"The person sees the text after the rewrite and not what it replaced, so the change stays invisible unless the source is read beside the result.",
+				record:
+					"The person sees the effect and not the record: the line that testifies to what happened sits in a file, and the page prints the line rather than a screen that shows it.",
+				advise:
+					"The person sees the note arrive as context rather than as content, so the result it is about reads exactly as it did before.",
+				pass: "The person sees the harness as it was: this package observes the seam and changes nothing the model reads.",
+				gate: "The person sees the decision once, as the answer the call returns, and never the bytes the check compared or the line it wrote.",
+				tool: "The person sees the call and its output; the gate, the fence, and the ledger behind it never reach the transcript.",
+				service:
+					"The person sees the effect of a service another package calls, and the contract itself stays invisible until a caller breaks it.",
+				bundle: "The person sees the harness ready sooner and never the rail that mounted the family; a specifier that fails is one warning, not a stop.",
+				stream: "The person sees the live view keep its last snapshot and never the events that replaced it.",
+				layer: "The person sees one behavior and not the layer beneath it, because the layer is a set of names other packages import.",
+				surface:
+					"The person sees a tab and an overlay assembled from what the adapters registered, and not the order behind them.",
+				buffer: "The person sees the newest entries first and not the ring that dropped the oldest one.",
+			}[Persona];
+
+// The portrait's shape machine belongs to Person when the package answers a
+// person - a gate that refuses, a note that advises, a record that testifies,
+// a rewrite the reader receives - and to Architecture when the shape is the
+// plugin's own structure. The machine renders once, and the other view points
+// at it.
+const Ask =
+	Portrait !== undefined &&
+	(Portrait.Shape === "gate" ||
+		Portrait.Shape === "advise" ||
+		Portrait.Shape === "record" ||
+		Portrait.Shape === "rewrite");
 
 // A dependency that is itself a package in the family links to its page; an
 // external one stays plain text.
@@ -259,142 +367,132 @@ const File = [
 		</div>
 	</section>
 
-	{Portrait !== undefined && (
-		<section class="section">
-			<SectionHeader Title={Portrait.Role} Lede={`Plugs into ${Portrait.Plugs}.`} />
-			<div class="section__body stack">
-				<ul class="stack">
-					{Portrait.Does.map((Item) => (
-						<li>{Item}</li>
-					))}
-				</ul>
-				{Portrait.Shape === "stream" && <Stream Slug={Entry.Slug} />}
-				{Portrait.Shape === "layer" && <Layer Slug={Entry.Slug} />}
-				{Portrait.Shape === "surface" && <Surface Slug={Entry.Slug} />}
-				{Portrait.Shape === "buffer" && <Buffer Slug={Entry.Slug} />}
-				{Portrait.Shape === "gate" && Verdict !== undefined && (
-					<Gate Gate={Verdict} Slug={Entry.Slug} />
-				)}
-				{Portrait.Shape === "rewrite" && <Rewrite Slug={Entry.Slug} />}
-				{Portrait.Shape === "record" && <Record Slug={Entry.Slug} />}
-				{Portrait.Shape === "advise" && <Advise Slug={Entry.Slug} />}
-				{Portrait.Shape === "tool" && <Tool Slug={Entry.Slug} />}
-				{Portrait.Shape === "service" && <Service Slug={Entry.Slug} />}
-				{Portrait.Shape === "bundle" && <Bundle Slug={Entry.Slug} />}
-			</div>
-		</section>
-	)}
+	<View />
 
-	{Current !== undefined && (
-		<section class="section">
-			<SectionHeader
-				Title="Flow"
-				Lede="The order this package's work happens in, with the branch that decides it inline, transcribed from the source and from the corpus where the corpus draws it."
+	<section class="section view-panel" id="conversation">
+		<SectionHeader
+			Title="Conversation"
+			Lede="The turn as a document: the calls every plugin page shares, what this package changes in them, and the order its work happens in."
+		/>
+		<div class="section__body stack">
+			<header class="section-header">
+				<h3>The turn</h3>
+				<p class="section-header__lede">{TurnNote}</p>
+			</header>
+			<Table
+				Caption={`The ${Plural(Conversation.length, "call")} every plugin page shares, in sequence order`}
+				Head={["Seq", "Call", "Outcome"]}
+				Row={Call}
 			/>
-			<div class="section__body">
-				<Flow Stage={Current.Stage} Rule={Current.Rule} />
-			</div>
-		</section>
-	)}
 
-	{Detail !== undefined && (
-		<section class="section">
-			<SectionHeader Title="Detail" Lede={Lede} />
-			<div class="section__body stack">
-				{Detail.Kind === "Syntax" && (
-					<>
-						<Family Family={Detail.Family} />
-						<Absent Absent={Detail.Absent} />
-					</>
-				)}
-				{Detail.Kind === "Compress" && (
-					<>
-						<Schema Properties={Detail.Marker} />
-						<Storage Storage={Detail.Storage} />
-						<Table
-							Caption="The four answers ccr_retrieve can return"
-							Head={["Call", "The store answers", "The model receives", "The ledger"]}
-							Row={Detail.Retrieval.map((Item) => [
-								{ Code: Item.Call },
-								Item.Answer,
-								Item.Model,
-								{ Code: Item.Line },
-							])}
-						/>
-						<Absent Label="Never compressed" Absent={Detail.Exempt} />
-					</>
-				)}
-				{Detail.Kind === "Guard" && (
-					<>
-						<Policy Policy={Detail.Policy} />
-						<Ladder Rung={Detail.Order} />
-						<Table
-							Caption="The exact command shapes the guard judges"
-							Head={["Command", "Verdict", "Why"]}
-							Row={Detail.Command.map((Item) => [
-								{ Code: Item.Shape },
-								{
-									Badge: {
-										Label: Item.Verdict,
-										Tone: Tone(Item.Verdict),
-									},
-								},
-								Item.Why,
-							])}
-						/>
-						<Ledger Ledger={Detail.Ledger} />
-					</>
-				)}
-			</div>
-		</section>
-	)}
+			{Delta !== undefined && (
+				<>
+					<header class="section-header">
+						<h3>Change</h3>
+						<p class="section-header__lede">
+							The one line that differs with this package installed, transcribed from
+							its source by the dissection.
+						</p>
+					</header>
+					<Difference Before={Delta.Before} After={Delta.After} />
+					<dl class="definition">
+						<div class="definition__row">
+							<dt class="definition__term">Property</dt>
+							<dd class="definition__detail">{Delta.Property}</dd>
+						</div>
+						<div class="definition__row">
+							<dt class="definition__term">Knob</dt>
+							<dd class="definition__detail">{Delta.Knob}</dd>
+						</div>
+						<div class="definition__row">
+							<dt class="definition__term">Seam</dt>
+							<dd class="definition__detail">{Delta.Seam}</dd>
+						</div>
+					</dl>
+					{Delta.Off === true && (
+						<p class="muted">
+							This package ships disabled: the left side of the pair is what the
+							harness does with the package installed but inactive, and enabling it is
+							one line in the profile's bundle patch.
+						</p>
+					)}
+				</>
+			)}
 
-	{Tabulation !== undefined && (
-		<section class="section">
-			<SectionHeader Title="Table" />
-			<div class="section__body">
-				<Normalizer Table={Tabulation} />
-			</div>
-		</section>
-	)}
+			{Entry.Slug === "hook-dsh-ccr" && (
+				<>
+					<header class="section-header">
+						<h3>Retrieve</h3>
+						<p class="section-header__lede">
+							The loop the marker opens: the result arrives, the gate replaces it, the
+							model asks for the bytes by hash, and the store returns them exactly.
+						</p>
+					</header>
+					<Retrieve
+						Marker="<<<CCR:9d3c1f0a7b2e4d5c6a8b9c0d|terminal|5231>>>"
+						Hash="9d3c1f0a7b2e4d5c6a8b9c0d"
+						Size={5231}
+						Preview="[terminal:exit 0 | 142 lines | make: *** Error 1]"
+						Body="make: Entering directory '/repo'&#10;go build ./...&#10;make: *** Error 1"
+					/>
+				</>
+			)}
 
-	{ActivationData.Slug.includes(Entry.Slug) && (
-		<section class="section">
-			<SectionHeader
-				Title="Activation"
-				Lede="The one line this package writes when it loads, as a template and as the strings the source composes from it."
-			/>
-			<div class="section__body">
-				<Activation />
-			</div>
-		</section>
-	)}
-
-	{SchemeFor(Entry.Slug) !== undefined && (
-		<section class="section">
-			<SectionHeader
-				Title="Scheme"
-				Lede="The laws the package states in its own SCHEME.md: when it runs, what it refuses, and what stays identical because of it."
-			/>
-			<div class="section__body">
-				<Scheme Scheme={SchemeFor(Entry.Slug)!} />
-			</div>
-		</section>
-	)}
-
-	<section class="section">
-		<SectionHeader Title="Install" />
-		<div class="section__body">
-			<CodeBlock Label="Install" Language="sh" Code={`pnpm add ${Entry.Name}`} />
+			{Current !== undefined && (
+				<>
+					<header class="section-header">
+						<h3>Flow</h3>
+						<p class="section-header__lede">
+							The order this package's work happens in, with the branch that decides it
+							inline, transcribed from the source; the rule it obeys is the last band of
+							Architecture.
+						</p>
+					</header>
+					<Flow Stage={Current.Stage} />
+				</>
+			)}
 		</div>
 	</section>
 
-	<section class="section">
+	<section class="section view-panel" id="harness">
 		<SectionHeader
-			Title="Default"
-			Lede="What the harness does at this package's seam with none of the family installed, so the surface below has something to be a difference from."
+			Title="Harness"
+			Lede="The laws the package states, the line it writes when it loads, the seam the harness dispatches with none of the family, and the surface and knobs a run can set."
 		/>
 		<div class="section__body stack">
+			{SchemeFor(Entry.Slug) !== undefined && (
+				<>
+					<header class="section-header">
+						<h3>Scheme</h3>
+						<p class="section-header__lede">
+							The laws the package states in its own SCHEME.md: when it runs, what it
+							refuses, and what stays identical because of it.
+						</p>
+					</header>
+					<Scheme Scheme={SchemeFor(Entry.Slug)!} />
+				</>
+			)}
+
+			{ActivationData.Slug.includes(Entry.Slug) && (
+				<>
+					<header class="section-header">
+						<h3>Activation</h3>
+						<p class="section-header__lede">
+							The one line this package writes when it loads, as a template and as the
+							strings the source composes from it.
+						</p>
+					</header>
+					<Activation />
+				</>
+			)}
+
+			<header class="section-header">
+				<h3>Default</h3>
+				<p class="section-header__lede">
+					What the harness does at this package's seam with none of the family installed,
+					so the surface below has something to be a difference from.
+				</p>
+			</header>
 			{Behavior !== undefined && Harness !== undefined ? (
 				<>
 					<p class="lede">
@@ -418,70 +516,13 @@ const File = [
 					}
 				/>
 			)}
-			{Arm.length > 0 && (
-				<p class="muted">
-					Its source also registers at {Arm.join(", ")}, beyond the seam its README
-					documents.
+
+			<header class="section-header">
+				<h3>Surface</h3>
+				<p class="section-header__lede">
+					Every listener, tool, service, and knob the README documents.
 				</p>
-			)}
-			{Own.length > 0 && <p class="muted">The family answers at this seam too: {OwnName}.</p>}
-		</div>
-	</section>
-
-	{Delta !== undefined && (
-		<section class="section">
-			<SectionHeader
-				Title="Change"
-				Lede="The one line that differs with this package installed, transcribed from its source by the dissection."
-			/>
-			<div class="section__body stack">
-				<Difference Before={Delta.Before} After={Delta.After} />
-				<dl class="definition">
-					<div class="definition__row">
-						<dt class="definition__term">Property</dt>
-						<dd class="definition__detail">{Delta.Property}</dd>
-					</div>
-					<div class="definition__row">
-						<dt class="definition__term">Knob</dt>
-						<dd class="definition__detail">{Delta.Knob}</dd>
-					</div>
-					<div class="definition__row">
-						<dt class="definition__term">Seam</dt>
-						<dd class="definition__detail">{Delta.Seam}</dd>
-					</div>
-				</dl>
-				{Delta.Off === true && (
-					<p class="muted">
-						This package ships disabled: the left side of the pair is what the harness
-						does with the package installed but inactive, and enabling it is one line in
-						the profile's bundle patch.
-					</p>
-				)}
-			</div>
-		</section>
-	)}
-
-	{Entry.Slug === "hook-dsh-ccr" && (
-		<section class="section">
-			<SectionHeader
-				Title="Retrieve"
-				Lede="The loop the marker opens: the result arrives, the gate replaces it, the model asks for the bytes by hash, and the store returns them exactly."
-			/>
-			<div class="section__body">
-				<Retrieve
-					Marker="<<<CCR:9d3c1f0a7b2e4d5c6a8b9c0d|terminal|5231>>>"
-					Hash="9d3c1f0a7b2e4d5c6a8b9c0d"
-					Size={5231}
-					Preview="[terminal:exit 0 | 142 lines | make: *** Error 1]"
-					Body="make: Entering directory '/repo'&#10;go build ./...&#10;make: *** Error 1"
-				/>
-			</div>
-		</section>
-	)}
-
-	<section class="section">
-		<SectionHeader Title="Surface" />
-		<div class="section__body">
+			</header>
 			{SurfaceFor(Entry.Slug).length > 0 ? (
 				<Table
 					Caption={`The surfaces ${Entry.Slug} registers`}
@@ -494,62 +535,19 @@ const File = [
 					Note="The README documents no listener, tool, service, or configuration, so this package registers nothing a page can list."
 				/>
 			)}
-		</div>
-	</section>
 
-	<section class="section">
-		<SectionHeader Title="Dependencies" />
-		<div class="section__body">
-			{Entry.Dependencies.length > 0 ? (
-				<Table
-					Caption={`Dependencies of ${Entry.Slug}`}
-					Head={["Package", "Role"]}
-					Row={Depend}
-				/>
-			) : (
-				<Absence
-					Title="No dependency"
-					Note="The manifest declares no dependency, so this package stands alone in the graph."
-				/>
-			)}
-		</div>
-	</section>
+			<header class="section-header">
+				<h3>Install</h3>
+				<p class="section-header__lede">The package as the profile adds it.</p>
+			</header>
+			<CodeBlock Label="Install" Language="sh" Code={`pnpm add ${Entry.Name}`} />
 
-	{RequiredBy.length > 0 && (
-		<section class="section">
-			<SectionHeader Title="Required by" />
-			<div class="section__body">
-				<ul class="cluster">
-					{RequiredBy.map((Item) => (
-						<li>
-							<a class="mono cluster" href={Item!.Href}>
-								<Icon Name={Item!.Slug} Size={32} />
-								{Item!.Slug}
-							</a>
-						</li>
-					))}
-				</ul>
-			</div>
-		</section>
-	)}
-
-	{Example.length > 0 && (
-		<section class="section">
-			<SectionHeader Title="Transform" />
-			<div class="section__body">
-				<Transform Sample={Example} />
-			</div>
-		</section>
-	)}
-
-	<section class="section">
-		<SectionHeader
-			Title="Configuration"
-			Lede={
-				Knob.length > 0 ? "Every knob this plugin documents, with its default." : undefined
-			}
-		/>
-		<div class="section__body">
+			<header class="section-header">
+				<h3>Configuration</h3>
+				<p class="section-header__lede">
+					Every knob this plugin documents, with its default.
+				</p>
+			</header>
 			{Knob.length > 0 ? (
 				<Table
 					Caption={`Configuration of ${Entry.Slug}`}
@@ -565,36 +563,314 @@ const File = [
 		</div>
 	</section>
 
-	{Release.length > 0 && (
-		<section class="section">
-			<SectionHeader Title="Release" />
-			<div class="section__body">
+	<section class="section view-panel" id="family">
+		<SectionHeader
+			Title="Family"
+			Lede="The neighbours at the same seam, the arms beyond it, the twin in the other release tree, and the packages this one needs."
+		/>
+		<div class="section__body stack">
+			<header class="section-header">
+				<h3>Neighbours</h3>
+				<p class="section-header__lede">{FamilyNote}</p>
+			</header>
+			{Answer.length > 0 && (
+				<Table
+					Caption={`The family's answers at ${Behavior?.Seam}, in the order the behavior map lists them`}
+					Head={["Answer", "Effect", "Position"]}
+					Row={Answer}
+				/>
+			)}
+
+			<header class="section-header">
+				<h3>Arms</h3>
+				<p class="section-header__lede">
+					The seams its source also registers, beyond the one its README documents.
+				</p>
+			</header>
+			{Arm.length > 0 ? (
 				<ul class="cluster">
-					{Release.map((Version) => (
+					{Arm.map((Name) => (
 						<li>
-							<Badge
-								Label={Version}
-								Tone={Version === Entry.Version ? "accent" : "neutral"}
-							/>
+							{HookFor(Name).length > 0 ? (
+								<a class="mono" href={SeamHref(Name)}>
+									<Badge Label={Name} Tone="quiet" />
+								</a>
+							) : (
+								<Badge Label={Name} Tone="quiet" />
+							)}
 						</li>
 					))}
 				</ul>
-			</div>
-		</section>
-	)}
+			) : (
+				<p class="muted">
+					Its source registers no seam beyond the one its README documents.
+				</p>
+			)}
 
-	<section class="section">
-		<SectionHeader Title="Source" />
+			<header class="section-header">
+				<h3>Twin</h3>
+				<p class="section-header__lede">
+					The same package in the other release tree, when one exists.
+				</p>
+			</header>
+			{Twin === undefined ? (
+				<Absence Title="No twin" Note={TwinNote} />
+			) : (
+				<div class="stack">
+					<p class="lede">
+						Its twin is&nbsp;<a href={Twin.Href}>{Twin.Slug}</a>.
+					</p>
+					<p class="muted">{TwinNote}</p>
+				</div>
+			)}
+
+			<header class="section-header">
+				<h3>Dependencies</h3>
+				<p class="section-header__lede">
+					The packages this one imports, and whether each one is the family's own.
+				</p>
+			</header>
+			{Entry.Dependencies.length > 0 ? (
+				<Table
+					Caption={`Dependencies of ${Entry.Slug}`}
+					Head={["Package", "Role"]}
+					Row={Depend}
+				/>
+			) : (
+				<Absence
+					Title="No dependency"
+					Note="The manifest declares no dependency, so this package stands alone in the graph."
+				/>
+			)}
+
+			{RequiredBy.length > 0 && (
+				<>
+					<header class="section-header">
+						<h3>Required by</h3>
+						<p class="section-header__lede">
+							The packages that depend on this one, so the family's edges read in both
+							directions.
+						</p>
+					</header>
+					<ul class="cluster">
+						{RequiredBy.map((Item) => (
+							<li>
+								<a class="mono cluster" href={Item!.Href}>
+									<Icon Name={Item!.Slug} Size={32} />
+									{Item!.Slug}
+								</a>
+							</li>
+						))}
+					</ul>
+				</>
+			)}
+		</div>
+	</section>
+
+	<section class="section view-panel" id="person">
+		<SectionHeader Title="Person" Lede="What the person waits for, reads, and never sees." />
 		<div class="section__body stack">
-			<p class="lede">
-				<a href={Entry.Source}>Open the package source</a>
-			</p>
+			<p class="lede">{Seen}</p>
+
+			{Ask ? (
+				<>
+					{Portrait?.Shape === "gate" && Verdict !== undefined && (
+						<Gate Gate={Verdict} Slug={Entry.Slug} />
+					)}
+					{Portrait?.Shape === "gate" && Verdict === undefined && (
+						<p class="muted">
+							The source records no verdict table for this package, so no gate machine
+							is drawn; the branch it takes is in the flow above.
+						</p>
+					)}
+					{Portrait?.Shape === "advise" && <Advise Slug={Entry.Slug} />}
+					{Portrait?.Shape === "record" && <Record Slug={Entry.Slug} />}
+					{Portrait?.Shape === "rewrite" && <Rewrite Slug={Entry.Slug} />}
+				</>
+			) : (
+				<p class="muted">
+					{Portrait === undefined ? (
+						<>
+							The site has authored no portrait for this package, so it has no shape
+							machine; the facts its source documents are
+							in&nbsp;<a href="#architecture">Architecture</a>.
+						</>
+					) : (
+						<>
+							Its shape machine belongs
+							to&nbsp;<a href="#architecture">Architecture</a>.
+						</>
+					)}
+				</p>
+			)}
+		</div>
+	</section>
+
+	<section class="section view-panel" id="architecture">
+		<SectionHeader
+			Title="Architecture"
+			Lede="This plugin's own structure: the shape the portrait gives it, the facts its source documents, and the rule its flow obeys."
+		/>
+		<div class="section__body stack">
+			{Portrait !== undefined && (
+				<>
+					<header class="section-header">
+						<h3>Shape</h3>
+						<p class="section-header__lede">Plugs into&nbsp;{Portrait.Plugs}.</p>
+					</header>
+					<p class="lede">{Role}</p>
+					<ul class="stack">
+						{Portrait.Does.map((Item) => (
+							<li>{Item}</li>
+						))}
+					</ul>
+					{!Ask && (
+						<>
+							{Portrait.Shape === "stream" && <Stream Slug={Entry.Slug} />}
+							{Portrait.Shape === "layer" && <Layer Slug={Entry.Slug} />}
+							{Portrait.Shape === "surface" && <Surface Slug={Entry.Slug} />}
+							{Portrait.Shape === "buffer" && <Buffer Slug={Entry.Slug} />}
+							{Portrait.Shape === "tool" && <Tool Slug={Entry.Slug} />}
+							{Portrait.Shape === "service" && <Service Slug={Entry.Slug} />}
+							{Portrait.Shape === "bundle" && <Bundle Slug={Entry.Slug} />}
+						</>
+					)}
+					{Ask && (
+						<p class="muted">
+							Its shape machine belongs to&nbsp;<a href="#person">Person</a>.
+						</p>
+					)}
+				</>
+			)}
+
+			{Detail !== undefined && (
+				<>
+					<header class="section-header">
+						<h3>Detail</h3>
+						<p class="section-header__lede">{Lede}</p>
+					</header>
+					{Detail.Kind === "Syntax" && (
+						<>
+							<Family Family={Detail.Family} />
+							<Absent Absent={Detail.Absent} />
+						</>
+					)}
+					{Detail.Kind === "Compress" && (
+						<>
+							<Schema Properties={Detail.Marker} />
+							<Storage Storage={Detail.Storage} />
+							<Table
+								Caption="The four answers ccr_retrieve can return"
+								Head={["Call", "The store answers", "The model receives", "The ledger"]}
+								Row={Detail.Retrieval.map((Item) => [
+									{ Code: Item.Call },
+									Item.Answer,
+									Item.Model,
+									{ Code: Item.Line },
+								])}
+							/>
+							<Absent Label="Never compressed" Absent={Detail.Exempt} />
+						</>
+					)}
+					{Detail.Kind === "Guard" && (
+						<>
+							<Policy Policy={Detail.Policy} />
+							<Ladder Rung={Detail.Order} />
+							<Table
+								Caption="The exact command shapes the guard judges"
+								Head={["Command", "Verdict", "Why"]}
+								Row={Detail.Command.map((Item) => [
+									{ Code: Item.Shape },
+									{
+										Badge: {
+											Label: Item.Verdict,
+											Tone: Tone(Item.Verdict),
+										},
+									},
+									Item.Why,
+								])}
+							/>
+							<Ledger Ledger={Detail.Ledger} />
+						</>
+					)}
+				</>
+			)}
+
+			{Tabulation !== undefined && (
+				<>
+					<header class="section-header">
+						<h3>Table</h3>
+						<p class="section-header__lede">
+							The family's own character table: the code points it maps, the character
+							each one becomes, and the law it obeys.
+						</p>
+					</header>
+					<Normalizer Table={Tabulation} />
+				</>
+			)}
+
+			{Example.length > 0 && (
+				<>
+					<header class="section-header">
+						<h3>Transform</h3>
+						<p class="section-header__lede">
+							The worked example its README documents: the code point it names and the
+							replacement it ships.
+						</p>
+					</header>
+					<Transform Sample={Example} />
+				</>
+			)}
+
+			{Current !== undefined && (
+				<Callout Title="Rule">
+					<p>{Current.Rule}</p>
+				</Callout>
+			)}
 		</div>
 	</section>
 
 	<section class="section">
-		<SectionHeader Title="Origin" />
-		<div class="section__body">
+		<SectionHeader
+			Title="Record"
+			Lede="The release line, the source, and the files this page was read from."
+		/>
+		<div class="section__body stack">
+			{Release.length > 0 && (
+				<>
+					<header class="section-header">
+						<h3>Release</h3>
+						<p class="section-header__lede">
+							The versions the package's own changelog records, newest first.
+						</p>
+					</header>
+					<ul class="cluster">
+						{Release.map((Version) => (
+							<li>
+								<Badge
+									Label={Version}
+									Tone={Version === Entry.Version ? "accent" : "neutral"}
+								/>
+							</li>
+						))}
+					</ul>
+				</>
+			)}
+
+			<header class="section-header">
+				<h3>Source</h3>
+				<p class="section-header__lede">The package as the repository holds it.</p>
+			</header>
+			<p class="lede">
+				<a href={Entry.Source}>Open the package source</a>
+			</p>
+
+			<header class="section-header">
+				<h3>Origin</h3>
+				<p class="section-header__lede">
+					The files this page was built from, and what each one supplies.
+				</p>
+			</header>
 			<Disclosure Summary="The files this page was read from" Count={File.length}>
 				<Origin Source={Entry.Source} File={File} />
 			</Disclosure>

@@ -141,7 +141,7 @@ function Read(Path: string, Folder: Folder, Relative: string): StoryboardRecord 
 		Folder,
 		Stem,
 		File: `Documentation/${Folder}/${Relative}.md`,
-		Method: Stem === "README",
+		Method: Stem === "README" || Stem === "Process",
 		Section: SectionOf(Tree, Source),
 	};
 }

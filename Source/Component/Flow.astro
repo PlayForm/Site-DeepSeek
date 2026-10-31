@@ -32,8 +32,9 @@ import type { Stage } from "@Content/Current";
 interface Props {
 	/** The package's flow, in order, with branches inline. */
 	Stage: Stage[];
-	/** The rule the flow obeys, said once. */
-	Rule: string;
+	/** The rule the flow obeys, said once. A page that prints the rule in
+	 *  another view omits it here rather than printing the same sentence twice. */
+	Rule?: string;
 }
 
 const { Stage: Entry, Rule } = Astro.props;
@@ -71,6 +72,8 @@ const { Stage: Entry, Rule } = Astro.props;
 	))}
 </ol>
 
-<Callout Title="Rule">
-	<p>{Rule}</p>
-</Callout>
+{Rule !== undefined && (
+	<Callout Title="Rule">
+		<p>{Rule}</p>
+	</Callout>
+)}

@@ -1,0 +1,165 @@
+@use "../Material.scss" as Material;
+
+// The view row: five bays in one tray, read as an instrument rather than as a
+// tab bar. The tray is the inset face, a hairline separates two bays, the
+// ordinal is the channel number, and the lamp reports the view the URL names.
+// The fifth bay is the plugin's own and sits behind a thicker divider, because
+// four views are the system and one is the difference.
+//
+// The mark is static. A fragment lands on a section id, so `:has(:target)`
+// lights the cell whose data-view matches it; with no fragment the page is at
+// its first view, and the first cell is lit. A landed section carries the same
+// accent at its top rule, so a reader who arrives from another plugin's page
+// sees where the link put them before reading a word.
+
+.view {
+	margin: 0 0 var(--rhythm-head);
+	border: 1px solid var(--cabinet-line);
+	border-radius: var(--radius-sm);
+	background: var(--cabinet-inset);
+
+	&__row {
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__cell {
+		min-width: 0;
+
+		& + & {
+			border-left: var(--hairline);
+		}
+
+		&[data-kind="own"] {
+			border-left: var(--cabinet-depth) solid var(--cabinet-line);
+		}
+	}
+
+	&__link {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-areas:
+			"index lamp"
+			"name name"
+			"note note";
+		gap: var(--space-1) var(--space-2);
+		align-content: start;
+		height: 100%;
+		padding: var(--rhythm-tight) var(--space-3) var(--rhythm-inset);
+		border-bottom: var(--cabinet-depth) solid var(--cabinet-inset);
+		color: var(--color-ink);
+		text-decoration: none;
+		transition:
+			background var(--motion-crisp) var(--ease-crisp),
+			border-color var(--motion-crisp) var(--ease-crisp);
+
+		&:hover {
+			background: var(--cabinet-front);
+		}
+	}
+
+	&__index {
+		grid-area: index;
+
+		@include Material.label;
+	}
+
+	&__name {
+		grid-area: name;
+		font-size: var(--text-sm);
+		font-weight: 600;
+		line-height: var(--leading-tight);
+	}
+
+	&__note {
+		grid-area: note;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-snug);
+		color: var(--color-ink-faint);
+	}
+
+	&__lamp {
+		grid-area: lamp;
+		width: var(--space-2);
+		height: var(--space-2);
+		margin-top: var(--space-1);
+		border: 1px solid var(--cabinet-line);
+	}
+
+	&__key {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-2) var(--space-3);
+		border-top: var(--hairline);
+		font-size: var(--text-xs);
+		line-height: var(--leading-snug);
+		color: var(--color-ink-muted);
+
+		&::before {
+			content: "";
+			flex: none;
+			width: var(--space-2);
+			height: var(--space-2);
+			border: 1px solid var(--color-accent-deep);
+			background: var(--color-accent);
+		}
+	}
+}
+
+// The lit bay: the tray's face steps up, the channel number takes the accent,
+// and the lamp fills. One selector per view, because the row's anchor has to
+// know which section the fragment named and CSS cannot compare an href with a
+// target; the pairing is the whole rule.
+@mixin current {
+	background: var(--cabinet-front);
+	border-bottom-color: var(--color-accent);
+
+	.view__index {
+		color: var(--color-accent);
+	}
+
+	.view__lamp {
+		border-color: var(--color-accent-deep);
+		background: var(--color-accent);
+	}
+}
+
+body:has(#conversation:target) .view__link[data-view="conversation"],
+body:has(#harness:target) .view__link[data-view="harness"],
+body:has(#family:target) .view__link[data-view="family"],
+body:has(#person:target) .view__link[data-view="person"],
+body:has(#architecture:target) .view__link[data-view="architecture"] {
+	@include current;
+}
+
+body:not(:has(:target)) .view__link[data-view="conversation"] {
+	@include current;
+}
+
+// The landed view: the same accent the lit bay carries, on the section's own
+// top rule, and the scroll margin the sticky header needs so the heading is
+// not hidden under it.
+.view-panel {
+	scroll-margin-top: calc(var(--header-height) + var(--rhythm-inset));
+
+	&:target {
+		border-top: var(--cabinet-depth) solid var(--color-accent);
+	}
+}
+
+// On a phone the instrument becomes a strip: the five bays keep their order
+// and their dividers, and the row scrolls sideways rather than stacking five
+// full-width panels between the claim and the first view.
+@media (max-width: 720px) {
+	.view__row {
+		grid-template-columns: none;
+		grid-auto-flow: column;
+		grid-auto-columns: minmax(148px, 1fr);
+		overflow-x: auto;
+	}
+}
