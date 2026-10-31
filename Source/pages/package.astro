@@ -113,6 +113,7 @@ const Word = Object.values(Vocabulary).map((Entry) => ({
 		<SectionHeader
 			Title="Marketplace"
 			Lede={`The same packages as an installable set: ${Bundle} bundle in ${Marketplace.Group.length} category.`}
+			Id="marketplace"
 		/>
 		<div class="section__body stack">
 			{Marketplace.Group.map((Entry) => (
@@ -136,6 +137,7 @@ const Word = Object.values(Vocabulary).map((Entry) => ({
 		<SectionHeader
 			Title="Term"
 			Lede="One word per concept, borrowed from the code. Every page uses these words with these meanings."
+			Id="term"
 		/>
 		<div class="section__body">
 			<Definition Definition={Word} />

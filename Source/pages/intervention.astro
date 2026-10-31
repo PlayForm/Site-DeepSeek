@@ -1,90 +1,23 @@
 ---
-import Callout from "@Component/Callout.astro";
-import Matrix from "@Component/Matrix.astro";
 import PageHero from "@Component/PageHero.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
-import Table from "@Component/Table.astro";
-import Term from "@Component/Term.astro";
-import { Intervention } from "@Content/Intervention";
 import Base from "@Layout/Base.astro";
 import { Route } from "@Library/Link";
 
-const Row = Intervention.map((Entry) => [
-	{ Text: Entry.Slug, Href: `/package/${Entry.Slug}/` },
-	Entry.Property,
-	Entry.Disk,
-]);
+// The coverage is a section of `/harness/` now. The meta refresh lands a stale
+// bookmark at the exact anchor before the page paints; the button is the
+// visible link for a client that blocks the refresh and for a crawler.
 ---
-
-<Base
-	Title="Intervention"
-	Description={`What ${Intervention.length} plugins actually change in the harness: the seam, the model, the conversation, and the disk.`}>
+<Base Title="Intervention" Description="The coverage moved to the harness page, at /harness/#coverage.">
+	<Fragment slot="Head">
+		<meta http-equiv="refresh" content={`0; url=${Route.Harness}#coverage`} />
+	</Fragment>
 	<PageHero Eyebrow="Intervention" Title="What a plugin changes">
 		<Fragment slot="Lede">
-			{Intervention.length}&nbsp;
-			<Term Name="plugin" />, one per family, read from source: the&nbsp;
-			<Term Name="seam" /> each stands at, whether the model sees something different, and
-			what reaches the disk.
+			This page moved: the coverage is now a section of the harness page, which draws each
+			plugin against the seams of the turn.
+		</Fragment>
+		<Fragment slot="Actions">
+			<a class="button" href={`${Route.Harness}#coverage`}>Read the coverage</a>
 		</Fragment>
 	</PageHero>
-
-	<section class="section">
-		<SectionHeader
-			Title="Coverage"
-			Lede="The turn runs left to right. A filled square is a plugin that changes what the model reads next at that seam; a hollow one records what happened there."
-		/>
-		<div class="section__body">
-			<Matrix Row={Intervention} />
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Power"
-			Lede="Three powers, one per dispatch mode. A page that claims more than the mode allows is a page that lies."
-		/>
-		<div class="section__body stack">
-			<Callout Title="Change" Tone="note">
-				A waterfall listener receives the payload and returns a changed one. This is the
-				power that makes the model read a different turn, and the filled squares in the
-				matrix are its uses.
-			</Callout>
-			<Callout Title="Record" Tone="note">
-				An emit listener sees a fact that already happened. This is the power that leaves an
-				inspectable record, and the hollow squares are its uses.
-			</Callout>
-			<Callout Title="Stop" Tone="warn">
-				A serial listener can end a turn but cannot rewrite it. No plugin here takes this
-				power; the harness keeps it.
-			</Callout>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Record"
-			Lede="Every plugin keeps a ledger line, and the page for each one says where."
-		/>
-		<div class="section__body stack">
-			<Table
-				Caption="Each plugin, the property its code supports, and what it leaves on disk"
-				Head={["Plugin", "Property", "On disk"]}
-				Row={Row}
-			/>
-			<p class="muted">
-				<a href={Route.Connect}>Read the ledgers</a> to see the files themselves.
-			</p>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader Title="Read" />
-		<div class="section__body">
-			<p class="muted">
-				Each mark is a registration the package's own source carries. A plugin whose
-				marketing name claims more than its registrations is called out beside its row, not
-				silently upgraded.
-			</p>
-		</div>
-	</section>
 </Base>

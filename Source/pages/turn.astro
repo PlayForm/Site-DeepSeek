@@ -1,150 +1,23 @@
 ---
-import Callout from "@Component/Callout.astro";
-import Flow from "@Component/Graph/Flow.tsx";
 import PageHero from "@Component/PageHero.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
-import StageRail from "@Component/Stage.astro";
-import Table from "@Component/Table.astro";
-import { Arm } from "@Content/Arm";
-import { Seam } from "@Content/Harness";
-import { SeamRow, Stage } from "@Content/Turn";
 import Base from "@Layout/Base.astro";
-import { Route, SeamHref } from "@Library/Link";
+import { Route } from "@Library/Link";
 
-// The seams the family already listens on, by name. The rail links a stage
-// seam only when it is in this list, because a link to a page the site does not
-// have is worse than no link at all. The documented seams come first; the arms
-// a package registers without documenting them are added beside them, so the
-// lit stages show where the family actually listens, not only where it writes
-// about listening.
-const Used = [...new Set([...Seam.map((Entry) => Entry.Name), ...Object.values(Arm).flat()])];
-
-// How many of the seams on the turn path the family listens at, documented or
-// not. The claim sentence reads both numbers from this, never from a typed one.
-const Path = new Set(SeamRow.map((Entry) => Entry.Name));
-const Listened = Used.filter((Name) => Path.has(Name)).length;
-
-// The seams with a page of their own. A lit seam without one is lit and plain.
-const Page = Seam.map((Entry) => Entry.Name);
-
-// The power a dispatch mode gives a listener decides the badge tone: a waterfall
-// may rewrite, an emit observes, and a serial listener may only stop the turn.
-const Tone: Record<SeamRow["Power"], "accent" | "quiet" | "neutral"> = {
-	Change: "accent",
-	Observe: "quiet",
-	Stop: "neutral",
-};
-
-// One row per seam: the name, linked when the site has a page for it, the
-// package that produces it, the power it gives a listener, and what the
-// listener receives.
-const Row = SeamRow.map((Item) => [
-	Page.includes(Item.Name) ? { Text: Item.Name, Href: SeamHref(Item.Name) } : Item.Name,
-	Item.Producer,
-	{ Badge: { Label: Item.Power, Tone: Tone[Item.Power] } },
-	Item.Shape,
-]);
+// The turn is a section of `/harness/` now. The meta refresh lands a stale
+// bookmark at the exact anchor before the page paints; the button is the
+// visible link for a client that blocks the refresh and for a crawler.
 ---
-
-<Base
-	Title="Turn"
-	Description={`The default turn: ${Stage.length} stage and ${SeamRow.length} seam, before a plugin of this family exists.`}>
+<Base Title="Turn" Description="The turn moved to the harness page, at /harness/#turn.">
+	<Fragment slot="Head">
+		<meta http-equiv="refresh" content={`0; url=${Route.Harness}#turn`} />
+	</Fragment>
 	<PageHero Eyebrow="Harness" Title="The turn">
 		<Fragment slot="Lede">
-			The harness reaches {Stage.length}&nbsp;stage and {SeamRow.length}&nbsp;seam before a
-			plugin of this family exists.
+			This page moved: the turn is now a section of the harness page, which follows one turn
+			from the queue to the close.
+		</Fragment>
+		<Fragment slot="Actions">
+			<a class="button" href={`${Route.Harness}#turn`}>Read the turn</a>
 		</Fragment>
 	</PageHero>
-
-	<section class="section">
-		<Callout Title="The claim">
-			<div class="stack">
-				<p class="lede">
-					The default turn already has every slot. Only the slots are empty.
-				</p>
-				<p>
-					The family documents {Seam.length}&nbsp;of the {SeamRow.length}&nbsp;seam on
-					this path and registers arms at {Listened - Seam.length}&nbsp;more, so the lit
-					stages below are where it actually listens. Every other page on this site is a
-					comparison against this one.
-				</p>
-			</div>
-		</Callout>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Stage"
-			Lede="One entry per stage, in the order the turn reaches it. A seam the family uses is linked; a seam it does not use stays quiet."
-		/>
-		<div class="section__body">
-			<StageRail Entry={Stage} Used={Used} Page={Page} />
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Flow"
-			Lede="The same stages as a graph. A stage with a lit border is a stage where the family stands at one of its seams."
-		/>
-		<div class="section__body">
-			<Flow Stage={Stage} Family={Used} client:load />
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Seam"
-			Lede="One row per seam the turn dispatches, with its producer, the power it gives a listener, and what the listener receives."
-		/>
-		<div class="section__body">
-			<Table
-				Caption="Every seam the turn reaches, with its producer, its power, and what the listener receives"
-				Head={["Seam", "Producer", "Power", "What the listener receives"]}
-				Row={Row}
-			/>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Power"
-			Lede="A plugin acts at a seam, and the power the seam gives a listener decides what it can do there."
-		/>
-		<div class="section__body stack">
-			<ul class="stack">
-				<li>
-					<strong>Change</strong>: the listener receives the payload and returns it
-					changed, so the next reader sees the new value.
-				</li>
-				<li>
-					<strong>Observe</strong>: the listener sees a fact that already happened, and it
-					can record or act beside it, but never rewrite it.
-				</li>
-				<li>
-					<strong>Stop</strong>: the listener may end the turn at the terminal checkpoint,
-					but the turn it ends is already written.
-				</li>
-			</ul>
-			<div class="cluster">
-				<a class="button" href={Route.Behavior}>
-					The family at&nbsp;{Seam.length}&nbsp;of them
-				</a>
-				<a class="button button--quiet" href={Route.Workbench}>
-					One turn, both lenses
-				</a>
-			</div>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader Title="Read" />
-		<div class="section__body">
-			<p class="muted">
-				This page transcribes the turn the harness documentation describes, stage by stage
-				and seam by seam. The live harness can differ from the docs: a release may add,
-				move, or retire a seam before the documentation records it.
-			</p>
-		</div>
-	</section>
 </Base>

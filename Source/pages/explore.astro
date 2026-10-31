@@ -1,31 +1,29 @@
 ---
-import Explorer from "@Component/Graph/Explorer.tsx";
 import PageHero from "@Component/PageHero.astro";
-import Term from "@Component/Term.astro";
 import Base from "@Layout/Base.astro";
-import Catalogue from "@Library/Graph/Catalogue.server";
+import { Route } from "@Library/Link";
+
+// The package graph is a section of the observability page now. The address
+// keeps working: the meta refresh moves a reader who followed an old link, and
+// the one button is the same destination for a reader who lands before it fires.
+const Target = `${Route.Trace}#graph`;
 ---
 
 <Base
 	Title="Observatory"
-	Description={`The package graph: ${Catalogue.Node.length} nodes and ${Catalogue.Edge.length} dependency edges, laid out in the browser.`}>
-	<PageHero Eyebrow="Observatory" Title="Package graph">
+	Description="The graph moved: the package graph is the graph section of the trace page.">
+	<Fragment slot="Head">
+		<meta http-equiv="refresh" content="0; url=/trace/#graph" />
+	</Fragment>
+	<PageHero Eyebrow="Observatory" Title="The graph moved">
 		<Fragment slot="Lede">
-			{Catalogue.Node.length}&nbsp;
-			<Term Name="node" />, {Catalogue.Edge.length}&nbsp;
-			<Term Name="edge" />.
+			The package graph is now the graph section of the trace page, beside the document, the
+			lane, the board, and the coverage grid it belongs with.
 		</Fragment>
 	</PageHero>
-
-	<section class="section">
-		<div class="section__body">
-			<Explorer
-				Node={Catalogue.Node}
-				Edge={Catalogue.Edge}
-				Family={Catalogue.Family}
-				Kind={Catalogue.Kind}
-				client:load
-			/>
-		</div>
-	</section>
+	<div class="cluster">
+		<a class="button" href={Target}>
+			The graph
+		</a>
+	</div>
 </Base>

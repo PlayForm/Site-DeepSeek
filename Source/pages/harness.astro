@@ -1,0 +1,203 @@
+---
+import Anchor from "@Component/Anchor.astro";
+import ArmChain from "@Component/ArmChain.astro";
+import Matrix from "@Component/Matrix.astro";
+import PageHero from "@Component/PageHero.astro";
+import RoleList from "@Component/RoleList.astro";
+import SectionHeader from "@Component/SectionHeader.astro";
+import Sequence from "@Component/Sequence.astro";
+import StageRail from "@Component/Stage.astro";
+import StateLife from "@Component/State.astro";
+import StatBand from "@Component/StatBand.astro";
+import Term from "@Component/Term.astro";
+import { Arm } from "@Content/Arm";
+import { Layer } from "@Content/Composition";
+import { Seam } from "@Content/Harness";
+import { Intervention } from "@Content/Intervention";
+import { Role } from "@Content/Message";
+import { Step } from "@Content/ToolCall";
+import { SeamRow, Stage } from "@Content/Turn";
+import Base from "@Layout/Base.astro";
+import { Route } from "@Library/Link";
+
+// The turn is drawn once, as the stage rail. `turn.astro` also carried the Flow
+// island, which draws the same stages with the same lit seams as a graph: two
+// pictures of one fact, which the compound rule calls a defect. The rail wins
+// because it states what each stage takes in and gives out and links each seam,
+// where the island draws labels and needs a client bundle to lay them out. The
+// section the island opened ("The dispatch") is gone with it.
+
+// The seams the family listens on, by name: the documented seams plus the arms
+// the source registers. The rail lights a seam in this list, so a stage with no
+// lit seam is a stage the family never touches.
+const Used = [...new Set([...Seam.map((Entry) => Entry.Name), ...Object.values(Arm).flat()])];
+
+// The seams on the turn's own path. Two documented seams, `batch/proposed` and
+// `fs/observed`, are not on the path, so they do not count toward the path's
+// documented figure; the claim prints the path's number, not the registry's.
+const Path = new Set(SeamRow.map((Entry) => Entry.Name));
+const Documented = Seam.filter((Entry) => Path.has(Entry.Name)).length;
+const Listened = Used.filter((Name) => Path.has(Name)).length;
+
+// The seams with a page of their own. A lit seam without one is lit and plain,
+// never a link to nothing.
+const Page = Seam.map((Entry) => Entry.Name);
+
+// The arms the family registers across its seams, and the seams they run at.
+const ArmCount = Layer.reduce((Total, Entry) => Total + Entry.Arm.length, 0);
+
+// The seams that can change what the model reads, once each.
+const Change = [...new Set(Role.flatMap((Entry) => Entry.Seam))];
+
+// The section list the anchor row prints, in the order the page reads them.
+const Section = [
+	{ Href: "#claim", Label: "The claim" },
+	{ Href: "#turn", Label: "The turn" },
+	{ Href: "#call", Label: "The call" },
+	{ Href: "#fate", Label: "The fate" },
+	{ Href: "#conversation", Label: "The conversation" },
+	{ Href: "#composition", Label: "The composition" },
+	{ Href: "#coverage", Label: "The coverage" },
+];
+---
+
+<Base
+	Title="Harness"
+	Description="One turn of the harness from the queue to the close, and the family that stands in it.">
+	<PageHero Eyebrow="One turn" Title="The harness">
+		<Fragment slot="Lede">
+			From the queue to the close, and the&nbsp;
+			<Term Name="seam" /> where a plugin of this family can stand in it.
+		</Fragment>
+	</PageHero>
+
+	<Anchor Entry={Section} />
+
+	<section class="section" id="claim">
+		<SectionHeader Title="The claim" />
+		<div class="section__body stack">
+			<p class="lede">
+				The default turn already has every slot. Only the slots are empty.
+			</p>
+			<p>
+				The family documents {Documented}&nbsp;of the {SeamRow.length}&nbsp;seam on this path
+				and registers arms at {Listened - Documented}&nbsp;more, so the lit stages below are
+				where it actually listens. Every page about the family is a comparison against this
+				one.
+			</p>
+			<StatBand
+				Stat={[
+					{ Label: "Stage", Value: Stage.length, Note: "In one turn" },
+					{ Label: "Seam", Value: SeamRow.length, Note: "On the path" },
+					{ Label: "Documented", Value: Documented, Note: "With a README hook" },
+					{ Label: "Lit", Value: Listened, Note: "Where the family listens" },
+				]}
+			/>
+		</div>
+	</section>
+
+	<section class="section" id="turn">
+		<SectionHeader
+			Title="The turn"
+			Lede="A turn is zero or more steps, and a step is one model request plus the tools it calls. One entry per stage, in the order the turn reaches it; a seam the family uses is lit, and a seam it does not use stays quiet."
+		/>
+		<div class="section__body stack">
+			<StageRail Entry={Stage} Used={Used} Page={Page} />
+			<p class="muted">
+				The rail names what enters each stage and what leaves it, so the turn reads as a
+				chain of inputs and outputs rather than a list of names.
+			</p>
+		</div>
+	</section>
+
+	<section class="section" id="call">
+		<SectionHeader Title="The call">
+			<Fragment slot="Lede">
+				The model asks for a tool, and the harness decides {Step.length}&nbsp;times: whether
+				the call may run, what body runs, what the model reads back, and what is frozen as
+				the record.
+			</Fragment>
+		</SectionHeader>
+		<div class="section__body stack">
+			<Sequence />
+			<p class="muted">
+				Every change the family makes to a call happens between the gate and the result: a
+				call can be refused before it runs, and a result can be rewritten before it is read.
+				A hook at either seam is a waterfall listener, so it calls the harness's next() and
+				returns the payload the next listener sees.
+			</p>
+		</div>
+	</section>
+
+	<section class="section" id="fate">
+		<SectionHeader
+			Title="The fate"
+			Lede="The call's life is one line, and every way off it is an exit, not a step. A refusal leaves before the body runs, and a failure or a timeout leaves while it runs."
+		/>
+		<div class="section__body">
+			<StateLife />
+		</div>
+	</section>
+
+	<section class="section" id="conversation">
+		<SectionHeader Title="The conversation">
+			<Fragment slot="Lede">
+				One entry per part of the message the model reads, in the order it reads them, and
+				the {Change.length}&nbsp;seam that can change them.
+			</Fragment>
+		</SectionHeader>
+		<div class="section__body stack">
+			<RoleList Entry={Role} />
+			<p class="muted">
+				The model never sees the harness, only the messages the log projects: every request
+				has to be reconstructable from the log, so the seam that changes a message changes
+				what the next request carries.
+			</p>
+		</div>
+	</section>
+
+	<section class="section" id="composition">
+		<SectionHeader Title="The composition">
+			<Fragment slot="Lede">
+				{ArmCount}&nbsp;arms across {Layer.length}&nbsp;seam, in the order they run, and each
+				one is registered twice, at the same seam in the same position.
+			</Fragment>
+		</SectionHeader>
+		<div class="section__body stack">
+			{Layer.map((Entry) => (
+				<ArmChain
+					Seam={Entry.Seam}
+					Arm={Entry.Arm}
+					Note={Entry.Note}
+					Linked={Page.includes(Entry.Seam)}
+				/>
+			))}
+			<p class="muted">
+				A prepended arm is registered outside the listeners that mount with the bundle, so
+				its output is what the plain listeners see. Two arms do not compose at all: cost
+				records every committed event, and the journal records every write.
+			</p>
+		</div>
+	</section>
+
+	<section class="section" id="coverage">
+		<SectionHeader
+			Title="The coverage"
+			Lede="The turn runs left to right. A filled square is a plugin that changes what the model reads next at that seam, a hollow one records what happened there, and a dotted outline is neither."
+		/>
+		<div class="section__body stack">
+			<Matrix Row={Intervention} />
+			<p class="muted">
+				{Intervention.length}&nbsp;plugin, one per family, read from source: the seam each
+				stands at, whether the model sees something different, and what reaches the disk.
+				Every row exists twice, and the twins agree on the seam and the ledger line; they
+				differ in the wiring, where the Effect tree returns Effect envelopes and the Classic
+				tree returns the dispatch envelope.
+			</p>
+			<div class="cluster">
+				<a class="button" href={Route.Behavior}>Every seam, with its hooks</a>
+				<a class="button button--quiet" href={Route.Connect}>The ledgers</a>
+			</div>
+		</div>
+	</section>
+</Base>

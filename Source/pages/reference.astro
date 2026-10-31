@@ -1,57 +1,25 @@
 ---
-import Definition from "@Component/Definition.astro";
 import PageHero from "@Component/PageHero.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
-import Table from "@Component/Table.astro";
-import Term from "@Component/Term.astro";
-import { BehaviorFor } from "@Content/Behavior";
-import { Term as Vocabulary } from "@Content/Term";
 import Base from "@Layout/Base.astro";
-import { Count, Package } from "@Library/Package.server";
-
-const Row = Package.map((Entry) => [
-	{ Text: Entry.Slug, Href: Entry.Href, Icon: Entry.Slug },
-	Entry.Kind,
-	BehaviorFor(Entry.Slug)?.Seam ?? "",
-	Entry.Family,
-	Entry.Version,
-]);
-
-const Word = Object.values(Vocabulary).map((Entry) => ({
-	Term: Entry.Name,
-	Detail: Entry.Meaning,
-}));
+import { Route } from "@Library/Link";
 ---
 
 <Base
 	Title="Reference"
-	Description={`All ${Count.All} packages with their kind, seam, release, and version, and the vocabulary the site uses.`}>
-	<PageHero Eyebrow="Table" Title="Reference">
+	Description="The reference table and the vocabulary moved into the catalogue.">
+	<PageHero Eyebrow="Moved" Title="Reference">
 		<Fragment slot="Lede">
-			{Count.All}&nbsp;
-			<Term Name="package" />: kind, <Term Name="seam" />, release, and version. The
-			vocabulary below holds every word the site defines.
+			The reference table and the vocabulary are sections of the catalogue now, beside the cards
+			they describe. A stale bookmark lands on the table itself.
 		</Fragment>
 	</PageHero>
 
 	<section class="section">
-		<SectionHeader Title="Package" />
 		<div class="section__body">
-			<Table
-				Caption="Every package, its kind, the seam it listens on, its release, and its version"
-				Head={["Package", "Kind", "Listen", "Release", "Version"]}
-				Row={Row}
-			/>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Term"
-			Lede="One word per concept, borrowed from the code. Every page uses these words with these meanings."
-		/>
-		<div class="section__body">
-			<Definition Definition={Word} />
+			<p class="lede">
+				<a href={`${Route.Package}#table`}>Open the table</a>, or the{" "}
+				<a href={`${Route.Package}#term`}>vocabulary</a> below it.
+			</p>
 		</div>
 	</section>
 </Base>

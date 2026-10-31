@@ -1,58 +1,24 @@
 ---
 import PageHero from "@Component/PageHero.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
-import StatBand from "@Component/StatBand.astro";
-import Table from "@Component/Table.astro";
-import Term from "@Component/Term.astro";
 import Base from "@Layout/Base.astro";
-import { PackageHref } from "@Library/Link";
-import { Marketplace } from "@Library/Marketplace.server";
-import { Count } from "@Library/Package.server";
-
-const Bundle = Marketplace.Group.reduce((Total, Entry) => Total + Entry.Bundle.length, 0);
+import { Route } from "@Library/Link";
 ---
 
 <Base
 	Title="Marketplace"
-	Description={`The family as an installable index: ${Bundle} bundles in ${Marketplace.Group.length} categories.`}>
-	<PageHero Eyebrow="Marketplace" Title="Marketplace">
+	Description="The marketplace index moved into the catalogue.">
+	<PageHero Eyebrow="Moved" Title="Marketplace">
 		<Fragment slot="Lede">
-			{Bundle}&nbsp;
-			<Term Name="bundle" /> in {Marketplace.Group.length}&nbsp;
-			<Term Name="category" />.
+			The marketplace index is a section of the catalogue now, beside the cards it lists. A
+			stale bookmark lands on the index itself.
 		</Fragment>
 	</PageHero>
 
-	<StatBand
-		Stat={[
-			{ Label: "Bundle", Value: Bundle, Note: "Listed in the index" },
-			{ Label: "Category", Value: Marketplace.Group.length },
-			{ Label: "Package", Value: Count.All, Note: "Two releases" },
-		]}
-	/>
-
-	{Marketplace.Group.map((Group) => (
-		<section class="section">
-			<SectionHeader Title={Group.Label} />
-			<div class="section__body">
-				<Table
-					Caption={`The ${Group.Label} bundles`}
-					Head={["Bundle", "Package", "What"]}
-					Row={Group.Bundle.map((Entry) => [
-						Entry.Title,
-						{ Text: Entry.Name, Href: PackageHref(Entry.Slug), Icon: Entry.Slug },
-						Entry.Summary,
-					])}
-				/>
-			</div>
-		</section>
-	))}
-
 	<section class="section">
-		<SectionHeader Title="Package" />
 		<div class="section__body">
 			<p class="lede">
-				<a href={PackageHref("plugin-dsh-factory")}>Open a package</a> to read its facts.
+				<a href={`${Route.Package}#marketplace`}>Open the marketplace index</a> in the
+				catalogue.
 			</p>
 		</div>
 	</section>

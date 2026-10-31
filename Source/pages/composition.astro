@@ -1,106 +1,25 @@
 ---
-import ArmChain from "@Component/ArmChain.astro";
-import Callout from "@Component/Callout.astro";
 import PageHero from "@Component/PageHero.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
-import Term from "@Component/Term.astro";
-import { Independent, Layer } from "@Content/Composition";
-import { Seam } from "@Content/Harness";
 import Base from "@Layout/Base.astro";
 import { Route } from "@Library/Link";
 
-const Page = new Set(Seam.map((Entry) => Entry.Name));
-const Arm = Layer.reduce((Total, Entry) => Total + Entry.Arm.length, 0);
+// The composition is a section of `/harness/` now. The meta refresh lands a
+// stale bookmark at the exact anchor before the page paints; the button is the
+// visible link for a client that blocks the refresh and for a crawler.
 ---
-
 <Base
 	Title="Composition"
-	Description={`How the family's plugins compose at one turn: the order they run at each seam, and what one arm does to the next arm's input.`}>
+	Description="The composition moved to the harness page, at /harness/#composition.">
+	<Fragment slot="Head">
+		<meta http-equiv="refresh" content={`0; url=${Route.Harness}#composition`} />
+	</Fragment>
 	<PageHero Eyebrow="Composition" Title="How the family composes">
 		<Fragment slot="Lede">
-			{Arm}&nbsp;arms across {Layer.length}&nbsp;
-			<Term Name="seam" />, in the order they run. Order is the whole design: an arm that runs
-			outside its neighbours sees a different payload than one that runs inside them.
+			This page moved: the composition is now a section of the harness page, which draws the
+			arms at each seam in the order they run.
+		</Fragment>
+		<Fragment slot="Actions">
+			<a class="button" href={`${Route.Harness}#composition`}>Read the composition</a>
 		</Fragment>
 	</PageHero>
-
-	<section class="section">
-		<SectionHeader
-			Title="Chain"
-			Lede="Each seam is a list, not a hook. Read top to bottom: the first arm's output is the second arm's input."
-		/>
-		<div class="section__body stack">
-			{Layer.map((Entry) => (
-				<ArmChain
-					Seam={Entry.Seam}
-					Arm={Entry.Arm}
-					Note={Entry.Note}
-					Linked={Page.has(Entry.Seam)}
-				/>
-			))}
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Position"
-			Lede="Two positions do the work: prepend, which runs outside the plain listeners, and plain, which runs inside them."
-		/>
-		<div class="section__body stack">
-			<Callout Title="Prepend" Tone="note">
-				A prepended arm is registered outside the listeners that mount with the bundle, so
-				it receives the payload first and its output is what the plain listeners see. The
-				CCR gate uses this to compress the bytes the normalizers already rewrote.
-			</Callout>
-			<Callout Title="Plain" Tone="note">
-				A plain arm runs inside the bundle's own order. Two plain arms at one seam compose
-				in the order the bundle lists them, which is why the profile's bundle list is part
-				of the behavior.
-			</Callout>
-			<Callout Title="Independent" Tone="warn">
-				Two arms do not compose at all: cost records every committed event, and the journal
-				records every write. They run on their own seams and see nothing the chains above
-				produce.
-			</Callout>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Tree"
-			Lede="Classic and Effect-TS are one behavior in two trees. A composition claim holds for both, or it is not a claim about the family."
-		/>
-		<div class="section__body stack">
-			<p class="lede">
-				Every arm above exists twice, once as <span class="mono">hook-dsh-*</span> and once
-				as
-				<span class="mono">ets-hook-dsh-*</span>, with the same seam, the same position, and
-				the same ledger string.
-			</p>
-			<ul class="cluster">
-				{Independent.map((Entry) => (
-					<li>
-						<a class="button button--quiet" href={`/package/${Entry.Slug}/`}>
-							{Entry.Slug}
-						</a>
-					</li>
-				))}
-			</ul>
-			<p class="muted">
-				<a href={Route.Package}>The catalogue</a> lists both trees;{" "}
-				<a href={Route.Turn}>the turn</a> shows the seams they stand at.
-			</p>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader Title="Read" />
-		<div class="section__body">
-			<p class="muted">
-				The order is the order the listeners run in the family's own bundle, which is what
-				the profile mounts. A profile that lists its bundles differently changes the plain
-				order, and this page says so rather than presenting one profile as the only one.
-			</p>
-		</div>
-	</section>
 </Base>

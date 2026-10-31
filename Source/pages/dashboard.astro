@@ -1,154 +1,29 @@
 ---
-import "@Stylesheet/Component/Board.scss";
-
-import CallStep from "@Component/CallStep.astro";
-import Curve from "@Component/Curve.astro";
-import LaneChart from "@Component/Lane.astro";
 import PageHero from "@Component/PageHero.astro";
-import RoleList from "@Component/RoleList.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
-import Term from "@Component/Term.astro";
-import Trace from "@Component/Trace.astro";
-import { Lane } from "@Content/Lane";
-import { Role } from "@Content/Message";
-import { Step } from "@Content/ToolCall";
-import { Record } from "@Content/Trace";
 import Base from "@Layout/Base.astro";
-import { Ledger } from "@Library/Ledger.server";
 import { Route } from "@Library/Link";
 
-const Durable = Record.filter((Entry) => Entry.Durable).length;
-const Live = Record.length - Durable;
-const Gate = Step.filter((Entry) => Entry.Decides.length > 0).length;
-
-const Stat = [
-	{ Label: "Record", Value: Record.length, Note: "One turn" },
-	{ Label: "Durable", Value: Durable, Note: "A reload keeps" },
-	{ Label: "Live", Value: Live, Note: "Process only" },
-	{ Label: "Ledger", Value: Ledger.length, Note: "A file per plugin" },
-];
+// The board is a section of the observability page now. The address keeps
+// working: the meta refresh moves a reader who followed an old link, and the
+// one button is the same destination for a reader who lands before it fires.
+const Target = `${Route.Trace}#board`;
 ---
 
 <Base
 	Title="Dashboard"
-	Description={`One turn as an operator would read it: ${Record.length} records, ${Step.length} tool gates, and the ledgers the family writes.`}>
-	<PageHero Eyebrow="Observability" Title="The board">
+	Description="The board moved: the counts and the ledger paths are the board section of the trace page.">
+	<Fragment slot="Head">
+		<meta http-equiv="refresh" content="0; url=/trace/#board" />
+	</Fragment>
+	<PageHero Eyebrow="Observability" Title="The board moved">
 		<Fragment slot="Lede">
-			One turn, read the way an operator reads it: the <Term Name="trace" /> it leaves, the
-			messages the model saw, the gates the tool call passed, and the ledgers the family wrote
-			beside them.
+			The counts and the ledger paths are now the board section of the trace page, which reads
+			the same run as a document, a lane, a graph, and a coverage grid.
 		</Fragment>
 	</PageHero>
-
-	<dl class="board__band">
-		{Stat.map((Entry) => (
-			<div class="board__stat">
-				<dt class="board__label">{Entry.Label}</dt>
-				<dd class="board__value">{Entry.Value}</dd>
-				<dd class="board__note">{Entry.Note}</dd>
-			</div>
-		))}
-	</dl>
-
-	<div class="board">
-		<section class="board__main">
-			<SectionHeader
-				Title="Trace"
-				Lede="The records the run leaves, in the order the log writes them."
-			/>
-			<div class="board__body">
-				<Trace Record={Record} />
-			</div>
-		</section>
-
-		<aside class="board__side">
-			<SectionHeader Title="Ledger" Lede="One file per plugin, written beside the log." />
-			<div class="board__body">
-				<ul class="board__ledger">
-					{Ledger.slice(0, 8).map((Entry) => (
-						<li class="board__ledger-row">
-							<a class="board__ledger-slug" href={Entry.Href}>
-								{Entry.Slug}
-							</a>
-							<span class="board__ledger-path">{Entry.Path}</span>
-						</li>
-					))}
-				</ul>
-				<p class="board__more">
-					<a href={Route.Connect}>Every ledger file</a>
-				</p>
-			</div>
-		</aside>
+	<div class="cluster">
+		<a class="button" href={Target}>
+			The board
+		</a>
 	</div>
-
-	<section class="section">
-		<SectionHeader
-			Title="Message"
-			Lede="The four parts of the conversation the model reads, and the seam that can change each."
-		/>
-		<div class="section__body">
-			<RoleList Entry={Role} />
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Call"
-			Lede="The tool pipeline a call passes, and where a decision can stop it."
-		/>
-		<div class="section__body stack">
-			<CallStep Entry={Step} />
-			<p class="board__note-line">
-				{Gate}&nbsp;of the {Step.length}&nbsp;steps carry a decision vocabulary the harness
-				documents.
-			</p>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Lane"
-			Lede="The same turn as time: who was busy, when, and for how long. A bar is one span of work, and the four kinds differ by fill weight rather than by hue."
-		/>
-		<div class="section__body stack">
-			<LaneChart Lane={Lane} />
-			<p class="board__note-line">
-				The spans are authored: a real timeline needs a live run's timings, which the
-				fixture does not carry.
-			</p>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader Title="Measure" Lede="The one curve the site can draw without a live run." />
-		<div class="section__body">
-			<Curve />
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Live"
-			Lede="The board is static today. The shape is the one a live source fills."
-		/>
-		<div class="section__body stack">
-			<p class="lede">
-				Every panel above reads an authored map today: the trace from the harness's own
-				turn, the messages from the seam table, the calls from the pipeline, and the ledgers
-				from each package's documented path. A plugin that served the same four from a
-				running harness would change the source, not the layout.
-			</p>
-			<div class="cluster">
-				<a class="button" href={Route.Trace}>
-					The trace
-				</a>
-				<a class="button button--quiet" href={Route.Message}>
-					The conversation
-				</a>
-				<a class="button button--quiet" href={Route.Tool}>
-					The tool call
-				</a>
-			</div>
-		</div>
-	</section>
 </Base>

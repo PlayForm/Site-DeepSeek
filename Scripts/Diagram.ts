@@ -32,7 +32,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import puppeteer from "puppeteer-core";
 
 const Here = dirname(fileURLToPath(import.meta.url));
-const Source = join(Here, "..", "Source", "Content", "Mermaid");
+
+// Two corpora: the site's own diagrams, and the family's flowcharts copied out
+// of `Diagram/` at the repository root, one per package plus the overviews.
+const Source = [join(Here, "..", "Source", "Content", "Mermaid"), join(Here, "..", "Source", "Content", "Flow")];
 
 const BrowserPath =
 	process.env["DSH_BROWSER"] ?? "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser";
@@ -296,10 +299,18 @@ function MissingLabel(Svg: string, Label: string[]): string | null {
 	return null;
 }
 
-const Source2 = (await readdir(Source)).filter((Name) => Name.endsWith(".mmd"));
+// Every source in every corpus, paired with the directory it lives in, so a
+// rendered SVG lands beside its own `.mmd` rather than in one shared folder.
+const Source2 = [];
+
+for (const Directory of Source) {
+	for (const Name of await readdir(Directory)) {
+		if (Name.endsWith(".mmd")) Source2.push({ Directory, Name });
+	}
+}
 
 if (Source2.length === 0) {
-	console.error(`No .mmd sources in ${Source}.`);
+	console.error(`No .mmd sources in ${Source.join(", ")}.`);
 	process.exit(1);
 }
 
@@ -308,7 +319,7 @@ const Filter = process.env["DSH_DIAGRAMS"]
 	: null;
 
 const Selected = Filter
-	? Source2.filter((Name) => Filter.has(Name.replace(/\.mmd$/, "")))
+	? Source2.filter((Entry) => Filter.has(Entry.Name.replace(/\.mmd$/, "")))
 	: Source2;
 
 if (Filter && Selected.length === 0) {
@@ -336,12 +347,12 @@ try {
 
 	let Failed = 0;
 
-	for (const Name of Selected) {
-		const Id = Name.replace(/\.mmd$/, "");
-		const SvgPath = join(Source, `${Id}.svg`);
+	for (const Entry of Selected) {
+		const Id = Entry.Name.replace(/\.mmd$/, "");
+		const SvgPath = join(Entry.Directory, `${Id}.svg`);
 
 		try {
-			const Text = await readFile(join(Source, Name), "utf8");
+			const Text = await readFile(join(Entry.Directory, Entry.Name), "utf8");
 			const Svg = (await Page.evaluate(
 				(DiagramId, DiagramText) =>
 					(

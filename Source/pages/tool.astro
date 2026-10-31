@@ -1,203 +1,23 @@
 ---
-import CallStep from "@Component/CallStep.astro";
-import CodeBlock from "@Component/CodeBlock.astro";
 import PageHero from "@Component/PageHero.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
-import Sequence from "@Component/Sequence.astro";
-import StateLife from "@Component/State.astro";
-import Table from "@Component/Table.astro";
-import { HookFor } from "@Content/Hook";
-import { Step } from "@Content/ToolCall";
 import Base from "@Layout/Base.astro";
-import { PackageHref, Route } from "@Library/Link";
+import { Route } from "@Library/Link";
 
-// The counts the page prints. Each one is read from the pipeline data, so a
-// step added to `ToolCall.ts` moves every figure on the page with it.
-const Gate = Step.length;
-const Decided = Step.filter((Item) => Item.Decides.length > 0).length;
-const Standing = new Set(Step.flatMap((Item) => Item.Plugin)).size;
-
-// The worked example: one grep call over this site's own source, and the same
-// result after the CCR hook has stored it. The replacement is the hook's own
-// format, a one-line preview over the exact marker bytes,
-// `<<<CCR:<24 hex>|<type>|<size>>>`, composed here rather than typed.
-const Call = `call: grep
-args: { pattern: "tools/pre-execute", path: "Source" }`;
-
-const Match = 4;
-const Size = 3172;
-const Hash = "9f2c1a7d4b8e0c5a6d3f1024";
-const Preview = `[grep:${Match} matches | Source/Content/Turn.ts:88: tools/pre-execute]`;
-const Marker = `<<<CCR:${Hash}|grep|${Size}>>>`;
-const After = `${Preview}
-${Marker}`;
-
-// One row per decision the docs name, in the order the pipeline reaches them:
-// the gate's three words, then the result's four.
-const Row = [
-	[
-		"allow",
-		"Passes the call to the registered guards, and then to the body.",
-		"None of the four: a gate with nothing to say returns the downstream decision unchanged.",
-	],
-	[
-		"deny",
-		"Skips the guards and the body: the refusal becomes the result, and the call still reaches tools/post-execute and tools/result.",
-		{ Text: "hook-dsh-workspace-govern", Href: PackageHref("hook-dsh-workspace-govern") },
-	],
-	[
-		"ask",
-		"Opens approval/request, one prompt: allowed once continues to the guards, and rejected, cancelled, or unavailable is a deny.",
-		{ Text: "hook-dsh-workspace-govern", Href: PackageHref("hook-dsh-workspace-govern") },
-	],
-	[
-		"accept",
-		"The result stands as the model will read it.",
-		"hook-dsh-ccr and hook-dsh-comment-filter, carrying the content they rewrote.",
-	],
-	[
-		"block",
-		"The result is withheld from the model.",
-		"None of the four: no listener here blocks a result.",
-	],
-	[
-		"replace",
-		"The result is replaced before it becomes model content.",
-		{ Text: "hook-dsh-ccr", Href: PackageHref("hook-dsh-ccr") },
-	],
-	[
-		"add context",
-		"Extra context is appended to the batch after the recorded results.",
-		"None of the four: no listener here adds context.",
-	],
-];
-
-// One row per stage: the stage, the seam it dispatches, the family packages
-// that act there, and the harness's own plugins where this site documents one.
-const Answer = Step.map((Item) => [
-	Item.Title,
-	Item.Seam === "" ? "no seam" : Item.Seam,
-	Item.Plugin.length > 0
-		? Item.Plugin.map((Slug) => ({ Text: Slug, Href: PackageHref(Slug) }))
-		: "none",
-	HookFor(Item.Seam).length > 0
-		? HookFor(Item.Seam).map((Entry) => ({ Text: Entry.Slug, Href: `/plugin/${Entry.Slug}/` }))
-		: "none",
-]);
+// One tool call is a section of `/harness/` now. The meta refresh lands a stale
+// bookmark at the exact anchor before the page paints; the button is the
+// visible link for a client that blocks the refresh and for a crawler.
 ---
-
-<Base
-	Title="Tool call"
-	Description={`One call through ${Gate} steps and ${Standing} packages, from the gate to the frozen outcome.`}>
+<Base Title="Tool call" Description="One tool call moved to the harness page, at /harness/#call.">
+	<Fragment slot="Head">
+		<meta http-equiv="refresh" content={`0; url=${Route.Harness}#call`} />
+	</Fragment>
 	<PageHero Eyebrow="Tool call" Title="One call, four gates">
 		<Fragment slot="Lede">
-			The model asks for a tool, and the harness decides {Gate}&nbsp;times: whether the call
-			may run, what body runs, what the model reads back, and what is frozen as the record.
+			This page moved: the call is now a section of the harness page, which draws one tool
+			call as participants and as a lifecycle.
+		</Fragment>
+		<Fragment slot="Actions">
+			<a class="button" href={`${Route.Harness}#call`}>Read the call</a>
 		</Fragment>
 	</PageHero>
-
-	<section class="section">
-		<SectionHeader Title="The call">
-			<Fragment slot="Lede">
-				{Decided}&nbsp;of the {Gate}&nbsp;steps carry a decision vocabulary the docs name,
-				and the other&nbsp;{Gate - Decided}&nbsp;say so rather than borrow a word. A seam
-				with a page on this site is linked, and each package is linked at the step where it
-				acts.
-			</Fragment>
-		</SectionHeader>
-		<div class="section__body">
-			<CallStep Entry={Step} />
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="The call, as a sequence"
-			Lede="The same call drawn as participants and messages: who sends what to whom, and which dispatch fires a seam."
-		/>
-		<div class="section__body">
-			<Sequence />
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="The call, as a lifecycle"
-			Lede="Four states on the main line, and three ways off it. A refusal is an exit, not a step."
-		/>
-		<div class="section__body">
-			<StateLife />
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader Title="The result, rewritten">
-			<Fragment slot="Lede">
-				A grep call over this site's own source, and the same result after the CCR hook has
-				stored it.
-			</Fragment>
-		</SectionHeader>
-		<div class="section__body stack">
-			<CodeBlock Label="The call" Language="text" Code={Call} />
-			<CodeBlock Label="What the model reads back" Language="text" Code={After} />
-			<p>
-				The default hands the model every byte the tool wrote. The hook stores the bytes,
-				hands back the shape of the result, and keeps the rest one call away:&nbsp;
-				<a href={PackageHref("hook-dsh-ccr")}>ccr_retrieve</a> is the one tool that reads a
-				marker back, so the bytes are retrievable rather than gone. Nothing is dropped and
-				nothing is summarized by a model: the preview is a pure function of the result, and
-				the marker is the hash of the exact bytes that were stored.
-			</p>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Decision"
-			Lede="One row per decision the docs name, with what the harness does at that word and which of the four plugins can return it."
-		/>
-		<div class="section__body">
-			<Table
-				Caption="The decision vocabulary the tool pipeline names, what the harness does at each word, and the plugin that can return it"
-				Head={["Decision", "What the harness does", "Which plugin can return it"]}
-				Row={Row}
-			/>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader
-			Title="Who answers"
-			Lede="One row per stage of the call, the seam it dispatches, and the plugins that answer there: the family's own, and the harness's where this site documents one."
-		/>
-		<div class="section__body">
-			<Table
-				Caption="Each stage of the tool pipeline, its seam, and the plugins that answer there"
-				Head={["Stage", "Seam", "Family", "Harness"]}
-				Row={Answer}
-			/>
-		</div>
-	</section>
-
-	<section class="section">
-		<SectionHeader Title="Where this sits" />
-		<div class="section__body stack">
-			<p class="lede">
-				Every change the family makes to a call happens between the gate and the result: a
-				call can be refused before it runs, and a result can be rewritten before it is read.
-			</p>
-			<p>
-				The turn that contains the call, and every seam the family stands at, are the two
-				pages that place this one.
-			</p>
-			<div class="cluster">
-				<a class="button" href={Route.Turn}>
-					The whole turn
-				</a>
-				<a class="button button--quiet" href={Route.Behavior}>
-					Every seam
-				</a>
-			</div>
-		</div>
-	</section>
 </Base>
