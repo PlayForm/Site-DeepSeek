@@ -8,6 +8,7 @@ import CodeBlock from "@Component/CodeBlock.astro";
 import Definition from "@Component/Definition.astro";
 import Difference from "@Component/Difference.astro";
 import Disclosure from "@Component/Disclosure.astro";
+import Flow from "@Component/Flow.astro";
 import Gate from "@Component/Gate.astro";
 import Icon from "@Component/Icon.astro";
 import Layer from "@Component/Layer.astro";
@@ -15,6 +16,7 @@ import Origin from "@Component/Origin.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
 import Provenance from "@Component/Provenance.astro";
+import Retrieve from "@Component/Retrieve.astro";
 import Record from "@Component/Record.astro";
 import Rewrite from "@Component/Rewrite.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
@@ -25,6 +27,7 @@ import Transform from "@Component/Transform.astro";
 import VersionPill from "@Component/VersionPill.astro";
 import { ArmFor } from "@Content/Arm";
 import { BehaviorFor } from "@Content/Behavior";
+import { CurrentFor } from "@Content/Current";
 import { DeltaFor } from "@Content/Delta";
 import { SeamFor } from "@Content/Harness";
 import { HookFor } from "@Content/Hook";
@@ -75,6 +78,12 @@ const Delta = DeltaFor(Entry.Slug);
 // plugs into, and the one picture that fits its kind. A package with no
 // record keeps the page it has, because the page never invents a portrait.
 const Portrait = PortraitFor(Entry.Slug);
+
+// The package's flow, when the site has authored one: the seam it answers at,
+// the order its work happens in, and the branch that decides. The portrait
+// above says what the hook is; this says what it does, in order, and the two
+// are separate records because a package can have either one alone.
+const Current = CurrentFor(Entry.Slug);
 
 // The summary as one sentence. The period is appended here rather than in the
 // markup, because two adjacent expressions split across lines render with a
@@ -148,6 +157,11 @@ const File = [
 		Role: "Activation: the bundle entry that mounts the plugin.",
 		Present: true,
 	},
+	{
+		Name: "Source/Function/Apply.ts",
+		Role: "The listeners, their registration order, and the service the flow calls.",
+		Present: Current !== undefined,
+	},
 ];
 ---
 
@@ -212,6 +226,20 @@ const File = [
 					{Portrait.Shape === "rewrite" && <Rewrite Slug={Entry.Slug} />}
 					{Portrait.Shape === "record" && <Record Slug={Entry.Slug} />}
 					{Portrait.Shape === "advise" && <Advise Slug={Entry.Slug} />}
+				</div>
+			</section>
+		)
+	}
+
+	{
+		Current !== undefined && (
+			<section class="section">
+				<SectionHeader
+					Title="Flow"
+					Lede="The order this hook's work happens in, with the branch that decides it inline, transcribed from the corpus and the source."
+				/>
+				<div class="section__body">
+					<Flow Stage={Current.Stage} Rule={Current.Rule} />
 				</div>
 			</section>
 		)
@@ -306,6 +334,26 @@ const File = [
 			</div>
 		</section>
 	)}
+
+	{
+		Entry.Slug === "hook-dsh-ccr" && (
+			<section class="section">
+				<SectionHeader
+					Title="Retrieve"
+					Lede="The loop the marker opens: the result arrives, the gate replaces it, the model asks for the bytes by hash, and the store returns them exactly."
+				/>
+				<div class="section__body">
+					<Retrieve
+						Marker="<<<CCR:9d3c1f0a7b2e4d5c6a8b9c0d|terminal|5231>>>"
+						Hash="9d3c1f0a7b2e4d5c6a8b9c0d"
+						Size={5231}
+						Preview="[terminal:exit 0 | 142 lines | make: *** Error 1]"
+						Body="make: Entering directory '/repo'&#10;go build ./...&#10;make: *** Error 1"
+					/>
+				</div>
+			</section>
+		)
+	}
 
 	<section class="section">
 		<SectionHeader Title="Surface" />
@@ -432,8 +480,8 @@ const File = [
 	<Provenance
 		Data="The monorepo, read during the build"
 		Connection="Build-time read; nothing is fetched at runtime"
-		Capture="package.json, README.md, CHANGELOG.md"
-		Note="This page is static. It cannot invoke the plugin, read a ledger, or change a configuration. Every figure comes from those three files; a missing README falls back to the manifest's own description, and a package with no surface table shows no surface section."
+		Capture="package.json, README.md, CHANGELOG.md, Source/Function/Apply.ts"
+		Note="This page is static. It cannot invoke the plugin, read a ledger, or change a configuration. Every figure comes from those files; a missing README falls back to the manifest's own description, and a package with no surface table shows no surface section."
 	/>
 
 	<Pager

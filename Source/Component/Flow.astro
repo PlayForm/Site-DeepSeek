@@ -1,0 +1,70 @@
+---
+import "@Stylesheet/Component/Flow.scss";
+
+import Badge from "@Component/Badge.astro";
+import Callout from "@Component/Callout.astro";
+import Pipeline from "@Component/Pipeline.astro";
+import type { Stage } from "@Content/Current";
+
+// The flow: one package's control flow in the site's own grammar, so the page
+// shows the order and the branch rather than a fact about them.
+//
+// The rows are the site's atoms composed, not a new language:
+//
+//   * a seam row is a Pipeline of one stage, because Pipeline is the site's
+//     pairing of a stage label with a Seam chip, and a seam row is exactly
+//     that pairing: the kind is the stage label and the event is the chip,
+//     so the chip is drawn by the atom rather than by this file;
+//   * a store row carries the ledger path, a fail row is quiet and dashed, so
+//     the two ends of the flow are the two things a reader looks for after
+//     the branch;
+//   * a branch row steps in under the row it leaves, because the condition
+//     belongs to the step that raised it;
+//   * the rule beneath is a Callout, because it is one sentence of judgement
+//     about the whole flow rather than a caption for one row.
+//
+// A step is the default kind and carries no marker; every other kind states
+// itself, so the picture stays quiet where the flow is ordinary and loud
+// where it forks, stores, or refuses.
+//
+// The stages are typed in `Source/Content/Current.ts`, beside the fifteen
+// flows, so the data and the drawing cannot drift apart.
+interface Props {
+	/** The package's flow, in order, with branches inline. */
+	Stage: Stage[];
+	/** The rule the flow obeys, said once. */
+	Rule: string;
+}
+
+const { Stage: Entry, Rule } = Astro.props;
+---
+
+<ol class="flow-line">
+	{
+		Entry.map((Item, Index) => (
+			<li class="flow-line__stage" data-kind={Item.Kind}>
+				<span class="flow-line__index">{String(Index + 1).padStart(2, "0")}</span>
+				<div class="flow-line__body">
+					{Item.Kind === "seam" ? (
+						<Pipeline Stages={[{ Label: "seam", Seam: Item.Label }]} />
+					) : (
+						<span class="flow-line__head">
+							{Item.Kind !== "step" && (
+								<Badge
+									Label={Item.Kind}
+									Tone={Item.Kind === "store" ? "accent" : "quiet"}
+								/>
+							)}
+							<span class="flow-line__label">{Item.Label}</span>
+						</span>
+					)}
+					{Item.Note !== undefined && <span class="flow-line__note">{Item.Note}</span>}
+				</div>
+			</li>
+		))
+	}
+</ol>
+
+<Callout Title="Rule">
+	<p>{Rule}</p>
+</Callout>

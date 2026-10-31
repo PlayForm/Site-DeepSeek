@@ -81,3 +81,119 @@
 		}
 	}
 }
+
+// The package's control flow as rows: one node per row, a branch stepped in
+// under the step that raised it, and the kind carried by the row's own left
+// edge rather than by a colour. The seam row is a Pipeline, so its label and
+// its chip belong to that atom; every other kind is a Badge and a label, and
+// a step, being the default, carries no marker at all.
+.flow-line {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-1);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	&__stage {
+		display: grid;
+		grid-template-columns: 40px minmax(0, 1fr);
+		gap: var(--space-3);
+		align-items: start;
+		padding: var(--space-2) var(--space-3);
+		border-left: 2px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+
+		// The seam: the one row the harness dispatches into, so it is the one
+		// row that keeps the accent edge.
+		&[data-kind="seam"] {
+			border-left-color: var(--color-accent);
+			background: var(--cabinet-inset);
+		}
+
+		// The branch: indented, because the condition belongs to the step
+		// above it rather than to the flow's main line.
+		&[data-kind="branch"] {
+			margin-left: var(--rhythm-inset);
+			border-left-color: var(--color-ink-faint);
+		}
+
+		// The pass: a dotted edge, because nothing happened here.
+		&[data-kind="pass"] {
+			border-left-style: dotted;
+			background: transparent;
+		}
+
+		// The store: the ledger, with its path set in the mono voice.
+		&[data-kind="store"] {
+			border-left-color: var(--color-accent-deep);
+			background: var(--cabinet-inset);
+		}
+
+		&[data-kind="store"] .flow-line__label {
+			font-family: var(--font-mono);
+			font-size: var(--text-xs);
+			overflow-wrap: anywhere;
+		}
+
+		// The failure: quiet and dashed, so the eye passes over it until the
+		// flow is read for what can go wrong.
+		&[data-kind="fail"] {
+			margin-left: var(--rhythm-inset);
+			border: 1px dashed var(--cabinet-line);
+			background: transparent;
+
+			.flow-line__label,
+			.flow-line__note {
+				color: var(--color-ink-faint);
+			}
+		}
+	}
+
+	&__index {
+		@include Material.label;
+
+		padding-top: var(--space-1);
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		min-width: 0;
+	}
+
+	&__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-2);
+	}
+
+	&__label {
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	&__note {
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	// The seam row's strip: the atom's own gap is tuned for a row of stages,
+	// and a row holds one.
+	&__stage .pipeline {
+		gap: var(--space-2);
+	}
+
+	@media (max-width: 640px) {
+		&__stage {
+			grid-template-columns: 28px minmax(0, 1fr);
+			padding-inline: var(--space-2);
+		}
+	}
+}

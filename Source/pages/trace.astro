@@ -147,7 +147,12 @@ const Machine = [
 					))}
 				</ul>
 				<p class="trace-page__note">
-					{Shown.length}&nbsp;of them are here, and every path is on the&nbsp;<a href={Route.Connect}>connect page</a>. A path is what a package documents, not a file this page has read: a hook that ships disabled, as the journal and the monitor do, leaves it empty until it is enabled, and the cost plugin keeps a database rather than a log. The same plugin exists in both trees, and the journal's two READMEs name two files, so which one a run writes depends on the tree it loads.
+					{Shown.length}&nbsp;of them are here, and every path is on the&nbsp;<a href={Route.Connect}>connect page</a>.
+					A path is what a package documents, not a file this page has read: a hook that
+					ships disabled, as the journal and the monitor do, leaves it empty until it is
+					enabled, and the cost plugin keeps a database rather than a log. The same plugin
+					exists in both trees, and the journal's two READMEs name two files, so which one a
+					run writes depends on the tree it loads.
 				</p>
 			</div>
 		</div>
@@ -167,7 +172,10 @@ const Machine = [
 				client:load
 			/>
 			<p class="trace-page__note">
-				{Catalogue.Node.length}&nbsp;<Term Name="node" /> and {Catalogue.Edge.length}&nbsp;<Term Name="edge" />, read from both release trees. The graph is the catalogue, not one run's composition: a run loads a profile, and which packages that profile holds is a fact this page does not have.
+				{Catalogue.Node.length}&nbsp;<Term Name="node" /> and {Catalogue.Edge.length}&nbsp;<Term Name="edge" />,
+				read from both release trees. The graph is the catalogue, not one run's composition:
+				a run loads a profile, and which packages that profile holds is a fact this page
+				does not have.
 			</p>
 		</div>
 	</section>
@@ -184,7 +192,12 @@ const Machine = [
 				Caption={`A filled square is a state the log feeds today, and a dash is a state the harness decides without writing it down. ${Feedable} of ${Coverage.length} are feedable now.`}
 			/>
 			<p class="trace-page__note">
-				The waterfalls are dispatched in memory and never written to the log:&nbsp;<code>agent/pre-step</code>, <code>agent/request</code>, <code>llm/stream</code>, and the three <code>tools/*</code> events. A durable trace can show that a call happened; it cannot show what a listener decided on the way through. The Claude and Codex hook bridge records its own decisions as&nbsp;<code>hook/invoked</code> and&nbsp;<code>hook/result</code>; the harness's own waterfalls do not.
+				The waterfalls are dispatched in memory and never written to the log:&nbsp;<code>agent/pre-step</code>,
+				<code>agent/request</code>, <code>llm/stream</code>, and the three
+				<code>tools/*</code> events. A durable trace can show that a call happened; it cannot
+				show what a listener decided on the way through. The Claude and Codex hook bridge
+				records its own decisions as&nbsp;<code>hook/invoked</code> and&nbsp;<code>hook/result</code>;
+				the harness's own waterfalls do not.
 			</p>
 		</div>
 	</section>

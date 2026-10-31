@@ -16,7 +16,7 @@ export interface Portrait {
 	Role: string;
 	/** What it plugs into, named: the service, the tab, the layer. */
 	Plugs: string;
-	/** The three or four things it does, each a phrase. */
+	/** The things it does, each a phrase; the last says so when the flow carries it. */
 	Does: string[];
 	/** The one visual that fits this package's kind. */
 	Shape: "stream" | "layer" | "surface" | "buffer" | "gate" | "rewrite" | "record" | "advise";
@@ -314,6 +314,209 @@ export const Portrait: Portrait[] = [
 			"Names the standard locations for that intent before the next search",
 			"Dismisses a family or a path through its own tool",
 			"Ranks a candidate by the graph's proof when the graph is present",
+		],
+		Shape: "advise",
+	},
+
+	// The fifteen hooks with a drawn flow. Each of these also has a record in
+	// `Source/Content/Current.ts`, so the page carries two things: the words
+	// here, and the order and the branch there. The shape is still chosen by
+	// what the hook does at its seam, because a reader who knows the four
+	// shapes should be able to guess which one a hook takes; where the flow is
+	// the interesting part rather than the verdict, the last line of `Does`
+	// says so and the flow section carries it.
+	{
+		Slug: "hook-dsh-package-governor",
+		Role: "The silent governor of every written package.json",
+		Plugs:
+			"the fs/observed event through the factory's Wire, and the direct-govern entries for package.json",
+		Does: [
+			"Gates on the basename, the actor tool, a present observation, the stash, and the exclusion list",
+			"Canonicalizes a chain-governed pin to the resolved range the nearest registry records",
+			"Bumps the public pins from a detached update stage, in process or through the ncu bin",
+			"Re-emits fs/observed with the fresh version, so the observation policy's record is current",
+		],
+		Shape: "rewrite",
+	},
+	{
+		Slug: "hook-dsh-package-pinner",
+		Role: "The silent pinner of every written package.json",
+		Plugs:
+			"the fs/observed event through the factory's Wire, and the direct-govern pin entry for package.json",
+		Does: [
+			"Strips one leading ^, ~, or = from the sections the config declares",
+			"Leaves a static version, a compound range, a wildcard, and a protocol dependency as authored",
+			"Unions the keep-list from the global policy file, the file's directory, and the nearest registry",
+			"Runs no update stage at all, so the pass is deterministic and its only write is fenced",
+		],
+		Shape: "rewrite",
+	},
+	{
+		Slug: "hook-dsh-cargo-governor",
+		Role: "The silent governor of every written Cargo.toml",
+		Plugs:
+			"the fs/observed event through the factory's Wire, the direct-govern entries for Cargo.toml, and the subprocess seam",
+		Does: [
+			"Gates on the basename, the actor tool, a present observation, the stash, and the exclusion list",
+			"Rewrites dependency pins surgically, so comments and formatting survive the pass",
+			"Runs cargo upgrade as a detached continuation, with the exclusion list enforced at the CLI",
+			"Pauses a directory at the circuit breaker, and never notifies the author",
+		],
+		Shape: "rewrite",
+	},
+	{
+		Slug: "hook-dsh-workspace-observe",
+		Role: "The first step of the invisible flow: one observation stamp per file state",
+		Plugs:
+			"the workspaceObserve service, the fs/observed listener on the root context, and the trace bus",
+		Does: [
+			"Stamps the event's display path and version verbatim, and stamps an absence as absent",
+			"Guards the own actor, the exclusion list, the include list, and a repeat event",
+			"Emits observe/stamp for the indexer, when the trace bus exists",
+			"Keeps the latest stamp per path plus a bounded ring, and ledgers the drop",
+		],
+		Shape: "record",
+	},
+	{
+		Slug: "hook-dsh-workspace-audit",
+		Role: "The workspace's accountability: one line per event, and the graph those lines form",
+		Plugs: "the workspaceAudit service and the fs/observed listener on the root context",
+		Does: [
+			"Writes one OutcomeEvidence line per observed write: success on presence, failure on absence",
+			"Coalesces a repeat event, because the version token already identifies that file state",
+			"Carries the operation, the parent, and the category, so a chain composes without recursion",
+			"Closes the loop with an IntentAssessment when the service is asked to",
+		],
+		Shape: "record",
+	},
+	{
+		Slug: "hook-dsh-workspace-monitor",
+		Role: "The watch and the sweep, with the next event as the only clock",
+		Plugs: "the fs/observed listener and the state probe on the context",
+		Does: [
+			"Records a watch entry per observed write, with its check sets and its debounce deadline",
+			"Classifies a path into the shipped check sets, and never executes one",
+			"Sweeps the deadlines the clock passed, inside the event rather than on a timer",
+			"Caps the watch map, and ledgers the entry it drops",
+		],
+		Shape: "record",
+	},
+	{
+		Slug: "hook-dsh-workspace-approve",
+		Role: "The exact human approval: a candidate bound by fingerprint and version",
+		Plugs: "the workspaceApprove service and the fs/observed invalidation listener",
+		Does: [
+			"Binds the concrete change set, with its constraints traveling beside it",
+			"Rejects a changed constraint set at approval time rather than amending it",
+			"Invalidates a binding when the file is observed at a different version",
+			"Answers a check with approved, unbound, the binding's own decision, or stale",
+		],
+		Shape: "gate",
+	},
+	{
+		Slug: "hook-dsh-workspace-govern",
+		Role: "The gate that checks the means, because an intent must not authorize its own",
+		Plugs:
+			"the workspaceGovern service, the tools/pre-execute gate, and the tools/post-execute observer",
+		Does: [
+			"Runs four independent checks on a proposed change: contributes, scope, policy, preconditions",
+			"Takes each failure behavior from the recovery table rather than a silent default",
+			"Returns the downstream decision unchanged on pass, a deny reason, or an ask",
+			"Drops an operation that re-enters the gate past the loop bound",
+			"Its flow is the interesting part rather than its verdict: the four checks and the recovery table, not the deny",
+		],
+		Shape: "gate",
+	},
+	{
+		Slug: "hook-dsh-workspace-journal",
+		Role: "The evidence record: the pre-images, the revert, and what a crash left applying",
+		Plugs:
+			"the workspaceJournal service, the fs/observed checkpoint listener, and the boot recovery pass",
+		Does: [
+			"Journals a batch before its writes land, with each file's pre-image and version",
+			"Replays a revert backward through the version fence, and reports a conflict rather than overwriting",
+			"Counts the writes landing against open batches, so a crash's progress is known",
+			"Marks every batch still applying at boot as recovery-required",
+			"Its flow is the interesting part: the batch lifecycle is what the four calls describe",
+		],
+		Shape: "record",
+	},
+	{
+		Slug: "hook-dsh-workspace-merge",
+		Role: "The batch commit: atomic gates, fenced writes, and a reply per file",
+		Plugs: "the workspaceMerge service and the workspace_merge tool",
+		Does: [
+			"Holds the whole batch when the policy block's commit verdict is approve",
+			"Runs the atomic gates before any write, and refuses the batch rather than a file",
+			"Commits one file at a time through the factory's Write, then reads each file back",
+			"Reports applied, conflict, denied, rejected, recovery-required, or outcome-unknown",
+		],
+		Shape: "gate",
+	},
+	{
+		Slug: "hook-dsh-workspace-operate",
+		Role: "The operation engine: typed proposals, and the refusal-to-guess beside them",
+		Plugs:
+			"the workspaceOperate service, the workspace_propose and workspace_proposals tools, and the fs/observed fence tracker",
+		Does: [
+			"Proposes a rename, a connect, or a replace, and never writes a file",
+			"Refuses with a typed reason: a bad request, an absent graph, an unknown symbol, a stale fence, a full table",
+			"Tracks the version fence from fs/observed, so a proposal against a moved file is refused",
+			"Records the proposal, and leaves the applying to the approve and merge steps",
+		],
+		Shape: "advise",
+	},
+	{
+		Slug: "hook-dsh-batch-decision",
+		Role: "The thin workflow owner between a proposal, its decision, and the board",
+		Plugs:
+			"the batch/proposed and batch/decision events, the batch_decision tool, and the agent-team inbox",
+		Does: [
+			"Records a proposal once, and ignores a revision that is not newer",
+			"Answers the policy gate before the auto-approve knob, so an approve verdict is never widened",
+			"Expires a proposal on first touch rather than on a timer, and says so in the ledger",
+			"Writes the decision into the inbox as well as the bus, so the board and the ingester both hear it",
+			"Its flow is the interesting part: a proposal crosses a policy gate, a knob, and a handoff before anyone is told",
+		],
+		Shape: "gate",
+	},
+	{
+		Slug: "hook-dsh-lesson-nudge",
+		Role: "The idle edge of the agent's status turned into a self-improvement review",
+		Plugs:
+			"the agent/status event on its idle edge, and the lesson service that plugin-dsh-lesson-review provides",
+		Does: [
+			"Applies four gates in order: the switch, the idle edge, the service, and the cadence",
+			"Claims the idle phase through agent.runMaintenance, so the review never shares the live turn",
+			"Detaches the maintenance task, so a rejected review cannot break the status publication",
+			"Caps its own reviews per session, on top of whatever interval the service reports",
+			"Its flow is the interesting part: the value is where the review runs, not what it says",
+		],
+		Shape: "advise",
+	},
+	{
+		Slug: "hook-dsh-test-suggester",
+		Role: "The test intent answered with a target set before the search finishes",
+		Plugs: "the tools/post-execute waterfall, the agent/pre-step reset, and the pack's test domain",
+		Does: [
+			"Classifies a search call into the pack's test intents, from the tool name and the arguments",
+			"Names the suite, the README, the runner, and the badge a test task usually touches",
+			"Reconciles a package's smoke claims with the tree it actually has, read-only",
+			"Abstains rather than guesses: an ambiguous call, a missing companion, and a foreign workspace each have a line",
+		],
+		Shape: "advise",
+	},
+	{
+		Slug: "hook-dsh-tool-coach",
+		Role: "The four-tier ladder that keeps file content out of the terminal",
+		Plugs:
+			"the tools/post-execute and tools/pre-execute waterfalls, the system-prompt/assemble section, and the agent/pre-step reset",
+		Does: [
+			"Normalizes the command before matching, so an obfuscated variant still counts",
+			"Classifies a segment as write, read, search, discovery, or control, and lets an exempt head dominate its pipe",
+			"Escalates from a silent strike to a notice to a persistent section, and denies last",
+			"Names the right tool from the live registry, and falls back to a static table when the fetch fails",
+			"Its flow is the interesting part: the ladder is the hook, and the deny is only its last rung",
 		],
 		Shape: "advise",
 	},

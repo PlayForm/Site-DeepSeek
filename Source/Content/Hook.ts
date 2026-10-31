@@ -1,18 +1,28 @@
-// The seam to plugin map, derived from the plugin records rather than written
+// The seam to family map, derived from the behavior records rather than written
 // by hand. Every page that lists what answers at a seam reads this, so a seam
-// with no plugin can say so in the same slot a seam with one names it.
-import { Plugin, type Plugin as Record } from "./Plugin";
+// with no package can say so in the same slot a seam with one names it.
+import { Behavior, type Effect } from "./Behavior";
 
-export const Hook: Record<string, Record[]> = {};
-
-for (const Entry of Plugin) {
-	for (const Name of Entry.Seam) {
-		Hook[Name] = [...(Hook[Name] ?? []), Entry];
-	}
+export interface Answer {
+	/** The package directory that answers at the seam. */
+	Slug: string;
+	/** The seam it answers on. */
+	Seam: string;
+	/** The effect it has there. */
+	Effect: Effect;
 }
 
-/** The harness plugins that answer at a seam, in the order the records list them. */
-export function HookFor(Seam: string): Record[] {
+export const Hook: Record<string, Answer[]> = {};
+
+for (const [Slug, Entry] of Object.entries(Behavior)) {
+	Hook[Entry.Seam] = [
+		...(Hook[Entry.Seam] ?? []),
+		{ Slug, Seam: Entry.Seam, Effect: Entry.Effect },
+	];
+}
+
+/** The family packages that answer at a seam, in the order the records list them. */
+export function HookFor(Seam: string): Answer[] {
 	return Hook[Seam] ?? [];
 }
 

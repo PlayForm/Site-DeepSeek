@@ -1,6 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { join, resolve } from "node:path";
 
 // The site reads the package trees and the generated icon set at build time.
 // Locally they sit in the monorepo above the site; on CI they come from the
@@ -34,6 +34,9 @@ function HoldsTrees(Directory: string): boolean {
 // the same order: an explicit `DSH_SOURCE_ROOT`, the monorepo above the site,
 // and the submodule. A build with none of them names the remedy rather than
 // serving a page with a broken image.
+// The source is the submodule and only the submodule: a parent checkout is not
+// what the deployment has, so preparing against it would copy an icon set and a
+// marketplace index the built site could not be rebuilt from.
 function Source(): string {
 	const Override = process.env["DSH_SOURCE_ROOT"];
 
@@ -49,28 +52,12 @@ function Source(): string {
 		return Resolved;
 	}
 
-	let Directory = process.cwd();
-
-	for (let Depth = 0; Depth < 8; Depth += 1) {
-		if (HoldsTrees(Directory)) {
-			return Directory;
-		}
-
-		const Parent = dirname(Directory);
-
-		if (Parent === Directory) {
-			break;
-		}
-
-		Directory = Parent;
-	}
-
 	if (HoldsTrees(Module)) {
 		return Module;
 	}
 
 	throw new Error(
-		"[Prepare] The package trees are not reachable. Run `git submodule update --init --depth 1 Module/DeepSeek`, set DSH_SOURCE_ROOT to a monorepo checkout, or build from inside the monorepo.",
+		"[Prepare] The package trees are not reachable. Run `git submodule update --init --depth 1 Module/DeepSeek` in Site/, or set DSH_SOURCE_ROOT to a monorepo checkout for a deliberate build against another tree.",
 	);
 }
 

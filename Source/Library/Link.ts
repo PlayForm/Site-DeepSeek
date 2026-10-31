@@ -55,7 +55,6 @@ export const Sitemap = [
 	{ Href: Route.Harness, Label: "Harness" },
 	{ Href: Route.Tutorial, Label: "Tutorial" },
 	{ Href: Route.Trace, Label: "Trace" },
-	{ Href: Route.Plugin, Label: "Harness plugin" },
 	{ Href: Route.Timeline, Label: "Timeline" },
 	{ Href: Route.Setup, Label: "Setup" },
 	{ Href: Route.CaseStudy, Label: "Case study" },

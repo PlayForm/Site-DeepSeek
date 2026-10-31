@@ -1,0 +1,59 @@
+---
+import "@Stylesheet/Component/Retrieve.scss";
+
+import Badge from "@Component/Badge.astro";
+import CodeBlock from "@Component/CodeBlock.astro";
+
+interface Props {
+	/** The marker the model reads, verbatim. */
+	Marker: string;
+	/** The hash inside the marker. */
+	Hash: string;
+	/** The size the marker reports, in bytes. */
+	Size: number;
+	/** The preview line the model reads above the marker. */
+	Preview: string;
+	/** The head of the stored body, as the retrieval returns it. */
+	Body: string;
+}
+
+const { Marker, Hash, Size, Preview, Body } = Astro.props;
+---
+
+<ol class="retrieve">
+	<li class="retrieve__hop" data-hop="store">
+		<span class="retrieve__step">The result arrives</span>
+		<span class="retrieve__body">
+			<code class="retrieve__bytes">{Size}&nbsp;bytes</code>
+			<span class="retrieve__note">the tool wrote more than the ceiling</span>
+		</span>
+	</li>
+
+	<li class="retrieve__hop" data-hop="gate">
+		<span class="retrieve__step">The gate replaces it</span>
+		<span class="retrieve__body">
+			<CodeBlock Label="What the model reads" Language="text" Code={`${Preview}\n${Marker}`} />
+		</span>
+	</li>
+
+	<li class="retrieve__hop" data-hop="ask">
+		<span class="retrieve__step">The model asks for the bytes</span>
+		<span class="retrieve__body">
+			<span class="retrieve__call">
+				<Badge Label="ccr_retrieve" Tone="accent" />
+				<code class="retrieve__hash">{Hash}</code>
+			</span>
+			<span class="retrieve__note">
+				An exact hash and an optional line range. No prefix, no fuzzy match: the marker is the
+				address.
+			</span>
+		</span>
+	</li>
+
+	<li class="retrieve__hop" data-hop="return">
+		<span class="retrieve__step">The store returns it</span>
+		<span class="retrieve__body">
+			<CodeBlock Label="The body, byte-exact" Language="text" Code={Body} />
+		</span>
+	</li>
+</ol>

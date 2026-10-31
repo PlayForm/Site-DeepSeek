@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { join, resolve } from "node:path";
 
 import { SummaryFor } from "../Content/Summary";
 
@@ -60,10 +60,13 @@ interface Tree {
 
 // `import.meta.url` cannot locate the package trees: Astro bundles this module
 // into a prerender chunk under `Target/.prerender/`, so the module's own path
-// is the build output rather than the source. Three anchors cover every place
-// the site builds: an explicit `DSH_SOURCE_ROOT`, the monorepo above the site
-// (local development), and the submodule at `Module/DeepSeek` (CI, where the
-// site is checked out alone).
+// is the build output rather than the source.
+//
+// The source is the submodule and only the submodule. A walk up to a parent
+// checkout would build against a tree the deployment does not have, so the same
+// page could ship different facts from the same commit. `DSH_SOURCE_ROOT` stays
+// as an explicit override for a deliberate build against another checkout, and
+// nothing else resolves.
 const Submodule = "Module/DeepSeek";
 
 function HoldsTrees(Directory: string): boolean {
@@ -88,22 +91,6 @@ function FindRoot(): string {
 		return Resolved;
 	}
 
-	let Directory = process.cwd();
-
-	for (let Depth = 0; Depth < 8; Depth += 1) {
-		if (HoldsTrees(Directory)) {
-			return Directory;
-		}
-
-		const Parent = dirname(Directory);
-
-		if (Parent === Directory) {
-			break;
-		}
-
-		Directory = Parent;
-	}
-
 	const Module = join(process.cwd(), Submodule);
 
 	if (HoldsTrees(Module)) {
@@ -111,7 +98,7 @@ function FindRoot(): string {
 	}
 
 	throw new Error(
-		"The package trees are not reachable. Run `git submodule update --init --depth 1 Module/DeepSeek` in Site/, set DSH_SOURCE_ROOT to a monorepo checkout, or build from inside the monorepo.",
+		"The package trees are not reachable. Run `pnpm Prepare` in Site/ to initialize the Module/DeepSeek submodule, or set DSH_SOURCE_ROOT to a monorepo checkout for a deliberate build against another tree.",
 	);
 }
 
