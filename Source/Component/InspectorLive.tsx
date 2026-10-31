@@ -1,117 +1,257 @@
 import "@Stylesheet/Component/Inspector.scss";
+import "@Stylesheet/Component/Schema.scss";
 
-import { createEffect, createMemo, createSignal, For, onCleanup, onMount, Show } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 
-// The inspector, made live. The document beside it is static HTML, so this
-// island listens at the document level for a click on any line that carries a
-// sequence number, and shows that record here. The tabs stay a real radio
-// group, so the keyboard works whether or not the island ever hydrates.
-
-export interface InspectorRecord {
-	Index: number;
-	Name: string;
-	Kind: string;
-	Proves: string;
-	Durable: boolean;
-}
+import {
+	FormatDuration,
+	FormatNumber,
+	FormatSize,
+	OutcomeOf,
+	Percent,
+	SchemaFor,
+	type Entry,
+	type Face,
+} from "@Content/Session";
 
 interface Props {
-	/** Every record the document shows, in log order. */
-	Record: InspectorRecord[];
+	/** The selected record, in the session's own shape. */
+	Entry: Entry;
+	/** The face the inspector reads. */
+	Face: Face;
+	/** Where the record starts, in milliseconds from the session's first record. */
+	Start: number;
+	/** The wall clock the face's run occupies. */
+	Total: number;
 }
 
-const Tab = ["Summary", "Payload", "Schema", "Timing"];
+const Tab = ["Summary", "Payload", "Result", "Schema", "Timing"];
 
 export default function InspectorLive(Props: Props) {
-	const [Pick, SetPick] = createSignal(0);
 	const [Open, SetOpen] = createSignal("Summary");
+	const Outcome = () => OutcomeOf(Props.Entry, Props.Face);
+	const Property = () => SchemaFor(Props.Entry.Name);
+	const Share = () => Percent(Outcome().Took, Props.Total);
 
-	const Entry = createMemo(() => Props.Record[Pick()] ?? Props.Record[0]);
-	const Opening = createMemo(() => Props.Record.slice(0, 4));
-	const Durable = createMemo(() => Opening().filter((Item) => Item.Durable).length);
-
-	const Read = (Event: MouseEvent) => {
-		const Line = (Event.target as HTMLElement | null)?.closest("[data-seq]");
-
-		if (!Line) return;
-
-		const Seq = Number(Line.getAttribute("data-seq"));
-		const At = Props.Record.findIndex((Item) => Item.Index === Seq);
-
-		if (At >= 0) SetPick(At);
-	};
-
-	const Key = (Event: KeyboardEvent) => {
-		if (Event.key === "ArrowDown") {
-			SetPick((At) => Math.min(Props.Record.length - 1, At + 1));
-			Event.preventDefault();
-		} else if (Event.key === "ArrowUp") {
-			SetPick((At) => Math.max(0, At - 1));
-			Event.preventDefault();
-		}
-	};
-
-	onMount(() => {
-		document.addEventListener("click", Read);
-		onCleanup(() => document.removeEventListener("click", Read));
-	});
-
-	createEffect(() => {
-		const Host = document.getElementById("inspector-live");
-
-		if (!Host) return;
-
-		Host.setAttribute("tabindex", "-1");
-		Host.addEventListener("keydown", Key as unknown as EventListener);
-		onCleanup(() => Host.removeEventListener("keydown", Key as unknown as EventListener));
-	});
+	const Row = (Line: { Key: string; Value: string }) => (
+		<div class="inspector__row">
+			<dt class="inspector__key">{Line.Key}</dt>
+			<dd class="inspector__value">{Line.Value}</dd>
+		</div>
+	);
 
 	return (
-		<div class="inspector" id="inspector-live" aria-live="polite">
-			<Show when={Entry()}>
-				{(Item) => (
-					<>
-						<p class="inspector__subject">
-							{String(Item().Index).padStart(2, "0")} {Item().Name}
-						</p>
+		<div class="inspector" aria-live="polite">
+			<p class="inspector__subject">
+				<span class="inspector__seq">{String(Props.Entry.Seq).padStart(2, "0")}</span>
+				<span class="inspector__name">{Props.Entry.Name}</span>
+			</p>
+			<p class="inspector__sub">
+				{`${Props.Entry.Kind} | +${FormatDuration(Props.Start)} | ${FormatDuration(Outcome().Took)} | ${Props.Face}`}
+			</p>
 
-						<div class="inspector__tabs">
-							<For each={Tab}>
-								{(Label) => (
-									<>
-										<input
-											class="inspector__radio"
-											type="radio"
-											name="inspector-live-tab"
-											id={`inspector-live-${Label}`}
-											checked={Open() === Label}
-											onChange={() => SetOpen(Label)}
-										/>
-										<label
-											class="inspector__tab"
-											for={`inspector-live-${Label}`}>
-											{Label}
-										</label>
-										<div class="inspector__panel">
-											<Show when={Open() === Label}>
-												<p class="inspector__text">
-													{Label === "Summary" &&
-														`${Item().Kind}, ${Item().Durable ? "durable" : "live"}. ${Opening().length} records open the turn: ${Durable()} durable.`}
-													{Label === "Payload" && Item().Proves}
-													{Label === "Schema" &&
-														"A session event is a seq, a type, a time, and a data payload. The document beside this panel names the type of each record."}
-													{Label === "Timing" &&
-														"The log carries a wall clock per record; this slice shows the order and not the durations."}
-												</p>
+			<div class="inspector__tabs">
+				<For each={Tab}>
+					{(Label) => (
+						<>
+							<input
+								class="inspector__radio"
+								type="radio"
+								name="inspector-session-tab"
+								id={`inspector-session-${Label}`}
+								checked={Open() === Label}
+								onChange={() => SetOpen(Label)}
+							/>
+							<label class="inspector__tab" for={`inspector-session-${Label}`}>
+								{Label}
+							</label>
+							<div class="inspector__panel">
+								<Show when={Open() === Label}>
+									{Label === "Summary" && (
+										<>
+											<div class="inspector__object">
+												<div class="inspector__object-head">
+													<span
+														class="inspector__glyph"
+														data-kind={Props.Entry.Kind}
+													>
+														{Props.Entry.Kind.toUpperCase()}
+													</span>
+													<span class="inspector__object-type">
+														{`${Props.Entry.Kind} | ${Outcome().State}`}
+													</span>
+												</div>
+												<dl class="inspector__rows">
+													<Row Key="Seq" Value={String(Props.Entry.Seq)} />
+													<Row Key="Kind" Value={Props.Entry.Kind} />
+													<Row Key="Turn" Value={String(Props.Entry.Turn)} />
+													<Row Key="Step" Value={String(Props.Entry.Step)} />
+													<Row
+														Key="Dispatch"
+														Value={Props.Entry.Dispatch}
+													/>
+													<Show when={Outcome().Gate !== undefined}>
+														<Row
+															Key="Gate"
+															Value={String(Outcome().Gate)}
+														/>
+													</Show>
+													<Show when={Outcome().By !== undefined}>
+														<Row Key="By" Value={String(Outcome().By)} />
+													</Show>
+													<Show when={Outcome().Reason !== undefined}>
+														<Row
+															Key="Reason"
+															Value={String(Outcome().Reason)}
+														/>
+													</Show>
+													<Show
+														when={
+															Props.Face === "family" &&
+															Props.Entry.Plugin !== undefined
+														}
+													>
+														<Row
+															Key="Plugin"
+															Value={String(Props.Entry.Plugin)}
+														/>
+													</Show>
+													<Show
+														when={
+															Props.Face === "family" &&
+															Props.Entry.Effect !== undefined
+														}
+													>
+														<Row
+															Key="Effect"
+															Value={String(Props.Entry.Effect)}
+														/>
+													</Show>
+													<Row Key="State" Value={Outcome().State} />
+													<Show when={Outcome().Note !== undefined}>
+														<Row
+															Key="Note"
+															Value={String(Outcome().Note)}
+														/>
+													</Show>
+												</dl>
+											</div>
+											<Show when={Props.Entry.Kind === "tool"}>
+												<div class="inspector__pipeline">
+													<span
+														class="inspector__stage"
+														data-state={
+															Outcome().Gate === "deny"
+																? "deny"
+																: "pass"
+														}
+													>
+														pre
+													</span>
+													<span class="inspector__arrow">-&gt;</span>
+													<span
+														class="inspector__stage"
+														data-state={
+															Outcome().Gate === "deny"
+																? "skip"
+																: "pass"
+														}
+													>
+														execute
+													</span>
+													<span class="inspector__arrow">-&gt;</span>
+													<span
+														class="inspector__stage"
+														data-state={
+															Outcome().Gate === "deny"
+																? "skip"
+																: "pass"
+														}
+													>
+														post
+													</span>
+												</div>
 											</Show>
-										</div>
-									</>
-								)}
-							</For>
-						</div>
-					</>
-				)}
-			</Show>
+										</>
+									)}
+									{Label === "Payload" && (
+										<>
+											<pre class="inspector__code">{Props.Entry.Payload}</pre>
+											<p class="inspector__meta">
+												{`${FormatNumber(Props.Entry.Payload.length)} chars`}
+											</p>
+										</>
+									)}
+									{Label === "Result" && (
+										<>
+											<pre class="inspector__code">{Outcome().Result}</pre>
+											<p class="inspector__meta">
+												{`${FormatSize(Outcome().Size)} | ${Outcome().State}`}
+											</p>
+										</>
+									)}
+									{Label === "Schema" && (
+										<>
+											<p class="inspector__meta">
+												{`JSON Schema | ${Property().length} properties`}
+											</p>
+											<dl class="schema">
+												<For each={Property()}>
+													{(Item) => (
+														<div
+															class="schema__row"
+															data-required={Item.Required}
+														>
+															<dt class="schema__term">
+																<span class="schema__name">
+																	{Item.Name}
+																</span>
+																<span class="schema__type">
+																	{Item.Type}
+																</span>
+																{Item.Required && (
+																	<span class="schema__flag">
+																		required
+																	</span>
+																)}
+															</dt>
+															<dd class="schema__description">
+																{Item.Description}
+															</dd>
+														</div>
+													)}
+												</For>
+											</dl>
+										</>
+									)}
+									{Label === "Timing" && (
+										<>
+											<dl class="inspector__rows">
+												<Row
+													Key="Start"
+													Value={`+${FormatDuration(Props.Start)}`}
+												/>
+												<Row
+													Key="Took"
+													Value={FormatDuration(Outcome().Took)}
+												/>
+												<Row Key="Share" Value={`${Share()}%`} />
+												<Row Key="Face" Value={Props.Face} />
+											</dl>
+											<div class="inspector__track">
+												<span
+													class="inspector__fill"
+													style={{ width: `${Share()}%` }}
+												/>
+											</div>
+										</>
+									)}
+								</Show>
+							</div>
+						</>
+					)}
+				</For>
+			</div>
 		</div>
 	);
 }

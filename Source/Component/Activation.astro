@@ -1,0 +1,36 @@
+---
+import "@Stylesheet/Component/Activation.scss";
+
+import { Activation, LineOf } from "@Content/Activation";
+
+// The activation line as a template and its variants: the composer's three
+// rules on the left, the strings the source actually writes on the right. The
+// template is one shape; the variants are the six field lists that prove it.
+const { Rule, Variant } = Activation;
+---
+
+<div class="activation">
+	<code class="activation__template"
+		>activated (<span class="activation__slot">k1=v1</span>, <span class="activation__slot"
+			>k2=v2</span
+		>, ...)</code
+	>
+
+	<dl class="activation__rule">
+		{Rule.map((Item) => (
+			<div class="activation__row">
+				<dt class="activation__name">{Item.Name}</dt>
+				<dd class="activation__body">{Item.Body}</dd>
+			</div>
+		))}
+	</dl>
+
+	<ol class="activation__variant">
+		{Variant.map((Item) => (
+			<li class="activation__case">
+				<span class="activation__slug">{Item.Slug}</span>
+				<code class="activation__line">{LineOf(Item.Field)}</code>
+			</li>
+		))}
+	</ol>
+</div>

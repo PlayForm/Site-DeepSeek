@@ -5,6 +5,11 @@ import "@Stylesheet/Component/Bundle.scss";
 // the mounts happen on, the parts in the order they mount, and the rule that
 // catches a part which fails.
 //
+// The order is the shape: each part steps in from the one before it, so the
+// list reads as a cascade and the eye follows the mount without counting. The
+// band states the rail and the number of parts at display scale, and the
+// containment is the one warn face, because it is the failure rule.
+//
 // The parts are the mount steps of `Source/Library.ts`, in the order the code
 // runs them: the list is read and filtered at apply, the detach hands the rail
 // back, each specifier is guarded against a second mount, imported, mounted,
@@ -73,14 +78,20 @@ const Entry = Bundle[Slug] ?? Bundle[Slug.replace(/^ets-/, "")];
 {
 	Entry !== undefined && (
 		<div class="bundle" role="img" aria-label={`How ${Slug} mounts what it loads`}>
-			<div class="bundle__rail">
-				<span class="bundle__label">Rail</span>
-				<span class="bundle__rail-text">{Entry.Rail}</span>
+			<div class="bundle__band">
+				<div class="bundle__identity">
+					<span class="bundle__label">Rail</span>
+					<span class="bundle__rail-text">{Entry.Rail}</span>
+				</div>
+				<div class="bundle__figure">
+					<span class="bundle__figure-value">{Entry.Part.length}</span>
+					<span class="bundle__label">Parts</span>
+				</div>
 			</div>
 			<p class="bundle__rule">{Entry.Rule}</p>
 			<ol class="bundle__part-list">
 				{Entry.Part.map((Item, Index) => (
-					<li class="bundle__part">
+					<li class="bundle__part" style={`--step: ${Index}`}>
 						<span class="bundle__index">{String(Index + 1).padStart(2, "0")}</span>
 						<div class="bundle__body">
 							<span class="bundle__name">{Item.Name}</span>
@@ -90,7 +101,7 @@ const Entry = Bundle[Slug] ?? Bundle[Slug.replace(/^ets-/, "")];
 				))}
 			</ol>
 			<div class="bundle__contain">
-				<span class="bundle__label">Contained</span>
+				<span class="bundle__contain-label">Contained</span>
 				<p class="bundle__contain-text">{Entry.Contain}</p>
 			</div>
 		</div>

@@ -5,6 +5,13 @@ import "@Stylesheet/Component/Service.scss";
 // consumes, so the picture is the contract: the name on the context, the
 // methods a consumer calls, and the consumers that call them.
 //
+// The composition is the document-and-inspector split the component corpus uses
+// for a service: a band with the identity at display scale and the two counts,
+// a reading column of method rows with a hover band, an inset inspector for the
+// consumers, and an inverted accent band across the bottom for the rule the
+// contract keeps. The inverted band is the only solid accent face, so the
+// judgement is the last thing the eye meets.
+//
 // The methods are transcribed from the service class itself, in the order the
 // source declares them: `Source/Library.ts` for the class-form plugins and
 // `Source/Function/Service.ts` for the object-form ones. The consumers are the
@@ -350,42 +357,55 @@ const Entry = Service[Slug] ?? Service[Slug.replace(/^ets-/, "")];
 {
 	Entry !== undefined && (
 		<div class="service" role="img" aria-label={`The contract ${Slug} provides`}>
-			<div class="service__main">
-				<span class="service__label">Service</span>
-				<span class="service__name">{Entry.Name}</span>
-				<div class="service__group">
-					<span class="service__label">Methods</span>
-					<span class="service__count">{Entry.Method.length}</span>
+			<div class="service__band">
+				<div class="service__identity">
+					<span class="service__label">Service</span>
+					<span class="service__name">{Entry.Name}</span>
 				</div>
-				<ol class="service__method">
-					{Entry.Method.map((Item) => (
-						<li class="service__row">
-							<span class="service__call">{Item.Name}</span>
-							<span class="service__meaning">{Item.Meaning}</span>
-						</li>
-					))}
-				</ol>
-			</div>
-			<div class="service__side">
-				<div class="service__group">
-					<span class="service__label">Consumed by</span>
-					<span class="service__count">{Entry.Consumer.length}</span>
-				</div>
-				<ul class="service__consumer">
-					{Entry.Consumer.map((Item) => (
-						<li class="service__read">{Item}</li>
-					))}
-				</ul>
-				{Entry.Beside !== undefined && (
-					<div class="service__beside">
-						<span class="service__label">Also registers</span>
-						{Entry.Beside.map((Item) => (
-							<span class="service__also">{Item}</span>
-						))}
+				<div class="service__figures">
+					<div class="service__figure">
+						<span class="service__figure-value">{Entry.Method.length}</span>
+						<span class="service__label">Methods</span>
 					</div>
-				)}
+					<div class="service__figure">
+						<span class="service__figure-value">{Entry.Consumer.length}</span>
+						<span class="service__label">Consumers</span>
+					</div>
+				</div>
 			</div>
-			<p class="service__rule">{Entry.Rule}</p>
+			<div class="service__body">
+				<div class="service__main">
+					<span class="service__label">Methods</span>
+					<ol class="service__method">
+						{Entry.Method.map((Item) => (
+							<li class="service__row">
+								<span class="service__call">{Item.Name}</span>
+								<span class="service__meaning">{Item.Meaning}</span>
+							</li>
+						))}
+					</ol>
+				</div>
+				<div class="service__side">
+					<span class="service__label">Consumed by</span>
+					<ul class="service__consumer">
+						{Entry.Consumer.map((Item) => (
+							<li class="service__read">{Item}</li>
+						))}
+					</ul>
+					{Entry.Beside !== undefined && (
+						<div class="service__beside">
+							<span class="service__label">Also registers</span>
+							{Entry.Beside.map((Item) => (
+								<span class="service__also">{Item}</span>
+							))}
+						</div>
+					)}
+				</div>
+			</div>
+			<p class="service__rule">
+				<span class="service__rule-label">Rule</span>
+				<span class="service__rule-text">{Entry.Rule}</span>
+			</p>
 		</div>
 	)
 }

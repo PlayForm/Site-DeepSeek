@@ -2,14 +2,16 @@
 import "@Stylesheet/Component/Tool.scss";
 
 // The tool: the package's work is the callable surface it registers, so the
-// picture is a register: one entry per call, with what the call takes and what
-// it hands back, and the seam the names live on stated once above them.
+// picture is a register - a band stating the seam and the count, then the calls
+// as a field of plates rather than a column of rows, because a register is
+// compared rather than read.
 //
-// The register is a register and not a table: no column heads, no cells, one
-// object per call with its name as the head and two labelled facts under it.
-// The corpus measured that grammar on the object panel and on the plugin
-// page's contract rows, and it is the right one here because a call's takes
-// and returns are sentences rather than cells.
+// The first registered call is the entry, so it spans the register and takes
+// the accent face; the rest share the tracks below it. The register is not a
+// table: no column heads, no cells, one object per call with its name as the
+// head and two labelled facts under it. The corpus measured that grammar on the
+// object panel and on the plugin page's contract rows, and it is the right one
+// here because a call's takes and returns are sentences rather than cells.
 //
 // The seam is a field rather than a constant, because the family registers two
 // kinds of callable and only one of them is a tool. A model-facing tool is
@@ -126,12 +128,12 @@ const Tool: Record<string, Tool> = {
 		Rule: "The plugin never writes a row, never creates a table, and registers no listener: the ledger keeps recording facts, and the judgement lives here.",
 		Call: [
 			{
-				Name: "/cost analysis",
+				Name: "/analysis",
 				Takes: "a scope: file, project, client, model, or session",
 				Returns: "the metric rows of the enabled families, or the empty-ledger line when the scope has none",
 			},
 		],
-		Note: "The five families it renders: credit, effectiveness, lines, overhead, and cache.",
+		Note: "The ledger plugin already owns the cost name, so this half registers analysis; the five families it renders are credit, effectiveness, lines, overhead, and cache.",
 	},
 	"plugin-dsh-normalize-file": {
 		Seam: "the tools seam for the file call, and the commands service for the one-shot overpass",
@@ -190,18 +192,20 @@ const Entry = Tool[Slug] ?? Tool[Slug.replace(/^ets-/, "")];
 {
 	Entry !== undefined && (
 		<div class="tool" role="img" aria-label={`The calls ${Slug} registers`}>
-			<div class="tool__meta">
-				<span class="tool__label">Seam</span>
-				<span class="tool__seam">{Entry.Seam}</span>
+			<div class="tool__band">
+				<div class="tool__identity">
+					<span class="tool__label">Seam</span>
+					<span class="tool__seam">{Entry.Seam}</span>
+				</div>
+				<div class="tool__figure">
+					<span class="tool__figure-value">{Entry.Call.length}</span>
+					<span class="tool__label">Calls</span>
+				</div>
 			</div>
 			<p class="tool__rule">{Entry.Rule}</p>
-			<div class="tool__meta">
-				<span class="tool__label">Calls</span>
-				<span class="tool__count">{Entry.Call.length}</span>
-			</div>
 			<ol class="tool__calls">
-				{Entry.Call.map((Item) => (
-					<li class="tool__call">
+				{Entry.Call.map((Item, Index) => (
+					<li class="tool__call" data-entry={Index === 0 ? "true" : "false"}>
 						<span class="tool__name">{Item.Name}</span>
 						<dl class="tool__facts">
 							<div class="tool__row">

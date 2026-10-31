@@ -1,0 +1,143 @@
+@use "../Material.scss" as Material;
+
+// The tree: the turns and their steps, then the family's packages and their
+// state. A current row carries the accent wash; in the default face the plugin
+// list greys out, because no package acted on that run.
+.session-tree {
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-group);
+	padding-right: var(--space-2);
+	border-right: var(--hairline);
+
+	&__head {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding-bottom: var(--space-3);
+		border-bottom: var(--hairline);
+	}
+
+	&__title {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--color-ink);
+	}
+
+	&__meta {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	&__group {
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+	}
+
+	&__label {
+		@include Material.label;
+
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-2);
+		margin-bottom: var(--space-1);
+	}
+
+	&__turn,
+	&__step {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-2);
+		padding: var(--space-1) var(--space-2);
+		border-radius: var(--radius-sm);
+		color: var(--color-ink-muted);
+		font-size: var(--text-xs);
+		text-decoration: none;
+
+		&:hover {
+			background: var(--cabinet-inset);
+			color: var(--color-ink);
+		}
+
+		&[data-current="true"] {
+			background: var(--color-accent-soft);
+			color: var(--color-accent-ink);
+		}
+	}
+
+	&__turn {
+		color: var(--color-ink);
+		font-weight: 500;
+	}
+
+	&__step {
+		padding-left: var(--space-6);
+	}
+
+	&__number {
+		width: 18px;
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+		text-align: right;
+	}
+
+	&__name {
+		flex: 1 1 auto;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__count {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+		white-space: nowrap;
+	}
+
+	&__plugin {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-2);
+		padding: 2px var(--space-2);
+		color: var(--color-ink-muted);
+		font-family: var(--font-mono);
+		font-size: 10px;
+
+		&[data-state="off"] {
+			color: var(--color-ink-faint);
+		}
+	}
+
+	&__slug {
+		flex: 1 1 auto;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__plugin-count {
+		color: var(--color-ink-faint);
+	}
+
+	&__state {
+		color: var(--color-ink-faint);
+	}
+
+	&[data-face="default"] &__plugin {
+		opacity: 0.45;
+	}
+
+	@media (max-width: 820px) {
+		padding-right: 0;
+		border-right: 0;
+		padding-bottom: var(--rhythm-inset);
+		border-bottom: var(--hairline);
+	}
+}

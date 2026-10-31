@@ -1,0 +1,56 @@
+@use "../Material.scss" as Material;
+
+// The session view: the lane above, then the tree, the document, and the
+// inspector in one row. The tree and the inspector stick while the document
+// scrolls, so the three machines stay in view together.
+.session-view {
+	display: grid;
+	grid-template-columns: 236px minmax(0, 1fr) 320px;
+	gap: var(--rhythm-group);
+	align-items: start;
+
+	&__tree,
+	&__inspector {
+		position: sticky;
+		top: calc(var(--header-height) + var(--rhythm-inset));
+		max-height: calc(100vh - var(--header-height) - var(--rhythm-inset) * 2);
+		overflow-y: auto;
+		min-width: 0;
+		scroll-margin-top: calc(var(--header-height) + var(--rhythm-inset));
+	}
+
+	&__inspector {
+		padding-left: var(--rhythm-inset);
+		border-left: var(--hairline);
+	}
+
+	&__document {
+		min-width: 0;
+		scroll-margin-top: calc(var(--header-height) + var(--rhythm-inset));
+	}
+
+	@media (max-width: 1080px) {
+		grid-template-columns: 220px minmax(0, 1fr);
+
+		&__inspector {
+			grid-column: 1 / -1;
+			position: static;
+			max-height: none;
+			overflow: visible;
+			padding-top: var(--rhythm-inset);
+			padding-left: 0;
+			border-top: var(--hairline);
+			border-left: 0;
+		}
+	}
+
+	@media (max-width: 820px) {
+		grid-template-columns: minmax(0, 1fr);
+
+		&__tree {
+			position: static;
+			max-height: none;
+			overflow: visible;
+		}
+	}
+}

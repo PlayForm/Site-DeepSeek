@@ -1,0 +1,114 @@
+@use "../Material.scss" as Material;
+
+// The lane strip: one row per resource, one bar per span, and the clock under
+// them. The bars differ by fill weight, never by hue; a wait is an outline
+// because nothing was busy, and a failure carries the warn edge.
+.lane-strip {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+
+	&__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-2);
+	}
+
+	&__meta {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	&__row {
+		display: grid;
+		grid-template-columns: 72px minmax(0, 1fr);
+		align-items: center;
+		gap: var(--space-3);
+	}
+
+	&__name {
+		@include Material.label;
+	}
+
+	&__track {
+		position: relative;
+		height: 18px;
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-inset);
+		overflow: hidden;
+	}
+
+	&__span {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		min-width: 2px;
+		padding-inline: var(--space-1);
+		border: 1px solid var(--cabinet-line);
+		overflow: hidden;
+		white-space: nowrap;
+
+		&[data-resource="Input"] {
+			border-color: var(--color-line-strong);
+			background: var(--cabinet-front);
+			color: var(--color-ink-muted);
+		}
+
+		&[data-resource="Model"] {
+			border-color: var(--color-accent-deep);
+			background: var(--color-accent);
+			color: var(--color-surface);
+		}
+
+		&[data-resource="Tools"] {
+			border-color: var(--color-accent);
+			background: var(--color-accent-soft);
+			color: var(--color-accent-ink);
+		}
+
+		&[data-state="waiting"] {
+			border: 1px dashed var(--color-warn);
+			background: transparent;
+			color: var(--color-warn);
+		}
+
+		&[data-state="failed"],
+		&[data-state="denied"] {
+			border-color: var(--color-warn);
+			background: var(--color-warn-soft);
+			color: var(--color-warn);
+		}
+
+		&[data-state="background"] {
+			border: 1px dashed var(--color-line-strong);
+			background: var(--cabinet-front);
+			color: var(--color-ink-muted);
+		}
+	}
+
+	&__text {
+		overflow: hidden;
+		font-family: var(--font-mono);
+		font-size: 9px;
+		text-overflow: ellipsis;
+	}
+
+	&__axis {
+		display: flex;
+		justify-content: space-between;
+		margin-left: calc(72px + var(--space-3));
+		padding-top: var(--space-1);
+		border-top: var(--hairline);
+	}
+
+	&__tick {
+		font-family: var(--font-mono);
+		font-size: 9px;
+		color: var(--color-ink-faint);
+	}
+}

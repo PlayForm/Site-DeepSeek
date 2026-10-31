@@ -1,0 +1,64 @@
+---
+import "@Stylesheet/Component/Scheme.scss";
+
+import type { Scheme } from "@Content/Scheme";
+
+// The scheme: the pipeline the package runs, the laws that decide when it runs,
+// and the invariant that makes it invisible. Three machines, one per section of
+// the package's own SCHEME.md, so the page states the law rather than the
+// mechanism that satisfies it.
+interface Props {
+	/** The scheme record the section draws. */
+	Scheme: Scheme;
+}
+
+const { Scheme } = Astro.props;
+---
+
+<div class="scheme">
+	<div class="scheme__pipe">
+		{Scheme.Pipeline.map((Stage, Index) => (
+			<div class="scheme__stage">
+				<span class="scheme__index">{String(Index + 1).padStart(2, "0")}</span>
+				<span class="scheme__label">{Stage.Label}</span>
+				<span class="scheme__body">{Stage.Body}</span>
+			</div>
+		))}
+	</div>
+
+	<div class="scheme__law">
+		{Scheme.Law.map((Entry) => (
+			<div class="scheme__rule" data-hold={Entry.Condition.every((Item) => Item.Hold)}>
+				<span class="scheme__name">{Entry.Name}</span>
+				<span class="scheme__claim">{Entry.Claim}</span>
+				<ul class="scheme__condition">
+					{Entry.Condition.map((Item) => (
+						<li class="scheme__test">
+							<span class="scheme__mark" aria-hidden="true" />
+							{Item.Body}
+						</li>
+					))}
+				</ul>
+			</div>
+		))}
+	</div>
+
+	<div class="scheme__silence">
+		<div class="scheme__side" data-side="same">
+			<span class="scheme__side-label">Identical with and without</span>
+			<ul class="scheme__list">
+				{Scheme.Silence.Same.map((Item) => (
+					<li>{Item}</li>
+				))}
+			</ul>
+		</div>
+		<div class="scheme__side" data-side="differ">
+			<span class="scheme__side-label">Different, and only here</span>
+			<ul class="scheme__list">
+				{Scheme.Silence.Differ.map((Item) => (
+					<li>{Item}</li>
+				))}
+			</ul>
+		</div>
+	</div>
+</div>

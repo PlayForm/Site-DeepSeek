@@ -9,11 +9,33 @@
 	gap: var(--rhythm-tight);
 
 	&__subject {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-2);
 		font-family: var(--font-mono);
 		font-size: var(--text-sm);
 		font-weight: 500;
 		color: var(--color-ink);
 		overflow-wrap: anywhere;
+	}
+
+	&__seq {
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	&__name {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	&__sub {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
 	}
 
 	&__tabs {
@@ -39,7 +61,7 @@
 
 	&__tab {
 		order: 1;
-		padding: var(--space-1) var(--space-2);
+		padding: 2px var(--space-1);
 		border: 1px solid transparent;
 		border-radius: var(--radius-sm);
 		font-family: var(--font-mono);
@@ -87,5 +109,169 @@
 		font-size: var(--text-sm);
 		line-height: var(--leading-body);
 		color: var(--color-ink-muted);
+	}
+
+	// The selected record's card: the glyph, the type, and the rows the record
+	// carries. The card is a slab; the rows hang from a hairline, as a contract
+	// does, so a field and its value read as one object.
+	&__object {
+		@include Material.slab;
+
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		padding: var(--space-3);
+	}
+
+	&__object-head {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	&__glyph {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 30px;
+		height: 20px;
+		padding-inline: var(--space-1);
+		border: 1px solid var(--color-accent);
+		background: var(--color-accent-soft);
+		color: var(--color-accent-ink);
+		font-family: var(--font-mono);
+		font-size: 9px;
+		letter-spacing: 0.04em;
+
+		&[data-kind="assistant"] {
+			border-color: var(--color-ink);
+			background: var(--cabinet-front);
+			color: var(--color-ink);
+		}
+
+		&[data-kind="context"] {
+			border-color: var(--cabinet-line);
+			background: var(--cabinet-inset);
+			color: var(--color-ink-muted);
+		}
+
+		&[data-kind="system"] {
+			border-style: dashed;
+			background: transparent;
+			color: var(--color-ink-faint);
+		}
+	}
+
+	&__object-type {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-muted);
+	}
+
+	&__rows {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding-left: var(--space-3);
+		border-left: 1px solid var(--color-line);
+	}
+
+	&__row {
+		display: grid;
+		grid-template-columns: 76px minmax(0, 1fr);
+		gap: var(--space-2);
+		padding-block: 2px;
+	}
+
+	&__key {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	&__value {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: 11px;
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	// The pipeline: the three stages a tool call crosses, with the gate's
+	// refusal marking the stage it stopped at and the two after it skipped.
+	&__pipeline {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		margin-top: var(--space-3);
+	}
+
+	&__stage {
+		flex: 1 1 0;
+		padding: 2px var(--space-2);
+		border: 1px solid var(--color-line-strong);
+		background: var(--cabinet-front);
+		color: var(--color-ink-muted);
+		font-family: var(--font-mono);
+		font-size: 9px;
+		text-align: center;
+
+		&[data-state="pass"] {
+			border-color: var(--color-accent);
+			background: var(--color-accent-soft);
+			color: var(--color-accent-ink);
+		}
+
+		&[data-state="deny"] {
+			border-color: var(--color-warn);
+			background: var(--color-warn-soft);
+			color: var(--color-warn);
+		}
+
+		&[data-state="skip"] {
+			border-style: dashed;
+			color: var(--color-ink-faint);
+		}
+	}
+
+	&__arrow {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	&__code {
+		max-height: 240px;
+		margin: 0;
+		padding: var(--space-2);
+		border: 1px solid var(--color-line);
+		background: var(--cabinet-inset);
+		color: var(--color-ink);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		line-height: var(--leading-body);
+		overflow-wrap: anywhere;
+		overflow-y: auto;
+		white-space: pre-wrap;
+	}
+
+	&__meta {
+		margin-top: var(--space-2);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	&__track {
+		height: 6px;
+		margin-top: var(--space-2);
+		border: 1px solid var(--color-line);
+		background: var(--cabinet-inset);
+	}
+
+	&__fill {
+		display: block;
+		height: 100%;
+		background: var(--color-accent);
 	}
 }

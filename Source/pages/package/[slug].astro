@@ -1,18 +1,23 @@
 ---
 import Absence from "@Component/Absence.astro";
+import Absent from "@Component/Absent.astro";
 import Advise from "@Component/Advise.astro";
 import Badge from "@Component/Badge.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import Buffer from "@Component/Buffer.astro";
 import Bundle from "@Component/Bundle.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
+import Activation from "@Component/Activation.astro";
+import Scheme from "@Component/Scheme.astro";
 import Definition from "@Component/Definition.astro";
 import Difference from "@Component/Difference.astro";
 import Disclosure from "@Component/Disclosure.astro";
+import Family from "@Component/Family.astro";
 import Flow from "@Component/Flow.astro";
 import Gate from "@Component/Gate.astro";
 import Icon from "@Component/Icon.astro";
 import Layer from "@Component/Layer.astro";
+import Normalizer from "@Component/Normalizer.astro";
 import Origin from "@Component/Origin.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
@@ -30,8 +35,12 @@ import Transform from "@Component/Transform.astro";
 import VersionPill from "@Component/VersionPill.astro";
 import { ArmFor } from "@Content/Arm";
 import { BehaviorFor } from "@Content/Behavior";
+import { Activation as ActivationData } from "@Content/Activation";
+import { SchemeFor } from "@Content/Scheme";
 import { CurrentFor } from "@Content/Current";
 import { DeltaFor } from "@Content/Delta";
+import { DetailFor } from "@Content/Detail";
+import { TableFor } from "@Content/Table";
 import { SeamFor } from "@Content/Harness";
 import { HookFor } from "@Content/Hook";
 import { PortraitFor } from "@Content/Portrait";
@@ -88,6 +97,16 @@ const Portrait = PortraitFor(Entry.Slug);
 // above says what the hook is; this says what it does, in order, and the two
 // are separate records because a package can have either one alone.
 const Current = CurrentFor(Entry.Slug);
+
+// The structured facts the package's source documents, when the site has
+// authored them: the syntax families it recognizes and the extensions it
+// deliberately leaves alone.
+const Detail = DetailFor(Entry.Slug);
+
+// The character table the family's source documents, when the site has
+// authored one: the code points it maps, the character each one becomes, and
+// the law it obeys. The twins share the record through the `ets-` prefix.
+const Tabulation = TableFor(Entry.Slug);
 
 // The summary as one sentence. The period is appended here rather than in the
 // markup, because two adjacent expressions split across lines render with a
@@ -247,6 +266,60 @@ const File = [
 				/>
 				<div class="section__body">
 					<Flow Stage={Current.Stage} Rule={Current.Rule} />
+				</div>
+			</section>
+		)
+	}
+
+	{
+		Detail !== undefined && (
+			<section class="section">
+				<SectionHeader
+					Title="Detail"
+					Lede="The comment syntax the scanner knows, and the extensions it leaves alone."
+				/>
+				<div class="section__body stack">
+					<Family Family={Detail.Family} />
+					<Absent Absent={Detail.Absent} />
+				</div>
+			</section>
+		)
+	}
+
+	{
+		Tabulation !== undefined && (
+			<section class="section">
+				<SectionHeader Title="Table" />
+				<div class="section__body">
+					<Normalizer Table={Tabulation} />
+				</div>
+			</section>
+		)
+	}
+
+	{
+		ActivationData.Slug.includes(Entry.Slug) && (
+			<section class="section">
+				<SectionHeader
+					Title="Activation"
+					Lede="The one line this package writes when it loads, as a template and as the strings the source composes from it."
+				/>
+				<div class="section__body">
+					<Activation />
+				</div>
+			</section>
+		)
+	}
+
+	{
+		SchemeFor(Entry.Slug) !== undefined && (
+			<section class="section">
+				<SectionHeader
+					Title="Scheme"
+					Lede="The laws the package states in its own SCHEME.md: when it runs, what it refuses, and what stays identical because of it."
+				/>
+				<div class="section__body">
+					<Scheme Scheme={SchemeFor(Entry.Slug)!} />
 				</div>
 			</section>
 		)

@@ -1,0 +1,31 @@
+---
+import "@Stylesheet/Component/Absent.scss";
+
+import type { Detail } from "@Content/Detail";
+
+// The extensions the plugin refuses to handle, each with the source's reason,
+// as a quiet inset panel. Nothing here failed: the filter leaves these files
+// by identity on purpose.
+interface Props {
+	/** The extensions the plugin deliberately does not handle. */
+	Absent: Detail["Absent"];
+}
+
+const { Absent } = Astro.props;
+---
+
+<aside class="absent">
+	<p class="absent__label">Deliberately absent</p>
+	<dl class="absent__list">
+		{
+			Absent.map((Entry) => (
+				<div class="absent__item">
+					<dt class="absent__extension">
+						<code>{Entry.Extension}</code>
+					</dt>
+					<dd class="absent__why">{Entry.Why}</dd>
+				</div>
+			))
+		}
+	</dl>
+</aside>

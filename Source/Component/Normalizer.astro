@@ -1,0 +1,79 @@
+---
+import "@Stylesheet/Component/Normalizer.scss";
+
+import type { Table } from "@Content/Table";
+
+interface Props {
+	/** The family's table: the code points it maps and the law it obeys. */
+	Table: Table;
+}
+
+const { Table: Tabulation } = Astro.props;
+
+// The glyph is the code point the row names, decoded at render time: the data
+// carries the address, and the machine draws what arrives at it.
+const Glyph = (Code: string): string => String.fromCodePoint(Number.parseInt(Code.slice(2), 16));
+
+// The band's count is the length of the table, so the printed figure cannot
+// disagree with the rows beneath it.
+const Count = Tabulation.Entry.length;
+
+// The unit follows the count, so a one-row family reads "1 code point".
+const Unit = Count === 1 ? "code point" : "code points";
+
+// Only a family whose source names its code points gets a name column.
+const Named = Tabulation.Entry.some((Entry) => Entry.Name !== undefined);
+---
+
+<div class="normalizer">
+	<div class="normalizer__band">
+		<p class="normalizer__family">{Tabulation.Family}</p>
+		<p class="normalizer__tally">
+			<span class="normalizer__count">{Count}</span>&nbsp;<span class="normalizer__unit">{Unit}</span>
+		</p>
+	</div>
+
+	<div class="normalizer__grid">
+		<table>
+			<caption class="visually-hidden">
+				{`The ${Tabulation.Family} family: ${Count} ${Unit}, the character each one arrives as, the character it becomes, and its address.`}
+			</caption>
+			<thead>
+				<tr>
+					<th scope="col">Arrives</th>
+					<th scope="col" class="normalizer__arrow-head">
+						<span class="visually-hidden">Maps to</span>
+					</th>
+					<th scope="col">Becomes</th>
+					<th scope="col">Code point</th>
+					{Named && <th scope="col">Name</th>}
+				</tr>
+			</thead>
+			<tbody>
+				{
+					Tabulation.Entry.map((Entry) => (
+						<tr>
+							<td class="normalizer__cell">
+								<span class="normalizer__glyph" title={Entry.Name ?? Entry.Code}>{Glyph(Entry.Code)}</span>
+							</td>
+							<td class="normalizer__arrow">
+								<span aria-hidden="true">&rarr;</span>
+							</td>
+							<td class="normalizer__cell">
+								{Entry.To === "" ? (
+									<span class="normalizer__gone">removed</span>
+								) : (
+									<span class="normalizer__glyph normalizer__glyph--out" title={Entry.Name ?? Entry.Code}>{Entry.To}</span>
+								)}
+							</td>
+							<td class="normalizer__code">{Entry.Code}</td>
+							{Named && <td class="normalizer__name">{Entry.Name}</td>}
+						</tr>
+					))
+				}
+			</tbody>
+		</table>
+	</div>
+
+	<p class="normalizer__rule">{Tabulation.Rule}</p>
+</div>

@@ -1,39 +1,61 @@
 @use "../Material.scss" as Material;
 
-// The bundle: the rail it mounts on, the parts in the order they mount, and
-// the rule that catches a part which fails. So the picture is a rail at the
-// top, a numbered sequence under it, and a tray at the bottom for the
-// containment.
+// The bundle: the rail it mounts on, the parts in the order they mount, and the
+// rule that catches a part which fails.
 //
-// The sequence hangs its numbers to the left of one continuous hairline: each
-// part's body carries the border, and the parts butt together with padding
-// rather than a gap, so the border reads as a single rail instead of a stack
-// of boxes. The number is the accent, because the order is the whole point of
-// a bundle; the part's name is mono because it is a specifier, and what it
-// brings stays in the reading voice.
+// The order is the shape, not a number the reader has to trust: each part steps
+// in from the one before it, so the list reads as a cascade down and to the
+// right, and the eye follows the mount without counting. The band above states
+// the rail and the number of parts at display scale; the containment is the one
+// warn face on the shape, because it is the failure rule and the site's warn is
+// a vocabulary for exactly that.
+//
+// Each part's body carries its own left rule, so the cascade's edge is a
+// staircase rather than a straight line - which is what a mount order looks
+// like when one part follows another.
+//
+// Motion: the rule under the cursor thickens and turns accent, which says "this
+// part is one step" without moving any text. It is guarded by
+// prefers-reduced-motion.
 .bundle {
 	@include Material.slab;
 
 	display: flex;
 	flex-direction: column;
-	gap: var(--rhythm-group);
-	padding: var(--rhythm-inset);
 
-	&__rail {
-		@include Material.tray;
+	&__band {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: var(--rhythm-group);
+		align-items: flex-end;
+		padding: var(--rhythm-inset);
+		border-bottom: 1px solid var(--cabinet-line);
+		background: var(--cabinet-inset);
+	}
 
+	&__identity {
 		display: flex;
-		gap: var(--space-3);
-		align-items: baseline;
-		padding: var(--space-2) var(--space-4);
-		border-left: 3px solid var(--color-accent);
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	&__figure {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: var(--space-1);
+	}
+
+	&__figure-value {
+		font-family: var(--font-mono);
+		font-size: var(--text-3xl);
+		line-height: var(--leading-tight);
+		font-variant-numeric: tabular-nums;
+		color: var(--color-accent-ink);
 	}
 
 	&__label {
 		@include Material.label;
-
-		flex: none;
-		color: var(--color-accent-ink);
 	}
 
 	&__rail-text {
@@ -46,6 +68,7 @@
 
 	&__rule {
 		max-width: var(--measure);
+		padding: var(--space-4) var(--rhythm-inset) 0;
 		font-size: var(--text-sm);
 		line-height: var(--leading-body);
 		color: var(--color-ink-muted);
@@ -55,15 +78,18 @@
 		display: flex;
 		flex-direction: column;
 		margin: 0;
-		padding: 0;
+		padding: var(--space-4) var(--rhythm-inset) var(--rhythm-inset);
 		list-style: none;
 	}
 
+	// The step is a custom property the markup fills with the part's index, so
+	// the cascade is one token multiple per part and the list stays data-driven.
 	&__part {
 		display: grid;
 		grid-template-columns: var(--space-6) minmax(0, 1fr);
 		gap: var(--space-3);
 		padding-bottom: var(--rhythm-tight);
+		padding-left: calc(var(--space-2) * var(--step, 0));
 
 		&:last-child {
 			padding-bottom: 0;
@@ -73,8 +99,8 @@
 	&__index {
 		font-family: var(--font-mono);
 		font-size: var(--text-xs);
-		font-variant-numeric: tabular-nums;
 		line-height: var(--leading-body);
+		font-variant-numeric: tabular-nums;
 		color: var(--color-accent-ink);
 	}
 
@@ -84,6 +110,17 @@
 		gap: var(--space-1);
 		padding-left: var(--space-4);
 		border-left: 1px solid var(--cabinet-line);
+
+		@media (prefers-reduced-motion: no-preference) {
+			transition:
+				border-color var(--motion-crisp) var(--ease-crisp),
+				border-left-width var(--motion-crisp) var(--ease-crisp);
+		}
+	}
+
+	&__part:hover &__body {
+		border-left-color: var(--color-accent);
+		border-left-width: 3px;
 	}
 
 	&__name {
@@ -100,31 +137,40 @@
 		color: var(--color-ink-muted);
 	}
 
-	// The containment: the one rule about failure, so it is a tray rather than
-	// another row of the sequence. The strong line is the cabinet's drawing
-	// line, not the accent, because this is the edge of the picture and not a
-	// call to action.
+	// The containment: the warn face. It is the one place on the shape where the
+	// site's warn token is used, because a part that fails is the fact a reader
+	// has to be able to find at a glance.
 	&__contain {
-		@include Material.tray;
-
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-1);
+		margin: 0 var(--rhythm-inset) var(--rhythm-inset);
 		padding: var(--space-3) var(--space-4);
-		border-left: 3px solid var(--color-line-strong);
+		border-left: 3px solid var(--color-warn);
+		background: var(--color-warn-soft);
+	}
+
+	&__contain-label {
+		@include Material.label;
+
+		color: var(--color-warn);
 	}
 
 	&__contain-text {
 		max-width: var(--measure);
 		font-size: var(--text-xs);
 		line-height: var(--leading-body);
-		color: var(--color-ink-muted);
+		color: var(--color-ink);
 	}
 
 	@media (max-width: 640px) {
-		&__rail {
-			flex-direction: column;
-			gap: var(--space-1);
+		&__band {
+			grid-template-columns: minmax(0, 1fr);
+			gap: var(--space-3);
+		}
+
+		&__figure {
+			align-items: flex-start;
 		}
 	}
 }

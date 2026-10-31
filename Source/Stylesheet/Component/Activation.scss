@@ -1,0 +1,102 @@
+@use "../Material.scss" as Material;
+
+// The activation line: the template in display mono, the three rules as a
+// definition list, and the variants as the exact strings the source writes.
+// The template is the shape; the variants are the proof.
+.activation {
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-inset);
+
+	&__template {
+		display: block;
+		padding: var(--rhythm-inset);
+		background: var(--cabinet-inset);
+		border: 1px solid var(--cabinet-line);
+		font-family: var(--font-mono);
+		font-size: var(--text-lg);
+		line-height: 1.4;
+		color: var(--color-ink-faint);
+		overflow-wrap: anywhere;
+	}
+
+	&__sigil {
+		color: var(--color-accent-ink);
+	}
+
+	&__paren,
+	&__join {
+		color: var(--color-ink-faint);
+	}
+
+	&__slot {
+		padding: 0 var(--space-2);
+		background: var(--color-accent-soft);
+		color: var(--color-accent-ink);
+	}
+
+	&__rule {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		border-top: var(--hairline);
+	}
+
+	&__row {
+		display: grid;
+		grid-template-columns: minmax(120px, 160px) minmax(0, 1fr);
+		gap: var(--rhythm-inset);
+		padding-block: var(--space-2);
+		border-bottom: var(--hairline);
+	}
+
+	&__name {
+		@include Material.label;
+
+		color: var(--color-ink);
+	}
+
+	&__body {
+		margin: 0;
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&__variant {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border-top: var(--hairline);
+	}
+
+	&__case {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		padding-block: var(--space-2);
+		border-bottom: var(--hairline);
+	}
+
+	&__slug {
+		@include Material.label;
+
+		color: var(--color-ink-faint);
+	}
+
+	&__line {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	@media (max-width: 640px) {
+		&__row {
+			grid-template-columns: 1fr;
+		}
+	}
+}

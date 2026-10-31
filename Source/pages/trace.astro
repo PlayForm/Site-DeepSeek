@@ -1,91 +1,30 @@
 ---
 import "@Stylesheet/Component/TracePage.scss";
 
-import Callout from "@Component/Callout.astro";
-import Explorer from "@Component/Graph/Explorer.tsx";
-import Grid from "@Component/Grid.astro";
-import InspectorLive from "@Component/InspectorLive.tsx";
-import LaneChart from "@Component/Lane.astro";
 import PageHero from "@Component/PageHero.astro";
-import Pending from "@Component/Pending.astro";
-import Ribbon from "@Component/Ribbon.astro";
-import SectionHeader from "@Component/SectionHeader.astro";
-import StatBand from "@Component/StatBand.astro";
-import Term from "@Component/Term.astro";
-import Trace from "@Component/Trace.astro";
-import { Coverage } from "@Content/Coverage";
-import { Lane } from "@Content/Lane";
-import { Record as Fixture } from "@Content/Trace";
+import SessionView from "@Component/SessionView.tsx";
+import { Record, Step, Turn } from "@Content/Session";
 import Base from "@Layout/Base.astro";
-import Catalogue from "@Library/Graph/Catalogue.server";
-import { Ledger } from "@Library/Ledger.server";
-import { Route } from "@Library/Link";
-import { Session } from "@Library/Session.server";
 
-// A real log when the build can reach one, the authored fixture when it cannot.
-// The page says which it is, because a trace that silently swaps its source is
-// a trace a reader cannot trust.
-const Record = Session.Live ? Session.Record : Fixture;
-const Source = Session.Live
-	? "read from a session log at build time, in log order"
-	: `the authored fixture, because ${Session.Note ?? "no session log was reachable"}`;
-
-const Durable = Record.filter((Entry) => Entry.Durable).length;
-const Live = Record.length - Durable;
-
-// What the first stat names: a slice of a real log, or the authored fixture.
-const Scope = Session.Live ? "The log's first slice" : "One authored turn";
-
-// The call with no result yet: the last tool call the log answers no result for.
-// A fixture turn settles every call, so this row appears only on a live log.
-const Call = Record.filter((Entry) => Entry.Kind === "tool" && Entry.Name === "tool/call");
-const Result = Record.filter((Entry) => Entry.Kind === "tool" && Entry.Name === "tool/result");
-const Waiting = [...Call]
-	.reverse()
-	.find((Entry) => !Result.some((Answer) => Answer.Index > Entry.Index));
-
-// The board lists every documented ledger path and the pane shows the first of
-// them; the rest are on the connect page.
-const Shown = Ledger.slice(0, 8);
-
-// The coverage grid's own number, so the caption counts the rows it sits under.
-const Feedable = Coverage.filter((Entry) => Entry.Feed === "yes").length;
-
-// The ribbon's ticks are the first record of each kind, so the band names the
-// five phases of the log; every record is a mark, and a live record is the
-// warn kind because a reload drops it.
-const RibbonTick: { At: number; Label: string }[] = Record.filter(
-	(Entry, Index, List) => List.findIndex((Item) => Item.Kind === Entry.Kind) === Index,
-).map((Entry) => ({ At: Entry.Index, Label: Entry.Kind }));
-
-const RibbonMark: { At: number; Label: string; Kind: "ok" | "warn" }[] = Record.map((Entry) => ({
-	At: Entry.Index,
-	Label: Entry.Name,
-	Kind: Entry.Durable ? "ok" : "warn",
-}));
-
-// The page's readings, in the order it reads them: the index in the hero and
-// the seven section addresses below are the same list.
+// The four machines, in the order the page reads them: the lane first, then
+// the tree, the document, and the inspector in one row.
 const Machine = [
-	{ Name: "Record", Id: "record" },
 	{ Name: "Lane", Id: "lane" },
-	{ Name: "Ribbon", Id: "ribbon" },
-	{ Name: "Board", Id: "board" },
-	{ Name: "Graph", Id: "graph" },
-	{ Name: "Coverage", Id: "coverage" },
-	{ Name: "Live", Id: "live" },
+	{ Name: "Tree", Id: "tree" },
+	{ Name: "Document", Id: "document" },
+	{ Name: "Inspector", Id: "inspector" },
 ];
 ---
 
 <Base
-	Title="Trace"
-	Description={`One run as an operator reads it: ${Record.length} records, the ribbon, the lanes, the counts, the package graph, and the states the log can and cannot feed.`}>
-	<PageHero Eyebrow="Observability" Title="What a run leaves">
+	Title="Session"
+	Description={`One heavy session as a lane strip, a tree, a document, and an inspector: ${Record.length} records across ${Step.length} steps and ${Turn.length} turns, with the family's plugins acting on the records they touch.`}
+>
+	<PageHero Eyebrow="Observability" Title="A run, twice">
 		<Fragment slot="Lede">
-			One run, read every way an operator reads it afterwards: the order the log wrote, the
-			time it took, the size of what it left, the topology it ran inside, the states it can and
-			cannot feed, and the limit of a static page. Each reading is the same
-			<Term Name="trace" />, and no two draw the same fact.
+			One heavy session, read four ways: the lanes it occupied, the tree it left, the
+			document it wrote, and the record the reader selects. The switch turns the family
+			off, and the same run changes in place.
 		</Fragment>
 		<Fragment slot="Actions">
 			<nav class="trace-page__index" aria-label="The machines">
@@ -96,163 +35,5 @@ const Machine = [
 		</Fragment>
 	</PageHero>
 
-	<section class="section trace-page__section" id="record">
-		<SectionHeader
-			Title="Record"
-			Lede="The records the run wrote, in the order the log wrote them, and the one a reader selects. A solid rail is a record a reload keeps; a dashed rail is one the process drops when it ends."
-		/>
-		<div class="section__body">
-			<div class="trace-page">
-				<div class="trace-page__document">
-					<Trace Record={Record} />
-					{Waiting && <Pending Name={Waiting.Name} Meta={Waiting.Proves} />}
-				</div>
-				<aside class="trace-page__inspector">
-					<InspectorLive Record={Record} client:load />
-				</aside>
-			</div>
-			<p class="trace-page__note">
-				{Source}. The envelope is a&nbsp;<code>type</code>, a&nbsp;<code>seq</code>,
-				a&nbsp;<code>time</code>, and a&nbsp;<code>data</code> payload, with
-				a&nbsp;<code>surfaceOp</code> and a&nbsp;<code>sourceEventSeqs</code> on the records
-				that carry them. The board counts them.
-			</p>
-		</div>
-	</section>
-
-	<section class="section trace-page__section" id="lane">
-		<SectionHeader
-			Title="Lane"
-			Lede="The same turn as time: who was busy, when, and for how long. A bar is one span of work, and its fill weight says what kind of work it was, never a hue."
-		/>
-		<div class="section__body">
-			<LaneChart Lane={Lane} />
-			<p class="trace-page__note">
-				The log carries a wall clock per record, so a lane is derivable from any log; the
-				fixture carries no clock, so these spans are authored from the documented turn. The
-				short bars on the record lane are the ledger writes, and the board names the files
-				they land in.
-			</p>
-		</div>
-	</section>
-
-	<section class="section trace-page__section" id="ribbon">
-		<SectionHeader
-			Title="Ribbon"
-			Lede="The same run, record by record: one mark per event in the order the log wrote it, a tick for each kind, and the window the records occupy. A warn mark is a record a reload does not keep."
-		/>
-		<div class="section__body">
-			<Ribbon Tick={RibbonTick} Mark={RibbonMark} />
-		</div>
-	</section>
-
-	<section class="section trace-page__section" id="board">
-		<SectionHeader
-			Title="Board"
-			Lede="The counts, and the files the family writes beside the log. A ledger line is written at the seam the hook answers, in the same dispatch the session log never records, so a hook's decision survives in its ledger even though the trace cannot show it."
-		/>
-		<div class="section__body">
-			<div class="trace-page__board">
-				<StatBand
-					Stat={[
-						{ Label: "Record", Value: Record.length, Note: Scope },
-						{ Label: "Durable", Value: Durable, Note: "A reload keeps" },
-						{ Label: "Live", Value: Live, Note: "Process only" },
-						{ Label: "Ledger", Value: Ledger.length, Note: "Across both trees" },
-					]}
-				/>
-				<ul class="trace-page__ledger">
-					{Shown.map((Entry) => (
-						<li class="trace-page__row">
-							<a class="trace-page__slug" href={Entry.Href}>
-								{Entry.Slug}
-							</a>
-							<span class="trace-page__path">{Entry.Path}</span>
-						</li>
-					))}
-				</ul>
-				<p class="trace-page__note">
-					{Shown.length}&nbsp;of them are here, and every path is on the&nbsp;<a href={Route.Connect}>connect page</a>.
-					A path is what a package documents, not a file this page has read: a hook that
-					ships disabled, as the journal and the monitor do, leaves it empty until it is
-					enabled, and the cost plugin keeps a database rather than a log. The same plugin
-					exists in both trees, and the journal's two READMEs name two files, so which one a
-					run writes depends on the tree it loads.
-				</p>
-			</div>
-		</div>
-	</section>
-
-	<section class="section trace-page__section" id="graph">
-		<SectionHeader
-			Title="Graph"
-			Lede="The packages that write those ledgers are the nodes: the topology the run executes inside, with one arrow from a dependency to the package that requires it."
-		/>
-		<div class="section__body">
-			<Explorer
-				Node={Catalogue.Node}
-				Edge={Catalogue.Edge}
-				Family={Catalogue.Family}
-				Kind={Catalogue.Kind}
-				client:load
-			/>
-			<p class="trace-page__note">
-				{Catalogue.Node.length}&nbsp;<Term Name="node" /> and {Catalogue.Edge.length}&nbsp;<Term Name="edge" />,
-				read from both release trees. The graph is the catalogue, not one run's composition:
-				a run loads a profile, and which packages that profile holds is a fact this page
-				does not have.
-			</p>
-		</div>
-	</section>
-
-	<section class="section trace-page__section" id="coverage">
-		<SectionHeader
-			Title="Coverage"
-			Lede="What the record section can feed, state by state, and what it cannot. The second column names the event that carries a state, or the seam that decides it and writes nothing."
-		/>
-		<div class="section__body">
-			<Grid
-				Head={["Feedable", "Why"]}
-				Row={Coverage.map((Entry) => ({ Label: Entry.State, Cell: [Entry.Feed, Entry.Why] }))}
-				Caption={`A filled square is a state the log feeds today, and a dash is a state the harness decides without writing it down. ${Feedable} of ${Coverage.length} are feedable now.`}
-			/>
-			<p class="trace-page__note">
-				The waterfalls are dispatched in memory and never written to the log:&nbsp;<code>agent/pre-step</code>,
-				<code>agent/request</code>, <code>llm/stream</code>, and the three
-				<code>tools/*</code> events. A durable trace can show that a call happened; it cannot
-				show what a listener decided on the way through. The Claude and Codex hook bridge
-				records its own decisions as&nbsp;<code>hook/invoked</code> and&nbsp;<code>hook/result</code>;
-				the harness's own waterfalls do not.
-			</p>
-		</div>
-	</section>
-
-	<section class="section trace-page__section" id="live">
-		<SectionHeader
-			Title="Live"
-			Lede="This page is static. A running harness would fill the same machines from a stream, and would not fill one dash in the coverage above."
-		/>
-		<div class="section__body stack">
-			<p class="lede">
-				A live source would change what fills these machines, not their shape: a tail that
-				appends while the reader reads, an inspector that follows the newest record, a lane
-				from the log's own clock, and a graph cut to the packages the session loaded.
-			</p>
-			<Callout Title="The limit" Tone="warn">
-				<p>
-					Every dash above is a fact the harness decides and does not write. A live view of a
-					log that lacks a fact is a live view of the same gap: the frames would arrive, and
-					the decision behind them would still be missing.
-				</p>
-			</Callout>
-			<div class="cluster">
-				<a class="button" href={Route.Turn}>
-					The turn, stage by stage
-				</a>
-				<a class="button button--quiet" href={Route.Tool}>
-					One tool call
-				</a>
-			</div>
-		</div>
-	</section>
+	<SessionView client:load />
 </Base>

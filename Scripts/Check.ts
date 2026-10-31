@@ -102,8 +102,13 @@ for (const File of Page) {
 	//   punctuation stranded.
 	const Verbatim = Html.replace(/<table[\s\S]*?<\/table>/g, " ").replace(/<pre[\s\S]*?<\/pre>/g, " ");
 
+	// An island carries its props as a JSON attribute, and that JSON holds the
+	// page's own strings with no spaces between them. It is data, not text: drop
+	// the attribute before the tags are stripped, or a record's sequence number
+	// and kind arrive glued together and the scan reports the island's payload.
 	const Text = Verbatim.replace(/<script[\s\S]*?<\/script>/g, " ")
 		.replace(/<style[\s\S]*?<\/style>/g, " ")
+		.replace(/\sprops="[^"]*"/g, " ")
 		.replace(
 			/<\/?(?:td|th|tr|dt|dd|li|p|div|section|article|aside|header|footer|nav|main|figure|figcaption|h[1-6]|br)\b[^>]*>/g,
 			" ",

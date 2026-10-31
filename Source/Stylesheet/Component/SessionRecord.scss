@@ -1,0 +1,216 @@
+@use "../Material.scss" as Material;
+
+// One record: the sequence, the kind, the dispatch mark, the call and its
+// payload, the result size, then the result after an arrow with the state and
+// the plugin that touched it. The band marks the selected row without a shadow.
+.session-record {
+	position: relative;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0 calc(var(--space-3) * -1);
+		border: 1px solid transparent;
+		border-radius: var(--radius-md);
+		background: transparent;
+		pointer-events: none;
+		transition: background var(--motion-crisp) var(--ease-crisp);
+	}
+
+	&:hover::before {
+		background: var(--cabinet-inset);
+	}
+
+	&[data-current="true"]::before {
+		border-color: var(--color-accent);
+		background: var(--color-accent-soft);
+	}
+
+	&__line {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		grid-template-columns: var(--gutter-trace) auto auto minmax(0, 1fr) auto;
+		align-items: baseline;
+		gap: var(--space-2);
+		width: 100%;
+		padding: var(--space-2) var(--space-3);
+		border: 0;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		text-align: left;
+		cursor: pointer;
+	}
+
+	&__seq {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+		text-align: right;
+	}
+
+	&__kind {
+		padding: 0 var(--space-1);
+		border: 1px solid var(--color-line-strong);
+		color: var(--color-ink-muted);
+		font-family: var(--font-mono);
+		font-size: 9px;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		white-space: nowrap;
+
+		&[data-kind="tool"] {
+			border-color: var(--color-accent);
+			background: var(--color-accent-soft);
+			color: var(--color-accent-ink);
+		}
+
+		&[data-kind="assistant"] {
+			border-color: var(--color-ink);
+			color: var(--color-ink);
+		}
+
+		&[data-kind="context"] {
+			border-color: var(--cabinet-line);
+			background: var(--cabinet-inset);
+			color: var(--color-ink-muted);
+		}
+
+		&[data-kind="system"] {
+			border-style: dashed;
+			color: var(--color-ink-faint);
+		}
+	}
+
+	&__dispatch {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	&__call {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-2);
+		min-width: 0;
+	}
+
+	&__name {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		font-weight: 500;
+		color: var(--color-ink);
+		white-space: nowrap;
+	}
+
+	&__payload {
+		min-width: 0;
+		overflow: hidden;
+		font-family: var(--font-mono);
+		font-size: 11px;
+		color: var(--color-ink-muted);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__size {
+		padding: 0 var(--space-1);
+		border: 1px solid var(--color-line);
+		color: var(--color-ink-faint);
+		font-family: var(--font-mono);
+		font-size: 9px;
+		white-space: nowrap;
+	}
+
+	&__outcome {
+		grid-column: 2 / -1;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-2);
+		padding: 0 var(--space-3) var(--space-1);
+	}
+
+	&__arrow {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	&__result {
+		flex: 1 1 240px;
+		min-width: 0;
+		overflow: hidden;
+		font-family: var(--font-mono);
+		font-size: 11px;
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+
+		&[data-kind="assistant"] {
+			flex-basis: 100%;
+			overflow: visible;
+			color: var(--color-ink);
+			font-family: var(--font-sans);
+			font-size: var(--text-sm);
+			white-space: normal;
+		}
+	}
+
+	&__state {
+		padding: 0 var(--space-1);
+		border: 1px solid var(--color-line-strong);
+		color: var(--color-ink-muted);
+		font-family: var(--font-mono);
+		font-size: 9px;
+		letter-spacing: 0.04em;
+
+		&[data-state="denied"],
+		&[data-state="failed"],
+		&[data-state="waiting"] {
+			border-color: var(--color-warn);
+			background: var(--color-warn-soft);
+			color: var(--color-warn);
+		}
+
+		&[data-state="ccr"],
+		&[data-state="spilled"],
+		&[data-state="noted"],
+		&[data-state="normalized"],
+		&[data-state="recorded"],
+		&[data-state="governed"] {
+			border-color: var(--color-accent);
+			background: var(--color-accent-soft);
+			color: var(--color-accent-ink);
+		}
+
+		&[data-state="background"] {
+			border-style: dashed;
+			color: var(--color-ink-muted);
+		}
+	}
+
+	&__note {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	&__by {
+		font-family: var(--font-mono);
+		font-size: 9px;
+		color: var(--color-ink-faint);
+	}
+
+	&__plugin {
+		padding: 0 var(--space-1);
+		border: 1px solid var(--color-accent);
+		background: var(--color-accent-soft);
+		color: var(--color-accent-ink);
+		font-family: var(--font-mono);
+		font-size: 9px;
+		white-space: nowrap;
+	}
+}

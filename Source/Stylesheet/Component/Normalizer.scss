@@ -1,0 +1,194 @@
+@use "../Material.scss" as Material;
+
+// The machine: one row per code point the family maps, the arriving glyph and
+// the character it becomes at display size, the address beside them, and the
+// family's law as one line beneath. The band carries the family name and the
+// row count at display scale, so the two facts that frame the table are the
+// two facts a reader needs before the rows.
+.normalizer {
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-tight);
+
+	&__band {
+		@include Material.slab;
+
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: var(--space-4);
+		padding: var(--rhythm-inset);
+	}
+
+	&__family {
+		margin: 0;
+		font-size: var(--text-3xl);
+		font-weight: 600;
+		line-height: var(--leading-tight);
+		letter-spacing: -0.02em;
+		color: var(--color-ink);
+	}
+
+	&__tally {
+		display: flex;
+		align-items: baseline;
+		margin: 0;
+		white-space: nowrap;
+	}
+
+	&__count {
+		font-family: var(--font-mono);
+		font-size: var(--text-4xl);
+		font-weight: 500;
+		line-height: 0.9;
+		letter-spacing: -0.03em;
+		font-variant-numeric: tabular-nums;
+		color: var(--color-accent-ink);
+	}
+
+	&__unit {
+		@include Material.label;
+	}
+
+	&__grid {
+		overflow-x: auto;
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	thead th {
+		@include Material.label;
+
+		padding: var(--space-2) var(--space-3);
+		border-bottom: 1px solid var(--cabinet-line);
+		background: var(--cabinet-inset);
+		text-align: left;
+		white-space: nowrap;
+	}
+
+	tbody {
+		td {
+			padding: var(--space-1) var(--space-3);
+			border-bottom: 1px solid var(--color-line);
+			vertical-align: middle;
+		}
+
+		tr:last-child td {
+			border-bottom: 0;
+		}
+
+		tr:hover {
+			background: var(--cabinet-inset);
+		}
+	}
+
+	&__cell {
+		width: 1%;
+		white-space: nowrap;
+	}
+
+	&__glyph {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 56px;
+		height: 56px;
+		padding-inline: var(--space-2);
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+		font-family: var(--font-mono);
+		font-size: var(--text-3xl);
+		line-height: 1;
+		white-space: pre;
+		color: var(--color-ink);
+
+		&--out {
+			border-color: var(--color-accent-deep);
+			background: var(--color-accent-soft);
+			color: var(--color-accent-ink);
+		}
+	}
+
+	&__gone {
+		@include Material.label;
+
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 56px;
+		height: 56px;
+		padding-inline: var(--space-2);
+		border: 1px solid var(--color-line-strong);
+		background: var(--cabinet-inset);
+		white-space: nowrap;
+	}
+
+	&__arrow {
+		width: 1%;
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--color-ink-faint);
+		text-align: center;
+	}
+
+	&__arrow-head {
+		width: 1%;
+	}
+
+	&__code {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		font-weight: 500;
+		font-variant-numeric: tabular-nums;
+		color: var(--color-ink);
+		white-space: nowrap;
+	}
+
+	&__name {
+		font-size: var(--text-xs);
+		line-height: var(--leading-snug);
+		color: var(--color-ink-muted);
+	}
+
+	&__rule {
+		max-width: var(--measure);
+		margin: 0;
+		padding-top: var(--space-3);
+		border-top: var(--hairline-strong);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	@media (max-width: 720px) {
+		&__band {
+			align-items: flex-start;
+		}
+
+		&__family {
+			font-size: var(--text-2xl);
+		}
+
+		&__count {
+			font-size: var(--text-3xl);
+		}
+
+		&__glyph,
+		&__gone {
+			min-width: 44px;
+			height: 44px;
+			font-size: var(--text-2xl);
+		}
+
+		tbody td,
+		thead th {
+			padding-inline: var(--space-2);
+		}
+	}
+}
