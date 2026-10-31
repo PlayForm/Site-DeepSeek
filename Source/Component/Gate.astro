@@ -61,7 +61,7 @@ const Gate: Record<string, Gate> = {
 	// allow list's precedence over the deny list is the one rule a reader has
 	// to know to predict the verdict.
 	"plugin-dsh-gitguard": {
-		Rule: "The guard judges only git, and judges a compound command by its worst segment: any denied segment denies the whole command. A denial is the pre-execute decision, returned once, and the command never executes.",
+		Rule: "The guard judges only git, judges a compound command by its worst segment, and returns its denial once as the pre-execute decision.",
 		Outcome: [
 			{
 				Label: "allow",

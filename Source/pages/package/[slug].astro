@@ -4,6 +4,7 @@ import Advise from "@Component/Advise.astro";
 import Badge from "@Component/Badge.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import Buffer from "@Component/Buffer.astro";
+import Bundle from "@Component/Bundle.astro";
 import CodeBlock from "@Component/CodeBlock.astro";
 import Definition from "@Component/Definition.astro";
 import Difference from "@Component/Difference.astro";
@@ -20,9 +21,11 @@ import Retrieve from "@Component/Retrieve.astro";
 import Record from "@Component/Record.astro";
 import Rewrite from "@Component/Rewrite.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
+import Service from "@Component/Service.astro";
 import Stream from "@Component/Stream.astro";
 import Surface from "@Component/Surface.astro";
 import Table from "@Component/Table.astro";
+import Tool from "@Component/Tool.astro";
 import Transform from "@Component/Transform.astro";
 import VersionPill from "@Component/VersionPill.astro";
 import { ArmFor } from "@Content/Arm";
@@ -227,6 +230,9 @@ const File = [
 					{Portrait.Shape === "rewrite" && <Rewrite Slug={Entry.Slug} />}
 					{Portrait.Shape === "record" && <Record Slug={Entry.Slug} />}
 					{Portrait.Shape === "advise" && <Advise Slug={Entry.Slug} />}
+					{Portrait.Shape === "tool" && <Tool Slug={Entry.Slug} />}
+					{Portrait.Shape === "service" && <Service Slug={Entry.Slug} />}
+					{Portrait.Shape === "bundle" && <Bundle Slug={Entry.Slug} />}
 				</div>
 			</section>
 		)
@@ -237,7 +243,7 @@ const File = [
 			<section class="section">
 				<SectionHeader
 					Title="Flow"
-					Lede="The order this hook's work happens in, with the branch that decides it inline, transcribed from the source and from the corpus where the corpus draws it."
+					Lede="The order this package's work happens in, with the branch that decides it inline, transcribed from the source and from the corpus where the corpus draws it."
 				/>
 				<div class="section__body">
 					<Flow Stage={Current.Stage} Rule={Current.Rule} />

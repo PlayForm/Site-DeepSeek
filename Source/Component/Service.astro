@@ -80,7 +80,7 @@ const Service: Record<string, Service> = {
 	},
 	"plugin-dsh-batchstate": {
 		Name: "ctx.batchstate",
-		Rule: "The board records and projects, and it writes no file beyond its ledger and the fallback state file. The service and the spliced block read the live state, never a copy of it.",
+		Rule: "The board records and projects, and the service and the spliced block read the live state rather than a copy of it.",
 		Method: [
 			{ Name: "getState", Meaning: "the whole board: the members, the queue, the proposals, and the gates" },
 			{ Name: "getContext", Meaning: "one agent's compiled context block" },
@@ -140,7 +140,7 @@ const Service: Record<string, Service> = {
 	},
 	"plugin-dsh-lesson-review": {
 		Name: "ctx.lesson",
-		Rule: "The service owns the review and never the trigger. The shipped write verdict is approve, so an accepted operation waits, and even an auto verdict keeps the judge and the exact-file fence.",
+		Rule: "The service owns the review and never the trigger, and the shipped write verdict is approve, so an accepted operation waits even when the judge would pass it.",
 		Method: [
 			{ Name: "Configure", Meaning: "apply the validated knobs" },
 			{ Name: "Tick", Meaning: "advance the nudge counter for one agent" },
@@ -226,7 +226,7 @@ const Service: Record<string, Service> = {
 	},
 	"plugin-dsh-route": {
 		Name: "ctx.dshRoute",
-		Rule: "Silence is the contract: no warning and no error, because the launch succeeds exactly as if the caller had passed the right values. The ledger line is the only record.",
+		Rule: "Silence is the contract: the launch succeeds exactly as if the caller had passed the right values, and the ledger line is the only record.",
 		Method: [
 			{ Name: "Resolve", Meaning: "the deterministic role resolution: same request and policy, same route" },
 			{ Name: "Classify", Meaning: "the keyword inference for one spec text" },
@@ -353,7 +353,10 @@ const Entry = Service[Slug] ?? Service[Slug.replace(/^ets-/, "")];
 			<div class="service__main">
 				<span class="service__label">Service</span>
 				<span class="service__name">{Entry.Name}</span>
-				<span class="service__label">Methods</span>
+				<div class="service__group">
+					<span class="service__label">Methods</span>
+					<span class="service__count">{Entry.Method.length}</span>
+				</div>
 				<ol class="service__method">
 					{Entry.Method.map((Item) => (
 						<li class="service__row">
@@ -364,7 +367,10 @@ const Entry = Service[Slug] ?? Service[Slug.replace(/^ets-/, "")];
 				</ol>
 			</div>
 			<div class="service__side">
-				<span class="service__label">Consumed by</span>
+				<div class="service__group">
+					<span class="service__label">Consumed by</span>
+					<span class="service__count">{Entry.Consumer.length}</span>
+				</div>
 				<ul class="service__consumer">
 					{Entry.Consumer.map((Item) => (
 						<li class="service__read">{Item}</li>

@@ -37,6 +37,22 @@
 		@include Material.label;
 	}
 
+	// The group head is the label and its count on one baseline, the way the
+	// corpus labels a rail group: the count is a fact about the list, so it
+	// sits beside the name rather than in a sentence.
+	&__group {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-2);
+	}
+
+	&__count {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		font-variant-numeric: tabular-nums;
+		color: var(--color-ink-faint);
+	}
+
 	&__name {
 		font-family: var(--font-mono);
 		font-size: var(--text-sm);

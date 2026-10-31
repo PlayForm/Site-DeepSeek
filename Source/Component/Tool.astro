@@ -2,18 +2,24 @@
 import "@Stylesheet/Component/Tool.scss";
 
 // The tool: the package's work is the callable surface it registers, so the
-// picture is a register: one row per call, what the call takes, and what it
-// hands back, with the seam the names live on stated once above them.
+// picture is a register: one entry per call, with what the call takes and what
+// it hands back, and the seam the names live on stated once above them.
+//
+// The register is a register and not a table: no column heads, no cells, one
+// object per call with its name as the head and two labelled facts under it.
+// The corpus measured that grammar on the object panel and on the plugin
+// page's contract rows, and it is the right one here because a call's takes
+// and returns are sentences rather than cells.
 //
 // The seam is a field rather than a constant, because the family registers two
 // kinds of callable and only one of them is a tool. A model-facing tool is
 // registered on the tools seam; the cost family's surface is five verbs on the
 // commands service, which the README says in as many words is not a tool and
 // never enters the model context. Printing a command as a tool would be a lie
-// a reader would catch, so the register names its own seam and the rows are
+// a reader would catch, so the register names its own seam and the entries are
 // the calls a reader can actually make.
 //
-// The rows are transcribed from each package's tool definition or command
+// The entries are transcribed from each package's tool definition or command
 // handler: the action table of `Source/Function/Tools.ts` for the batch edit
 // engine, the five verbs of `Source/Function/Apply.ts` for the cost ledger,
 // the one verb of the analysis half, the two registrations of the normalizer,
@@ -48,7 +54,7 @@ const { Slug } = Astro.props;
 const Tool: Record<string, Tool> = {
 	"plugin-dsh-batch-edit": {
 		Seam: "the tools seam: one tool, and the action is its first field",
-		Rule: "The tool is a machine rather than a call: open declares the scope, insert and remove move files in and out, commit runs the table, state re-presents, and close settles. Every write goes through the factory's executor, behind the policy's write verdict.",
+		Rule: "The tool is a machine rather than a call: open declares the scope, insert and remove move files in and out, commit runs the table, state re-presents, and close settles.",
 		Call: [
 			{
 				Name: "batch_edit, action=open",
@@ -85,7 +91,7 @@ const Tool: Record<string, Tool> = {
 	},
 	"plugin-dsh-cost": {
 		Seam: "the commands service: one command, five verbs, and no model-visible surface",
-		Rule: "None of the five is a tool, and none enters the model context: a command renders its text outside the history, and every figure it prints is read from the provider's own usage.",
+		Rule: "None of the five is a tool, and none enters the model context: a command renders its text outside the history.",
 		Call: [
 			{
 				Name: "/cost report",
@@ -129,7 +135,7 @@ const Tool: Record<string, Tool> = {
 	},
 	"plugin-dsh-normalize-file": {
 		Seam: "the tools seam for the file call, and the commands service for the one-shot overpass",
-		Rule: "One agent-chosen file per call: the tool reads, applies the family's six transforms with a count, and writes only when the count is above zero, through the factory's one write executor.",
+		Rule: "One agent-chosen file per call: the tool reads, applies the family's six transforms with a count, and writes only when the count is above zero.",
 		Call: [
 			{
 				Name: "normalize-file",
@@ -146,7 +152,7 @@ const Tool: Record<string, Tool> = {
 	},
 	"plugin-dsh-workspace": {
 		Seam: "the tools seam: five tools over the graph, four of them reads",
-		Rule: "Every tool returns a compact table plus ids, never a file body, and pagination is by cursor. The one tool that changes anything is the index trigger, and it delegates the walk to the graph service.",
+		Rule: "Every tool returns a compact table plus ids, never a file body, and the one tool that changes anything is the index trigger.",
 		Call: [
 			{
 				Name: "workspace_map",
@@ -189,17 +195,24 @@ const Entry = Tool[Slug] ?? Tool[Slug.replace(/^ets-/, "")];
 				<span class="tool__seam">{Entry.Seam}</span>
 			</div>
 			<p class="tool__rule">{Entry.Rule}</p>
-			<div class="tool__head">
-				<span class="tool__head-cell">Name</span>
-				<span class="tool__head-cell">Takes</span>
-				<span class="tool__head-cell">Returns</span>
+			<div class="tool__meta">
+				<span class="tool__label">Calls</span>
+				<span class="tool__count">{Entry.Call.length}</span>
 			</div>
-			<ol class="tool__register">
+			<ol class="tool__calls">
 				{Entry.Call.map((Item) => (
-					<li class="tool__row">
+					<li class="tool__call">
 						<span class="tool__name">{Item.Name}</span>
-						<span class="tool__takes">{Item.Takes}</span>
-						<span class="tool__returns">{Item.Returns}</span>
+						<dl class="tool__facts">
+							<div class="tool__row">
+								<dt class="tool__label">Takes</dt>
+								<dd class="tool__value">{Item.Takes}</dd>
+							</div>
+							<div class="tool__row">
+								<dt class="tool__label">Returns</dt>
+								<dd class="tool__value tool__value--answer">{Item.Returns}</dd>
+							</div>
+						</dl>
 					</li>
 				))}
 			</ol>

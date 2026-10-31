@@ -26,20 +26,15 @@ interface Props {
 
 const { Tick, Mark } = Astro.props;
 
-// The band is drawn here rather than by a library: a scale, a tick per label,
-// a dot per event, and a bracket over the span the events occupy are geometry
-// a few lines of arithmetic express exactly.
-const Width = 760;
-const Height = 120;
-const Pad = 52;
-const Band = 54;
-const Axis = 66;
-
+// The band borrows the lane's mechanic: a relative track, every position a
+// percentage, and an axis of labels under it. The window is the span the marks
+// occupy, bracketed over the track. A percentage keeps the shape at any width
+// and keeps the labels at the site's type size instead of scaling a viewBox.
 const Values = [...Tick.map((Entry) => Entry.At), ...Mark.map((Entry) => Entry.At)];
 const Min = Values.length > 0 ? Math.min(...Values) : 0;
 const Max = Values.length > 0 ? Math.max(...Values) : 1;
 const Span = Max - Min || 1;
-const X = (At: number) => Pad + ((At - Min) / Span) * (Width - Pad * 2);
+const X = (At: number) => ((At - Min) / Span) * 100;
 
 // The selected window is the span the marks occupy: the part of the labelled
 // band the run actually fills. A band whose marks reach both ends selects the
@@ -49,61 +44,40 @@ const First = Mark.length > 0 ? Math.min(...Mark.map((Entry) => Entry.At)) : Min
 const Last = Mark.length > 0 ? Math.max(...Mark.map((Entry) => Entry.At)) : Min;
 const WindowLeft = X(First);
 const WindowRight = X(Last);
-const Bracket = `M ${WindowLeft.toFixed(2)} 44 L ${WindowLeft.toFixed(2)} 36 L ${WindowRight.toFixed(2)} 36 L ${WindowRight.toFixed(2)} 44`;
 ---
 
 <figure class="ribbon">
-	<svg
+	<div
 		class="ribbon__plot"
-		viewBox={`0 0 ${Width} ${Height}`}
 		role="img"
-		aria-label={`A band of ${Tick.length} labelled tick and ${Mark.length} event; the bracket marks the window the marks occupy`}>
-		<rect class="ribbon__band" x={Pad} y={Band} width={Width - Pad * 2} height={24} />
-		<line class="ribbon__axis" x1={Pad} y1={Axis} x2={Width - Pad} y2={Axis} />
+		aria-label={`A band of ${Tick.length} labelled tick: ${Tick.map((Entry) => Entry.Label).join(", ")}; ${Mark.length} event, with the bracket marking the window the marks occupy`}>
+		<span class="ribbon__band" aria-hidden="true" />
+		<span class="ribbon__axis" aria-hidden="true" />
 
 		{Mark.length > 0 && (
-			<g class="ribbon__window">
-				<path class="ribbon__bracket" d={Bracket} />
-				<text
-					class="ribbon__window-label"
-					x={(WindowLeft + WindowRight) / 2}
-					y={26}
-					text-anchor="middle">
-					{Mark.length}&nbsp;event
-				</text>
-			</g>
+			<span
+				class="ribbon__window"
+				style={{ left: `${WindowLeft}%`, width: `${WindowRight - WindowLeft}%` }}>
+				<span class="ribbon__window-label">{Mark.length}&nbsp;event</span>
+			</span>
 		)}
 
 		{Tick.map((Entry) => (
-			<g class="ribbon__tick">
-				<line
-					class="ribbon__tick-line"
-					x1={X(Entry.At)}
-					y1={Band + 24}
-					x2={X(Entry.At)}
-					y2={Band + 32}
-				/>
-				<text
-					class="ribbon__tick-label"
-					x={X(Entry.At)}
-					y={102}
-					text-anchor="middle">
-					{Entry.Label}
-				</text>
-			</g>
+			<span class="ribbon__tick" style={{ left: `${X(Entry.At)}%` }}>
+				<span class="ribbon__tick-line" aria-hidden="true" />
+				<span class="ribbon__tick-label">{Entry.Label}</span>
+			</span>
 		))}
 
 		{Mark.map((Entry) => (
-			<circle
+			<span
 				class="ribbon__mark"
 				data-kind={Entry.Kind ?? "ok"}
-				cx={X(Entry.At)}
-				cy={Axis}
-				r={3.5}>
-				<title>{Entry.Label}</title>
-			</circle>
+				title={Entry.Label}
+				style={{ left: `${X(Entry.At)}%` }}
+			/>
 		))}
-	</svg>
+	</div>
 
 	<figcaption class="ribbon__caption">
 		The bracket is the window the marks occupy; a warn mark is drawn in the caution colour.

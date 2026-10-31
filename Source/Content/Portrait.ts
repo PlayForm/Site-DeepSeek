@@ -32,7 +32,7 @@ export interface Portrait {
 	Role: string;
 	/** What it plugs into, named: the service, the tab, the layer. */
 	Plugs: string;
-	/** The things it does, each a phrase; the last says so when the flow carries it. */
+	/** The things it does, each a phrase; the last may say so when the flow carries it. */
 	Does: string[];
 	/** The one visual that fits this package's kind. */
 	Shape:
@@ -546,6 +546,295 @@ export const Portrait: Portrait[] = [
 			"Its flow is the interesting part: the ladder is the hook, and the deny is only its last rung",
 		],
 		Shape: "advise",
+	},
+
+	// The twenty-three plugin packages. Each of these registers something the
+	// harness or a sibling calls - a tool, a service, or a bundle - so the
+	// shape is chosen by what the package registers rather than by the seam it
+	// happens to answer at. Every record here also has a flow in
+	// `Source/Content/Current.ts`, because a plugin's order is where its two
+	// halves meet: the register says what a caller gets, the flow says when.
+	{
+		Slug: "plugin-dsh-batch-edit",
+		Role: "The batch edit engine: files opened as processes, and one commit that runs a transition table across them",
+		Plugs:
+			"the batch_edit tool, the factory's write executor, and the fs/observed event through the factory's Wire",
+		Does: [
+			"Machines opened over globs, each file held at its observed version",
+			"A prepared schema checked fail-loud, and a miss listed rather than guessed",
+			"Every write through the factory's executor, behind the policy's verdict",
+			"A halt on a file that moved, and an explicit resume",
+		],
+		Shape: "tool",
+	},
+	{
+		Slug: "plugin-dsh-batchstate",
+		Role: "The live state board of the cooperative batch, compiled on every change and read by every lane",
+		Plugs: "the batchstate service, the agent-team inbox splice, and the batch/state-change event",
+		Does: [
+			"The members, their current activity, the queue, and the gates",
+			"The parent's activations and the agents' reports as one write API",
+			"Every change persisted, then compiled into the block a lane reads",
+			"The inbox splice, de-duplicated on the message id",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-boot",
+		Role: "The detached mount rail that keeps the family off the harness's boot path",
+		Plugs: "the loader's apply, and the specifiers a profile lists under mount:",
+		Does: [
+			"apply returns before any family plugin is imported",
+			"Each specifier mounted on the next turn, in config order",
+			"A failed import contained to one warning and one skip",
+			"A failed specifier retried on the next boot",
+		],
+		Shape: "bundle",
+	},
+	{
+		Slug: "plugin-dsh-cost",
+		Role: "The per-file inference cost ledger, priced from the session log and read back through five commands",
+		Plugs: "the session/event and session/flush listeners, one SQLite ledger, and the cost command",
+		Does: [
+			"Every call priced from the provider's usage, split across the files it touched",
+			"Output by changed bytes, input by each file's cached and uncached mass",
+			"The stage, the branch, and the read-before-edit, at capture time",
+			"Five verbs over the ledger, and no model-visible surface",
+		],
+		Shape: "tool",
+	},
+	{
+		Slug: "plugin-dsh-cost-analysis",
+		Role: "The read-only analysis half: contribution and efficiency readings over the cost ledger",
+		Plugs: "the same SQLite file the cost plugin wrote, opened readOnly, and one analysis command",
+		Does: [
+			"A file credited with the cache saving its reads produced",
+			"Cost per surviving line, against the files read before the edit",
+			"Hunk lines, so a refactor reads next to a one-line fix",
+			"The money no file paid for, and the cache's share of a file",
+		],
+		Shape: "tool",
+	},
+	{
+		Slug: "plugin-dsh-factory",
+		Role: "The furnace of the family: one service holding the ledger, the gate, the write, and the fold every plugin used to copy",
+		Plugs: "the ctx.pluginFactory service, the ctx.trace bus it provides, and the fs service it injects",
+		Does: [
+			"A consumer's state, from the shared cells and the module's own fields",
+			"The gate set, then one executor with the version fence and the re-emit",
+			"A transform detached and contained, so a throw is one line",
+			"The direct-govern fold, in registered order, one try/catch per step",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-feedback",
+		Role: "The honest feedback member: the agents' signals, carried up the tree and appended to, never sanitized",
+		Plugs: "the ctx.feedback service and the JSONL journal it writes",
+		Does: [
+			"A block stored in its session's record, and journaled",
+			"One hop to the parent, and one link on the transferred chain",
+			"A parent's append, and a recipient's optional read",
+			"The clusters, the unread count, and the batch outcomes",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-gitguard",
+		Role: "The deny-list that makes git read-only in a session, whatever the skills say",
+		Plugs: "the tools/pre-execute waterfall on the terminal surface, and the factory's exclusion match",
+		Does: [
+			"A compound command split, and every git subcommand read",
+			"A mutation denied, and the read-only checks allowed",
+			"The refusal once, as the pre-execute decision",
+			"An unreadable command passed, and its own errors failed open",
+		],
+		Shape: "gate",
+	},
+	{
+		Slug: "plugin-dsh-ingester",
+		Role: "The only writer of the batch flow: an approved proposal, applied under a version fence",
+		Plugs:
+			"the ctx.ingester service, the batch/proposed and batch/decision events, and the governed filesystem",
+		Does: [
+			"A proposal recorded from the bus, within the ring bound",
+			"A decision resolved to its proposal, and a stranger refused",
+			"Each target's hash compared with its prepare-time version",
+			"One version-fenced edit per operation, and an honest conflict",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-lesson-review",
+		Role: "The post-turn self-improvement review: a digest, one ask, a strict parse, and a deterministic judge",
+		Plugs: "the ctx.lesson service, the review model, and the lesson corpus",
+		Does: [
+			"A digest with a verbatim tail and a hard character cap",
+			"One ask, with the constant prompt",
+			"A strict parse, and a deterministic judge",
+			"Accepted operations queued, because the write verdict is approve",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-normalize-file",
+		Role: "The file-content normalizer: the family's six transforms, run on a file already on disk",
+		Plugs: "the normalize-file tool, the normalize-overpass command, and the factory's write executor",
+		Does: [
+			"One file read, the six tables applied, a per-character count",
+			"A write only when the count is above zero",
+			"A one-shot overpass over tool results or a step batch",
+			"One journal record per rewrite, and none for a no-op",
+		],
+		Shape: "tool",
+	},
+	{
+		Slug: "plugin-dsh-pass-on",
+		Role: "The prepare direction of the batch flow: an intent turned into a proposal, and nothing written",
+		Plugs: "the ctx.passOn service, the batch/proposed event, and the agent-team inbox",
+		Does: [
+			"Targets resolved, and operations synthesized for three kinds",
+			"A bounded preview, and a digest over targets and operations",
+			"No batch at all when the intent is ambiguous or empty",
+			"One proposal on the bus, and one in the inbox",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-pattern",
+		Role: "The registry, matcher, and learner behind the suggester family",
+		Plugs: "the ctx.pattern service, the storage domain or the JSON snapshot, and the suggester hooks",
+		Does: [
+			"A lookup and arithmetic, never a model call",
+			"An abstention under the threshold, and inside the epsilon",
+			"Confidence moved by accepted, rejected, applied, or failed",
+			"The stale patterns decayed, and the registry saved",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-queue",
+		Role: "The subagent queue: tasks as data, a seat per slot, and a spawn only when the policy allows it",
+		Plugs:
+			"the ctx.dshQueue service, the queue_enqueue and queue_status tools, and the harness subagent service",
+		Does: [
+			"A task queued with its spec verbatim",
+			"Dependencies, then priority, then enqueue order",
+			"A route resolved silently, or an unrouted dispatch",
+			"A spawn held by the policy, and a seat released by the child",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-route",
+		Role: "The silent route policy: the lane resolved at launch, and the child told which lane it is on",
+		Plugs: "the ctx.dshRoute service, the subagent tool's tools/pre-execute, and the child's agent/pre-step",
+		Does: [
+			"A missing route resolved, and an explicit one corrected",
+			"The role inferred from the spec when none is declared",
+			"The route line appended to the prompt, once",
+			"The escalation rung verified against the live catalog",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-workspace",
+		Role: "The workspace agent: the conversation's five tools over the workspace graph",
+		Plugs: "the five workspace tools, the workspaceGraph service, and the workspaceContext packet",
+		Does: [
+			"Modules, roles, entry points, and hot symbols",
+			"A node by name or pattern, paged by cursor",
+			"A node's neighbors, and the kinds still deferred",
+			"The packet, and the index that fills an empty graph",
+		],
+		Shape: "tool",
+	},
+	{
+		Slug: "plugin-dsh-workspace-authority",
+		Role: "The authority step: a capability, a lease, and a residency record, kept apart on purpose",
+		Plugs: "the ctx.workspaceAuthority service and the residency rule table",
+		Does: [
+			"A capability over a resource, and one operation authorized",
+			"A lease with a TTL, expired lazily",
+			"A residency with its weight, which ranks and decides nothing",
+			"keep for an open lease or an active capability, and the rule table for the rest",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-workspace-context",
+		Role: "The context economy: the eight-section orientation packet, clamped to a token budget",
+		Plugs:
+			"the ctx.workspaceContext service, the workspace_context tool, and the graph's invalidation event",
+		Does: [
+			"The packet from the graph's snapshot, through the caller's lens",
+			"Neighbors ranked by edge strength, each section bounded",
+			"The weakest neighbor dropped first, then the open and evidence lines",
+			"A memo the graph's invalidation clears",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-workspace-evidence",
+		Role: "The validation objects, and the invalidation pass that keeps them honest",
+		Plugs:
+			"the ctx.workspaceEvidence service, the fs/observed listener through the factory's Wire, and the storage domain",
+		Does: [
+			"One validation with its kind, subject, dependencies, and verdict",
+			"Every dependent marked stale in one pass",
+			"A stale object never guessed back to fresh",
+			"A repeat event dropped silently, on the version token",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-workspace-graph",
+		Role: "The workspace index: files, symbols, blocks, and tests, with the edges between them",
+		Plugs: "the ctx.workspaceGraph service, the observe/stamp bus subscription, and the storage domain",
+		Does: [
+			"One file through the gates, the parser, and the reference query",
+			"A deterministic walk, capped at the file bound",
+			"graph/indexed or graph/invalidated, so the consumers know",
+			"A neighborhood from contains and imports, and nothing faked",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-workspace-reflect",
+		Role: "The one-call reflective operations: a rename, a connect, or a replace over the managed representations",
+		Plugs: "the ctx.workspaceReflect service, the policy's write verdict, and the factory's guarded write",
+		Does: [
+			"A rename through the semantics plan, else the whole-word engine",
+			"A connect that refuses a connection already there",
+			"A replace after the fingerprint check, inside the block bound",
+			"A reply union, never a boolean or a throw",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "plugin-dsh-workspace-semantics",
+		Role: "The semantic model: the symbols, the references, the dependencies, and the rename plan",
+		Plugs:
+			"the ctx.workspaceSemantics service, the fs/observed listener on the root context, and the optional lsp seam",
+		Does: [
+			"A file resolved lazily through its adapter",
+			"The references the graph asks for, and the symbols a caller asks for",
+			"A rename plan per adapter, or undefined",
+			"The lsp deepener, with the lexical list as the fallback",
+		],
+		Shape: "service",
+	},
+	{
+		Slug: "ets-base-dsh",
+		Role: "The ETS base: the contracts, the stream mechanism, and the four Effect service layers the factory materializes",
+		Plugs: "the ets-plugin-dsh-factory runtime, the ets-hook bundles, and the effect dependency",
+		Does: [
+			"The contracts every ETS package types against",
+			"The stream dispatch, the gate transformer, and the update envelope",
+			"The ledger, journal, write, and govern layers, as one graph",
+			"One runtime, which the factory's methods delegate into",
+		],
+		Shape: "layer",
 	},
 ];
 

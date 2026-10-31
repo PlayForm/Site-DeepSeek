@@ -1,8 +1,9 @@
 @use "../Material.scss" as Material;
 
-// The ribbon: a labelled band with one mark per event and the window the
-// marks occupy bracketed above it. A mark is a dot; a warn dot is the caution
-// colour, so the band never needs a second hue to say which events it flags.
+// The ribbon borrows the lane's mechanic: a relative track with every position
+// a percentage, an axis of labels under it, and a bracket over the span the
+// marks occupy. The band is a front strip on the inset tray; a mark is a dot,
+// and a warn dot is the caution colour.
 .ribbon {
 	@include Material.tray;
 
@@ -13,56 +14,100 @@
 	padding: var(--rhythm-inset);
 
 	&__plot {
-		width: 100%;
-		height: auto;
+		position: relative;
+		height: 120px;
 	}
 
 	&__band {
-		fill: var(--cabinet-front);
-		stroke: var(--cabinet-line);
-		stroke-width: 1;
+		position: absolute;
+		top: 54px;
+		left: 0;
+		right: 0;
+		height: 24px;
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
 	}
 
 	&__axis {
-		stroke: var(--color-line-strong);
-		stroke-width: 1;
+		position: absolute;
+		top: 66px;
+		left: 0;
+		right: 0;
+		border-top: 1px solid var(--color-line-strong);
 	}
 
-	&__tick-line {
-		stroke: var(--color-line-strong);
-		stroke-width: 1;
-	}
-
-	&__tick-label {
-		fill: var(--color-ink-faint);
-		font-family: var(--font-mono);
-		font-size: 10px;
-	}
-
-	&__mark {
-		stroke: var(--cabinet-front);
-		stroke-width: 1;
-
-		&[data-kind="ok"] {
-			fill: var(--color-ink-muted);
-		}
-
-		&[data-kind="warn"] {
-			fill: var(--color-warn);
-			stroke: var(--color-warn-soft);
-		}
-	}
-
-	&__bracket {
-		fill: none;
-		stroke: var(--color-accent);
-		stroke-width: 1;
+	&__window {
+		position: absolute;
+		top: 36px;
+		height: 8px;
+		border-top: 1px solid var(--color-accent);
+		border-left: 1px solid var(--color-accent);
+		border-right: 1px solid var(--color-accent);
 	}
 
 	&__window-label {
-		fill: var(--color-accent-ink);
+		position: absolute;
+		top: -18px;
+		left: 50%;
+		transform: translateX(-50%);
 		font-family: var(--font-mono);
 		font-size: 10px;
+		color: var(--color-accent-ink);
+		white-space: nowrap;
+	}
+
+	&__tick {
+		position: absolute;
+		top: 78px;
+		transform: translateX(-50%);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2px;
+	}
+
+	&__tick-line {
+		width: 1px;
+		height: 8px;
+		background: var(--color-line-strong);
+	}
+
+	&__tick-label {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		color: var(--color-ink-faint);
+		white-space: nowrap;
+	}
+
+	&__mark {
+		position: absolute;
+		top: 66px;
+		width: 7px;
+		height: 7px;
+		transform: translate(-50%, -50%);
+		border-radius: 50%;
+		background: var(--color-ink-muted);
+		transition: background var(--motion-crisp) var(--ease-crisp);
+
+		// The visible dot is 7px; the hit area is 19px, so a title is easy to
+		// reach without painting a larger mark.
+		&::before {
+			content: "";
+			position: absolute;
+			inset: -6px;
+		}
+
+		&:hover {
+			background: var(--color-accent);
+		}
+
+		&[data-kind="warn"] {
+			background: var(--color-warn);
+		}
+
+		&[data-kind="warn"]:hover {
+			background: var(--color-accent);
+		}
 	}
 
 	&__caption {
@@ -70,5 +115,11 @@
 		font-size: var(--text-sm);
 		line-height: var(--leading-body);
 		color: var(--color-ink-muted);
+	}
+
+	@media (max-width: 720px) {
+		&__tick-label {
+			font-size: 9px;
+		}
 	}
 }

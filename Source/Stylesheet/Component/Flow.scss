@@ -184,6 +184,28 @@
 		color: var(--color-ink-muted);
 	}
 
+	// A long note sits behind a disclosure, so the row keeps its one line and
+	// the reader opens the reason only when the row raises a question.
+	&__why {
+		display: block;
+
+		&[open] {
+			margin-top: var(--space-1);
+		}
+	}
+
+	&__summary {
+		@include Material.label;
+
+		width: fit-content;
+		color: var(--color-ink-faint);
+		cursor: pointer;
+
+		&:hover {
+			color: var(--color-accent-ink);
+		}
+	}
+
 	// The seam row's strip: the atom's own gap is tuned for a row of stages,
 	// and a row holds one.
 	&__stage .pipeline {

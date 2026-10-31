@@ -73,6 +73,7 @@
 	&__index {
 		font-family: var(--font-mono);
 		font-size: var(--text-xs);
+		font-variant-numeric: tabular-nums;
 		line-height: var(--leading-body);
 		color: var(--color-accent-ink);
 	}

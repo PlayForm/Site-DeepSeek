@@ -39,7 +39,7 @@ const { Slug } = Astro.props;
 const Bundle: Record<string, Bundle> = {
 	"plugin-dsh-boot": {
 		Rail: "the loader's apply, on the harness's own boot rail",
-		Rule: "The rail exists because a plugin that awaits inside apply holds the harness's ready message open, and a stuck fiber leaves the host loading with no error anywhere. This bundle's apply schedules the mounts and returns.",
+		Rule: "A plugin that awaits inside apply holds the harness's ready message open, and a stuck fiber leaves the host loading with no error anywhere, so this bundle's apply schedules the mounts and returns.",
 		Part: [
 			{
 				Name: "the mount list",
@@ -63,7 +63,7 @@ const Bundle: Record<string, Bundle> = {
 			},
 		],
 		Contain:
-			"An import that throws, or a plugin whose apply rejects, is logged once as a warning and skipped. The failure is dropped from the mounted set, so a later boot retries it, and nothing reaches the rail.",
+			"An import that throws, or a plugin whose apply rejects, is logged once as a warning, dropped from the mounted set so a later boot retries it, and never reaches the rail.",
 	},
 };
 

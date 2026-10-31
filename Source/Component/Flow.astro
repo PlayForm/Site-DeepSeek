@@ -27,8 +27,8 @@ import type { Stage } from "@Content/Current";
 // itself, so the picture stays quiet where the flow is ordinary and loud
 // where it forks, stores, or refuses.
 //
-// The stages are typed in `Source/Content/Current.ts`, beside the fifteen
-// flows, so the data and the drawing cannot drift apart.
+// The stages are typed in `Source/Content/Current.ts`, beside the flows, so
+// the data and the drawing cannot drift apart.
 interface Props {
 	/** The package's flow, in order, with branches inline. */
 	Stage: Stage[];
@@ -58,7 +58,15 @@ const { Stage: Entry, Rule } = Astro.props;
 							<span class="flow-line__label">{Item.Label}</span>
 						</span>
 					)}
-					{Item.Note !== undefined && <span class="flow-line__note">{Item.Note}</span>}
+					{Item.Note !== undefined && (
+						// The row is the picture; the note is the reason. It stays
+						// behind a disclosure so a fifteen-stage flow reads as fifteen
+						// labels and not as fifteen sentences.
+						<details class="flow-line__why">
+							<summary class="flow-line__summary">why</summary>
+							<p class="flow-line__note">{Item.Note}</p>
+						</details>
+					)}
 				</div>
 			</li>
 		))

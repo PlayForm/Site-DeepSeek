@@ -15,11 +15,13 @@
 //     body, and the service module for a hook whose work is a call rather
 //     than an event.
 //
-// The eleven packages with no corpus diagram are authored from their
-// `Apply.ts` alone: the workspace family, the batch decision, the lesson
-// nudge, and the test suggester. A flow is data rather than prose because
-// the page compares one package against another, and a sentence would have
-// to be read twice to see the same shape.
+// The packages with no corpus diagram are authored from their `Apply.ts`
+// alone: the workspace family, the batch decision, the lesson nudge, and the
+// test suggester. The plugin packages add the other direction: a plugin's flow
+// is the sequence its register does not show, read from the entry module and
+// the Function module each stage names. A flow is data rather than prose
+// because the page compares one package against another, and a sentence would
+// have to be read twice to see the same shape.
 //
 // The twins do not differ in control flow. Every `ets-` package registers the
 // same listeners in the same order and composes the same ledger strings, and
@@ -954,6 +956,1168 @@ export const Current: Current[] = [
 			},
 		],
 		Rule: "The ladder escalates in one direction and only on judged terminal calls: the notice teaches, the section persists, the deny comes last and is off by default, and discovery and control are never denied.",
+	},
+
+	// The plugin packages. A plugin is not a listener, so its flow is not the
+	// seam it answers at: it is the sequence its register does not show - the
+	// gate before a write, the detach after apply, the fence before an apply,
+	// the drop that keeps a packet inside its budget. Each of these is
+	// transcribed from the package's entry module and from the Function module
+	// the stage names, and the three the corpus draws - the factory, the core
+	// library, and the ETS base - follow their own diagrams in
+	// `Diagram/01-foundation/`.
+	{
+		Slug: "plugin-dsh-factory",
+		Stage: [
+			{
+				Label: "loader apply",
+				Kind: "seam",
+				Note: "The bundle row mounts the class plugin, and the constructor registers pluginFactory on the context.",
+			},
+			{
+				Label: "inject: a consumer declares fs and pluginFactory",
+				Kind: "step",
+				Note: "The loader holds the consumer PENDING until the service exists, so the bundle order never decides whether a hook can start.",
+			},
+			{
+				Label: "State: unwrap the volatile cells, and map the shared fields and the module's own",
+				Kind: "step",
+				Note: "A volatile edit commits through the loader's update dispatch, in place, with no remount.",
+			},
+			{
+				Label: "Gate: target, govern marker, actor, kind, stash idempotence, basename, exclusion",
+				Kind: "step",
+				Note: "The gate set logs nothing, because the consumer composes its own lines.",
+			},
+			{
+				Label: "a gate verdict other than pass",
+				Kind: "branch",
+				Note: "The consumer stops before the write, and says so in its own line.",
+			},
+			{
+				Label: "Write: intent, policy, observe, stash, transform, then the write itself",
+				Kind: "step",
+				Note: "One executor, with replaceIfVersion at the observed version.",
+			},
+			{
+				Label: "Refresh: re-emit fs/observed with the fresh version, under the same actor",
+				Kind: "step",
+				Note: "The observation record stays current, so the author's next write is not a conflict.",
+			},
+			{
+				Label: "a governed basename",
+				Kind: "branch",
+				Note: "The direct-govern fold runs the registered steps in order, awaited, one try/catch per step.",
+			},
+			{
+				Label: "Append: the consumer's message to the logger and to its own ledger file",
+				Kind: "step",
+				Note: "The factory owns no string of its own.",
+			},
+			{
+				Label: "~/.dsh/<identity>.log",
+				Kind: "store",
+				Note: "One log per module, with the module as the line prefix.",
+			},
+			{
+				Label: "a consumer throw",
+				Kind: "fail",
+				Note: "Contained: one logger-only line, and the host keeps running.",
+			},
+		],
+		Rule: "The factory owns the mechanism and none of the words: the consumer composes its line, and every primitive is contained, so a broken consumer cannot break the host.",
+	},
+	{
+		Slug: "lib-dsh-core",
+		Stage: [
+			{
+				Label: "import a named export from Target/",
+				Kind: "step",
+				Note: "No context, no service, and no registration.",
+			},
+			{
+				Label: "the consumer's config supplies the parameters",
+				Kind: "step",
+				Note: "Replace takes a table and a replacement, Policy takes the defaults, and Chunk takes the transform.",
+			},
+			{
+				Label: "the transform returns text and a count",
+				Kind: "step",
+				Note: "The count is the only thing that says whether anything changed.",
+			},
+			{
+				Label: "the count is zero",
+				Kind: "pass",
+				Note: "An identity pass-through, not a copy: the caller keeps the original payload.",
+			},
+			{
+				Label: "Refusal compares the author's manifest with the proposed one",
+				Kind: "branch",
+				Note: "A non-dependency section that would change aborts the rewrite.",
+			},
+			{
+				Label: "the consumer logs the composed line through its own Append",
+				Kind: "step",
+				Note: "The core writes nothing itself.",
+			},
+			{
+				Label: "no ledger, no logger, no Config",
+				Kind: "fail",
+				Note: "The core has no strings of its own and writes no file.",
+			},
+		],
+		Rule: "The core fails open: a read failure falls back to the module's defaults, a contained throw becomes one logger line, and a refusal refuses rather than rewriting.",
+	},
+	{
+		Slug: "ets-base-dsh",
+		Stage: [
+			{
+				Label: "import: the ETS factory imports the four service layers from the base",
+				Kind: "step",
+			},
+			{
+				Label: "composition: Layer.mergeAll over Ledger, Journal, Write, and Govern",
+				Kind: "step",
+			},
+			{
+				Label: "runtime: Effect.scoped over Layer.build materializes one runtime, in the factory's constructor",
+				Kind: "step",
+				Note: "The layers are closures over the shell's instance state, so the runtime holds no scoped resources.",
+			},
+			{
+				Label: "delegation: each factory method delegates into that runtime",
+				Kind: "step",
+				Note: "A sync method runs through Effect.runSync, and a promise seam through Effect.runPromise.",
+			},
+			{
+				Label: "no RunOptions are passed",
+				Kind: "branch",
+				Note: "The caller's abort signal rides the write seam instead of interrupting a fiber.",
+			},
+			{
+				Label: "consumers: the hooks consume the factory, never the runtime",
+				Kind: "step",
+				Note: "The base is not a plugin: no patch row, no Config, and no listener.",
+			},
+		],
+		Rule: "The layer graph composes once at the factory's construction: the base supplies the mechanism, and the consuming modules keep their own strings.",
+	},
+	{
+		Slug: "plugin-dsh-boot",
+		Stage: [
+			{
+				Label: "loader apply",
+				Kind: "seam",
+				Note: "The bundle's one row is applied while the harness is still on its boot rail.",
+			},
+			{
+				Label: "filter the mount list",
+				Kind: "step",
+				Note: "Every specifier that is a non-empty string, in the order the config lists them.",
+			},
+			{
+				Label: "the list is empty",
+				Kind: "branch",
+				Note: "apply returns at once, and nothing is scheduled.",
+			},
+			{
+				Label: "setImmediate: hand the rail back",
+				Kind: "step",
+				Note: "The loader's readiness is not held open by any import.",
+			},
+			{
+				Label: "the specifier already mounted in this process",
+				Kind: "branch",
+				Note: "Skipped, because a re-applied fiber would double-register its services.",
+			},
+			{
+				Label: "import the specifier, then mount it with an empty config",
+				Kind: "step",
+			},
+			{
+				Label: "record the specifier in the mounted set",
+				Kind: "step",
+				Note: "In memory only: the set is what the next turn consults.",
+			},
+			{
+				Label: "an import or an apply throws",
+				Kind: "fail",
+				Note: "One warning, the specifier dropped from the set, and the rail continues.",
+			},
+		],
+		Rule: "Nothing here may throw into the rail: the mount is contained per specifier, and a failure is a warning rather than a fatal.",
+	},
+	{
+		Slug: "plugin-dsh-batch-edit",
+		Stage: [
+			{
+				Label: "batch_edit, action=open",
+				Kind: "seam",
+				Note: "The scope is declared, and each path is inserted as a process at its observed version.",
+			},
+			{
+				Label: "validate the prepared schema",
+				Kind: "step",
+				Note: "Searches and operations are checked fail-loud, and a miss is listed rather than guessed.",
+			},
+			{
+				Label: "batch_edit, action=commit",
+				Kind: "seam",
+				Note: "The transition table is about to run.",
+			},
+			{
+				Label: "Decide on the policy's write verdict",
+				Kind: "branch",
+				Note: "The shipped verdict is approve, so the apply is refused with the policy line, and nothing is read or written.",
+			},
+			{
+				Label: "plan each file's operations",
+				Kind: "step",
+				Note: "A planning failure halts or errors that file alone.",
+			},
+			{
+				Label: "Write through the executor, with the fresh-stat version guard and the govern marker",
+				Kind: "step",
+				Note: "Every write goes through the executor and nothing else.",
+			},
+			{
+				Label: "a held file was touched externally",
+				Kind: "branch",
+				Note: "It halts with the stale reason, the machine stays open, and the agent resumes explicitly.",
+			},
+			{
+				Label: "a write fails",
+				Kind: "branch",
+				Note: "The loop stops, and the unwritten remainder returns to observed.",
+			},
+			{
+				Label: "settle: applied, failed, and halted per file, then the machine's committed line",
+				Kind: "step",
+			},
+			{
+				Label: "~/.dsh/playform/plugin-dsh-batch-edit.log",
+				Kind: "store",
+			},
+		],
+		Rule: "The gate is all-or-nothing on the apply loop, the machine stays open across a halt, and no plugin-owned timer exists anywhere.",
+	},
+	{
+		Slug: "plugin-dsh-gitguard",
+		Stage: [
+			{
+				Label: "tools/pre-execute on the terminal surface",
+				Kind: "seam",
+				Note: "The dispatch arrives before the command runs.",
+			},
+			{
+				Label: "the working directory matches the exclusion list",
+				Kind: "branch",
+				Note: "Out of the guard's jurisdiction, silently: next() runs.",
+			},
+			{
+				Label: "read the command, then split a compound into segments",
+				Kind: "step",
+				Note: "The split is on the shell separators, and empty segments are dropped.",
+			},
+			{
+				Label: "no segment is a git command",
+				Kind: "branch",
+				Note: "The guard judges only git, so next() runs.",
+			},
+			{
+				Label: "strict mode",
+				Kind: "branch",
+				Note: "Every git command is denied, the read-only checks included.",
+			},
+			{
+				Label: "the subcommand is allow-listed",
+				Kind: "branch",
+				Note: "The allow list wins over the deny list, so this segment passes.",
+			},
+			{
+				Label: "deny: the refusal replaces the dispatch, and next() is deliberately not called",
+				Kind: "step",
+			},
+			{
+				Label: "the ledger: denied <subcommand> (<reason>)",
+				Kind: "store",
+			},
+			{
+				Label: "no readable command, or the guard's own error",
+				Kind: "fail",
+				Note: "next() runs, because the guard never guesses and never breaks a legitimate call.",
+			},
+		],
+		Rule: "A denial surfaces once and is ledgered for the audit; it never punishes, and the read-only checks are the whole allowed set.",
+	},
+	{
+		Slug: "plugin-dsh-queue",
+		Stage: [
+			{
+				Label: "queue_enqueue, or dshQueue.Enqueue",
+				Kind: "seam",
+				Note: "A task carries its spec verbatim, its role, its priority, and its dependencies.",
+			},
+			{
+				Label: "dispatch: dependencies first, then priority, then enqueue order",
+				Kind: "step",
+			},
+			{
+				Label: "take a seat from the agent's pool, and flip the state to dispatched",
+				Kind: "step",
+			},
+			{
+				Label: "probe dshRoute and resolve the route, silently",
+				Kind: "step",
+				Note: "A missing service or a throw leaves the task unrouted, and the dispatch proceeds.",
+			},
+			{
+				Label: "autoSpawn is off",
+				Kind: "branch",
+				Note: "The assignment is ledgered, and no spawn line is written at all.",
+			},
+			{
+				Label: "the policy's spawn verdict is approve",
+				Kind: "branch",
+				Note: "The launch is held, the task keeps its seat, and it waits for the user.",
+			},
+			{
+				Label: "spawn through the harness subagent service",
+				Kind: "step",
+				Note: "The spec goes verbatim, and the resolved route goes as the child's agentOptions.",
+			},
+			{
+				Label: "the child's own result settles the task",
+				Kind: "step",
+				Note: "completed when the child stopped completed, and failed for any other stop reason.",
+			},
+			{
+				Label: "a released seat pulls the next queued task",
+				Kind: "step",
+				Note: "The idle-slot automation, when both knobs are on.",
+			},
+			{
+				Label: "the ledger and the P5 journal",
+				Kind: "store",
+				Note: "The restart reconcile's raw data.",
+			},
+		],
+		Rule: "The policy is the outer gate and the knob the inner one: an approve verdict refuses the launch even with the knob on, and a knob that is off refuses on its own and writes no line.",
+	},
+	{
+		Slug: "plugin-dsh-route",
+		Stage: [
+			{
+				Label: "tools/pre-execute on the subagent tool",
+				Kind: "seam",
+				Note: "next() is awaited first, so the downstream listeners settle before any decision.",
+			},
+			{
+				Label: "the exec is not the subagent tool, or the plugin is disabled",
+				Kind: "branch",
+				Note: "The downstream decision passes through unchanged.",
+			},
+			{
+				Label: "read the launch: the declared route, the spec text, and the escalation marker",
+				Kind: "step",
+			},
+			{
+				Label: "the spec carries the escalation marker, and the policy enables it",
+				Kind: "branch",
+				Note: "The planner rung's model is verified against the live catalog before it is used.",
+			},
+			{
+				Label: "resolve: the declared route is kept or corrected, and a missing one is resolved from the policy",
+				Kind: "step",
+				Note: "The task type comes from the declared role, else the keyword table, else the default role.",
+			},
+			{
+				Label: "write the resolved triple back into the launch arguments",
+				Kind: "step",
+			},
+			{
+				Label: "append the route line to the prompt, once",
+				Kind: "step",
+				Note: "A prompt that already carries the hint is left alone.",
+			},
+			{
+				Label: "the ledger: route <taskType> <source> <provider> <model> <effort>",
+				Kind: "store",
+			},
+			{
+				Label: "agent/pre-step at a delegated child's first step",
+				Kind: "seam",
+				Note: "The same hint, for a child started straight through the subagent service, which never passes a tool.",
+			},
+			{
+				Label: "the resolution throws",
+				Kind: "fail",
+				Note: "One warning, and the launch passes through unrouted.",
+			},
+		],
+		Rule: "The orchestrator never sees the model configuration: a resolved launch succeeds exactly as if the caller had passed the right values, and the ledger is the only record.",
+	},
+	{
+		Slug: "plugin-dsh-pass-on",
+		Stage: [
+			{
+				Label: "Prepare(intent, origin)",
+				Kind: "seam",
+				Note: "An intent names one of the three shipped kinds, and its targets.",
+			},
+			{
+				Label: "the plugin is disabled, the kind is unknown, or no target resolves",
+				Kind: "branch",
+				Note: "No batch at all, never an empty one.",
+			},
+			{
+				Label: "read each target, and hash its content",
+				Kind: "step",
+				Note: "The hash is the version the apply will check.",
+			},
+			{
+				Label: "synthesize the operation, and skip a target that would not change",
+				Kind: "step",
+				Note: "A target with no effective operation is not an operation.",
+			},
+			{
+				Label: "render the bounded preview of the matched region, before and after",
+				Kind: "step",
+			},
+			{
+				Label: "digest the targets and the operations",
+				Kind: "step",
+				Note: "The proposal id is the digest's head.",
+			},
+			{
+				Label: "publish the canonical batch on batch/proposed",
+				Kind: "step",
+				Note: "The decision hook records it, and the ingester holds it.",
+			},
+			{
+				Label: "deliver the proposal block into the agent-team inbox",
+				Kind: "step",
+				Note: "The board splices it, and no turn is started.",
+			},
+			{
+				Label: "no live agent for the origin",
+				Kind: "branch",
+				Note: "An honest inbox none line, and the bus emission still carries the proposal.",
+			},
+			{
+				Label: "~/.dsh/playform/plugin-dsh-pass-on.log",
+				Kind: "store",
+			},
+		],
+		Rule: "The pass-on is read-only: it computes the proposal, the decision decides, and the ingester applies.",
+	},
+	{
+		Slug: "plugin-dsh-ingester",
+		Stage: [
+			{
+				Label: "batch/proposed",
+				Kind: "seam",
+				Note: "The proposal is recorded within the ring bound.",
+			},
+			{
+				Label: "batch/decision",
+				Kind: "seam",
+				Note: "The decision names the proposal it resolves.",
+			},
+			{
+				Label: "the proposal was never recorded",
+				Kind: "branch",
+				Note: "Refused as unknown, and nothing is applied against a guessed proposal.",
+			},
+			{
+				Label: "claim: one apply per decision, keyed by proposal, outcome, and time",
+				Kind: "step",
+			},
+			{
+				Label: "validate: the decision references this proposal, the outcome is approved, it is not expired, and it carries operations",
+				Kind: "step",
+			},
+			{
+				Label: "the validation fails",
+				Kind: "branch",
+				Note: "Every target is reported skipped, and the run is rejected before any write.",
+			},
+			{
+				Label: "per target: resolve, stat, and hash the current content",
+				Kind: "step",
+			},
+			{
+				Label: "the hash differs from the prepare-time version",
+				Kind: "branch",
+				Note: "A conflict, not a silent overwrite; the run stops at that target by default.",
+			},
+			{
+				Label: "apply one version-fenced literal edit per operation",
+				Kind: "step",
+				Note: "A racing write between edits fails the version guard, and lands as recovery-required.",
+			},
+			{
+				Label: "report the outcome to the feedback member, and journal per target",
+				Kind: "step",
+			},
+			{
+				Label: "~/.dsh/playform/plugin-dsh-ingester.log",
+				Kind: "store",
+			},
+		],
+		Rule: "The ingester is the only writer of the batch flow, and every failure is reported honestly: a conflict, a recovery, or a skip, never an invisible intermediate state.",
+	},
+	{
+		Slug: "plugin-dsh-normalize-file",
+		Stage: [
+			{
+				Label: "the normalize-file tool",
+				Kind: "seam",
+				Note: "One agent-chosen file per call.",
+			},
+			{
+				Label: "the files scope is off",
+				Kind: "branch",
+				Note: "The unchanged result returns, with no read, no write, and no line.",
+			},
+			{
+				Label: "resolve, read, and apply the six tables in order",
+				Kind: "step",
+				Note: "Dashes, quotes, ellipsis, spaces, invisible, then fullwidth.",
+			},
+			{
+				Label: "the count is zero",
+				Kind: "branch",
+				Note: "Nothing is written, and no line is written either.",
+			},
+			{
+				Label: "write through the factory's executor, behind the version fence",
+				Kind: "step",
+			},
+			{
+				Label: "journal one normalized record, and append the count line",
+				Kind: "step",
+			},
+			{
+				Label: "~/.dsh/playform/plugin-dsh-normalize-file.log",
+				Kind: "store",
+			},
+			{
+				Label: "normalize-overpass, when a scope is armed",
+				Kind: "seam",
+				Note: "The tool-results arm prepends, and the step-batch arm rides agent/pre-step.",
+			},
+			{
+				Label: "a failed read, or an aborted write",
+				Kind: "fail",
+				Note: "No count line, and the tool reports the failure.",
+			},
+		],
+		Rule: "The rewrite is explicit and visible: the tool is the only trigger, nothing rewrites in the background, and a zero count writes nothing at all.",
+	},
+	{
+		Slug: "plugin-dsh-cost",
+		Stage: [
+			{
+				Label: "session/event",
+				Kind: "seam",
+				Note: "A committed session event arrives; the recorder pushes it into the capture queue and never awaits.",
+			},
+			{
+				Label: "queue by session",
+				Kind: "step",
+				Note: "No I/O on the event path, so a throw can never fail the tool call that produced the event.",
+			},
+			{
+				Label: "session/flush",
+				Kind: "seam",
+				Note: "The session's durability checkpoint.",
+			},
+			{
+				Label: "drain: price each call from the provider's usage, and split it across the files the turn touched",
+				Kind: "step",
+			},
+			{
+				Label: "attribute the output side by changed bytes, and the input side by each file's cached and uncached mass",
+				Kind: "step",
+			},
+			{
+				Label: "record the stage, the branch, and the read-before-edit at capture time",
+				Kind: "step",
+			},
+			{
+				Label: "rollup: rebuild exactly the UTC days the flush's events landed in",
+				Kind: "step",
+			},
+			{
+				Label: "a command reads the rollup, the views, or the assessment",
+				Kind: "step",
+			},
+			{
+				Label: "~/.dsh/cost/ledger.db",
+				Kind: "store",
+				Note: "One SQLite file: the price rows, the call and touch grain, the allocations, the rollup, and the views.",
+			},
+			{
+				Label: "the ledger does not open",
+				Kind: "fail",
+				Note: "The mount fails loud, and no listener is registered behind a closed database.",
+			},
+		],
+		Rule: "Telemetry only: no tool, no prompt section, and no model-visible message, and every figure is read from the provider's own usage.",
+	},
+	{
+		Slug: "plugin-dsh-batchstate",
+		Stage: [
+			{
+				Label: "the write API: setTask, setStatus, setScope, queue, setGate, clear",
+				Kind: "seam",
+				Note: "The parent's activations and the agents' phase reports flow through the plugin.",
+			},
+			{
+				Label: "emit batch/state-change",
+				Kind: "step",
+				Note: "Every change is an event the plugin owns.",
+			},
+			{
+				Label: "persist the full state",
+				Kind: "step",
+				Note: "The storage domain first, and the JSON file only when no domain opens.",
+			},
+			{
+				Label: "compile the block from the state",
+				Kind: "step",
+				Note: "Pure functions, recompiled on every change.",
+			},
+			{
+				Label: "agent/inbox/spliced, or the live agent/inbox/inserted",
+				Kind: "seam",
+				Note: "A batch proposal or decision arrives as text.",
+			},
+			{
+				Label: "parse the first block, and de-duplicate on the message id",
+				Kind: "step",
+			},
+			{
+				Label: "the message carries no batch block",
+				Kind: "branch",
+				Note: "Ordinary messages are silence.",
+			},
+			{
+				Label: "project the proposal or the decision into the board",
+				Kind: "step",
+				Note: "The queue line is read from the queue service, never recomputed.",
+			},
+			{
+				Label: "the batch_state domain, else ~/.dsh/batch-state.json",
+				Kind: "store",
+			},
+		],
+		Rule: "The board records and projects, and every block is a compiled output the model only reads: nothing the model writes enters it.",
+	},
+	{
+		Slug: "plugin-dsh-feedback",
+		Stage: [
+			{
+				Label: "Record(block)",
+				Kind: "seam",
+				Note: "A completion's honest block enters its session's record.",
+			},
+			{
+				Label: "journal the event",
+				Kind: "step",
+				Note: "One JSONL line per event.",
+			},
+			{
+				Label: "Push(block, parent)",
+				Kind: "step",
+				Note: "One hop up the parentage, and one link added to the transferred chain.",
+			},
+			{
+				Label: "the chain reaches the hop bound",
+				Kind: "branch",
+				Note: "The block is dropped, and the drop is journaled.",
+			},
+			{
+				Label: "Delta(session, agent, text)",
+				Kind: "step",
+				Note: "The parent appends, and never edits or sanitizes.",
+			},
+			{
+				Label: "Read(session, agent, reader)",
+				Kind: "step",
+				Note: "The recipient's optional read, recorded as read-at.",
+			},
+			{
+				Label: "Summary(session)",
+				Kind: "step",
+				Note: "Counts, the unread count, the word clusters, and the batch outcomes.",
+			},
+			{
+				Label: "Outcome, from the ingester after an apply",
+				Kind: "seam",
+				Note: "The batch outcome lands in the journal and in the summary.",
+			},
+			{
+				Label: "~/.dsh/playform/plugin-dsh-feedback.log",
+				Kind: "store",
+			},
+		],
+		Rule: "Nothing sanitizes the honest content: the parent appends, the read is a choice, and the user's override wins.",
+	},
+	{
+		Slug: "plugin-dsh-lesson-review",
+		Stage: [
+			{
+				Label: "the nudge hook calls Review from the idle phase",
+				Kind: "seam",
+				Note: "The service owns the review, and never the trigger.",
+			},
+			{
+				Label: "digest: the conversation snapshot, a verbatim tail, older turns collapsed, a hard cap from the front",
+				Kind: "step",
+			},
+			{
+				Label: "ask once with the constant prompt",
+				Kind: "step",
+			},
+			{
+				Label: "parse the reply strictly as one JSON object with five operation kinds",
+				Kind: "step",
+			},
+			{
+				Label: "judge every operation: class-level name, no incident narration, no bare negative, read-before-write, pins",
+				Kind: "step",
+			},
+			{
+				Label: "the write verdict is approve",
+				Kind: "branch",
+				Note: "The accepted operation is queued, so nothing reaches the corpus unasked.",
+			},
+			{
+				Label: "the judge refuses an operation",
+				Kind: "branch",
+				Note: "It is reported, and never applied.",
+			},
+			{
+				Label: "apply through the guarded corpus write, with the exact-file fence",
+				Kind: "step",
+			},
+			{
+				Label: "report the run in run.json and REPORT.md, and write one ledger line",
+				Kind: "step",
+			},
+			{
+				Label: "Curate: active to stale to archived, with the pinned, the foreign, and the unused protected",
+				Kind: "step",
+			},
+			{
+				Label: "~/.dsh/lesson/reports, and the pending queue",
+				Kind: "store",
+			},
+		],
+		Rule: "Propose, never publish: the shipped verdict queues every accepted operation, agreement operations are always queued, and even an auto verdict keeps the judge and the fence.",
+	},
+	{
+		Slug: "plugin-dsh-pattern",
+		Stage: [
+			{
+				Label: "Match(context)",
+				Kind: "seam",
+				Note: "A tool name, and a text fragment.",
+			},
+			{
+				Label: "look up the registry, and score the candidates",
+				Kind: "step",
+				Note: "A lookup plus arithmetic, never a model call.",
+			},
+			{
+				Label: "the top score is under the match threshold",
+				Kind: "branch",
+				Note: "The empty result is the abstention.",
+			},
+			{
+				Label: "the top two scores sit within the ambiguity epsilon",
+				Kind: "branch",
+				Note: "Two patterns matching equally is not a decision.",
+			},
+			{
+				Label: "return the ranked matches, up to the match bound",
+				Kind: "step",
+			},
+			{
+				Label: "Record(id, outcome)",
+				Kind: "seam",
+				Note: "accepted, rejected, applied, or failed moves the confidence.",
+			},
+			{
+				Label: "Decay: the half-life sweep toward the neutral floor",
+				Kind: "step",
+			},
+			{
+				Label: "Save: the whole registry, plus the saved-at record",
+				Kind: "step",
+				Note: "The KV domain first, and the JSON snapshot as the fallback.",
+			},
+			{
+				Label: "the pattern domain, else ~/.dsh/pattern/registry.json",
+				Kind: "store",
+			},
+		],
+		Rule: "The cold start is the shipped catalog rather than an empty registry, and the ledger records every Record call so precision is measured rather than assumed.",
+	},
+	{
+		Slug: "plugin-dsh-cost-analysis",
+		Stage: [
+			{
+				Label: "the analysis command",
+				Kind: "seam",
+				Note: "A scope: file, project, client, model, or session.",
+			},
+			{
+				Label: "open the ledger with readOnly",
+				Kind: "step",
+				Note: "An open failure is recorded, and the mount continues.",
+			},
+			{
+				Label: "the ledger is not open",
+				Kind: "branch",
+				Note: "The command says so, and the plugin still loads.",
+			},
+			{
+				Label: "credit: the cache saving each read produced, minus the cache-write premium",
+				Kind: "step",
+			},
+			{
+				Label: "effectiveness, lines, overhead, and cache over the same scope",
+				Kind: "step",
+			},
+			{
+				Label: "the scope has no rows",
+				Kind: "branch",
+				Note: "The ledger is empty, said plainly.",
+			},
+			{
+				Label: "render the readings as short text",
+				Kind: "step",
+				Note: "Outside model history, because a command is not a message.",
+			},
+		],
+		Rule: "Read-only in the strict sense: no row written, no table created, and no listener registered, so the ledger keeps recording facts while the judgement lives here.",
+	},
+	{
+		Slug: "plugin-dsh-workspace",
+		Stage: [
+			{
+				Label: "workspace_map, find, expand, or context",
+				Kind: "seam",
+				Note: "A read of the graph service.",
+			},
+			{
+				Label: "the graph is empty",
+				Kind: "branch",
+				Note: "The map reports zero files, honestly; the index trigger is the answer.",
+			},
+			{
+				Label: "query the graph through the tool's own bounds",
+				Kind: "step",
+				Note: "Depth capped, limits clamped, and pagination by cursor.",
+			},
+			{
+				Label: "render a compact table plus ids",
+				Kind: "step",
+				Note: "Never a file body.",
+			},
+			{
+				Label: "workspace_index",
+				Kind: "seam",
+				Note: "The one tool that changes the graph.",
+			},
+			{
+				Label: "delegate the walk to indexWorkspace",
+				Kind: "step",
+				Note: "The agent never touches the filesystem itself.",
+			},
+			{
+				Label: "the graph's own storage domain",
+				Kind: "store",
+			},
+		],
+		Rule: "The conversation addresses the workspace through this plugin and nothing else: the stamps, the indexes, the journals, and the gates stay invisible until an event surfaces them.",
+	},
+	{
+		Slug: "plugin-dsh-workspace-authority",
+		Stage: [
+			{
+				Label: "grant(holder, resource, operations, expiry, delegation)",
+				Kind: "seam",
+				Note: "A capability answers what the actor may do.",
+			},
+			{
+				Label: "the authority is disabled",
+				Kind: "branch",
+				Note: "A byte-stable refusal, and nothing is granted.",
+			},
+			{
+				Label: "acquire(holder, resource, ttl)",
+				Kind: "step",
+				Note: "A lease answers for how long, and expires lazily.",
+			},
+			{
+				Label: "residence(resource, kind, weight)",
+				Kind: "step",
+				Note: "A residency answers what stays in store, and the weight only ranks.",
+			},
+			{
+				Label: "evict(resources)",
+				Kind: "seam",
+				Note: "The disposition pass.",
+			},
+			{
+				Label: "sort the candidates by weight, descending",
+				Kind: "step",
+				Note: "The weight orders the candidates, and decides nothing.",
+			},
+			{
+				Label: "an open lease, or an active capability within its grace",
+				Kind: "branch",
+				Note: "keep, forced over the rule table.",
+			},
+			{
+				Label: "the rule table decides keep, defer, evict, discard, or promote",
+				Kind: "step",
+			},
+			{
+				Label: "the residency set and the graveyard",
+				Kind: "store",
+				Note: "evict is recoverable, and discard is not.",
+			},
+		],
+		Rule: "The license decides and the weight only ranks: priority, retention, and permission are never interchangeable.",
+	},
+	{
+		Slug: "plugin-dsh-workspace-context",
+		Stage: [
+			{
+				Label: "packet(query)",
+				Kind: "seam",
+				Note: "A node id or a query, a lens, and a budget.",
+			},
+			{
+				Label: "probe the graph's snapshot, and filter through the lens",
+				Kind: "step",
+				Note: "An absent sibling still renders, with an honest open line.",
+			},
+			{
+				Label: "resolve the focus, rank the neighbors by edge strength, and bound each section",
+				Kind: "step",
+			},
+			{
+				Label: "render the eight sections, and measure the text in tokens",
+				Kind: "step",
+			},
+			{
+				Label: "the packet is over the target",
+				Kind: "branch",
+				Note: "The weakest neighbors drop first, one at a time.",
+			},
+			{
+				Label: "it is still over the hard cap",
+				Kind: "branch",
+				Note: "The open lines go, then the evidence lines, and the clamp is ledgered.",
+			},
+			{
+				Label: "memoize the packet under the query and the revision",
+				Kind: "step",
+				Note: "A hit returns the same object, and writes no second line.",
+			},
+			{
+				Label: "graph/invalidated clears the memo",
+				Kind: "step",
+				Note: "The next identical query rebuilds against the new revision.",
+			},
+			{
+				Label: "the ledger: context: packet, and context: clamped",
+				Kind: "store",
+			},
+		],
+		Rule: "The budget is a sequence of drops, not a truncation: the weakest neighbor goes before any section does, and every clamp is one line.",
+	},
+	{
+		Slug: "plugin-dsh-workspace-evidence",
+		Stage: [
+			{
+				Label: "validate(id, kind, subject, dependencies, verdict)",
+				Kind: "seam",
+				Note: "One validation object, with the caller's own verdict.",
+			},
+			{
+				Label: "the kind is outside the four",
+				Kind: "branch",
+				Note: "Refused at the call boundary.",
+			},
+			{
+				Label: "store the object with its dependencies and the service's own sequence",
+				Kind: "step",
+			},
+			{
+				Label: "fs/observed, through the factory's Wire on the root context",
+				Kind: "seam",
+				Note: "A dependency changed.",
+			},
+			{
+				Label: "the event carries the service's own actor, an excluded path, or an absent observation",
+				Kind: "branch",
+				Note: "Ignored, each with its own line.",
+			},
+			{
+				Label: "the same path carries the same version within the window",
+				Kind: "branch",
+				Note: "Dropped silently, because that state's pass already ran.",
+			},
+			{
+				Label: "invalidate(key): one pass over the fresh objects",
+				Kind: "step",
+			},
+			{
+				Label: "mark every object that declares the key stale, and ledger each one",
+				Kind: "step",
+			},
+			{
+				Label: "the workspace_evidence domain, and the ledger",
+				Kind: "store",
+			},
+		],
+		Rule: "A stale object is never guessed back to fresh: a revalidation is a new object that supersedes the old one.",
+	},
+	{
+		Slug: "plugin-dsh-workspace-graph",
+		Stage: [
+			{
+				Label: "observe/stamp, on the family's trace bus",
+				Kind: "seam",
+				Note: "The indexer is inferred from the events, not a separate process.",
+			},
+			{
+				Label: "coalesce by path",
+				Kind: "step",
+				Note: "One in-flight re-index per path, and no timer.",
+			},
+			{
+				Label: "indexFile: resolve, stat, and run the gates",
+				Kind: "step",
+				Note: "Enabled, excluded, included, file type, language, and size.",
+			},
+			{
+				Label: "read, parse, and ask the semantics service for the references",
+				Kind: "step",
+				Note: "No service, or an undefined answer, means no reference edges.",
+			},
+			{
+				Label: "store the record, bump the revision, and persist the meta record",
+				Kind: "step",
+			},
+			{
+				Label: "emit graph/indexed, or graph/invalidated for an absent or replaced record",
+				Kind: "step",
+			},
+			{
+				Label: "indexWorkspace: a deterministic walk, one indexFile per candidate, capped at the file bound",
+				Kind: "step",
+			},
+			{
+				Label: "the workspace_graph domain, else the in-memory mirror",
+				Kind: "store",
+			},
+		],
+		Rule: "The deferred kinds are not faked, and a reference that names no symbol node of the same file is dropped rather than turned into a dangling edge.",
+	},
+	{
+		Slug: "plugin-dsh-workspace-reflect",
+		Stage: [
+			{
+				Label: "replace, rename, connect, or act",
+				Kind: "seam",
+				Note: "One call carries the whole transformation.",
+			},
+			{
+				Label: "the policy's write verdict is approve",
+				Kind: "branch",
+				Note: "The operation is held with its own line, and zero writes reach the filesystem.",
+			},
+			{
+				Label: "resolve the target: a node id and fingerprint, or an explicit span",
+				Kind: "step",
+				Note: "The span guard rejects a span outside the file, or one wider than the block bound.",
+			},
+			{
+				Label: "the fingerprint does not match the current text",
+				Kind: "branch",
+				Note: "rejected, and nothing is written.",
+			},
+			{
+				Label: "publish through the guarded write: the version fence, the sandbox policy, the stash",
+				Kind: "step",
+			},
+			{
+				Label: "carry: ask the graph to re-index the changed file",
+				Kind: "step",
+				Note: "An absent graph is an honest skip.",
+			},
+			{
+				Label: "the reply union, and the ledger",
+				Kind: "store",
+			},
+		],
+		Rule: "The policy is the outer check and the fingerprint the inner one, and the reply is part of the type rather than a boolean or a throw.",
+	},
+	{
+		Slug: "plugin-dsh-workspace-semantics",
+		Stage: [
+			{
+				Label: "fs/observed, through the factory's Wire on the root context",
+				Kind: "seam",
+				Note: "The index trigger.",
+			},
+			{
+				Label: "the event carries the service's own actor, an excluded path, or a repeat version",
+				Kind: "branch",
+				Note: "Ignored, or dropped silently.",
+			},
+			{
+				Label: "drop the stale model for the path, and advance the monotonic revision",
+				Kind: "step",
+			},
+			{
+				Label: "resolve(path)",
+				Kind: "seam",
+				Note: "A lazily built knowledge graph, through the adapter for the file type.",
+			},
+			{
+				Label: "symbol, references, and the import dependencies",
+				Kind: "step",
+			},
+			{
+				Label: "deepen the references through the lsp seam, when the harness provides one",
+				Kind: "step",
+				Note: "Same-file locations only, and every cannot-answer path falls back to the lexical list.",
+			},
+			{
+				Label: "rename(path, span, to): the per-adapter plan",
+				Kind: "step",
+				Note: "The plan goes to the operate proposals, and the service never writes.",
+			},
+			{
+				Label: "no adapter, or an adapter that cannot be certain",
+				Kind: "branch",
+				Note: "undefined plus one line, never a guessed plan.",
+			},
+			{
+				Label: "the workspace_semantics domain, and the ledger",
+				Kind: "store",
+			},
+		],
+		Rule: "The rename means something different per format, so the plan is the adapter's, and the service only refuses to guess.",
 	},
 ];
 

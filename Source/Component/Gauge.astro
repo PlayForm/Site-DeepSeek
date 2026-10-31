@@ -57,7 +57,14 @@ const CeilingRead = Read(Ceiling);
 ---
 
 <figure class="gauge">
-	<div class="gauge__plot">
+	<div
+		class="gauge__plot"
+		role="meter"
+		aria-label={Label}
+		aria-valuemin={0}
+		aria-valuemax={Ceiling}
+		aria-valuenow={Value}
+		aria-valuetext={`${ValueRead.Amount} ${ValueRead.Unit} of ${CeilingRead.Amount} ${CeilingRead.Unit}`}>
 		<svg class="gauge__arc" viewBox={`0 0 ${Width} ${Height}`} aria-hidden="true">
 			<path class="gauge__remainder" d={Remainder} />
 			{Fill && <path class="gauge__fill" d={Fill} />}
