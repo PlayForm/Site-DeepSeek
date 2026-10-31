@@ -1,0 +1,38 @@
+---
+import "@Stylesheet/Component/Anchor.scss";
+
+interface Entry {
+	/** The section's id, with its hash. */
+	Href: string;
+	/** The section's name, as its heading prints it. */
+	Label: string;
+}
+
+interface Props {
+	/** One entry per section, in the order the page reads them. */
+	Entry: Entry[];
+}
+
+const { Entry } = Astro.props;
+
+// The row is static. It marks the first section, the one the page opens on,
+// because a static list cannot follow the scroll position and a row of seven
+// links does not earn a client island. The page that needs the mark to follow
+// the reader needs a different navigator, not a heavier one.
+const Current = Entry[0]?.Href;
+---
+
+<nav class="anchor" aria-label="On this page">
+	<ol class="anchor__list">
+		{Entry.map((Item) => (
+			<li class="anchor__item">
+				<a
+					class="anchor__link"
+					href={Item.Href}
+					aria-current={Item.Href === Current ? "location" : undefined}>
+					{Item.Label}
+				</a>
+			</li>
+		))}
+	</ol>
+</nav>

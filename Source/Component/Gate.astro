@@ -1,0 +1,83 @@
+---
+import "@Stylesheet/Component/Gate.scss";
+
+// The gate: the hook answers its seam with one of a small set of verdicts, so
+// the picture is the verdicts in a row, the one this hook returns in its
+// documented case marked, and the condition that produces it.
+//
+// The verdicts and the condition are read from the package's own decision
+// function: the ccr hook's `Source/Function/Compress.ts` returns pass, store,
+// or replace, and its byte gate is the condition stated under the row.
+interface Outcome {
+	/** The verdict, as the source names it. */
+	Label: string;
+	/** What produces that verdict, and what it leaves behind. */
+	Note: string;
+}
+
+interface Gate {
+	/** The rule the gate keeps, said once. */
+	Rule: string;
+	/** The verdicts the hook can return, in the order it tries them. */
+	Outcome: Outcome[];
+	/** The verdict this hook returns in its documented case. */
+	Mark: string;
+	/** The condition that separates the verdicts. */
+	Condition: string;
+}
+
+interface Props {
+	/** The package whose gate this is. */
+	Slug: string;
+}
+
+const { Slug } = Astro.props;
+
+const Gate: Record<string, Gate> = {
+	"hook-dsh-ccr": {
+		Rule: "The gate reads the result, the tool name, and the failure flag, and returns one verdict. Only the last two write the store, and the write happens before the verdict leaves.",
+		Outcome: [
+			{
+				Label: "pass",
+				Note: "empty content, an exempt tool, a failure while compressFailures is off, a name outside targets, or a size at or under the threshold times the type's multiplier",
+			},
+			{
+				Label: "store",
+				Note: "over the gate, with auto-expand on and the size at or under its ceiling: the full content returns, the entry is retrievable, and no marker reaches the model",
+			},
+			{
+				Label: "replace",
+				Note: "over the gate and over the auto-expand ceiling: one preview line and one retrieval marker, while the original stays in the store",
+			},
+		],
+		Mark: "replace",
+		Condition:
+			"The default configuration returns replace only above the auto-expand ceiling. At or under it the same result returns store, and at or under the threshold times the multiplier it returns pass.",
+	},
+};
+
+const Entry = Gate[Slug] ?? Gate[Slug.replace(/^ets-/, "")];
+---
+
+{
+	Entry !== undefined && (
+		<div class="gate" role="img" aria-label={`What ${Slug} decides at its seam`}>
+			<p class="gate__rule">{Entry.Rule}</p>
+			<ol class="gate__row">
+				{Entry.Outcome.map((Item) => (
+					<li
+						class="gate__outcome"
+						data-mark={Item.Label === Entry.Mark ? "true" : "false"}
+					>
+						<span class="gate__label">{Item.Label}</span>
+						<span class="gate__note">{Item.Note}</span>
+					</li>
+				))}
+			</ol>
+			<p class="gate__condition">
+				<span class="gate__condition-label">When</span>
+				<span class="gate__condition-text">{Entry.Condition}</span>
+			</p>
+		</div>
+	)
+}

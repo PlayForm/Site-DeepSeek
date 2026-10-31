@@ -1,0 +1,53 @@
+---
+import "@Stylesheet/Component/Record.scss";
+
+// The record: the hook's whole effect at the seam is a line about what
+// happened, so the picture is that line, quoted as the package writes it, and
+// the field it carries.
+//
+// The line is the one the package's README documents, and its test asserts a
+// line of the same shape: the replay suggester's `Source/Test/History-Producer`
+// fills the three placeholders with the call's own values.
+interface Ledger {
+	/** The rule the record keeps, said once. */
+	Rule: string;
+	/** The line, exactly as the package writes it. */
+	Line: string;
+	/** The field the line stands for. */
+	Field: string;
+	/** What the fields mean, and which value in the line is which. */
+	Note: string;
+}
+
+interface Props {
+	/** The package whose record this is. */
+	Slug: string;
+}
+
+const { Slug } = Astro.props;
+
+const Ledger: Record<string, Ledger> = {
+	"hook-dsh-replay-suggester": {
+		Rule: "One judged call that names a path writes one entry and one line. A call the gate refuses, a tool outside the judged set, and a foreign workspace write neither.",
+		Line: "replay-suggester: recorded <intent> <path> (<n> in store)",
+		Field: "seq, path, intent, outcome, at, probe",
+		Note: "The sequence is the store's own order and is never reused; the intent is Repeat once the classifier matched, and the family name replay otherwise. The parenthesized size is the store's size at that append, not at the write that follows it.",
+	},
+};
+
+const Entry = Ledger[Slug] ?? Ledger[Slug.replace(/^ets-/, "")];
+---
+
+{
+	Entry !== undefined && (
+		<div class="record" role="img" aria-label={`The line ${Slug} writes`}>
+			<p class="record__rule">{Entry.Rule}</p>
+			<pre class="record__line">{Entry.Line}</pre>
+			<div class="record__field">
+				<span class="record__label">Carries</span>
+				<span class="record__value">{Entry.Field}</span>
+			</div>
+			<p class="record__note">{Entry.Note}</p>
+		</div>
+	)
+}

@@ -1,0 +1,129 @@
+---
+import "@Stylesheet/Component/Advise.scss";
+
+// The advise: the hook adds a note the model reads next, so the picture is
+// the note itself, quoted as the hook builds it, the seam it lands at, and the
+// condition that triggers it.
+//
+// The note lines are transcribed from each package's own notice builder and
+// from the pack row it names: `Source/Function/Note.ts` for the doc, edit, and
+// search suggesters, the note builder inside `Source/Function/Apply.ts` for the
+// convention and graph suggesters, and `lib-dsh-pack`'s built-in rows for the
+// paths and their reasons. The confidence is left as the builder's own
+// placeholder, because the number is a function of the call, not of the hook.
+interface Advise {
+	/** The seam the note lands at. */
+	Seam: string;
+	/** What has to be true for the note to be built. */
+	Trigger: string;
+	/** The note, one string per line. */
+	Note: string[];
+	/** What the note may and may not do, said once. */
+	Rule: string;
+}
+
+interface Props {
+	/** The package whose note this is. */
+	Slug: string;
+}
+
+const { Slug } = Astro.props;
+
+const Advise: Record<string, Advise> = {
+	"hook-dsh-convention-suggester": {
+		Seam: "tools/post-execute",
+		Trigger:
+			"a write, edit, or raw-write call whose path classifies into a convention intent, when the confidence clears the threshold, the cooldown has passed, and the turn still has note budget",
+		Note: [
+			"[convention-suggester] intent=Layout confidence=<k>",
+			"targets (4):",
+			"- Source/Library.ts - the entry: wiring only - name, apply, Config, inject",
+			"- Source/Function/<Name>.ts - one definition per file, nameless default export",
+			"- README.md - the package's own README, updated with the change",
+			"- SCHEME.md - the scheme table, which must match the schema",
+			"note: one definition per file; nameless default exports; the entry stays wiring-only.",
+		],
+		Rule: "The note reaches additionalContexts and never the content. It carries the suggester's own source kind, because an unlabeled context renders as a user prompt in derived history.",
+	},
+	"hook-dsh-doc-suggester": {
+		Seam: "tools/post-execute",
+		Trigger:
+			"a read, grep, glob, or edit that names a documentation path the pack's doc families match, when the confidence clears the threshold and the family still has a companion the turn has not touched",
+		Note: [
+			"[doc-suggester] family=Plan confidence=<k>",
+			"companions (3):",
+			"- Documentation/INDEX.md - the index row",
+			"- Documentation/Plans/POC-LEDGER.md - the live matrix",
+			"- Documentation/ARCHIVE-STYLE.md - the frontmatter and style rules",
+			"note: a documentation task rarely touches one file; keep the doc graph coherent.",
+		],
+		Rule: "The note names companions the workspace actually holds: a path that does not exist under the resolved root is dropped before the note is built, and a family with none left abstains.",
+	},
+	"hook-dsh-edit-suggester": {
+		Seam: "tools/post-execute",
+		Trigger:
+			"a write, edit, or raw-write call on a path the pack's edit families match, when the confidence clears the threshold and at least one companion is untouched this turn",
+		Note: [
+			"[edit-suggester] family=Config confidence=<k>",
+			"companions (4):",
+			"- README.md - the Config section",
+			"- SCHEME.md - the full table",
+			"- cordis.patch.yml - the row value",
+			"- Source/Test/Config-And-Activation/Test.ts - the byte-exact assertion",
+			"note: this file rarely stands alone; check whether these need the same change.",
+		],
+		Rule: "The note never claims the change: it names the files that usually move with this one and leaves the edit to the model.",
+	},
+	"hook-dsh-graph-suggester": {
+		Seam: "tools/post-execute",
+		Trigger:
+			"a read, grep, or glob on a source path, when the confidence clears the threshold and the graph answers a non-empty component around the anchor",
+		Note: [
+			"[graph-suggester] intent=Neighborhood confidence=<k>",
+			"targets (2):",
+			"- Source/Function/Apply.ts - the definition",
+			"- Source/Test/Pipeline-And-Graph/Test.ts - the test",
+			"note: the neighborhood is the connected component: definition, callers, tests, doc block.",
+		],
+		Rule: "A service that is absent or throws is an abstention, not a guess: the graph intent writes no note rather than a static one.",
+	},
+	"hook-dsh-search-suggester": {
+		Seam: "tools/post-execute",
+		Trigger:
+			"a search-class call that matches one of the pack's search intents, when the confidence clears the intent's threshold and the cooldown, the dedupe, and the per-turn cap all allow it",
+		Note: [
+			"[search-suggester] intent=Config confidence=<k>",
+			"targets (4):",
+			"- Source/Variable/Config.ts - the schema default",
+			"- Source/Interface/Config.ts - the shape",
+			"- cordis.patch.yml - the row and the config block",
+			"- README.md - the Config section",
+			"note: open these before more searches; Target/ is generated, never edit it.",
+		],
+		Rule: "One note per intent, not per call: the cooldown, the dedupe, and the per-turn cap all have to allow it, and every refusal is a ledger line rather than a silent skip.",
+	},
+};
+
+const Entry = Advise[Slug] ?? Advise[Slug.replace(/^ets-/, "")];
+---
+
+{
+	Entry !== undefined && (
+		<div class="advise" role="img" aria-label={`The note ${Slug} adds at its seam`}>
+			<div class="advise__meta">
+				<div class="advise__row">
+					<span class="advise__label">Seam</span>
+					<span class="advise__value">{Entry.Seam}</span>
+				</div>
+				<div class="advise__row">
+					<span class="advise__label">Trigger</span>
+					<span class="advise__value">{Entry.Trigger}</span>
+				</div>
+			</div>
+			<blockquote class="advise__quote">
+				<pre class="advise__text">{Entry.Note.join("\n")}</pre>
+			</blockquote>
+			<p class="advise__rule">{Entry.Rule}</p>
+		</div>
+	)
+}

@@ -1,0 +1,186 @@
+---
+import "@Stylesheet/Component/Rewrite.scss";
+
+import { Compare } from "@Library/Difference";
+
+// The rewrite: the hook changes the payload the model reads next, so the
+// picture is that payload twice, with the changed span marked.
+//
+// Two forms. When the hook changes a span of characters, the pair is the whole
+// story and the site's comparison finds the span. When the hook changes a
+// class rather than a character - a whole block of code points, a set of
+// characters that simply leave, or the shape of a prompt section - the pair
+// would show one arbitrary member and hide the rule, so the two lists stand
+// side by side instead.
+//
+// The labels are per record rather than the site's fixed Model/Transcript
+// pair, because a tool result is not the model's own output: the rewrite names
+// its two sides so a reader never has to guess which one the model wrote.
+interface Pair {
+	Mode: "pair";
+	/** The two sides, left then right. */
+	Label: [string, string];
+	/** The payload before the hook answers. */
+	Before: string;
+	/** The payload after it. */
+	After: string;
+	/** What changed, in one sentence. */
+	Note: string;
+}
+
+interface Shift {
+	Mode: "class";
+	/** The two sides, left then right. */
+	Label: [string, string];
+	/** The class members before the hook answers. */
+	Before: string[];
+	/** What stands where they stood. */
+	After: string[];
+	/** What changed, in one sentence. */
+	Note: string;
+}
+
+type Rewrite = Pair | Shift;
+
+interface Props {
+	/** The package whose rewrite this is. */
+	Slug: string;
+}
+
+const { Slug } = Astro.props;
+
+const Rewrite: Record<string, Rewrite> = {
+	"hook-dsh-comment-filter": {
+		Mode: "pair",
+		Label: ["Result", "Model"],
+		Before: "1: const limit = MAX; // the cap",
+		After: "1: const limit = MAX;",
+		Note: "The other half of the transform: a trailing comment leaves the code behind, where a full-line comment would leave an empty line, and the line numbers stay.",
+	},
+	"hook-dsh-live-containers": {
+		Mode: "class",
+		Label: ["Prompt without it", "Prompt with it"],
+		Before: [
+			"the harness assembles its own sections",
+			"a block's text is fixed at assembly",
+			"an unresolved variable fails the assembly",
+		],
+		After: [
+			"live-containers is appended as one more section",
+			"each block is recomputed at ask time",
+			"an unknown token renders literally and logs a line",
+		],
+		Note: "The section is the only addition; every harness section stays where the harness put it.",
+	},
+	"hook-dsh-normalize-dash": {
+		Mode: "class",
+		Label: ["Dash family", "ASCII"],
+		Before: [
+			"U+2014 em dash",
+			"U+2013 en dash",
+			"U+2011 non-breaking hyphen",
+			"U+2015 horizontal bar",
+		],
+		After: ["U+002D hyphen-minus"],
+		Note: "The family collapses onto one character: every member of the dash class lands on the hyphen, so different code points leave the stream as the same byte.",
+	},
+	"hook-dsh-normalize-ellipsis": {
+		Mode: "pair",
+		Label: ["Model", "Transcript"],
+		Before: "Loading\u2026 done",
+		After: "Loading... done",
+		Note: "The single code point became three ASCII dots, and the payload grew by two characters.",
+	},
+	"hook-dsh-normalize-fullwidth": {
+		Mode: "class",
+		Label: ["Fullwidth", "ASCII"],
+		Before: ["U+FF21 capital A", "U+FF11 digit one", "U+FF01 exclamation mark"],
+		After: ["U+0041 capital A", "U+0031 digit one", "U+0021 exclamation mark"],
+		Note: "The whole block moves, not one character: every code point from U+FF01 to U+FF5E lands on its halfwidth counterpart.",
+	},
+	"hook-dsh-normalize-invisible": {
+		Mode: "class",
+		Label: ["Before", "After"],
+		Before: [
+			"U+200B zero width space",
+			"U+200C zero width non-joiner",
+			"U+200D zero width joiner",
+			"U+FEFF byte order mark",
+		],
+		After: ["the empty string"],
+		Note: "This flavor removes rather than maps: the replacement default is empty, so every member of the family leaves the payload.",
+	},
+	"hook-dsh-normalize-quotes": {
+		Mode: "pair",
+		Label: ["Model", "Transcript"],
+		Before: "It\u2019s done",
+		After: "It's done",
+		Note: "The apostrophe is one of eight code points the table maps; the four double quotes are the other half.",
+	},
+	"hook-dsh-normalize-spaces": {
+		Mode: "pair",
+		Label: ["Model", "Transcript"],
+		Before: "2\u00A0+ 2",
+		After: "2 + 2",
+		Note: "The no-break space became the plain space, so the line can wrap where it could not before.",
+	},
+};
+
+const Entry = Rewrite[Slug] ?? Rewrite[Slug.replace(/^ets-/, "")];
+
+// The span that differs, for the pair form. Computed once here rather than in
+// the markup, because the comparison belongs to the site's own Difference
+// library and the markup only draws it.
+const Diff =
+	Entry !== undefined && Entry.Mode === "pair"
+		? Compare(Entry.Before, Entry.After)
+		: undefined;
+---
+
+{
+	Entry !== undefined && (
+		<div class="rewrite" role="img" aria-label={`What ${Slug} changes in the payload`}>
+			{Entry.Mode === "pair" && Diff !== undefined && (
+				<ol class="rewrite__pair">
+					<li class="rewrite__row">
+						<span class="rewrite__label">{Entry.Label[0]}</span>
+						<span class="rewrite__text">
+							{Diff.Prefix}
+							<mark class="rewrite__mark">{Diff.Before}</mark>
+							{Diff.Suffix}
+						</span>
+					</li>
+					<li class="rewrite__row">
+						<span class="rewrite__label">{Entry.Label[1]}</span>
+						<span class="rewrite__text">
+							{Diff.Prefix}
+							<mark class="rewrite__mark rewrite__mark--after">{Diff.After}</mark>
+							{Diff.Suffix}
+						</span>
+					</li>
+				</ol>
+			)}
+			{Entry.Mode === "class" && (
+				<div class="rewrite__split">
+					<div class="rewrite__side">
+						<span class="rewrite__label">{Entry.Label[0]}</span>
+						<ul class="rewrite__list">
+							{Entry.Before.map((Item) => (
+								<li class="rewrite__item">{Item}</li>
+							))}
+						</ul>
+					</div>
+					<div class="rewrite__side">
+						<span class="rewrite__label">{Entry.Label[1]}</span>
+						<ul class="rewrite__list">
+							{Entry.After.map((Item) => (
+								<li class="rewrite__item">{Item}</li>
+							))}
+						</ul>
+					</div>
+				</div>
+			)}
+			<p class="rewrite__note">{Entry.Note}</p>
+		</div>
+	)
+}

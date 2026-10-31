@@ -1,14 +1,19 @@
 ---
 import "@Stylesheet/Component/Filter.scss";
 
+import Definition from "@Component/Definition.astro";
 import Filter from "@Component/Filter.tsx";
 import PackageCard from "@Component/PackageCard.astro";
 import PageHero from "@Component/PageHero.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Table from "@Component/Table.astro";
+import Term from "@Component/Term.astro";
 import Toolbar from "@Component/Toolbar.astro";
+import { BehaviorFor } from "@Content/Behavior";
+import { Term as Vocabulary } from "@Content/Term";
 import Base from "@Layout/Base.astro";
-import { Route } from "@Library/Link";
+import { PackageHref, Route } from "@Library/Link";
+import { Marketplace } from "@Library/Marketplace.server";
 import { Count, Family, Kind, Package, SelectFamily } from "@Library/Package.server";
 
 const Group = Family.map((Release) => ({
@@ -29,23 +34,44 @@ const Kinds = [
 	["client", "A UI surface in the harness panel."],
 	["base", "The shared base the Effect-TS packages build on."],
 ];
+
+// The dense view of the same catalogue the cards show: every package with the
+// seam it answers at, so a reader who wants the table does not leave the page.
+const Row = Package.map((Entry) => [
+	{ Text: Entry.Slug, Href: Entry.Href, Icon: Entry.Slug },
+	Entry.Kind,
+	BehaviorFor(Entry.Slug)?.Seam ?? "",
+	Entry.Family,
+	Entry.Version,
+]);
+
+// The marketplace index: the same packages as an installable set.
+const Bundle = Marketplace.Group.reduce((Total, Entry) => Total + Entry.Bundle.length, 0);
+
+// The vocabulary the site speaks, one row per term.
+const Word = Object.values(Vocabulary).map((Entry) => ({
+	Term: Entry.Name,
+	Detail: Entry.Meaning,
+}));
 ---
 
 <Base
 	Title="Package"
-	Description={`All ${Count.All} packages: ${Count.Classic} in Classic and ${Count.EffectTS} in Effect-TS.`}>
-	<PageHero
-		Eyebrow="Two releases"
-		Title="Package"
-		Lede={`${Count.All} total: ${Count.Classic} in Classic, ${Count.EffectTS} in Effect-TS.`}
-	/>
+	Description={`All ${Count.All} packages: ${Count.Classic} in Classic and ${Count.EffectTS} in Effect-TS, with their seams, their versions, and the marketplace index.`}>
+	<PageHero Eyebrow="Two releases" Title="Package">
+		<Fragment slot="Lede">
+			{Count.All}&nbsp;<Term Name="package" /> in two releases: {Count.Classic}&nbsp;in Classic,{" "}
+			{Count.EffectTS}&nbsp;in Effect-TS. The cards filter, the table lists, and the marketplace
+			indexes the same set.
+		</Fragment>
+	</PageHero>
 
 	<section class="section">
 		<div class="section__body">
 			<Toolbar
 				Label="Filter"
 				Count={`${Count.All} package`}
-				Action={[{ Href: Route.Reference, Label: "Reference table" }]}>
+				Action={[{ Href: "#table", Label: "The table" }]}>
 				<Filter Entry={Catalogue} Family={Family} Kind={Kind} client:load />
 			</Toolbar>
 			{Group.map((Item) => (
@@ -65,6 +91,66 @@ const Kinds = [
 		<SectionHeader Title="Kind" />
 		<div class="section__body">
 			<Table Caption="The five package kinds" Head={["Kind", "What it is"]} Row={Kinds} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Table"
+			Lede="Every package with its kind, the seam it answers at, its release, and its version."
+			Id="table"
+		/>
+		<div class="section__body">
+			<Table
+				Caption="Every package, its kind, the seam it listens on, its release, and its version"
+				Head={["Package", "Kind", "Listen", "Release", "Version"]}
+				Row={Row}
+			/>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Marketplace"
+			Lede={`The same packages as an installable set: ${Bundle} bundle in ${Marketplace.Group.length} category.`}
+		/>
+		<div class="section__body stack">
+			{Marketplace.Group.map((Entry) => (
+				<Table
+					Caption={`The ${Entry.Label} bundles`}
+					Head={["Bundle", "Package", "What"]}
+					Row={Entry.Bundle.map((Item) => [
+						Item.Title,
+						{ Text: Item.Name, Href: PackageHref(Item.Slug), Icon: Item.Slug },
+						Item.Summary,
+					])}
+				/>
+			))}
+			<p class="muted">
+				<a href={PackageHref("plugin-dsh-factory")}>Open a package</a> to read its facts.
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader
+			Title="Term"
+			Lede="One word per concept, borrowed from the code. Every page uses these words with these meanings."
+		/>
+		<div class="section__body">
+			<Definition Definition={Word} />
+		</div>
+	</section>
+
+	<section class="section">
+		<SectionHeader Title="Next" Lede="The pages that read this catalogue." />
+		<div class="section__body">
+			<div class="cluster">
+				<a class="button" href={Route.Package}>Package</a>
+				<a class="button button--quiet" href={Route.Behavior}>Behavior</a>
+				<a class="button button--quiet" href={Route.Trace}>Trace</a>
+				<a class="button button--quiet" href={Route.Harness}>Harness</a>
+			</div>
 		</div>
 	</section>
 </Base>

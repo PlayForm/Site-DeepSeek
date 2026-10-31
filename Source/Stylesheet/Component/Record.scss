@@ -1,0 +1,63 @@
+@use "../Material.scss" as Material;
+
+// The record: a slab holding the rule, the ledger line in a tray with one
+// accent edge, the field it carries, and the note that explains the numbers in
+// it. The line is the only monospace block on the accent edge, so the eye
+// finds the record before the commentary.
+.record {
+	@include Material.slab;
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--rhythm-inset);
+	padding: var(--rhythm-inset);
+
+	&__rule {
+		max-width: var(--measure);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&__line {
+		@include Material.tray;
+
+		margin: 0;
+		padding: var(--space-3) var(--space-4);
+		border-left: 3px solid var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+		white-space: pre-wrap;
+		overflow-wrap: anywhere;
+	}
+
+	&__field {
+		display: flex;
+		gap: var(--space-3);
+		align-items: baseline;
+	}
+
+	&__label {
+		@include Material.label;
+
+		flex: none;
+		color: var(--color-accent-ink);
+	}
+
+	&__value {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	&__note {
+		max-width: var(--measure);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+}

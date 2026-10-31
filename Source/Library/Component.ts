@@ -147,6 +147,258 @@ export const Component = [
 			["Next", "{ Href, Label }", "The entry after this one."],
 		],
 	},
+	{
+		Name: "Line",
+		Slug: "line",
+		Summary: "One addressable row of a document: a gutter number and the record it carries.",
+		Prop: [
+			["Seq", "number | string", "The sequence number the record answers to."],
+			["Kind", "string", "The kind of record: turn, step, message, tool, session."],
+			["Name", "string", "The event name, as the harness writes it."],
+			["Foldable", "boolean", "Shows a chevron on hover when the line can fold."],
+			["Current", "boolean", "Marks the line a reader selected."],
+		],
+	},
+	{
+		Name: "Gutter",
+		Slug: "gutter",
+		Summary: "The sequence number, outside the measure, the way a document numbers its lines.",
+		Prop: [
+			["Seq", "number | string", "The number to print."],
+			["Foldable", "boolean", "Shows the fold chevron on hover."],
+		],
+	},
+	{
+		Name: "Pending",
+		Slug: "pending",
+		Summary: "A call with no result yet, or a job still running, marked as in flight.",
+		Prop: [
+			["Name", "string", "What is in flight, in the harness's words."],
+			["Meta", "string", "The quiet facts beside it: the tool, the job, the elapsed time."],
+		],
+	},
+	{
+		Name: "Schema",
+		Slug: "schema",
+		Summary: "A contract as rows: a property, its type, whether it is required, and what it means.",
+		Prop: [
+			["Properties", "{ Name, Type, Required, Description }[]", "One row per property."],
+		],
+	},
+	{
+		Name: "Pipeline",
+		Slug: "pipeline",
+		Summary: "The stages a call passes, in order, with the one the page is looking at marked.",
+		Prop: [
+			["Stages", "{ Label, Seam }[]", "One stage per entry; a seam is a chip when present."],
+			["Current", "string", "The label of the stage to mark."],
+		],
+	},
+	{
+		Name: "Sequence",
+		Slug: "sequence",
+		Summary: "Who sends what to whom, in order, with the seam each dispatch fires.",
+		Prop: [
+			["Actor", "string[]", "The participants, left to right."],
+			["Message", "{ From, To, Label, Seam?, Durable? }[]", "One row per dispatch."],
+		],
+	},
+	{
+		Name: "State",
+		Slug: "state",
+		Summary: "One object's life: the states on its main line, and the ways off it.",
+		Prop: [
+			["State", "{ Name, Note, Tone }[]", "The states, main line and exits together."],
+			["Edge", "{ From, To, Label }[]", "The moves between them."],
+		],
+	},
+	{
+		Name: "Fanout",
+		Slug: "fanout",
+		Summary: "One dispatch and every listener that answers it, drawn as a spine.",
+		Prop: [
+			["Source", "string", "The event the listeners answer."],
+			["Listener", "{ Slug, Href, Effect, Documented }[]", "The listeners, in order."],
+			["Limit", "number", "How many to draw before the rest are counted."],
+		],
+	},
+	{
+		Name: "Lane",
+		Slug: "lane",
+		Summary: "Who was busy, when, and for how long, as one bar per span of work.",
+		Prop: [
+			["Lane", "{ Label, Span }[]", "One lane per actor; a span carries start, duration, kind."],
+		],
+	},
+	{
+		Name: "Chain",
+		Slug: "chain",
+		Summary: "Generations or links, joined in order, with the current one marked.",
+		Prop: [["Link", "{ Label, Body, Current? }[]", "One entry per link."]],
+	},
+	{
+		Name: "Ladder",
+		Slug: "ladder",
+		Summary: "The same thing at three values, ordered by the dimension that decides it.",
+		Prop: [
+			["Rung", "{ Label, Value, Body, Note?, Mark? }[]", "One rung per value."],
+		],
+	},
+	{
+		Name: "Fork",
+		Slug: "fork",
+		Summary: "One input, two exits, and which branch the call actually took.",
+		Prop: [
+			["From", "string", "What enters the fork."],
+			["Exit", "{ Label, Body, Taken? }[]", "The two exits."],
+		],
+	},
+	{
+		Name: "Grid",
+		Slug: "grid",
+		Summary: "A generic two-axis matrix: a label column and one column per axis value.",
+		Prop: [
+			["Head", "string[]", "The column headers."],
+			["Row", "{ Label, Cell }[]", "One row per label, with a cell per column."],
+			["Caption", "string", "The table's accessible name."],
+		],
+	},
+	{
+		Name: "Matrix",
+		Slug: "matrix",
+		Summary: "The intervention matrix: plugins against seams, one mark per cell.",
+		Prop: [["Row", "Intervention[]", "The plugin records the matrix draws."]],
+	},
+	{
+		Name: "Difference",
+		Slug: "difference",
+		Summary: "The same text twice, with the one span that changed marked.",
+		Prop: [
+			["Before", "string", "The text before the seam."],
+			["After", "string", "The text after it."],
+		],
+	},
+	{
+		Name: "Compare",
+		Slug: "compare",
+		Summary: "A drag slider that reveals one text under another, for the same comparison at a length.",
+		Prop: [
+			["Raw", "string", "The text the model wrote."],
+			["Clean", "string", "The text the harness kept."],
+			["Start", "number", "Where the handle starts, as a percentage."],
+		],
+	},
+	{
+		Name: "Inspector",
+		Slug: "inspector",
+		Summary: "The right column of a document: a subject, its tabs, and one panel open.",
+		Prop: [
+			["Subject", "string", "What the panels describe."],
+			["Tab", "{ Label, Body, Kind?, Properties? }[]", "One tab per panel."],
+		],
+	},
+	{
+		Name: "InspectorLive",
+		Slug: "inspector-live",
+		Summary: "The inspector as an island: a click on a line fills it.",
+		Prop: [["Record", "InspectorRecord[]", "The records the document shows."]],
+	},
+	{
+		Name: "Explorer",
+		Slug: "explorer",
+		Summary: "A grouped pane of objects, each a link, with a count where the caller knows one.",
+		Prop: [["Groups", "{ Label, Item }[]", "The groups, in the order the pane stacks them."]],
+	},
+	{
+		Name: "Trace",
+		Slug: "trace",
+		Summary: "The records of one turn as a document, one line per record.",
+		Prop: [["Record", "Record[]", "The records, in the order the log writes them."]],
+	},
+	{
+		Name: "RoleList",
+		Slug: "role-list",
+		Summary: "The parts of the conversation the model reads, and the seam that can change each.",
+		Prop: [["Entry", "Role[]", "One entry per role."]],
+	},
+	{
+		Name: "CallStep",
+		Slug: "call-step",
+		Summary: "The tool pipeline as a rail, one step per gate, with its decision vocabulary.",
+		Prop: [["Entry", "Step[]", "The pipeline steps, in order."]],
+	},
+	{
+		Name: "Curve",
+		Slug: "curve",
+		Summary: "Two series on log axes: the bytes the model reads against the size of the result.",
+		Prop: [["Curve", "Curve", "The thresholds and the ceiling the chart draws."]],
+	},
+	{
+		Name: "Show",
+		Slug: "show",
+		Summary: "One plugin's operator: the single picture its dimension calls for.",
+		Prop: [
+			["Plugin", "Plugin", "The plugin record the showcase extends."],
+			["Showcase", "Showcase", "The operator and its data."],
+		],
+	},
+	{
+		Name: "Scenario",
+		Slug: "scenario",
+		Summary: "One moment of a turn, shown twice: the default beside the family.",
+		Prop: [
+			["Entry", "Scenario", "The moment, its default, its family side, and its knob."],
+			["Index", "number", "The position in the page's list."],
+		],
+	},
+	{
+		Name: "Stream",
+		Slug: "stream",
+		Summary: "A package whose work is an event-driven view: the update rule and the frame that arrives.",
+		Prop: [["Slug", "string", "The package the picture is written for."]],
+	},
+	{
+		Name: "Layer",
+		Slug: "layer",
+		Summary: "A library the others build on, as stacked layers with its own layer marked.",
+		Prop: [["Slug", "string", "The package the picture is written for."]],
+	},
+	{
+		Name: "Surface",
+		Slug: "surface",
+		Summary: "A client that fills a host slot: the frame, the slot, and what the package puts there.",
+		Prop: [["Slug", "string", "The package the picture is written for."]],
+	},
+	{
+		Name: "Buffer",
+		Slug: "buffer",
+		Summary: "A store that holds data for others: the store, its readers, and its retention rule.",
+		Prop: [["Slug", "string", "The package the picture is written for."]],
+	},
+	{
+		Name: "Gate",
+		Slug: "gate",
+		Summary: "A hook that decides: the three outcomes, and the one this hook returns.",
+		Prop: [["Slug", "string", "The package the picture is written for."]],
+	},
+	{
+		Name: "Rewrite",
+		Slug: "rewrite",
+		Summary: "A hook that changes the payload: the before and the after, with the span marked.",
+		Prop: [["Slug", "string", "The package the picture is written for."]],
+	},
+	{
+		Name: "Record",
+		Slug: "record",
+		Summary: "A hook that only observes: the ledger line it writes, verbatim.",
+		Prop: [["Slug", "string", "The package the picture is written for."]],
+	},
+	{
+		Name: "Advise",
+		Slug: "advise",
+		Summary: "A hook that adds a note the model then reads, with the condition that triggers it.",
+		Prop: [["Slug", "string", "The package the picture is written for."]],
+	},
 ];
 
 export default Component;

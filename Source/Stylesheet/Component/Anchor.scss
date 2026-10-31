@@ -1,0 +1,58 @@
+@use "../Material.scss" as Material;
+
+// The in-page navigator: one link per section, in reading order, pinned under
+// the shell header so a reader can jump without leaving the page. The row is
+// static and marks the section the page opens on; following the reader would
+// need a client island, and the row is seven links.
+.anchor {
+	position: sticky;
+	top: var(--header-height);
+	z-index: 4;
+	border-bottom: 1px solid var(--color-line);
+	background: var(--color-surface);
+	overflow-x: auto;
+
+	&__list {
+		display: flex;
+		align-items: center;
+		gap: var(--space-6);
+		margin: 0;
+		padding: var(--space-3) 0;
+		list-style: none;
+	}
+
+	&__item {
+		display: inline-flex;
+	}
+
+	&__link {
+		@include Material.label;
+
+		display: inline-flex;
+		align-items: center;
+		padding-block: var(--space-1);
+		border-bottom: 2px solid transparent;
+		color: var(--color-ink-faint);
+		text-decoration: none;
+		white-space: nowrap;
+		transition:
+			color var(--motion-crisp) var(--ease-crisp),
+			border-color var(--motion-crisp) var(--ease-crisp);
+
+		&:hover {
+			color: var(--color-ink);
+		}
+
+		&[aria-current="location"] {
+			border-bottom-color: var(--color-accent);
+			color: var(--color-accent-deep);
+		}
+	}
+}
+
+// A hash target has to clear the shell header and this row, or the heading it
+// lands on is hidden under both. The offset belongs here because the row is
+// what covers the target, and it is scoped to pages that mount the row.
+main:has(.anchor) .section {
+	scroll-margin-top: calc(var(--header-height) + var(--space-12));
+}

@@ -1,5 +1,6 @@
 ---
 import Absence from "@Component/Absence.astro";
+import Advise from "@Component/Advise.astro";
 import Badge from "@Component/Badge.astro";
 import Breadcrumb from "@Component/Breadcrumb.astro";
 import Buffer from "@Component/Buffer.astro";
@@ -7,12 +8,15 @@ import CodeBlock from "@Component/CodeBlock.astro";
 import Definition from "@Component/Definition.astro";
 import Difference from "@Component/Difference.astro";
 import Disclosure from "@Component/Disclosure.astro";
+import Gate from "@Component/Gate.astro";
 import Icon from "@Component/Icon.astro";
 import Layer from "@Component/Layer.astro";
 import Origin from "@Component/Origin.astro";
 import PageHero from "@Component/PageHero.astro";
 import Pager from "@Component/Pager.astro";
 import Provenance from "@Component/Provenance.astro";
+import Record from "@Component/Record.astro";
+import Rewrite from "@Component/Rewrite.astro";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Stream from "@Component/Stream.astro";
 import Surface from "@Component/Surface.astro";
@@ -204,6 +208,10 @@ const File = [
 					{Portrait.Shape === "layer" && <Layer Slug={Entry.Slug} />}
 					{Portrait.Shape === "surface" && <Surface Slug={Entry.Slug} />}
 					{Portrait.Shape === "buffer" && <Buffer Slug={Entry.Slug} />}
+					{Portrait.Shape === "gate" && <Gate Slug={Entry.Slug} />}
+					{Portrait.Shape === "rewrite" && <Rewrite Slug={Entry.Slug} />}
+					{Portrait.Shape === "record" && <Record Slug={Entry.Slug} />}
+					{Portrait.Shape === "advise" && <Advise Slug={Entry.Slug} />}
 				</div>
 			</section>
 		)
@@ -253,7 +261,7 @@ const File = [
 			)}
 			{Own.length > 0 && (
 				<p class="muted">
-					The harness ships its own plugin at this seam:{" "}
+					The harness ships its own plugin at this seam:&nbsp;
 					{Own.map((Item, Index) => (
 						<Fragment>
 							{Index > 0 && ", "}

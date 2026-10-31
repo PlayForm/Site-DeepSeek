@@ -104,7 +104,10 @@ for (const File of Page) {
 
 	const Text = Verbatim.replace(/<script[\s\S]*?<\/script>/g, " ")
 		.replace(/<style[\s\S]*?<\/style>/g, " ")
-		.replace(/<\/?(?:td|th|tr|li|p|div|section|header|footer|nav|main|h[1-6]|br)\b[^>]*>/g, " ")
+		.replace(
+			/<\/?(?:td|th|tr|dt|dd|li|p|div|section|article|aside|header|footer|nav|main|figure|figcaption|h[1-6]|br)\b[^>]*>/g,
+			" ",
+		)
 		.replace(/<[^>]+>/g, "")
 		.replace(/&nbsp;/g, " ")
 		.replace(/&amp;/g, "&")
