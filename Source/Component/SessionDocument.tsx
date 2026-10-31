@@ -7,15 +7,13 @@ import {
 	DispatchGlyph,
 	DispatchOrder,
 	FormatNumber,
-	Meta,
 	Plural,
-	Prompt,
-	Record,
-	Step,
-	Turn,
+	Session,
+	StepsOf,
 	TurnRecord,
 	TurnStep,
 	type Face,
+	type SessionData,
 } from "@Content/Session";
 import { For } from "solid-js";
 
@@ -28,14 +26,18 @@ interface Props {
 	OnPick: (Seq: number) => void;
 	/** Read the run in the other face. */
 	OnFace: (Face: Face) => void;
+	/** The run the document reads; defaults to the trace page's authored session. */
+	Data?: SessionData;
 }
 
 export default function SessionDocument(Props: Props) {
+	const Source = () => Props.Data ?? Session;
+
 	return (
 		<article class="session-document">
 			<header class="session-document__head">
 				<p class="session-document__meta">
-					{`session ${Meta.Id} | ${Meta.Model} | ${Meta.Effort} | ${Plural(Turn.length, "turn")} | ${Plural(Step.length, "step")} | ${Plural(Record.length, "record")}${Meta.Simulated ? " | simulated" : ""}`}
+					{`session ${Source().Meta.Id} | ${Source().Meta.Model} | ${Source().Meta.Effort} | ${Plural(Source().Turn.length, "turn")} | ${Plural(StepsOf(Source()).length, "step")} | ${Plural(Source().Record.length, "record")}${Source().Meta.Simulated ? " | simulated" : ""}`}
 				</p>
 				<div
 					class="session-document__face"
@@ -71,9 +73,9 @@ export default function SessionDocument(Props: Props) {
 				</For>
 			</div>
 
-			<p class="session-document__prompt">{Prompt}</p>
+			<p class="session-document__prompt">{Source().Prompt}</p>
 
-			<For each={Turn}>
+			<For each={Source().Turn}>
 				{(Group) => (
 					<>
 						<div class="session-document__turn" id={`turn-${Group.Index}`}>
@@ -82,10 +84,10 @@ export default function SessionDocument(Props: Props) {
 							</span>
 							<span class="session-document__turn-title">{Group.Title}</span>
 							<span class="session-document__turn-count">
-								{`${Plural(TurnRecord(Group.Index), "record")} | ${Plural(TurnStep(Group.Index).length, "step")}`}
+								{`${Plural(TurnRecord(Group.Index, Source()), "record")} | ${Plural(TurnStep(Group.Index, Source()).length, "step")}`}
 							</span>
 						</div>
-						<For each={TurnStep(Group.Index)}>
+						<For each={TurnStep(Group.Index, Source())}>
 							{(Item) => (
 								<div class="session-document__step">
 									<h3 class="session-document__rule" id={`step-${Item.Index}`}>

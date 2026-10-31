@@ -29,6 +29,7 @@ const DevRoute = {
 				pattern: "/design/[slug]",
 				entrypoint: "./Source/pages/_DesignDetail.astro",
 			});
+			injectRoute({ pattern: "/manual", entrypoint: "./Source/pages/_Manual.astro" });
 		},
 	},
 };

@@ -1,0 +1,40 @@
+@use "../Material.scss" as Material;
+
+// The knob: an inverted panel of rows, because the knob is where the reader
+// acts. The key is mono and quiet, the value mono and bright, one hairline per
+// row so the panel reads as a settings card rather than a paragraph.
+.knob {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: var(--rhythm-inset);
+	background: var(--color-ink);
+	border: 1px solid var(--color-ink);
+	color: var(--color-paper);
+
+	&__row {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-3);
+		padding-block: var(--space-2);
+		border-top: 1px solid var(--color-line);
+	}
+
+	&__row:first-child {
+		border-top: 0;
+	}
+
+	&__key {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--color-paper);
+	}
+
+	&__value {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--color-paper);
+		text-align: right;
+	}
+}

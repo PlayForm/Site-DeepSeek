@@ -133,6 +133,23 @@ export interface Moment {
 	End: number;
 }
 
+/** One run, as the session view reads it: the arrays the machines draw and the
+ *  helpers derive everything else from. The view takes a run as a prop so a page
+ *  can show its own activation without copying the component or editing the
+ *  shared session; the default is the trace page's authored run. */
+export interface SessionData {
+	/** The session the document and the tree name. */
+	Meta: Meta;
+	/** The opening request the document prints. */
+	Prompt: string;
+	/** The turns the tree and the document group by. */
+	Turn: Turn[];
+	/** The records the lane, the tree, the document, and the inspector read. */
+	Record: Entry[];
+	/** The packages the tree lists, and the one the document marks. */
+	Plugin: Plugin[];
+}
+
 export const Meta: Meta = {
 	Id: "7c41e0a2",
 	Model: "deepseek-v4.1-flash",
@@ -933,6 +950,11 @@ export const Plugin: Plugin[] = [
 	},
 ];
 
+// The shared run: the trace page's session, and the session view's default when
+// a page mounts it without a `Data` prop. A page with its own activation passes
+// a `SessionData` of its own; nothing in the view reads the arrays directly.
+export const Session: SessionData = { Meta, Prompt, Turn, Record, Plugin };
+
 // The five tool contracts the run calls, and the envelope every event carries.
 export const Schema: { [Name: string]: Property[] } = {
 	bash: [
@@ -1096,10 +1118,10 @@ export function Touched(Entry: Entry, Face: Face): boolean {
 }
 
 /** The session as a clock: each record starts where the one before it ended. */
-export function Timeline(Face: Face): Moment[] {
+export function Timeline(Face: Face, Data: SessionData = Session): Moment[] {
 	let Clock = 0;
 
-	return Record.map((Entry) => {
+	return Data.Record.map((Entry) => {
 		const Outcome = OutcomeOf(Entry, Face);
 		const Start = Clock;
 
@@ -1110,8 +1132,8 @@ export function Timeline(Face: Face): Moment[] {
 }
 
 /** The wall clock the face's run occupies. */
-export function TotalOf(Face: Face): number {
-	return Timeline(Face).reduce((Total, Item) => Math.max(Total, Item.End), 0);
+export function TotalOf(Face: Face, Data: SessionData = Session): number {
+	return Timeline(Face, Data).reduce((Total, Item) => Math.max(Total, Item.End), 0);
 }
 
 /** The resource a record occupies, or none when the lane does not draw it. */
@@ -1155,24 +1177,47 @@ export function Characters(Step: Step, Face: Face): number {
 }
 
 /** The records a turn wrote. */
-export function TurnRecord(Index: number): number {
-	return Record.filter((Entry) => Entry.Turn === Index).length;
+export function TurnRecord(Index: number, Data: SessionData = Session): number {
+	return Data.Record.filter((Entry) => Entry.Turn === Index).length;
+}
+
+/** The steps a run wrote, derived from its turns and records. */
+export function StepsOf(Data: SessionData = Session): Step[] {
+	return Data.Turn.flatMap((Group) => {
+		const Index = [
+			...new Set(
+				Data.Record.filter((Entry) => Entry.Turn === Group.Index).map(
+					(Entry) => Entry.Step,
+				),
+			),
+		].sort((Left, Right) => Left - Right);
+
+		return Index.map((Order) => ({
+			Index: Order,
+			Turn: Group.Index,
+			Record: Data.Record.filter(
+				(Entry) => Entry.Turn === Group.Index && Entry.Step === Order,
+			),
+		}));
+	});
 }
 
 /** The steps a turn wrote. */
-export function TurnStep(Index: number): Step[] {
-	return Step.filter((Item) => Item.Turn === Index);
+export function TurnStep(Index: number, Data: SessionData = Session): Step[] {
+	return StepsOf(Data).filter((Item) => Item.Turn === Index);
 }
 
 /** The family packages that act in the given face. */
-export function Acting(Face: Face): number {
-	return new Set(Record.filter((Entry) => Touched(Entry, Face)).map((Entry) => Entry.Plugin))
-		.size;
+export function Acting(Face: Face, Data: SessionData = Session): number {
+	return new Set(
+		Data.Record.filter((Entry) => Touched(Entry, Face)).map((Entry) => Entry.Plugin),
+	).size;
 }
 
 /** The records one package touched in the given face. */
-export function PluginRecord(Slug: string, Face: Face): number {
-	return Record.filter((Entry) => Touched(Entry, Face) && Entry.Plugin === Slug).length;
+export function PluginRecord(Slug: string, Face: Face, Data: SessionData = Session): number {
+	return Data.Record.filter((Entry) => Touched(Entry, Face) && Entry.Plugin === Slug)
+		.length;
 }
 
 /** The clause a state's chip carries, derived where the number is a measurement. */

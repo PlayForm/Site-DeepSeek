@@ -1,0 +1,2105 @@
+@use "Component/CopyButton";
+@use "Material" as Material;
+
+// The study sheet: an identity band, a spec strip, a radio-driven view switch,
+// then the bands that read one run. The grammar is the site's own - square
+// surfaces, hairlines, one accent, zero elevation - and the mechanics are
+// borrowed from the Corca shelf and the overtrue registry:
+//
+//   * the band behind lifted content (Components.css), with the content at
+//     z-index 1 because an absolutely positioned ::before paints over a static
+//     sibling;
+//   * the lane's rail and axis (Flow.html), drawn with one shared grid template
+//     instead of inline percentages, so the axis and the track cannot drift;
+//   * the radio-driven view switch (segmented-control.tsx), so selection is
+//     native and the focus ring has a real control to sit on;
+//   * the readout anchored at the value (bullet-chart.tsx), retargeted at the
+//     stage: the inspector follows the pointer and the keyboard, and it has a
+//     default subject so it is never empty;
+//   * the row's current marker (tree-view.tsx, SessionRecord.scss) and the
+//     chip's lamp (Components.css), which are the page's one state signal;
+//   * the reason behind a disclosure (Flow.astro), because the condition
+//     explains a branch and the branch is what the spine is for.
+//
+// The accent is spent on five meanings only: the selected mode, the live path,
+// the current row, the primary artifact, and the proof plate's copy control.
+// Everything else is ink, hairline, and geometry.
+
+// ---- The two keyframes the page owns: a view change and a subject change ----
+// Both are short, both explain something that changed, and both are disabled by
+// the reduced-motion block at the end of this file (Global.css already zeroes
+// the durations; the block makes the intent local and covers the transform).
+@keyframes sheet-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(4px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes sheet-subject {
+	from {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.sheet {
+	// The seven stages of the run, as one template. The ruler and both tracks
+	// read it, so a stage is the same column in every world at every width.
+	--track: 1fr 1fr 1.1fr 1.5fr 1.1fr 1fr 1fr;
+	--rail: 96px;
+
+	display: flex;
+	flex-direction: column;
+	max-width: 1100px;
+	margin: 0 auto;
+	padding-block: var(--rhythm-head) var(--rhythm-block);
+
+	// ---- The title band: the mark, the subject, the stamp. ----
+	&__head {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: var(--rhythm-inset);
+		padding-bottom: var(--rhythm-inset);
+		border-bottom: 2px solid var(--color-ink);
+	}
+
+	&__identity {
+		display: flex;
+		align-items: center;
+		gap: var(--rhythm-inset);
+		min-width: 0;
+	}
+
+	&__mark {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 72px;
+		height: 72px;
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+	}
+
+	&__titles {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		min-width: 0;
+	}
+
+	&__title {
+		margin: 0;
+	}
+
+	&__subtitle {
+		max-width: var(--measure);
+		margin: 0;
+		font-size: var(--text-base);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	// The stamp is a state plate, not a sentence: a hollow lamp says "this is a
+	// claim about the drawing", and the border is the same hairline as every
+	// other control on the sheet.
+	&__stamp {
+		@include Material.label;
+
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		flex: none;
+		margin: 0;
+		padding: var(--space-1) var(--space-2);
+		border: 1px solid var(--color-line-strong);
+		background: var(--color-surface);
+		color: var(--color-ink-faint);
+	}
+
+	// ---- The spec strip: six facts, one row, dividers drawn by the gap. ----
+	// The same 1px-gap trick as metric-group.tsx: the wrap can never leave a
+	// first-of-row item with a stray left border, because the divider is the
+	// background showing through the gap.
+	&__meta {
+		display: grid;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		gap: 1px;
+		margin: var(--rhythm-inset) 0 0;
+		padding: 0;
+		border: 1px solid var(--color-line);
+		background: var(--color-line);
+	}
+
+	&__meta-item {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: var(--space-2) var(--space-3);
+		background: var(--color-surface);
+	}
+
+	&__meta-key {
+		@include Material.label;
+
+		color: var(--color-ink-faint);
+	}
+
+	&__meta-value {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-snug);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	// ---- The view switch: four radios in one segmented track. ----
+	// A native radio group, not a row of anchors: the checked state survives
+	// arrow-key navigation, a screen reader announces it, and the focus ring
+	// lands on the face rather than on an invisible input.
+	&__modes {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 1px;
+		margin-top: var(--rhythm-head);
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-line);
+	}
+
+	&__mode {
+		position: relative;
+		display: block;
+		cursor: pointer;
+	}
+
+	&__mode-input {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: 0;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	&__mode-face {
+		position: relative;
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-2) var(--space-3);
+		background: var(--cabinet-front);
+		transition:
+			background var(--motion-crisp) var(--ease-crisp),
+			transform var(--motion-crisp) var(--ease-crisp);
+
+		// The selected edge: a 2px bar, not a border, so the segmented track
+		// keeps one continuous 1px seam around all four faces.
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0 auto 0 0;
+			width: 2px;
+			background: transparent;
+			transition: background var(--motion-crisp) var(--ease-crisp);
+		}
+	}
+
+	&__mode-index {
+		@include Material.label;
+
+		font-variant-numeric: tabular-nums;
+		color: var(--color-ink-faint);
+	}
+
+	&__mode-name {
+		@include Material.label;
+
+		color: var(--color-ink-muted);
+	}
+
+	&__mode:hover &__mode-face {
+		background: var(--cabinet-inset);
+	}
+
+	&__mode:active &__mode-face {
+		transform: translateY(1px);
+	}
+
+	&__mode-input:focus-visible + &__mode-face {
+		outline: 2px solid var(--color-accent);
+		outline-offset: -2px;
+	}
+
+	&__mode-input:checked + &__mode-face {
+		background: var(--color-accent-soft);
+
+		&::before {
+			background: var(--color-accent);
+		}
+
+		.sheet__mode-index,
+		.sheet__mode-name {
+			color: var(--color-accent-ink);
+		}
+
+		.sheet__lamp {
+			border-color: var(--color-accent);
+			background: var(--color-accent);
+		}
+	}
+
+	// The state exists even though no view is unavailable today: a mode whose
+	// package cannot answer would take it, and it must not look selected.
+	&__mode-input:disabled + &__mode-face {
+		opacity: 0.45;
+		cursor: not-allowed;
+	}
+
+	&__mode:has(:disabled) {
+		cursor: not-allowed;
+	}
+
+	// ---- The views: one panel at a time, the radio picks it. ----
+	// :has() reads the checked radio and shows its panel. The animation is the
+	// explanation of the change: the panel arrives from 4px below, not from
+	// nowhere.
+	&__panel {
+		display: none;
+		flex-direction: column;
+		margin-top: var(--rhythm-head);
+	}
+
+	&:has(#mode-show:checked) #show,
+	&:has(#mode-explain:checked) #explain,
+	&:has(#mode-focus:checked) #focus,
+	&:has(#mode-expand:checked) #expand {
+		display: flex;
+		animation: sheet-reveal var(--motion-snap) var(--ease-snap);
+	}
+
+	// ---- A band: an address, a label, a title, then its machine. ----
+	// Three rule weights carry the hierarchy with the text unread: the 2px ink
+	// rule opens a panel, the 1px strong rule separates bands, and the 1px line
+	// rule divides the inside of a machine.
+	&__band {
+		display: flex;
+		flex-direction: column;
+		gap: var(--rhythm-group);
+		padding-block: var(--rhythm-group);
+		border-top: 1px solid var(--color-line-strong);
+	}
+
+	&__panel > &__band:first-child {
+		border-top: 2px solid var(--color-ink);
+	}
+
+	&__band[data-band="lead"],
+	&__band[data-band="canvas"] {
+		padding-top: var(--rhythm-head);
+	}
+
+	&__band[data-band="canvas"] {
+		padding-bottom: var(--rhythm-head);
+	}
+
+	// The band's address sits at the end of its label line, the way a section
+	// number sits in a margin: the label and the title keep the page's left
+	// edge, and the number never indents the machine under it. The body is a
+	// contents box so its label and title row are laid out by this grid.
+	&__band-head {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		column-gap: var(--space-2);
+		row-gap: var(--space-2);
+		align-items: baseline;
+	}
+
+	&__band-index {
+		@include Material.label;
+
+		grid-row: 1;
+		grid-column: 2;
+		font-variant-numeric: tabular-nums;
+		color: var(--color-ink-faint);
+		text-align: right;
+	}
+
+	&__band-body {
+		display: contents;
+	}
+
+	&__band-label {
+		@include Material.label;
+
+		grid-row: 1;
+		grid-column: 1;
+		margin: 0;
+		color: var(--color-ink-faint);
+	}
+
+	&__band-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-2) var(--space-4);
+		grid-row: 2;
+		grid-column: 1 / -1;
+	}
+
+	&__band-title {
+		margin: 0;
+		font-size: var(--text-lg);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+	}
+
+	&__band-note {
+		max-width: 60ch;
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-snug);
+		color: var(--color-ink-faint);
+	}
+
+	// ---- The canvas: one rail, one axis, two lanes, one inspector. ----
+	&__canvas {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		padding: var(--rhythm-inset);
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-inset);
+	}
+
+	&__ruler {
+		display: grid;
+		grid-template-columns: var(--rail) minmax(0, 1fr);
+		gap: var(--space-3);
+	}
+
+	&__ruler-key {
+		@include Material.label;
+
+		text-align: right;
+		font-size: 10px;
+		color: var(--color-ink-faint);
+	}
+
+	&__ruler-track {
+		display: grid;
+		grid-template-columns: var(--track);
+		grid-template-rows: auto 2px;
+		align-items: end;
+	}
+
+	&__ruler-tick {
+		grid-row: 1;
+		padding-bottom: var(--space-1);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		font-variant-numeric: tabular-nums;
+		color: var(--color-ink-faint);
+		text-align: center;
+	}
+
+	// The live path as one span: the lane's percentage fill, expressed as the
+	// columns it covers. Stage 3 through stage 6 are the four live nodes.
+	&__ruler-live {
+		grid-row: 2;
+		grid-column: 3 / 7;
+		height: 2px;
+		background: var(--color-accent);
+	}
+
+	&__world {
+		display: grid;
+		grid-template-columns: var(--rail) minmax(0, 1fr);
+		gap: var(--space-3);
+		align-items: start;
+	}
+
+	// The lane name is a chart label, one step under the band labels: at 13px
+	// the two-line "DSH + PlayForm" would not fit the 96px rail.
+	&__world-label {
+		margin: 0;
+		padding-top: 4px;
+		font-family: var(--font-mono);
+		font-size: 10px;
+		font-weight: 500;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		text-align: right;
+		color: var(--color-ink-faint);
+	}
+
+	&__world[data-family="true"] &__world-label {
+		color: var(--color-accent-ink);
+	}
+
+	&__track {
+		display: grid;
+		grid-template-columns: var(--track);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	// A stage is a focusable reveal trigger, not a button: it has no press, no
+	// selection and no disabled state, because it does not do anything. Its
+	// states are rest, hover, focus-visible, and current (the column the
+	// inspector is reading).
+	&__node {
+		position: relative;
+		padding-top: 44px;
+		text-align: center;
+
+		// The connector: one hairline per cell, so the seven cells draw one
+		// continuous line. The live cells thicken it to 2px in the accent.
+		&::before {
+			content: "";
+			position: absolute;
+			inset-inline: 0;
+			top: 14px;
+			z-index: 1;
+			height: 1px;
+			background: var(--color-line-strong);
+		}
+
+		&[data-live="true"]::before {
+			top: 13px;
+			height: 2px;
+			background: var(--color-accent);
+		}
+
+		// The absent stage: no marker, and a dashed connector, because nothing
+		// listens here. The line is the site's grammar for "nothing happened".
+		&[data-empty="true"]::before {
+			top: 14px;
+			height: 1px;
+			background: none;
+			background-image: repeating-linear-gradient(
+				90deg,
+				var(--color-line-strong) 0 4px,
+				transparent 4px 8px
+			);
+		}
+
+		// The hover band. It is a separate layer under the content, which is
+		// why the name and the bytes need a stacking context of their own.
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 32px -6px -4px;
+			z-index: 0;
+			background: transparent;
+			pointer-events: none;
+			transition: background var(--motion-crisp) var(--ease-crisp);
+		}
+
+		&:focus-visible {
+			outline: none;
+		}
+	}
+
+	&__marker {
+		position: absolute;
+		top: 9px;
+		left: 50%;
+		z-index: 2;
+		width: 10px;
+		height: 10px;
+		transform: translateX(-50%);
+		border: 1px solid var(--color-line-strong);
+		border-radius: 50%;
+		background: var(--color-surface);
+		transition: border-color var(--motion-crisp) var(--ease-crisp);
+	}
+
+	&__node[data-live="true"] &__marker {
+		border-color: var(--color-accent);
+	}
+
+	&__node[data-shape="square"] &__marker {
+		border-radius: 0;
+	}
+
+	&__node[data-kind="decision"] &__marker {
+		width: 9px;
+		height: 9px;
+		border-radius: 0;
+		transform: translateX(-50%) rotate(45deg);
+	}
+
+	// The focus ring sits on the marker, not on the whole cell: the cell is a
+	// column of text and a ring around it would read as a selected box. The
+	// absent stage has no marker, so it takes the ring itself, dashed.
+	&__node:focus-visible &__marker {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	&__node[data-empty="true"]:focus-visible {
+		outline: 2px dashed var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	&__node-name {
+		position: relative;
+		z-index: 2;
+		display: block;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-snug);
+		color: var(--color-ink-muted);
+		transition: color var(--motion-crisp) var(--ease-crisp);
+	}
+
+	&__node[data-live="true"] &__node-name {
+		color: var(--color-accent-ink);
+	}
+
+	&__node[data-empty="true"] &__node-name {
+		font-style: italic;
+		color: var(--color-ink-faint);
+	}
+
+	&__node-bytes {
+		position: relative;
+		z-index: 2;
+		display: inline-block;
+		margin-top: var(--space-1);
+		padding: 0 var(--space-1);
+		border: 1px solid var(--color-line);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		line-height: 1.6;
+		color: var(--color-ink);
+	}
+
+	&__node[data-live="true"] &__node-bytes {
+		border-color: var(--color-accent);
+		background: var(--color-accent-soft);
+		color: var(--color-accent-ink);
+	}
+
+	// The cross-highlight: the same column in both worlds, because the two
+	// lanes are the same seven stages and the compare is the point. One rule
+	// per column, generated, so the nth-child can never fall out of step. A
+	// live node keeps its accent name; only the off-path names step to ink.
+	@for $i from 1 through 7 {
+		&__canvas:has(&__node:nth-child(#{$i}):hover) &__node:nth-child(#{$i}),
+		&__canvas:has(&__node:nth-child(#{$i}):focus-visible) &__node:nth-child(#{$i}) {
+			&::after {
+				background: var(--cabinet-front);
+			}
+
+			&:not([data-live="true"]) .sheet__node-name {
+				color: var(--color-ink);
+			}
+		}
+	}
+
+	// ---- The stage inspector: one slot per stage, the pointer picks it. ----
+	// The strip is the inspector: it holds both worlds' reading of one stage,
+	// so the compare is one object instead of two popovers, it never shifts
+	// the track, and it has a default subject (the seam) so it is never empty.
+	// A per-node popover was rejected because it would repeat the compare in
+	// two places and could not hold its anchor at the first and last stage.
+	&__payloads {
+		min-height: 84px;
+		padding-top: var(--space-3);
+		border-top: 1px solid var(--color-line-strong);
+	}
+
+	&__payload {
+		display: none;
+		gap: var(--space-1);
+		animation: sheet-subject var(--motion-snap) var(--ease-snap);
+
+		&[data-stage="3"] {
+			display: grid;
+		}
+	}
+
+	&__canvas:has(&__node:hover, &__node:focus-visible) &__payload {
+		display: none;
+	}
+
+	@for $i from 1 through 7 {
+		&__canvas:has(&__node:nth-child(#{$i}):hover) &__payload[data-stage="#{$i}"],
+		&__canvas:has(&__node:nth-child(#{$i}):focus-visible) &__payload[data-stage="#{$i}"] {
+			display: grid;
+		}
+	}
+
+	&__payload-head {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-2);
+		margin: 0;
+	}
+
+	&__payload-head > span:first-child {
+		@include Material.label;
+
+		color: var(--color-ink-faint);
+	}
+
+	&__payload-index {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		font-variant-numeric: tabular-nums;
+		color: var(--color-ink);
+	}
+
+	&__payload-rows {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		margin: 0;
+	}
+
+	&__payload-row {
+		display: grid;
+		grid-template-columns: 72px minmax(0, 1fr);
+		align-items: baseline;
+		gap: var(--space-2);
+
+		dt {
+			@include Material.label;
+
+			font-size: 10px;
+			color: var(--color-ink-faint);
+		}
+
+		dd {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: baseline;
+			margin: 0;
+			font-family: var(--font-mono);
+			font-size: 10px;
+			line-height: 1.6;
+		}
+
+		// The separator belongs to the second value, so a wrapped row never
+		// starts with a dot.
+		dd > span + span::before {
+			content: "\00B7";
+			padding-inline: var(--space-2);
+			color: var(--color-line-strong);
+		}
+	}
+
+	&__payload-name {
+		color: var(--color-ink);
+	}
+
+	&__payload-kind {
+		color: var(--color-ink-muted);
+	}
+
+	&__payload-bytes {
+		color: var(--color-ink);
+	}
+
+	&__payload-path[data-live="true"] {
+		color: var(--color-accent-ink);
+	}
+
+	&__payload-path[data-live="false"] {
+		color: var(--color-ink-faint);
+	}
+
+	// ---- A caption: the reference's status line under a machine. ----
+	&__caption {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-2) var(--space-4);
+		padding-top: var(--space-3);
+		border-top: 1px solid var(--color-line);
+	}
+
+	&__caption-pair {
+		display: inline-flex;
+		align-items: baseline;
+		gap: var(--space-2);
+	}
+
+	&__caption-key {
+		@include Material.label;
+
+		color: var(--color-ink-faint);
+
+		&::after {
+			content: ":";
+		}
+	}
+
+	&__caption-value {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+
+		&[data-tone="accent"] {
+			color: var(--color-accent-ink);
+		}
+
+		code {
+			font-family: var(--font-mono);
+			color: var(--color-ink);
+		}
+	}
+
+	// ---- The cards: baseline, PlayForm, explanation. ----
+	&__cards {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--space-2);
+
+		&[data-count="two"] {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	// A card is a reading surface, not a button: it lifts two pixels and its
+	// note steps to full ink on hover or focus, so the explanation is what the
+	// focus state reveals. The cursor stays default.
+	&__card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		padding: var(--rhythm-inset);
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+		transition:
+			transform var(--motion-crisp) var(--ease-crisp),
+			border-color var(--motion-crisp) var(--ease-crisp);
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: -1px -1px auto;
+			height: 2px;
+			background: var(--color-ink);
+			transform: scaleX(0);
+			transform-origin: left;
+			transition: transform var(--motion-snap) var(--ease-snap);
+		}
+
+		&:hover,
+		&:focus-visible {
+			transform: translateY(-2px);
+			border-color: var(--color-line-strong);
+		}
+
+		&:hover::before,
+		&:focus-visible::before {
+			transform: scaleX(1);
+		}
+
+		&[data-accent="true"] {
+			border-color: var(--color-line-strong);
+
+			&::before {
+				background: var(--color-accent);
+			}
+
+			&:hover,
+			&:focus-visible {
+				border-color: var(--color-accent);
+			}
+		}
+	}
+
+	&__card-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-2);
+	}
+
+	&__card-label {
+		@include Material.label;
+
+		margin: 0;
+		color: var(--color-ink-faint);
+	}
+
+	&__card-tag {
+		@include Material.label;
+
+		font-size: 10px;
+		color: var(--color-ink-faint);
+
+		&[data-tone="accent"] {
+			color: var(--color-accent-ink);
+		}
+	}
+
+	&__card-value {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-2xl);
+		line-height: var(--leading-tight);
+		letter-spacing: -0.02em;
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+
+		&[data-tone="baseline"] {
+			color: var(--color-ink-muted);
+		}
+	}
+
+	&__card[data-accent="true"] &__card-value {
+		color: var(--color-accent-ink);
+	}
+
+	&__card-note {
+		margin: 0;
+		margin-top: auto;
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+		transition: color var(--motion-crisp) var(--ease-crisp);
+	}
+
+	&__card:hover &__card-note,
+	&__card:focus-visible &__card-note {
+		color: var(--color-ink);
+	}
+
+	&__card-facts {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+	}
+
+	&__card-fact {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-3);
+		padding-block: var(--space-1);
+		border-top: 1px solid var(--color-line);
+
+		&:first-child {
+			border-top: 0;
+		}
+
+		dt {
+			font-family: var(--font-mono);
+			font-size: var(--text-xs);
+			color: var(--color-ink-faint);
+		}
+
+		dd {
+			margin: 0;
+			font-family: var(--font-mono);
+			font-size: var(--text-xs);
+			color: var(--color-ink);
+		}
+	}
+
+	// ---- The decision spine: an index, a diamond, the branches, the reason. ----
+	// The row is the picture and the condition is the reason, so the reason sits
+	// behind the disclosure - the site's own Flow rule. The exits stay visible,
+	// because a branch is the spine's content.
+	&__spine {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border-top: 1px solid var(--color-line);
+	}
+
+	&__decision {
+		display: grid;
+		grid-template-columns: 40px minmax(0, 1fr);
+		gap: var(--space-3);
+		border-bottom: 1px solid var(--color-line);
+		border-left: 2px solid transparent;
+		transition:
+			background var(--motion-crisp) var(--ease-crisp),
+			border-color var(--motion-crisp) var(--ease-crisp);
+
+		// The current row: the tree's marker, in ink. The accent is not spent
+		// here, because a reader can open every row and the accent must keep
+		// meaning "the live path".
+		&:has(.sheet__decision-open[open]) {
+			border-left-color: var(--color-ink);
+			background: var(--cabinet-inset);
+		}
+	}
+
+	&__decision-index {
+		@include Material.label;
+
+		padding: var(--space-2) 0 0 var(--space-2);
+		font-variant-numeric: tabular-nums;
+		color: var(--color-ink-faint);
+	}
+
+	&__decision-open {
+		min-width: 0;
+	}
+
+	&__decision-summary {
+		position: relative;
+		display: grid;
+		grid-template-columns: 10px minmax(120px, 180px) minmax(0, 1fr) 10px;
+		align-items: baseline;
+		gap: var(--space-3);
+		padding: var(--space-2) var(--space-3) var(--space-2) 0;
+		cursor: pointer;
+		list-style: none;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
+
+		&::marker {
+			content: "";
+		}
+
+		// The paint-order trap: the band is painted by an absolutely positioned
+		// pseudo-element, so every child is lifted above it. Without this the
+		// hover would hide the row it is pointing at.
+		&::before {
+			content: "";
+			position: absolute;
+			inset: -1px -12px;
+			background: transparent;
+			pointer-events: none;
+			transition: background var(--motion-crisp) var(--ease-crisp);
+		}
+
+		&:hover::before,
+		&:focus-visible::before {
+			background: var(--cabinet-inset);
+		}
+
+		// The press: the row's content steps down a pixel while the pointer is
+		// held, which is the site's press grammar for a control. The condition
+		// body does not move, because it is not the thing being pressed.
+		&:active {
+			transform: translateY(1px);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: -2px;
+		}
+
+		> * {
+			position: relative;
+			z-index: 1;
+		}
+	}
+
+	&__diamond {
+		align-self: center;
+		width: 8px;
+		height: 8px;
+		border: 1px solid var(--color-ink-muted);
+		transform: rotate(45deg);
+		background: transparent;
+		transition:
+			background var(--motion-crisp) var(--ease-crisp),
+			border-color var(--motion-crisp) var(--ease-crisp);
+	}
+
+	&__decision:has(.sheet__decision-open[open]) &__diamond {
+		border-color: var(--color-ink);
+		background: var(--color-ink);
+	}
+
+	&__decision-name {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	&__decision-exits {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1);
+	}
+
+	&__exit {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-1);
+		padding: 1px var(--space-2);
+		border: 1px solid var(--color-line);
+		background: var(--cabinet-front);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-snug);
+		color: var(--color-ink-muted);
+
+		// The tone is geometry, not hue: a filled square rewrites, a hollow one
+		// passes by identity, a dashed one strips, and a neutral branch keeps a
+		// hollow hairline.
+		&::before {
+			content: "";
+			flex: none;
+			width: 4px;
+			height: 4px;
+			border: 1px solid var(--color-line-strong);
+			background: transparent;
+		}
+
+		&[data-tone="replace"] {
+			border-color: var(--color-ink);
+			color: var(--color-ink);
+
+			&::before {
+				border-color: var(--color-ink);
+				background: var(--color-ink);
+			}
+		}
+
+		&[data-tone="identity"] {
+			background: transparent;
+			color: var(--color-ink-faint);
+		}
+
+		&[data-tone="strip"] {
+			border-style: dashed;
+			border-color: var(--color-line-strong);
+			background: transparent;
+
+			&::before {
+				border-style: dashed;
+				border-color: var(--color-ink-faint);
+			}
+		}
+	}
+
+	&__decision-caret {
+		align-self: center;
+		width: 6px;
+		height: 6px;
+		border-right: 1px solid var(--color-ink-muted);
+		border-bottom: 1px solid var(--color-ink-muted);
+		transform: rotate(-45deg);
+		transition: transform var(--motion-snap) var(--ease-snap);
+	}
+
+	&__decision:has(.sheet__decision-open[open]) &__decision-caret {
+		transform: rotate(45deg);
+	}
+
+	&__decision-why {
+		display: grid;
+		grid-template-columns: 96px minmax(0, 1fr);
+		gap: var(--space-3);
+		margin-right: var(--space-3);
+		padding: var(--space-2) 0 var(--space-3);
+		border-top: 1px dashed var(--color-line-strong);
+	}
+
+	&__decision-key {
+		@include Material.label;
+	}
+
+	&__decision-condition {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	&__note {
+		max-width: var(--measure);
+		margin: 0;
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+
+		code {
+			font-family: var(--font-mono);
+			color: var(--color-ink);
+		}
+	}
+
+	// ---- The registers: the scope leaves and the exemption names. ----
+	&__registers {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--rhythm-group);
+	}
+
+	&__register {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	&__register-label {
+		@include Material.label;
+
+		margin: 0;
+		color: var(--color-ink-faint);
+	}
+
+	&__leaves {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-line);
+	}
+
+	// A leaf is an informational target: hover or focus reads its default in a
+	// plate above it. It is not clickable, so it gets no band and no cursor
+	// change; the payload is the affordance.
+	&__leaf {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-1) var(--space-3);
+		background: var(--cabinet-front);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-faint);
+		cursor: default;
+
+		&[data-on="true"] {
+			color: var(--color-ink);
+		}
+
+		&:hover,
+		&:focus-visible {
+			z-index: 2;
+			background: var(--color-surface);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-accent);
+			outline-offset: -2px;
+		}
+	}
+
+	&__leaf[data-on="true"] &__lamp {
+		border-color: var(--color-accent);
+		background: var(--color-accent);
+	}
+
+	&__leaf-default {
+		position: absolute;
+		left: 50%;
+		bottom: calc(100% + var(--space-1));
+		z-index: 3;
+		padding: 2px var(--space-2);
+		border: 1px solid var(--color-line-strong);
+		border-left: 2px solid var(--color-ink);
+		background: var(--color-surface);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		line-height: 1.6;
+		color: var(--color-ink);
+		white-space: nowrap;
+		pointer-events: none;
+		opacity: 0;
+		visibility: hidden;
+		transform: translate(-50%, 2px);
+		transition:
+			opacity var(--motion-crisp) var(--ease-crisp),
+			transform var(--motion-crisp) var(--ease-crisp),
+			visibility var(--motion-crisp) var(--ease-crisp);
+	}
+
+	&__leaf:hover &__leaf-default,
+	&__leaf:focus-visible &__leaf-default {
+		opacity: 1;
+		visibility: visible;
+		transform: translate(-50%, 0);
+	}
+
+	// ---- The lamp: the page's one state signal, 5px square. ----
+	// Filled accent means "acting now"; hollow means "present, not acting".
+	&__lamp {
+		display: inline-block;
+		flex: none;
+		width: 5px;
+		height: 5px;
+		border: 1px solid var(--color-line-strong);
+		background: transparent;
+	}
+
+	// ---- The siblings at the seam, and the ledger lines they write. ----
+	&__siblings {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__sibling {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		align-items: baseline;
+		gap: 2px var(--space-2);
+		padding: var(--space-2) var(--space-3);
+		border: 1px solid var(--cabinet-line);
+		border-left: 2px solid transparent;
+		background: var(--cabinet-front);
+		transition:
+			background var(--motion-crisp) var(--ease-crisp),
+			border-color var(--motion-crisp) var(--ease-crisp);
+
+		&:hover {
+			border-color: var(--color-line-strong);
+			border-left-color: var(--color-line-strong);
+			background: var(--cabinet-inset);
+		}
+
+		&[data-here="true"] {
+			border-color: var(--color-accent);
+			border-left-color: var(--color-accent);
+			background: var(--color-accent-soft);
+		}
+
+		.sheet__lamp {
+			align-self: center;
+		}
+	}
+
+	&__sibling[data-here="true"] &__lamp {
+		border-color: var(--color-accent);
+		background: var(--color-accent);
+	}
+
+	&__sibling-name {
+		@include Material.label;
+
+		color: var(--color-ink);
+	}
+
+	&__sibling[data-here="true"] &__sibling-name {
+		color: var(--color-accent-ink);
+	}
+
+	&__sibling-module {
+		grid-column: 2;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-faint);
+		overflow-wrap: anywhere;
+	}
+
+	&__sibling[data-here="true"] &__sibling-module {
+		color: var(--color-accent-ink);
+	}
+
+	&__ledger-list {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+	}
+
+	&__ledger-row {
+		padding: var(--space-2) var(--space-3);
+		border-left: 2px solid transparent;
+		transition: background var(--motion-crisp) var(--ease-crisp);
+
+		& + & {
+			border-top: 1px solid var(--color-line);
+		}
+
+		code {
+			font-family: var(--font-mono);
+			font-size: var(--text-xs);
+			color: var(--color-ink-muted);
+			overflow-wrap: anywhere;
+		}
+
+		&[data-here="true"] {
+			border-left-color: var(--color-accent);
+			background: var(--color-accent-soft);
+
+			code {
+				color: var(--color-accent-ink);
+			}
+		}
+	}
+
+	// The two lists are the same six modules in two forms, so the pointer on
+	// either form lights the other. The current row keeps its accent and is
+	// excluded from the hover wash.
+	@for $i from 1 through 6 {
+		&__band:has(&__sibling:nth-child(#{$i}):hover)
+			&__ledger-row:nth-child(#{$i}):not([data-here="true"]),
+		&__band:has(&__ledger-row:nth-child(#{$i}):hover)
+			&__sibling:nth-child(#{$i}):not([data-here="true"]) {
+			border-color: var(--color-line-strong);
+			background: var(--cabinet-inset);
+		}
+	}
+
+	// ---- The seam, the chain, the proof plate. ----
+	&__seam {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding: 0;
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+	}
+
+	&__seam-row {
+		display: grid;
+		grid-template-columns: 140px minmax(0, 1fr);
+		gap: var(--space-3);
+		padding-inline: var(--space-3);
+
+		& + & {
+			border-top: 1px solid var(--color-line);
+		}
+	}
+
+	&__seam-key {
+		@include Material.label;
+
+		padding-block: var(--space-2);
+	}
+
+	&__seam-value {
+		margin: 0;
+		padding-block: var(--space-2);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	&__chain {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+	}
+
+	&__chain-hop {
+		display: grid;
+		grid-template-columns: 28px minmax(180px, 300px) minmax(0, 1fr);
+		align-items: baseline;
+		gap: var(--space-3);
+		padding: var(--space-2) var(--space-3);
+		border-left: 2px solid transparent;
+
+		& + & {
+			border-top: 1px solid var(--color-line);
+		}
+
+		// The own hop: the site's 2px ink edge. The borrowed hop is dashed and
+		// inset, the same grammar Flow uses for a pass.
+		&[data-own="true"] {
+			border-left-color: var(--color-ink);
+		}
+
+		&[data-own="false"] {
+			border-left: 2px dashed var(--color-line-strong);
+			background: var(--cabinet-inset);
+		}
+	}
+
+	&__chain-step {
+		display: grid;
+		place-items: center;
+		width: 20px;
+		height: 20px;
+		border: 1px solid var(--color-line-strong);
+		background: var(--cabinet-front);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		font-variant-numeric: tabular-nums;
+		color: var(--color-ink-muted);
+	}
+
+	&__chain-hop[data-own="false"] &__chain-step {
+		border-style: dashed;
+		background: var(--cabinet-inset);
+		color: var(--color-ink-faint);
+	}
+
+	&__chain-name {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink);
+		overflow-wrap: anywhere;
+	}
+
+	&__chain-hop[data-own="false"] &__chain-name {
+		color: var(--color-ink-muted);
+	}
+
+	&__chain-what {
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	&__chain-hop[data-own="false"] &__chain-what {
+		color: var(--color-ink-faint);
+	}
+
+	// The proof plate: the page's one dark surface, because the ledger line is
+	// the fact the whole sheet exists to prove. In the dark theme the two
+	// tokens swap and the plate stays the strongest contrast on the page.
+	&__ledger {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		padding: var(--rhythm-inset);
+		border: 1px solid var(--color-ink);
+		background: var(--color-ink);
+		color: var(--color-surface);
+	}
+
+	&__ledger-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-3);
+	}
+
+	&__ledger-label {
+		@include Material.label;
+
+		color: var(--color-surface);
+		opacity: 0.72;
+	}
+
+	&__ledger-line {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-surface);
+		overflow-wrap: anywhere;
+	}
+
+	// ---- The split: what the library owns, what the package owns. ----
+	&__owned {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--rhythm-inset);
+	}
+
+	&__owned-column {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+
+		& + & {
+			padding-left: var(--rhythm-inset);
+			border-left: 1px solid var(--color-line);
+		}
+	}
+
+	&__owned-label {
+		@include Material.label;
+
+		margin: 0;
+		padding-bottom: var(--space-2);
+		border-bottom: 2px solid var(--color-ink);
+		color: var(--color-ink-muted);
+	}
+
+	&__owned-column[data-accent="true"] &__owned-label {
+		border-bottom-color: var(--color-accent);
+		color: var(--color-accent-ink);
+	}
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		li {
+			display: grid;
+			grid-template-columns: 10px minmax(0, 1fr);
+			gap: var(--space-2);
+			padding-block: var(--space-2);
+			border-top: 1px solid var(--color-line);
+			font-size: var(--text-sm);
+			line-height: var(--leading-body);
+			color: var(--color-ink-muted);
+
+			&:first-child {
+				border-top: 0;
+			}
+
+			&::before {
+				content: "";
+				width: 4px;
+				height: 4px;
+				margin-top: 8px;
+				background: var(--color-line-strong);
+			}
+		}
+
+		code {
+			font-family: var(--font-mono);
+			font-size: var(--text-xs);
+			color: var(--color-ink);
+		}
+	}
+
+	// ---- The pair: the code point, the arrow, the replacement. ----
+	&__pair {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+		align-items: stretch;
+		gap: var(--space-2);
+	}
+
+	&__plate {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: var(--space-2);
+		padding: var(--rhythm-head) var(--rhythm-inset);
+		border: 1px solid var(--color-line-strong);
+		background: var(--cabinet-front);
+		transition:
+			opacity var(--motion-snap) var(--ease-snap),
+			border-color var(--motion-snap) var(--ease-snap);
+
+		&[data-side="after"] {
+			border-color: var(--color-ink);
+		}
+	}
+
+	&__plate-label {
+		@include Material.label;
+
+		color: var(--color-ink-faint);
+	}
+
+	&__plate-glyph {
+		font-family: var(--font-mono);
+		font-size: clamp(64px, 9vw, 96px);
+		line-height: 1;
+		color: var(--color-ink);
+	}
+
+	&__plate[data-side="before"] &__plate-glyph {
+		color: var(--color-ink-muted);
+	}
+
+	&__plate[data-side="after"] &__plate-glyph {
+		letter-spacing: 0.06em;
+		color: var(--color-accent-ink);
+	}
+
+	&__plate-code {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+		text-align: center;
+	}
+
+	&__mid {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--space-12);
+		font-size: var(--text-lg);
+		color: var(--color-ink-faint);
+		transition:
+			color var(--motion-snap) var(--ease-snap),
+			transform var(--motion-snap) var(--ease-snap);
+	}
+
+	// The diff pair: pointing at one side dims the other, so the compare is a
+	// gesture rather than a caption.
+	&__pair:has([data-side="before"]:hover) [data-side="after"],
+	&__pair:has([data-side="after"]:hover) [data-side="before"] {
+		opacity: 0.45;
+	}
+
+	&__pair:has([data-side="before"]:hover) &__mid,
+	&__pair:has([data-side="after"]:hover) &__mid {
+		color: var(--color-ink);
+		transform: translateX(2px);
+	}
+
+	// ---- The reach: one plate per chunk kind. ----
+	&__reach {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__channel {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: baseline;
+		gap: var(--space-1) var(--space-2);
+		padding: var(--rhythm-inset);
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+
+		&[data-on="false"] {
+			border-style: dashed;
+			border-color: var(--color-line-strong);
+			background: var(--cabinet-inset);
+		}
+
+		.sheet__lamp {
+			align-self: center;
+		}
+	}
+
+	&__channel[data-on="true"] &__lamp {
+		border-color: var(--color-accent);
+		background: var(--color-accent);
+	}
+
+	&__channel-name {
+		@include Material.label;
+
+		color: var(--color-ink);
+	}
+
+	&__channel[data-on="false"] &__channel-name {
+		color: var(--color-ink-faint);
+	}
+
+	&__channel-state {
+		justify-self: end;
+		padding: 1px var(--space-2);
+		border: 1px solid var(--color-line-strong);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		line-height: 1.6;
+		color: var(--color-ink-muted);
+		white-space: nowrap;
+	}
+
+	&__channel[data-on="false"] &__channel-state {
+		border-style: dashed;
+		color: var(--color-ink-faint);
+	}
+
+	&__channel-flag {
+		grid-column: 2 / -1;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		line-height: var(--leading-snug);
+		color: var(--color-ink-muted);
+		overflow-wrap: anywhere;
+	}
+
+	// ---- The knob and the no-op: one plate, one absence. ----
+	&__split {
+		display: grid;
+		grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+		gap: var(--space-2);
+	}
+
+	&__panel-card {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		padding: var(--rhythm-inset);
+		border: 1px solid var(--cabinet-line);
+		background: var(--cabinet-front);
+
+		// The absence: dashed, inset, quiet. The no-op is a state the page can
+		// show, not a control it can press.
+		&[data-tone="noop"] {
+			border-style: dashed;
+			border-color: var(--color-line-strong);
+			background: var(--cabinet-inset);
+		}
+	}
+
+	&__panel-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-2);
+	}
+
+	&__panel-title {
+		margin: 0;
+		font-size: var(--text-base);
+		font-weight: 600;
+	}
+
+	&__panel-tag {
+		@include Material.label;
+
+		color: var(--color-ink-faint);
+	}
+
+	&__knob {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+	}
+
+	&__knob-row {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: baseline;
+		gap: var(--space-3);
+		padding-block: var(--space-2);
+		border-top: 1px solid var(--color-line);
+
+		&:first-child {
+			border-top: 0;
+		}
+	}
+
+	&__knob-key {
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	&__knob-value {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--color-ink);
+		text-align: right;
+		overflow-wrap: anywhere;
+	}
+
+	&__noop {
+		margin: 0;
+		font-size: var(--text-sm);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	// ---- The run: the activation turn, the selected record brought out. ----
+	&__spot {
+		.lane-strip,
+		.session-tree__group,
+		.session-tree__turn,
+		.inspector,
+		.session-record {
+			opacity: 0.42;
+			transition: opacity var(--motion-snap) var(--ease-snap);
+		}
+
+		// The selected record: the activation line, lifted out of the dimmed
+		// run. The marker is the selection, not the family's gate, because the
+		// manual's run selects the record the hook rewrote.
+		.session-record[data-current="true"] {
+			position: relative;
+			z-index: 1;
+			opacity: 1;
+			background: var(--color-accent-soft);
+
+			&::after {
+				content: "";
+				position: absolute;
+				inset-block: 0;
+				left: 0;
+				width: 3px;
+				background: var(--color-accent);
+			}
+		}
+
+		// Pointer and keyboard both un-dim what they are reading, so the
+		// machine is not a pointer-only picture.
+		.session-record:hover,
+		.session-record:focus-within,
+		.session-tree__group:hover,
+		.session-tree__group:focus-within,
+		.inspector:hover,
+		.inspector:focus-within,
+		.lane-strip:hover,
+		.lane-strip:focus-within {
+			opacity: 1;
+		}
+	}
+
+	// ---- The foot: the sheet's closing note. ----
+	&__foot {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-2);
+		margin-top: var(--rhythm-block);
+		padding-top: var(--space-3);
+		border-top: 1px solid var(--color-line-strong);
+	}
+
+	&__foot-lead {
+		@include Material.label;
+
+		color: var(--color-ink-faint);
+	}
+
+	&__foot-note {
+		font-size: var(--text-xs);
+		line-height: var(--leading-body);
+		color: var(--color-ink-muted);
+	}
+
+	// ---- The narrow page: the rail becomes a spine. ----
+	// Below 860px the seven columns stop being a timeline and become a vertical
+	// rail, which is the same order read top to bottom. The ruler is a desktop
+	// aid and is hidden rather than squeezed.
+	@media (max-width: 860px) {
+		&__ruler {
+			display: none;
+		}
+
+		// The six facts need three columns before the package name starts
+		// wrapping to three lines.
+		&__meta {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		&__world {
+			grid-template-columns: minmax(0, 1fr);
+			gap: var(--space-2);
+		}
+
+		&__world-label {
+			padding-top: 0;
+			text-align: left;
+		}
+
+		&__track {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		&__node {
+			padding: var(--space-1) 0 var(--space-1) 28px;
+			text-align: left;
+
+			&::before {
+				inset: 0 auto 0 10px;
+				width: 1px;
+				height: auto;
+			}
+
+			&[data-live="true"]::before {
+				inset: 0 auto 0 9px;
+				width: 2px;
+				height: auto;
+			}
+
+			&[data-empty="true"]::before {
+				inset: 0 auto 0 10px;
+				width: 1px;
+				height: auto;
+				background-image: repeating-linear-gradient(
+					180deg,
+					var(--color-line-strong) 0 4px,
+					transparent 4px 8px
+				);
+			}
+
+			&::after {
+				inset: 0 -4px;
+			}
+		}
+
+		&__marker {
+			top: 8px;
+			left: 10px;
+		}
+
+		&__node-name {
+			text-align: left;
+		}
+
+		&__registers,
+		&__cards,
+		&__owned,
+		&__reach,
+		&__siblings,
+		&__split,
+		&__pair {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		&__mid {
+			width: auto;
+			padding-block: var(--space-2);
+		}
+
+		&__owned-column + &__owned-column {
+			padding-top: var(--rhythm-inset);
+			padding-left: 0;
+			border-top: 1px solid var(--color-line);
+			border-left: 0;
+		}
+
+		&__decision {
+			grid-template-columns: 28px minmax(0, 1fr);
+		}
+
+		&__decision-index {
+			padding-left: var(--space-1);
+		}
+
+		&__decision-summary {
+			grid-template-columns: 10px minmax(0, 1fr) 10px;
+			row-gap: var(--space-2);
+			padding-right: var(--space-2);
+		}
+
+		&__decision-exits {
+			grid-row: 2;
+			grid-column: 1 / -1;
+		}
+
+		&__decision-caret {
+			grid-row: 1;
+			grid-column: 3;
+		}
+
+		&__decision-why {
+			grid-template-columns: minmax(0, 1fr);
+			gap: var(--space-1);
+			margin-right: 0;
+		}
+
+		&__chain-hop {
+			grid-template-columns: 28px minmax(0, 1fr);
+		}
+
+		&__chain-what {
+			grid-column: 2;
+		}
+
+		&__seam-row {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 0;
+		}
+
+		&__seam-key {
+			padding-bottom: 0;
+		}
+	}
+
+	@media (max-width: 760px) {
+		&__head {
+			flex-direction: column;
+		}
+
+		&__identity {
+			align-items: flex-start;
+		}
+
+		&__mark {
+			width: 56px;
+			height: 56px;
+		}
+
+		&__stamp {
+			align-self: flex-start;
+		}
+
+		&__meta {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		&__modes {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		&__band-head {
+			grid-template-columns: minmax(0, 1fr) auto;
+		}
+
+		&__band-row {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		&__canvas {
+			padding: var(--space-3);
+		}
+
+		&__payload-row {
+			grid-template-columns: 64px minmax(0, 1fr);
+		}
+
+		&__card {
+			padding: var(--space-4);
+		}
+	}
+
+	// ---- The motion guard ----
+	// Global.css already zeroes every duration; this block states the page's own
+	// intent and removes the transforms the durations would otherwise skip to,
+	// so a reduced-motion reader sees the end state and never a jump.
+	@media (prefers-reduced-motion: reduce) {
+		&__panel,
+		&__payload {
+			animation: none;
+		}
+
+		&__card,
+		&__plate,
+		&__mid,
+		&__leaf-default,
+		&__decision-caret {
+			transition: none;
+		}
+
+		&__card:hover,
+		&__card:focus-visible,
+		&__mode:active &__mode-face,
+		&__decision-summary:active {
+			transform: none;
+		}
+
+		&__pair:has([data-side="before"]:hover) &__mid,
+		&__pair:has([data-side="after"]:hover) &__mid {
+			transform: none;
+		}
+	}
+}

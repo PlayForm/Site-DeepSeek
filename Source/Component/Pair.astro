@@ -1,0 +1,48 @@
+---
+import "@Stylesheet/Component/Pair.scss";
+
+// The pair: what arrives and what the reader sees, at display size. The
+// geometry is borrowed from the overtrue corpus's detail-list plates and its
+// bullet-chart's mark discipline - two equal plates, a rule and an arrow
+// between them, the label above and the address below - because a diff of one
+// character draws a marked glyph and a sea of white.
+interface Side {
+	/** What the side is: arrives, or what the reader sees. */
+	Label: string;
+	/** The character itself, at display size. */
+	Glyph: string;
+	/** The address: a code point, or the count of the replacement. */
+	Code: string;
+	/** The name of the character, in the reader's words. */
+	Name: string;
+}
+
+interface Props {
+	/** The side before the hook answers. */
+	Before: Side;
+	/** The side after it. */
+	After: Side;
+}
+
+const { Before, After } = Astro.props;
+---
+
+<div class="pair">
+	<div class="pair__side" data-side="before">
+		<span class="pair__label">{Before.Label}</span>
+		<span class="pair__glyph">{Before.Glyph}</span>
+		<span class="pair__code">{Before.Code}&nbsp;</span>
+		<span class="pair__name">{Before.Name}</span>
+	</div>
+	<div class="pair__mid" aria-hidden="true">
+		<span class="pair__rule"></span>
+		<span class="pair__arrow">&#8594;</span>
+		<span class="pair__rule"></span>
+	</div>
+	<div class="pair__side" data-side="after">
+		<span class="pair__label">{After.Label}</span>
+		<span class="pair__glyph">{After.Glyph}</span>
+		<span class="pair__code">{After.Code}&nbsp;</span>
+		<span class="pair__name">{After.Name}</span>
+	</div>
+</div>

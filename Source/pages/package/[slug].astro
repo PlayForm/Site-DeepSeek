@@ -26,10 +26,14 @@ import Pager from "@Component/Pager.astro";
 import Policy from "@Component/Policy.astro";
 import Provenance from "@Component/Provenance.astro";
 import Record from "@Component/Record.astro";
+import Knob from "@Component/Knob.astro";
+import Pair from "@Component/Pair.astro";
+import Reach from "@Component/Reach.astro";
 import Retrieve from "@Component/Retrieve.astro";
 import Rewrite from "@Component/Rewrite.astro";
 import Schema from "@Component/Schema.astro";
 import Scheme from "@Component/Scheme.astro";
+import SessionView from "@Component/SessionView.tsx";
 import SectionHeader from "@Component/SectionHeader.astro";
 import Service from "@Component/Service.astro";
 import Storage from "@Component/Storage.astro";
@@ -52,7 +56,7 @@ import { Conversation } from "@Content/Mock";
 import { PortraitFor } from "@Content/Portrait";
 import { SchemeFor } from "@Content/Scheme";
 import { Plural } from "@Content/Session";
-import { TableFor } from "@Content/Table";
+import { ReachFor, TableFor } from "@Content/Table";
 import { Transform as Sample } from "@Content/Transform";
 import Base from "@Layout/Base.astro";
 import { ConfigFor } from "@Library/Config.server";
@@ -155,6 +159,32 @@ const Role =
 		: /[.!?:;,]$/.test(Portrait.Role)
 			? Portrait.Role
 			: `${Portrait.Role}.`;
+
+// Where the rewrite lands, for the stream families the site has authored it for.
+const ReachChannel = ReachFor(Entry.Slug);
+
+// The pair, when the family rewrites one code point for another: the character
+// that arrives, and what the reader gets. Read from the table record so the
+// picture cannot disagree with the table beside it.
+const Ellipsis = TableFor(Entry.Slug)?.Entry?.[0];
+
+const PairRecord =
+	Ellipsis === undefined
+		? undefined
+		: {
+				Before: {
+					Label: "arrives",
+					Glyph: String.fromCodePoint(Number.parseInt(Ellipsis.Code.replace("U+", ""), 16)),
+					Code: Ellipsis.Code,
+					Name: Ellipsis.Name ?? "the code point",
+				},
+				After: {
+					Label: "the reader sees",
+					Glyph: Ellipsis.To,
+					Code: `${Ellipsis.To.length} x U+002E`,
+					Name: "the default replacement",
+				},
+			};
 
 // The twin: the same package in the other release tree, found by the prefix
 // law the content maps already use, run the other way. A package with no
@@ -369,12 +399,27 @@ const File = [
 
 	<View />
 
-	<section class="section view-panel" id="conversation">
+	<section class="section view-panel" id="conversation" data-relevance="primary">
 		<SectionHeader
 			Title="Conversation"
 			Lede="The turn as a document: the calls every plugin page shares, what this package changes in them, and the order its work happens in."
 		/>
 		<div class="section__body stack">
+			<nav class="stack" aria-label="How to read this turn">
+				<p class="muted">
+					The same run reads three ways: the conversation as it happened, the function it
+					serves, and the architecture that makes it possible.
+				</p>
+				<div class="cluster">
+					<a class="button" href="#conversational">Conversational</a>
+					<a class="button button--quiet" href="#functional">Functional</a>
+					<a class="button button--quiet" href="#architectural">Architectural</a>
+				</div>
+			</nav>
+			<section id="conversational" class="stack">
+				<h3>Conversational</h3>
+				<SessionView client:load />
+			</section>
 			<header class="section-header">
 				<h3>The turn</h3>
 				<p class="section-header__lede">{TurnNote}</p>
@@ -454,7 +499,7 @@ const File = [
 		</div>
 	</section>
 
-	<section class="section view-panel" id="harness">
+	<section class="section view-panel" id="harness" data-relevance="muted">
 		<SectionHeader
 			Title="Harness"
 			Lede="The laws the package states, the line it writes when it loads, the seam the harness dispatches with none of the family, and the surface and knobs a run can set."
@@ -563,7 +608,7 @@ const File = [
 		</div>
 	</section>
 
-	<section class="section view-panel" id="family">
+	<section class="section view-panel" id="family" data-relevance="muted">
 		<SectionHeader
 			Title="Family"
 			Lede="The neighbours at the same seam, the arms beyond it, the twin in the other release tree, and the packages this one needs."
@@ -667,7 +712,7 @@ const File = [
 		</div>
 	</section>
 
-	<section class="section view-panel" id="person">
+	<section class="section view-panel" id="person" data-relevance="muted">
 		<SectionHeader Title="Person" Lede="What the person waits for, reads, and never sees." />
 		<div class="section__body stack">
 			<p class="lede">{Seen}</p>
@@ -706,7 +751,7 @@ const File = [
 		</div>
 	</section>
 
-	<section class="section view-panel" id="architecture">
+	<section class="section view-panel" id="architecture" data-relevance="primary">
 		<SectionHeader
 			Title="Architecture"
 			Lede="This plugin's own structure: the shape the portrait gives it, the facts its source documents, and the rule its flow obeys."
@@ -718,12 +763,25 @@ const File = [
 						<h3>Shape</h3>
 						<p class="section-header__lede">Plugs into&nbsp;{Portrait.Plugs}.</p>
 					</header>
-					<p class="lede">{Role}</p>
-					<ul class="stack">
-						{Portrait.Does.map((Item) => (
-							<li>{Item}</li>
-						))}
-					</ul>
+					{PairRecord !== undefined && (
+						<Pair Before={PairRecord.Before} After={PairRecord.After} />
+					)}
+					{ReachChannel.length > 0 && (
+						<Reach
+							Channel={ReachChannel}
+							Pass="A kind that is off is passed through untouched, by identity."
+						/>
+					)}
+					{ReachChannel.length === 0 && (
+						<>
+							<p class="lede">{Role}</p>
+							<ul class="stack">
+								{Portrait.Does.map((Item) => (
+									<li>{Item}</li>
+								))}
+							</ul>
+						</>
+					)}
 					{!Ask && (
 						<>
 							{Portrait.Shape === "stream" && <Stream Slug={Entry.Slug} />}

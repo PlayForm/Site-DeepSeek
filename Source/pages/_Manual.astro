@@ -1,0 +1,1376 @@
+---
+import "@Stylesheet/Manual.scss";
+
+import CopyButton from "@Component/CopyButton.tsx";
+import Icon from "@Component/Icon.astro";
+import SessionView from "@Component/SessionView.tsx";
+import { Manual } from "@Content/Manual";
+import Base from "@Layout/Base.astro";
+---
+
+<Base
+	Title="Ellipsis"
+	Description="A study sheet for hook-dsh-normalize-ellipsis: the decisions, the arms, and the two worlds.">
+	<div class="sheet">
+		<header class="sheet__head">
+			<div class="sheet__identity">
+				<span class="sheet__mark">
+					<Icon Name="hook-dsh-normalize-ellipsis" Size={64} Priority />
+				</span>
+				<div class="sheet__titles">
+					<h1 class="sheet__title">Ellipsis / the stream rewrite</h1>
+					<p class="sheet__subtitle">
+						One code point becomes three ASCII dots as the model streams. Show the run,
+						explain the decisions, focus the structure, or expand the session; unrelated
+						activity stays visible but subdued.
+					</p>
+				</div>
+			</div>
+			<p class="sheet__stamp">
+				<span class="sheet__lamp" aria-hidden="true"></span>
+				<span>Concept / illustrative</span>
+			</p>
+		</header>
+
+		<dl class="sheet__meta">
+			<div class="sheet__meta-item">
+				<dt class="sheet__meta-key">package</dt>
+				<dd class="sheet__meta-value">@playform/hook-dsh-normalize-ellipsis</dd>
+			</div>
+			<div class="sheet__meta-item">
+				<dt class="sheet__meta-key">version</dt>
+				<dd class="sheet__meta-value">0.2.1</dd>
+			</div>
+			<div class="sheet__meta-item">
+				<dt class="sheet__meta-key">kind</dt>
+				<dd class="sheet__meta-value">hook</dd>
+			</div>
+			<div class="sheet__meta-item">
+				<dt class="sheet__meta-key">release</dt>
+				<dd class="sheet__meta-value">Classic</dd>
+			</div>
+			<div class="sheet__meta-item">
+				<dt class="sheet__meta-key">licence</dt>
+				<dd class="sheet__meta-value">CC0-1.0</dd>
+			</div>
+			<div class="sheet__meta-item">
+				<dt class="sheet__meta-key">seam</dt>
+				<dd class="sheet__meta-value">llm/stream</dd>
+			</div>
+		</dl>
+
+		<div class="sheet__modes" role="radiogroup" aria-label="How to read the hook">
+			<label class="sheet__mode">
+				<input
+					class="sheet__mode-input"
+					type="radio"
+					name="sheet-mode"
+					id="mode-show"
+					aria-controls="show"
+					checked
+				/>
+				<span class="sheet__mode-face">
+					<span class="sheet__mode-index" aria-hidden="true">
+						01
+					</span>
+					<span class="sheet__mode-name">Show</span>
+					<span class="sheet__lamp" aria-hidden="true"></span>
+				</span>
+			</label>
+			<label class="sheet__mode">
+				<input
+					class="sheet__mode-input"
+					type="radio"
+					name="sheet-mode"
+					id="mode-explain"
+					aria-controls="explain"
+				/>
+				<span class="sheet__mode-face">
+					<span class="sheet__mode-index" aria-hidden="true">
+						02
+					</span>
+					<span class="sheet__mode-name">Explain</span>
+					<span class="sheet__lamp" aria-hidden="true"></span>
+				</span>
+			</label>
+			<label class="sheet__mode">
+				<input
+					class="sheet__mode-input"
+					type="radio"
+					name="sheet-mode"
+					id="mode-focus"
+					aria-controls="focus"
+				/>
+				<span class="sheet__mode-face">
+					<span class="sheet__mode-index" aria-hidden="true">
+						03
+					</span>
+					<span class="sheet__mode-name">Focus</span>
+					<span class="sheet__lamp" aria-hidden="true"></span>
+				</span>
+			</label>
+			<label class="sheet__mode">
+				<input
+					class="sheet__mode-input"
+					type="radio"
+					name="sheet-mode"
+					id="mode-expand"
+					aria-controls="expand"
+				/>
+				<span class="sheet__mode-face">
+					<span class="sheet__mode-index" aria-hidden="true">
+						04
+					</span>
+					<span class="sheet__mode-name">Expand</span>
+					<span class="sheet__lamp" aria-hidden="true"></span>
+				</span>
+			</label>
+		</div>
+
+		<section class="sheet__panel" id="show" aria-label="The two worlds">
+			<div class="sheet__band" data-band="canvas">
+				<header class="sheet__band-head">
+					<span class="sheet__band-index" aria-hidden="true">
+						01
+					</span>
+					<div class="sheet__band-body">
+						<p class="sheet__band-label">The two worlds</p>
+						<div class="sheet__band-row">
+							<h2 class="sheet__band-title">One stream, with and without the hook</h2>
+							<p class="sheet__band-note">
+								circles are events &middot; squares are artifacts &middot; diamonds
+								are decisions &middot; accent is the live path &middot; grey is
+								present but off-path
+							</p>
+						</div>
+					</div>
+				</header>
+
+				<div class="sheet__canvas">
+					<div class="sheet__ruler" aria-hidden="true">
+						<span class="sheet__ruler-key">stage</span>
+						<div class="sheet__ruler-track">
+							<span class="sheet__ruler-tick">01</span>
+							<span class="sheet__ruler-tick">02</span>
+							<span class="sheet__ruler-tick">03</span>
+							<span class="sheet__ruler-tick">04</span>
+							<span class="sheet__ruler-tick">05</span>
+							<span class="sheet__ruler-tick">06</span>
+							<span class="sheet__ruler-tick">07</span>
+							<span class="sheet__ruler-live"></span>
+						</div>
+					</div>
+
+					<div class="sheet__world">
+						<p class="sheet__world-label">Baseline DSH</p>
+						<ol class="sheet__track" aria-label="Baseline DSH, seven stages">
+							<li class="sheet__node" tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">Input</span>
+								<span class="visually-hidden">event, off-path</span>
+							</li>
+							<li class="sheet__node" tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">Request</span>
+								<span class="visually-hidden">event, off-path</span>
+							</li>
+							<li class="sheet__node" tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">llm/stream</span>
+								<span class="visually-hidden">event, off-path</span>
+							</li>
+							<li class="sheet__node" data-empty="true" tabindex="0">
+								<span class="sheet__node-name">no listener</span>
+								<span class="visually-hidden">empty, off-path</span>
+							</li>
+							<li class="sheet__node" tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">text-delta</span>
+								<span class="visually-hidden">event, off-path</span>
+							</li>
+							<li class="sheet__node" data-shape="square" tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">transcript</span>
+								<span class="sheet__node-bytes">U+2026</span>
+								<span class="visually-hidden">artifact, off-path</span>
+							</li>
+							<li class="sheet__node" tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">Result</span>
+								<span class="visually-hidden">event, off-path</span>
+							</li>
+						</ol>
+					</div>
+
+					<div class="sheet__world" data-family="true">
+						<p class="sheet__world-label">DSH + PlayForm</p>
+						<ol class="sheet__track" aria-label="DSH with PlayForm, seven stages">
+							<li class="sheet__node" tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">Input</span>
+								<span class="visually-hidden">event, off-path</span>
+							</li>
+							<li class="sheet__node" tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">Request</span>
+								<span class="visually-hidden">event, off-path</span>
+							</li>
+							<li class="sheet__node" data-live="true" tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">llm/stream</span>
+								<span class="visually-hidden">event, live path</span>
+							</li>
+							<li
+								class="sheet__node"
+								data-kind="decision"
+								data-live="true"
+								tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">chunk.kind</span>
+								<span class="sheet__node-bytes">text / reasoning / tool args</span>
+								<span class="visually-hidden">decision, live path</span>
+							</li>
+							<li class="sheet__node" data-live="true" tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">text-delta</span>
+								<span class="visually-hidden">event, live path</span>
+							</li>
+							<li
+								class="sheet__node"
+								data-shape="square"
+								data-live="true"
+								tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">transcript</span>
+								<span class="sheet__node-bytes">...</span>
+								<span class="visually-hidden">artifact, live path</span>
+							</li>
+							<li class="sheet__node" tabindex="0">
+								<span class="sheet__marker" aria-hidden="true"></span>
+								<span class="sheet__node-name">Result</span>
+								<span class="visually-hidden">event, off-path</span>
+							</li>
+						</ol>
+					</div>
+
+					<div class="sheet__payloads" aria-hidden="true">
+						<div class="sheet__payload" data-stage="1">
+							<p class="sheet__payload-head">
+								<span>stage</span>
+								<span class="sheet__payload-index">01 / 07</span>
+							</p>
+							<dl class="sheet__payload-rows">
+								<div class="sheet__payload-row">
+									<dt>baseline</dt>
+									<dd>
+										<span class="sheet__payload-name">Input</span>
+										<span class="sheet__payload-kind">event</span>
+										<span class="sheet__payload-path" data-live="false">
+											off-path
+										</span>
+									</dd>
+								</div>
+								<div class="sheet__payload-row">
+									<dt>family</dt>
+									<dd>
+										<span class="sheet__payload-name">Input</span>
+										<span class="sheet__payload-kind">event</span>
+										<span class="sheet__payload-path" data-live="false">
+											off-path
+										</span>
+									</dd>
+								</div>
+							</dl>
+						</div>
+						<div class="sheet__payload" data-stage="2">
+							<p class="sheet__payload-head">
+								<span>stage</span>
+								<span class="sheet__payload-index">02 / 07</span>
+							</p>
+							<dl class="sheet__payload-rows">
+								<div class="sheet__payload-row">
+									<dt>baseline</dt>
+									<dd>
+										<span class="sheet__payload-name">Request</span>
+										<span class="sheet__payload-kind">event</span>
+										<span class="sheet__payload-path" data-live="false">
+											off-path
+										</span>
+									</dd>
+								</div>
+								<div class="sheet__payload-row">
+									<dt>family</dt>
+									<dd>
+										<span class="sheet__payload-name">Request</span>
+										<span class="sheet__payload-kind">event</span>
+										<span class="sheet__payload-path" data-live="false">
+											off-path
+										</span>
+									</dd>
+								</div>
+							</dl>
+						</div>
+						<div class="sheet__payload" data-stage="3">
+							<p class="sheet__payload-head">
+								<span>stage</span>
+								<span class="sheet__payload-index">03 / 07</span>
+							</p>
+							<dl class="sheet__payload-rows">
+								<div class="sheet__payload-row">
+									<dt>baseline</dt>
+									<dd>
+										<span class="sheet__payload-name">llm/stream</span>
+										<span class="sheet__payload-kind">event</span>
+										<span class="sheet__payload-path" data-live="false">
+											off-path
+										</span>
+									</dd>
+								</div>
+								<div class="sheet__payload-row">
+									<dt>family</dt>
+									<dd>
+										<span class="sheet__payload-name">llm/stream</span>
+										<span class="sheet__payload-kind">event</span>
+										<span class="sheet__payload-path" data-live="true">
+											live path
+										</span>
+									</dd>
+								</div>
+							</dl>
+						</div>
+						<div class="sheet__payload" data-stage="4">
+							<p class="sheet__payload-head">
+								<span>stage</span>
+								<span class="sheet__payload-index">04 / 07</span>
+							</p>
+							<dl class="sheet__payload-rows">
+								<div class="sheet__payload-row">
+									<dt>baseline</dt>
+									<dd>
+										<span class="sheet__payload-name">no listener</span>
+										<span class="sheet__payload-kind">none</span>
+										<span class="sheet__payload-path" data-live="false">
+											off-path
+										</span>
+									</dd>
+								</div>
+								<div class="sheet__payload-row">
+									<dt>family</dt>
+									<dd>
+										<span class="sheet__payload-name">chunk.kind</span>
+										<span class="sheet__payload-kind">decision</span>
+										<span class="sheet__payload-bytes">
+											text / reasoning / tool args
+										</span>
+										<span class="sheet__payload-path" data-live="true">
+											live path
+										</span>
+									</dd>
+								</div>
+							</dl>
+						</div>
+						<div class="sheet__payload" data-stage="5">
+							<p class="sheet__payload-head">
+								<span>stage</span>
+								<span class="sheet__payload-index">05 / 07</span>
+							</p>
+							<dl class="sheet__payload-rows">
+								<div class="sheet__payload-row">
+									<dt>baseline</dt>
+									<dd>
+										<span class="sheet__payload-name">text-delta</span>
+										<span class="sheet__payload-kind">event</span>
+										<span class="sheet__payload-path" data-live="false">
+											off-path
+										</span>
+									</dd>
+								</div>
+								<div class="sheet__payload-row">
+									<dt>family</dt>
+									<dd>
+										<span class="sheet__payload-name">text-delta</span>
+										<span class="sheet__payload-kind">event</span>
+										<span class="sheet__payload-path" data-live="true">
+											live path
+										</span>
+									</dd>
+								</div>
+							</dl>
+						</div>
+						<div class="sheet__payload" data-stage="6">
+							<p class="sheet__payload-head">
+								<span>stage</span>
+								<span class="sheet__payload-index">06 / 07</span>
+							</p>
+							<dl class="sheet__payload-rows">
+								<div class="sheet__payload-row">
+									<dt>baseline</dt>
+									<dd>
+										<span class="sheet__payload-name">transcript</span>
+										<span class="sheet__payload-kind">artifact</span>
+										<span class="sheet__payload-bytes">U+2026</span>
+										<span class="sheet__payload-path" data-live="false">
+											off-path
+										</span>
+									</dd>
+								</div>
+								<div class="sheet__payload-row">
+									<dt>family</dt>
+									<dd>
+										<span class="sheet__payload-name">transcript</span>
+										<span class="sheet__payload-kind">artifact</span>
+										<span class="sheet__payload-bytes">...</span>
+										<span class="sheet__payload-path" data-live="true">
+											live path
+										</span>
+									</dd>
+								</div>
+							</dl>
+						</div>
+						<div class="sheet__payload" data-stage="7">
+							<p class="sheet__payload-head">
+								<span>stage</span>
+								<span class="sheet__payload-index">07 / 07</span>
+							</p>
+							<dl class="sheet__payload-rows">
+								<div class="sheet__payload-row">
+									<dt>baseline</dt>
+									<dd>
+										<span class="sheet__payload-name">Result</span>
+										<span class="sheet__payload-kind">event</span>
+										<span class="sheet__payload-path" data-live="false">
+											off-path
+										</span>
+									</dd>
+								</div>
+								<div class="sheet__payload-row">
+									<dt>family</dt>
+									<dd>
+										<span class="sheet__payload-name">Result</span>
+										<span class="sheet__payload-kind">event</span>
+										<span class="sheet__payload-path" data-live="false">
+											off-path
+										</span>
+									</dd>
+								</div>
+							</dl>
+						</div>
+					</div>
+
+					<div class="sheet__caption">
+						<span class="sheet__caption-pair">
+							<span class="sheet__caption-key">selected</span>
+							<span class="sheet__caption-value" data-tone="accent">
+								hook-dsh-normalize-ellipsis
+							</span>
+						</span>
+						<span class="sheet__caption-pair">
+							<span class="sheet__caption-key">seam</span>
+							<span class="sheet__caption-value">llm/stream</span>
+						</span>
+						<span class="sheet__caption-pair">
+							<span class="sheet__caption-key">layer</span>
+							<span class="sheet__caption-value">visible</span>
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="sheet__band" data-band="cards">
+				<header class="sheet__band-head">
+					<span class="sheet__band-index" aria-hidden="true">
+						02
+					</span>
+					<div class="sheet__band-body">
+						<p class="sheet__band-label">The artifacts</p>
+						<div class="sheet__band-row">
+							<h2 class="sheet__band-title">What the bytes are, on either side</h2>
+							<p class="sheet__band-note">
+								one code point counted &middot; three characters written
+							</p>
+						</div>
+					</div>
+				</header>
+
+				<div class="sheet__cards" data-count="three">
+					<article class="sheet__card" tabindex="0">
+						<header class="sheet__card-head">
+							<p class="sheet__card-label">Baseline artifact</p>
+							<span class="sheet__card-tag">before</span>
+						</header>
+						<p class="sheet__card-value" data-tone="baseline">
+							Loading&hellip;
+						</p>
+						<p class="sheet__card-note">
+							The bytes the adapter streamed, with no listener on the seam.
+						</p>
+					</article>
+					<article class="sheet__card" data-accent="true" tabindex="0">
+						<header class="sheet__card-head">
+							<p class="sheet__card-label">PlayForm artifact</p>
+							<span class="sheet__card-tag" data-tone="accent">
+								after
+							</span>
+						</header>
+						<p class="sheet__card-value">Loading...</p>
+						<p class="sheet__card-note">
+							The same chunk after the rewrite: one code point counted, three
+							characters written.
+						</p>
+					</article>
+					<article class="sheet__card" tabindex="0">
+						<header class="sheet__card-head">
+							<p class="sheet__card-label">Explanation</p>
+						</header>
+						<dl class="sheet__card-facts">
+							<div class="sheet__card-fact">
+								<dt>kind</dt>
+								<dd>text-delta</dd>
+							</div>
+							<div class="sheet__card-fact">
+								<dt>reasoning</dt>
+								<dd>on</dd>
+							</div>
+							<div class="sheet__card-fact">
+								<dt>toolArgs</dt>
+								<dd>off</dd>
+							</div>
+							<div class="sheet__card-fact">
+								<dt>exempt</dt>
+								<dd>no</dd>
+							</div>
+							<div class="sheet__card-fact">
+								<dt>count</dt>
+								<dd>2</dd>
+							</div>
+						</dl>
+						<p class="sheet__card-note">
+							The text and reasoning paths rewrote; the tool path passed by identity.
+						</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="sheet__panel" id="explain" aria-label="The decisions">
+			<div class="sheet__band" data-band="lead">
+				<header class="sheet__band-head">
+					<span class="sheet__band-index" aria-hidden="true">
+						01
+					</span>
+					<div class="sheet__band-body">
+						<p class="sheet__band-label">The decisions</p>
+						<div class="sheet__band-row">
+							<h2 class="sheet__band-title">The dispatch, branch by branch</h2>
+							<p class="sheet__band-note">
+								every branch below exists in Source/Function/Chunk.ts and Block.ts
+							</p>
+						</div>
+					</div>
+				</header>
+
+				<ol class="sheet__spine">
+					<li class="sheet__decision">
+						<span class="sheet__decision-index" aria-hidden="true">
+							01
+						</span>
+						<details class="sheet__decision-open" open>
+							<summary class="sheet__decision-summary">
+								<span class="sheet__diamond" aria-hidden="true"></span>
+								<span class="sheet__decision-name">chunk.kind</span>
+								<span class="sheet__decision-exits">
+									<span class="sheet__exit">text-delta</span>
+									<span class="sheet__exit">reasoning-delta</span>
+									<span class="sheet__exit">tool-call-delta</span>
+									<span class="sheet__exit">block-end</span>
+									<span class="sheet__exit" data-tone="identity">
+										other: identity
+									</span>
+								</span>
+								<span class="sheet__decision-caret" aria-hidden="true"></span>
+							</summary>
+							<div class="sheet__decision-why">
+								<span class="sheet__decision-key">condition</span>
+								<span class="sheet__decision-condition">
+									switch (true) on Input.type
+								</span>
+							</div>
+						</details>
+					</li>
+					<li class="sheet__decision">
+						<span class="sheet__decision-index" aria-hidden="true">
+							02
+						</span>
+						<details class="sheet__decision-open">
+							<summary class="sheet__decision-summary">
+								<span class="sheet__diamond" aria-hidden="true"></span>
+								<span class="sheet__decision-name">scopes.conversation</span>
+								<span class="sheet__decision-exits">
+									<span class="sheet__exit" data-tone="replace">
+										on: replace text
+									</span>
+									<span class="sheet__exit" data-tone="identity">
+										off: identity
+									</span>
+								</span>
+								<span class="sheet__decision-caret" aria-hidden="true"></span>
+							</summary>
+							<div class="sheet__decision-why">
+								<span class="sheet__decision-key">condition</span>
+								<span class="sheet__decision-condition">
+									Input.type === "text-delta" &amp;&amp; Conversation
+								</span>
+							</div>
+						</details>
+					</li>
+					<li class="sheet__decision">
+						<span class="sheet__decision-index" aria-hidden="true">
+							03
+						</span>
+						<details class="sheet__decision-open">
+							<summary class="sheet__decision-summary">
+								<span class="sheet__diamond" aria-hidden="true"></span>
+								<span class="sheet__decision-name">reasoning flag</span>
+								<span class="sheet__decision-exits">
+									<span class="sheet__exit" data-tone="replace">
+										on: replace text
+									</span>
+									<span class="sheet__exit" data-tone="identity">
+										off: identity
+									</span>
+								</span>
+								<span class="sheet__decision-caret" aria-hidden="true"></span>
+							</summary>
+							<div class="sheet__decision-why">
+								<span class="sheet__decision-key">condition</span>
+								<span class="sheet__decision-condition">
+									normalizeReasoning &amp;&amp; scopes.reasoning
+								</span>
+							</div>
+						</details>
+					</li>
+					<li class="sheet__decision">
+						<span class="sheet__decision-index" aria-hidden="true">
+							04
+						</span>
+						<details class="sheet__decision-open">
+							<summary class="sheet__decision-summary">
+								<span class="sheet__diamond" aria-hidden="true"></span>
+								<span class="sheet__decision-name">raw marker</span>
+								<span class="sheet__decision-exits">
+									<span class="sheet__exit" data-tone="strip">
+										marked: strip, count 0
+									</span>
+									<span class="sheet__exit">unmarked: next gate</span>
+								</span>
+								<span class="sheet__decision-caret" aria-hidden="true"></span>
+							</summary>
+							<div class="sheet__decision-why">
+								<span class="sheet__decision-key">condition</span>
+								<span class="sheet__decision-condition">
+									argumentsDelta.startsWith('&lbrace;"__normalize":false')
+								</span>
+							</div>
+						</details>
+					</li>
+					<li class="sheet__decision">
+						<span class="sheet__decision-index" aria-hidden="true">
+							05
+						</span>
+						<details class="sheet__decision-open">
+							<summary class="sheet__decision-summary">
+								<span class="sheet__diamond" aria-hidden="true"></span>
+								<span class="sheet__decision-name">toolArguments flag</span>
+								<span class="sheet__decision-exits">
+									<span class="sheet__exit">on: next gate</span>
+									<span class="sheet__exit" data-tone="identity">
+										off: identity
+									</span>
+								</span>
+								<span class="sheet__decision-caret" aria-hidden="true"></span>
+							</summary>
+							<div class="sheet__decision-why">
+								<span class="sheet__decision-key">condition</span>
+								<span class="sheet__decision-condition">
+									normalizeToolArguments || scopes.toolInput
+								</span>
+							</div>
+						</details>
+					</li>
+					<li class="sheet__decision">
+						<span class="sheet__decision-index" aria-hidden="true">
+							06
+						</span>
+						<details class="sheet__decision-open">
+							<summary class="sheet__decision-summary">
+								<span class="sheet__diamond" aria-hidden="true"></span>
+								<span class="sheet__decision-name">name exempt</span>
+								<span class="sheet__decision-exits">
+									<span class="sheet__exit" data-tone="identity">
+										exempt: identity
+									</span>
+									<span class="sheet__exit" data-tone="replace">
+										else: replace arguments
+									</span>
+								</span>
+								<span class="sheet__decision-caret" aria-hidden="true"></span>
+							</summary>
+							<div class="sheet__decision-why">
+								<span class="sheet__decision-key">condition</span>
+								<span class="sheet__decision-condition">
+									name === "edit" || "raw-write" || "normalize-file"
+								</span>
+							</div>
+						</details>
+					</li>
+					<li class="sheet__decision">
+						<span class="sheet__decision-index" aria-hidden="true">
+							07
+						</span>
+						<details class="sheet__decision-open">
+							<summary class="sheet__decision-summary">
+								<span class="sheet__diamond" aria-hidden="true"></span>
+								<span class="sheet__decision-name">replacement</span>
+								<span class="sheet__decision-exits">
+									<span class="sheet__exit" data-tone="replace">
+										"...": three dots
+									</span>
+									<span class="sheet__exit" data-tone="strip">
+										"": removed
+									</span>
+								</span>
+								<span class="sheet__decision-caret" aria-hidden="true"></span>
+							</summary>
+							<div class="sheet__decision-why">
+								<span class="sheet__decision-key">condition</span>
+								<span class="sheet__decision-condition">
+									Replace(text, Ellipsis, Replacement)
+								</span>
+							</div>
+						</details>
+					</li>
+					<li class="sheet__decision">
+						<span class="sheet__decision-index" aria-hidden="true">
+							08
+						</span>
+						<details class="sheet__decision-open">
+							<summary class="sheet__decision-summary">
+								<span class="sheet__diamond" aria-hidden="true"></span>
+								<span class="sheet__decision-name">count &gt; 0</span>
+								<span class="sheet__decision-exits">
+									<span class="sheet__exit" data-tone="replace">
+										yes: one ledger line
+									</span>
+									<span class="sheet__exit" data-tone="identity">
+										no: no line
+									</span>
+								</span>
+								<span class="sheet__decision-caret" aria-hidden="true"></span>
+							</summary>
+							<div class="sheet__decision-why">
+								<span class="sheet__decision-key">condition</span>
+								<span class="sheet__decision-condition">
+									after a normal completion
+								</span>
+							</div>
+						</details>
+					</li>
+				</ol>
+
+				<p class="sheet__note">
+					block-end runs the same gates on the assembled block: text and reasoning under
+					the conversation scope, tool-call under the raw marker, the tool-args flag and
+					the name exemption. block-start, usage and finish pass by identity.
+				</p>
+			</div>
+
+			<div class="sheet__band" data-band="grid">
+				<header class="sheet__band-head">
+					<span class="sheet__band-index" aria-hidden="true">
+						02
+					</span>
+					<div class="sheet__band-body">
+						<p class="sheet__band-label">The registers</p>
+						<div class="sheet__band-row">
+							<h2 class="sheet__band-title">The flags and the exemptions</h2>
+							<p class="sheet__band-note">the defaults as Config.ts declares them</p>
+						</div>
+					</div>
+				</header>
+
+				<div class="sheet__registers">
+					<section class="sheet__register">
+						<p class="sheet__register-label">
+							Scopes &middot; six leaves, the object volatile
+						</p>
+						<ul class="sheet__leaves">
+							<li class="sheet__leaf" data-on="true" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">conversation</span>
+								<span class="visually-hidden">default on</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: on
+								</span>
+							</li>
+							<li class="sheet__leaf" data-on="true" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">reasoning</span>
+								<span class="visually-hidden">default on</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: on
+								</span>
+							</li>
+							<li class="sheet__leaf" data-on="false" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">toolInput</span>
+								<span class="visually-hidden">default off</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: off
+								</span>
+							</li>
+							<li class="sheet__leaf" data-on="false" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">toolResults</span>
+								<span class="visually-hidden">default off</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: off
+								</span>
+							</li>
+							<li class="sheet__leaf" data-on="true" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">files</span>
+								<span class="visually-hidden">default on</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: on
+								</span>
+							</li>
+							<li class="sheet__leaf" data-on="false" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">batch</span>
+								<span class="visually-hidden">default off</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: off
+								</span>
+							</li>
+						</ul>
+					</section>
+					<section class="sheet__register">
+						<p class="sheet__register-label">
+							Exempt tool results &middot; seven names &middot; the tools/post-execute
+							arm
+						</p>
+						<ul class="sheet__leaves">
+							<li class="sheet__leaf" data-on="false" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">read</span>
+								<span class="visually-hidden">default off</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: off
+								</span>
+							</li>
+							<li class="sheet__leaf" data-on="false" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">edit</span>
+								<span class="visually-hidden">default off</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: off
+								</span>
+							</li>
+							<li class="sheet__leaf" data-on="false" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">raw-write</span>
+								<span class="visually-hidden">default off</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: off
+								</span>
+							</li>
+							<li class="sheet__leaf" data-on="false" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">normalize-file</span>
+								<span class="visually-hidden">default off</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: off
+								</span>
+							</li>
+							<li class="sheet__leaf" data-on="false" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">ccr_retrieve</span>
+								<span class="visually-hidden">default off</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: off
+								</span>
+							</li>
+							<li class="sheet__leaf" data-on="false" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">subagent</span>
+								<span class="visually-hidden">default off</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: off
+								</span>
+							</li>
+							<li class="sheet__leaf" data-on="false" tabindex="0">
+								<span class="sheet__lamp" aria-hidden="true"></span>
+								<span class="sheet__leaf-name">ask_user_question</span>
+								<span class="visually-hidden">default off</span>
+								<span class="sheet__leaf-default" aria-hidden="true">
+									default: off
+								</span>
+							</li>
+						</ul>
+					</section>
+				</div>
+			</div>
+
+			<div class="sheet__band" data-band="forms">
+				<header class="sheet__band-head">
+					<span class="sheet__band-index" aria-hidden="true">
+						03
+					</span>
+					<div class="sheet__band-body">
+						<p class="sheet__band-label">The seam</p>
+						<div class="sheet__band-row">
+							<h2 class="sheet__band-title">
+								Same seam, the order the waterfall runs it
+							</h2>
+							<p class="sheet__band-note">
+								six plain listeners &middot; registration order &middot; none
+								prepends
+							</p>
+						</div>
+					</div>
+				</header>
+
+				<ol class="sheet__siblings">
+					<li class="sheet__sibling">
+						<span class="sheet__lamp" aria-hidden="true"></span>
+						<span class="sheet__sibling-name">dash</span>
+						<span class="sheet__sibling-module">hook-dsh-normalize-dash</span>
+					</li>
+					<li class="sheet__sibling">
+						<span class="sheet__lamp" aria-hidden="true"></span>
+						<span class="sheet__sibling-name">quotes</span>
+						<span class="sheet__sibling-module">hook-dsh-normalize-quotes</span>
+					</li>
+					<li class="sheet__sibling" data-here="true" aria-current="true">
+						<span class="sheet__lamp" aria-hidden="true"></span>
+						<span class="sheet__sibling-name">ellipsis</span>
+						<span class="sheet__sibling-module">hook-dsh-normalize-ellipsis</span>
+					</li>
+					<li class="sheet__sibling">
+						<span class="sheet__lamp" aria-hidden="true"></span>
+						<span class="sheet__sibling-name">spaces</span>
+						<span class="sheet__sibling-module">hook-dsh-normalize-spaces</span>
+					</li>
+					<li class="sheet__sibling">
+						<span class="sheet__lamp" aria-hidden="true"></span>
+						<span class="sheet__sibling-name">invisible</span>
+						<span class="sheet__sibling-module">hook-dsh-normalize-invisible</span>
+					</li>
+					<li class="sheet__sibling">
+						<span class="sheet__lamp" aria-hidden="true"></span>
+						<span class="sheet__sibling-name">fullwidth</span>
+						<span class="sheet__sibling-module">hook-dsh-normalize-fullwidth</span>
+					</li>
+				</ol>
+
+				<ol class="sheet__ledger-list">
+					<li class="sheet__ledger-row">
+						<code>
+							hook-dsh-normalize-dash: normalized N dash char(s) in one stream
+						</code>
+					</li>
+					<li class="sheet__ledger-row">
+						<code>
+							hook-dsh-normalize-quotes: normalized N quote char(s) in one stream
+						</code>
+					</li>
+					<li class="sheet__ledger-row" data-here="true" aria-current="true">
+						<code>
+							hook-dsh-normalize-ellipsis: normalized 2 ellipsis char(s) in one stream
+						</code>
+					</li>
+					<li class="sheet__ledger-row">
+						<code>
+							hook-dsh-normalize-spaces: normalized N space char(s) in one stream
+						</code>
+					</li>
+					<li class="sheet__ledger-row">
+						<code>
+							hook-dsh-normalize-invisible: normalized N invisible char(s) in one
+							stream
+						</code>
+					</li>
+					<li class="sheet__ledger-row">
+						<code>
+							hook-dsh-normalize-fullwidth: normalized N fullwidth char(s) in one
+							stream
+						</code>
+					</li>
+				</ol>
+
+				<p class="sheet__note">
+					The run order is registration order: none of the six passes&nbsp;
+					<code>prepend: true</code>, so the profile's list decides. The one prepended
+					listener this hook registers is its&nbsp;<code>tools/post-execute</code>
+					&nbsp;arm, a different seam. What the hook sees is what its predecessors left;
+					what its successors see is what it wrote, because the wrapped stream is what the
+					live UI and the durable transcript consume. Each module writes its own&nbsp;
+					<code>logFile</code>, so the proof is one line in that module's ledger.
+				</p>
+			</div>
+
+			<div class="sheet__band" data-band="machine">
+				<header class="sheet__band-head">
+					<span class="sheet__band-index" aria-hidden="true">
+						04
+					</span>
+					<div class="sheet__band-body">
+						<p class="sheet__band-label">The dispatch</p>
+						<div class="sheet__band-row">
+							<h2 class="sheet__band-title">Inside the dispatch</h2>
+							<p class="sheet__band-note">
+								llm/stream &middot; waterfall &middot; the listener chain
+							</p>
+						</div>
+					</div>
+				</header>
+
+				<dl class="sheet__seam">
+					<div class="sheet__seam-row">
+						<dt class="sheet__seam-key">seam</dt>
+						<dd class="sheet__seam-value">llm/stream</dd>
+					</div>
+					<div class="sheet__seam-row">
+						<dt class="sheet__seam-key">dispatch</dt>
+						<dd class="sheet__seam-value">waterfall</dd>
+					</div>
+					<div class="sheet__seam-row">
+						<dt class="sheet__seam-key">registration</dt>
+						<dd class="sheet__seam-value">plain listener, fiber-owned, no prepend</dd>
+					</div>
+					<div class="sheet__seam-row">
+						<dt class="sheet__seam-key">reads</dt>
+						<dd class="sheet__seam-value">
+							replacement, normalizeReasoning, normalizeToolArguments, scopes
+						</dd>
+					</div>
+					<div class="sheet__seam-row">
+						<dt class="sheet__seam-key">writes</dt>
+						<dd class="sheet__seam-value">
+							the count line after a normal completion, when count &gt; 0
+						</dd>
+					</div>
+				</dl>
+
+				<ol class="sheet__chain">
+					<li class="sheet__chain-hop" data-own="false">
+						<span class="sheet__chain-step">1</span>
+						<span class="sheet__chain-name">Next()</span>
+						<span class="sheet__chain-what">
+							the adapter's own stream, called once before any iteration; the request
+							is never touched
+						</span>
+					</li>
+					<li class="sheet__chain-hop" data-own="true">
+						<span class="sheet__chain-step">2</span>
+						<span class="sheet__chain-name">for await (const chunk of Upstream)</span>
+						<span class="sheet__chain-what">
+							one chunk at a time, so the stream is never buffered
+						</span>
+					</li>
+					<li class="sheet__chain-hop" data-own="true">
+						<span class="sheet__chain-step">3</span>
+						<span class="sheet__chain-name">
+							Chunk(chunk, Replacement, Reasoning, ToolArgs, Raw, Conversation)
+						</span>
+						<span class="sheet__chain-what">
+							the core dispatch: text, reasoning, tool-call, block-end
+						</span>
+					</li>
+					<li class="sheet__chain-hop" data-own="true">
+						<span class="sheet__chain-step">4</span>
+						<span class="sheet__chain-name">replace or pass</span>
+						<span class="sheet__chain-what">
+							a changed chunk is a shallow copy; an unchanged one leaves by identity
+						</span>
+					</li>
+					<li class="sheet__chain-hop" data-own="true">
+						<span class="sheet__chain-step">5</span>
+						<span class="sheet__chain-name">Count &gt; 0</span>
+						<span class="sheet__chain-what">
+							after a normal completion, the ledger line and the journal event; a
+							thrown stream writes nothing
+						</span>
+					</li>
+				</ol>
+
+				<div class="sheet__ledger">
+					<div class="sheet__ledger-head">
+						<span class="sheet__ledger-label">the line it writes</span>
+						<CopyButton
+							Text="hook-dsh-normalize-ellipsis: normalized 2 ellipsis char(s) in one stream"
+							client:visible
+						/>
+					</div>
+					<code class="sheet__ledger-line">
+						hook-dsh-normalize-ellipsis: normalized 2 ellipsis char(s) in one stream
+					</code>
+				</div>
+			</div>
+		</section>
+
+		<section class="sheet__panel" id="focus" aria-label="The structure">
+			<div class="sheet__band" data-band="lead">
+				<header class="sheet__band-head">
+					<span class="sheet__band-index" aria-hidden="true">
+						01
+					</span>
+					<div class="sheet__band-body">
+						<p class="sheet__band-label">The split</p>
+						<div class="sheet__band-row">
+							<h2 class="sheet__band-title">
+								What the library owns, what the package owns
+							</h2>
+							<p class="sheet__band-note">
+								the package is small because the dispatch lives in the core
+							</p>
+						</div>
+					</div>
+				</header>
+
+				<div class="sheet__owned">
+					<section class="sheet__owned-column">
+						<p class="sheet__owned-label">The shared library owns</p>
+						<ul class="sheet__list">
+							<li>
+								the per-chunk dispatch <code>(Stream/Chunk)</code>
+							</li>
+							<li>
+								the block-end normalizer <code>(Stream/Block)</code>
+							</li>
+							<li>
+								the class-to-string replacer <code>(Normalize/Replace)</code>
+							</li>
+							<li>
+								the raw-marker strip <code>(Stream/Strip)</code>
+							</li>
+							<li>
+								the tool-results and step-batch decisions
+								<code>(Overpass, StepBatch)</code>
+							</li>
+							<li>
+								the activation-line composer <code>(Function/Activate)</code>
+							</li>
+						</ul>
+					</section>
+					<section class="sheet__owned-column" data-accent="true">
+						<p class="sheet__owned-label">This package owns</p>
+						<ul class="sheet__list">
+							<li>
+								the Ellipsis class, U+2026 <code>(Normalize/Ellipsis)</code>
+							</li>
+							<li>
+								the replacement argument <code>(Function/Replace)</code>
+							</li>
+							<li>
+								the stream wrapper and its per-call raw tracking
+								<code>(Function/Normalize)</code>
+							</li>
+							<li>
+								the two arm wire-ups
+								<code>(Function/Overpass, Function/StepBatch)</code>
+							</li>
+							<li>
+								the config schema and defaults <code>(Variable/Config)</code>
+							</li>
+							<li>
+								the command and the ledger strings
+								<code>(Function/Command, Apply)</code>
+							</li>
+						</ul>
+					</section>
+				</div>
+
+				<p class="sheet__note">
+					The EffectTS twin wraps the same core Gate with Effect's stream APIs; the seam,
+					the config and the ledger string are unchanged.
+				</p>
+			</div>
+
+			<div class="sheet__band" data-band="pair">
+				<header class="sheet__band-head">
+					<span class="sheet__band-index" aria-hidden="true">
+						02
+					</span>
+					<div class="sheet__band-body">
+						<p class="sheet__band-label">The pair</p>
+					</div>
+				</header>
+
+				<div
+					class="sheet__pair"
+					role="group"
+					aria-label="The code point and its replacement">
+					<div class="sheet__plate" data-side="before">
+						<span class="sheet__plate-label">arrives</span>
+						<span class="sheet__plate-glyph">&hellip;</span>
+						<span class="sheet__plate-code">U+2026 &middot; one-member class</span>
+					</div>
+					<div class="sheet__mid" aria-hidden="true">
+						<span>&rarr;</span>
+					</div>
+					<div class="sheet__plate" data-side="after">
+						<span class="sheet__plate-label">the reader sees</span>
+						<span class="sheet__plate-glyph">...</span>
+						<span class="sheet__plate-code">
+							replacement &middot; volatile, default "..."
+						</span>
+					</div>
+				</div>
+
+				<p class="sheet__note">
+					One character class, no lookaround: every U+2026 in the text is replaced,
+					wherever it appears.
+				</p>
+			</div>
+
+			<div class="sheet__band" data-band="reach">
+				<header class="sheet__band-head">
+					<span class="sheet__band-index" aria-hidden="true">
+						03
+					</span>
+					<div class="sheet__band-body">
+						<p class="sheet__band-label">The reach</p>
+						<div class="sheet__band-row">
+							<h2 class="sheet__band-title">Where it lands</h2>
+							<p class="sheet__band-note">one dispatch, three chunk kinds</p>
+						</div>
+					</div>
+				</header>
+
+				<ul class="sheet__reach">
+					<li class="sheet__channel" data-on="true">
+						<span class="sheet__lamp" aria-hidden="true"></span>
+						<span class="sheet__channel-name">text</span>
+						<span class="sheet__channel-state">rewritten</span>
+						<span class="sheet__channel-flag">scopes.conversation=on</span>
+					</li>
+					<li class="sheet__channel" data-on="true">
+						<span class="sheet__lamp" aria-hidden="true"></span>
+						<span class="sheet__channel-name">reasoning</span>
+						<span class="sheet__channel-state">rewritten</span>
+						<span class="sheet__channel-flag">
+							normalizeReasoning=on, scopes.reasoning=on
+						</span>
+					</li>
+					<li class="sheet__channel" data-on="false">
+						<span class="sheet__lamp" aria-hidden="true"></span>
+						<span class="sheet__channel-name">tool args</span>
+						<span class="sheet__channel-state">passed</span>
+						<span class="sheet__channel-flag">
+							normalizeToolArguments=off, scopes.toolInput=off
+						</span>
+					</li>
+				</ul>
+			</div>
+
+			<div class="sheet__band" data-band="quiet">
+				<header class="sheet__band-head">
+					<span class="sheet__band-index" aria-hidden="true">
+						04
+					</span>
+					<div class="sheet__band-body">
+						<p class="sheet__band-label">The knob and the no-op</p>
+					</div>
+				</header>
+
+				<section class="sheet__split" aria-label="The knob and the no-op">
+					<div class="sheet__panel-card" data-tone="knob">
+						<header class="sheet__panel-head">
+							<h2 class="sheet__panel-title">The knob</h2>
+							<span class="sheet__panel-tag">config</span>
+						</header>
+						<dl class="sheet__knob">
+							<div class="sheet__knob-row">
+								<dt class="sheet__knob-key">replacement</dt>
+								<dd class="sheet__knob-value">"..." (default)</dd>
+							</div>
+							<div class="sheet__knob-row">
+								<dt class="sheet__knob-key">empty string</dt>
+								<dd class="sheet__knob-value">removes the code point</dd>
+							</div>
+							<div class="sheet__knob-row">
+								<dt class="sheet__knob-key">normalizeReasoning</dt>
+								<dd class="sheet__knob-value">true</dd>
+							</div>
+							<div class="sheet__knob-row">
+								<dt class="sheet__knob-key">normalizeToolArguments</dt>
+								<dd class="sheet__knob-value">false</dd>
+							</div>
+							<div class="sheet__knob-row">
+								<dt class="sheet__knob-key">logFile</dt>
+								<dd class="sheet__knob-value">
+									~/.dsh/playform/hook-dsh-normalize-ellipsis.log
+								</dd>
+							</div>
+						</dl>
+					</div>
+					<div class="sheet__panel-card" data-tone="noop">
+						<header class="sheet__panel-head">
+							<h2 class="sheet__panel-title">Nothing to rewrite</h2>
+							<span class="sheet__panel-tag">no-op</span>
+						</header>
+						<p class="sheet__noop">
+							No ellipsis in the stream: count 0, no line, and the chunk leaves by
+							identity.
+						</p>
+					</div>
+				</section>
+			</div>
+		</section>
+
+		<section class="sheet__panel" id="expand" aria-label="The run">
+			<div class="sheet__band" data-band="lead">
+				<header class="sheet__band-head">
+					<span class="sheet__band-index" aria-hidden="true">
+						01
+					</span>
+					<div class="sheet__band-body">
+						<p class="sheet__band-label">The run</p>
+						<div class="sheet__band-row">
+							<h2 class="sheet__band-title">One turn, the hook brought out</h2>
+							<p class="sheet__band-note">
+								one turn &middot; the rewrite selected &middot; the rest muted
+							</p>
+						</div>
+					</div>
+				</header>
+
+				<div class="sheet__spot">
+					<SessionView Data={Manual} Start={7} client:load />
+				</div>
+
+				<div class="sheet__caption">
+					<span class="sheet__caption-pair">
+						<span class="sheet__caption-key">exactly here</span>
+						<span class="sheet__caption-value">
+							the&nbsp;<code>text</code>&nbsp;chunk of&nbsp;<code>llm/stream</code>,
+							one code point inside the word&nbsp;<code>Loading</code>&nbsp;- the
+							record the family marked, lifted out of the run while the rest of the
+							run stays in place
+						</span>
+					</span>
+				</div>
+			</div>
+		</section>
+
+		<p class="sheet__foot">
+			<span class="sheet__foot-lead">Illustrative data</span>
+			<span class="sheet__foot-note">
+				Read from Apply.ts, Normalize.ts, Chunk.ts, Block.ts, Replace.ts, Config.ts, the
+				stream-contract and config smokes, and the harness's llm-streaming.md. The run is
+				drawn by hand to compare against the built page.
+			</span>
+		</p>
+	</div>
+</Base>

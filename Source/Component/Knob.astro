@@ -1,0 +1,30 @@
+---
+import "@Stylesheet/Component/Knob.scss";
+
+// The knob: the one field a reader can turn, drawn as a value against its
+// default. The geometry is borrowed from the overtrue corpus's settings rows -
+// the key in mono, the value right-aligned, a hairline per row - and the panel
+// is inverted because the knob is the one place the reader acts.
+interface Row {
+	/** The field, as the package names it. */
+	Key: string;
+	/** Its value, or its rule. */
+	Value: string;
+}
+
+interface Props {
+	/** The rows, in the order the config declares them. */
+	Row: Row[];
+}
+
+const { Row } = Astro.props;
+---
+
+<div class="knob">
+	{Row.map((Item) => (
+		<div class="knob__row">
+			<span class="knob__key">{Item.Key}</span>
+			<span class="knob__value">{Item.Value}</span>
+		</div>
+	))}
+</div>

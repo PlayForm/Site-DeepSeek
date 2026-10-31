@@ -234,3 +234,51 @@ export function TableFor(Slug: string): Table | undefined {
 }
 
 export default Table;
+
+// Where a stream family's rewrite lands. The three chunk kinds are the harness's
+// own dispatch, and the flags are the package's: `reasoning` on by default for
+// the six normalizers, `toolArguments` off, because rewriting a tool's arguments
+// changes what the tool does rather than what the reader reads.
+export interface ReachChannel {
+	Name: string;
+	On: boolean;
+	Flag?: string;
+}
+
+export const Reach: Record<string, ReachChannel[]> = {
+	"hook-dsh-normalize-ellipsis": [
+		{ Name: "text", On: true },
+		{ Name: "reasoning", On: true, Flag: "reasoning" },
+		{ Name: "tool args", On: false, Flag: "toolArguments" },
+	],
+	"hook-dsh-normalize-dash": [
+		{ Name: "text", On: true },
+		{ Name: "reasoning", On: true, Flag: "reasoning" },
+		{ Name: "tool args", On: false, Flag: "toolArguments" },
+	],
+	"hook-dsh-normalize-quotes": [
+		{ Name: "text", On: true },
+		{ Name: "reasoning", On: true, Flag: "reasoning" },
+		{ Name: "tool args", On: false, Flag: "toolArguments" },
+	],
+	"hook-dsh-normalize-spaces": [
+		{ Name: "text", On: true },
+		{ Name: "reasoning", On: true, Flag: "reasoning" },
+		{ Name: "tool args", On: false, Flag: "toolArguments" },
+	],
+	"hook-dsh-normalize-invisible": [
+		{ Name: "text", On: true },
+		{ Name: "reasoning", On: true, Flag: "reasoning" },
+		{ Name: "tool args", On: false, Flag: "toolArguments" },
+	],
+	"hook-dsh-normalize-fullwidth": [
+		{ Name: "text", On: true },
+		{ Name: "reasoning", On: true, Flag: "reasoning" },
+		{ Name: "tool args", On: false, Flag: "toolArguments" },
+	],
+};
+
+/** The channels a family rewrites, when the site has authored them. */
+export function ReachFor(Slug: string): ReachChannel[] {
+	return Reach[Slug.replace(/^ets-/, "")] ?? [];
+}

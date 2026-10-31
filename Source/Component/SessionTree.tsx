@@ -3,15 +3,13 @@ import "@Stylesheet/Component/SessionTree.scss";
 import {
 	Acting,
 	FormatNumber,
-	Meta,
-	Plugin,
-	PluginRecord,
 	Plural,
-	Record,
-	Turn,
+	PluginRecord,
+	Session,
 	TurnRecord,
 	TurnStep,
 	type Face,
+	type SessionData,
 } from "@Content/Session";
 import { For } from "solid-js";
 
@@ -22,14 +20,17 @@ interface Props {
 	Pick: number;
 	/** Select a record by its sequence number. */
 	OnPick: (Seq: number) => void;
+	/** The run the tree reads; defaults to the trace page's authored session. */
+	Data?: SessionData;
 }
 
 export default function SessionTree(Props: Props) {
-	const Selected = () => Record.find((Entry) => Entry.Seq === Props.Pick);
+	const Source = () => Props.Data ?? Session;
+	const Selected = () => Source().Record.find((Entry) => Entry.Seq === Props.Pick);
 	const CurrentTurn = () => Selected()?.Turn;
 	const CurrentStep = () => Selected()?.Step;
 	const First = (Group: number, Order?: number) =>
-		Record.find(
+		Source().Record.find(
 			(Entry) => Entry.Turn === Group && (Order === undefined || Entry.Step === Order),
 		)?.Seq ?? 0;
 
@@ -38,16 +39,16 @@ export default function SessionTree(Props: Props) {
 			<div class="session-tree__head">
 				<span class="session-tree__title">Turns</span>
 				<span class="session-tree__meta">
-					{Meta.Id}&nbsp;|&nbsp;{Plural(Record.length, "record")}
+					{Source().Meta.Id}&nbsp;|&nbsp;{Plural(Source().Record.length, "record")}
 				</span>
 			</div>
 
-			<For each={Turn}>
+			<For each={Source().Turn}>
 				{(Group) => (
 					<div class="session-tree__group">
 						<p class="session-tree__label">
 							<span>Turn&nbsp;{Group.Index}</span>
-							<span>{Plural(TurnRecord(Group.Index), "record")}</span>
+							<span>{Plural(TurnRecord(Group.Index, Source()), "record")}</span>
 						</p>
 						<a
 							class="session-tree__turn"
@@ -59,10 +60,10 @@ export default function SessionTree(Props: Props) {
 							</span>{" "}
 							<span class="session-tree__name">{Group.Title}</span>{" "}
 							<span class="session-tree__count">
-								{Plural(TurnStep(Group.Index).length, "step")}
+								{Plural(TurnStep(Group.Index, Source()).length, "step")}
 							</span>
 						</a>
-						<For each={TurnStep(Group.Index)}>
+						<For each={TurnStep(Group.Index, Source())}>
 							{(Item) => (
 								<a
 									class="session-tree__step"
@@ -86,14 +87,14 @@ export default function SessionTree(Props: Props) {
 			<div class="session-tree__group">
 				<p class="session-tree__label">
 					<span>Plugins</span>
-					<span>{`${FormatNumber(Acting(Props.Face))} acting`}</span>
+					<span>{`${FormatNumber(Acting(Props.Face, Source()))} acting`}</span>
 				</p>
-				<For each={Plugin}>
+				<For each={Source().Plugin}>
 					{(Item) => (
 						<div class="session-tree__plugin" data-state={Item.State} title={Item.Does}>
 							<span class="session-tree__slug">{Item.Slug}</span>{" "}
 							<span class="session-tree__plugin-count">
-								{FormatNumber(PluginRecord(Item.Slug, Props.Face))}
+								{FormatNumber(PluginRecord(Item.Slug, Props.Face, Source()))}
 							</span>{" "}
 							<span class="session-tree__state">{Item.State}</span>
 						</div>

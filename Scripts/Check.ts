@@ -128,6 +128,10 @@ for (const File of Page) {
 		// text and not a space: the component decides where a boundary needs one,
 		// so the marker is dropped rather than turned into whitespace.
 		.replace(/<!--[\s\S]*?-->/g, "")
+		// A glyph cell is content, not prose: the character a plugin maps is the
+		// subject, so a space before it is a layout boundary and not a stray
+		// space before punctuation.
+		.replace(/<span class="?pair__glyph"?>[\s\S]*?<\/span>/g, " [glyph] ")
 		.replace(
 			/<\/?(?:td|th|tr|dt|dd|li|p|div|section|article|aside|header|footer|nav|main|figure|figcaption|h[1-6]|br)\b[^>]*>/g,
 			" ",

@@ -4,27 +4,31 @@ import {
 	FormatDuration,
 	FormatTick,
 	Plural,
-	Record,
 	ResourceOf,
+	Session,
 	Share,
 	SpanLabel,
-	Step,
+	StepsOf,
 	Timeline,
 	type Face,
 	type Resource,
+	type SessionData,
 } from "@Content/Session";
 import { createMemo, For } from "solid-js";
 
 interface Props {
 	/** The face the lane draws. */
 	Face: Face;
+	/** The run the lane reads; defaults to the trace page's authored session. */
+	Data?: SessionData;
 }
 
 // The rows a reader scans, in the order the run reaches them.
 const Band: Resource[] = ["Input", "Model", "Tools"];
 
 export default function LaneStrip(Props: Props) {
-	const Moment = createMemo(() => Timeline(Props.Face));
+	const Source = () => Props.Data ?? Session;
+	const Moment = createMemo(() => Timeline(Props.Face, Source()));
 	const Total = createMemo(() => Moment().reduce((Sum, Item) => Math.max(Sum, Item.End), 0));
 	const Span = (Name: Resource) =>
 		Moment().filter((Item) => ResourceOf(Item.Entry) === Name && Item.Outcome.Took > 0);
@@ -37,7 +41,8 @@ export default function LaneStrip(Props: Props) {
 			<div class="lane-strip__head">
 				<span class="lane-strip__meta">{FormatDuration(Total())}&nbsp;of wall clock</span>
 				<span class="lane-strip__meta">
-					{Plural(Step.length, "step")},&nbsp;{Plural(Record.length, "record")}
+					{Plural(StepsOf(Source()).length, "step")},&nbsp;
+					{Plural(Source().Record.length, "record")}
 				</span>
 			</div>
 			<For each={Band}>

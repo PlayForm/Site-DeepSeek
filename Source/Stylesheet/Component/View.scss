@@ -150,6 +150,44 @@ body:not(:has(:target)) .view__link[data-view="conversation"] {
 	&:target {
 		border-top: var(--cabinet-depth) solid var(--color-accent);
 	}
+
+	// A view that is not this plugin's function stays on the page and stays
+	// reachable, but it recedes: its heading drops to label weight, its body
+	// loses contrast, and its machines lose their accent. The reader can still
+	// open it; it no longer competes with the thing the plugin actually does.
+	&[data-relevance="muted"] {
+		opacity: 0.62;
+
+		.section-header__title {
+			font-size: var(--text-sm);
+			font-weight: 500;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+			color: var(--color-ink-faint);
+		}
+
+		.section-header__lede {
+			font-size: var(--text-xs);
+			color: var(--color-ink-faint);
+		}
+
+		.section__body {
+			font-size: var(--text-sm);
+		}
+
+		// The accent is the page's way of saying "this matters"; a muted view
+		// gives it back.
+		.badge--accent,
+		[class*="__mark"],
+		[class*="__lamp"] {
+			filter: saturate(0.2);
+		}
+
+		&:target,
+		&:hover {
+			opacity: 1;
+		}
+	}
 }
 
 // On a phone the instrument becomes a strip: the five bays keep their order

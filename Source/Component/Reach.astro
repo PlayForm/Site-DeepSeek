@@ -1,0 +1,42 @@
+---
+import "@Stylesheet/Component/Reach.scss";
+
+// Where a stream hook's rewrite actually lands. A normalizer answers three
+// questions and the third is the one prose always blurs: which chunk kinds the
+// rewrite touches, which flags gate them, and what happens when a kind is off.
+//
+// The row is a channel per kind with a lamp, because "reaches text and
+// reasoning, and the block ends the stream assembles" is three facts and a
+// condition read as one sentence. Drawn, it is one glance.
+export interface Channel {
+	/** The chunk kind, in the harness's words. */
+	Name: string;
+	/** True when the family rewrites this kind by default. */
+	On: boolean;
+	/** The flag that turns it on, when it is off by default. */
+	Flag?: string;
+}
+
+interface Props {
+	/** The channels, in the order the stream dispatches them. */
+	Channel: Channel[];
+	/** What happens to a kind that is not rewritten. */
+	Pass: string;
+}
+
+const { Channel, Pass } = Astro.props;
+---
+
+<div class="reach">
+	<ul class="reach__row">
+		{Channel.map((Item) => (
+			<li class="reach__channel" data-on={Item.On}>
+				<span class="reach__lamp" aria-hidden="true" />
+				<span class="reach__name">{Item.Name}</span>
+				<span class="reach__state">{Item.On ? "rewritten" : "passed"}</span>
+				{Item.Flag !== undefined && <span class="reach__flag">{Item.Flag}</span>}
+			</li>
+		))}
+	</ul>
+	<p class="reach__pass">{Pass}</p>
+</div>
