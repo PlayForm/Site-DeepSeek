@@ -65,6 +65,7 @@
 	},
 	"devDependencies": {
 		"@astrojs/ts-plugin": "1.10.12",
+		"@types/node": "26.6.6",
 		"mermaid": "12.3.0",
 		"puppeteer-core": "25.16.0",
 		"sass": "1.108.1"
