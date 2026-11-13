@@ -4,7 +4,7 @@
 		"en": "DSH Family @ PlayForm"
 	},
 	"description": {
-		"en": "The PlayForm DeepSeek Harness plugin family: 120 packages across the Classic TypeScript and Effect-TS trees."
+		"en": "The PlayForm DeepSeek Harness plugin family: 126 packages across the Classic TypeScript and Effect-TS trees."
 	},
 	"metadata": {
 		"categories": {
@@ -54,6 +54,47 @@
 		"sortKeys": {}
 	},
 	"plugins": [
+		{
+			"name": "@playform/client-dsh-panel-cost",
+			"title": {
+				"en": "Panel Cost"
+			},
+			"description": {
+				"en": "The Cost tab of the PlayForm plugin family: a Statistics-style cost table over the plugin-dsh-cost SQLite ledger, mounted as one conversation.view tab. The host half registers a read-only JSON route over the ledger; the browser half folds..."
+			},
+			"icon": "Icon/client-dsh-panel-cost.svg",
+			"author": "PlayForm",
+			"repository": {
+				"url": "https://github.com/PlayForm/DeepSeek",
+				"directory": "Classic/packages/client-dsh-panel-cost"
+			},
+			"metadata": {
+				"category": "client",
+				"keywords": [
+					"panel",
+					"cost",
+					"classic"
+				],
+				"labels": [
+					"classic",
+					"source"
+				],
+				"sortKeys": {}
+			},
+			"versions": [
+				{
+					"version": "0.2.1",
+					"publishTimestamp": 1794394724,
+					"source": {
+						"type": "git",
+						"url": "https://github.com/PlayForm/DeepSeek",
+						"commit": "30f52f998310c471025c508b12834abad77d935c",
+						"path": "Classic/packages/client-dsh-panel-cost"
+					},
+					"engines": {}
+				}
+			]
+		},
 		{
 			"name": "@playform/client-dsh-panel-family",
 			"title": {
@@ -299,11 +340,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793280404,
+					"publishTimestamp": 1794394724,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "5f6de87a53dd29d495ff259c37804249d56e1ac1",
+						"commit": "30f52f998310c471025c508b12834abad77d935c",
 						"path": "EffectTS/packages/ets-client-dsh-panel-family"
 					},
 					"engines": {}
@@ -341,11 +382,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793280404,
+					"publishTimestamp": 1794329514,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "5f6de87a53dd29d495ff259c37804249d56e1ac1",
+						"commit": "ef605c9296736191e00ef23dca179af04b87e6a8",
 						"path": "EffectTS/packages/ets-client-dsh-panel-family-host"
 					},
 					"engines": {}
@@ -436,11 +477,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793280404,
+					"publishTimestamp": 1794394724,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "5f6de87a53dd29d495ff259c37804249d56e1ac1",
+						"commit": "30f52f998310c471025c508b12834abad77d935c",
 						"path": "EffectTS/packages/ets-hook-dsh-batch-decision"
 					},
 					"engines": {}
@@ -592,11 +633,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793280404,
+					"publishTimestamp": 1794334403,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "5f6de87a53dd29d495ff259c37804249d56e1ac1",
+						"commit": "2376be68493fbbd67b69c6b0e4cb847e376c2864",
 						"path": "EffectTS/packages/ets-hook-dsh-comment-filter"
 					},
 					"engines": {}
@@ -849,11 +890,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793280404,
+					"publishTimestamp": 1794334403,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "5f6de87a53dd29d495ff259c37804249d56e1ac1",
+						"commit": "2376be68493fbbd67b69c6b0e4cb847e376c2864",
 						"path": "EffectTS/packages/ets-hook-dsh-lesson-nudge"
 					},
 					"engines": {}
@@ -2087,11 +2128,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793276580,
+					"publishTimestamp": 1794329514,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "85ea0af93de65a636e50b88301011b900c00f01a",
+						"commit": "ef605c9296736191e00ef23dca179af04b87e6a8",
 						"path": "EffectTS/packages/ets-lib-dsh-conversation"
 					},
 					"engines": {}
@@ -2199,6 +2240,46 @@
 					"publishTimestamp": 1793221405,
 					"source": {
 						"type": "npm"
+					},
+					"engines": {}
+				}
+			]
+		},
+		{
+			"name": "@playform/ets-lib-dsh-style",
+			"title": {
+				"en": "Style (Effect-TS)"
+			},
+			"description": {
+				"en": "The STYLE: the one runtime stylesheet injector of the UI family (@playform/ets-lib-dsh-style) - the single <style> mount every client plugin calls, keyed by the data-plugin-css attribute, appended to the document head once per plugin file,..."
+			},
+			"icon": "Icon/ets-lib-dsh-style.svg",
+			"author": "PlayForm",
+			"repository": {
+				"url": "https://github.com/PlayForm/DeepSeek",
+				"directory": "EffectTS/packages/ets-lib-dsh-style"
+			},
+			"metadata": {
+				"category": "library",
+				"keywords": [
+					"style",
+					"effectts"
+				],
+				"labels": [
+					"effectts",
+					"source"
+				],
+				"sortKeys": {}
+			},
+			"versions": [
+				{
+					"version": "0.2.1",
+					"publishTimestamp": 1794329514,
+					"source": {
+						"type": "git",
+						"url": "https://github.com/PlayForm/DeepSeek",
+						"commit": "ef605c9296736191e00ef23dca179af04b87e6a8",
+						"path": "EffectTS/packages/ets-lib-dsh-style"
 					},
 					"engines": {}
 				}
@@ -2447,11 +2528,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793280404,
+					"publishTimestamp": 1794394724,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "5f6de87a53dd29d495ff259c37804249d56e1ac1",
+						"commit": "30f52f998310c471025c508b12834abad77d935c",
 						"path": "EffectTS/packages/ets-plugin-dsh-cost"
 					},
 					"engines": {}
@@ -2488,11 +2569,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793276580,
+					"publishTimestamp": 1794334403,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "85ea0af93de65a636e50b88301011b900c00f01a",
+						"commit": "2376be68493fbbd67b69c6b0e4cb847e376c2864",
 						"path": "EffectTS/packages/ets-plugin-dsh-cost-analysis"
 					},
 					"engines": {}
@@ -2695,11 +2776,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793278638,
+					"publishTimestamp": 1794334403,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "7a669fed4b0c2ec478448c32287f188087874558",
+						"commit": "2376be68493fbbd67b69c6b0e4cb847e376c2864",
 						"path": "EffectTS/packages/ets-plugin-dsh-ingester"
 					},
 					"engines": {}
@@ -2736,11 +2817,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793280404,
+					"publishTimestamp": 1794394724,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "5f6de87a53dd29d495ff259c37804249d56e1ac1",
+						"commit": "30f52f998310c471025c508b12834abad77d935c",
 						"path": "EffectTS/packages/ets-plugin-dsh-lesson-review"
 					},
 					"engines": {}
@@ -2831,11 +2912,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793278638,
+					"publishTimestamp": 1794334403,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "7a669fed4b0c2ec478448c32287f188087874558",
+						"commit": "2376be68493fbbd67b69c6b0e4cb847e376c2864",
 						"path": "EffectTS/packages/ets-plugin-dsh-pass-on"
 					},
 					"engines": {}
@@ -2871,11 +2952,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793280404,
+					"publishTimestamp": 1794394724,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "5f6de87a53dd29d495ff259c37804249d56e1ac1",
+						"commit": "30f52f998310c471025c508b12834abad77d935c",
 						"path": "EffectTS/packages/ets-plugin-dsh-pattern"
 					},
 					"engines": {}
@@ -5041,6 +5122,46 @@
 			]
 		},
 		{
+			"name": "@playform/lib-dsh-bundle",
+			"title": {
+				"en": "Bundle"
+			},
+			"description": {
+				"en": "The BUNDLE: the build tooling of the UI family (@playform/lib-dsh-bundle) - the harness client-bundle envelope (window.__ModuleLoader__.load({ id, factory(require) })) and the stylesheet compile, the two steps every UI package's build..."
+			},
+			"icon": "Icon/lib-dsh-bundle.svg",
+			"author": "PlayForm",
+			"repository": {
+				"url": "https://github.com/PlayForm/DeepSeek",
+				"directory": "Classic/packages/lib-dsh-bundle"
+			},
+			"metadata": {
+				"category": "library",
+				"keywords": [
+					"bundle",
+					"classic"
+				],
+				"labels": [
+					"classic",
+					"source"
+				],
+				"sortKeys": {}
+			},
+			"versions": [
+				{
+					"version": "0.2.1",
+					"publishTimestamp": 1794334733,
+					"source": {
+						"type": "git",
+						"url": "https://github.com/PlayForm/DeepSeek",
+						"commit": "a9efc05acc8de57645ec5dfd0e88737f0efa7ac2",
+						"path": "Classic/packages/lib-dsh-bundle"
+					},
+					"engines": {}
+				}
+			]
+		},
+		{
 			"name": "@playform/lib-dsh-conversation",
 			"title": {
 				"en": "Conversation"
@@ -5178,6 +5299,46 @@
 					"publishTimestamp": 1793221003,
 					"source": {
 						"type": "npm"
+					},
+					"engines": {}
+				}
+			]
+		},
+		{
+			"name": "@playform/lib-dsh-style",
+			"title": {
+				"en": "Style"
+			},
+			"description": {
+				"en": "The STYLE: the one runtime stylesheet injector of the UI family (@playform/lib-dsh-style) - the single <style> mount every client plugin calls, keyed by the data-plugin-css attribute, appended to the document head once per plugin file,..."
+			},
+			"icon": "Icon/lib-dsh-style.svg",
+			"author": "PlayForm",
+			"repository": {
+				"url": "https://github.com/PlayForm/DeepSeek",
+				"directory": "Classic/packages/lib-dsh-style"
+			},
+			"metadata": {
+				"category": "library",
+				"keywords": [
+					"style",
+					"classic"
+				],
+				"labels": [
+					"classic",
+					"source"
+				],
+				"sortKeys": {}
+			},
+			"versions": [
+				{
+					"version": "0.2.1",
+					"publishTimestamp": 1794334403,
+					"source": {
+						"type": "git",
+						"url": "https://github.com/PlayForm/DeepSeek",
+						"commit": "2376be68493fbbd67b69c6b0e4cb847e376c2864",
+						"path": "Classic/packages/lib-dsh-style"
 					},
 					"engines": {}
 				}
@@ -5426,11 +5587,11 @@
 			"versions": [
 				{
 					"version": "0.2.1",
-					"publishTimestamp": 1793362644,
+					"publishTimestamp": 1794334403,
 					"source": {
 						"type": "git",
 						"url": "https://github.com/PlayForm/DeepSeek",
-						"commit": "071cb40f01bc98d3321c40338623a27524dfc958",
+						"commit": "2376be68493fbbd67b69c6b0e4cb847e376c2864",
 						"path": "Classic/packages/plugin-dsh-boot"
 					},
 					"engines": {}
@@ -6038,6 +6199,47 @@
 			]
 		},
 		{
+			"name": "@playform/plugin-dsh-skill-learn",
+			"title": {
+				"en": "Skill Learn"
+			},
+			"description": {
+				"en": "The skill-learn service: a DeepSeek Harness plugin that carries BOTH HALVES OF THE HERMES LEARNING LOOP as one service - the post-turn review that turns a finished session into skill edits, and the curator that ages the corpus. The review..."
+			},
+			"icon": "Icon/plugin-dsh-skill-learn.svg",
+			"author": "PlayForm",
+			"repository": {
+				"url": "https://github.com/PlayForm/DeepSeek",
+				"directory": "Classic/packages/plugin-dsh-skill-learn"
+			},
+			"metadata": {
+				"category": "plugin",
+				"keywords": [
+					"skill",
+					"learn",
+					"classic"
+				],
+				"labels": [
+					"classic",
+					"source"
+				],
+				"sortKeys": {}
+			},
+			"versions": [
+				{
+					"version": "0.2.1",
+					"publishTimestamp": 1794394724,
+					"source": {
+						"type": "git",
+						"url": "https://github.com/PlayForm/DeepSeek",
+						"commit": "30f52f998310c471025c508b12834abad77d935c",
+						"path": "Classic/packages/plugin-dsh-skill-learn"
+					},
+					"engines": {}
+				}
+			]
+		},
+		{
 			"name": "@playform/plugin-dsh-workspace",
 			"title": {
 				"en": "Workspace"
@@ -6409,6 +6611,46 @@
 					"publishTimestamp": 1793221180,
 					"source": {
 						"type": "npm"
+					},
+					"engines": {}
+				}
+			]
+		},
+		{
+			"name": "@playform/style-dsh-material",
+			"title": {
+				"en": "Style Material"
+			},
+			"description": {
+				"en": "The MATERIAL: the one place the family's UI base is developed (@playform/style-dsh-material) - the mixins, the base classes and the token expressions every client plugin's own stylesheet @uses over the harness alias tokens, so a new plugin..."
+			},
+			"icon": "Icon/style-dsh-material.svg",
+			"author": "PlayForm",
+			"repository": {
+				"url": "https://github.com/PlayForm/DeepSeek",
+				"directory": "Classic/packages/style-dsh-material"
+			},
+			"metadata": {
+				"category": "library",
+				"keywords": [
+					"material",
+					"classic"
+				],
+				"labels": [
+					"classic",
+					"source"
+				],
+				"sortKeys": {}
+			},
+			"versions": [
+				{
+					"version": "0.2.1",
+					"publishTimestamp": 1794227329,
+					"source": {
+						"type": "git",
+						"url": "https://github.com/PlayForm/DeepSeek",
+						"commit": "c7571deb9ee0222775d13debe30d94ad5bcd52f4",
+						"path": "Classic/packages/style-dsh-material"
 					},
 					"engines": {}
 				}
