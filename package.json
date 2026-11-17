@@ -31,7 +31,7 @@
 		"prepublishOnly": "node Scripts/Prepare.ts && astro build"
 	},
 	"dependencies": {
-		"@astrojs/sitemap": "3.7.4",
+		"@astrojs/sitemap": "3.7.5",
 		"@astrojs/solid-js": "7.1.5",
 		"@playform/build": "0.3.5",
 		"@playform/compress": "0.2.5",
